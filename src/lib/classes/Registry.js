@@ -1,0 +1,180 @@
+// import * as _ from 'lodash';
+import { log } from '../log';
+
+// elements
+import { unit } from '../elements/unit';
+
+import { article } from '../elements/article';
+import { blockquote } from '../elements/blockquote';
+import { calc } from '../elements/calc';
+import { class_icon } from '../elements/class-icon';
+import { document } from '../elements/document';
+import { each } from '../elements/each';
+import { g } from '../elements/g';
+import { h1, h2, h3, h4, h5, h6 } from '../elements/headings';
+import { hr } from '../elements/hr';
+import { icon } from '../elements/icon';
+import { label } from '../elements/label';
+import { layout } from '../elements/layout';
+import { level, level_marker } from '../elements/level';
+import { list } from '../elements/list';
+import { logo } from '../elements/logo';
+import { page } from '../elements/page';
+import { p } from '../elements/p';
+import { portrait } from '../elements/portrait';
+import { proficiency, action } from '../elements/proficiency';
+import { repeat } from '../elements/repeat';
+import { row } from '../elements/row';
+import { section } from '../elements/section';
+import { slots } from '../elements/slots';
+import { spacer } from '../elements/spacer';
+import { span } from '../elements/span';
+import { spells_list } from '../elements/spells-list';
+import { table } from '../elements/table';
+import { template, paste } from '../elements/template';
+import { zone } from '../elements/zone';
+
+import { field } from '../elements/field';
+import { 
+	field_frame_above,
+	field_frame_none,
+	field_frame_left,
+	field_frame_right,
+	field_frame_h_label
+} from '../elements/field-frame';
+import { 
+	field_control_input,
+	field_control_speed,
+	field_control_alignment,
+	field_control_boost,
+	field_control_checkbox,
+	field_control_radio,
+	field_control_checkgrid,
+	field_control_compound,
+	field_control_progression,
+	field_control_proficiency,
+	field_control_proficiency_icon,
+	field_control_icon,
+} from '../elements/field-control';
+
+
+export class Registry {
+	constructor() {
+		this.registry = {};
+
+		// load all the elements
+		[
+			unit,
+
+			article,
+			blockquote,
+			calc,
+			class_icon,
+			document,
+			each,
+			g,
+			h1, h2, h3, h4, h5, h6,
+			hr,
+			icon,
+			label,
+			layout,
+			level, level_marker,
+			list,
+			logo,
+			page,
+			p,
+			portrait,
+			proficiency, action,
+			repeat,
+			row,
+			section,
+			slots,
+			spacer,
+			span,
+			spells_list,
+			table,
+			template, paste,
+			unit,
+			zone,
+			
+			field,
+			field_frame_none,
+			field_frame_above,
+			field_frame_left,
+			field_frame_right,
+			field_frame_h_label,
+			field_control_input,
+			field_control_speed,
+			field_control_alignment,
+			field_control_boost,
+			field_control_checkbox,
+			field_control_radio,
+			field_control_checkgrid,
+			field_control_compound,
+			field_control_progression,
+			field_control_proficiency,
+			field_control_proficiency_icon,
+			field_control_icon,
+		].forEach(elem => this.register(elem));
+	}
+
+	register(params) {
+		params = Object.assign({
+			key: '',
+			defaults: {},
+			expect: [],
+			render: args => '',
+			transform: false,
+		}, params);
+
+		// find expected keys
+		var expect = Object.keys(params.defaults).concat(params.expect);
+		expect = [...new Set(expect)]; // uniq
+		expect.unshift("level");
+		params.expect = expect;
+	
+		this.registry[params.name] = params;
+	}
+
+	render(items) {
+		// log("registry", "Render", items);
+		var rendered = items.map(item => this.renderItem(item));
+		return rendered.join("");
+	}
+	
+	renderItem(item) {
+		if (item === null) return '';
+		item = Object.assign({
+			id: null,
+			exists: true,
+		}, item);
+
+		if (!item.exists || item.exists === "false")
+			return '';
+
+		if (item.type == "unit")
+			item.type = item["unit-type"];
+
+		// log("registry", `renderItem ${item.type}`);
+		if (this.registry.hasOwnProperty[item.type]) {
+			var reg = this.registry[item.type];
+		
+			// registered defaults
+			item = Object.assign({}, reg.defaults, item);
+
+			if (item['merge-bottom'])
+				item = mergeBottom(item);
+			
+			stack.push(item.type + ((item.id == null) ? '' : ":"+item.id) + ((item.title == null) ? '' : ':'+item.title));
+			var output = reg.render(item);
+			stack.pop();
+			return output;
+		} else {
+			if (item.type == 'zone')
+				warn("registry", "Unsatisfied zone", item.zone);
+			else
+				warn("registry", "Unknown element type:", item.type, "at:", stack, item);
+			return '';
+		}
+	}
+}

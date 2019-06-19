@@ -1,0 +1,126 @@
+.field {
+}
+
+.field__box {
+    > label {
+		margin: 0 2pt 0 1pt;
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+}
+
+.field__control {
+    $input-height: 1.5rem;
+
+    height: $input-height;
+    padding: 0;
+
+    input {
+        width: 1rem;
+		height: $input-height;
+        line-height: $input-height;
+        z-index: 10;
+        padding-left: 2pt;
+        padding-right: 2pt;
+    }
+
+    position: relative;
+
+    u {
+        text-decoration: none;
+        
+        position: absolute;
+        z-index: 1;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		height: $input-height;
+		line-height: $input-height;
+
+		text-align: center;
+    }
+
+    &--control_icon {
+        width: 1rem;
+        min-width: 1rem !important;
+        flex: 0 0 auto;
+        input[type=checkbox] {
+            display: none;
+        }
+    }
+}
+
+// fields that are all icon get centred; cancel out the effects of --icon
+.field.field--control_icon {
+    width: 1.6rem;
+    label {
+        left: 0 !important;
+    }
+    .field__frame {
+        padding-left: 0 !important;
+    }
+    .field__box {
+        padding-left: 0 !important;
+        justify-content: center;
+    }
+    .field__control--control_icon {
+        width: 1.3rem;
+        margin-left: 0 !important;
+        .icon {
+            margin-left: 0 !important;
+        }
+    }
+}
+
+
+.field__overlay {
+    padding-right: 2pt;
+}
+
+
+.field.field--control_checkgrid {
+    width: auto !important;
+    flex: 0 0 auto !important;
+    $control-size: 0.75rem;
+    $gutter: 0.2rem;
+
+    .field__control-group {
+        display: inline-flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+
+        align-items: flex-start;
+        justify-content: center;
+        // align-content: center;
+        // margin: -1.2pt 0;
+
+        .field__control {
+            display: inline-block;
+            margin: 0;
+            width: $control-size;
+            height: $control-size;
+            position: relative;
+            flex: 0 0 auto;
+
+            input[type=checkbox] + label {
+                position: absolute;
+            }
+        }
+
+        &--dir-v { flex-direction: row; }
+
+        &--h_1 { height: $gutter + 1 * $control-size; }
+        &--h_2 { height: $gutter + 2 * $control-size; }
+        &--h_3 { height: $gutter + 3 * $control-size; }
+        &--h_4 { height: $gutter + 4 * $control-size; }
+        &--h_5 { height: $gutter + 5 * $control-size; }
+        &--h_6 { height: $gutter + 6 * $control-size; }
+
+        &--w_1 { width: $gutter + 1 * $control-size; }
+        &--w_2 { width: $gutter + 2 * $control-size; }
+        &--w_3 { width: $gutter + 3 * $control-size; }
+        &--w_4 { width: $gutter + 4 * $control-size; }
+        &--w_5 { width: $gutter + 5 * $control-size; }
+        &--w_6 { width: $gutter + 6 * $control-size; }
+    }
+}

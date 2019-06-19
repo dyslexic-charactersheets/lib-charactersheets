@@ -1,0 +1,237 @@
+unit: class/cleric
+in: class
+name: "Cleric"
+
+inc:
+  - at: @key-ability-field
+    replace:
+      - field:
+        label: "WIS"
+        underlay: "WIS"
+        ref: WIS
+
+  - at: @pages
+    add:
+      - page: cleric
+        name: "Cleric"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: box
+                  - h2: "Cleric"
+                  - field: cleric-deity
+                    width: stretch
+                    legend: "of (Deity)"
+                  - layout: alignment
+                    contents:
+                      - g:
+                        contents:
+                          - field: cleric-deity-weapon
+                            label: "Favoured Weapon"
+                            width: stretch
+                          - field: cleric-deity-anathema
+                            label: "Anathema"
+                            width: stretch
+                            repeat: 3
+                            merge-bottom: true
+                      - field: cleric-alignment
+                        control: alignment
+                  - section: "Doctrine"
+                    primary: true
+                    contents:
+                      - zone: @cleric-doctrine
+                        contents:
+                          - field: cleric-doctrine
+                            frame: none
+                            width: stretch
+                            align: center
+                            merge-bottom: true
+                      - hr:
+                      - list:
+                        zebra: true
+                        hr: true
+                        contents:
+                          - each:
+                            template:
+                              - level: '#{level}'
+                                contents:
+                                  - item:
+                            contents:
+                              - slots: [ 1, 3, 7, 11, 15, 19 ]
+                                min: 1
+                                contents:
+                                  - zone: @cleric-doctrine-abilities
+                                placeholder:
+                                  - field: "cleric-doctrine-#{level}"
+                                    width: stretch
+                                    frame: none
+                                    merge-bottom: true
+                                    repeat: 2
+
+                  - section: "Spells"
+                    contents:
+                      - spells-table:
+                        flip: true
+
+                  - section: "Channel Energy"
+                    contents:
+                      - row: center
+                        contents:
+                          - field: channel-energy
+                            value: positive
+                            frame: left
+                            control: radio
+                            label: "Positive"
+                          - icon: good
+                          - span: "&nbsp;"
+                          - icon: evil
+                          - field: channel-energy
+                            value: negative
+                            frame: right
+                            control: radio
+                            label: "Negative"
+                      - hr:
+                      - row: split
+                        contents:
+                          - calc:
+                            output:
+                              field: channel-energy-per-day
+                              label: "Uses per day"
+                              width: huge
+                            inputs:
+                              - "3 +"
+                              - field: 
+                                ref: CHA
+                                underlay: "CHA"
+                          - field: channel-energy-today
+                            label: "Used today"
+                            control: checkgrid
+                            depth: 2
+                            max: 12
+                      - row: split
+                        contents:
+                          - calc:
+                            output:
+                              field: channel-energy-dmg
+                              legend: "Healing /\nDamage"
+                              overlay: "d8"
+                              width: huge
+                            inputs:
+                              - label: "Max\nSpell\nLevel"
+                          - spacer:
+                          - field: channel-energy-range
+                            label: "Range"
+                            border: full
+                            width: large
+                            value: "30"
+                            overlay: "ft"
+                      - list:
+                        hr: true
+                        contents:
+                          - action: 1
+                            contents:
+                              - p: "Touch one ally or enemy"
+                          - action: 2
+                            contents:
+                              - row: split
+                                contents:
+                                  - p: "All allies or all enemies in range"
+                          - action: 3
+                            contents:
+                              - p: "All allies and enemies in range"
+
+                  - tail: 
+                  - spacer:
+
+              - g:
+                contents:
+                  
+                  - section: "Domain"
+                    primary: true
+                    contents:
+                      - field: cleric-domain
+                        label: "Domain"
+                        width: stretch
+                      - field: cleric-domain-summary
+                        width: stretch
+                        frame: none
+                        repeat: 2
+                        merge-bottom: true
+
+                      - hr:
+                      - layout: 2e
+                        contents:
+                          - article:
+                            header:
+                              - field: cleric-domain-power
+                                legend: "Domain Power"
+                                width: stretch
+                            contents:
+                              - field: cleric-domain-power-detail
+                                width: stretch
+                                repeat: 2
+                                frame: none
+                          - article:
+                            header:
+                              - field: cleric-domain-advanced-power
+                                legend: "Advanced Domain Power"
+                                width: stretch
+                            contents:
+                              - field: cleric-domain-advanced-power-detail
+                                width: stretch
+                                repeat: 2
+                                frame: none
+
+                  - section: "Cantrips"
+                    contents:
+                      - spells-list:
+                        min: 0
+                        max: 0
+                        spells: 5
+
+                  - section: "Spells"
+                    contents:
+                      - spells-list:
+                        min: 1
+                        max: 9
+                        spells: 4
+                        # special: "Domain"
+
+                  - section: "Cleric Feats"
+                    contents:
+                      - list:
+                        zebra: true
+                        columns: 2
+                        flowv: true
+                        hr: true
+                        contents:
+                          - each:
+                            template:
+                              - level: "#{level}"
+                                contents:
+                                  - item:
+                            contents:
+                              - slots: [ 2, 4, 6, 8, 10, 14, 18, 20 ]
+                                min: 1
+                                max: 1
+                                placeholder:
+                                  article:
+                                  header:
+                                    - field: wizard-feat-level-#{level}
+                                      width: stretch
+                                      frame: none
+                                      align: left
+                                  contents:
+                                    - field: cleric-feat-level-#{level}-details
+                                      width: stretch
+                                      align: left
+                                      frame: none
+                                      repeat: 2
+                                contents:
+                                  - zone: @cleric-feats
+                  - tail: 
+                  - spacer:

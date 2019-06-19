@@ -1,0 +1,305 @@
+.field {
+    input {
+        color: $colour_dark;
+        background: none;
+    }
+    
+
+	&.field--temp {
+		.field__box {
+			border-bottom: 2pt solid $colour_light; // !important;
+		}
+		.field__frame {
+			margin-bottom: -1pt;
+        }
+        
+        .field__box.field__box--border_full {
+            border: 2pt solid $colour_light; // !important;
+            border-radius: 4pt;
+            outline-radius: 4pt;
+            -moz-outline-radius: 4pt;
+        }
+
+        &.field--icon {
+            .field__box.field__box--border_full {
+                border-left: 0 none;
+            }
+        }
+    }
+}
+
+.field__box {
+    border-bottom: 0.4pt solid $colour_main;
+
+    .field--icon &, &.field__box--border_full {
+        border-radius: 2pt;
+        outline-radius: 2pt;
+        -moz-outline-radius: 2pt;
+    }
+
+    &.field__box--border_full {
+        border: 0.75pt solid $colour_main;
+        background: white;
+        .field--icon & {
+            border-left-width: 0;
+        }
+    }
+
+    .field--ref & {
+        border-bottom: 0.75pt dashed $colour_main;
+        &.field__box--border_full {
+            border: 0.75pt dashed $colour_main;
+        }
+    }
+
+    &.field__box--border_none {
+        border: 0 none;
+    }
+}
+
+article header .field__box {
+    border-bottom-width: 0.75pt;
+}
+
+.field__control {
+    u {
+		font-size: 1rem;
+		font-family: "Merriweather", Georgia, 'Times New Roman', Times, serif;
+        font-weight: 900;
+        color: $colour_main;
+        opacity: 0.2;
+    }
+
+    &--control_checkbox, .field--control_checkgrid & {
+        align-items: center;
+        justify-content: center;
+
+        input[type=checkbox] {
+            display: none;
+
+            + label {
+                background: white;
+                border: 0.5pt solid $colour_main;
+                width: 4pt;
+                height: 4pt;
+            }
+
+            &:checked + label {
+                background: $colour_main;
+            }
+        }
+    }
+
+    &--control_radio {
+        align-items: center;
+        justify-content: center;
+
+        input[type=radio] {
+            display: none;
+
+            + label {
+                background: white;
+                border: 0.5pt solid $colour_main;
+                width: 5pt;
+                height: 5pt;
+                border-radius: 50%;
+            }
+
+            &:checked + label {
+                background: $colour_main;
+            }
+        }
+    }
+    
+}
+
+.field__box label.field__separator {
+    margin-left: 2pt;
+    &:after {
+        content: "\0203A";
+    }
+}
+
+
+.field.field--control_alignment {
+    $size: 4.5rem;
+    $inner-size: 2.9rem;
+    $padding: ($size - $inner-size) / 2;
+
+    width: $size;
+
+    .field__frame {
+        display: block;
+        position: relative;
+        width: $size;
+        height: $size;
+    }
+    
+    .field__grid {
+        position: absolute;
+
+        background-image: url('{{{dataurl "images/alignment-grid.svg"}}}');
+        background-position: center;
+        background-size: 100% 100%;
+
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact !important;
+
+        z-index: 2;
+        top: $padding;
+        left: $padding;
+        width: $inner-size;
+        height: $inner-size;
+    }
+
+    label.field__good,
+    label.field__evil,
+    label.field__lawful,
+    label.field__chaotic {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        text-transform: uppercase;
+        font-size: 0.55rem;
+        color: $colour_dark;
+        text-align: center;
+        z-index: 6;
+    }
+
+    label.field__good {
+        transform: rotate(-45deg) translate(-1.05rem, -0.25rem);
+    }
+
+    label.field__evil {
+        transform: rotate(-45deg) translate(-1.05rem, 2.45rem);
+    }
+
+    label.field__lawful {
+        transform: rotate(45deg) translate(1.1rem, -0.3rem);
+    }
+
+    label.field__chaotic {
+        transform: rotate(45deg) translate(1.1rem, 2.4rem);
+    }
+
+    i.icon_good,
+    i.icon_evil,
+    i.icon_lawful,
+    i.icon_chaotic {
+        position: absolute;
+        z-index: 4;
+        width: 0.6cm;
+        height: 0.6cm;
+        opacity: 0.2;
+        background-size: 100% 100%;
+
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact !important;
+    }
+
+    i.icon_good {
+        top: 0;
+        left: 0;
+    }
+    i.icon_evil {
+        bottom: 0;
+        right: 0;
+    }
+    i.icon_lawful {
+        top: 0;
+        right: 0;
+    }
+    i.icon_chaotic {
+        bottom: 0;
+        left: 0;
+    }
+
+    .field__control {
+        display: none;
+    }
+}
+
+
+
+.field.field--control_money {
+    $digit: 0.885rem;
+    width: auto;
+
+    .field__box {
+        border-right: 0.5pt solid $colour_main;
+        border-bottom: 0.5pt solid $colour_main;
+        border-radius: 2pt;
+    }
+
+    .field__control {
+        padding-right: 1pt;
+    }
+
+    input {
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: bold;
+        letter-spacing: 2.8pt;
+        text-align: right;
+        max-width: none;
+    }
+
+    .field__overlay {
+        min-width: 2rem;
+        padding-right: 0;
+    }
+
+    .field__tick {
+        position: absolute;
+        top: auto;
+        bottom: 0;
+        height: 6pt;
+        line-height: 6pt;
+        border-right: 1pt solid $colour_light;
+    }
+
+    @for $i from 1 through 10 {
+        .field__control--digits_#{$i} {
+            width: 0.4rem + $digit*$i;
+        }
+
+        .field__tick-#{$i} { right: 0.4rem+$digit*$i; }
+    }
+
+    @for $i from 1 through 4 {
+        &.field--shift_#{$i} {
+            padding-right: $digit*$i;
+        }
+    }
+}
+
+
+.field.field--control_boost {
+    $icon-size: 1.3rem;
+
+    .field__control {
+        justify-content: center;
+
+        input[type=checkbox] {
+            display: none;
+
+            + label {
+                display: inline-block;
+                width: $icon-size;
+                height: $icon-size;
+                
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: contain;
+            }
+        }
+    }
+
+    .field__control--boost_up label {
+        background-image: url('{{{dataurl "images/icon-boost-up.svg"}}}');
+    }
+
+    .field__control--boost_down label {
+        background-image: url('{{{dataurl "images/icon-boost-down.svg"}}}');
+    }
+}

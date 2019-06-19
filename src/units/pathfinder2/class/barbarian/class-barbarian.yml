@@ -1,0 +1,217 @@
+unit: class/barbarian
+in: class
+name: "Barbarian"
+
+inc:
+  - at: @pages
+    add:
+      - page: barbarian
+        name: "Barbarian"
+        # flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+            - g:
+              contents:
+                - class-icon: barbarian
+                - h2: "Barbarian"
+                - section: "Totem"
+                  primary: true
+                  contents:
+                    - article:
+                      header:
+                        - field: barbarian-totem
+                          legend: "Totem"
+                          width: stretch
+                          align: left
+                      contents:
+                        - field: barbarian-totem-anathema
+                          label: "Anathema"
+                          width: stretch
+                          align: left
+                          repeat: 4
+                          merge-bottom: true
+                        - hr:
+                        - field: barbarian-totem-ability
+                          label: "Totem Ability"
+                          width: stretch
+                          align: left
+                          repeat: 4
+                          merge-bottom: true
+                        - hr:
+                        - field: barbarian-totem-raging-resistance
+                          label: "Raging Resistance"
+                          width: stretch
+                          align: left
+                          repeat: 4
+                          merge-bottom: true
+                - section: "Deny Advantage"
+                  contents:
+                    - level: 5
+                      contents:
+                        - p: "Never flat-footed against creatures of a lower level."
+                - section: "Juggernaut"
+                  contents:
+                    - level: 7
+                      contents:
+                        - type: proficiency
+                          proficiency: master
+                          content: Master at Fortitude saves
+                        - type: p
+                          content: "When you succeed at a Fortitude save, treat it as a critical success."
+                    - hr:
+                    - level: 13
+                      contents:
+                        - type: proficiency
+                          proficiency: legendary
+                          content: "Legendary at Fortitude saves"
+                        - p: "When you critically fail a Fortitude save, treat it as a failure. When you fail a Fortitude save against an effect that deals damage, you halve the damage you take."
+                - section: "Weapon Fury"
+                  contents:
+                  - level: 13
+                    contents:
+                    - type: proficiency
+                      proficiency: expert
+                      content: "Expert at simple and martial weapons, and unarmed attacks"
+                - section: "Indomitable Will"
+                  contents:
+                  - level: 15
+                    contents:
+                    - type: proficiency
+                      proficiency: master
+                      content: "Master at Will saves"
+                    - p: "When you succeed at a Will save, treat it as a critical success."
+                - section: "Devastating Strikes"
+                  contents:
+                    - level: 19
+                      contents:
+                        - calc:
+                          output:
+                            field: barbarian-raging-resistance-
+                            legend: Resistance Reduction
+                          inputs:
+                            - field:
+                              ref: CON
+                              underlay: "CON"
+                            - span: "&times; 2"
+                        - p: "If you succeed at a melee Strike against a target with resistance against the physical damage type of the weapon or unarmed attack you’re using, reduce that resistance."
+                - tail:
+            - g:
+              contents:
+                - section: "Rage"
+                  contents:
+                    - list:
+                      hr: true
+                      contents:
+                        - zone: @barbarian-rage
+                          contents:
+                            - action:
+                              contents:
+                                - row:
+                                  contents:
+                                    - field: rage-rounds
+                                      legend: "Rage Rounds"
+                                      control: progression
+                                      parts:
+                                        - control: checkbox
+                                        - control: checkbox
+                                        - control: checkbox
+                                    - spacer:
+                                    - p: "After raging, you are fatigued for 1 round."
+                                    - spacer:
+                                - p: "While raging, cannot use actions that require concentration, except for Seek."
+                                - row:
+                                  contents:
+                                    - field: barbarian-rage-damage-bonus
+                                      output: true
+                                      label: "Damage Bonus"
+                                      width: large
+                                    - p: "To melee and unarmed strikes"
+                                    - spacer:
+                                    - field: barbarian-rage-ac-penalty
+                                      label: "AC Penalty"
+                                      output: true
+                                      width: large
+                                      value: "-1"
+                                    - spacer:
+                                    - calc:
+                                      output:
+                                        field: barbarian-rage-temp-hp
+                                        label: "Temporary Hit Points"
+                                        overlay: hp
+                                        temp: true
+                                      inputs:
+                                        - field:
+                                          ref: CON
+                                          underlay: "CON"
+                                        - span: "+"
+                                        - field:
+                                          ref: level
+                                          label: "Level"
+                            - level: 3
+                              contents:
+                                - h5: "Critical Brutality"
+                                - p: "Gain critical specialization for your melee weapon or unarmed attack."
+                            - level: 9
+                              contents:
+                                - row:
+                                  contents:
+                                    - calc:
+                                      output:
+                                        field: barbarian-raging-resistance
+                                        legend: "Raging Resistance"
+                                        width: large
+                                      inputs:
+                                        - field:
+                                          ref: CON
+                                          underlay: "CON"
+                            - level: 11
+                              contents:
+                                - action: free
+                                  contents:
+                                    - h5: "Mighty Rage"
+                                    - p: "Use one of your rage actions as a free action."
+                            - level: 17
+                              contents:
+                                - h5: "Tireless Rage"
+                                - p: "Don’t become fatigued after you stop raging. It still takes the normal amount of time before you can use Rage again."
+                - section: "Barbarian Feats"
+                  contents:
+                    - list:
+                      zebra: true
+                      columns: 2
+                      flowv: true
+                      hr: true
+                      contents:
+                        - repeat: 12
+                          rows:
+                            - level: 1
+                            - level: 2
+                            - level: 4
+                            - level: 6
+                            - level: 8
+                            - level: 10
+                            - level: 12
+                            - level: 14
+                            - level: 16
+                            - level: 18
+                            - level: 20
+                            - level: " "
+                          contents:
+                            - level: "#{level}"
+                              contents:
+                                - article:
+                                  header:
+                                    - field: barbarian-feat-level-#{level}
+                                      width: stretch
+                                      frame: none
+                                      align: left
+                                  contents:
+                                    - field: barbarian-feat-level-#{level}-details
+                                      width: stretch
+                                      align: left
+                                      frame: none
+                                      repeat: 3
+                - tail:
+

@@ -1,43 +1,34 @@
-// Build the lib-charactersheets distribution libraries from the various sources
-
 const fs = require('fs');
+
 const _ = require('lodash');
 const handlebars = require('handlebars');
 
+require('./log');
+const units = require('./units');
 
-const systems = [ "common", "pathfinder2" ];
+const systems = [
+    {
+        code: "common",
+        name: "Common"
+    },
+    {
+        code: "pathfinder2",
+        name: "Pathfinder 2nd Edition"
+    }
+];
 
-// 
-var registry = {};
-var system = null;
+systems.forEach(system => {
+    log("make", "Building "+system.name);
 
-global.addRegistry = function (type) {
-    registry[system][type] = {};
-}
+    units.loadSystem(system.code, systemUnits => {
+        log("make", `Built ${system.name} (${systemUnits.length} units)`);
 
-global.register = function (type, id, item) {
-    registry[system][type][id] = item;
-}
+        system.units = systemUnits;
+        var systemData = JSON.stringify(system);
 
-
-systems.forEach(function (s) {
-    system = s;
-    registry[system] = {};
-    console.log(system);
-
-    // Set up the registry to recieve elements
-    require("../data/"+system+"/init.js");
-    
-    // read all the registration files
-    // ...
-
-});
-
-// build and write the minified library
-fs.readFile("../template/lib-charactersheets.js.h", "utf-8", function (tpl) {
-    var template = handlebars.compile(tpl);
-    var lib = template({
-        registry: registry,
+        var systemFile = __dirname+'/../../lib/lib-'+system.code+".json";
+        fs.writeFile(systemFile, systemData, err => {
+            if (err) error("make", "Error saving system", system, err);
+        });
     });
-    fs.writeFile("../../dist/lib-charactersheets.js", lib);
 });

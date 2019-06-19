@@ -1,0 +1,123 @@
+$colour_main: #787878;
+$colour_dark: #505050;
+$colour_mid: #909090;
+$colour_light: #b0b0b0;
+$colour_alt: #a0a0a0;
+$colour_white: #ffffff;
+$colour_zebra: rgba($colour_mid,0.1);
+
+// Text colours
+html, a, p, * {
+    color: $colour_main;
+}
+
+.copyright-attribution {
+    &, a {
+        color: $colour_mid;
+    }
+}
+
+article {
+    header {
+        h6 {
+            border-bottom: 0.5pt solid $colour_alt;
+        }
+    }
+}
+
+// Fields
+
+.field {
+    .field__inner {
+        border-color: $colour_main !important;
+    }
+    
+    &.field--misc .field__inner {
+        border-color: $colour_light !important;
+    }
+    .underlay {
+        color: $colour_dark;
+        opacity: 0.2;
+    }
+}
+
+.field.field--misc label, .label--misc {
+	color: $colour_light;
+}
+
+
+label.field--alignment__good,
+label.field--alignment__evil,
+label.field--alignment__lawful,
+label.field--alignment__chaotic {
+	color: $colour_dark;
+}
+
+// .field__inner {
+//    border-top-left-radius: 2pt;
+//    border-top-right-radius: 2pt;
+//     background: rgba(255,255,255,0.5);
+// }
+
+// Zebra shading
+
+@mixin zebra {
+    background: $colour_zebra;
+    // .field__inner {
+    //     background: none;
+    // }
+}
+
+@mixin unzebra {
+    background: none;
+    // .field__inner {
+    //    background: rgba(255,255,255,0.5);
+    // }
+}
+	
+.shade, blockquote {
+    @include zebra;
+}
+
+.field--zebra input:nth-child(2n+1) {
+    @include zebra;
+}
+
+.list--zebra {
+    > *:nth-child(2n) {
+        @include zebra;
+    }
+
+    + .list--zebra {
+        > *:nth-child(2n) {
+            @include unzebra;
+        }
+        > *:nth-child(2n+1) {
+            @include zebra;
+        }
+    }
+
+    &.list--zebra-inverse {
+        > *:nth-child(2n) {
+            @include unzebra;
+        }
+
+        > *:nth-child(2n+1) {
+            @include zebra;
+        }
+    }
+}
+
+.table--zebra {
+    tbody tr:nth-child(2n) {
+        td, th {
+            @include zebra;
+        }
+    }
+}
+
+table tr.hr {
+    td, th {
+        border-top-color: $colour_main;
+    }
+}

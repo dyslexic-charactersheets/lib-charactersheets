@@ -27,3 +27,20 @@ var charactersheet = dyslexic(character);
 
 
 ```
+
+## How to build the package
+
+After cloning the package from source, run:
+
+```bash
+$ npm install
+$ npm run build
+```
+
+This will use the files in src/ to create the files in lib/. Follow this with
+
+```bash
+$ npm test
+```
+
+This will build a sample character sheet and save it as test/test.html

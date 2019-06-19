@@ -1,0 +1,1402 @@
+---
+unit: base
+name: "Pathfinder 2nd Edition"
+
+assets:
+  - images/2e-logo.png
+
+inc:
+
+  - at: @permission
+    add:
+      - hr:
+      - h6: This document uses trademarks and/or copyrights owned by Paizo Publishing,
+          LLC, which are used under Paizo's Community Use Policy. We are expressly
+          prohibited from charging you to use or access this content. This document
+          is not published, endorsed, or specifically approved by Paizo Publishing.
+      - p: https://paizo.com/paizo/about/communityuse
+
+  - at: @pages
+    add:
+
+      - page: cover
+        name: "Cover"
+        order: 4
+        flex: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - logo:
+                  - section:
+                    id: player
+                    untitled: true
+                    contents:
+                      - field: player-name
+                        label: "Player"
+                        width: stretch
+                        align: left
+                      - row:
+                        contents:
+                          - field: campaign-name
+                            label: "Campaign"
+                            width: stretch
+                            align: left
+                          - field: xp
+                            label: "XP"
+                            underlay: "XP"
+                            width: large
+                            border: full
+                  - hr:
+                    swash: true
+                  - portrait:
+                  - section: "Character"
+                    id: character
+                    untitled: true
+                    contents:
+                      - layout: alignment
+                        contents:
+                          - g:
+                            contents:
+                              - field: character-name
+                                legend: "Character Name"
+                                size: huge
+                                width: stretch
+                                align: left
+                              - row:
+                                contents:
+                                  - field: gender
+                                    label: "Gender"
+                                    icon: gender
+                                    width: huge
+                                  - spacer:
+                                  - field: age
+                                    label: "Age"
+                                    width: huge
+                                  - spacer:
+                                  - field: size
+                                    label: "Size"
+                                    icon: size
+                                    width: huge
+                                  - spacer:
+                          - field: alignment
+                            frame: none
+                            control: alignment
+                            
+                  # - section: "Abilities"
+                  #   contents:
+                  #     - table:
+                  #       # collapse: true
+                  #       width: stretch
+                  #       columns:
+                  #         - align: left
+                  #         - "Ability\nScore"
+                  #         - "Ability\nModifier"
+                  #         - label: "Key\nAbility"
+                  #           colspan: 2
+                  #         - "Ability\nModifier"
+                  #         - "Ability\nScore"
+                  #         - align: right
+                  #       rows:
+                  #         - lability: "Strength"
+                  #           lshort: "STR"
+                  #           rability: "Intelligence"
+                  #           rshort: "INT"
+                  #         - lability: "Dexterity"
+                  #           lshort: "DEX"
+                  #           rability: "Wisdom"
+                  #           rshort: "WIS"
+                  #         - lability: "Constitution"
+                  #           lshort: "CON"
+                  #           rability: "Charisma"
+                  #           rshort: "CHA"
+                  #       field_frame: none
+                  #       template:
+                  #         - h6: "#{lability}"
+                  #           align: right
+                  #         - field: "#{lshort}-score"
+                  #         - field: "#{lshort}"
+                  #           border: full
+                  #           underlay: "#{lshort}"
+                  #           width: large
+                  #         - field: key-ability
+                  #           control: radio
+                  #           value: "#{lshort}"
+
+                  #         - field: key-ability
+                  #           control: radio
+                  #           value: "#{rshort}"
+                  #         - field: "#{rshort}"
+                  #           border: full
+                  #           underlay: "#{rshort}"
+                  #           width: large
+                  #         - field: "#{rshort}-score"
+                  #         - h6: "#{rability}"
+                  #           align: left
+
+                  - tail:
+              - g:
+                contents:
+                  - section: "Ancestry"
+                    id: ancestry
+                    contents:
+                      - h5: "Ancestry"
+                      - slots:
+                        min: 1
+                        max: 1
+                        contents:
+                          - zone: @ancestry
+                        placeholder:
+                          article:
+                          header:
+                            - field: ancestry
+                              size: large
+                              width: stretch
+                              align: left
+                              frame: none
+                          contents:
+                            - field: ancestry-details
+                              frame: none
+                              width: stretch
+                              align: left
+                              repeat: 2
+
+                      - hr:
+                      - h5: "Heritage"
+                      - slots:
+                        min: 1
+                        max: 1
+                        contents:
+                          - zone: @heritage
+                        placeholder:
+                          article:
+                          header:
+                            - field: heritage
+                              size: large
+                              frame: none
+                              width: stretch
+                              align: left
+                          contents:
+                            - field: heritage-details
+                              frame: none
+                              width: stretch
+                              align: left
+                              repeat: 2
+                              merge-bottom: true
+
+                      - hr:
+                      - h5: "Ancestry Feats"
+                      - list:
+                        zebra: true
+                        hr: true
+                        contents:
+                          - each:
+                            template:
+                              - level: '#{level}'
+                                contents:
+                                  - item:
+                            contents:
+                              - slots: [ 1, 5, 9, 13, 17 ]
+                                min: 1
+                                max: 1
+                                contents:
+                                  - zone: @ancestry-feats
+                                placeholder:
+                                  - article:
+                                    header:
+                                      - field: 'ancestry-feat-#{i}'
+                                        frame: none
+                                        size: large
+                                        width: stretch
+                                        align: left
+                                    contents:
+                                      - field: 'ancestry-feat-#{i}-details'
+                                        repeat: 2
+                                        frame: none
+                                        width: stretch
+                                        align: left
+                                        merge-bottom: true
+
+                  - section: "Background"
+                    id: background
+                    contents:
+                    - slots:
+                      min: 1
+                      max: 1
+                      contents:
+                        - zone: @background
+                      placeholder:
+                        - article:
+                          header:
+                            - field: background
+                              legend: "Background"
+                              size: large
+                              frame: none
+                              width: stretch
+                              align: left
+                          contents:
+                            - field: background-details
+                              repeat: 2
+                              frame: none
+                              width: stretch
+                              align: left
+                              merge-bottom: true
+                  - section: "Class"
+                    id: class
+                    contents:
+                      - row:
+                        contents:
+                          - field: class
+                            legend: "Class"
+                            size: large
+                            width: stretch
+                            align: left
+                          - field: class-level
+                            label: "Level"
+                            size: large
+                            border: full
+                      - field: specialisation
+                        label: "Specialisation"
+                        width: stretch
+                        align: left
+                      - h4: "Archetypes"
+                      - list:
+                        collapse: true
+                        contents:
+                          - repeat: 3
+                            field_frame: none
+                            contents:
+                              - row:
+                                contents:
+                                  - field: archetype-#{i}-name
+                                    width: stretch
+                                    align: left
+                                    frame: none
+                                  - field: archetype-#{i}-feats
+                                    frame: none
+                                    control: progression
+                                    parts:
+                                      - control: checkbox
+                                      - control: checkbox
+                                      - control: checkbox
+                  - hr:
+                    swash: true
+                  - spacer:
+
+
+      - page: skills
+        name: "Skills"
+        order: 5
+        flex: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - section: "Attributes"
+                    id: attributes
+                    contents:
+                      - table:
+                        collapse: true
+                        width: stretch
+                        columns:
+                          - align: left
+                          - "Ability\nScore"
+                          - label: "Ability\nModifier"
+                            icon: true
+                          - "Key\nAbility"
+                          - "Temporary\nAdjustment"
+                        rows:
+                          - ability: "Strength"
+                            short: "STR"
+                          - ability: "Dexterity"
+                            short: "DEX"
+                          - ability: "Constitution"
+                            short: "CON"
+                          - ability: "Intelligence"
+                            short: "INT"
+                          - ability: "Wisdom"
+                            short: "WIS"
+                          - ability: "Charisma"
+                            short: "CHA"
+                        field_frame: none
+                        template:
+                          - h6: "#{ability}"
+                          - field: "#{short}-score"
+                            # border: full
+                          - field: "#{short}"
+                            border: full
+                            icon: dc
+                            underlay: "#{short}"
+                          - field: key-ability
+                            control: radio
+                            value: "#{short}"
+                          - field: "#{short}-temp"
+                            temp: true
+                      - hr:
+                      - calc:
+                        inline: true
+                        output:
+                          label: "Ability\nModifier"
+                        inputs:
+                          - "("
+                          - label: "Ability\nScore"
+                          - "- 10) &divide; 2"
+
+                  - section: "Proficiency"
+                    id: proficiency
+                    contents:
+                      - row: split
+                        valign: top
+                        contents:
+                          - g:
+                            valign: top
+                            contents:
+                              - field: proficiency-untrained
+                                label: "Untrained"
+                                output: true
+                                control: proficiency
+                                value: 0
+                              - label: "None"
+                                align: center
+                          - g:
+                            valign: top
+                            contents:
+                              - field: proficiency-trained
+                                label: "Trained"
+                                output: true
+                                control: proficiency
+                                value: trained
+                              - label: "Level\n+2"
+                                align: center
+                          - g:
+                            valign: top
+                            contents:
+                              - field: proficiency-expert
+                                label: "Expert"
+                                output: true
+                                control: proficiency
+                                value: expert
+                              - label: "Level\n+4"
+                                align: center
+                          - g:
+                            valign: top
+                            contents:
+                              - field: proficiency-master
+                                label: "Master"
+                                output: true
+                                control: proficiency
+                                value: master
+                              - label: "Level\n+6"
+                                align: center
+                          - g:
+                            valign: top
+                            contents:
+                              - field: proficiency-legendary
+                                label: "Legendary"
+                                output: true
+                                control: proficiency
+                                value: legendary
+                              - label: "Level\n+8"
+                                align: center
+
+                      - list:
+                        zebra: true
+                        collapse: true
+                        merge-bottom: true
+                        field_frame: none
+                        contents:
+                          - repeat: 11
+                            contents:
+                              - row:
+                                contents:
+                                  - field: "proficiency-#{i}-name"
+                                    frame: none
+                                    width: stretch
+                                    align: left
+                                  - field: "proficiency-#{i}-value"
+                                    frame: none
+                                    control: proficiency
+                      - spacer:
+
+                  - section: "General feats"
+                    id: general-feats
+                    contents:
+                      - list:
+                        zebra: true
+                        hr: true
+                        flex: true
+                        contents:
+                          - each:
+                            template:
+                              - level: "#{level}"
+                                contents:
+                                  - item:
+                            contents:
+                              - slots: [ 3, 7, 11, 15, 19 ]
+                                min: 1
+                                max: 1
+                                placeholder:
+                                  article:
+                                  header:
+                                    - field: general-feat-level-#{level}
+                                      width: stretch
+                                      size: large
+                                      frame: none
+                                      align: left
+                                  contents:
+                                    - field: general-feat-level-#{level}-details
+                                      width: stretch
+                                      align: left
+                                      frame: none
+                                      repeat: 2
+                                      # merge-bottom: true
+                                contents:
+                                  - zone: @general-feats
+
+                  - section: "Languages"
+                    id: languages
+                    contents:
+                      - field: languages
+                        frame: none
+                        repeat: 4
+                        align: left
+                        width: stretch
+                        merge-bottom: true
+                  - tail:
+
+              - g:
+                contents:
+                  - section: "Skills"
+                    id: skills
+                    contents:
+                      - table:
+                        collapse: true
+                        zebra: true
+                        field_frame: none
+                        columns:
+                          -
+                          - label: "Assurance"
+                            align: right
+                          - "Skill\nBonus"
+                          -
+                          - "Ability\nModifier"
+                          - Proficiency
+                          - "Feats\nMisc"
+                          - "Armour\nCheck\nPenalty"
+                        rows:
+                          - skill: "Acrobatics"
+                            ability: "DEX"
+                            acp: true
+                          - skill: "Arcana"
+                            ability: "INT"
+                            acp: false
+                          - skill: "Athletics"
+                            ability: "STR"
+                            acp: true
+                          - skill: "Crafting"
+                            ability: "INT"
+                            acp: false
+                          - skill: "Deception"
+                            ability: "CHA"
+                            acp: false
+                          - skill: "Intimidation"
+                            ability: "CHA"
+                            acp: false
+                          - skill: "Medicine"
+                            ability: "WIS"
+                            acp: false
+                          - skill: "Nature"
+                            ability: "WIS"
+                            acp: false
+                          - skill: "Occultism"
+                            ability: "INT"
+                            acp: false
+                          - skill: "Performance"
+                            ability: "CHA"
+                            acp: false
+                          - skill: "Religion"
+                            ability: "WIS"
+                            acp: false
+                          - skill: "Society"
+                            ability: "INT"
+                            acp: false
+                          - skill: "Stealth"
+                            ability: "DEX"
+                            acp: true
+                          - skill: "Survival"
+                            ability: "WIS"
+                            acp: false
+                          - skill: "Thievery"
+                            ability: "DEX"
+                            acp: true
+                          - skill: "Lore"
+                            ability: "INT"
+                            acp: false
+                          - skill: ''
+                            ability: ''
+                            acp: false
+                          - skill: ''
+                            ability: ''
+                            acp: false
+                          # - skill: ''
+                          #   ability: ''
+                          #   acp: false
+                        template:
+                          - h6: "#{skill}"
+                          - field: "#{skill}-assurance"
+                            control: checkbox
+                            align: right
+                          - field: "#{skill}-bonus"
+                            border: full
+                            icon: bonus
+                          - span: "="
+                          - field:
+                            ref: "#{ability}"
+                            underlay: "#{ability}"
+                            frame: h-label
+                            label: "#{ability}"
+                          - field: "#{skill}-proficiency"
+                            control: proficiency
+                          - field: "#{skill}-misc"
+                            misc: true
+                          - field: "#{skill}-acp"
+                            ref: acp
+                            border: full
+                            exists: "#{acp}"
+                      # - hr:
+                      - layout: 2e
+                        contents:
+                          - level: 7
+                            span: "Master in skills"
+                          - level: 15
+                            span: "Legendary in skills"
+                      - hr:
+                      - row:
+                        contents:
+                          - calc:
+                            equal: '#{WIS}+#{perception-proficiency}+#{perception-item-bonus}+#{perception-misc}'
+                            output:
+                              field: perception
+                              frame: left
+                              icon: bonus
+                              label: "Perception"
+                              width: large
+                            inputs:
+                              - field:
+                                ref: "WIS"
+                                underlay: "WIS"
+                                label: "WIS"
+                              - span: "+"
+                              - field: perception-proficiency
+                                label: "Proficiency"
+                                control: proficiency
+                              - span: "+"
+                              - field: perception-item-bonus
+                                label: "Item"
+                              - span: "+"
+                              - field: perception-misc
+                                misc: true
+                                label: "Misc"
+                      - row: left
+                        contents:
+                          - field: perception-low-light
+                            frame: right
+                            control: checkbox
+                            label: "Low-light vision"
+                          - field: perception-darkvision
+                            frame: right
+                            control: checkbox
+                            label: "Dark vision"
+                          - field: perception-scent
+                            frame: right
+                            control: checkbox
+                            label: "Scent"
+                      - field: perception-other
+                        label: "Conditional"
+                        align: left
+                        # repeat: 2
+                        width: stretch
+                        merge-bottom: true
+                  - section: "Skill feats"
+                    id: skill-feats
+                    contents:
+                      - list:
+                        columns: 2
+                        zebra: true
+                        hr: true
+                        flex: true
+                        contents:
+                          - each:
+                            template:
+                              - level: "#{level}"
+                                contents:
+                                  - item:
+                            contents:
+                              - slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, "" ]
+                                min: 1
+                                max: 1
+                                placeholder:
+                                  article:
+                                  header:
+                                    - field: skill-feat-level-#{level}
+                                      width: stretch
+                                      size: large
+                                      frame: none
+                                      align: left
+                                  contents:
+                                    - field: skill-feat-level-#{level}-details
+                                      width: stretch
+                                      align: left
+                                      frame: none
+                                      repeat: 2
+                                contents:
+                                  - zone: @skill-feats
+                  - tail:
+
+      - page: combat
+        name: "Combat"
+        order: 6
+        flex: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - section: "Class DC"
+                    id: class-dc
+                    contents:
+                      - row:
+                        contents:
+                          - calc:
+                            equal: '#{#{key-ability}}+#{level}+#{class-dc-item-bonus}'
+                            output:
+                              field: class-dc
+                              legend: "Class DC"
+                              underlay: DC
+                              width: large
+                              icon: dc
+                            inputs:
+                              - zone: @key-ability-field
+                                contents:
+                                  - field:
+                                    label: "Key Ability"
+                                    ref: key-ability
+                              - span: "+"
+                              - field:
+                                label: "Level"
+                                ref: level
+                              - span: "+"
+                              - field: class-dc-item-bonus
+                                label: "Item"
+                  - section: "Speed"
+                    id: speed
+                    contents:
+                      - row: split
+                        contents:
+                          - field: speed
+                            legend: "Speed"
+                            control: speed
+                            output: true
+                          - field: speed-armour
+                            label: "Speed in Armour"
+                            control: speed
+                          - field: speed-temp
+                            label: "Temp Speed"
+                            control: speed
+                            output: true
+                            temp: true
+                      - row: split
+                        contents:
+                          - field: speed-swim
+                            label: "Swim Speed"
+                            control: speed
+                          - field: speed-climb
+                            label: "Climb Speed"
+                            control: speed
+                          - field: speed-fly
+                            label: "Fly Speed"
+                            control: speed
+
+                  - section: "Focus"
+                    contents:
+                      - calc:
+                        output:
+                          field: focus
+                          overlay: "pts"
+                          width: huge
+                          legend: "Focus Points"
+                        inputs:
+                          - zone: @key-ability-field
+                            contents:
+                              - field:
+                                label: "Key Ability"
+                                ref: key-ability
+                          - "+"
+                          - field: focus-misc
+                            label: "Misc"
+                            misc: true
+                      - row:
+                        contents:
+                          - field: current-focus
+                            temp: true
+                            label: "Current Focus Points"
+                            align: center
+                            width: stretch
+                            border: full
+                            overlay: "pts"
+
+                  - section: "Saving Throws"
+                    id: saving-throws
+                    contents:
+                      - table:
+                        columns:
+                          -
+                          -
+                          - "Ability\nModifier"
+                          - "Proficiency"
+                          - "Item"
+                          - "Misc"
+                        rows:
+                          - save: fortitude
+                            legend: "Fortitude"
+                            short: "FORT"
+                            ability: CON
+                          - save: reflex
+                            legend: "Reflex"
+                            short: "REF"
+                            ability: DEX
+                          - save: will
+                            legend: "Will"
+                            short: "WILL"
+                            ability: WIS
+                        template:
+                          - calc:
+                            equal: '#{#{ability}}+#{#{save}-proficiency}+#{#{save}-item-bonus}+#{#{save}-misc}'
+                            output:
+                              field: "#{save}"
+                              legend: "#{legend}"
+                              icon: bonus
+                              border: full
+                              width: large
+                              underlay: "#{short}"
+                              merge-top: true
+                            inputs:
+                              - field:
+                                frame: h-label
+                                label: "#{ability}"
+                                underlay: "#{ability}"
+                                ref: "#{ability}"
+                              - field: "#{save}-proficiency"
+                                control: proficiency
+                              - field: "#{save}-item-bonus"
+                              - field: "#{save}-misc"
+                                misc: true
+                      - field: saving-throws-conditional
+                        label: "Conditional"
+                        align: left
+                        repeat: 3
+                        merge-bottom: true
+                        width: stretch
+              - g:
+                contents:
+                  - section: "Attacks"
+                    id: attacks
+                    contents:
+                      - list:
+                        zebra: true
+                        hr: true
+                        flex: true
+                        contents:
+                          - row: split
+                            contents:
+                              - h5: Multi-Attack
+                              - spacer:
+                              - icon: action
+                              - field: map-1
+                                frame: left
+                                label: "1st"
+                                output: true
+                                width: large
+                                underlay: 0
+                              - icon: action2nd
+                              - field: map-2
+                                frame: left
+                                label: "2nd"
+                                output: true
+                                width: large
+                                underlay: -5
+                              - icon: action3rd
+                              - field: map-3
+                                frame: left
+                                label: "3rd"
+                                output: true
+                                width: large
+                                underlay: -10
+
+                          - repeat: 4
+                            contents:
+                              - g:
+                                contents:
+                                  - row:
+                                    contents:
+                                      - field: attack-#{i}-level
+                                        label: "Level"
+                                      - field: attack-#{i}
+                                        width: stretch
+                                        frame: none
+                                        align: left
+                                        size: large
+                                  - row:
+                                    contents:
+                                      - calc:
+                                        output:
+                                          field: attack-#{i}-bonus
+                                          label: "Attack Bonus"
+                                          width: large
+                                          attack: true
+                                          icon: bonus
+                                        inputs:
+                                          - field:
+                                            ref: true
+                                            misc: true
+                                            label: "Ability"
+                                          - field: attack-#{i}-proficiency
+                                            control: proficiency
+                                            label: "Proficiency"
+                                          - field: attack-#{i}-quality
+                                            control: icon
+                                            label: "Quality"
+                                            icon: quality
+                                          - field: attack-#{i}-potency
+                                            control: icon
+                                            label: "Potency"
+                                            icon: potency
+                                          # - field: attack-#{i}-item-bonus
+                                          #   ref: true
+                                          #   label: "Item"
+                                      - field: attack-#{i}-damage
+                                        output: true
+                                        label: "Damage"
+                                        width: large
+                                        icon: damage
+                                        control: compound
+                                        parts:
+                                          - subid: ndice
+                                            width: tiny
+                                            align: right
+                                          - label: "d"
+                                          - subid: die
+                                            width: tiny
+                                            align: left
+                                          - label: "+"
+                                          - subid: extra
+                                            width: tiny
+                                      - field: attack-#{i}-type
+                                        label: "Type"
+                                      # - field: attack-#{i}-critical
+                                      #   label: "Critical Effect"
+                                      #   width: stretch
+                                  - field: attack-#{i}-details
+                                    frame: none
+                                    width: stretch
+                                    align: left
+                                    merge-bottom: true
+                      
+                          - layout: 2e
+                            contents:
+                              - row:
+                                contents:
+                                  - field: ammo-1-type
+                                    legend: "Ammo"
+                                    width: stretch
+                                    align: left
+                                    unlined: true
+                                  - field: ammo-1
+                                    # frame: h-label
+                                    unlined: true
+                                    width: small
+                                    size: huge
+                                    underlay: "#"
+                                    label: "Charges"
+                                  - field: ammo-1-count
+                                    frame: none
+                                    control: checkgrid
+                                    max: 20
+                                    depth: 3
+                              - row:
+                                contents:
+                                  - field: ammo-2-type
+                                    width: stretch
+                                    align: left
+                                    unlined: true
+                                  - field: ammo-2
+                                    # frame: h-label
+                                    unlined: true
+                                    width: small
+                                    size: huge
+                                    underlay: "#"
+                                    label: "Charges"
+                                  - field: ammo-2-count
+                                    frame: none
+                                    control: checkgrid
+                                    max: 10
+                                    depth: 3
+                          # - hr:
+                          # - hr:
+                          # - row:
+                          #   unlabelled: true
+                          #   contents:
+                          #     - field: ammo-3-type
+                          #       frame: none
+                          #       width: stretch
+                          #       align: left
+                          #       unlined: true
+                          #     - field: ammo-3
+                          #       # frame: h-label
+                          #       unlined: true
+                          #       width: small
+                          #       size: huge
+                          #       underlay: "#"
+                          #       label: "Charges"
+                          #     - field: ammo-3-count
+                          #       frame: none
+                          #       control: checkgrid
+                          #       max: 20
+                          #       depth: 3
+                          # - row:
+                          #   unlabelled: true
+                          #   contents:
+                          #     - field: ammo-4-type
+                          #       frame: none
+                          #       width: stretch
+                          #       align: left
+                          #       unlined: true
+                          #     - field: ammo-4
+                          #       # frame: h-label
+                          #       unlined: true
+                          #       width: small
+                          #       size: huge
+                          #       underlay: "#"
+                          #       label: "Charges"
+                          #     - field: ammo-4-count
+                          #       frame: none
+                          #       control: checkgrid
+                          #       max: 10
+                          #       depth: 3
+          - layout: 2r
+            contents:
+              - g:
+                contents:
+                  - section: "Health"
+                    id: health
+                    contents:
+                      - row:
+                        layout: split
+                        contents:
+                          - calc:
+                            equal: '#{hp-ancestry}+((#{hp-class}+#{CON})*#{level})'
+                            output:
+                              field: hp
+                              legend: "Hit Points"
+                              icon: hp
+                              overlay: hp
+                              width: large
+                            inputs:
+                              - field: hp-ancestry
+                                label: "Ancestry"
+                              - span: "+ ("
+                              - field: hp-class
+                                label: "Class"
+                              - span: "+"
+                              - field:
+                                label: "CON"
+                                underlay: "CON"
+                                ref: true
+                              - span: ") &times;"
+                              - field:
+                                ref: level
+                                label: Level
+                          - spacer:
+                          - field: dying
+                            control: progression
+                            label: "Dying"
+                            parts:
+                              - id: dying-1
+                                control: checkbox
+                              - id: dying-2
+                                control: checkbox
+                              - id: dying-3
+                                control: checkbox
+                              - icon: evil
+                                size: small
+                      - row:
+                        contents:
+                          - field: current-hp
+                            label: "Current Hit Points"
+                            border: full
+                            temp: true
+                            icon: hp
+                            overlay: hp
+                            width: stretch
+                          - field: temp-hp
+                            label: "Temp Hit Points"
+                            border: full
+                            temp: true
+                            overlay: hp
+                            width: huge
+                          - field: shield-hp
+                            label: "Shield Hit Points"
+                            border: full
+                            icon: ac
+                            temp: true
+                            overlay: hp
+                            width: huge
+
+                      - h4: "Effects"
+                      - list:
+                        columns: 2
+                        collapse: true
+                        merge-bottom: true
+                        contents:
+                          - repeat: 4
+                            contents:
+                              - row:
+                                unlabelled: true
+                                contents:
+                                  - field: effect-#{i}
+                                    width: stretch
+                                    frame: none
+                                    align: left
+                                    temp: true
+                                  - field: effect-#{i}-progress
+                                    control: progression
+                                    parts:
+                                      - control: checkbox
+                                      - control: checkbox
+                                      - control: checkbox
+                                  - field: effect-#{i}-nrounds
+                                    label: "Rounds"
+                                    underlay: "#"
+                                    overlay: "rds"
+                                  - field: effect-#{i}-rounds
+                                    frame: none
+                                    control: checkgrid
+                                    max: 10
+                                    depth: 3
+
+                  - section: "Armour"
+                    id: armour
+                    contents:
+                      - table:
+                        columns:
+                          -
+                          -
+                          -
+                          - "DEX"
+                          - "Proficiency"
+                          - "Armour Bonus"
+                          - "Shield Bonus"
+                          - "Magic / Items"
+                          - "Misc"
+                        rows:
+                          - id: ac
+                            legend: "Armour\nClass"
+                            underlay: "AC"
+                          - id: tac
+                            legend: "Touch AC"
+                            underlay: "TAC"
+                        template:
+                          - calc:
+                            equal: '10+#{DEX}+#{#{id}-proficiency}+#{armour-bonus}+#{shield-bonus}'
+                            output:
+                              field: #{id}
+                              legend: "#{legend}"
+                              icon: "#{id}"
+                              border: full
+                              width: large
+                              underlay: "#{underlay}"
+                              merge-top: true
+                            inputs:
+                              - span: 10 +
+                              - field:
+                                ref: "DEX"
+                                underlay: "DEX"
+                              - field: #{id}-proficiency
+                                control: proficiency
+                              - field: armour-bonus
+                              - field: shield-bonus
+                              - field: ac-items
+                              - field: ac-misc
+                                misc: true
+                      - field: ac-conditional
+                        label: "Conditional"
+                        width: stretch
+                        merge-bottom: true
+                        repeat: 3
+                  - tail:
+
+              - g:
+                contents:
+                  - section: "Actions"
+                    id: actions
+                    contents:
+                      - list:
+                        zebra: true
+                        flex: true
+                        hr: true
+                        contents:
+                          - slots:
+                            min: 6
+                            max: 6
+                            placeholder:
+                              article:
+                              header:
+                                - row:
+                                  contents:
+                                    - icon: action-template
+                                    - field: action-#{i}
+                                      frame: none
+                                      width: stretch
+                                      align: left
+                              contents:
+                                - field: action-#{i}-details
+                                  width: stretch
+                                  frame: none
+                                  align: left
+                                  repeat: 2
+                            contents:
+                              - zone: @actions
+                  - tail:
+
+      - page: inventory
+        name: "Inventory"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            flex: true
+            contents:
+              - g:
+                contents:
+                  - section: "Inventory"
+                    id: inventory
+                    contents:
+                      - list:
+                        zebra: true
+                        collapse: true
+                        field_frame: none
+                        contents:
+                          - repeat: 25
+                            contents:
+                              - row:
+                                contents:
+                                  - field: inventory-#{i}
+                                    width: stretch
+                                  - field: inventory-#{i}-value
+                                  - field: inventory-#{i}-weight
+                          - repeat: 4
+                            contents:
+                              - row:
+                                contents:
+                                  - field: expendable-#{i}
+                                    width: stretch
+                                  - field: expendable-#{i}-count
+                                    frame: none
+                                    control: checkgrid
+                                    max: 20
+                                    depth: 3
+                      - g:
+                        contents:
+                          - field: weight-total
+                            frame: left
+                            label: "Total weight"
+                            # output: true
+                            control: weight
+                            # width: huge
+                  - section: "Money"
+                    id: money
+                    contents:
+                      - field: money-copper
+                        frame: left
+                        control: money
+                        label: "Copper"
+                        denomination: copper
+                        digits: 7
+                      - field: money-silver
+                        frame: left
+                        control: money
+                        label: "Silver"
+                        denomination: silver
+                        digits: 7
+                        shift: 1
+                      - field: money-gold
+                        frame: left
+                        control: money
+                        label: "Gold"
+                        denomination: gold
+                        digits: 7
+                        shift: 2
+                      - field: money-total
+                        frame: left
+                        output: 'true'
+                        control: money
+                        label: "Total"
+                        denomination: copper
+                        digits: 10
+                        decimal: 1
+                  - section: "Wands"
+                    id: wands
+                    contents:
+                      - list:
+                        zebra: true
+                        hr: true
+                        flex: true
+                        contents:
+                          - repeat: 3
+                            contents:
+                              - g:
+                                contents:
+                                  - field: wand-#{i}
+                                    frame: none
+                                    width: stretch
+                                    repeat: 2
+                                    merge-bottom: true
+                  - tail:
+              - g:
+                contents:
+                  - layout: 2e
+                    contents:
+                      - g:
+                        contents:
+                          - section: "Armour"
+                            contents:
+                              - field: armour
+                                frame: none
+                                size: large
+                                width: stretch
+                              - row:
+                                layout: split
+                                contents:
+                                  - field: armour-ac
+                                    label: "AC Bonus"
+                                    width: large
+                                    icon: ac
+                                  - field: armour-ac
+                                    label: "TAC Bonus"
+                                    width: large
+                                    icon: tac
+                                  - field: armour-bulk
+                                    label: "Bulk"
+                              - row:
+                                layout: split
+                                contents:
+                                  - field: armour-max-dex
+                                    label: "Max DEX\nto AC"
+                                  - field: armour-speed-penalty
+                                    label: "Speed\nPenalty"
+                                    control: speed
+                                  - field: armour-acp
+                                    label: "Armour\nCheck\nPenalty"
+                          - section: "Shield"
+                            contents:
+                              - field: shield
+                                frame: none
+                                size: large
+                                width: stretch
+                              - row:
+                                layout: split
+                                contents:
+                                  - field: shield-ac
+                                    label: "AC Bonus"
+                                    width: large
+                                    icon: ac
+                                  - field: shield-tac
+                                    label: "TAC Bonus"
+                                    width: large
+                                    icon: tac
+                                  - field: shield-bulk
+                                    label: "Bulk"
+                              - row:
+                                layout: split
+                                contents:
+                                  - field: armour-max-dex
+                                    label: "Max DEX\nto AC"
+                                  - field: armour-speed-penalty
+                                    label: "Speed\nPenalty"
+                                    control: speed
+                                  - field: armour-acp
+                                    label: "Armour\nCheck\nPenalty"
+                          - hr:
+                            swash: true
+                          - portrait:
+                            overprint: true
+                      - section: "Equipment"
+                        contents:
+                          - list:
+                            zebra: true
+                            flex: true
+                            hr: true
+                            avoid-shade: true
+                            contents:
+                              - repeat: 10
+                                contents:
+                                  - article:
+                                    header:
+                                      - field: equipment-#{i}
+                                        width: stretch
+                                        frame: none
+                                        align: left
+                                    contents:
+                                      - field: equipment-#{i}-details
+                                        width: stretch
+                                        frame: none
+                                        align: left
+                                        repeat: 2
+                  - layout: 2e
+                    contents:
+                      - g:
+                        contents:
+                          - section: "Scrolls"
+                            contents:
+                              - list:
+                                zebra: true
+                                collapse: true
+                                merge-bottom: true
+                                flex: true
+                                contents:
+                                  - repeat: 12
+                                    contents:
+                                      - field: scroll-#{i}
+                                        frame: none
+                                        width: stretch
+                          - tail:
+                      - g:
+                        contents:
+                          - section: "Potions"
+                            contents:
+                              - list:
+                                zebra: true
+                                collapse: true
+                                merge-bottom: true
+                                flex: true
+                                contents:
+                                  - repeat: 4
+                                    contents:
+                                      - row:
+                                        contents:
+                                          - field: potion-exp-#{i}
+                                            frame: none
+                                            width: stretch
+                                          - field: potion-exp-#{i}-count
+                                            frame: none
+                                            control: checkgrid
+                                            max: 8
+                                            depth: 2
+                                  - repeat: 8
+                                    contents:
+                                      - field: potion-#{i}
+                                        frame: none
+                                        width: stretch
+                          - tail:

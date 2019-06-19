@@ -1,0 +1,152 @@
+unit: class/wizard
+in: class
+name: "Wizard"
+
+inc:
+  - at: @pages
+    add:
+      - page: wizard
+        name: "Wizard"
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: wizard
+                  - h2: "Wizard"
+                  - section: "Thesis"
+                    primary: true
+                    contents:
+                      - field: thesis
+                        size: large
+                        width: stretch
+                        align: left
+                        label: "Title"
+                        repeat: 3
+                        merge-bottom: true
+                      - hr:
+                      - field: thesis-details
+                        width: stretch
+                        align: left
+                        label: "Abstract"
+                        repeat: 8
+                        merge-bottom: true
+
+                  - section: "Specialisation"
+                    contents:
+                      - field: wizard-school
+                        label: "School"
+                        width: stretch
+                        align: left
+                      - h4: "School Power"
+                      - slots:
+                        min: 1
+                        max: 1
+                        placeholder:
+                          article:
+                          header:
+                            - field: wizard-feat-level-#{level}
+                              width: stretch
+                              frame: none
+                              align: left
+                          contents:
+                            - field: wizard-feat-level-#{level}-details
+                              width: stretch
+                              align: left
+                              frame: none
+                              repeat: 2
+                        contents:
+                          - zone: @wizard-school-power
+                  - section: "Spells"
+                    contents:
+                      - spells-table:
+                        flip: true
+                      # - table:
+                      #   collapse: true
+                      #   columns:
+                      #     - "Level"
+                      #     - "Spells per day"
+                      #   rows:
+                      #     - level: 1
+                      #     - level: 2
+                      #     - level: 3
+                      #     - level: 4
+                      #     - level: 5
+                      #     - level: 6
+                      #     - level: 7
+                      #     - level: 8
+                      #     - level: 9 
+                      #   template:
+                      #     - level-marker: "#{level}"
+                      #       marker: ""
+                      #     - field: spells-#{level}-per-day
+                      #       frame: none
+                  - section: "Arcane Focus"
+                    contents:
+                      - field: wizard-arcane-focus-item
+                        label: "Focus Item"
+                        width: stretch
+                        align: left
+                      - action: free
+                        contents:
+                          - article:
+                            header:
+                              - h4: "Drain Arcane Focus"
+                            contents:
+                              - p: "Expend the power stored in your arcane focus to cast one spell you prepared and cast today, without spending a spell slot."
+
+                      
+                  - tail:
+
+              - g:
+                contents:
+                  - section: "Cantrips"
+                    contents:
+                      - spells-list:
+                        min: 0
+                        max: 0
+                        spells: 5
+
+                  - section: "Spells"
+                    contents:
+                      - spells-list:
+                        min: 1
+                        max: 9
+                        spells: 4
+
+                  - section: "Wizard Feats"
+                    contents:
+                      - list:
+                        zebra: true
+                        columns: 2
+                        flowv: true
+                        hr: true
+                        contents:
+                          - each:
+                            template:
+                              - level: "#{level}"
+                                contents:
+                                  - item:
+                            contents:
+                              - slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, "", "" ]
+                                min: 1
+                                max: 1
+                                placeholder:
+                                  article:
+                                  header:
+                                    - field: wizard-feat-level-#{level}
+                                      width: stretch
+                                      frame: none
+                                      align: left
+                                  contents:
+                                    - field: wizard-feat-level-#{level}-details
+                                      width: stretch
+                                      align: left
+                                      frame: none
+                                      repeat: 2
+                                contents:
+                                  - zone: @wizard-feats
+                  - tail:
+
+

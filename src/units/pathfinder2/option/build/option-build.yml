@@ -1,0 +1,387 @@
+unit: option/build
+name: "Build a Character"
+inc:
+  - at: @pages
+    add:
+      - page: build
+        name: "Build A Character"
+        no-bg: true
+        order: 2
+        flex: true
+        numbered: false
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - h2: "Build a Character"
+              - g:
+                contents:
+                  - layout: alignment
+                    contents:
+                      - field: build-concept
+                        legend: "Character Concept"
+                        width: stretch
+                        repeat: 2
+                      - field: build-alignment
+                        frame: none
+                        control: alignment
+
+              - section: "Step One"
+                contents:
+                  - p: "Pick your race and where your character comes from."
+                  - spacer:
+              - section: "Ancestry"
+                contents:
+                  - layout: 2e
+                    contents:
+                      - field: build-ancestry
+                        width: stretch
+                        align: left
+                        label: "Ancestry"
+                      - field: build-ancestry-heritage
+                        width: stretch
+                        align: left
+                        label: "Heritage"
+                      - row:
+                        contents:
+                          - field: build-ancestry-hp
+                            label: "Hit Points"
+                            icon: hp
+                            overlay: hp
+                          - field: build-ancestry-size
+                            label: "Size"
+                            icon: size
+                            width: large
+                          - field: build-ancestry-speed
+                            label: "Speed"
+                            control: speed
+                      - level: 1
+                        contents:
+                          - field: build-heritage-feat
+                            width: stretch
+                            align: left
+                            label: "Feat"
+              - section: "Step Two"
+                contents:
+                  - p: "Decide how your character grew up."
+                  - spacer:
+              - section: "Background"
+                contents:
+                  - layout: 2e
+                    contents:
+                      - field: build-background
+                        label: "Background"
+                        width: stretch
+                        align: left
+                      - level: 1
+                        contents:
+                          - field: build-background-skill-feat
+                            label: "Skill feat"
+                            width: stretch
+                            align: left
+              - section: "Step Three"
+                contents:
+                  - p: "Pick from one of the available classes."
+                  - p: "You may need to pick a specialisation, such as a Sorcerer's bloodline or Cleric's domain."
+                  - spacer:
+              - section: "Class"
+                contents:
+                  - layout: 2r
+                    contents:
+                      - row:
+                        contents:
+                          - field: build-class
+                            label: "Class"
+                            width: stretch
+                            align: left
+                      - row:
+                        contents:
+                          - field: build-class-level
+                            label: "Level"
+                            output: true
+                            underlay: 1
+                          - field: build-class-hp
+                            label: "Hit Points"
+                            icon: hp
+                            overlay: hp
+                          - field: build-class-key-ability
+                            label: "Key Ability"
+                          # - spacer:
+                      - field: build-class-specialisation
+                        label: "Specialisation"
+                        width: stretch
+                        align: left
+                      - row:
+                        contents:
+                          - h6: "Perception"
+                          - spacer:
+                          - icon: proficiency
+              - g:
+                contents:
+                  - hr:
+                  - h4: "Proficiencies"
+                  - p: "Refer to your ancestry, background, class and feats to find your initial proficiencies."
+                  - p: "Then spend the skill proficiencies your class provides to upgrade skills."
+                  
+                  - row: split
+                    valign: top
+                    contents:
+                      - g:
+                        valign: top
+                        contents:
+                          - field: proficiency-untrained
+                            label: "Untrained"
+                            output: true
+                            control: proficiency
+                            value: 0
+                          - label: "None"
+                            align: center
+                      - g:
+                        valign: top
+                        contents:
+                          - field: proficiency-trained
+                            label: "Trained"
+                            output: true
+                            control: proficiency
+                            value: trained
+                          - label: "Level\n+2"
+                            align: center
+                      - g:
+                        valign: top
+                        contents:
+                          - field: proficiency-expert
+                            label: "Expert"
+                            output: true
+                            control: proficiency
+                            value: expert
+                          - label: "Level\n+4"
+                            align: center
+                      - g:
+                        valign: top
+                        contents:
+                          - field: proficiency-master
+                            label: "Master"
+                            output: true
+                            control: proficiency
+                            value: master
+                          - label: "Level\n+6"
+                            align: center
+                      - g:
+                        valign: top
+                        contents:
+                          - field: proficiency-legendary
+                            label: "Legendary"
+                            output: true
+                            control: proficiency
+                            value: legendary
+                          - label: "Level\n+8"
+                            align: center
+                  - spacer:
+              - g:
+                contents:
+                  - hr:
+                  - h4: "Saving Throws"
+                  - list:
+                    columns: 3
+                    contents:
+                      - row:
+                        valign: middle
+                        contents:
+                          - h6: "Fortitude"
+                          - spacer:
+                          - icon: proficiency
+                      - row:
+                        valign: middle
+                        contents:
+                          - h6: "Reflex"
+                          - spacer:
+                          - icon: proficiency
+                      - row:
+                        valign: middle
+                        contents:
+                          - h6: "Will"
+                          - spacer:
+                          - icon: proficiency
+                  - h4: "Weapons"
+                  - list:
+                    columns: 3
+                    contents:
+                      - repeat: 6
+                        contents:
+                          - row:
+                            contents:
+                              - field:
+                                frame: none
+                                width: stretch
+                                align: left
+                              - icon: proficiency
+                  - h4: "Skills"
+                  - list:
+                    columns: 3
+                    merge-bottom: true
+                    contents:
+                      - repeat: 9
+                        contents:
+                          - row:
+                            contents:
+                              - field:
+                                frame: none
+                                width: stretch
+                                align: left
+                              - icon: proficiency
+              - section: "Step Four"
+                contents:
+                  - h4: "Ability Scores"
+                  - p: "Add up the ability score bonuses you get from your ancestry, background and class, each of which provides +2 or -2 to a number of abilities. You also get four free ability boosts to allocate as you wish."
+                  - row:
+                    calc:
+                    inline: true
+                    output:
+                      label: "Ability\nModifier"
+                    inputs:
+                      - span: "("
+                      - label: "Ability\nScore"
+                      - span: "- 10 ) &divide; 2"
+                  - p: "Your key ability comes from your class, and is used to determine your class DC."
+                  - level: 1
+                    contents:
+                      - field: max-ability-score
+                        frame: right
+                        border: full
+                        label: "Max ability score"
+                        value: 18
+              - section: "Details"
+                contents:
+                  - table:
+                    field_frame: none
+                    collapse: true
+                    zebra: true
+                    columns:
+                      - ""
+                      - ""
+                      - "Ancestry\n-2 +2"
+                      - "Background\n+2"
+                      - "Class\n+2"
+                      - "4 Free\n+2"
+                      - ""
+                      - "Ability\nScore"
+                      - "Ability\nModifier"
+                      - "Key\nAbility"
+                    rows:
+                      - ability: "Strength"
+                        short: "STR"
+                      - ability: "Dexterity"
+                        short: "DEX"
+                      - ability: "Constitution"
+                        short: "CON"
+                      - ability: "Intelligence"
+                        short: "INT"
+                      - ability: "Wisdom"
+                        short: "WIS"
+                      - ability: "Charisma"
+                        short: "CHA"
+                    template:
+                      - h6: "#{ability}"
+                      - span: 10 +
+                      - field: build-boost-#{short}-ancestry
+                        control: boost
+                      - field: build-boost-#{short}-background
+                        control: boost
+                        down: false
+                      - field: build-boost-#{short}-class
+                        control: boost
+                        down: false
+                      - field: build-boost-#{short}-free
+                        control: boost
+                        down: false
+                      - span: "&rArr;"
+                      - field: build-#{short}-score
+                      - field: build-#{short}-modifier
+                        icon: dc
+                        border: full
+                        underlay: "#{short}"
+                      - field: build__key-ability
+                        control: radio
+                        value: "#{short}"
+              - g:
+                contents:
+                  - hr:
+                  - h4: "Health"
+                  - p: "Calculate your hit points. Some of these come from your ancestry, and some each level from your chosen class."
+              - g:
+                contents:
+                  - hr:
+                  - calc:
+                    output:
+                      field: build-hp
+                      legend: "Hit Points"
+                      icon: hp
+                      overlay: hp
+                      width: large
+                    inputs:
+                      - field:
+                        ref: build-ancestry-hp
+                        label: "Ancestry"
+                      - span: "+ ("
+                      - field:
+                        ref: build-class-hp
+                        label: "Class"
+                      - span: "+"
+                      - field:
+                        ref: CON
+                        underlay: "CON"
+                      - span:
+                        content: ") &times;"
+                      - field:
+                        ref: level
+                        label: "Level"
+                        underlay: "1"
+              - section: "Step Five"
+                contents:
+                  - p: "Work out what your character owns at the start of the game, including clothes and weapons."
+                  - row:
+                    layout: split
+                    contents:
+                      - field: build-starting-money
+                        legend: "Starting\nMoney"
+                        overlay: sp
+                        value: '150'
+                        border: full
+                        size: huge
+                        width: huge
+                        align: right
+                        editable: false
+                      - spacer:
+                      - field: build-remaining-money
+                        label: "Remaining\nMoney"
+                        control: money
+                        denomination: silver
+                        digits: 4
+                  - spacer:
+              - section: "Equipment"
+                contents:
+                  - table:
+                    collapse: true
+                    field_frame: none
+                    rows:
+                      - id: "kit"
+                        name: "Kit"
+                      - id: "weapons"
+                        name: "Weapons"
+                      - id: "armour"
+                        name: "Armour"
+                      - id: "gear"
+                        name: "Gear"
+                    template:
+                      - h6: "#{name}"
+                      - row:
+                        contents:
+                          - field: "equipment-#{id}"
+                            width: stretch
+                          - field: "cost-#{id}"
+                            control: money
+                            denomination: silver
+                            digits: 4
+              - tail:
+              - tail:
