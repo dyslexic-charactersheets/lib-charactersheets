@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 import { elementID, elementClass } from '../util';
 import { log } from '../log';
 
@@ -14,6 +16,7 @@ export let slots = {
     }, 
     transform: (args, ctx) => {
         // log("slots", "Slots:", args.slots);
+
         var placeholder = args.placeholder;
         if (!Array.isArray(placeholder))
             placeholder = [ placeholder ];
@@ -34,7 +37,8 @@ export let slots = {
             return items;
         }
 
-        if (args.slot === null || args.slots == []) {
+        if (args.slots === null || args.slots == []) {
+            // log("slots", "Slots item:", args);
             // log("slots","Single slot");
             return slotItems(args.contents);
         }
@@ -55,17 +59,17 @@ export let slots = {
                 slots[item[args.key]].contents.push(item);
             }
         });
-        slots.forEach(s => {
+        for (const [n, s] of Object.entries(slots)) {
             // log("slots","Slot", s.key);
             s.contents = slotItems(s.contents);
             s.contents.forEach(item => item[args.key] = s.key);
             // log("slots","Slot", s.key, "items", s.contents);
-        });
+        };
 
-        // log("slots", "Slots:", slots);
-        var contents = slots.flatMap(s => s.contents);
+        // log("slots", "Final slots:", slots);
+        var contents = Object.values(slots).flatMap(s => s.contents);
 
-        // log("slots","", contents);
+        // log("slots", contents);
         return contents;
     }
 }

@@ -1,4 +1,5 @@
-import { fieldIdent, fieldDefaults } from './field';
+import * as _ from 'lodash';
+import { fieldIdent, fieldRadioIdent, fieldDefaults } from './field';
 import { elementClass } from '../util';
 // import { renderItem } from '../classes/Registry';
 
@@ -24,7 +25,7 @@ var defaultControlRender = args => {
     return `<div${cls}>${input}${underlay}</div>${overlay}`;
 };
 
-var renderCompoundControl = args => {
+var renderCompoundControl = (args, reg) => {
     var parts = args.parts;
 
     var outputParts = parts.map(part => {
@@ -32,12 +33,12 @@ var renderCompoundControl = args => {
             return part;
 
         if (_.has(part, "type") && part.type != "field")
-            return renderItem(part);
+            return reg.renderItem(part);
         
-        part = fieldDefaults(part);
+        part = fieldDefaults(part, reg);
         part.type = 'control:'+part.control;
         
-        return renderItem(part);
+        return reg.renderItem(part);
     });
 
     // log("control", "Parts:", outputParts);
@@ -70,7 +71,7 @@ export let field_control_speed = {
         value: '',
         width: 'large',
     }, 
-    render: args => {
+    render: (args, reg) => {
         switch (args.units) {
             case "imperial":
                 var ftIdent = fieldIdent(args.id, "ft");
@@ -130,7 +131,7 @@ export let field_control_speed = {
         }
 
         // log("field", "Speed field", args);
-        return renderCompoundControl(args);
+        return renderCompoundControl(args, reg);
     }
 }
 
@@ -139,7 +140,7 @@ export let field_control_weight = {
     defaults: {
         schema: "starfinder",
     }, 
-    render: args => {
+    render: (args, reg) => {
         switch (args.schema) {
             case "starfinder":
                 var bulkIdent = fieldIdent(args.id, "bulk");
@@ -169,7 +170,7 @@ export let field_control_weight = {
                 break;
         }
 
-        return renderCompoundControl(args);
+        return renderCompoundControl(args, reg);
     }
 }
 
@@ -344,7 +345,7 @@ export let field_control_proficiency = {
         value: 0,
         icon: true,
     },
-    render: args => {
+    render: (args, reg) => {
         switch (args.value) {
             case 'untrained': args.value = 0; break;
             case 'trained': args.value = 1; break;
@@ -367,7 +368,7 @@ export let field_control_proficiency = {
             }
         ];
 
-        return renderCompoundControl(args);
+        return renderCompoundControl(args, reg);
     }
 }
 
@@ -435,9 +436,9 @@ export let field_control_progression = {
         parts: [],
         border: "none",
     }, 
-    render: args => {
+    render: (args, reg) => {
         args.parts = _.flatMap(args.parts, part => [ part, '<label class="field__separator"></label>' ]);
         args.parts.pop();
-        return renderCompoundControl(args);
+        return renderCompoundControl(args, reg);
     }
 }

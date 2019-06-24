@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 import { elementClass, getLabelHeight } from '../util';
 
 export let calc = {
@@ -9,7 +11,7 @@ export let calc = {
         inline: false,
         inputs: [],
     }, 
-    render: args => {
+    render: (args, reg) => {
         args.labelHeight = getLabelHeight(args);
 
         args.calc = true;

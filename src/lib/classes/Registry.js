@@ -1,5 +1,6 @@
-// import * as _ from 'lodash';
-import { log } from '../log';
+import * as _ from 'lodash';
+
+import { log, warn } from '../log';
 
 // elements
 import { unit } from '../elements/unit';
@@ -12,7 +13,7 @@ import { document } from '../elements/document';
 import { each } from '../elements/each';
 import { g } from '../elements/g';
 import { h1, h2, h3, h4, h5, h6 } from '../elements/headings';
-import { hr } from '../elements/hr';
+import { hr, tail } from '../elements/hr';
 import { icon } from '../elements/icon';
 import { label } from '../elements/label';
 import { layout } from '../elements/layout';
@@ -31,7 +32,7 @@ import { spacer } from '../elements/spacer';
 import { span } from '../elements/span';
 import { spells_list } from '../elements/spells-list';
 import { table } from '../elements/table';
-import { template, paste } from '../elements/template';
+import { define, paste } from '../elements/template';
 import { zone } from '../elements/zone';
 
 import { field } from '../elements/field';
@@ -61,20 +62,21 @@ import {
 export class Registry {
 	constructor() {
 		this.registry = {};
+		this.stack = [];
 
 		// load all the elements
 		[
 			unit,
+			document,
 
 			article,
 			blockquote,
 			calc,
 			class_icon,
-			document,
 			each,
 			g,
 			h1, h2, h3, h4, h5, h6,
-			hr,
+			hr, tail,
 			icon,
 			label,
 			layout,
@@ -93,7 +95,7 @@ export class Registry {
 			span,
 			spells_list,
 			table,
-			template, paste,
+			define, paste,
 			unit,
 			zone,
 			
@@ -116,6 +118,8 @@ export class Registry {
 			field_control_proficiency_icon,
 			field_control_icon,
 		].forEach(elem => this.register(elem));
+
+		// log("Registry", "Loaded registry elements", Object.keys(this.registry));
 	}
 
 	register(params) {
@@ -134,6 +138,12 @@ export class Registry {
 		params.expect = expect;
 	
 		this.registry[params.name] = params;
+	}
+
+	get(type) {
+		if (this.registry.hasOwnProperty(type))
+			return this.registry[type];
+		return false;
 	}
 
 	render(items) {
@@ -155,26 +165,55 @@ export class Registry {
 		if (item.type == "unit")
 			item.type = item["unit-type"];
 
-		// log("registry", `renderItem ${item.type}`);
-		if (this.registry.hasOwnProperty[item.type]) {
+		// log("Registry", "renderItem", item.type);
+		if (this.registry.hasOwnProperty(item.type)) {
 			var reg = this.registry[item.type];
 		
 			// registered defaults
+			Object.keys(item).forEach(key => {
+				if (item[key] === null)
+					delete item[key];
+			});
 			item = Object.assign({}, reg.defaults, item);
+			if (item.type == "slots")
+				log("Registry", item);
 
 			if (item['merge-bottom'])
 				item = mergeBottom(item);
 			
-			stack.push(item.type + ((item.id == null) ? '' : ":"+item.id) + ((item.title == null) ? '' : ':'+item.title));
-			var output = reg.render(item);
-			stack.pop();
+			this.stack.push(item.type + ((item.id == null) ? '' : ":"+item.id) + ((item.title == null) ? '' : ':'+item.title));
+			var output = reg.render(item, this);
+			this.stack.pop();
 			return output;
 		} else {
-			if (item.type == 'zone')
-				warn("registry", "Unsatisfied zone", item.zone);
-			else
-				warn("registry", "Unknown element type:", item.type, "at:", stack, item);
+			// log("Registry", "Registry elements", Object.keys(this.registry));
+			warn("Registry", "Unknown element type:", item.type, "at:", this.stack, item);
 			return '';
 		}
 	}
 }
+
+export function mergeBottom(element) {
+    if (_.isArray(element)) {
+        element[element.length - 1] = mergeBottom(element[element.length - 1]);
+    }
+
+    else if (_.isObject(element)) {
+        switch (element.type) {
+            // horizontal elements don't 
+            case 'calc':
+            case 'row':
+                break;
+
+            case 'field':
+                element['merge-bottom'] = true;
+                break;
+
+            case 'list':
+            default:
+                element.contents = mergeBottom(element.contents);
+        }
+    }
+
+    return element;
+};

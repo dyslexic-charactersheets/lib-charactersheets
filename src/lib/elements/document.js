@@ -1,3 +1,5 @@
+import { esc } from '../util';
+
 export let document = {
     name: 'document',
     key: 'title', 
@@ -7,7 +9,11 @@ export let document = {
         sort: true
     },
     render: (args, reg) => {
-        var faviconData = getDataURL("core", "images/"+args.favicon);
+        // TODO load favicon
+        // var faviconData = getDataURL("core", "images/"+args.favicon);
+        var faviconData = '';
+        // TODO load stylesheet
+        var stylesheet = '';
 
         return `<!DOCTYPE html>
 <html lang='en-GB'>
@@ -16,7 +22,7 @@ export let document = {
 <title>${esc(args.title)}</title>
 <link id="favicon" rel="shortcut icon" type="image/png" href='${faviconData}' />
 <style>
-${CharacterSheets.stylesheet()}
+${stylesheet}
 </style>
 </head>
 

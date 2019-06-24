@@ -1,4 +1,6 @@
-import { elementID, elementClass } from '../util';
+import * as _ from 'lodash';
+
+import { interpolate, elementID, elementClass } from '../util';
 
 function tableBodyTemplate_basic(rows, columns) {
 
@@ -11,9 +13,10 @@ export let table = {
         columns: [],
         repeat: 1,
         flip: false,
-        template: null,
+        template: [],
     },
     render: (args, reg) => {
+        // log("table", "Table", args);
         var cls = elementClass('table', null, args, [ 'zebra', 'collapse', 'fixed' ], [ 'width', 'layout' ]);
 
         // columns headings
@@ -39,6 +42,7 @@ export let table = {
         } else if (Array.isArray(args.template)) {
             // log("-","Table row callback: elements");
             rowCallback = function(row) {
+                // log("table", "Template cells", args.template);
                 var templateCells = args.template.flatMap(cell => {
                     if (_.isPlainObject(cell) && _.has(cell, "type") && cell.type == "calc") {
                         var fields = _.clone(cell.inputs);
@@ -69,13 +73,14 @@ export let table = {
                         var cell = _.defaults({}, cell, col, { type: 'label', label: '' });
                         // log("-","  =", cell);
                         var cellCls = elementClass('td', null, cell, [], ['align']);
-                        return `<td${cellCls}>${renderItem(cell)}</td>`;
+                        return `<td${cellCls}>${reg.renderItem(cell)}</td>`;
                     }
                 });
             }
         } else {
             // log("-","Table row callback: direct");
             rowCallback = function(row) {
+                // log("table", "Table row", row);
                 return row.map(cell => {
                     if (_.isString(cell)) cell = { type: "label", label: cell };
                     if (!_.has(cell, "type")) return  '<td></td>';

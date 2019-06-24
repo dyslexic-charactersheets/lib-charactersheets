@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 export let zone = {
     name: 'zone',
     key: 'zone', 

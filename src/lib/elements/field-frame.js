@@ -1,20 +1,21 @@
+import { esc } from '../util';
 import { fieldIdent, fieldRadioIdent, fieldInner } from './field';
 
-function defaultFrameRender(args) {
+function defaultFrameRender(args, reg) {
     var ident = args.control == 'radio' ? fieldRadioIdent(args.id, args.value) : fieldIdent(args.id);
     var label = args.label ? `<label${ident.for}>${esc(args.label, true)}</label>` : '';
     var legend = args.legend ? `<legend>${esc(args.legend, true)}</legend>`: '';
 
-    return `${legend}${label}${fieldInner(args)}`;
+    return `${legend}${label}${fieldInner(args, reg)}`;
 };
 
-export function registerFieldFrame(element, props) {
-    props = _.defaults(props, {
-        defaults: {},
-        render: args => ''
-    });
-    CharacterSheets.register('frame:'+element, props, false);
-};
+// export function registerFieldFrame(element, props) {
+//     props = _.defaults(props, {
+//         defaults: {},
+//         render: args => ''
+//     });
+//     CharacterSheets.register('frame:'+element, props, false);
+// };
 
 // Register the faux-elements
 
@@ -42,12 +43,12 @@ export let field_frame_right = {
         label: false,
         legend: false,
     },
-    render: args => {
+    render: (args, reg) => {
         var ident = 'radio' ? fieldRadioIdent(args.id, args.value) : fieldIdent(args.id);
         var label = args.label ? `<label${ident.for}>${esc(args.label, true)}</label>` : '';
         var legend = args.legend ? `<legend>${esc(args.legend, true)}</legend>`: '';
 
-        return `${fieldInner(args)}${legend}${label}`;
+        return `${fieldInner(args, reg)}${legend}${label}`;
     }
 }
 
@@ -56,18 +57,18 @@ export let field_frame_h_label = {
     defaults: {
         label: false,
     }, 
-    render: args => {
+    render: (args, reg) => {
         var ident = fieldIdent(args.id);
         var label = args.label ? `<label class='field__h-label'${ident.for}>${esc(args.label, true)}</label>` : '';
         // WRONG! The h-label is supposed to go inside the box!
-        return `${label}${fieldInner(args)}`;
+        return `${label}${fieldInner(args, reg)}`;
     }
 }
 
 export let field_frame_none = {
     name: 'frame:none',
-    render: args => {
-        return fieldInner(args);
+    render: (args, reg) => {
+        return fieldInner(args, reg);
     }
 }
 

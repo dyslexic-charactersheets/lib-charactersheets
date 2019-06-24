@@ -31,11 +31,11 @@
     "doc": "doc"
   },
   "scripts": {
-    "build": "npm run build:units; npm run build:bundle; npm run build:compile",
+    "build": "npm run build:units && npm run build:bundle && npm run build:compile",
     "build:units": "nodejs src/make/make.js",
     "build:bundle": "rollup src/lib/lib.js --file src/lib-charactersheets.js --format cjs",
     "build:compile": "babel src/lib-charactersheets.js -d lib",
-    "test": "npm run build; nodejs test/test.js"
+    "test": "npm run build && nodejs test/test.js"
   },
   "license": "Artistic-2.0",
   "dependencies": {
@@ -47,7 +47,7 @@
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
     "colors": "^1.3.3",
-    "handlebars": "^4.0.11",
+    "handlebars": "^4.1.2",
     "node-sass": "^4.12.0",
     "rollup": "^1.15.1",
     "yaml": "^1.6.0"

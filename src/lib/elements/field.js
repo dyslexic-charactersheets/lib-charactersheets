@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 import { elementID, elementClass, getLabelHeight } from '../util';
 // import { render, renderItem } from '../classes/Registry';
 
@@ -14,7 +16,7 @@ export let field = {
     },
     expect: [ 'icon' ],
     render: (args, reg) => {
-        args = fieldDefaults(args);
+        args = fieldDefaults(args, reg);
 
         var id = elementID('field', args.id);
         var cls = elementClass('field', null, args, 
@@ -29,22 +31,35 @@ export let field = {
 
 
 // field defaults are a combination of the defaults from the field's frame and control
-export function fieldDefaults(args) {
+export function fieldDefaults(args, reg) {
     args = _.defaults(args, {
         frame: 'above',
         control: 'input'
     });
-    if (!_.has(CharacterSheets._registry, 'frame:'+args.frame)) {
-        error('field', 'Field frame not registered:', args.frame);
+    
+    var frame = reg.get('frame:'+args.frame);
+    if (!frame) {
         args.frame = 'above';
-    }
-    if (!_.has(CharacterSheets._registry, 'control:'+args.control)) {
-        error('field', 'Field control not registered:', args.control);
-        args.control = 'input';
+        frame = reg.get('frame:above');
     }
 
-    var frame = CharacterSheets._registry['frame:'+args.frame];
-    var control = CharacterSheets._registry['control:'+args.control];
+    var control = reg.get('control:'+args.control);
+    if (!control) {
+        args.control = 'input';
+        control = reg.get('control:input');
+    }
+
+    // if (!_.has(CharacterSheets._registry, 'frame:'+args.frame)) {
+    //     error('field', 'Field frame not registered:', args.frame);
+    //     args.frame = 'above';
+    // }
+    // if (!_.has(CharacterSheets._registry, 'control:'+args.control)) {
+    //     error('field', 'Field control not registered:', args.control);
+    //     args.control = 'input';
+    // }
+    // 
+    // var frame = CharacterSheets._registry['frame:'+args.frame];
+    // var control = CharacterSheets._registry['control:'+args.control];
 
     args = _.defaults(args, frame.defaults, control.defaults, {
         border: (args.output ? 'full' : 'bottom'),
@@ -90,9 +105,9 @@ export function fieldRadioIdent(fieldid = '', value = '') {
     return { id: id, name: fieldid, for: forid, ident: ident };
 };
 
-export function fieldInner(args) {
+export function fieldInner(args, reg) {
     args = _.defaults({ type: 'control:'+args.control }, args);
-    var control = renderItem(args);
+    var control = reg.renderItem(args);
     var icon = (_.has(args, "icon") && !!args.icon && _.isString(args.icon) && args.control != "icon") ? `<i class='icon icon_${args.icon}'></i>` : '';
     var unit = (_.has(args, "unit") && !!args.unit) ? `<label class='field__unit'>${args.unit}</label>` : '';
 

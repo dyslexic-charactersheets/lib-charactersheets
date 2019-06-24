@@ -6,8 +6,8 @@ export let level = {
         narrow: true,
         contents: [],
     },
-    render: args => {
-        return render([
+    render: (args, reg) => {
+        return reg.render([
             {
                 type: "layout",
                 layout: "level",

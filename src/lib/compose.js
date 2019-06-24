@@ -1,11 +1,12 @@
-import { log } from '../log';
+import * as _ from 'lodash';
+import { log } from './log';
 
 function addAtZone(zones, zone_id, elements, replace) {
     if (zone_id.charAt(0) != '@') {
         err("compose", "Not a zone ID:", zone_id);
         return;
     }
-    // log("compose", "Adding to zone:", zone_id);
+    log("compose", "Adding to zone:", zone_id);
     if (!_.has(zones, zone_id))
         zones[zone_id] = [];
     elements.forEach(element => {
@@ -24,8 +25,12 @@ function defineTemplate(templates, template_id, defaults, elements) {
     };
 }
 
-function composeDocument(doc, zones, templates) {
-    var registry = CharacterSheets._registry;
+function composeDocument(doc, zones, templates, registry) {
+    log("compose", "Compose document");
+    // log("compose", " - Doc:", doc);
+    // log("compose", " - Zones:", zones);
+    // log("compose", " - Templates:", templates);
+    // log("compose", " - Registry", registry);
     
     function mergeBottom(element) {
         if (_.isArray(element)) {
@@ -53,16 +58,16 @@ function composeDocument(doc, zones, templates) {
     };
 
     function compose(element) {
-        // console.log("[compose] element", element);
+        // log("compose", "Item", element);
 
         if (!_.has(element, "type"))
             return [ element ];
 
         // first recurse so we have the ingredients
         _.each(["contents", "placeholder", "header", "inputs"], item_key => {
-            // console.log("[compose] Checking for", item_key);
+            // log("compose", "Checking for", item_key);
             if (_.has(element, item_key)) {
-                // console.log("[compose] Preparing element", item_key, element[item_key]);
+                // log("compose", "Preparing item", item_key, element[item_key]);
                 if (_.isArray(element[item_key]))
                     element[item_key] = _.flatMap(element[item_key], compose);
                 else
@@ -71,17 +76,17 @@ function composeDocument(doc, zones, templates) {
         });
 
         // transform the element
-        if (_.has(registry, element.type)) {
-            var reg = registry[element.type];
-            
-            if (reg.transform) {
-                var newelements = reg.transform(_.defaults(element, reg.defaults), { zones: zones, templates: templates });
-                if (newelements === false)
-                    return element;
+        var reg = registry.get(element.type);
+        // log("compose", "Registry entry for", element.type, reg);
+        
+        if (reg && reg.transform) {
+            // log("compose", "Applying transformation to", element.type);
+            var newelements = reg.transform(_.defaults(element, reg.defaults), { zones: zones, templates: templates });
+            if (newelements === false)
+                return element;
 
-                newelements = _.flatMap(newelements, compose);
-                return newelements;
-            }
+            newelements = _.flatMap(newelements, compose);
+            return newelements;
         }
 
         // if (element.type == "article") log("compose", "Composed element:", element);
@@ -98,7 +103,7 @@ function composeDocument(doc, zones, templates) {
     return c[0];
 }
 
-CharacterSheets.zoneCompose = function(baseDocument) {
+export function zoneCompose(baseDocument) {
     var doc = _.cloneDeep(baseDocument);
     // log("compose", "Base document", doc);
     var zones = {};
@@ -108,6 +113,6 @@ CharacterSheets.zoneCompose = function(baseDocument) {
         addAt: (zone_id, elements) => {addAtZone(zones, zone_id, elements, false)},
         replaceAt: (zone_id, elements) => {addAtZone(zones, zone_id, elements, true)},
         defineTemplate: (template_id, defaults, elements) => {defineTemplate(templates, template_id, defaults, elements)},
-        document: () => composeDocument(doc, zones, templates)
+        composeDocument: (registry) => composeDocument(doc, zones, templates, registry)
     };
 }

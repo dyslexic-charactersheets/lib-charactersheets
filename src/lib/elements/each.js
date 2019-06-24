@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 import { interpolate } from '../util';
 
 export let each = {
@@ -12,8 +14,8 @@ export let each = {
     }, 
     transform: args => {
         var i = 0;
-        // log("-","[each] items", args.contents);
-        return _.flatMap(args.contents, item => {
+        // log("each", "Items", args.contents);
+        return args.contents.flatMap(item => {
             i++;
 
             var values = _.cloneDeep(args.params);
@@ -26,10 +28,10 @@ export let each = {
             // values = _.defaults(values, item);
             values[args.index] = i;
 
-            // log("-","[each] template", args.template);
-            // log("-","[each] interpolating", values);
+            // log("each", "Template", args.template);
+            // log("each", "Interpolating", values);
             var product = interpolate(args.template, values);
-            // log("-","[each] product", values);
+            // log("each", "Product", values);
             return product;
         });
     }

@@ -6,32 +6,42 @@ const _ = require('lodash');
 // because that's loaded into the library, and this is needed 
 var expansion = {
     article: 'title',
+    calc: '',
     'class-icon': 'icon',
     document: 'title',
+    each: '',
     field: 'id',
+    g: 'contents',
     h1: 'title',
     h2: 'title',
     h3: 'title',
     h4: 'title',
     h5: 'title',
     h6: 'title',
+    hr: '',
     icon: 'icon',
     label: 'label',
     layout: 'layout',
     level: 'level',
     'level-marker': 'level',
+    list: '',
     logo: 'source',
     p: 'content',
     page: 'id',
     proficiency: 'proficiency',
     action: 'action',
+    portrait: '',
     repeat: 'repeat',
     row: 'layout',
     section: 'title',
+    slots: 'slots',
+    spacer: '',
     span: 'content',
-    template: 'template',
+    table: '',
+    tail: '',
+    define: 'template',
     paste: 'template',
-    unit: 'unit-type',
+    unit: 'id',
     zone: 'zone',
 };
 
@@ -85,8 +95,8 @@ function expandObjectKV(kv) {
             var exp = expansion[objtype];
             // console.log("[expand]   exp", objtype, exp.expected);
             // console.log(`[expand]   ${exp.key} = ${value}`);
-            if (exp.key != "" && !_.isUndefined(value)) {
-                object[exp.key] = value;
+            if (exp != "" && !_.isUndefined(value)) {
+                object[exp] = value;
             }
             // console.log(`[expand]   ${JSON.stringify(object)}`);
             return expandContinuation(object, kv);
@@ -114,18 +124,18 @@ function expandContinuation(object, kv) {
         // console.log(`[expand]   kv ${object.type} contents:`, object.contents);
         return expandContinuation(object, kv);
     }
-    /*
-    if (_.has(expansion, object.type)) {
-        var exp = expansion[object.type];
-        // console.log("[expand]   kv exp", object.type, exp.expected);
-        if (key != exp.ident && exp.expected.indexOf(key) == -1 && _.has(expansion, key)) {
-            kv.unshift(pair);
-            var content = expandObjectKV(kv);
-            object.contents = [ content ];
-            return object;
-        }
-    }
-    */
+    
+    // if (_.has(expansion, object.type)) {
+    //     var exp = expansion[object.type];
+    //     // console.log("[expand]   kv exp", object.type, exp.expected);
+    //     if (key != exp /*&& exp.expected.indexOf(key) == -1*/ && _.has(expansion, key)) {
+    //         kv.unshift(pair);
+    //         var content = expandObjectKV(kv);
+    //         object.contents = [ content ];
+    //         return object;
+    //     }
+    // }
+    
     object[key] = expandValue(value);
     return expandContinuation(object, kv);
 }

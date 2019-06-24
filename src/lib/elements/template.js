@@ -7,8 +7,8 @@ export let paste = {
     render: args => ''
 }
 
-export let template = {
-    name: 'template',
+export let define = {
+    name: 'define',
     key: 'template', 
     defaults: {
         template: '',

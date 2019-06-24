@@ -1,0 +1,98 @@
+---
+unit: test
+name: "Test"
+
+inc:
+
+  - at: @pages
+    add:
+      - page: test
+        name: "Test"
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - section: "One"
+                    contents:
+                      - zone: @test
+
+                  - section: "Two"
+                    contents:
+                      - slots: [ 1, 2, 3, 4 ]
+                        min: 1
+                        max: 1
+                        placeholder:
+                          p: "Zero"
+                        contents:
+                          - zone: @test
+
+                  - section: "Three"
+                    contents:
+                      - each:
+                        template:
+                          - level: "#{level}"
+                            contents:
+                              - item: yes
+                        contents:
+                          - slots: [ 1, 2, 3, 4 ]
+                            min: 1
+                            max: 1
+                            placeholder:
+                              p: "Zero"
+                            contents:
+                              - zone: @test
+
+                  - section: "Four"
+                    contents:
+                      - list:
+                        zebra: true
+                        hr: true
+                        contents:
+                          - each:
+                            template:
+                              - level: "#{level}"
+                                contents:
+                                  - item: yes
+                            contents:
+                              - slots: [ 1, 2, 3, 4 ]
+                                min: 1
+                                max: 1
+                                placeholder:
+                                  p: "Zero"
+                                contents:
+                                  - zone: @test
+
+                  - section: "Five"
+                    contents:
+                      - list:
+                        columns: 2
+                        zebra: true
+                        hr: true
+                        contents:
+                          - each:
+                            template:
+                              - level: "#{level}"
+                                contents:
+                                  - item: yes
+                            contents:
+                              - slots: [ 1, 2, 3, 4 ]
+                                min: 1
+                                max: 1
+                                placeholder:
+                                  p: "Zero"
+                                contents:
+                                  - zone: @test
+
+              - g:
+                contents:
+
+  - at: @test
+    add:
+      - p: "One"
+        level: 1
+
+  - at: @test
+    add:
+      - p: "Two"
+        level: 2

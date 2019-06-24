@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 import { interpolate } from '../util';
 
 export let repeat = {

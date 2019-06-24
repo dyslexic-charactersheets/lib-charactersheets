@@ -1,7 +1,43 @@
-'use strict';
-
 const color = require('color');
 
+import * as _ from 'lodash';
+
+// polyfill for Array.flat and Array.flatMap, which aren't well supported even with Babel
+// cf https://github.com/jonathantneal/array-flat-polyfill
+
+if (!Array.prototype.flat) {
+	Object.defineProperty(Array.prototype, 'flat', {
+		configurable: true,
+		value: function flat () {
+			var depth = isNaN(arguments[0]) ? 1 : Number(arguments[0]);
+
+			return depth ? Array.prototype.reduce.call(this, function (acc, cur) {
+				if (Array.isArray(cur)) {
+					acc.push.apply(acc, flat.call(cur, depth - 1));
+				} else {
+					acc.push(cur);
+				}
+
+				return acc;
+			}, []) : Array.prototype.slice.call(this);
+		},
+		writable: true
+	});
+}
+
+
+if (!Array.prototype.flatMap) {
+	Object.defineProperty(Array.prototype, 'flatMap', {
+		configurable: true,
+		value: function flatMap (callback) {
+            // return Array.prototype.map.apply(this, arguments).flat();
+            var parts = Array.prototype.map.apply(this, arguments);
+            // console.log(parts);
+            return parts.flat();
+		},
+		writable: true
+    });
+}
 
 export function esc(content, newlines = false) {
     content = _.escape(content);
@@ -95,7 +131,8 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
     }
     var attribs = pickAttribs(args, attribKeys);
     // console.log("["+block+" class] Attribs:", attribs);
-    _(attribs).toPairs().each(pair => {
+
+    Object.entries(attribs).forEach(pair => {
         var key = pair[0];
         var value = pair[1];
 
@@ -179,16 +216,18 @@ export function interpolate(template, values) {
 };
 
 
-export function replaceColours(str) {
-    str = str.replace(/#[0-9a-fA-F]{6}/g, c => adjustColour(c));
+export function replaceColours(str, documentColour, accentColour) {
+    // var accentColour = '#a6085e'; // CharacterSheets._current.accentColour
+
+    str = str.replace(/#[0-9a-fA-F]{6}/g, c => adjustColour(c, documentColour));
     str = str.replace(/%23[0-9a-fA-F]{6}/g, c => {
         c = c.replace('%23', '#');
-        c = adjustColour(c);
+        c = adjustColour(c, documentColour);
         c = c.replace('#', '%23');
         return c;
     });
-    str = str.replace(/rgba\(.*?,.*?,.*?,(.*?)\)/g, c => adjustColour(c)); // (c, opacity) => adjustColourRGBA(c, opacity));
-    str = str.replace(/--c-accent/g, CharacterSheets._current.accentColour);
+    str = str.replace(/rgba\(.*?,.*?,.*?,(.*?)\)/g, c => adjustColour(c, documentColour)); // (c, opacity) => adjustColourRGBA(c, opacity));
+    str = str.replace(/--c-accent/g, accentColour);
     str = str.replace(/="#([0-9a-fA-F]{6})"/g, '="%23$1"');
     return str;
 }
@@ -201,10 +240,11 @@ export function adjustColourRGBA(c, opacity) {
     return col2.rgba();
 }
 
-export function adjustColour(c) {
+export function adjustColour(c, documentColour) {
+    // var documentColour = '#102820'; // CharacterSheets._current.documentColour
     try {
         var base = color(c);
-        var col = color(CharacterSheets._current.documentColour);
+        var col = color(documentColour);
 
         const lmin = 16;
         var lightness = base.lightness();
@@ -260,11 +300,13 @@ export function adjustColour(c) {
 }
 
 export function getLabelHeight(args) {
+    if (args === null)
+        return 1;
     // args = registryDefaultArgs(args);
 
     if (args.hasOwnProperty("labelHeight"))
         return args.labelHeight;
-    if (args.context.hasOwnProperty("labelHeight"))
+    if (args.hasOwnProperty("context") && args.context !== null && args.context.hasOwnProperty("labelHeight"))
         return args.context.labelHeight;
 
     switch(args.type) {
@@ -287,7 +329,6 @@ export function getLabelHeight(args) {
                     // if (label == "") break;
                     // return label.split(/\n/).length;
             }
-            return 1;
 
         case 'calc':
             var height = getLabelHeight(args.output);

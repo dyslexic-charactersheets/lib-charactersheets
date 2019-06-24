@@ -7,10 +7,7 @@ loadSystemData([ "common", "pathfinder2" ]);
 
 let registry = new Registry();
 
-
 function CharacterSheets(chardesc) {
-    // TODO parse params
-
     return new Character(chardesc, registry);
 };
 

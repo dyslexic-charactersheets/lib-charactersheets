@@ -1,17 +1,19 @@
-'use strict';
+import * as _ from 'lodash';
+
+import { log, error } from './log';
 
 var contextStack = [];
 
 var regex = new RegExp('^(.*?)_(.*)$', '');
 
-function applyContext(item) {
+export function applyContext(item) {
     if (_.isArray(item)) {
         return _.map(item, applyContext);
     }
 
     var contentsKey = "contents";
-    // console.log("[context] Item", item);
-    // console.log("[context] has type", (_.has(item, "type") ? "yes" : "no"));
+    // log("context", "Item", item);
+    // log("context", "has type:", (_.has(item, "type") ? "yes" : "no"));
 
     // apply context
     if (_.has(item, "type")) {
@@ -22,7 +24,7 @@ function applyContext(item) {
                 context = _.defaults(context, contextStack[i][type]);
             }
         }
-        // console.log("[context] Applying context to", type, context);
+        // log("context", "Applying context to", type, context);
         item = _.defaults(item, context);
 
         switch (type) {
@@ -32,16 +34,16 @@ function applyContext(item) {
         }
     }
 
-    // console.log("[context] has", contentsKey, (_.has(item, "contents") ? "yes" : "no"));
+    // log("context", "has", contentsKey+":", (_.has(item, contentsKey) ? "yes" : "no"));
 
     if (_.has(item, contentsKey)) {
         // extract context
         var contextArgs = {};
-        _(item).toPairs().each(pair => {
-            // console.log("[context] Checking arg", pair[0]);
+        Object.entries(item).forEach(pair => {
+            // log("context", "Checking arg", pair[0]);
             var match = pair[0].match(regex);
             if (match) {
-                // console.log("[context] Found a context arg:", pair[0]);
+                // log("context", "Found a context arg:", pair[0]);
                 var type = match[1];
                 var key = match[2];
                 if (!_.has(contextArgs, type)) contextArgs[type] = {};
@@ -49,7 +51,7 @@ function applyContext(item) {
                 delete item[pair[0]];
             }
         });
-        // console.log("[context] Pushing context", contextArgs);
+        // log("context", "Pushing context", contextArgs);
 
         // recurse
         contextStack.push(contextArgs);
@@ -58,9 +60,4 @@ function applyContext(item) {
     }
 
     return item;
-}
-
-CharacterSheets.applyContext = function (document) {
-    // console.log("[context] Doc", document);
-    return applyContext(document);
 }
