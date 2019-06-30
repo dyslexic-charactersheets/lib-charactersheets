@@ -30,11 +30,12 @@ export let calc = {
                 "content": "="
             }
         ].concat(args.inputs.map(part => {
-            if (_.isString(part)) 
+            if (typeof part == 'string') {
                 return {
                     "type": "span",
                     "content": part
                 };
+            }
             return part;
         }));
         // log("-","Calculation contents", parts);

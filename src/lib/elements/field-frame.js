@@ -72,3 +72,10 @@ export let field_frame_none = {
     }
 }
 
+export let field_frame_circle = {
+    name: 'frame:circle',
+    defaults: {
+        border: 'full'
+    },
+    render: defaultFrameRender
+}

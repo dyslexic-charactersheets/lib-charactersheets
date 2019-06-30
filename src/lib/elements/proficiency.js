@@ -33,7 +33,7 @@ export let action = {
         action: 1,
         contents: [],
     }, 
-    render: args => {
+    render: (args, reg) => {
         var icon = 'action';
         switch(args.action) {
             case 1: icon = 'action'; break;
@@ -47,7 +47,7 @@ export let action = {
             case 'template': icon = 'action-template'; break;
         }
 
-        return render([
+        return reg.render([
             {
                 type: "layout",
                 layout: "level",

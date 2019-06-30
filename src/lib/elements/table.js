@@ -37,10 +37,8 @@ export let table = {
         // rows template
         var rowCallback;
         if (_.isFunction(args.template)) {
-            // log("-","Table row callback: function");
             rowCallback = args.template;
         } else if (Array.isArray(args.template)) {
-            // log("-","Table row callback: elements");
             rowCallback = function(row) {
                 // log("table", "Template cells", args.template);
                 var templateCells = args.template.flatMap(cell => {
@@ -59,16 +57,16 @@ export let table = {
 
                 return templateCells.map((cell, i) => {
                     cell = interpolate(cell, row);
-                    if (_.isNull(cell)) {
+                    if (cell === null) {
                         return '<td></td>';
                     } else {
                         if (_.isString(cell)) cell = { type: "label", label: cell };
                         // log("-","Cell:", cell);
-                        if (!_.has(cell, "type")) {
+                        if (!cell.hasOwnProperty("type")) {
                             return '<td></td>';
                         }
 
-                        var col = args.columns[i];
+                        var col = _.defaults({label: '', legend: ''}, args.columns[i]);
                         // log("-","Cell:", cell, "+", col);
                         var cell = _.defaults({}, cell, col, { type: 'label', label: '' });
                         // log("-","  =", cell);
@@ -78,12 +76,11 @@ export let table = {
                 });
             }
         } else {
-            // log("-","Table row callback: direct");
             rowCallback = function(row) {
                 // log("table", "Table row", row);
                 return row.map(cell => {
                     if (_.isString(cell)) cell = { type: "label", label: cell };
-                    if (!_.has(cell, "type")) return  '<td></td>';
+                    if (!cell.hasOwnProperty("type")) return  '<td></td>';
                     return `<td>${reg.renderItem(cell)}</td>`;
                 });
             }

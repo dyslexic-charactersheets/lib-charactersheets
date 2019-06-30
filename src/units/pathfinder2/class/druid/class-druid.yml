@@ -1,0 +1,124 @@
+unit: class/druid
+in: class
+name: "Druid"
+
+form:
+  - select: druid-order
+    name: "Druid Order"
+    max: 1
+  - select: feat-cleric
+    name: "Cleric Feats"
+    max: 8
+    levels: [ 2, 4, 6, 8, 10, 14, 16, 18, 20 ]
+
+inc:
+  - at: @key-ability-field
+    replace:
+      - field:
+        label: "WIS"
+        underlay: "WIS"
+        ref: WIS
+
+  - at: @pages
+    add:
+      - page: cleric
+        name: "Cleric"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: druid
+                  - h2: "Druid"
+                  - section: "Order"
+                    primary: true
+                    contents:
+                      - zone: @druid-order
+                        contents:
+                          - field: druid-order
+                            frame: none
+                            size: large
+                            width: stretch
+                            align: center
+                            merge-bottom: true
+                          - hr:
+                          - h5: "Order Power"
+                          - article:
+                            header:
+                              - field: druid-feat-level-#{level}
+                                width: stretch
+                                frame: none
+                                align: left
+                            contents:
+                              - field: druid-feat-level-#{level}-details
+                                width: stretch
+                                align: left
+                                frame: none
+                                repeat: 2
+                          - hr:
+                          
+
+                  - section: "Spells"
+                    contents:
+                      - spells-table:
+                        flip: true
+
+                  # ...
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+
+                  - section: "Cantrips"
+                    contents:
+                      - spells-list:
+                        min: 0
+                        max: 0
+                        spells: 5
+
+                  - section: "Spells"
+                    contents:
+                      - spells-list:
+                        min: 1
+                        max: 9
+                        spells: 4
+                        # special: "Domain"
+
+                  - section: "Druid Feats"
+                    contents:
+                      - list:
+                        zebra: true
+                        columns: 2
+                        flowv: true
+                        hr: true
+                        contents:
+                          - each:
+                            template:
+                              - level: "#{level}"
+                                contents:
+                                  - item:
+                            contents:
+                              - slots: [ 2, 4, 6, 8, 10, 14, 16, 18, 20 ]
+                                min: 1
+                                max: 1
+                                placeholder:
+                                  article:
+                                  header:
+                                    - field: druid-feat-level-#{level}
+                                      width: stretch
+                                      frame: none
+                                      align: left
+                                  contents:
+                                    - field: druid-feat-level-#{level}-details
+                                      width: stretch
+                                      align: left
+                                      frame: none
+                                      repeat: 2
+                                contents:
+                                  - zone: @druid-feats
+                  - tail:
+                  - spacer:

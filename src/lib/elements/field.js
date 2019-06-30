@@ -21,7 +21,7 @@ export let field = {
         var id = elementID('field', args.id);
         var cls = elementClass('field', null, args, 
             [ "icon", "ref", "misc", "temp" ],
-            { "frame": "normal", "width": "medium", "align": "centre", "size": "medium", "control": "input", "shift": 0, "lp": 0 });
+            { "frame": "normal", "width": "medium", "align": "centre", "size": "medium", "control": "input", "shift": 0, "lp": 0, "border": "bottom" });
 
         var frameArgs = _.defaults({ type: 'frame:'+args.frame }, args);
         var frame = reg.renderItem(frameArgs);
@@ -73,7 +73,7 @@ export function fieldDefaults(args, reg) {
 };
 
 export function fieldIdent(fieldid = '', partid = '') {
-    if (fieldid == '' || _.isNull(fieldid)) {
+    if (fieldid == '' || fieldid === null) {
         return { id: '', name: '', for: '', ident: '' };
     }
 
@@ -108,8 +108,8 @@ export function fieldRadioIdent(fieldid = '', value = '') {
 export function fieldInner(args, reg) {
     args = _.defaults({ type: 'control:'+args.control }, args);
     var control = reg.renderItem(args);
-    var icon = (_.has(args, "icon") && !!args.icon && _.isString(args.icon) && args.control != "icon") ? `<i class='icon icon_${args.icon}'></i>` : '';
-    var unit = (_.has(args, "unit") && !!args.unit) ? `<label class='field__unit'>${args.unit}</label>` : '';
+    var icon = (args.hasOwnProperty("icon") && !!args.icon && _.isString(args.icon) && args.control != "icon") ? `<i class='icon icon_${args.icon}'></i>` : '';
+    var unit = (args.hasOwnProperty("unit") && !!args.unit) ? `<label class='field__unit'>${args.unit}</label>` : '';
 
     var boxargs = _.pick(args, [ 'icon', 'border' ]);
     var inner;

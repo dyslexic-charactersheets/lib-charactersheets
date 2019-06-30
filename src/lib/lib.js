@@ -3,7 +3,7 @@ import {Character} from './classes/Character';
 import {System, loadSystemData} from './classes/System';
 
 // start this first, it's the slow bit
-loadSystemData([ "common", "pathfinder2" ]);
+loadSystemData([ "common", "pathfinder2", "dnd5e" ]);
 
 let registry = new Registry();
 

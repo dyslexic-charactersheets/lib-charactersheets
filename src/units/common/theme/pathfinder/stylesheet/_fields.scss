@@ -26,6 +26,46 @@
             }
         }
     }
+	
+    &.field--border_circle {
+        $diameter: 2.7rem;
+        $border: 0.2rem;
+
+        width: $diameter + 2 * $border;
+        flex: 0 0 auto;
+        
+		.field__frame {
+            width: $diameter + 2 * $border;
+		}
+
+        .field__box, .field__box.field__box--border_full {
+            width: $diameter;
+            height: $diameter;
+            border-radius: $diameter; // easier to overstate than calculate
+            border-style: solid;
+            border-width: $border;
+            border-color: $colour_light;
+        }
+
+		.field__control {
+			width: $diameter;
+            height: $diameter;
+            
+            u {
+                height: $diameter;
+                line-height: $diameter;
+            }
+		}
+
+		input {
+			width: $diameter !important;
+			height: $diameter !important;
+			line-height: $diameter !important;
+			text-align: center;
+			padding: 0;
+			margin: 0;
+		}
+    }
 }
 
 .field__box {
@@ -226,14 +266,29 @@ article header .field__box {
     $digit: 0.885rem;
     width: auto;
 
+    + .field.field--control_money {
+        margin-top: -2pt;
+    }
+
     .field__box {
-        border-right: 0.5pt solid $colour_main;
         border-bottom: 0.5pt solid $colour_main;
-        border-radius: 2pt;
+        justify-content: flex-end;
+
+        &.field__box--border_full {
+            border-top: 0 none;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-bottom-width: 0.75pt;
+
+            .field__overlay {
+                margin-right: -0.75pt;
+            }
+        }
     }
 
     .field__control {
-        padding-right: 1pt;
+        position: relative;
+        flex: 0 0 auto;
     }
 
     input {
@@ -242,19 +297,22 @@ article header .field__box {
         letter-spacing: 2.8pt;
         text-align: right;
         max-width: none;
+        padding-right: 0;
+        margin-right: -2pt;
     }
 
     .field__overlay {
         min-width: 2rem;
         padding-right: 0;
+        text-align: center;
     }
 
     .field__tick {
         position: absolute;
         top: auto;
         bottom: 0;
-        height: 6pt;
-        line-height: 6pt;
+        height: 1.5rem;
+        line-height: 1.5rem;
         border-right: 1pt solid $colour_light;
     }
 
@@ -263,12 +321,19 @@ article header .field__box {
             width: 0.4rem + $digit*$i;
         }
 
-        .field__tick-#{$i} { right: 0.4rem+$digit*$i; }
+        // .field__tick-#{$i} { left: 0.25rem+$digit*$i; }
+        .field__tick-#{$i} { right: $digit*$i - 0.1rem; }
+    }
+
+    .field__shift {
+        display: inline-block;
+        background: $colour_light;
+        height: 1.5rem;
     }
 
     @for $i from 1 through 4 {
-        &.field--shift_#{$i} {
-            padding-right: $digit*$i;
+        .field__shift--shift_#{$i} {
+            width: $digit*$i;
         }
     }
 }

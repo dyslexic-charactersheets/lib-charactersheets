@@ -37,6 +37,8 @@ var expansion = {
     slots: 'slots',
     spacer: '',
     span: 'content',
+    'spells-list': '',
+    'spells-table': '',
     table: '',
     tail: '',
     define: 'template',

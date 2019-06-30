@@ -30,7 +30,7 @@ import { section } from '../elements/section';
 import { slots } from '../elements/slots';
 import { spacer } from '../elements/spacer';
 import { span } from '../elements/span';
-import { spells_list } from '../elements/spells-list';
+import { spells_list, spells_table } from '../elements/spells-list';
 import { table } from '../elements/table';
 import { define, paste } from '../elements/template';
 import { zone } from '../elements/zone';
@@ -41,7 +41,8 @@ import {
 	field_frame_none,
 	field_frame_left,
 	field_frame_right,
-	field_frame_h_label
+	field_frame_h_label,
+	field_frame_circle,
 } from '../elements/field-frame';
 import { 
 	field_control_input,
@@ -53,6 +54,7 @@ import {
 	field_control_checkgrid,
 	field_control_compound,
 	field_control_progression,
+	field_control_money,
 	field_control_proficiency,
 	field_control_proficiency_icon,
 	field_control_icon,
@@ -94,6 +96,7 @@ export class Registry {
 			spacer,
 			span,
 			spells_list,
+			spells_table,
 			table,
 			define, paste,
 			unit,
@@ -105,6 +108,7 @@ export class Registry {
 			field_frame_left,
 			field_frame_right,
 			field_frame_h_label,
+			field_frame_circle,
 			field_control_input,
 			field_control_speed,
 			field_control_alignment,
@@ -114,6 +118,7 @@ export class Registry {
 			field_control_checkgrid,
 			field_control_compound,
 			field_control_progression,
+			field_control_money,
 			field_control_proficiency,
 			field_control_proficiency_icon,
 			field_control_icon,
@@ -194,11 +199,11 @@ export class Registry {
 }
 
 export function mergeBottom(element) {
-    if (_.isArray(element)) {
+    if (Array.isArray(element)) {
         element[element.length - 1] = mergeBottom(element[element.length - 1]);
     }
 
-    else if (_.isObject(element)) {
+    else if (typeof element == 'object') {
         switch (element.type) {
             // horizontal elements don't 
             case 'calc':

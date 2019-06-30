@@ -13,6 +13,8 @@ const unitExpander = require('./unitExpander');
 
 const dataURLs = require('./dataURLs');
 
+const ERR_LEEWAY = 3;
+
 var _units = {};
 var _assets = {};
 var _allAssets = {};
@@ -115,7 +117,7 @@ module.exports = {
                     // console.log(excerpt);
                 }
 
-                reject();
+                // reject();
                 return;
             }
 

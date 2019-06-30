@@ -8,6 +8,7 @@ var defaultControlRender = args => {
         align: "center",
         width: "medium",
         editable: true,
+        prefix: false,
         overlay: false,
         underlay: false,
     });
@@ -20,19 +21,20 @@ var defaultControlRender = args => {
     
     var underlay = args.underlay ? `<u>${args.underlay}</u>`: '';
 
+    var prefix = args.prefix ? `<span class='field__overlay'>${args.prefix}</span>` : '';
     var overlay = args.overlay ? `<span class='field__overlay'>${args.overlay}</span>` : '';
 
-    return `<div${cls}>${input}${underlay}</div>${overlay}`;
+    return `<div${cls}>${prefix}${input}${underlay}</div>${overlay}`;
 };
 
 var renderCompoundControl = (args, reg) => {
     var parts = args.parts;
 
     var outputParts = parts.map(part => {
-        if (_.isString(part)) 
+        if (typeof part == 'string')
             return part;
 
-        if (_.has(part, "type") && part.type != "field")
+        if (part.hasOwnProperty("type") && part.type != "field")
             return reg.renderItem(part);
         
         part = fieldDefaults(part, reg);
@@ -402,6 +404,7 @@ export let field_control_money = {
     render: args => {
         var unit = '';
         switch(args.denomination) {
+            case 'platinum': unit = 'pp'; break;
             case 'gold': unit = 'gp'; break;
             case 'silver': unit = 'sp'; break;
             case 'copper': unit = 'cp'; break;
@@ -417,8 +420,9 @@ export let field_control_money = {
             var decimal = (i == args.decimal) ? ' field__tick--decimal' : '';
             ticks.push(`<label class='field__tick field__tick-${i}${decimal}'></label>`);
         }
+        var shift = args.shift > 0 ? `<div class='field__shift field__shift--shift_${args.shift}'></div>` : '';
 
-        return `<div${cls}><input${ident.ident}${value} size='${args.digits}'>${ticks.join("")}</div>${overlay}`;
+        return `<div${cls}><input${ident.ident}${value} size='${args.digits}'>${ticks.join("")}</div>${shift}${overlay}`;
     }
 }
 

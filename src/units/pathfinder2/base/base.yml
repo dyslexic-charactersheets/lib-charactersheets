@@ -2,6 +2,29 @@
 unit: base
 name: "Pathfinder 2nd Edition"
 
+form:
+  - select: ancestry
+    name: "Ancestry"
+    max: 1
+  - select: background
+    name: "Background"
+    max: 1
+  - select: class
+    name: "Class"
+    max: 1
+  - select: archetype
+    name: "Archetype"
+    max: 3
+  - option: build
+    name: "Build a character"
+    unit: option/build
+  - option: minis
+    name: "Map Minis"
+    unit: option/minis
+  - option: permission
+    name: "Permission to Print"
+    unit: option/permission
+
 assets:
   - images/2e-logo.png
 
@@ -83,57 +106,49 @@ inc:
                           - field: alignment
                             frame: none
                             control: alignment
-                            
-                  # - section: "Abilities"
-                  #   contents:
-                  #     - table:
-                  #       # collapse: true
-                  #       width: stretch
-                  #       columns:
-                  #         - align: left
-                  #         - "Ability\nScore"
-                  #         - "Ability\nModifier"
-                  #         - label: "Key\nAbility"
-                  #           colspan: 2
-                  #         - "Ability\nModifier"
-                  #         - "Ability\nScore"
-                  #         - align: right
-                  #       rows:
-                  #         - lability: "Strength"
-                  #           lshort: "STR"
-                  #           rability: "Intelligence"
-                  #           rshort: "INT"
-                  #         - lability: "Dexterity"
-                  #           lshort: "DEX"
-                  #           rability: "Wisdom"
-                  #           rshort: "WIS"
-                  #         - lability: "Constitution"
-                  #           lshort: "CON"
-                  #           rability: "Charisma"
-                  #           rshort: "CHA"
-                  #       field_frame: none
-                  #       template:
-                  #         - h6: "#{lability}"
-                  #           align: right
-                  #         - field: "#{lshort}-score"
-                  #         - field: "#{lshort}"
-                  #           border: full
-                  #           underlay: "#{lshort}"
-                  #           width: large
-                  #         - field: key-ability
-                  #           control: radio
-                  #           value: "#{lshort}"
 
-                  #         - field: key-ability
-                  #           control: radio
-                  #           value: "#{rshort}"
-                  #         - field: "#{rshort}"
-                  #           border: full
-                  #           underlay: "#{rshort}"
-                  #           width: large
-                  #         - field: "#{rshort}-score"
-                  #         - h6: "#{rability}"
-                  #           align: left
+                  - hr:
+                  - h5: "Abilities"
+                  - layout: 6e
+                    gutter: none
+                    contents:
+                      - repeat: 6
+                        rows:
+                          - name: "Strength"
+                            short: "STR"
+                          - name: "Dexterity"
+                            short: "DEX"
+                          - name: "Constitution"
+                            short: "CON"
+                          - name: "Intelligence"
+                            short: "INT"
+                          - name: "Wisdom"
+                            short: "WIS"
+                          - name: "Charisma"
+                            short: "CHA"
+                        contents:
+                          - g:
+                            valign: top
+                            contents:
+                              - row: center
+                                contents:
+                                  - spacer:
+                                  - field: "#{short}"
+                                    label: "#{name}"
+                                    frame: circle
+                                    size: huge
+                                    underlay: "#{short}"
+                                    eq: "(%{#{short}-score}-10)/2"
+                                  - spacer:
+                              - row: center
+                                contents:
+                                  - spacer:
+                                  - field: "#{short}-score"
+                                    # width: small
+                                    frame: none
+                                  - spacer:
+                  - p: "Ability Modifier = (Ability Score - 10) &divide; 2"
+                    align: left
 
                   - tail:
               - g:
@@ -260,12 +275,13 @@ inc:
                         label: "Specialisation"
                         width: stretch
                         align: left
-                      - h4: "Archetypes"
+                      - h5: "Archetypes"
                       - list:
                         collapse: true
                         contents:
                           - repeat: 3
                             field_frame: none
+                            merge-bottom: true
                             contents:
                               - row:
                                 contents:
@@ -280,73 +296,9 @@ inc:
                                       - control: checkbox
                                       - control: checkbox
                                       - control: checkbox
-                  - hr:
-                    swash: true
-                  - spacer:
 
-
-      - page: skills
-        name: "Skills"
-        order: 5
-        flex: true
-        contents:
-          - layout: 2l
-            contents:
-              - g:
-                contents:
-                  - section: "Attributes"
-                    id: attributes
-                    contents:
-                      - table:
-                        collapse: true
-                        width: stretch
-                        columns:
-                          - align: left
-                          - "Ability\nScore"
-                          - label: "Ability\nModifier"
-                            icon: true
-                          - "Key\nAbility"
-                          - "Temporary\nAdjustment"
-                        rows:
-                          - ability: "Strength"
-                            short: "STR"
-                          - ability: "Dexterity"
-                            short: "DEX"
-                          - ability: "Constitution"
-                            short: "CON"
-                          - ability: "Intelligence"
-                            short: "INT"
-                          - ability: "Wisdom"
-                            short: "WIS"
-                          - ability: "Charisma"
-                            short: "CHA"
-                        field_frame: none
-                        template:
-                          - h6: "#{ability}"
-                          - field: "#{short}-score"
-                            # border: full
-                          - field: "#{short}"
-                            border: full
-                            icon: dc
-                            underlay: "#{short}"
-                          - field: key-ability
-                            control: radio
-                            value: "#{short}"
-                          - field: "#{short}-temp"
-                            temp: true
-                      - hr:
-                      - calc:
-                        inline: true
-                        output:
-                          label: "Ability\nModifier"
-                        inputs:
-                          - "("
-                          - label: "Ability\nScore"
-                          - "- 10) &divide; 2"
-
-                  - section: "Proficiency"
-                    id: proficiency
-                    contents:
+                      # - hr:
+                      - h5: "Proficiency"
                       - row: split
                         valign: top
                         contents:
@@ -401,24 +353,20 @@ inc:
                               - label: "Level\n+8"
                                 align: center
 
-                      - list:
-                        zebra: true
-                        collapse: true
-                        merge-bottom: true
-                        field_frame: none
-                        contents:
-                          - repeat: 11
-                            contents:
-                              - row:
-                                contents:
-                                  - field: "proficiency-#{i}-name"
-                                    frame: none
-                                    width: stretch
-                                    align: left
-                                  - field: "proficiency-#{i}-value"
-                                    frame: none
-                                    control: proficiency
-                      - spacer:
+                  - hr:
+                    swash: true
+                  - spacer:
+
+
+      - page: skills
+        name: "Skills"
+        order: 5
+        flex: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
 
                   - section: "General feats"
                     id: general-feats
@@ -455,6 +403,69 @@ inc:
                                 contents:
                                   - zone: @general-feats
 
+                  - section: "Inventory"
+                    contents:
+                      - table:
+                        repeat: 16
+                        zebra: true
+                        collapse: true
+                        field_frame: none
+                        columns:
+                          -
+                          - label: "Value"
+                          - label: "Weight"
+                        template:
+                          - field: inventory-#{i}
+                            width: stretch
+                          - field: inventory-#{i}-value
+                          - field: inventory-#{i}-weight
+                      - g:
+                        contents:
+                          - field: weight-total
+                            frame: left
+                            label: "Total weight"
+                            control: weight
+
+                      - hr:
+                      # - h4: "Money"
+                      - g:
+                        contents:
+                          - field: money-platinum
+                            frame: left
+                            control: money
+                            label: "Platinum"
+                            denomination: platinum
+                            digits: 7
+                            shift: 3
+                          - field: money-gold
+                            frame: left
+                            control: money
+                            label: "Gold"
+                            denomination: gold
+                            digits: 8
+                            shift: 2
+                          - field: money-silver
+                            frame: left
+                            control: money
+                            label: "Silver"
+                            denomination: silver
+                            digits: 9
+                            shift: 1
+                          - field: money-copper
+                            frame: left
+                            control: money
+                            label: "Copper"
+                            denomination: copper
+                            digits: 10
+                          - field: money-total
+                            frame: left
+                            output: 'true'
+                            control: money
+                            legend: "Total"
+                            denomination: copper
+                            digits: 10
+                            decimal: 1
+
                   - section: "Languages"
                     id: languages
                     contents:
@@ -464,6 +475,7 @@ inc:
                         align: left
                         width: stretch
                         merge-bottom: true
+
                   - tail:
 
               - g:
@@ -486,63 +498,65 @@ inc:
                           - "Feats\nMisc"
                           - "Armour\nCheck\nPenalty"
                         rows:
-                          - skill: "Acrobatics"
-                            ability: "DEX"
-                            acp: true
-                          - skill: "Arcana"
-                            ability: "INT"
-                            acp: false
-                          - skill: "Athletics"
-                            ability: "STR"
-                            acp: true
-                          - skill: "Crafting"
-                            ability: "INT"
-                            acp: false
-                          - skill: "Deception"
-                            ability: "CHA"
-                            acp: false
-                          - skill: "Intimidation"
-                            ability: "CHA"
-                            acp: false
-                          - skill: "Medicine"
-                            ability: "WIS"
-                            acp: false
-                          - skill: "Nature"
-                            ability: "WIS"
-                            acp: false
-                          - skill: "Occultism"
-                            ability: "INT"
-                            acp: false
-                          - skill: "Performance"
-                            ability: "CHA"
-                            acp: false
-                          - skill: "Religion"
-                            ability: "WIS"
-                            acp: false
-                          - skill: "Society"
-                            ability: "INT"
-                            acp: false
-                          - skill: "Stealth"
-                            ability: "DEX"
-                            acp: true
-                          - skill: "Survival"
-                            ability: "WIS"
-                            acp: false
-                          - skill: "Thievery"
-                            ability: "DEX"
-                            acp: true
-                          - skill: "Lore"
-                            ability: "INT"
-                            acp: false
-                          - skill: ''
-                            ability: ''
-                            acp: false
-                          - skill: ''
-                            ability: ''
-                            acp: false
-                          # - skill: ''
-                          #   ability: ''
-                          #   acp: false
+                          - zone: @skills
+                            contents:
+                              - skill: "Acrobatics"
+                                ability: "DEX"
+                                acp: true
+                              - skill: "Arcana"
+                                ability: "INT"
+                                acp: false
+                              - skill: "Athletics"
+                                ability: "STR"
+                                acp: true
+                              - skill: "Crafting"
+                                ability: "INT"
+                                acp: false
+                              - skill: "Deception"
+                                ability: "CHA"
+                                acp: false
+                              - skill: "Intimidation"
+                                ability: "CHA"
+                                acp: false
+                              - skill: "Medicine"
+                                ability: "WIS"
+                                acp: false
+                              - skill: "Nature"
+                                ability: "WIS"
+                                acp: false
+                              - skill: "Occultism"
+                                ability: "INT"
+                                acp: false
+                              - skill: "Performance"
+                                ability: "CHA"
+                                acp: false
+                              - skill: "Religion"
+                                ability: "WIS"
+                                acp: false
+                              - skill: "Society"
+                                ability: "INT"
+                                acp: false
+                              - skill: "Stealth"
+                                ability: "DEX"
+                                acp: true
+                              - skill: "Survival"
+                                ability: "WIS"
+                                acp: false
+                              - skill: "Thievery"
+                                ability: "DEX"
+                                acp: true
+                              - skill: "Lore"
+                                ability: "INT"
+                                acp: false
+                              - skill: ''
+                                ability: ''
+                                acp: false
+                              - skill: ''
+                                ability: ''
+                                acp: false
+                              - skill: ''
+                                ability: ''
+                                acp: false
                         template:
                           - h6: "#{skill}"
                           - field: "#{skill}-assurance"
@@ -569,20 +583,22 @@ inc:
                       - layout: 2e
                         contents:
                           - level: 7
-                            span: "Master in skills"
+                            contents:
+                              - span: "Master in skills"
                           - level: 15
-                            span: "Legendary in skills"
+                            contents:
+                              - span: "Legendary in skills"
                       - hr:
                       - row:
                         contents:
                           - calc:
-                            equal: '#{WIS}+#{perception-proficiency}+#{perception-item-bonus}+#{perception-misc}'
                             output:
                               field: perception
-                              frame: left
+                              # frame: left
                               icon: bonus
-                              label: "Perception"
+                              legend: "Perception"
                               width: large
+                              eq: '%{WIS}+%{perception-proficiency}+%{perception-item-bonus}+%{perception-misc}'
                             inputs:
                               - field:
                                 ref: "WIS"
@@ -615,12 +631,14 @@ inc:
                             label: "Scent"
                       - field: perception-other
                         label: "Conditional"
+                        # frame: none
                         align: left
-                        # repeat: 2
+                        repeat: 2
                         width: stretch
                         merge-bottom: true
                   - section: "Skill feats"
                     id: skill-feats
+                    flex: gargantuan
                     contents:
                       - list:
                         columns: 2
@@ -634,7 +652,7 @@ inc:
                                 contents:
                                   - item: yes
                             contents:
-                              - slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, "" ]
+                              - slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
                                 min: 1
                                 max: 1
                                 placeholder:
@@ -670,13 +688,13 @@ inc:
                       - row:
                         contents:
                           - calc:
-                            equal: '#{#{key-ability}}+#{level}+#{class-dc-item-bonus}'
                             output:
                               field: class-dc
                               legend: "Class DC"
                               underlay: DC
                               width: large
                               icon: dc
+                              eq: '%{#{key-ability}}+%{level}+%{class-dc-item-bonus}'
                             inputs:
                               - zone: @key-ability-field
                                 contents:
@@ -773,7 +791,6 @@ inc:
                             ability: WIS
                         template:
                           - calc:
-                            equal: '#{#{ability}}+#{#{save}-proficiency}+#{#{save}-item-bonus}+#{#{save}-misc}'
                             output:
                               field: "#{save}"
                               legend: "#{legend}"
@@ -782,6 +799,7 @@ inc:
                               width: large
                               underlay: "#{short}"
                               merge-top: true
+                              eq: '%{#{ability}}+%{#{save}-proficiency}+%{#{save}-item-bonus}+%{#{save}-misc}'
                             inputs:
                               - field:
                                 frame: h-label
@@ -903,7 +921,7 @@ inc:
                                     width: stretch
                                     align: left
                                     merge-bottom: true
-                      
+
                           - layout: 2e
                             contents:
                               - row:
@@ -996,13 +1014,13 @@ inc:
                         layout: split
                         contents:
                           - calc:
-                            equal: '#{hp-ancestry}+((#{hp-class}+#{CON})*#{level})'
                             output:
                               field: hp
                               legend: "Hit Points"
                               icon: hp
                               overlay: hp
                               width: large
+                              eq: '%{hp-ancestry}+((%{hp-class}+%{CON})*%{level})'
                             inputs:
                               - field: hp-ancestry
                                 label: "Ancestry"
@@ -1054,88 +1072,142 @@ inc:
                             overlay: hp
                             width: huge
 
-                      - h4: "Effects"
-                      - list:
-                        columns: 2
-                        collapse: true
-                        merge-bottom: true
-                        contents:
-                          - repeat: 4
-                            contents:
-                              - row:
-                                unlabelled: true
-                                contents:
-                                  - field: effect-#{i}
-                                    width: stretch
-                                    frame: none
-                                    align: left
-                                    temp: true
-                                  - field: effect-#{i}-progress
-                                    control: progression
-                                    parts:
-                                      - control: checkbox
-                                      - control: checkbox
-                                      - control: checkbox
-                                  - field: effect-#{i}-nrounds
-                                    label: "Rounds"
-                                    underlay: "#"
-                                    overlay: "rds"
-                                  - field: effect-#{i}-rounds
-                                    frame: none
-                                    control: checkgrid
-                                    max: 10
-                                    depth: 3
+                      # - h4: "Effects"
+                      # - list:
+                      #   columns: 2
+                      #   collapse: true
+                      #   merge-bottom: true
+                      #   contents:
+                      #     - repeat: 4
+                      #       contents:
+                      #         - row:
+                      #           unlabelled: true
+                      #           contents:
+                      #             - field: effect-#{i}
+                      #               width: stretch
+                      #               frame: none
+                      #               align: left
+                      #               temp: true
+                      #             - field: effect-#{i}-progress
+                      #               control: progression
+                      #               parts:
+                      #                 - control: checkbox
+                      #                 - control: checkbox
+                      #                 - control: checkbox
+                      #             - field: effect-#{i}-nrounds
+                      #               label: "Rounds"
+                      #               underlay: "#"
+                      #               overlay: "rds"
+                      #             - field: effect-#{i}-rounds
+                      #               frame: none
+                      #               control: checkgrid
+                      #               max: 10
+                      #               depth: 3
 
                   - section: "Armour"
                     id: armour
                     contents:
-                      - table:
-                        columns:
-                          -
-                          -
-                          -
-                          - "DEX"
-                          - "Proficiency"
-                          - "Armour Bonus"
-                          - "Shield Bonus"
-                          - "Magic / Items"
-                          - "Misc"
-                        rows:
-                          - id: ac
-                            legend: "Armour\nClass"
-                            underlay: "AC"
-                          - id: tac
-                            legend: "Touch AC"
-                            underlay: "TAC"
-                        template:
-                          - calc:
-                            equal: '10+#{DEX}+#{#{id}-proficiency}+#{armour-bonus}+#{shield-bonus}'
-                            output:
-                              field: #{id}
-                              legend: "#{legend}"
-                              icon: "#{id}"
-                              border: full
-                              width: large
-                              underlay: "#{underlay}"
-                              merge-top: true
-                            inputs:
-                              - span: 10 +
-                              - field:
-                                ref: "DEX"
-                                underlay: "DEX"
-                              - field: #{id}-proficiency
-                                control: proficiency
-                              - field: armour-bonus
-                              - field: shield-bonus
-                              - field: ac-items
-                              - field: ac-misc
-                                misc: true
+                      - calc:
+                        output:
+                          field: ac
+                          legend: "Armour Class"
+                          icon: ac
+                          border: full
+                          width: large
+                          underlay: "AC"
+                          merge-top: true
+                          eq: '10+%{DEX}+%{ac-proficiency}+%{armour-bonus}+%{shield-bonus}'
+                        inputs:
+                          - span: 10 +
+                          - field:
+                            ref: "DEX"
+                            underlay: "DEX"
+                            label: "DEX"
+                          - field: ac-proficiency
+                            control: proficiency
+                            label: "Proficiency"
+                          - field: armour-bonus
+                            label: "Armour"
+                          - field: shield-bonus
+                            label: "Shield"
+                          - field: ac-items
+                            label: "Items"
+                          - field: ac-misc
+                            label: "Misc"
+                            misc: true
                       - field: ac-conditional
                         label: "Conditional"
                         width: stretch
                         merge-bottom: true
                         repeat: 3
-                  - tail:
+
+                  - layout: 2e
+                    contents:
+                      - section: "Armour"
+                        contents:
+                          - row:
+                            layout: split
+                            contents:
+                              - field: armour
+                                frame: none
+                                size: large
+                                width: stretch
+                              - field: armour-ac
+                                label: "AC Bonus"
+                                icon: ac
+                                border: full
+                          - row:
+                            layout: split
+                            contents:
+                              - field: armour-bulk
+                                label: "Bulk"
+                              - field: armour-max-dex
+                                label: "Max DEX\nto AC"
+                              # - field: armour-speed-penalty
+                              #   label: "Speed\nPenalty"
+                              #   control: speed
+                              - field: armour-acp
+                                label: "Armour\nCheck\nPenalty"
+                          - field: armour-properties
+                            width: stretch
+                            label: "Properties"
+                            repeat: 3
+                            merge-bottom: true
+                          - tail:
+                      - section: "Shield"
+                        contents:
+                          - row:
+                            layout: split
+                            contents:
+                              - field: shield
+                                frame: none
+                                size: large
+                                width: stretch
+                              - field: shield-ac
+                                label: "AC Bonus"
+                                icon: ac
+                                border: full
+                          - row:
+                            layout: split
+                            contents:
+                              - field: shield-bulk
+                                label: "Bulk"
+                                width: large
+                              # - field: armour-max-dex
+                              #   label: "Max DEX\nto AC"
+                              # - field: armour-speed-penalty
+                              #   label: "Speed\nPenalty"
+                              #   control: speed
+                              - spacer:
+                              - field: armour-acp
+                                label: "Armour\nCheck\nPenalty"
+                                width: large
+                          - field: armour-properties
+                            width: stretch
+                            label: "Properties"
+                            repeat: 3
+                            merge-bottom: true
+                          - tail:
 
               - g:
                 contents:
@@ -1169,234 +1241,3 @@ inc:
                             contents:
                               - zone: @actions
                   - tail:
-
-      - page: inventory
-        name: "Inventory"
-        flex: true
-        order: 10
-        contents:
-          - layout: 2l
-            flex: true
-            contents:
-              - g:
-                contents:
-                  - section: "Inventory"
-                    id: inventory
-                    contents:
-                      - list:
-                        zebra: true
-                        collapse: true
-                        field_frame: none
-                        contents:
-                          - repeat: 25
-                            contents:
-                              - row:
-                                contents:
-                                  - field: inventory-#{i}
-                                    width: stretch
-                                  - field: inventory-#{i}-value
-                                  - field: inventory-#{i}-weight
-                          - repeat: 4
-                            contents:
-                              - row:
-                                contents:
-                                  - field: expendable-#{i}
-                                    width: stretch
-                                  - field: expendable-#{i}-count
-                                    frame: none
-                                    control: checkgrid
-                                    max: 20
-                                    depth: 3
-                      - g:
-                        contents:
-                          - field: weight-total
-                            frame: left
-                            label: "Total weight"
-                            # output: true
-                            control: weight
-                            # width: huge
-                  - section: "Money"
-                    id: money
-                    contents:
-                      - field: money-copper
-                        frame: left
-                        control: money
-                        label: "Copper"
-                        denomination: copper
-                        digits: 7
-                      - field: money-silver
-                        frame: left
-                        control: money
-                        label: "Silver"
-                        denomination: silver
-                        digits: 7
-                        shift: 1
-                      - field: money-gold
-                        frame: left
-                        control: money
-                        label: "Gold"
-                        denomination: gold
-                        digits: 7
-                        shift: 2
-                      - field: money-total
-                        frame: left
-                        output: 'true'
-                        control: money
-                        label: "Total"
-                        denomination: copper
-                        digits: 10
-                        decimal: 1
-                  - section: "Wands"
-                    id: wands
-                    contents:
-                      - list:
-                        zebra: true
-                        hr: true
-                        flex: true
-                        contents:
-                          - repeat: 3
-                            contents:
-                              - g:
-                                contents:
-                                  - field: wand-#{i}
-                                    frame: none
-                                    width: stretch
-                                    repeat: 2
-                                    merge-bottom: true
-                  - tail:
-              - g:
-                contents:
-                  - layout: 2e
-                    contents:
-                      - g:
-                        contents:
-                          - section: "Armour"
-                            contents:
-                              - field: armour
-                                frame: none
-                                size: large
-                                width: stretch
-                              - row:
-                                layout: split
-                                contents:
-                                  - field: armour-ac
-                                    label: "AC Bonus"
-                                    width: large
-                                    icon: ac
-                                  - field: armour-ac
-                                    label: "TAC Bonus"
-                                    width: large
-                                    icon: tac
-                                  - field: armour-bulk
-                                    label: "Bulk"
-                              - row:
-                                layout: split
-                                contents:
-                                  - field: armour-max-dex
-                                    label: "Max DEX\nto AC"
-                                  - field: armour-speed-penalty
-                                    label: "Speed\nPenalty"
-                                    control: speed
-                                  - field: armour-acp
-                                    label: "Armour\nCheck\nPenalty"
-                          - section: "Shield"
-                            contents:
-                              - field: shield
-                                frame: none
-                                size: large
-                                width: stretch
-                              - row:
-                                layout: split
-                                contents:
-                                  - field: shield-ac
-                                    label: "AC Bonus"
-                                    width: large
-                                    icon: ac
-                                  - field: shield-tac
-                                    label: "TAC Bonus"
-                                    width: large
-                                    icon: tac
-                                  - field: shield-bulk
-                                    label: "Bulk"
-                              - row:
-                                layout: split
-                                contents:
-                                  - field: armour-max-dex
-                                    label: "Max DEX\nto AC"
-                                  - field: armour-speed-penalty
-                                    label: "Speed\nPenalty"
-                                    control: speed
-                                  - field: armour-acp
-                                    label: "Armour\nCheck\nPenalty"
-                          - hr:
-                            swash: true
-                          - portrait:
-                            overprint: true
-                      - section: "Equipment"
-                        contents:
-                          - list:
-                            zebra: true
-                            flex: true
-                            hr: true
-                            avoid-shade: true
-                            contents:
-                              - repeat: 10
-                                contents:
-                                  - article:
-                                    header:
-                                      - field: equipment-#{i}
-                                        width: stretch
-                                        frame: none
-                                        align: left
-                                    contents:
-                                      - field: equipment-#{i}-details
-                                        width: stretch
-                                        frame: none
-                                        align: left
-                                        repeat: 2
-                  - layout: 2e
-                    contents:
-                      - g:
-                        contents:
-                          - section: "Scrolls"
-                            contents:
-                              - list:
-                                zebra: true
-                                collapse: true
-                                merge-bottom: true
-                                flex: true
-                                contents:
-                                  - repeat: 12
-                                    contents:
-                                      - field: scroll-#{i}
-                                        frame: none
-                                        width: stretch
-                          - tail:
-                      - g:
-                        contents:
-                          - section: "Potions"
-                            contents:
-                              - list:
-                                zebra: true
-                                collapse: true
-                                merge-bottom: true
-                                flex: true
-                                contents:
-                                  - repeat: 4
-                                    contents:
-                                      - row:
-                                        contents:
-                                          - field: potion-exp-#{i}
-                                            frame: none
-                                            width: stretch
-                                          - field: potion-exp-#{i}-count
-                                            frame: none
-                                            control: checkgrid
-                                            max: 8
-                                            depth: 2
-                                  - repeat: 8
-                                    contents:
-                                      - field: potion-#{i}
-                                        frame: none
-                                        width: stretch
-                          - tail:

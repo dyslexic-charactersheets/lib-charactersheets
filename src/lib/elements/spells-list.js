@@ -9,7 +9,7 @@ export let spells_list = {
         daily: false,
         special: false,
     }, 
-    render: args => {
+    render: (args, reg) => {
         var min = args.min;
         var max = args.max;
 
@@ -86,7 +86,7 @@ export let spells_list = {
             });
         }
         
-        return render([
+        return reg.render([
             {
                 type: "list",
                 hr: true,

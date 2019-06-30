@@ -8,7 +8,7 @@ const _ = require('lodash');
 var loadPromises = [];
 
 class LoadQueue {
-    constructor() {
+    constructor(binmode) {
         this._by_filename = {};
         this._data = {};
     }
@@ -34,7 +34,9 @@ class LoadQueue {
     
         // Actually load a file
         var promise = new Promise((resolve, reject) => {
-            fs.readFile(filename, 'utf-8', function (err, data) {
+            var encoding = 'utf-8';
+            if (filename.match(/\.(png|jpg|jpeg)$/)) encoding = 'binary';
+            fs.readFile(filename, encoding, function (err, data) {
                 if (err) {
                     if (err.code == 'ENOENT') {
                         // warn("load", "No such file", filename);

@@ -17,6 +17,7 @@ export class Document {
         this.documentColour = '#808080';
         this.accentColour = '#808080';
 
+        this.faviconURL = false;
         this.logoURL = false;
         this.portraitURL = false;
         this.animalURL = false;
@@ -85,17 +86,17 @@ export class Document {
         var self = this;
 
         function compose(element) {
-            if (!_.has(element, "type"))
+            if (!element.hasOwnProperty("type"))
                 return [ element ];
     
             // if (element.type == 'table') log("Document", "Compose item", element);
 
             // first recurse so we have the ingredients
-            _.each(["contents", "placeholder", "header", "inputs"], item_key => {
+            ["contents", "placeholder", "header", "inputs"].forEach(item_key => {
                 // log("compose", "Checking for", item_key);
-                if (_.has(element, item_key)) {
+                if (element.hasOwnProperty(item_key)) {
                     // log("compose", "Preparing item", item_key, element[item_key]);
-                    if (_.isArray(element[item_key]))
+                    if (Array.isArray(element[item_key]))
                         element[item_key] = _.flatMap(element[item_key], compose);
                     else
                         element[item_key] = compose(element[item_key]);
@@ -153,7 +154,6 @@ export class Document {
         // put it all together
         log("stylesheet", "Found", cssParts.length, "stylesheet parts");
 
-        
         // logo
         if (this.logoURL) {
             // var logoURL = getDataURL(characterSheet.game+"/base", characterSheet.logo);
@@ -183,7 +183,8 @@ export class Document {
     renderDocument(registry) {
         // TODO load favicon
         // var faviconData = getDataURL("core", "images/"+args.favicon);
-        var faviconData = this.getFavicon();
+        
+        var favicon = this.faviconURL ? `<link id="favicon" rel="shortcut icon" type="image/png" href='${this.faviconURL}' />` : ''
         // TODO load stylesheet
         var stylesheet = this.getStylesheet();
 
@@ -192,7 +193,7 @@ export class Document {
 <head>
 <meta charset='utf-8'/>
 <title>${esc(this.doc.title)}</title>
-<link id="favicon" rel="shortcut icon" type="image/png" href='${faviconData}' />
+${favicon}
 <style>
 ${stylesheet}
 </style>

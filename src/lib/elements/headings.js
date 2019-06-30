@@ -3,7 +3,7 @@ import { elementClass, esc } from '../util';
 function renderHeading(h) {
     return args => {
         var cls = elementClass(h, null, args, [], { 'align': '' });
-        return `<${h}${cls}>${esc(args.title)}</${h}>`
+        return `<${h}${cls}>${esc(args.title, true)}</${h}>`
     }
 }
 

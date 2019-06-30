@@ -52,7 +52,7 @@ export function esc(content, newlines = false) {
 }
 
 export function elementID(element, id = null) {
-    if (_.isNull(id) || id == '' || id == 'null') {
+    if (id === null || id == '' || id == 'null') {
         return '';
     }
 
@@ -73,7 +73,7 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
     var cls = [];
 
     var prefix = block;
-    if (!_.isNull(element)) {
+    if (element !== null) {
         prefix = `${block}__${element}`;
     }
     // console.log("["+block+" class] Prefix:", prefix);
@@ -123,7 +123,7 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
 
     // attribs are key-values, eg align=left
     var attribKeys;
-    if (_.isArray(attribDefs)) {
+    if (Array.isArray(attribDefs)) {
         attribKeys = attribDefs;
         attribDefs = {};
     } else {
@@ -136,7 +136,7 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
         var key = pair[0];
         var value = pair[1];
 
-        if (_.isNull(value))
+        if (value === null)
             return;
         // console.log("  -", key, " = ", value);
         // some default values can be skipped
@@ -144,7 +144,7 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
         //     case 'frame': if (value == 'normal') return;
         //     case 'control': if (value == 'input') return;
         // }
-        if (_.has(attribDefs, key) && value == attribDefs[key])
+        if (attribDefs.hasOwnProperty(key) && value == attribDefs[key])
             return;
 
         switch (key) {
@@ -153,6 +153,7 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
             case 'valign':
             case 'lp':
             case 'icon':
+            case 'flex':
                 cls.push(`${key}_${value}`);
                 break;
             default:
@@ -302,7 +303,6 @@ export function adjustColour(c, documentColour) {
 export function getLabelHeight(args) {
     if (args === null)
         return 1;
-    // args = registryDefaultArgs(args);
 
     if (args.hasOwnProperty("labelHeight"))
         return args.labelHeight;
@@ -316,18 +316,13 @@ export function getLabelHeight(args) {
                 case 'left':
                 case 'right':
                 case 'h-label':
+                case 'circle':
                     return 0;
 
                 default:
                     var labelHeight = args.label ? args.label.split(/\n/).length : 0;
                     var legendHeight = args.legend ? args.legend.split(/\n/).length : 0;
-                    return Math.max(labelHeight, legendHeight, 1);
-
-                    // var label = "";
-                    // if (args.label) label = args.label;
-                    // if (args.legend) label = args.legend;
-                    // if (label == "") break;
-                    // return label.split(/\n/).length;
+                    return Math.max(labelHeight, legendHeight, 0);
             }
 
         case 'calc':
