@@ -119,7 +119,7 @@ var druid5e = {
 var character = CharacterSheets(druid);
 character.create(data => {
     // console.log(JSON.stringify(data, null, 2));
-    var filename = __dirname+'/prototype8.html';
+    var filename = __dirname+'/test.html';
     log("test", filename);
     fs.writeFile(filename, data, (err) => {
         if (!!err)
