@@ -1,6 +1,6 @@
 # Dyslexic Character Sheets
 
-A library to generate character sheets for Pathfinder 2nd Edition, and in future other games.
+A library to generate character sheets for Pathfinder 2nd Edition.
 
 See: https://www.dyslexic-charactersheets.com/.
 
