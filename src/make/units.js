@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const _ = require('lodash');
-const yaml = require('yaml');
+const jsYaml = require('js-yaml');
 const sass = require('node-sass');
 const Handlebars = require('handlebars');
 
@@ -95,13 +95,13 @@ module.exports = {
             // parse the data
             try {
                 // log("units", "Loading unit", unitfile);
-                var unitdata = yaml.parse(data);
+                var unitdata = jsYaml.safeLoad(data);
                 if (unitdata == null) {
                     error("units", "Empty unit", shortfile);
                     return;
                 }
             } catch (exception) {
-                error("units", "Error parsing", shortfile, exception.message);
+                error("units", "Error parsing", shortfile, exception);
 
                 // print an excerpt to make debugging easier
                 if (_.has(exception, "source") && _.has(exception.source, "range")) {
@@ -131,7 +131,7 @@ module.exports = {
                 
                 unitdata = unitExpander.expandZone(unitdata);
 
-                var data = yaml.stringify(unitdata);
+                var data = jsYaml.safeDump(unitdata);
                 fs.mkdir(debugDir, { recursive: true }, () => {
                     fs.writeFile(`${debugDir}/${unitcode.replace(/\//g, '-')}.yml`, data, err => {
                         if (err) error("units", "Error saving unit", unitcode, err);
