@@ -52,7 +52,7 @@ export let list = {
             type: "layout",
             layout: args.columns+"e",
             contents: cols.map(col => {
-                return Object.assign(args, {
+                return Object.assign({}, args, {
                     columns: 1,
                     contents: col
                 });

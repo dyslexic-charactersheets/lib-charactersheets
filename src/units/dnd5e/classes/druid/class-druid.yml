@@ -1,7 +1,13 @@
 unit: class/druid
 in: class
 
+form:
+  - select: druid-circle
+    name: "Druid Circle"
+    max: 1
 
+require:
+  - option/spellbook
 
 inc:
   - at: @pages
@@ -17,13 +23,125 @@ inc:
                 contents:
                   - h2: "Druid"
 
+                  - section: "Circle"
+                    primary: true
+                    contents:
+                      - list:
+                        zebra: true
+                        hr: true
+                        contents:
+                          - zone: @druid-circle
+                            contents:
+                              - field: druid-circle
+                                width: stretch
+                                size: huge
+                                merge-bottom: true
+                              - repeat: 4
+                                rows: 
+                                  - level: 2
+                                  - level: 6
+                                  - level: 10
+                                  - level: 14
+                                contents:
+                                  - level: '#{level}'
+                                    contents:
+                                      - field: druid-circle-level-#{level}-ability
+                                        width: stretch
+                                        frame: none
+                                        repeat: 4
+                                        merge-bottom: true
+
+                  - section: "Advancement"
+                    contents:
+                      - p: "Either add 2 to any ability scores, or take a feat."
+                      - hr:
+                      - list:
+                        zebra: true
+                        hr: true
+                        # columns: 2
+                        contents:
+                          - repeat: 5
+                            rows:
+                              - level: 4
+                              - level: 8
+                              - level: 12
+                              - level: 16
+                              - level: 19
+                              # - level: ''
+                            contents:
+                              - level: '#{level}'
+                                contents:
+                                  - field: advancement
+                                    frame: none
+                                    width: stretch
+                                    repeat: 3
+                                    merge-bottom: true
+
+                  - section: "Timeless Body"
+                    contents:
+                      - level: 18
+                        contents:
+                          - p: "For every 10 years that pass, your body ages only 1 year."
 
                   - tail:
                   - spacer:
+
               - g:
                 contents:
+
+                  - section: "Wild Shape"
+                    id: druid-wild-shape
+                    contents:
+                      - level: 2
+                        contents:
+                          - p: "Use your action to assume the shape of a beast that you have seen before."
+                          - row:
+                            contents:
+                              - calc:
+                                output:
+                                  field: druid-wild-shape-per-day
+                                  width: large
+                                  legend: "Wild Shape\nPer Day"
+                                  eq: "2+%{druid-wild-shape-per-day-misc}"
+                                inputs:
+                                  - span: '2 +'
+                                  - field: druid-wild-shape-per-day-misc
+                                    misc: true
+                                    label: "Misc"
+                              - field: druid-wild-shape-today
+                                control: checkgrid
+                                label: "Today"
+                                depth: 2
+                                max: 4
+                          - hr:
+                          - p: "While transformed:"
+                          - ul:
+                            contents:
+                              - li: "Use the beast's statistics, except alignment, personality, intelligence, wisdom and charisma."
+                              - li: "Assume the beast's hit points and hit dice. On reverting, you return to the hit points you had before. If you revert as a result of dropping to 0hp, excess damage carries over."
+                              - li: "You can't cast spells, speak or use other abilities the beast cannot. Transforming does not break concentration on as spell already cast."
+                              - li: "Equipment may fall to the group, merge into your new form, or be worn by it. Equipment does not change size or shape."
+
+                      - hr:
+                      - level: 18
+                        contents:
+                          - p: "Cast spells with a verbal or somatic component while in any shape. Does not allow you to cast spell with a material component."
+
+                      - hr:
+                      - level: 20
+                        contents:
+                          - h5: "Archdruid"
+                          - p: "Use wild shape an unlimited number of times"
+
                   - section: "Spells"
-                    contents: []
+                    contents:
+                      - spells-list:
+                        style: prepared
+                        min: 1
+                        max: 9
+                        spells: 4
+                        cantrips: 4
+                        # special: "Domain"
 
                   - tail:
                   - spacer: 

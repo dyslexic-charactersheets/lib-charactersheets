@@ -4,7 +4,32 @@ export let level = {
     defaults: {
         level: 1,
         narrow: true,
+        marker: "Level",
         contents: [],
+    },
+    transform: (args) => {
+        return [
+            {
+                type: "layout",
+                layout: "level",
+                contents: [
+                    {
+                        type: "g",
+                        contents: [
+                            {
+                                type: "level-marker",
+                                level: args.level,
+                                marker: args.marker
+                            }
+                        ]
+                    },
+                    {
+                        type: "g",
+                        contents: args.contents
+                    }
+                ]
+            }
+        ];
     },
     render: (args, reg) => {
         return reg.render([

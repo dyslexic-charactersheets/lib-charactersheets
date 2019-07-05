@@ -1,0 +1,244 @@
+unit: feat/druid/wild-shape
+name: "Wild Shape"
+inc:
+  - at: @pages
+    add:
+      - page: wild-shape
+        name: "Wild Shape"
+        order: 25
+        flex: true
+        landscape: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - layout: 2l
+                    narrow: true
+                    contents:
+                      - g:
+                        contents:
+                          - h2: "Wild Shape"
+                          - section: "Attributes"
+                            id: wild-shape-attributes
+                            contents:
+                              - layout: 3e
+                                gutter: none
+                                contents:
+                                  - repeat: 3
+                                    rows:
+                                      - name: "Strength"
+                                        short: "STR"
+                                      - name: "Dexterity"
+                                        short: "DEX"
+                                      - name: "Constitution"
+                                        short: "CON"
+                                    contents:
+                                      - g:
+                                        valign: top
+                                        contents:
+                                          - row: center
+                                            contents:
+                                              - spacer:
+                                              - field: "#{short}"
+                                                label: "#{name}"
+                                                border: circle
+                                                size: huge
+                                                underlay: "#{short}"
+                                                eq: "(%{#{short}-score}-10)/2"
+                                              - spacer:
+                                          - row: center
+                                            contents:
+                                              - spacer:
+                                              - field: "#{short}-score"
+                                                # width: small
+                                                frame: none
+                                              - spacer:
+                          - section: "Saving Throws"
+                            id: saving-throws
+                            contents:
+                              - table:
+                                columns:
+                                  - 
+                                  - 
+                                  - "Ability\nModifier"
+                                  - "Proficiency"
+                                  - "Misc"
+                                rows:
+                                  - save: fortitude
+                                    legend: "Fortitude"
+                                    short: "FORT"
+                                    ability: CON
+                                  - save: reflex
+                                    legend: "Reflex"
+                                    short: "REF"
+                                    ability: DEX
+                                  - save: will
+                                    legend: "Will"
+                                    short: "WILL"
+                                    ability: WIS
+                                template:
+                                  - calc:
+                                    output:
+                                      field: "animal-companion-#{save}"
+                                      legend: "#{legend}"
+                                      icon: bonus
+                                      border: full
+                                      width: large
+                                      underlay: "#{short}"
+                                    inputs:
+                                      - field:
+                                        label: "#{ability}"
+                                        underlay: "#{ability}"
+                                        ref: "#{ability}"
+                                      - field:
+                                        id: "#{save}-proficiency"
+                                        control: proficiency
+                                      - field:
+                                        id: "#{save}-misc-bonus"
+                                        misc: true
+                              - field: animal-companion-saving-throws-conditional
+                                label: "Conditional"
+                                align: left
+                                # repeat: 2
+                                merge-bottom: true
+                                width: stretch
+                      - g:
+                        contents:
+                          - section: "Attacks"
+                            contents:
+                              - list:
+                                zebra: true
+                                hr: true
+                                flex: true
+                                contents:
+                                  - repeat: 3
+                                    contents:
+                                      - g:
+                                        contents:
+                                          - row:
+                                            contents:
+                                              - field: animal-companion-attack-#{i}
+                                                width: stretch
+                                                frame: none
+                                                align: left
+                                                size: large
+                                          - row:
+                                            contents:
+                                              - calc:
+                                                output:
+                                                  field: animal-companion-attack-#{i}-bonus
+                                                  label: "Attack Bonus"
+                                                  # width: large
+                                                  attack: true
+                                                  icon: bonus
+                                                inputs:
+                                                  - field:
+                                                    ref: true
+                                                    label: "Ability"
+                                                    misc: true
+                                                  - field:
+                                                    control: proficiency
+                                                    label: "Proficiency"
+                                              - field: animal-companion-attack-#{i}-damage
+                                                border: full
+                                                label: "Damage"
+                                                width: small
+                                                icon: damage
+                                                control: compound
+                                                parts:
+                                                  - subid: ndice
+                                                    overlay: "d"
+                                                  - subid: die
+                                                    overlay: "+"
+                                                  - subid: extra
+                                              # - field: attack-#{i}-type
+                                              #   label: "Type"
+                                          - row:
+                                            contents:
+                                              - field: animal-companion-attack-#{i}-critical
+                                                # label: "Critical Effect"
+                                                frame: none
+                                                width: stretch
+                                                align: left
+                                                unlined: true
+                                                merge-bottom: true
+                  - layout: 2r
+                    contents:
+                      - g:
+                        contents:
+                          - section: "Health"
+                            contents:
+                              - calc:
+                                output:
+                                  field: animal-companion-hp
+                                  legend: "Hit Points"
+                                  icon: hp
+                                  overlay: hp
+                                  width: large
+                                inputs:
+                                  - field:
+                                    label: "Ancestry"
+                                  - span: "+ ("
+                                  - field:
+                                    ref: CON
+                                    label: "CON"
+                                    underlay: "CON"
+                                  - span: "+"
+                                  - field: animal-companion-hp-per-level
+                                    underlay: "6"
+                                    width: tiny
+                                  - span: ") &times;"
+                                  - field:
+                                    ref: level
+                                    label: "Level"
+                              - row:
+                                contents:
+                                  - field: animal-companion-current-hp
+                                    label: "Current hit points"
+                                    border: full
+                                    temp: true
+                                    icon: hp
+                                    overlay: hp
+                                    width: stretch
+                                  - field: animal-companion-temp-hp
+                                    label: "Temp hit points"
+                                    border: full
+                                    temp: true
+                                    overlay: hp
+                                    width: large
+                                
+                          - section: "Defence"
+                            contents:
+                              - calc:
+                                output:
+                                  field: "animal-companion-ac"
+                                  legend: "Armour Class"
+                                  icon: "ac"
+                                  border: full
+                                  width: large
+                                  underlay: "AC"
+                                inputs:
+                                  - span: "10 +"
+                                  - field:
+                                    ref: "DEX"
+                                    label: "DEX"
+                                    # frame: h-label
+                                    underlay: "DEX"
+                                  - field: "animal-companion-ac-proficiency"
+                                    control: proficiency
+                                    label: "Proficiency"
+                                  - field: armour-bonus
+                                    label: "Barding\nBonus"
+                                  - field:
+                                    misc: true
+                                    label: "Misc"
+                              - field: animal-companion-ac-conditional
+                                label: "Conditional"
+                                width: stretch
+                                align: left
+                                repeat: 3
+                                merge-bottom: true
+                      - g:
+                        contents:
+                          - section: ""

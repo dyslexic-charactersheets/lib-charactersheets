@@ -29,7 +29,6 @@ export let field = {
     }
 }
 
-
 // field defaults are a combination of the defaults from the field's frame and control
 export function fieldDefaults(args, reg) {
     args = _.defaults(args, {
@@ -48,18 +47,6 @@ export function fieldDefaults(args, reg) {
         args.control = 'input';
         control = reg.get('control:input');
     }
-
-    // if (!_.has(CharacterSheets._registry, 'frame:'+args.frame)) {
-    //     error('field', 'Field frame not registered:', args.frame);
-    //     args.frame = 'above';
-    // }
-    // if (!_.has(CharacterSheets._registry, 'control:'+args.control)) {
-    //     error('field', 'Field control not registered:', args.control);
-    //     args.control = 'input';
-    // }
-    // 
-    // var frame = CharacterSheets._registry['frame:'+args.frame];
-    // var control = CharacterSheets._registry['control:'+args.control];
 
     args = _.defaults(args, frame.defaults, control.defaults, {
         border: (args.output ? 'full' : 'bottom'),

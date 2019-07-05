@@ -7,7 +7,7 @@ function addAtZone(zones, zone_id, elements, replace) {
         return;
     }
     log("compose", "Adding to zone:", zone_id);
-    if (!_.has(zones, zone_id))
+    if (!zones.hasOwnProperty(zone_id))
         zones[zone_id] = [];
     elements.forEach(element => {
         if (replace)
@@ -33,7 +33,7 @@ function composeDocument(doc, zones, templates, registry) {
     // log("compose", " - Registry", registry);
     
     function mergeBottom(element) {
-        if (_.isArray(element)) {
+        if (Array.isArray(element)) {
             element[element.length - 1] = mergeBottom(element[element.length - 1]);
         }
 
@@ -60,16 +60,16 @@ function composeDocument(doc, zones, templates, registry) {
     function compose(element) {
         // log("compose", "Item", element);
 
-        if (!_.has(element, "type"))
+        if (!element.hasOwnProperty("type"))
             return [ element ];
 
         // first recurse so we have the ingredients
-        _.each(["contents", "placeholder", "header", "inputs"], item_key => {
+        ["contents", "placeholder", "header", "inputs", "rows", "columns"].forEach(item_key => {
             // log("compose", "Checking for", item_key);
-            if (_.has(element, item_key)) {
+            if (element.hasOwnProperty(item_key)) {
                 // log("compose", "Preparing item", item_key, element[item_key]);
-                if (_.isArray(element[item_key]))
-                    element[item_key] = _.flatMap(element[item_key], compose);
+                if (Array.isArray(element[item_key]))
+                    element[item_key] = element[item_key].flatMap(compose);
                 else
                     element[item_key] = compose(element[item_key]);
             }
@@ -90,7 +90,7 @@ function composeDocument(doc, zones, templates, registry) {
         }
 
         // if (element.type == "article") log("compose", "Composed element:", element);
-        // if (_.has(element, 'merge-bottom') && !!element['merge-bottom']) {
+        // if (element.hasOwnProperty('merge-bottom') && !!element['merge-bottom']) {
         //     // log("compose", "Merge bottom:", element);
         //     element = mergeBottom(element);
         //     if (element.type == 'article') log("compose", "Result:", element);

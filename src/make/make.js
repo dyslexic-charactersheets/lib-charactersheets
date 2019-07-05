@@ -18,10 +18,10 @@ const systems = [
         code: "pathfinder2",
         name: "Pathfinder 2nd Edition"
     },
-    {
-        code: "dnd5e",
-        name: "Dungeons & Dragons 5th Edition"
-    }
+    // {
+    //     code: "dnd5e",
+    //     name: "Dungeons & Dragons 5th Edition"
+    // }
 ];
 
 systems.forEach(system => {

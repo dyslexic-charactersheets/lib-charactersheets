@@ -13,7 +13,7 @@ import { document } from '../elements/document';
 import { each } from '../elements/each';
 import { g } from '../elements/g';
 import { h1, h2, h3, h4, h5, h6 } from '../elements/headings';
-import { hr, tail } from '../elements/hr';
+import { hr, tail, vr } from '../elements/hr';
 import { icon } from '../elements/icon';
 import { label } from '../elements/label';
 import { layout } from '../elements/layout';
@@ -21,7 +21,7 @@ import { level, level_marker } from '../elements/level';
 import { list } from '../elements/list';
 import { logo } from '../elements/logo';
 import { page } from '../elements/page';
-import { p } from '../elements/p';
+import { p, ul, li } from '../elements/p';
 import { portrait } from '../elements/portrait';
 import { proficiency, action } from '../elements/proficiency';
 import { repeat } from '../elements/repeat';
@@ -31,6 +31,7 @@ import { slots } from '../elements/slots';
 import { spacer } from '../elements/spacer';
 import { span } from '../elements/span';
 import { spells_list, spells_table } from '../elements/spells-list';
+import { spells_list2 } from '../elements/spells-list2';
 import { table } from '../elements/table';
 import { define, paste } from '../elements/template';
 import { zone } from '../elements/zone';
@@ -55,6 +56,7 @@ import {
 	field_control_compound,
 	field_control_progression,
 	field_control_money,
+	field_control_weight,
 	field_control_proficiency,
 	field_control_proficiency_icon,
 	field_control_icon,
@@ -78,7 +80,7 @@ export class Registry {
 			each,
 			g,
 			h1, h2, h3, h4, h5, h6,
-			hr, tail,
+			hr, tail, vr,
 			icon,
 			label,
 			layout,
@@ -86,7 +88,7 @@ export class Registry {
 			list,
 			logo,
 			page,
-			p,
+			p, ul, li,
 			portrait,
 			proficiency, action,
 			repeat,
@@ -97,6 +99,7 @@ export class Registry {
 			span,
 			spells_list,
 			spells_table,
+			spells_list2,
 			table,
 			define, paste,
 			unit,
@@ -119,6 +122,7 @@ export class Registry {
 			field_control_compound,
 			field_control_progression,
 			field_control_money,
+			field_control_weight,
 			field_control_proficiency,
 			field_control_proficiency_icon,
 			field_control_icon,

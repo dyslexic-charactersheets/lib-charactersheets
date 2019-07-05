@@ -42,7 +42,7 @@ export let table = {
             rowCallback = function(row) {
                 // log("table", "Template cells", args.template);
                 var templateCells = args.template.flatMap(cell => {
-                    if (_.isPlainObject(cell) && _.has(cell, "type") && cell.type == "calc") {
+                    if (_.isPlainObject(cell) && cell.hasOwnProperty("type") && cell.type == "calc") {
                         var fields = _.clone(cell.inputs);
                         fields.unshift({
                             "type": "span",

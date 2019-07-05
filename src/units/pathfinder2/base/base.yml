@@ -73,82 +73,86 @@ inc:
                             border: full
                   - hr:
                     swash: true
-                  - portrait:
+                  - portrait: personal
                   - section: "Character"
                     id: character
                     untitled: true
                     contents:
-                      - layout: alignment
+                      - list:
+                        zebra: true
+                        hr: true
                         contents:
-                          - g:
+                          - layout: alignment
                             contents:
-                              - field: character-name
-                                legend: "Character Name"
-                                size: huge
-                                width: stretch
-                                align: left
-                              - row:
+                              - g:
                                 contents:
-                                  - field: gender
-                                    label: "Gender"
-                                    icon: gender
-                                    width: huge
-                                  - spacer:
-                                  - field: age
-                                    label: "Age"
-                                    width: huge
-                                  - spacer:
-                                  - field: size
-                                    label: "Size"
-                                    icon: size
-                                    width: huge
-                                  - spacer:
-                          - field: alignment
-                            frame: none
-                            control: alignment
-
-                  - hr:
-                  - h5: "Abilities"
-                  - layout: 6e
-                    gutter: none
-                    contents:
-                      - repeat: 6
-                        rows:
-                          - name: "Strength"
-                            short: "STR"
-                          - name: "Dexterity"
-                            short: "DEX"
-                          - name: "Constitution"
-                            short: "CON"
-                          - name: "Intelligence"
-                            short: "INT"
-                          - name: "Wisdom"
-                            short: "WIS"
-                          - name: "Charisma"
-                            short: "CHA"
-                        contents:
-                          - g:
-                            valign: top
-                            contents:
-                              - row: center
-                                contents:
-                                  - spacer:
-                                  - field: "#{short}"
-                                    label: "#{name}"
-                                    frame: circle
+                                  - field: character-name
+                                    legend: "Character Name"
                                     size: huge
-                                    underlay: "#{short}"
-                                    eq: "(%{#{short}-score}-10)/2"
-                                  - spacer:
-                              - row: center
+                                    width: stretch
+                                    align: left
+                                  - row:
+                                    contents:
+                                      - field: gender
+                                        label: "Gender"
+                                        icon: gender
+                                        width: huge
+                                      - spacer:
+                                      - field: age
+                                        label: "Age"
+                                        width: huge
+                                      - spacer:
+                                      - field: size
+                                        label: "Size"
+                                        icon: size
+                                        width: huge
+                                      - spacer:
+                              - field: alignment
+                                frame: none
+                                control: alignment
+                          - g:
+                            contents:
+                              - h5: "Abilities"
+                              - layout: 6e
+                                gutter: none
                                 contents:
-                                  - spacer:
-                                  - field: "#{short}-score"
-                                    # width: small
-                                    frame: none
-                                  - spacer:
-                  - p: "Ability Modifier = (Ability Score - 10) &divide; 2"
-                    align: left
+                                  - repeat: 6
+                                    rows:
+                                      - name: "Strength"
+                                        short: "STR"
+                                      - name: "Dexterity"
+                                        short: "DEX"
+                                      - name: "Constitution"
+                                        short: "CON"
+                                      - name: "Intelligence"
+                                        short: "INT"
+                                      - name: "Wisdom"
+                                        short: "WIS"
+                                      - name: "Charisma"
+                                        short: "CHA"
+                                    contents:
+                                      - g:
+                                        valign: top
+                                        contents:
+                                          - row: center
+                                            contents:
+                                              - spacer:
+                                              - field: "#{short}"
+                                                label: "#{name}"
+                                                border: circle
+                                                size: huge
+                                                underlay: "#{short}"
+                                                eq: "(%{#{short}-score}-10)/2"
+                                              - spacer:
+                                          - row: center
+                                            contents:
+                                              - spacer:
+                                              - field: "#{short}-score"
+                                                # width: small
+                                                frame: none
+                                              - spacer:
+                              - p: "Ability Modifier = (Ability Score - 10) &divide; 2"
+                                align: left
 
                   - tail:
               - g:
@@ -278,6 +282,7 @@ inc:
                       - h5: "Archetypes"
                       - list:
                         collapse: true
+                        zebra: true
                         contents:
                           - repeat: 3
                             field_frame: none
@@ -419,6 +424,7 @@ inc:
                             width: stretch
                           - field: inventory-#{i}-value
                           - field: inventory-#{i}-weight
+                            control: weight
                       - g:
                         contents:
                           - field: weight-total
@@ -498,65 +504,65 @@ inc:
                           - "Feats\nMisc"
                           - "Armour\nCheck\nPenalty"
                         rows:
-                          - zone: @skills
-                            contents:
-                              - skill: "Acrobatics"
-                                ability: "DEX"
-                                acp: true
-                              - skill: "Arcana"
-                                ability: "INT"
-                                acp: false
-                              - skill: "Athletics"
-                                ability: "STR"
-                                acp: true
-                              - skill: "Crafting"
-                                ability: "INT"
-                                acp: false
-                              - skill: "Deception"
-                                ability: "CHA"
-                                acp: false
-                              - skill: "Intimidation"
-                                ability: "CHA"
-                                acp: false
-                              - skill: "Medicine"
-                                ability: "WIS"
-                                acp: false
-                              - skill: "Nature"
-                                ability: "WIS"
-                                acp: false
-                              - skill: "Occultism"
-                                ability: "INT"
-                                acp: false
-                              - skill: "Performance"
-                                ability: "CHA"
-                                acp: false
-                              - skill: "Religion"
-                                ability: "WIS"
-                                acp: false
-                              - skill: "Society"
-                                ability: "INT"
-                                acp: false
-                              - skill: "Stealth"
-                                ability: "DEX"
-                                acp: true
-                              - skill: "Survival"
-                                ability: "WIS"
-                                acp: false
-                              - skill: "Thievery"
-                                ability: "DEX"
-                                acp: true
-                              - skill: "Lore"
-                                ability: "INT"
-                                acp: false
-                              - skill: ''
-                                ability: ''
-                                acp: false
-                              - skill: ''
-                                ability: ''
-                                acp: false
-                              - skill: ''
-                                ability: ''
-                                acp: false
+                          # - zone: @skills
+                          #   contents:
+                          - skill: "Acrobatics"
+                            ability: "DEX"
+                            acp: true
+                          - skill: "Arcana"
+                            ability: "INT"
+                            acp: false
+                          - skill: "Athletics"
+                            ability: "STR"
+                            acp: true
+                          - skill: "Crafting"
+                            ability: "INT"
+                            acp: false
+                          - skill: "Deception"
+                            ability: "CHA"
+                            acp: false
+                          - skill: "Intimidation"
+                            ability: "CHA"
+                            acp: false
+                          - skill: "Medicine"
+                            ability: "WIS"
+                            acp: false
+                          - skill: "Nature"
+                            ability: "WIS"
+                            acp: false
+                          - skill: "Occultism"
+                            ability: "INT"
+                            acp: false
+                          - skill: "Performance"
+                            ability: "CHA"
+                            acp: false
+                          - skill: "Religion"
+                            ability: "WIS"
+                            acp: false
+                          - skill: "Society"
+                            ability: "INT"
+                            acp: false
+                          - skill: "Stealth"
+                            ability: "DEX"
+                            acp: true
+                          - skill: "Survival"
+                            ability: "WIS"
+                            acp: false
+                          - skill: "Thievery"
+                            ability: "DEX"
+                            acp: true
+                          - skill: "Lore"
+                            ability: "INT"
+                            acp: false
+                          - skill: ''
+                            ability: ''
+                            acp: false
+                          # - skill: ''
+                          #   ability: ''
+                          #   acp: false
+                          # - skill: ''
+                          #   ability: ''
+                          #   acp: false
                         template:
                           - h6: "#{skill}"
                           - field: "#{skill}-assurance"
@@ -579,6 +585,7 @@ inc:
                             ref: acp
                             border: full
                             exists: "#{acp}"
+                            prefix: "&ndash;"
                       # - hr:
                       - layout: 2e
                         contents:
@@ -652,7 +659,7 @@ inc:
                                 contents:
                                   - item: yes
                             contents:
-                              - slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                              - slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, '' ]
                                 min: 1
                                 max: 1
                                 placeholder:
@@ -1036,6 +1043,10 @@ inc:
                               - field:
                                 ref: level
                                 label: Level
+                              - span: "+"
+                              - field:
+                                label: "Misc"
+                                misc: true
                           - spacer:
                           - field: dying
                             control: progression
@@ -1064,13 +1075,13 @@ inc:
                             temp: true
                             overlay: hp
                             width: huge
-                          - field: shield-hp
-                            label: "Shield Hit Points"
-                            border: full
-                            icon: ac
-                            temp: true
-                            overlay: hp
-                            width: huge
+                          # - field: shield-hp
+                          #   label: "Shield Hit Points"
+                          #   border: full
+                          #   icon: ac
+                          #   temp: true
+                          #   overlay: hp
+                          #   width: huge
 
                       # - h4: "Effects"
                       # - list:
@@ -1107,34 +1118,38 @@ inc:
                   - section: "Armour"
                     id: armour
                     contents:
-                      - calc:
-                        output:
-                          field: ac
-                          legend: "Armour Class"
-                          icon: ac
-                          border: full
-                          width: large
-                          underlay: "AC"
-                          merge-top: true
-                          eq: '10+%{DEX}+%{ac-proficiency}+%{armour-bonus}+%{shield-bonus}'
-                        inputs:
-                          - span: 10 +
-                          - field:
-                            ref: "DEX"
-                            underlay: "DEX"
-                            label: "DEX"
-                          - field: ac-proficiency
-                            control: proficiency
-                            label: "Proficiency"
-                          - field: armour-bonus
-                            label: "Armour"
+                      - row:
+                        contents:
+                          - calc:
+                            output:
+                              field: ac
+                              legend: "Armour Class"
+                              icon: ac
+                              border: full
+                              width: large
+                              underlay: "AC"
+                              merge-top: true
+                              eq: '10+%{DEX}+%{ac-proficiency}+%{armour-bonus}+%{shield-bonus}'
+                            inputs:
+                              - span: 10 +
+                              - field:
+                                ref: "DEX"
+                                underlay: "DEX"
+                                label: "DEX"
+                              - field: ac-proficiency
+                                control: proficiency
+                                label: "Proficiency"
+                              - field: armour-bonus
+                                label: "Armour\nBonus"
+                              - field: ac-items
+                                label: "Items"
+                              - field: ac-misc
+                                label: "Misc"
+                                misc: true
+                          - spacer:
+                          - vr: 
                           - field: shield-bonus
-                            label: "Shield"
-                          - field: ac-items
-                            label: "Items"
-                          - field: ac-misc
-                            label: "Misc"
-                            misc: true
+                            label: "Shield\nBonus"
                       - field: ac-conditional
                         label: "Conditional"
                         width: stretch
@@ -1168,6 +1183,7 @@ inc:
                               #   control: speed
                               - field: armour-acp
                                 label: "Armour\nCheck\nPenalty"
+                                
                           - field: armour-properties
                             width: stretch
                             label: "Properties"
@@ -1202,10 +1218,20 @@ inc:
                               - field: armour-acp
                                 label: "Armour\nCheck\nPenalty"
                                 width: large
+                              - field: shield-hp
+                                label: "Shield Hit Points"
+                                border: full
+                                icon: hp
+                                temp: true
+                                overlay: hp
+                                width: huge
+                          - action:
+                            contents:
+                              - p: "Raise shield"
                           - field: armour-properties
                             width: stretch
                             label: "Properties"
-                            repeat: 3
+                            repeat: 2
                             merge-bottom: true
                           - tail:
 

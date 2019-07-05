@@ -5,9 +5,10 @@ export let proficiency = {
         proficiency: "untrained",
         content: "",
     },
-    render: args => {
+    transform: args => {
+        if (args.proficiency === null) args.proficiency = "untrained";
         var icon = (args.proficiency == "untrained") ? "proficiency" : "proficiency-"+args.proficiency;
-        return render([
+        return [
             {
                 type: "layout",
                 layout: "level",
@@ -22,7 +23,7 @@ export let proficiency = {
                     }
                 ]
             }
-        ]);
+        ]
     }
 }
 
@@ -33,7 +34,7 @@ export let action = {
         action: 1,
         contents: [],
     }, 
-    render: (args, reg) => {
+    transform: args => {
         var icon = 'action';
         switch(args.action) {
             case 1: icon = 'action'; break;
@@ -47,7 +48,7 @@ export let action = {
             case 'template': icon = 'action-template'; break;
         }
 
-        return reg.render([
+        return [
             {
                 type: "layout",
                 layout: "level",
@@ -62,6 +63,6 @@ export let action = {
                     }
                 ]
             }
-        ]);
+        ];
     }
 }

@@ -8,7 +8,7 @@ import { esc, replaceColours } from '../util';
 export class Document {
     constructor(baseUnit) {
         var baseDocument = baseUnit.contents[0];
-        log("Document", "Base document", baseDocument);
+        // log("Document", "Base document", baseDocument);
         this.doc = _.cloneDeep(baseDocument);
         this.units = [ baseUnit ];
         this.zones = {};
@@ -118,7 +118,7 @@ export class Document {
             }
     
             // if (element.type == "article") log("compose", "Composed element:", element);
-            // if (_.has(element, 'merge-bottom') && !!element['merge-bottom']) {
+            // if (element.hasOwnProperty('merge-bottom') && !!element['merge-bottom']) {
             //     // log("compose", "Merge bottom:", element);
             //     element = mergeBottom(element);
             //     if (element.type == 'article') log("compose", "Result:", element);
@@ -163,12 +163,12 @@ export class Document {
         // portrait
         if (this.portraitURL) {
             // var portraitURL = getDataURL(characterSheet.game+"/base", characterSheet.portrait);
-            cssParts.push(`.portrait__inner{background-image:url('${this.portraitURL}');}`);
+            cssParts.push(`.portrait--char_personal .portrait__inner{background-image:url('${this.portraitURL}');}`);
         }
 
-        // TODO animal companion portraits
+        // animal companion portraits
         if (this.animalURL) {
-            cssParts.push(`.portrait--animal .portrait__inner{background-image:url('${this.animalURL}');}`);
+            cssParts.push(`.portrait--char_animal-companion .portrait__inner{background-image:url('${this.animalURL}');}`);
         }
 
         // background

@@ -19,3 +19,10 @@ export let tail = {
         return `<hr${cls}>`;
     }
 }
+
+export let vr = {
+    name: 'vr',
+    render: () => {
+        return '<span class="vr"></span>';
+    }
+}

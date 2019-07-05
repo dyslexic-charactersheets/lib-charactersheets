@@ -19,44 +19,52 @@ inc:
                     contents:
                       - h2: "Animal Companion"
                       - section: "Attributes"
-                        id: attributes
+                        id: animal-companion-attributes
                         contents:
-                          - table:
-                            collapse: true
-                            width: stretch
-                            columns:
-                              - align: left
-                              - "Ability\nScore"
-                              - label: "Ability\nModifier"
-                                icon: true
-                            rows:
-                              - ability: "Strength"
-                                short: "STR"
-                              - ability: "Dexterity"
-                                short: "DEX"
-                              - ability: "Constitution"
-                                short: "CON"
-                              - ability: "Intelligence"
-                                short: "INT"
-                              - ability: "Wisdom"
-                                short: "WIS"
-                              - ability: "Charisma"
-                                short: "CHA"
-                            field_frame: none
-                            template:
-                              - h6: "#{ability}"
-                              - field: "animal-companion-#{short}-score"
-                                box: true
-                              - field: "animal-companion-#{short}"
-                                output: true
-                                icon: modifier
-                                underlay: "#{short}"
+                          - layout: 3e
+                            gutter: none
+                            contents:
+                              - repeat: 6
+                                rows:
+                                  - name: "Strength"
+                                    short: "STR"
+                                  - name: "Dexterity"
+                                    short: "DEX"
+                                  - name: "Constitution"
+                                    short: "CON"
+                                  - name: "Intelligence"
+                                    short: "INT"
+                                  - name: "Wisdom"
+                                    short: "WIS"
+                                  - name: "Charisma"
+                                    short: "CHA"
+                                contents:
+                                  - g:
+                                    valign: top
+                                    contents:
+                                      - row: center
+                                        contents:
+                                          - spacer:
+                                          - field: "#{short}"
+                                            label: "#{name}"
+                                            border: circle
+                                            size: huge
+                                            underlay: "#{short}"
+                                            eq: "(%{#{short}-score}-10)/2"
+                                          - spacer:
+                                      - row: center
+                                        contents:
+                                          - spacer:
+                                          - field: "#{short}-score"
+                                            # width: small
+                                            frame: none
+                                          - spacer:
                               
                       - section: "Abilities"
                         contents:
                           - zone: @animal-companion-abilities
                             contents:
-                              - h4: "Work Together"
+                              - h5: "Work Together"
                               - g:
                                 contents:
                                   - field: animal-companion-work-together
@@ -66,7 +74,7 @@ inc:
                                     merge-bottom: true
                                     repeat: 6
                               - hr:
-                              - h4: "Advanced Manoeuvre"
+                              - h5: "Advanced Manoeuvre"
                               - g:
                                 contents:
                                   - field: animal-companion-manoeuvre
@@ -76,7 +84,7 @@ inc:
                                     merge-bottom: true
                                     repeat: 6
                               - hr:
-                              - h4: "Specialisation"
+                              - h5: "Specialisation"
                               - g:
                                 contents:
                                   - field: animal-companion-specialisation
@@ -88,9 +96,8 @@ inc:
                       - tail:
                   - g:
                     contents:
-                      - portrait:
+                      - portrait: animal-companion
                         # overprint: true
-                        animal-companion: true
                       - g:
                         contents:
                           - field: animal-companion-name
@@ -268,6 +275,7 @@ inc:
                                       field: "animal-companion-#{save}"
                                       legend: "#{legend}"
                                       icon: bonus
+                                      border: full
                                       width: large
                                       underlay: "#{short}"
                                     inputs:
@@ -320,15 +328,16 @@ inc:
                                                   - field:
                                                     ref: true
                                                     label: "Ability"
+                                                    misc: true
                                                   - field:
                                                     control: proficiency
                                                     label: "Proficiency"
                                               - field: animal-companion-attack-#{i}-damage
-                                                output: true
+                                                border: full
                                                 label: "Damage"
                                                 width: small
                                                 icon: damage
-                                                control: composite
+                                                control: compound
                                                 parts:
                                                   - subid: ndice
                                                     overlay: "d"
@@ -345,52 +354,13 @@ inc:
                                                 width: stretch
                                                 align: left
                                                 unlined: true
+                                                merge-bottom: true
                   - layout: 2r
                     narrow: true
                     contents:
                       - g:
                         contents:
-                          - section: "Defence"
-                            contents:
-                              - table:
-                                columns:
-                                  - 
-                                  - 
-                                  - 
-                                  - "DEX"
-                                  - "Proficiency"
-                                  - "Barding\nBonus"
-                                  - "Misc"
-                                rows:
-                                  - id: ac
-                                    legend: "Armour Class"
-                                    underlay: "AC"
-                                  - id: tac
-                                    legend: "Touch AC"
-                                    underlay: "TAC"
-                                template:
-                                  - calc:
-                                    output:
-                                      field: "animal-companion-#{id}"
-                                      legend: "#{legend}"
-                                      icon: "#{id}"
-                                      width: large
-                                      underlay: "#{underlay}"
-                                    inputs:
-                                      - span: 10 +
-                                      - field:
-                                        ref: "DEX"
-                                        underlay: "DEX"
-                                      - field: "animal-companion-#{id}-proficiency"
-                                        control: proficiency
-                                      - field: armour-bonus
-                                      - field: true
-                              - field: animal-companion-ac-conditional
-                                label: "Conditional"
-                                width: stretch
-                                align: left
-                                repeat: 3
-                                merge-bottom: true
+                        
                           - section: "Health"
                             contents:
                               - calc:
@@ -399,13 +369,14 @@ inc:
                                   legend: "Hit Points"
                                   icon: hp
                                   overlay: hp
-                                  # width: large
+                                  width: large
                                 inputs:
                                   - field:
                                     label: "Ancestry"
                                   - span: "+ ("
                                   - field:
                                     ref: CON
+                                    label: "CON"
                                     underlay: "CON"
                                   - span: "+"
                                   - field: animal-companion-hp-per-level
@@ -414,24 +385,56 @@ inc:
                                   - span: ") &times;"
                                   - field:
                                     ref: level
-                                    legend: "Level"
+                                    label: "Level"
                               - row:
                                 contents:
                                   - field: animal-companion-current-hp
                                     label: "Current hit points"
-                                    output: true
+                                    border: full
                                     temp: true
                                     icon: hp
                                     overlay: hp
                                     width: stretch
                                   - field: animal-companion-temp-hp
                                     label: "Temp hit points"
-                                    output: true
+                                    border: full
                                     temp: true
                                     overlay: hp
                                     width: large
                                 
-                              - h4: "Effects"
+                          - section: "Defence"
+                            contents:
+                              - calc:
+                                output:
+                                  field: "animal-companion-ac"
+                                  legend: "Armour Class"
+                                  icon: "ac"
+                                  border: full
+                                  width: large
+                                  underlay: "AC"
+                                inputs:
+                                  - span: "10 +"
+                                  - field:
+                                    ref: "DEX"
+                                    label: "DEX"
+                                    # frame: h-label
+                                    underlay: "DEX"
+                                  - field: "animal-companion-ac-proficiency"
+                                    control: proficiency
+                                    label: "Proficiency"
+                                  - field: armour-bonus
+                                    label: "Barding\nBonus"
+                                  - field:
+                                    misc: true
+                                    label: "Misc"
+                              - field: animal-companion-ac-conditional
+                                label: "Conditional"
+                                width: stretch
+                                align: left
+                                repeat: 3
+                                merge-bottom: true
+                                
+                              - h5: "Effects"
                               - list:
                                 columns: 2
                                 collapse: true
@@ -469,10 +472,6 @@ inc:
                                     label: "AC Bonus"
                                     width: large
                                     icon: ac
-                                  - field: animal-companion-barding-ac
-                                    label: "TAC Bonus"
-                                    width: large
-                                    icon: tac
                                   - field: animal-companion-barding-bulk
                                     label: "Bulk"
                               - row:
@@ -493,7 +492,8 @@ inc:
                                 merge-bottom: true
                                 field_frame: none
                                 contents:
-                                  - repeat: 11
+                                  - repeat: 12
+                                    merge-bottom: true
                                     contents:
                                       - row:
                                         contents:

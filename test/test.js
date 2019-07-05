@@ -67,7 +67,7 @@ var cleric = {
 
 // Druid
 var druid = {
-    name: "Hallundan, Cleric",
+    name: "Estrelle, Druid",
     units: [
         'core',
         'theme/pathfinder',
@@ -75,12 +75,16 @@ var druid = {
         'ancestry/elf',
         'background/nomad',
         'class/druid',
+        'select/druid/order/leaf',
+        'option/build',
         'option/spellbook',
         'option/animal-companion',
+        // 'feat/druid/wild-shape',
     ],
     documentColour: '#102820',
     accentColour: '#a6085e',
     portrait: 'portraits/Elf Druid.jpg',
+    animal: 'portraits/vine-leshy.png',
     background: 'backgrounds/paper3.jpg',
 }
 
@@ -102,15 +106,17 @@ var druid5e = {
         'base',
         'ancestry/elf',
         'class/druid',
+        'subclass/druid/circle-of-the-land',
     ],
     logo: '',
     documentColour: '#102820',
     accentColour: '#a6085e',
     portrait: 'portraits/Elf Druid.jpg',
+    animal: 'portraits/large_riding_dog.jpg',
     background: 'backgrounds/paper3.jpg',
 }
 
-var character = CharacterSheets(druid5e);
+var character = CharacterSheets(druid);
 character.create(data => {
     // console.log(JSON.stringify(data, null, 2));
     var filename = __dirname+'/prototype8.html';

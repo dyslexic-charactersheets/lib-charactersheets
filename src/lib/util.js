@@ -181,7 +181,7 @@ export function interpolate(template, values) {
             var match = tag.match(/#\{(.*?)\}/);
             var index = match[1];
             // console.log("Match index:", index);
-            if (_.has(values, index)) {
+            if (values.hasOwnProperty(index)) {
                 // console.log(` - Replacing #{${index}} -> ${values[index]}`);
                 return values[index];
             }

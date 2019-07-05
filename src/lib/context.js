@@ -7,20 +7,20 @@ var contextStack = [];
 var regex = new RegExp('^(.*?)_(.*)$', '');
 
 export function applyContext(item) {
-    if (_.isArray(item)) {
-        return _.map(item, applyContext);
+    if (Array.isArray(item)) {
+        return item.map(applyContext);
     }
 
     var contentsKey = "contents";
     // log("context", "Item", item);
-    // log("context", "has type:", (_.has(item, "type") ? "yes" : "no"));
+    // log("context", "has type:", (item.hasOwnProperty("type") ? "yes" : "no"));
 
     // apply context
-    if (_.has(item, "type")) {
+    if (item.hasOwnProperty("type")) {
         var type = item.type;
         var context = {}
         for (var i = contextStack.length - 1; i >= 0; i--) {
-            if (_.has(contextStack[i], type)) {
+            if (contextStack[i].hasOwnProperty(type)) {
                 context = _.defaults(context, contextStack[i][type]);
             }
         }
@@ -34,9 +34,9 @@ export function applyContext(item) {
         }
     }
 
-    // log("context", "has", contentsKey+":", (_.has(item, contentsKey) ? "yes" : "no"));
+    // log("context", "has", contentsKey+":", (item.hasOwnProperty(contentsKey) ? "yes" : "no"));
 
-    if (_.has(item, contentsKey)) {
+    if (item.hasOwnProperty(contentsKey)) {
         // extract context
         var contextArgs = {};
         Object.entries(item).forEach(pair => {
@@ -46,7 +46,7 @@ export function applyContext(item) {
                 // log("context", "Found a context arg:", pair[0]);
                 var type = match[1];
                 var key = match[2];
-                if (!_.has(contextArgs, type)) contextArgs[type] = {};
+                if (!contextArgs.hasOwnProperty(type)) contextArgs[type] = {};
                 contextArgs[type][key] = pair[1];
                 delete item[pair[0]];
             }
@@ -55,7 +55,7 @@ export function applyContext(item) {
 
         // recurse
         contextStack.push(contextArgs);
-        item[contentsKey] = _.map(item[contentsKey], applyContext);
+        item[contentsKey] = item[contentsKey].map(applyContext);
         contextStack.pop();
     }
 

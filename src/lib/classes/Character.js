@@ -21,6 +21,7 @@ function parseCharacter(options) {
         logo: 'logos/pathfinder2e.png',
         favicon: 'favicon16.png',
         portrait: 'portraits/wizard-ezren-runes.png',
+        animal: false,
         background: 'backgrounds/paper3.png',
     })
 
@@ -69,6 +70,12 @@ export class Character {
                 if (this.chardesc.portrait) {
                     loadQueue.loadEmbed(__dirname+'/assets/'+this.chardesc.portrait).then(data => {
                         document.portraitURL = toDataURL(data, this.chardesc.portrait);
+                    });
+                }
+
+                if (this.chardesc.animal) {
+                    loadQueue.loadEmbed(__dirname+'/assets/'+this.chardesc.animal).then(data => {
+                        document.animalURL = toDataURL(data, this.chardesc.animal);
                     });
                 }
 

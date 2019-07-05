@@ -45,6 +45,7 @@
             border-style: solid;
             border-width: $border;
             border-color: $colour_light;
+            background: white;
         }
 
 		.field__control {
@@ -268,6 +269,12 @@ article header .field__box {
 
     + .field.field--control_money {
         margin-top: -2pt;
+
+        .field__box {
+            border-top: 0 none;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
     }
 
     .field__box {
@@ -275,9 +282,6 @@ article header .field__box {
         justify-content: flex-end;
 
         &.field__box--border_full {
-            border-top: 0 none;
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
             border-bottom-width: 0.75pt;
 
             .field__overlay {
@@ -341,30 +345,54 @@ article header .field__box {
 
 .field.field--control_boost {
     $icon-size: 1.3rem;
+    $icon-width: 0.8rem;
+
+    .field__box {
+        justify-content: center;
+    }
 
     .field__control {
-        justify-content: center;
+        width: $icon-width;
+        flex: 0 0 auto;
 
         input[type=checkbox] {
             display: none;
 
             + label {
                 display: inline-block;
-                width: $icon-size;
+                width: $icon-width;
                 height: $icon-size;
                 
                 background-position: center;
                 background-repeat: no-repeat;
-                background-size: contain;
+                background-size: cover;
             }
         }
     }
 
-    .field__control--boost_up label {
-        background-image: url('{{{dataurl "images/icon-boost-up.svg"}}}');
+    .field__control--boost_up {
+        label {
+            position: relative;
+            top: -0.25rem;
+            background-image: url('{{{dataurl "images/icon-boost-up.svg"}}}');
+        }
+        input[type=checkbox]:checked + label {
+            background-image: url('{{{dataurl "images/icon-boost-up-checked.svg"}}}');
+        }
     }
 
-    .field__control--boost_down label {
-        background-image: url('{{{dataurl "images/icon-boost-down.svg"}}}');
+    .field__control--boost_down {
+        label {
+            position: relative;
+            top: 0.25rem;
+            background-image: url('{{{dataurl "images/icon-boost-down.svg"}}}');
+        }
+        input[type=checkbox]:checked + label {
+            background-image: url('{{{dataurl "images/icon-boost-down-checked.svg"}}}');
+        }
+    }
+
+    .field__control--boost_down + .field__control--boost_up {
+        margin-left: -0.2rem;
     }
 }

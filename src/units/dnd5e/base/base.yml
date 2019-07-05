@@ -70,88 +70,94 @@ inc:
                     id: character
                     untitled: true
                     contents:
-                      - layout: alignment
+                      - list:
+                        zebra: true
+                        hr: true
                         contents:
                           - g:
                             contents:
-                              - field: character-name
-                                legend: "Character Name"
-                                size: huge
-                                width: stretch
+                              - layout: alignment
+                                contents:
+                                  - g:
+                                    contents:
+                                      - field: character-name
+                                        legend: "Character Name"
+                                        size: huge
+                                        width: stretch
+                                        align: left
+                                      - row:
+                                        contents:
+                                          - field: gender
+                                            label: "Gender"
+                                            icon: gender
+                                            width: huge
+                                          - spacer:
+                                          - field: age
+                                            label: "Age"
+                                            width: huge
+                                          - spacer:
+                                          - spacer:
+                                  - field: alignment
+                                    frame: none
+                                    control: alignment
+                          - g:
+                            contents:
+                              - h5: "Abilities"
+                              - layout: 6e
+                                gutter: none
+                                contents:
+                                  - repeat: 6
+                                    rows:
+                                      - name: "Strength"
+                                        short: "STR"
+                                      - name: "Dexterity"
+                                        short: "DEX"
+                                      - name: "Constitution"
+                                        short: "CON"
+                                      - name: "Intelligence"
+                                        short: "INT"
+                                      - name: "Wisdom"
+                                        short: "WIS"
+                                      - name: "Charisma"
+                                        short: "CHA"
+                                    contents:
+                                      - g:
+                                        valign: top
+                                        contents:
+                                          - row: center
+                                            contents:
+                                              - spacer:
+                                              - field: "#{short}"
+                                                label: "#{name}"
+                                                border: circle
+                                                size: huge
+                                                underlay: "#{short}"
+                                                eq: "(%{#{short}-score}-10)/2"
+                                              - spacer:
+                                          - row: center
+                                            contents:
+                                              - spacer:
+                                              - field: "#{short}-score"
+                                                # width: small
+                                                frame: none
+                                              - spacer:
+                              - p: "Ability Modifier = (Ability Score - 10) &divide; 2"
                                 align: left
-                              - row:
-                                contents:
-                                  - field: gender
-                                    label: "Gender"
-                                    icon: gender
-                                    width: huge
-                                  - spacer:
-                                  - field: age
-                                    label: "Age"
-                                    width: huge
-                                  - spacer:
-                                  - spacer:
-                          - field: alignment
-                            frame: none
-                            control: alignment
-
-                  - hr:
-                  - h5: "Abilities"
-                  - layout: 6e
-                    gutter: none
-                    contents:
-                      - repeat: 6
-                        rows:
-                          - name: "Strength"
-                            short: "STR"
-                          - name: "Dexterity"
-                            short: "DEX"
-                          - name: "Constitution"
-                            short: "CON"
-                          - name: "Intelligence"
-                            short: "INT"
-                          - name: "Wisdom"
-                            short: "WIS"
-                          - name: "Charisma"
-                            short: "CHA"
-                        contents:
                           - g:
-                            valign: top
                             contents:
-                              - row: center
+                              - layout: alignment
                                 contents:
-                                  - spacer:
-                                  - field: "#{short}"
-                                    label: "#{name}"
+                                  - g:
+                                    contents:
+                                      - field: proficiencies
+                                        legend: "Proficiencies"
+                                        width: stretch
+                                        repeat: 3
+                                        merge-bottom: true
+                                  - field: proficiency
                                     border: circle
                                     size: huge
-                                    underlay: "#{short}"
-                                    eq: "(%{#{short}-score}-10)/2"
-                                  - spacer:
-                              - row: center
-                                contents:
-                                  - spacer:
-                                  - field: "#{short}-score"
-                                    # width: small
-                                    frame: none
-                                  - spacer:
-                  - p: "Ability Modifier = (Ability Score - 10) &divide; 2"
-                    align: left
-
-                  - hr:
-                  - layout: alignment
-                    contents:
-                      - g:
-                        contents:
-                          - field: proficiencies
-                            legend: "Proficiencies"
-                            width: stretch
-                            repeat: 3
-                            merge-bottom: true
-                      - field: proficiency
-                        border: circle
-                        size: huge
-                        label: "Proficiency\nBonus"
+                                    label: "Proficiency\nBonus"
 
                   - tail:
               - g:
@@ -223,8 +229,8 @@ inc:
                         collapse: true
                         field_frame: none
                         columns:
-                          - 
-                          - label: "Hit\nDie"
+                          - label: "Class"
+                          - label: "Hit Die"
                           - label: "Level"
                         template:
                           - field: 'class-#{i}'
@@ -248,42 +254,48 @@ inc:
                   - section: "Background"
                     id: background
                     contents:
-                      - field: background
-                        legend: "Background"
-                        width: stretch
-                      - field: background-details
-                        width: stretch
-                        frame: none
-                        repeat: 3
-                        merge-bottom: true
-                      - hr:
+                      - list:
+                        zebra: true
+                        hr: true
+                        contents:
+                          - article:
+                            header:
+                              - h5: "Background"
+                              - field: background
+                                size: large
+                                width: stretch
+                                align: left
+                                frame: none
+                            contents:
+                              - field: background-details
+                                frame: none
+                                width: stretch
+                                align: left
+                                repeat: 3
 
-                      - field: background-personality
-                        legend: "Personality Traits"
-                        width: stretch
-                        repeat: 4
-                        merge-bottom: true
-                      - hr:
+                          - field: background-personality
+                            legend: "Personality Traits"
+                            width: stretch
+                            repeat: 4
+                            merge-bottom: true
 
-                      - field: background-ideal
-                        legend: "Ideal"
-                        width: stretch
-                        repeat: 4
-                        merge-bottom: true
-                      - hr:
+                          - field: background-ideal
+                            legend: "Ideal"
+                            width: stretch
+                            repeat: 4
+                            merge-bottom: true
 
-                      - field: background-bond
-                        legend: "Bond"
-                        width: stretch
-                        repeat: 4
-                        merge-bottom: true
-                      - hr:
+                          - field: background-bond
+                            legend: "Bond"
+                            width: stretch
+                            repeat: 4
+                            merge-bottom: true
 
-                      - field: background-flaw
-                        legend: "Flaw"
-                        width: stretch
-                        repeat: 4
-                        merge-bottom: true
+                          - field: background-flaw
+                            legend: "Flaw"
+                            width: stretch
+                            repeat: 4
+                            merge-bottom: true
 
                   - hr:
                     swash: true
@@ -440,6 +452,7 @@ inc:
                                           - field:
                                             label: "Proficiency"
                                             control: checkbox
+                                            width: large
                                           - field:
                                             misc: true
                                             label: "Misc"

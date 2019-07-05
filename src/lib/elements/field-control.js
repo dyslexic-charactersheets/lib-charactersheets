@@ -141,6 +141,7 @@ export let field_control_weight = {
     name: 'control:weight',
     defaults: {
         schema: "starfinder",
+        width: "huge"
     }, 
     render: (args, reg) => {
         switch (args.schema) {
