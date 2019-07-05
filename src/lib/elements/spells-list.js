@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import { interpolate } from '../util';
 
 function spellLevel(lvl, style, slots, special) {
@@ -230,7 +231,7 @@ export let spells_table = {
     transform: args => {
         // log("-","[spells] Expanding spells table:", args);
 
-        /*
+        
         var rows = [];
         var columns = [];
         var template = [];
@@ -268,37 +269,52 @@ export let spells_table = {
         table = _.defaults(table, args);
         // log("-","[spells] Expanded spells table:", table);
         return [ table ];
-        */
-
+        
+        /*
         return [
             {
-                type: "table",
-                collapse: true,
-                columns: [
-                    { type: "level-marker", level: 1 },
-                    { type: "level-marker", level: 2 },
-                    { type: "level-marker", level: 3 },
-                    { type: "level-marker", level: 4 },
-                    { type: "level-marker", level: 5 },
-                    { type: "level-marker", level: 6 },
-                    { type: "level-marker", level: 7 },
-                    { type: "level-marker", level: 8 },
-                    { type: "level-marker", level: 9 }
-                ],
-                rows: [
-                    [
+                type: "row",
+                narrow: true,
+                contents: [
+                    { type: 'g', contents: [
+                        { type: "level-marker", level: 1, marker: "Spell Level" },
                         { type: "field", id: "spells-1-per-day", width: "small", frame: "none" },
+                    ]},
+                    { type: 'g', contents: [
+                        { type: "level-marker", level: 2, marker: "Spell Level" },
                         { type: "field", id: "spells-2-per-day", width: "small", frame: "none" },
+                    ]},
+                    { type: 'g', contents: [
+                        { type: "level-marker", level: 3, marker: "Spell Level" },
                         { type: "field", id: "spells-3-per-day", width: "small", frame: "none" },
+                    ]},
+                    { type: 'g', contents: [
+                        { type: "level-marker", level: 4, marker: "Spell Level" },
                         { type: "field", id: "spells-4-per-day", width: "small", frame: "none" },
+                    ]},
+                    { type: 'g', contents: [
+                        { type: "level-marker", level: 5, marker: "Spell Level" },
                         { type: "field", id: "spells-5-per-day", width: "small", frame: "none" },
+                    ]},
+                    { type: 'g', contents: [
+                        { type: "level-marker", level: 6, marker: "Spell Level" },
                         { type: "field", id: "spells-6-per-day", width: "small", frame: "none" },
+                    ]},
+                    { type: 'g', contents: [
+                        { type: "level-marker", level: 7, marker: "Spell Level" },
                         { type: "field", id: "spells-7-per-day", width: "small", frame: "none" },
+                    ]},
+                    { type: 'g', contents: [
+                        { type: "level-marker", level: 8, marker: "Spell Level" },
                         { type: "field", id: "spells-8-per-day", width: "small", frame: "none" },
-                        { type: "field", id: "spells-9-per-day", width: "small", frame: "none" }
-                    ]
+                    ]},
+                    { type: 'g', contents: [
+                        { type: "level-marker", level: 9, marker: "Spell Level" },
+                        { type: "field", id: "spells-9-per-day", width: "small", frame: "none" },
+                    ]}
                 ]
             }
         ];
+        */
     }
 }
