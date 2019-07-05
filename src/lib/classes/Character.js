@@ -98,7 +98,7 @@ export class Character {
                 loadQueue.ready(() => {
                     log("Character", "Ready");
                     // write the document out for debug
-                    fs.writeFile(__dirname+'/../test/prototype8.json', JSON.stringify(document.doc, null, 2), (err) => {
+                    fs.writeFile(__dirname+'/../test/test.json', JSON.stringify(document.doc, null, 2), (err) => {
                         if (err)
                             error("Character", "Could not write JSON file:", err);
                     });
