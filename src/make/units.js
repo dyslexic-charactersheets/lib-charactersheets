@@ -80,7 +80,7 @@ Handlebars.registerHelper('dataurlraw', function (filename, options) {
 module.exports = {
     loadSystem: function (system, callback) {
         var unitsBase = __dirname+'/../units/'+system;
-        var debugDir = __dirname+'/../../debug/'+system;
+        var debugDir = __dirname+'/../../test/debug/'+system;
 
         // load units
         var systemUnits = [];
