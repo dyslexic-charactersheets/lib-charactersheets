@@ -1,6 +1,6 @@
 # Dyslexic Character Sheets
 
-A library to generate character sheets.
+A library to generate character sheets for Pathfinder 2nd Edition, and in future other games.
 
 See: https://www.dyslexic-charactersheets.com/.
 
@@ -20,21 +20,29 @@ The library expects to be given a character's details in the form of a plain Jav
 }
 ```
 
-A full specification can be found here: ...
+To use it, first install this library:
 
-```js
-var dyslexic = require('dyslexic-charactersheets');
-
-var character = { ... character description ... };
-
-var charactersheet = dyslexic(character);
-
-
+```bash
+$ npm install --save dyslexic-charactersheets
 ```
 
-## How to build the package
+Then run code like so.
 
-After cloning the package from source, run:
+```js
+var dyslexicCharacterSheets = require('dyslexic-charactersheets');
+
+var characterDesc = { ... character description ... };
+
+var characterSheet = dyslexicCharacterSheets(characterDesc);
+
+characterSheet.create(html => {
+	// ... save or use the data ...
+});
+```
+
+## How to test the package
+
+Cloning the package from [source](https://github.com/dyslexic-charactersheets/lib-charactersheets), then run:
 
 ```bash
 $ npm install
