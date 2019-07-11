@@ -27,9 +27,10 @@ export class System {
     }
 
     getUnits(codes) {
-        return codes.map(code => {
+        var units = codes.map(code => {
             return this.getUnit(code);
         });
+        return units.filter(unit => unit !== null);
     }
 }
 

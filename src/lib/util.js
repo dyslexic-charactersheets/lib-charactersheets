@@ -69,6 +69,47 @@ function pickAttribs(args, keys) {
     return _.pick(args, keys);
 };
 
+function splitAnyCase(str) {
+  var words = str.split(/[ _/-]+/);
+  words = words.flatMap(word => word.split(/([A-Z][a-z]+)/));
+  words = words.map(word => word.toLowerCase());
+  words = words.filter(word => word != "")
+  return words;
+}
+
+export function toKebabCase(str) {
+  // convert-a-string-to-kebab-case
+  var words = splitAnyCase(str);
+  return words.join("-");
+}
+
+export function toCamelCase(str) {
+  // convertAStringToCamelCase
+  var words = splitAnyCase(str);
+  words = words.map(word => word.charAt(0).toUpperCase() + word.substr(1).toLowerCase());
+  words[0] = words[0].toLowerCase();
+  return words.join("");
+}
+
+export function toPathCase(str) {
+  // convert/a/string/to/path/case
+  var words = splitAnyCase(str);
+  return words.join("/");
+}
+
+export function toSpaceCase(str) {
+  // convert a string to space case
+  var words = splitAnyCase(str);
+  return words.join(" ");
+}
+
+export function toTitleCase(str) {
+  // Convert A String To Title Case
+  var words = str.split(" ");
+  words = words.map(word => word.charAt(0).toUpperCase() + word.substr(1).toLowerCase());
+  return words.join(" ");
+}
+
 export function elementClass(block, element = null, args = {}, modKeys = [], attribDefs = {}) {
     var cls = [];
 

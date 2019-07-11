@@ -14,7 +14,7 @@ export class Document {
         this.zones = {};
         this.templates = {};
 
-        this.documentColour = '#808080';
+        this.printColour = '#808080';
         this.accentColour = '#808080';
 
         this.faviconURL = false;
@@ -86,6 +86,10 @@ export class Document {
         var self = this;
 
         function compose(element) {
+            if (element === null) {
+              warn("Document", "Null element");
+              return [];
+            }
             if (!element.hasOwnProperty("type"))
                 return [ element ];
     
@@ -147,7 +151,7 @@ export class Document {
             var template = Handlebars.compile(css);
             var rendered = template({});
             if (unit.id != "document")
-                rendered = replaceColours(rendered, this.documentColour, this.accentColour);
+                rendered = replaceColours(rendered, this.printColour, this.accentColour);
             cssParts.push(rendered);
         });
 

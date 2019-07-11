@@ -6,6 +6,7 @@ const _ = require('lodash');
 // because that's loaded into the library, and this is needed 
 var expansion = {
     article: 'title',
+    blockquote: '',
     calc: '',
     'class-icon': 'icon',
     document: 'title',
@@ -47,6 +48,7 @@ var expansion = {
     define: 'template',
     paste: 'template',
     unit: 'id',
+    vr: '',
     zone: 'zone',
 };
 

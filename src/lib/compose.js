@@ -58,6 +58,10 @@ function composeDocument(doc, zones, templates, registry) {
     };
 
     function compose(element) {
+        if (element === null) {
+          warn("compose", "Null element");
+          return [];
+        }
         // log("compose", "Item", element);
 
         if (!element.hasOwnProperty("type"))

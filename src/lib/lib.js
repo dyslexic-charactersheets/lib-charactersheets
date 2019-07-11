@@ -1,4 +1,5 @@
 import {Registry} from './classes/Registry';
+import { Request } from './classes/Request';
 import {Character} from './classes/Character';
 import {System, loadSystemData} from './classes/System';
 
@@ -8,7 +9,9 @@ loadSystemData([ "common", "pathfinder2" ]);
 let registry = new Registry();
 
 function CharacterSheets(chardesc) {
-    return new Character(chardesc, registry);
+  let request = new Request(chardesc);
+  let primary = request.getPrimaries(registry);
+  return primary[0];
 };
 
 export default CharacterSheets;
