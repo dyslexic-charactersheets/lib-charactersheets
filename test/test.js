@@ -131,6 +131,9 @@ character.create(data => {
 // console.log(data);
 */
 
+let assetsDir = __dirname+'/in/assets';
+CharacterSheets.addAssetsDir(assetsDir);
+
 let indir = __dirname+'/in';
 fs.readdir(indir, 'utf-8', (err, files) => {
   if (err) {
@@ -153,8 +156,8 @@ fs.readdir(indir, 'utf-8', (err, files) => {
       // console.log("FILE:", fileData);
       let data = JSON.parse(fileData);
       
-      var character = CharacterSheets(data);
-      character.create(data => {
+      var characterSheet = CharacterSheets.create(data);
+      characterSheet.render(data => {
         var outfile = __dirname+'/out/'+file.replace(/\.json$/, '')+".html";
         log("test", "Writing:", outfile);
         fs.writeFile(outfile, data, (err) => {

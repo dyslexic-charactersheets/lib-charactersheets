@@ -64,17 +64,17 @@ Handlebars.registerHelper('dataurlraw', function (filename, options) {
 
 
 
-// function getUnit (unitcode) {
-//     // log("units", "getUnit", unitcode);
-//     if (_.has(_units, unitcode))
-//         return _units[unitcode];
+// function getUnit (unitid) {
+//     // log("units", "getUnit", unitid);
+//     if (_.has(_units, unitid))
+//         return _units[unitid];
 //     else
-//         error("units", "getUnit: Unknown unit", unitcode);
+//         error("units", "getUnit: Unknown unit", unitid);
 // };
 
-// function getUnits(unitcodes) {
-//     // log("units", "getUnits", unitcodes);
-//     return _.map(unitcodes, code => getUnit(code));
+// function getUnits(unitids) {
+//     // log("units", "getUnits", unitids);
+//     return _.map(unitids, code => getUnit(code));
 // };
 
 module.exports = {
@@ -122,34 +122,35 @@ module.exports = {
             }
 
             try {
-                var unitcode = unitdata.unit;
-                unitdata.id = unitcode;
-                var name = unitdata.name;
-                // log("units", "Loading unit", unitcode, "-", name);
+                var unitid = unitdata.unit;
+                unitdata.id = unitid;
+                delete unitdata.unit;
 
-                // TODO: Preprocess the data??
+                // log("units", "Loading unit", unitid, "-", unitdata.name);
                 
-                unitdata = unitExpander.expandZone(unitdata);
+                // Only expand the 'inc' section, it messes things up if you do the whole thing.
+                if (_.has(unitdata, "inc"))
+                  unitdata.inc = unitdata.inc.map(unitExpander.expandZone);
 
                 var data = jsYaml.safeDump(unitdata);
                 fs.mkdir(debugDir, { recursive: true }, () => {
-                    fs.writeFile(`${debugDir}/${unitcode.replace(/\//g, '-')}.yml`, data, err => {
-                        if (err) error("units", "Error saving unit", unitcode, err);
+                    fs.writeFile(`${debugDir}/${unitid.replace(/\//g, '-')}.yml`, data, err => {
+                        if (err) error("units", "Error saving unit", unitid, err);
                     });
                 });
 
                 unitdata.stylesheet = '';
                 // unitdata.assets = {};
                 systemUnits.push(unitdata);
-                _units[unitcode] = unitdata;
-                _assets[unitcode] = {};
+                _units[unitid] = unitdata;
+                _assets[unitid] = {};
 
                 // Load unit stylesheet
                 var stylesheetfile = `${unitsBase}/${unitdir}/stylesheet/${shortfile.replace(/\.yml$/, '.scss')}`;
 
                 if (fs.existsSync(stylesheetfile)) {
                     load.stylesheets.enqueue(stylesheetfile, function (resolve, reject) {
-                        // log("units", "Loading stylesheet", unitcode);
+                        // log("units", "Loading stylesheet", unitid);
                     
                         sass.render({
                             file: stylesheetfile,
@@ -157,7 +158,7 @@ module.exports = {
                             outputStyle: 'compact',
                         }, function(err, result) {
                             if (err) {
-                                error("units", "Error rendering", unitcode, err);
+                                error("units", "Error rendering", unitid, err);
                                 reject(err);
                                 return;
                             }
@@ -165,18 +166,18 @@ module.exports = {
                             var css = result.css.toString();
                             load.assets.ready(() => {
                                 var template = Handlebars.compile(css);
-                                var rendered = `/* ${unitcode} */\n`+template({
-                                    unit: unitcode
+                                var rendered = `/* ${unitid} */\n`+template({
+                                    unit: unitid
                                 });
 
                                 // if (rendered.length > 0)
-                                //     log("units", "Loaded stylesheet:", unitcode, rendered.substring(0, 30)+"...");
+                                //     log("units", "Loaded stylesheet:", unitid, rendered.substring(0, 30)+"...");
                                 // else
-                                //     log("units", "Empty stylesheet:", unitcode);
-                                fs.writeFile(`${debugDir}/${unitcode.replace(/\//g, '-')}.css`, rendered, err => {
-                                    if (err) error("units", "Error saving unit", unitcode, err);
+                                //     log("units", "Empty stylesheet:", unitid);
+                                fs.writeFile(`${debugDir}/${unitid.replace(/\//g, '-')}.css`, rendered, err => {
+                                    if (err) error("units", "Error saving unit", unitid, err);
                                 });
-                                _units[unitcode].stylesheet = rendered;
+                                _units[unitid].stylesheet = rendered;
                                 resolve();
                             });
                         });
@@ -188,11 +189,11 @@ module.exports = {
                 if (fs.existsSync(assetsDir)) {
                     // log("unit", "Looking for assets:", assetsDir);
                     load.assets.walkDirectory(assetsDir, fn => true, (data, assetfile) => {
-                        // log("units", "Asset loaded", unitcode+":"+assetfile);
+                        // log("units", "Asset loaded", unitid+":"+assetfile);
                         // process asset data now, or later?
 
                         // unitassets[assetfile] = data;
-                        _assets[unitcode][assetfile] = data;
+                        _assets[unitid][assetfile] = data;
                         _allAssets[assetfile] = data;
                     });
                     if (_.has(unitdata, "assets")) {
@@ -202,13 +203,13 @@ module.exports = {
                             _.each(assets, filename => {
                                 var assetdata = { name: filename };
                                 if (filename.match(/\.svg$/)) {
-                                    assetdata.data = (_.has(_assets, unitcode) && _.has(_assets[unitcode], filename) && !_.isEmpty(_assets[unitcode][filename])) ?
-                                        _assets[unitcode][filename] :
+                                    assetdata.data = (_.has(_assets, unitid) && _.has(_assets[unitid], filename) && !_.isEmpty(_assets[unitid][filename])) ?
+                                        _assets[unitid][filename] :
                                         _allAssets[filename];
                                 } else {
                                     var base64name = filename+".base64";
-                                    assetdata.base64 = (_.has(_assets, unitcode) && _.has(_assets[unitcode], base64name) && !_.isEmpty(_assets[unitcode][base64name])) ?
-                                        _assets[unitcode][base64name] :
+                                    assetdata.base64 = (_.has(_assets, unitid) && _.has(_assets[unitid], base64name) && !_.isEmpty(_assets[unitid][base64name])) ?
+                                        _assets[unitid][base64name] :
                                         _allAssets[base64name];
                                 }
                                 unitdata.assets.push(assetdata);
@@ -216,7 +217,7 @@ module.exports = {
                         });
                     }
                 }
-                // walkAssets(unitdir+'/assets', "", unitcode);
+                // walkAssets(unitdir+'/assets', "", unitid);
 
             } catch (exception) {
                 error("units", "Error reading", shortfile, exception);

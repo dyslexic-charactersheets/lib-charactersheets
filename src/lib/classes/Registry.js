@@ -37,192 +37,192 @@ import { define, paste } from '../elements/template';
 import { zone } from '../elements/zone';
 
 import { field } from '../elements/field';
-import { 
-	field_frame_above,
-	field_frame_none,
-	field_frame_left,
-	field_frame_right,
-	field_frame_h_label,
-	field_frame_circle,
+import {
+  field_frame_above,
+  field_frame_none,
+  field_frame_left,
+  field_frame_right,
+  field_frame_h_label,
+  field_frame_circle,
 } from '../elements/field-frame';
-import { 
-	field_control_input,
-	field_control_speed,
-	field_control_alignment,
-	field_control_boost,
-	field_control_checkbox,
-	field_control_radio,
-	field_control_checkgrid,
-	field_control_compound,
-	field_control_progression,
-	field_control_money,
-	field_control_weight,
-	field_control_proficiency,
-	field_control_proficiency_icon,
-	field_control_icon,
+import {
+  field_control_input,
+  field_control_speed,
+  field_control_alignment,
+  field_control_boost,
+  field_control_checkbox,
+  field_control_radio,
+  field_control_checkgrid,
+  field_control_compound,
+  field_control_progression,
+  field_control_money,
+  field_control_weight,
+  field_control_proficiency,
+  field_control_proficiency_icon,
+  field_control_icon,
 } from '../elements/field-control';
 
 
 export class Registry {
-	constructor() {
-		this.registry = {};
-		this.stack = [];
+  constructor() {
+    this.registry = {};
+    this.stack = [];
 
-		// load all the elements
-		[
-			unit,
-			document,
+    // load all the elements
+    [
+      unit,
+      document,
 
-			article,
-			blockquote,
-			calc,
-			class_icon,
-			each,
-			g,
-			h1, h2, h3, h4, h5, h6,
-			hr, tail, vr,
-			icon,
-			label,
-			layout,
-			level, level_marker,
-			list,
-			logo,
-			page,
-			p, ul, li,
-			portrait,
-			proficiency, action,
-			repeat,
-			row,
-			section,
-			slots,
-			spacer,
-			span,
-			spells_list,
-			spells_table,
-			spells_list2,
-			table,
-			define, paste,
-			unit,
-			zone,
-			
-			field,
-			field_frame_none,
-			field_frame_above,
-			field_frame_left,
-			field_frame_right,
-			field_frame_h_label,
-			field_frame_circle,
-			field_control_input,
-			field_control_speed,
-			field_control_alignment,
-			field_control_boost,
-			field_control_checkbox,
-			field_control_radio,
-			field_control_checkgrid,
-			field_control_compound,
-			field_control_progression,
-			field_control_money,
-			field_control_weight,
-			field_control_proficiency,
-			field_control_proficiency_icon,
-			field_control_icon,
-		].forEach(elem => this.register(elem));
+      article,
+      blockquote,
+      calc,
+      class_icon,
+      each,
+      g,
+      h1, h2, h3, h4, h5, h6,
+      hr, tail, vr,
+      icon,
+      label,
+      layout,
+      level, level_marker,
+      list,
+      logo,
+      page,
+      p, ul, li,
+      portrait,
+      proficiency, action,
+      repeat,
+      row,
+      section,
+      slots,
+      spacer,
+      span,
+      spells_list,
+      spells_table,
+      spells_list2,
+      table,
+      define, paste,
+      unit,
+      zone,
 
-		// log("Registry", "Loaded registry elements", Object.keys(this.registry));
-	}
+      field,
+      field_frame_none,
+      field_frame_above,
+      field_frame_left,
+      field_frame_right,
+      field_frame_h_label,
+      field_frame_circle,
+      field_control_input,
+      field_control_speed,
+      field_control_alignment,
+      field_control_boost,
+      field_control_checkbox,
+      field_control_radio,
+      field_control_checkgrid,
+      field_control_compound,
+      field_control_progression,
+      field_control_money,
+      field_control_weight,
+      field_control_proficiency,
+      field_control_proficiency_icon,
+      field_control_icon,
+    ].forEach(elem => this.register(elem));
 
-	register(params) {
-		params = Object.assign({
-			key: '',
-			defaults: {},
-			expect: [],
-			render: args => '',
-			transform: false,
-		}, params);
+    // log("Registry", "Loaded registry elements", Object.keys(this.registry));
+  }
 
-		// find expected keys
-		var expect = Object.keys(params.defaults).concat(params.expect);
-		expect = [...new Set(expect)]; // uniq
-		expect.unshift("level");
-		params.expect = expect;
-	
-		this.registry[params.name] = params;
-	}
+  register(params) {
+    params = Object.assign({
+      key: '',
+      defaults: {},
+      expect: [],
+      render: args => '',
+      transform: false,
+    }, params);
 
-	get(type) {
-		if (this.registry.hasOwnProperty(type))
-			return this.registry[type];
-		return false;
-	}
+    // find expected keys
+    var expect = Object.keys(params.defaults).concat(params.expect);
+    expect = [...new Set(expect)]; // uniq
+    expect.unshift("level");
+    params.expect = expect;
 
-	render(items) {
-		// log("registry", "Render", items);
-		var rendered = items.map(item => this.renderItem(item));
-		return rendered.join("");
-	}
-	
-	renderItem(item) {
-		if (item === null) return '';
-		item = Object.assign({
-			id: null,
-			exists: true,
-		}, item);
+    this.registry[params.name] = params;
+  }
 
-		if (!item.exists || item.exists === "false")
-			return '';
+  get(type) {
+    if (this.registry.hasOwnProperty(type))
+      return this.registry[type];
+    return false;
+  }
 
-		if (item.type == "unit")
-			item.type = item["unit-type"];
+  render(items) {
+    // log("registry", "Render", items);
+    var rendered = items.map(item => this.renderItem(item));
+    return rendered.join("");
+  }
 
-		// log("Registry", "renderItem", item.type);
-		if (this.registry.hasOwnProperty(item.type)) {
-			var reg = this.registry[item.type];
-		
-			// registered defaults
-			Object.keys(item).forEach(key => {
-				if (item[key] === null)
-					delete item[key];
-			});
-			item = Object.assign({}, reg.defaults, item);
-			if (item.type == "slots")
-				log("Registry", item);
+  renderItem(item) {
+    if (item === null) return '';
+    item = Object.assign({
+      id: null,
+      exists: true,
+    }, item);
 
-			if (item['merge-bottom'])
-				item = mergeBottom(item);
-			
-			this.stack.push(item.type + ((item.id == null) ? '' : ":"+item.id) + ((item.title == null) ? '' : ':'+item.title));
-			var output = reg.render(item, this);
-			this.stack.pop();
-			return output;
-		} else {
-			// log("Registry", "Registry elements", Object.keys(this.registry));
-			warn("Registry", "Unknown element type:", item.type, "at:", this.stack, item);
-			return '';
-		}
-	}
+    if (!item.exists || item.exists === "false")
+      return '';
+
+    if (item.type == "unit")
+      item.type = item["unit-type"];
+
+    // log("Registry", "renderItem", item.type);
+    if (this.registry.hasOwnProperty(item.type)) {
+      var reg = this.registry[item.type];
+
+      // registered defaults
+      Object.keys(item).forEach(key => {
+        if (item[key] === null)
+          delete item[key];
+      });
+      item = Object.assign({}, reg.defaults, item);
+      if (item.type == "slots")
+        log("Registry", item);
+
+      if (item['merge-bottom'])
+        item = mergeBottom(item);
+
+      this.stack.push(item.type + ((item.id == null) ? '' : ":" + item.id) + ((item.title == null) ? '' : ':' + item.title));
+      var output = reg.render(item, this);
+      this.stack.pop();
+      return output;
+    } else {
+      // log("Registry", "Registry elements", Object.keys(this.registry));
+      warn("Registry", "Unknown element type:", item.type, "at:", this.stack, item);
+      return '';
+    }
+  }
 }
 
 export function mergeBottom(element) {
-    if (Array.isArray(element)) {
-        element[element.length - 1] = mergeBottom(element[element.length - 1]);
+  if (Array.isArray(element)) {
+    element[element.length - 1] = mergeBottom(element[element.length - 1]);
+  }
+
+  else if (typeof element == 'object') {
+    switch (element.type) {
+      // horizontal elements don't
+      case 'calc':
+      case 'row':
+        break;
+
+      case 'field':
+        element['merge-bottom'] = true;
+        break;
+
+      case 'list':
+      default:
+        element.contents = mergeBottom(element.contents);
     }
+  }
 
-    else if (typeof element == 'object') {
-        switch (element.type) {
-            // horizontal elements don't 
-            case 'calc':
-            case 'row':
-                break;
-
-            case 'field':
-                element['merge-bottom'] = true;
-                break;
-
-            case 'list':
-            default:
-                element.contents = mergeBottom(element.contents);
-        }
-    }
-
-    return element;
+  return element;
 };

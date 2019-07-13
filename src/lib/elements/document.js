@@ -1,21 +1,21 @@
 import { esc } from '../util';
 
 export let document = {
-    name: 'document',
-    key: 'title', 
-    defaults: {
-        title: 'Dyslexic Character Sheets',
-        favicon: 'favicon.png',
-        sort: true
-    },
-    render: (args, reg) => {
-        // TODO load favicon
-        // var faviconData = getDataURL("core", "images/"+args.favicon);
-        var faviconData = '';
-        // TODO load stylesheet
-        var stylesheet = '';
+  name: 'document',
+  key: 'title',
+  defaults: {
+    title: 'Dyslexic Character Sheets',
+    favicon: 'favicon.png',
+    sort: true
+  },
+  render: (args, reg) => {
+    // TODO load favicon
+    // var faviconData = getDataURL("core", "images/"+args.favicon);
+    var faviconData = '';
+    // TODO load stylesheet
+    var stylesheet = '';
 
-        return `<!DOCTYPE html>
+    return `<!DOCTYPE html>
 <html lang='en-GB'>
 <head>
 <meta charset='utf-8'/>
@@ -45,5 +45,5 @@ ${reg.render(args.contents)}
 </nav>
 </body>
 </html>`;
-    }
+  }
 }

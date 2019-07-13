@@ -3,7 +3,7 @@ import { log, error } from '../log';
 import { Character } from './Character';
 
 function randomID() {
-  return Math.random().toString(16).substring(2,9)
+  return Math.random().toString(16).substring(2, 9)
 }
 
 export class Request {
@@ -40,8 +40,8 @@ export class Request {
   }
 
   getPrimaries(registry) {
-  //   log("Request", "getPrimaries", this.primary);
-  //   log("Request", "Instances", this.instances);
+    //   log("Request", "getPrimaries", this.primary);
+    //   log("Request", "Instances", this.instances);
 
     this.primary.forEach(primary => {
       // swap in linked instances
@@ -60,7 +60,7 @@ export class Request {
     });
 
     return this.primary.map(primary => {
-      switch(primary.type) {
+      switch (primary.type) {
         case 'character':
           return new Character(primary, registry);
 

@@ -27,8 +27,8 @@ function defineTemplate(templates, template_id, defaults, elements) {
 
 function composeDocument(doc, zones, templates, registry) {
     log("compose", "Compose document");
-    // log("compose", " - Doc:", doc);
-    // log("compose", " - Zones:", zones);
+    log("compose", " - Doc:", doc);
+    log("compose", " - Zones:", zones);
     // log("compose", " - Templates:", templates);
     // log("compose", " - Registry", registry);
     
@@ -62,7 +62,7 @@ function composeDocument(doc, zones, templates, registry) {
           warn("compose", "Null element");
           return [];
         }
-        // log("compose", "Item", element);
+        log("compose", "Item", element);
 
         if (!element.hasOwnProperty("type"))
             return [ element ];
