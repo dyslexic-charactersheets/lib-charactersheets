@@ -208,8 +208,7 @@ export class Character {
         // load units
         var units = system.getUnits(self.chardesc.units);
 
-        /*
-        // infer required units
+        // infer required units (to a finite depth)
         var more = true;
         for (var i = 0; more && i < 5; i++) {
           more = false;
@@ -230,7 +229,6 @@ export class Character {
           });
           units = units.concat(moreunits);
         }
-        */
 
         // make the element tree
         units.forEach(unit => document.addUnit(unit));
