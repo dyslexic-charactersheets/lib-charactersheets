@@ -25,9 +25,6 @@ form:
     name: "Permission to Print"
     unit: option/permission
 
-assets:
-  - images/2e-logo.png
-
 inc:
 
   - at: '@permission'
@@ -56,10 +53,17 @@ inc:
                     id: player
                     untitled: true
                     contents:
-                      - field: player-name
-                        label: "Player"
-                        width: stretch
-                        align: left
+                      - row:
+                        contents:
+                          - field: player-name
+                            label: "Player"
+                            width: stretch
+                            align: left
+                          - field: hero-points
+                            label: "Hero Points"
+                            border: circle
+
+
                       - row:
                         contents:
                           - field: campaign-name
@@ -204,38 +208,38 @@ inc:
                               repeat: 2
                               merge-bottom: true
 
-                      - hr:
-                      - h5: "Ancestry Feats"
-                      - list:
-                        zebra: true
-                        hr: true
-                        contents:
-                          - each:
-                            template:
-                              - level: '#{level}'
-                                contents:
-                                  - item: yes
-                            contents:
-                              - slots: [ 1, 5, 9, 13, 17 ]
-                                min: 1
-                                max: 1
-                                contents:
-                                  - zone: '@ancestry-feats'
-                                placeholder:
-                                  - article:
-                                    header:
-                                      - field: 'ancestry-feat-#{i}'
-                                        frame: none
-                                        size: large
-                                        width: stretch
-                                        align: left
-                                    contents:
-                                      - field: 'ancestry-feat-#{i}-details'
-                                        repeat: 2
-                                        frame: none
-                                        width: stretch
-                                        align: left
-                                        merge-bottom: true
+                      # - hr:
+                      # - h5: "Ancestry Feats"
+                      # - list:
+                      #   zebra: true
+                      #   hr: true
+                      #   contents:
+                      #     - each:
+                      #       template:
+                      #         - level: '#{level}'
+                      #           contents:
+                      #             - item: yes
+                      #       contents:
+                      #         - slots: [ 1, 5, 9, 13, 17 ]
+                      #           min: 1
+                      #           max: 1
+                      #           contents:
+                      #             - zone: '@ancestry-feats'
+                      #           placeholder:
+                      #             - article:
+                      #               header:
+                      #                 - field: 'ancestry-feat-#{i}'
+                      #                   frame: none
+                      #                   size: large
+                      #                   width: stretch
+                      #                   align: left
+                      #               contents:
+                      #                 - field: 'ancestry-feat-#{i}-details'
+                      #                   repeat: 2
+                      #                   frame: none
+                      #                   width: stretch
+                      #                   align: left
+                      #                   merge-bottom: true
 
                   - section: "Background"
                     id: background
@@ -301,6 +305,8 @@ inc:
                                       - control: checkbox
                                       - control: checkbox
                                       - control: checkbox
+                      - p: "You must take three archetype feats before you can start another."
+                      - p: "You cannot have more than one prestige archetype."
 
                       # - hr:
                       - h5: "Proficiency"
@@ -373,6 +379,40 @@ inc:
               - g:
                 contents:
 
+                  - section: "Ancestry feats"
+                    id: ancestry-feats
+                    contents:
+                      - list:
+                        zebra: true
+                        hr: true
+                        contents:
+                          - each:
+                            template:
+                              - level: '#{level}'
+                                contents:
+                                  - item: yes
+                            contents:
+                              - slots: [ 1, 5, 9, 13, 17 ]
+                                min: 1
+                                max: 1
+                                contents:
+                                  - zone: '@ancestry-feats'
+                                placeholder:
+                                  - article:
+                                    header:
+                                      - field: 'ancestry-feat-#{i}'
+                                        frame: none
+                                        size: large
+                                        width: stretch
+                                        align: left
+                                    contents:
+                                      - field: 'ancestry-feat-#{i}-details'
+                                        repeat: 2
+                                        frame: none
+                                        width: stretch
+                                        align: left
+                                        merge-bottom: true
+
                   - section: "General feats"
                     id: general-feats
                     contents:
@@ -387,7 +427,7 @@ inc:
                                 contents:
                                   - item: yes
                             contents:
-                              - slots: [ 3, 7, 11, 15, 19 ]
+                              - slots: [ 3, 7, 11, 15, 19, '', '' ]
                                 min: 1
                                 max: 1
                                 placeholder:
@@ -408,69 +448,69 @@ inc:
                                 contents:
                                   - zone: '@general-feats'
 
-                  - section: "Inventory"
-                    contents:
-                      - table:
-                        repeat: 16
-                        zebra: true
-                        collapse: true
-                        field_frame: none
-                        columns:
-                          -
-                          - label: "Value"
-                          - label: "Weight"
-                        template:
-                          - field: inventory-#{i}
-                            width: stretch
-                          - field: inventory-#{i}-value
-                          - field: inventory-#{i}-weight
-                            control: weight
-                      - g:
-                        contents:
-                          - field: weight-total
-                            frame: left
-                            label: "Total weight"
-                            control: weight
+                  # - section: "Inventory"
+                  #   contents:
+                  #     - table:
+                  #       repeat: 16
+                  #       zebra: true
+                  #       collapse: true
+                  #       field_frame: none
+                  #       columns:
+                  #         -
+                  #         - label: "Value"
+                  #         - label: "Weight"
+                  #       template:
+                  #         - field: inventory-#{i}
+                  #           width: stretch
+                  #         - field: inventory-#{i}-value
+                  #         - field: inventory-#{i}-weight
+                  #           control: weight
+                  #     - g:
+                  #       contents:
+                  #         - field: weight-total
+                  #           frame: left
+                  #           label: "Total weight"
+                  #           control: weight
 
-                      - hr:
-                      # - h4: "Money"
-                      - g:
-                        contents:
-                          - field: money-platinum
-                            frame: left
-                            control: money
-                            label: "Platinum"
-                            denomination: platinum
-                            digits: 7
-                            shift: 3
-                          - field: money-gold
-                            frame: left
-                            control: money
-                            label: "Gold"
-                            denomination: gold
-                            digits: 8
-                            shift: 2
-                          - field: money-silver
-                            frame: left
-                            control: money
-                            label: "Silver"
-                            denomination: silver
-                            digits: 9
-                            shift: 1
-                          - field: money-copper
-                            frame: left
-                            control: money
-                            label: "Copper"
-                            denomination: copper
-                            digits: 10
-                          - field: money-total
-                            frame: left
-                            output: 'true'
-                            control: money
-                            legend: "Total"
-                            denomination: copper
-                            digits: 10
-                            decimal: 1
+                  #     - hr:
+                  #     # - h4: "Money"
+                  #     - g:
+                  #       contents:
+                  #         - field: money-platinum
+                  #           frame: left
+                  #           control: money
+                  #           label: "Platinum"
+                  #           denomination: platinum
+                  #           digits: 7
+                  #           shift: 3
+                  #         - field: money-gold
+                  #           frame: left
+                  #           control: money
+                  #           label: "Gold"
+                  #           denomination: gold
+                  #           digits: 8
+                  #           shift: 2
+                  #         - field: money-silver
+                  #           frame: left
+                  #           control: money
+                  #           label: "Silver"
+                  #           denomination: silver
+                  #           digits: 9
+                  #           shift: 1
+                  #         - field: money-copper
+                  #           frame: left
+                  #           control: money
+                  #           label: "Copper"
+                  #           denomination: copper
+                  #           digits: 10
+                  #         - field: money-total
+                  #           frame: left
+                  #           output: 'true'
+                  #           control: money
+                  #           legend: "Total"
+                  #           denomination: copper
+                  #           digits: 10
+                  #           decimal: 1
 
                   - section: "Languages"
                     id: languages
@@ -638,7 +678,7 @@ inc:
                             label: "Scent"
                       - field: perception-other
                         label: "Conditional"
-                        # frame: none
+                        frame: none
                         align: left
                         repeat: 2
                         width: stretch
@@ -1352,7 +1392,7 @@ inc:
                           - g:
                             contents:
                               - hr:
-                              - h5: "Expendables"
+                              - h5: "Money"
                               - field: money-platinum
                                 frame: left
                                 control: money

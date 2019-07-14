@@ -77,8 +77,8 @@ export class Document {
   }
 
   composeDocument(registry) {
-    log("Document", "Compose document");
-    log("compose", " - Doc:", this.doc);
+    // log("Document", "Compose document");
+    // log("compose", " - Doc:", this.doc);
     // log("compose", " - Zones:", zones);
     // log("compose", " - Templates:", templates);
     // log("compose", " - Registry", registry);

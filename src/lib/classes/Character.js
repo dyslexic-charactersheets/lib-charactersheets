@@ -23,6 +23,7 @@ function parseCharacter(chardesc) {
     heritage: false,
     background: false,
     class: false,
+    archetypes: false,
 
     printColour: '#707070',
     accentColour: '#707070',
@@ -105,6 +106,12 @@ function parseCharacter(chardesc) {
             // log("Character", "Class option", key, selname, attr[key]);
             char.units.push('select/' + char.class + '/' + toKebabCase(selname) + '/' + toKebabCase(attr[key]));
           }
+        });
+      }
+
+      if (attr.archetypes) {
+        attr.archetypes.forEach(archetype => {
+          char.units.push('archetype/'+archetype);
         });
       }
 
@@ -210,7 +217,7 @@ export class Character {
 
         // infer required units (to a finite depth)
         var more = true;
-        for (var i = 0; more && i < 5; i++) {
+        for (var i = 0; more && i < 10; i++) {
           more = false;
           log("Character", "Checking for required units");
           var moreunits = [];
@@ -219,11 +226,19 @@ export class Character {
             if (unit.hasOwnProperty("require")) {
               unit.require.forEach(req => {
                 log("Character", `Unit ${unit.id} requires`, req);
-                if (unitIds.includes(req.unit)) return;
-                // TODO check if the new unit is really new
+                // check if the new unit is really new
+                if (unitIds.includes(req.unit))
+                  return;
+
+                // check if the new unit has dependencies on other units
+                if (req.hasOwnProperty("with")) {
+                  if (!unitIds.includes(req.with))
+                    return;
+                }
+
                 var newunit = system.getUnit(req.unit);
                 moreunits.push(newunit);
-                more = true;
+                more = true; // let's do this again
               });
             }
           });
