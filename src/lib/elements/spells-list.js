@@ -17,7 +17,7 @@ function spellLevel(lvl, style, slots, special) {
     }
 
     var n = parseInt(2 * Math.ceil((slots + fields.length) / 2.0)) + fields.length;
-    log("spells", "Adding up to", n, "spell fields");
+    // log("spells", "Adding up to", n, "spell fields");
     for (var i = fields.length; i < n; i++) {
         switch (style) {
             case 'prepared':
@@ -96,7 +96,7 @@ export let spells_list = {
         special: false,
         style: "prepared",
     }, 
-    render: (args, reg) => {
+    render: (args, reg, doc) => {
         var min = args.min;
         var max = args.max;
 
@@ -217,7 +217,7 @@ export let spells_list = {
                 'avoid-shade': true,
                 contents: spell_levels
             }
-        ]);
+        ], doc);
     }
 }
 

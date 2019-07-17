@@ -30,29 +30,6 @@ export let level = {
                 ]
             }
         ];
-    },
-    render: (args, reg) => {
-        return reg.render([
-            {
-                type: "layout",
-                layout: "level",
-                contents: [
-                    {
-                        type: "g",
-                        contents: [
-                            {
-                                type: "level-marker",
-                                level: args.level
-                            }
-                        ]
-                    },
-                    {
-                        type: "g",
-                        contents: args.contents
-                    }
-                ]
-            }
-        ]);
     }
 }
 

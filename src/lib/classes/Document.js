@@ -7,6 +7,8 @@ import { esc, replaceColours } from '../util';
 
 export class Document {
   constructor(baseUnit) {
+    this.nextPage = 1;
+
     var baseDocument = baseUnit.contents[0];
     // log("Document", "Base document", baseDocument);
     this.doc = _.cloneDeep(baseDocument);
@@ -22,19 +24,59 @@ export class Document {
     this.portraitURL = false;
     this.animalURL = false;
     this.backgroundURL = false;
+
+    this.vars = {};
   }
 
   set title(title) {
     this.doc.title = title;
   }
 
+  get watermark() {
+    return this.doc.watermark;
+  }
+
+  set watermark(watermark) {
+    this.doc.watermark = watermark;
+  }
+
+  nextPageNumber() {
+    return this.nextPage++;
+  }
+
   // TODO more parameters
+
+  getVar(varname) {
+    if (!this.vars.hasOwnProperty(varname))
+      return false;
+
+    // TODO combine multiple values somehow
+    var isArray = false;
+    this.vars[varname].forEach(include => {
+      if (Array.isArray(include.value))
+        isArray = true;
+    });
+
+    if (isArray) {
+      var values = [];
+      this.vars[varname].forEach(include => {
+        if (Array.isArray(include.value)) {
+          values = values.concat(include.value);
+        } else {
+          values.push(include.value);
+        }
+      });
+      return values;
+    }
+
+    return this.vars[varname][0].value;
+  }
 
   addUnit(unit) {
     if (unit == null)
       return;
 
-    log("Document", "Incorporating unit:", unit.id);
+    // log("Document", "Incorporating unit:", unit.id);
     this.units.push(unit);
 
     if (unit.hasOwnProperty("inc")) {
@@ -46,10 +88,14 @@ export class Document {
           if (include.hasOwnProperty("replace"))
             this.addAtZone(include.at, include.replace, true);
         }
+
+        if (include.hasOwnProperty("set")) {
+          if (!this.vars.hasOwnProperty(include.set))
+            this.vars[include.set] = [];
+          this.vars[include.set].push(include);
+        }
       });
     }
-
-    // TODO set variables
   }
 
   addAtZone(zoneId, elements, replace) {
@@ -57,7 +103,7 @@ export class Document {
       err("Document", "Not a zone ID:", zoneId);
       return;
     }
-    log("Document", "Adding to zone:", zoneId);
+    // log("Document", "Adding to zone:", zoneId);
     if (!this.zones.hasOwnProperty(zoneId))
       this.zones[zoneId] = [];
     elements.forEach(element => {
@@ -212,14 +258,16 @@ ${stylesheet}
 </nav>
 
 <main>
-${registry.render(this.doc.contents)}
+${registry.render(this.doc.contents, this)}
 </main>
 
 <nav id='screen-buttons'>
+<!--
 <section id='left-buttons'>
 <button id='button--large' class='btn' onclick="document.getElementsByTagName('html')[0].className += ' html--size_large';"><i></i><span>Large font</span></button>
 <button id='button--high-contrast' class='btn' onclick="document.getElementsByTagName('html')[0].className += ' html--high_contrast';"><i></i><span>High contrast</span></button>
 </section>
+-->
 <button id='button--print' onclick="window.print();return false;">Print</button>
 </nav>
 </body>

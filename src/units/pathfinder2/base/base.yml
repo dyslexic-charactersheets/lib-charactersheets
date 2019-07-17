@@ -309,61 +309,79 @@ inc:
                       - p: "You cannot have more than one prestige archetype."
 
                       # - hr:
-                      - h5: "Proficiency"
-                      - row: split
-                        valign: top
+                      - section: "Proficiency"
                         contents:
-                          - g:
+                          - row: split
                             valign: top
                             contents:
-                              - field: proficiency-untrained
-                                label: "Untrained"
-                                output: true
-                                control: proficiency
-                                value: 0
-                              - label: "None"
-                                align: center
-                          - g:
-                            valign: top
-                            contents:
-                              - field: proficiency-trained
-                                label: "Trained"
-                                output: true
-                                control: proficiency
-                                value: trained
-                              - label: "Level\n+2"
-                                align: center
-                          - g:
-                            valign: top
-                            contents:
-                              - field: proficiency-expert
-                                label: "Expert"
-                                output: true
-                                control: proficiency
-                                value: expert
-                              - label: "Level\n+4"
-                                align: center
-                          - g:
-                            valign: top
-                            contents:
-                              - field: proficiency-master
-                                label: "Master"
-                                output: true
-                                control: proficiency
-                                value: master
-                              - label: "Level\n+6"
-                                align: center
-                          - g:
-                            valign: top
-                            contents:
-                              - field: proficiency-legendary
-                                label: "Legendary"
-                                output: true
-                                control: proficiency
-                                value: legendary
-                              - label: "Level\n+8"
-                                align: center
+                              - g:
+                                valign: top
+                                contents:
+                                  - field: proficiency-untrained
+                                    label: "Untrained"
+                                    output: true
+                                    control: proficiency
+                                    value: 0
+                                  - label: "None"
+                                    align: center
+                              - g:
+                                valign: top
+                                contents:
+                                  - field: proficiency-trained
+                                    label: "Trained"
+                                    output: true
+                                    control: proficiency
+                                    value: trained
+                                  - label: "Level\n+2"
+                                    align: center
+                              - g:
+                                valign: top
+                                contents:
+                                  - field: proficiency-expert
+                                    label: "Expert"
+                                    output: true
+                                    control: proficiency
+                                    value: expert
+                                  - label: "Level\n+4"
+                                    align: center
+                              - g:
+                                valign: top
+                                contents:
+                                  - field: proficiency-master
+                                    label: "Master"
+                                    output: true
+                                    control: proficiency
+                                    value: master
+                                  - label: "Level\n+6"
+                                    align: center
+                              - g:
+                                valign: top
+                                contents:
+                                  - field: proficiency-legendary
+                                    label: "Legendary"
+                                    output: true
+                                    control: proficiency
+                                    value: legendary
+                                  - label: "Level\n+8"
+                                    align: center
 
+                          - list:
+                            zebra: true
+                            collapse: true
+                            merge-bottom: true
+                            field_frame: none
+                            contents:
+                              - repeat: 6
+                                contents:
+                                  - row:
+                                    contents:
+                                      - field: "proficiency-#{i}-name"
+                                        frame: none
+                                        width: stretch
+                                        align: left
+                                      - field: "proficiency-#{i}-value"
+                                        frame: none
+                                        control: proficiency
                   - hr:
                     swash: true
                   - spacer:
@@ -381,10 +399,12 @@ inc:
 
                   - section: "Ancestry feats"
                     id: ancestry-feats
+                    flex: 6
                     contents:
                       - list:
                         zebra: true
                         hr: true
+                        avoid-shade: true
                         contents:
                           - each:
                             template:
@@ -392,7 +412,7 @@ inc:
                                 contents:
                                   - item: yes
                             contents:
-                              - slots: [ 1, 5, 9, 13, 17 ]
+                              - slots: [ 1, 5, 9, 13, 17, '' ]
                                 min: 1
                                 max: 1
                                 contents:
@@ -415,11 +435,12 @@ inc:
 
                   - section: "General feats"
                     id: general-feats
+                    flex: 6
                     contents:
                       - list:
                         zebra: true
                         hr: true
-                        flex: true
+                        avoid-shade: true
                         contents:
                           - each:
                             template:

@@ -19,8 +19,8 @@ export let p = {
 
 export let ul = {
     name: 'ul',
-    render: (args, reg) => {
-        return `<ul>${reg.render(args.contents)}</ul>`;
+    render: (args, reg, doc) => {
+        return `<ul>${reg.render(args.contents, doc)}</ul>`;
     }
 }
 

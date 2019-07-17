@@ -12,7 +12,7 @@ export let article = {
         shade: false,
         'merge-bottom': true,
     }, 
-    render: (args, reg) => {
+    render: (args, reg, doc) => {
         var id = elementID('section', args.id);
         var cls = elementClass('section', null, args, [ 'shade' ]);
 
@@ -20,14 +20,14 @@ export let article = {
         if (_.isEmpty(args.header) && args.title != '') {
             headerElements = [ { type: 'h6', title: args.title } ];
         }
-        var header = `<header>${reg.render(headerElements)}</header>`
+        var header = `<header>${reg.render(headerElements, doc)}</header>`
         var dl = '';
 
         // var contents = mergeBottom(args.contents);
 
         return `<article${id}${cls}>
             ${header}${dl}
-            <div class='g'>${reg.render(args.contents)}</div>
+            <div class='g'>${reg.render(args.contents, doc)}</div>
             </article>`;
     }
 }

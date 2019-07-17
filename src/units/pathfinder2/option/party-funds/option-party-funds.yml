@@ -14,6 +14,31 @@ inc:
               - g:
                 contents:
                   - section: "Inventory"
+                    contents:
+                      - g:
+                        contents:
+                          - table:
+                            repeat: 45
+                            zebra: true
+                            collapse: true
+                            field_frame: none
+                            columns:
+                              -
+                              - label: "Value"
+                              - label: "Weight"
+                            template:
+                              - field: party-funds-inventory-#{i}
+                                width: stretch
+                              - field: party-funds-inventory-#{i}-value
+                              - field: party-funds-inventory-#{i}-weight
+                                control: weight
+                      - g:
+                        contents:
+                          - field: weight-total
+                            frame: left
+                            label: "Total weight"
+                            control: weight
+                  - tail:
               - g:
                 contents:
                   - layout: 2e
@@ -21,28 +46,126 @@ inc:
                       - g:
                         contents:
                           - h2: "Party Funds"
-                          - h5: "Money"
+                          - section: "Money"
+                            contents:
+                              - field: money-platinum
+                                frame: left
+                                control: money
+                                label: "Platinum"
+                                denomination: platinum
+                                digits: 7
+                                shift: 3
+                              - field: money-gold
+                                frame: left
+                                control: money
+                                label: "Gold"
+                                denomination: gold
+                                digits: 8
+                                shift: 2
+                              - field: money-silver
+                                frame: left
+                                control: money
+                                label: "Silver"
+                                denomination: silver
+                                digits: 9
+                                shift: 1
+                              - field: money-copper
+                                frame: left
+                                control: money
+                                label: "Copper"
+                                denomination: copper
+                                digits: 10
+                              - field: money-total
+                                frame: left
+                                output: 'true'
+                                control: money
+                                legend: "Total"
+                                denomination: copper
+                                digits: 10
+                                decimal: 1
+                              - p: "1000 coins = 1 bulk"
 
-                      - g:
+                      - section: "Funds"
                         contents:
-                          - section: "Debts"
+                          - g:
                             contents:
-                  - layout: 2e
+                              - field: money-valuables
+                                frame: left
+                                control: money
+                                label: "Valuables"
+                                denomination: silver
+                                digits: 7
+                              - field: money-debit
+                                frame: left
+                                control: money
+                                label: "Debit (+)"
+                                denomination: silver
+                                digits: 7
+                              - field: money-credit
+                                frame: left
+                                control: money
+                                label: "Credit (-)"
+                                denomination: silver
+                                digits: 7
+                              - field: money-assets
+                                frame: left
+                                control: money
+                                label: "Assets"
+                                denomination: silver
+                                digits: 7
+                              - field: money-sundry
+                                frame: left
+                                control: money
+                                label: "Sundry"
+                                denomination: silver
+                                digits: 7
+                          - field: money-total
+                            frame: left
+                            output: 'true'
+                            control: money
+                            legend: "Total"
+                            denomination: copper
+                            digits: 10
+                            decimal: 1
+                  - list:
+                    columns: 2
                     contents:
-                      - g:
+                      - repeat: 4
                         contents:
                           - section: "Container"
                             primary: true
                             contents:
-                          - section: "Container"
-                            primary: true
-                            contents:
-                      - g:
-                        contents:
-                          - section: "Container"
-                            primary: true
-                            contents:
-                          - section: "Container"
-                            primary: true
-                            contents:
+                              - field: party-funds-container-#{i}
+                                frame: none
+                                size: huge
+                                width: stretch
+                              - field: party-funds-container-#{i}-cash
+                                frame: left
+                                control: money
+                                label: "Cash"
+                                denomination: silver
+                                digits: 7
+                              - table:
+                                repeat: 13
+                                zebra: true
+                                collapse: true
+                                field_frame: none
+                                columns:
+                                  -
+                                  - label: "Value"
+                                  - label: "Weight"
+                                template:
+                                  - field: party-funds-container-#{i}-inventory-#{j}
+                                    width: stretch
+                                  - field: party-funds-container-#{i}-inventory-#{j}-value
+                                  - field: party-funds-container-#{i}-inventory-#{j}-weight
+                                    control: weight
+                              - g:
+                                contents:
+                                  - field: party-funds-container-#{i}-weight-total
+                                    frame: left
+                                    label: "Total weight"
+                                    control: weight
+
+                  
 

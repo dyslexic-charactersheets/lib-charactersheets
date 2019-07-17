@@ -13,10 +13,16 @@ export let field = {
         editable: true,
         'merge-bottom': false,
         label: false,
+        value: null,
     },
     expect: [ 'icon' ],
-    render: (args, reg) => {
+    render: (args, reg, doc) => {
         args = fieldDefaults(args, reg);
+
+        if (args.value === null) {
+          args.value = doc.getVar(args.id);
+          // if (args.value) log("field", "Value:", args.id, "=", args.value);
+        }
 
         var id = elementID('field', args.id);
         var cls = elementClass('field', null, args, 
@@ -24,7 +30,7 @@ export let field = {
             { "frame": "normal", "width": "medium", "align": "centre", "size": "medium", "control": "input", "shift": 0, "lp": 0, "border": "bottom" });
 
         var frameArgs = _.defaults({ type: 'frame:'+args.frame }, args);
-        var frame = reg.renderItem(frameArgs);
+        var frame = reg.renderItem(frameArgs, doc);
         return `<div${id}${cls}>${frame}</div>`;
     }
 }
@@ -92,9 +98,9 @@ export function fieldRadioIdent(fieldid = '', value = '') {
     return { id: id, name: fieldid, for: forid, ident: ident };
 };
 
-export function fieldInner(args, reg) {
+export function fieldInner(args, reg, doc) {
     args = _.defaults({ type: 'control:'+args.control }, args);
-    var control = reg.renderItem(args);
+    var control = reg.renderItem(args, doc);
     var icon = (args.hasOwnProperty("icon") && !!args.icon && _.isString(args.icon) && args.control != "icon") ? `<i class='icon icon_${args.icon}'></i>` : '';
     var unit = (args.hasOwnProperty("unit") && !!args.unit) ? `<label class='field__unit'>${args.unit}</label>` : '';
 

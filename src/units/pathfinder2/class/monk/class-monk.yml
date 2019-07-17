@@ -1,0 +1,180 @@
+unit: class/monk
+in: class
+name: "Monk"
+
+
+form:
+  - select: feat-monk
+    name: "Monk Feats"
+    max: 8
+    levels: [ 2, 4, 6, 8, 10, 14, 16, 18, 20 ]
+
+inc:
+
+  - at: '@actions'
+    add:
+      - action: 1
+        contents:
+          - article:
+            header:
+              - h5: "Flurry of Blows"
+            contents:
+              - p: "Make two unarmed Strikes. If both hit the same creature, combine their damage and enhancements for the purpose of resistances and weaknesses."
+
+  - at: '@pages'
+    add:
+      - page: monk
+        name: "Monk"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: monk
+                  - h2: "Monk"
+
+                  - section: "Unarmed"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        avoid-shade: true
+                        contents:
+                          - zone: '@monk-unarmed'
+                            contents:
+                              - article:
+                                header:
+                                  - h5: "Powerful Fist"
+                                contents:
+                                  - p: "When striking with your fist, deal 1d6 damage instead of 1d4."
+                                  - p: "Use your normal proficiency when making a lethal attack with a nonlethal unarmed attack."
+                              - level: 3
+                                contents:
+                                  - article:
+                                    header:
+                                      - h5: "Magic Strikes"
+                                    contents:
+                                      - p: "Your unarmed attacks become magical, allowing them to bypass resistances accordingly."
+                              - level: 5
+                                contents:
+                                  - article:
+                                    header:
+                                      - h5: "Metal Strikes"
+                                    contents:
+                                      - p: "Your unarmed attacks are treated as cold iron and silver."
+                              - level: 17
+                                contents:
+                                  - article:
+                                    header:
+                                      - h5: "Adamantine Strikes"
+                                    contents:
+                                      - p: "Your unarmed attacks are treated as adamantine."
+
+                  - section: "Incredible Movement"
+                    contents:
+                      - zone: '@monk-incredible-movement'
+                        contents:
+                          - calc:
+                            output:
+                              field: monk-incredible-movement-speed-bonus
+                              legend: "Speed Bonus"
+                              control: speed
+                              width: gargantuan
+                            inputs:
+                              - field:
+                                value: 5
+                                overlay: "ft"
+                              - span: "&times; ("
+                              - field:
+                                label: "Level"
+                                ref: level
+                              - span: "&divide; 3)"
+                          - p: "Conditional bonus to your Speed whenever you’re not wearing armor."
+
+                  - section: "Path to Perfection"
+                    contents:
+                      - zone: '@monk-path-to-perfection'
+                        contents:
+                          - article:
+                            header:
+                              h5: "Second Path to Perfection"
+                            contents:
+                              - p: "If you succeed at a saving throw in which your proficiency
+                                  rank is master, you instead critically succeed."
+
+                  - tail:
+                  - spacer:
+
+
+
+              - g:
+                contents:
+                  - zone: '@monk-stance'
+                  
+                  - section: "Flurry of Blows"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        avoid-shade: true
+                        contents:
+                          - zone: '@monk-flurry-of-blows'
+                            contents:
+                              - action: 1
+                                contents:
+                                  - article:
+                                    header:
+                                      - h5: "Flurry of Blows"
+                                    contents:
+                                      - p: "Once per round, make two unarmed Strikes. If both hit the same creature, combine their damage and enhancements for the purpose of resistances and weaknesses."
+                              - level: 9
+                                contents:
+                                  - article:
+                                    header:
+                                      - h5: "Fierce Flurry"
+                                    contents:
+                                      - p: "If you hit with both Strikes in a Flurry of Blows, increase the weapon damage dice of each attack by one step."
+                              - level: 19
+                                contents:
+                                  - article:
+                                    header:
+                                      - h5: "Perfected Form"
+                                    contents:
+                                      - p: "When you make an unarmed Strike, you can treat any dice whose roll was lower than 10 as if you had rolled a 10. If you do, your Strike gains the fortune trait."
+                                      
+                  - section: "Monk Feats"
+                    contents:
+                      - list:
+                        zebra: true
+                        columns: 2
+                        flowv: true
+                        hr: true
+                        contents:
+                          - each:
+                            template:
+                              - level: "#{level}"
+                                contents:
+                                  - item:
+                            contents:
+                              - slots: [ 2, 4, 6, 8, 10, 14, 16, 18, 20, '' ]
+                                min: 1
+                                max: 1
+                                placeholder:
+                                  article:
+                                  header:
+                                    - field: monk-feat-level-#{level}
+                                      width: stretch
+                                      frame: none
+                                      align: left
+                                  contents:
+                                    - field: monk-feat-level-#{level}-details
+                                      width: stretch
+                                      align: left
+                                      frame: none
+                                      repeat: 2
+                                contents:
+                                  - zone: '@monk-feats'
+                  - tail:
+                  - spacer:

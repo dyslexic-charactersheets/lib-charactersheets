@@ -3,11 +3,14 @@ export let proficiency = {
     key: 'proficiency', 
     defaults: {
         proficiency: "untrained",
-        content: "",
+        content: false,
+        contents: []
     },
     transform: args => {
         if (args.proficiency === null) args.proficiency = "untrained";
         var icon = (args.proficiency == "untrained") ? "proficiency" : "proficiency-"+args.proficiency;
+
+        var contents = args.content ? { type: "p", content: args.content } : args.contents;
         return [
             {
                 type: "layout",
@@ -17,10 +20,7 @@ export let proficiency = {
                         type: "icon",
                         icon: icon
                     },
-                    {
-                        type: "p",
-                        content: args.content
-                    }
+                    contents
                 ]
             }
         ]
@@ -65,4 +65,38 @@ export let action = {
             }
         ];
     }
+}
+
+export let selectable = {
+  name: 'selectable',
+  key: 'id',
+  defaults: {
+    id: '',
+    contents: []
+  },
+  transform: args => {
+    return [
+        {
+            type: "layout",
+            layout: "level",
+            contents: [
+                {
+                    type: "g",
+                    contents: [
+                        {
+                            type: "field",
+                            id: args.id,
+                            control: 'checkbox',
+                            frame: 'none'
+                        }
+                    ]
+                },
+                {
+                    type: "g",
+                    contents: args.contents
+                }
+            ]
+        }
+    ];
+  }
 }

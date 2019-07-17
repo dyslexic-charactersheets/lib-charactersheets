@@ -27,6 +27,7 @@ function parseCharacter(chardesc) {
 
     printColour: '#707070',
     accentColour: '#707070',
+    printWatermark: '',
     printLogo: false,
     printPortrait: false,
     animalPortrait: false,
@@ -39,6 +40,8 @@ function parseCharacter(chardesc) {
     game: attr.game,
     units: ['core', 'base', 'theme/' + attr.theme],
     language: attr.language,
+    classes: [],
+    archetypes: [],
     options: {
       'animal-companion': false,
       'party-funds': false,
@@ -56,12 +59,13 @@ function parseCharacter(chardesc) {
     printPortrait: attr.printPortrait,
     animalPortrait: attr.animalPortrait,
     printBackground: attr.printBackground,
+    printWatermark: attr.printWatermark,
   };
 
   // get all the flags
   Object.keys(attr).forEach(key => {
     if (key.match(/^option/)) {
-      let flag = key.replace(/^option/, '').toLowerCase();
+      let flag = toKebabCase(key.replace(/^option/, ''));
       // log("Character", "Option", flag, attr[key]);
       let ok = char.options[flag] = !!attr[key];
       if (ok)
@@ -89,7 +93,7 @@ function parseCharacter(chardesc) {
 
       if (attr.class) {
         char.units.push('class/' + attr.class.replace(/^class-/, ''));
-        char.class = attr.class.replace(/^class-/, '');
+        char.classes.push(attr.class.replace(/^class-/, ''));
         let cls = toCamelCase('class ' + char.class);
 
         let classFeatsKey = cls + 'Feats';
@@ -111,6 +115,7 @@ function parseCharacter(chardesc) {
 
       if (attr.archetypes) {
         attr.archetypes.forEach(archetype => {
+          char.archetypes.push(archetype);
           char.units.push('archetype/'+archetype);
         });
       }
@@ -160,7 +165,19 @@ export class Character {
         var documentUnit = system.getUnit("document");
         var document = new Document(documentUnit);
 
-        var title = `${toTitleCase(this.chardesc.ancestry)} ${toTitleCase(this.chardesc.class)}`;
+        // TODO get title parts from inside units
+        var titleParts = [];
+        if (this.chardesc.ancestry) {
+          titleParts.push(toTitleCase(this.chardesc.ancestry));
+        }
+        this.chardesc.classes.forEach(cls => {
+          titleParts.push(toTitleCase(cls));
+        });
+        this.chardesc.archetypes.forEach(archetype => {
+          titleParts.push(toTitleCase(archetype))
+        });
+
+        var title = titleParts.join(" ");
         if (this.chardesc.name) {
           title = `${this.chardesc.name}, ${title}`;
         }
@@ -169,8 +186,8 @@ export class Character {
         // Load assets
         var loadQueue = new LoadQueue();
         if (this.chardesc.favicon) {
-          locateAsset(this.chardesc.favicon, logoFile => {
-            loadQueue.loadEmbed(__dirname + '/assets/' + this.chardesc.favicon).then(data => {
+          locateAsset(this.chardesc.favicon, faviconFile => {
+            loadQueue.loadEmbed(faviconFile).then(data => {
               document.faviconURL = toDataURL(data, this.chardesc.favicon);
             });
           });
@@ -211,6 +228,7 @@ export class Character {
         // TODO set character parameters
         document.printColour = this.chardesc.printColour;
         document.accentColour = this.chardesc.accentColour;
+        document.watermark = this.chardesc.printWatermark;
 
         // load units
         var units = system.getUnits(self.chardesc.units);
@@ -225,7 +243,7 @@ export class Character {
           units.forEach(unit => {
             if (unit.hasOwnProperty("require")) {
               unit.require.forEach(req => {
-                log("Character", `Unit ${unit.id} requires`, req);
+                // log("Character", `Unit ${unit.id} requires`, req);
                 // check if the new unit is really new
                 if (unitIds.includes(req.unit))
                   return;
@@ -261,10 +279,17 @@ export class Character {
           // render the document
           var data = document.renderDocument(this.registry);
 
-          callback(data);
+          callback({
+            data: data,
+            filename: title+".html",
+            mimeType: "text/html"
+          });
         });
       } catch (err) {
         error("Character", "Error:", err);
+        callback({
+          error: err
+        });
       }
     })
   }

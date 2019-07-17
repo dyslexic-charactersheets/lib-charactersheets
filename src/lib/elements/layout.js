@@ -11,7 +11,7 @@ export let layout = {
         gutter: 'medium',
         contents: [],
     }, 
-    render: (args, reg) => {
+    render: (args, reg, doc) => {
         var cls = elementClass('layout', null, args, ['flex', 'no-flex', ], { 'layout': '', 'gutter': '' });
 
         // pick a column number
@@ -51,6 +51,6 @@ export let layout = {
             parts = _.chunk(args.contents, columns);
         }
 
-        return parts.map(contents => `<div${cls}>${reg.render(contents)}</div>`).join("");
+        return parts.map(contents => `<div${cls}>${reg.render(contents, doc)}</div>`).join("");
     }
 }

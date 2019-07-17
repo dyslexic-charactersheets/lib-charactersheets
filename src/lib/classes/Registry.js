@@ -9,7 +9,7 @@ import { article } from '../elements/article';
 import { blockquote } from '../elements/blockquote';
 import { calc } from '../elements/calc';
 import { class_icon } from '../elements/class-icon';
-import { document } from '../elements/document';
+// import { document } from '../elements/document';
 import { each } from '../elements/each';
 import { g } from '../elements/g';
 import { h1, h2, h3, h4, h5, h6 } from '../elements/headings';
@@ -23,7 +23,7 @@ import { logo } from '../elements/logo';
 import { page } from '../elements/page';
 import { p, ul, li } from '../elements/p';
 import { portrait } from '../elements/portrait';
-import { proficiency, action } from '../elements/proficiency';
+import { proficiency, action, selectable } from '../elements/proficiency';
 import { repeat } from '../elements/repeat';
 import { row } from '../elements/row';
 import { section } from '../elements/section';
@@ -71,7 +71,7 @@ export class Registry {
     // load all the elements
     [
       unit,
-      document,
+      // document,
 
       article,
       blockquote,
@@ -90,7 +90,7 @@ export class Registry {
       page,
       p, ul, li,
       portrait,
-      proficiency, action,
+      proficiency, action, selectable,
       repeat,
       row,
       section,
@@ -155,13 +155,13 @@ export class Registry {
     return false;
   }
 
-  render(items) {
+  render(items, doc) {
     // log("registry", "Render", items);
-    var rendered = items.map(item => this.renderItem(item));
+    var rendered = items.map(item => this.renderItem(item, doc));
     return rendered.join("");
   }
 
-  renderItem(item) {
+  renderItem(item, doc) {
     if (item === null) return '';
     item = Object.assign({
       id: null,
@@ -191,7 +191,7 @@ export class Registry {
         item = mergeBottom(item);
 
       this.stack.push(item.type + ((item.id == null) ? '' : ":" + item.id) + ((item.title == null) ? '' : ':' + item.title));
-      var output = reg.render(item, this);
+      var output = reg.render(item, this, doc);
       this.stack.pop();
       return output;
     } else {

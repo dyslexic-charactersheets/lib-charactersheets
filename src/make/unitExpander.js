@@ -33,6 +33,7 @@ var expansion = {
     page: 'id',
     proficiency: 'proficiency',
     action: 'action',
+    selectable: 'selectable',
     portrait: 'char',
     repeat: 'repeat',
     row: 'layout',

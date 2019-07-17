@@ -14,12 +14,12 @@ export let list = {
         'merge-bottom': false,
         'avoid-shade': false,
     },
-    render: (args, reg) => {
+    render: (args, reg, doc) => {
         if (args.zebra && args['avoid-shade']) {
             args['zebra-inverse'] = (args.contents.length % 2 == 0);
         }
         var cls = elementClass('list', null, args, [ "zebra", "zebra-inverse", "collapse", "flex", "vr", "hr", "merge-bottom" ], []);
-        return `<div${cls}>${reg.render(args.contents)}</div>`;
+        return `<div${cls}>${reg.render(args.contents, doc)}</div>`;
     }, 
     transform: args => {
         if (args.columns == 1)

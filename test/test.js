@@ -157,15 +157,15 @@ fs.readdir(indir, 'utf-8', (err, files) => {
       let data = JSON.parse(fileData);
       
       var characterSheet = CharacterSheets.create(data);
-      characterSheet.render(data => {
-        var outfile = __dirname+'/out/'+file.replace(/\.json$/, '')+".html";
+      characterSheet.render(result => {
+        var outfile = __dirname+'/out/'+result.filename;
         log("test", "Writing:", outfile);
-        fs.writeFile(outfile, data, (err) => {
-            if (!!err)
-                error("test", err);
-            log("test", "OK");
+        fs.writeFile(outfile, result.data, (err) => {
+          if (!!err)
+            error("test", err);
+          log("test", "OK");
         });
-    });
+      });
     });
   });
 });

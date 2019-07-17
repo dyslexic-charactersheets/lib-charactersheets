@@ -15,7 +15,7 @@ export let table = {
         flip: false,
         template: [],
     },
-    render: (args, reg) => {
+    render: (args, reg, doc) => {
         // log("table", "Table", args);
         var cls = elementClass('table', null, args, [ 'zebra', 'collapse', 'fixed' ], [ 'width', 'layout' ]);
 
@@ -24,7 +24,7 @@ export let table = {
             if (col === null) col = { type: 'label', label: '' };
             else if (_.isString(col)) col = { type: 'label', label: col, misc: (col == "Misc") };
 
-            var elem = reg.renderItem(col);
+            var elem = reg.renderItem(col, doc);
             var colspan = (col.hasOwnProperty('colspan') && col.colspan > 1) ? ` colspan='${col.colspan}'` : '';
             return `<th${colspan}>${elem}</th>`;
         });
@@ -71,7 +71,7 @@ export let table = {
                         var cell = _.defaults({}, cell, col, { type: 'label', label: '' });
                         // log("-","  =", cell);
                         var cellCls = elementClass('td', null, cell, [], ['align']);
-                        return `<td${cellCls}>${reg.renderItem(cell)}</td>`;
+                        return `<td${cellCls}>${reg.renderItem(cell, doc)}</td>`;
                     }
                 });
             }
@@ -81,7 +81,7 @@ export let table = {
                 return row.map(cell => {
                     if (_.isString(cell)) cell = { type: "label", label: cell };
                     if (!cell.hasOwnProperty("type")) return  '<td></td>';
-                    return `<td>${reg.renderItem(cell)}</td>`;
+                    return `<td>${reg.renderItem(cell, doc)}</td>`;
                 });
             }
         }
