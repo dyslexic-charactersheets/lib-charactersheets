@@ -1,7 +1,7 @@
 import { Registry } from './classes/Registry';
 import { Request } from './classes/Request';
-import { Character } from './classes/Character';
-import { System, loadSystemData } from './classes/System';
+import { loadSystemData } from './classes/System';
+import { Events } from './classes/Events';
 import { addAssetsDir as _addAssetsDir } from './data';
 
 // start this first, it's the slow bit
@@ -20,13 +20,13 @@ export function addAssetsDir(dir) {
 }
 
 export function onCreate(callback) {
-
+  Events.createEvt.on(callback);
 }
 
 export function onCreateElementTree(callback) {
-
+  Events.createElementTreeEvt.on(callback);
 }
 
 export function onError(callback) {
-
+  Events.errorEvt.on(callback);
 }

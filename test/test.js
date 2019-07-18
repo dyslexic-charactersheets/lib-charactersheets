@@ -134,6 +134,23 @@ character.create(data => {
 let assetsDir = __dirname+'/in/assets';
 CharacterSheets.addAssetsDir(assetsDir);
 
+CharacterSheets.onCreateElementTree((elementTree, title, request) => {
+  let filename = __dirname + '/out/'+title+'.json';
+  fs.writeFile(filename, JSON.stringify(elementTree, null, 2), (err) => {
+    if (err)
+      error("Character", "Could not write JSON file:", err);
+  });
+});
+
+CharacterSheets.onCreate((request) => {
+  // log("test", "onCreate");
+})
+
+CharacterSheets.onError(err => {
+  error("test", "onError", err);
+});
+
+
 let indir = __dirname+'/in';
 fs.readdir(indir, 'utf-8', (err, files) => {
   if (err) {
@@ -157,7 +174,15 @@ fs.readdir(indir, 'utf-8', (err, files) => {
       let data = JSON.parse(fileData);
       
       var characterSheet = CharacterSheets.create(data);
+      if (characterSheet === null) {
+        warn("test", "Skipping character");
+        return;
+      }
       characterSheet.render(result => {
+        if (result.err) {
+          error("test", result.err);
+          return;
+        }
         var outfile = __dirname+'/out/'+result.filename;
         log("test", "Writing:", outfile);
         fs.writeFile(outfile, result.data, (err) => {

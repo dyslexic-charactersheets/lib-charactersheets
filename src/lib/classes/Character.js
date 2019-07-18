@@ -1,17 +1,14 @@
-import * as fs from 'fs';
-
-import * as _ from 'lodash';
-
 import { log, error } from '../log';
 import { System, ready as systemsReady, getSystem } from './System';
 import { Document } from './Document';
 import { LoadQueue } from './LoadQueue';
+import { Events } from './Events';
 
 // import { applyContext } from '../context';
 import { locateAsset, toDataURL } from '../data';
 import { toKebabCase, toCamelCase, toPathCase, toSpaceCase, toTitleCase } from '../util';
 
-function parseCharacter(chardesc) {
+function parseCharacter(primary) {
   // attributes
   let attr = Object.assign({
     name: false,
@@ -32,7 +29,7 @@ function parseCharacter(chardesc) {
     printPortrait: false,
     animalPortrait: false,
     printBackground: false
-  }, chardesc.attributes);
+  }, primary.attributes);
 
   // an object to start with
   let char = {
@@ -131,7 +128,7 @@ function parseCharacter(chardesc) {
       break;
   }
 
-  log("Character", "Parsed", char);
+  // log("Character", "Parsed", char);
   return char;
 }
 
@@ -141,17 +138,17 @@ function parseFeats(feats) {
 
 
 export class Character {
-  constructor(chardesc, registry) {
+  constructor(primary, request, registry) {
     this.registry = registry;
-    this.chardesc = parseCharacter(chardesc);
+    this.request = request;
+    this.chardesc = parseCharacter(primary, request);
   }
 
   render(callback) {
     var self = this;
-    log("Character", "Render character");
-
-    log("Character", `Name: ${this.chardesc.name}, game: ${this.chardesc.game}`);
-    log("Character", `Units: ${this.chardesc.units}`);
+    // log("Character", "Render character");
+    // log("Character", `Name: ${this.chardesc.name}, game: ${this.chardesc.game}`);
+    // log("Character", `Units: ${this.chardesc.units}`);
 
     systemsReady(() => {
       try {
@@ -237,7 +234,7 @@ export class Character {
         var more = true;
         for (var i = 0; more && i < 10; i++) {
           more = false;
-          log("Character", "Checking for required units");
+          // log("Character", "Checking for required units");
           var moreunits = [];
           var unitIds = units.map(unit => unit.id);
           units.forEach(unit => {
@@ -269,12 +266,11 @@ export class Character {
 
         loadQueue.ready(() => {
           log("Character", "Ready");
-          // write the document out for debug
-          // TODO onCreateElementTree
-          fs.writeFile(__dirname + '/../test/out/test.json', JSON.stringify(document.doc, null, 2), (err) => {
-            if (err)
-              error("Character", "Could not write JSON file:", err);
-          });
+          Events.createElementTreeEvt.call(document.doc, title, this.request);
+          // fs.writeFile(__dirname + '/../test/out/test.json', JSON.stringify(document.doc, null, 2), (err) => {
+          //   if (err)
+          //     error("Character", "Could not write JSON file:", err);
+          // });
 
           // render the document
           var data = document.renderDocument(this.registry);

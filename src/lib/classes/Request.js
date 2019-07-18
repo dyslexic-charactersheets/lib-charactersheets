@@ -1,6 +1,8 @@
 import { log, error } from '../log';
 
 import { Character } from './Character';
+import { Party } from './Party';
+import { Events } from './Events';
 
 function randomID() {
   return Math.random().toString(16).substring(2, 9)
@@ -11,6 +13,7 @@ export class Request {
     this.instances = {};
     this.primary = [];
 
+    Events.createEvt.call(chardesc);
     this.parse(chardesc);
   }
 
@@ -62,13 +65,13 @@ export class Request {
     return this.primary.map(primary => {
       switch (primary.type) {
         case 'character':
-          return new Character(primary, registry);
+          return new Character(primary, this, registry);
 
-        // case 'party':
-        //   let members = primary.attributes.members.map(member => {
-        //     return new Character(member);
-        //   });
-        //   return new Party(primary, members);
+        case 'party':
+          return new Party(primary, this, registry);
+
+        default:
+          return null;
       }
     });
   }

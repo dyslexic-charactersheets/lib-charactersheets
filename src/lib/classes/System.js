@@ -37,7 +37,7 @@ export class System {
 export function loadSystemData(codes) {
   codes.forEach(code => {
     var systemFile = __dirname + "/lib-" + code + ".json";
-    log("System", `Loading: ${systemFile}`);
+    // log("System", `Loading: ${systemFile}`);
     var promise = new Promise((resolve, reject) => {
       fs.readFile(systemFile, 'utf-8', (err, data) => {
         if (err) {

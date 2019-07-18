@@ -97,7 +97,7 @@ Note that you may not modify the request during the callback.
 A hook that is called after the element tree has been processed, but before it's rendered into HTML. Used for debugging the resulting element tree.
 
 ```javascript
-CharacterSheets.onCreateElementTree((elements, request) => {
+CharacterSheets.onCreateElementTree((elements, title, request) => {
   // ...
 });
 ```

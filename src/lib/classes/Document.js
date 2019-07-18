@@ -32,6 +32,10 @@ export class Document {
     this.doc.title = title;
   }
 
+  get title() {
+    return this.doc.title;
+  }
+
   get watermark() {
     return this.doc.watermark;
   }
@@ -204,7 +208,7 @@ export class Document {
     });
 
     // put it all together
-    log("stylesheet", "Found", cssParts.length, "stylesheet parts");
+    // log("Document", "Found", cssParts.length, "stylesheet parts");
 
     // logo
     if (this.logoURL) {
