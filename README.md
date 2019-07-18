@@ -105,6 +105,7 @@ CharacterSheets.onCreateElementTree((elements, title, request) => {
 * `onCreateElementTree()`
   * `callback` \<Function\>
     * `elements` \<Object\> - The element tree
+    * `title` \<String\> - The character or party's name
     * `request` \<Object\> - The requested character
 
 Note that you may not modify the element tree during the callback.
