@@ -1,4 +1,4 @@
-import { fstat, existsSync } from "fs";
+import { existsSync } from "fs";
 
 const MIME_SVG = 'image/svg+xml';
 const MIME_PNG = 'image/png';

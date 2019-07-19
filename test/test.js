@@ -150,6 +150,26 @@ CharacterSheets.onError(err => {
   error("test", "onError", err);
 });
 
+function saveResult(result) {
+  if (Array.isArray(result)) {
+    log("test", `Array of ${result.length} results`);
+    result.forEach(saveResult);
+    return;
+  }
+  
+  if (result.err) {
+    error("test", result.err);
+    return;
+  }
+
+  var outfile = __dirname+'/out/'+result.filename;
+  log("test", "Writing:", outfile);
+  fs.writeFile(outfile, result.data, (err) => {
+    if (!!err)
+      error("test", err);
+    log("test", "OK");
+  });
+}
 
 let indir = __dirname+'/in';
 fs.readdir(indir, 'utf-8', (err, files) => {
@@ -178,19 +198,7 @@ fs.readdir(indir, 'utf-8', (err, files) => {
         warn("test", "Skipping character");
         return;
       }
-      characterSheet.render(result => {
-        if (result.err) {
-          error("test", result.err);
-          return;
-        }
-        var outfile = __dirname+'/out/'+result.filename;
-        log("test", "Writing:", outfile);
-        fs.writeFile(outfile, result.data, (err) => {
-          if (!!err)
-            error("test", err);
-          log("test", "OK");
-        });
-      });
+      characterSheet.render(saveResult);
     });
   });
 });

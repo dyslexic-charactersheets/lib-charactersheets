@@ -1,5 +1,5 @@
 import { log, error } from '../log';
-import { System, ready as systemsReady, getSystem } from './System';
+import { ready as systemsReady, getSystem } from './System';
 import { Document } from './Document';
 import { LoadQueue } from './LoadQueue';
 import { Events } from './Events';
@@ -141,20 +141,20 @@ export class Character {
   constructor(primary, request, registry) {
     this.registry = registry;
     this.request = request;
-    this.chardesc = parseCharacter(primary, request);
+    this.data = parseCharacter(primary, request);
   }
 
   render(callback) {
     var self = this;
     // log("Character", "Render character");
-    // log("Character", `Name: ${this.chardesc.name}, game: ${this.chardesc.game}`);
-    // log("Character", `Units: ${this.chardesc.units}`);
+    // log("Character", `Name: ${this.data.name}, game: ${this.data.game}`);
+    // log("Character", `Units: ${this.data.units}`);
 
     systemsReady(() => {
       try {
-        var system = getSystem(this.chardesc.game);
+        var system = getSystem(this.data.game);
         if (system === null) {
-          error("Character", "System not found:", this.chardesc.game);
+          error("Character", "System not found:", this.data.game);
           return;
         }
 
@@ -164,71 +164,71 @@ export class Character {
 
         // TODO get title parts from inside units
         var titleParts = [];
-        if (this.chardesc.ancestry) {
-          titleParts.push(toTitleCase(this.chardesc.ancestry));
+        if (this.data.ancestry) {
+          titleParts.push(toTitleCase(this.data.ancestry));
         }
-        this.chardesc.classes.forEach(cls => {
+        this.data.classes.forEach(cls => {
           titleParts.push(toTitleCase(cls));
         });
-        this.chardesc.archetypes.forEach(archetype => {
+        this.data.archetypes.forEach(archetype => {
           titleParts.push(toTitleCase(archetype))
         });
 
         var title = titleParts.join(" ");
-        if (this.chardesc.name) {
-          title = `${this.chardesc.name}, ${title}`;
+        if (this.data.name) {
+          title = `${this.data.name}, ${title}`;
         }
         document.title = title;
 
         // Load assets
         var loadQueue = new LoadQueue();
-        if (this.chardesc.favicon) {
-          locateAsset(this.chardesc.favicon, faviconFile => {
+        if (this.data.favicon) {
+          locateAsset(this.data.favicon, faviconFile => {
             loadQueue.loadEmbed(faviconFile).then(data => {
-              document.faviconURL = toDataURL(data, this.chardesc.favicon);
+              document.faviconURL = toDataURL(data, this.data.favicon);
             });
           });
         }
 
-        if (this.chardesc.printLogo) {
-          locateAsset(this.chardesc.printLogo, logoFile => {
+        if (this.data.printLogo) {
+          locateAsset(this.data.printLogo, logoFile => {
             loadQueue.loadEmbed(logoFile).then(data => {
-              document.logoURL = toDataURL(data, this.chardesc.printLogo);
+              document.logoURL = toDataURL(data, this.data.printLogo);
             });
           });
         }
 
-        if (this.chardesc.printPortrait) {
-          locateAsset(this.chardesc.printPortrait, portraitFile => {
+        if (this.data.printPortrait) {
+          locateAsset(this.data.printPortrait, portraitFile => {
             loadQueue.loadEmbed(portraitFile).then(data => {
-              document.portraitURL = toDataURL(data, this.chardesc.printPortrait);
+              document.portraitURL = toDataURL(data, this.data.printPortrait);
             });
           });
         }
 
-        if (this.chardesc.animalPortrait) {
-          locateAsset(this.chardesc.animalPortrait, animalPortraitFile => {
+        if (this.data.animalPortrait) {
+          locateAsset(this.data.animalPortrait, animalPortraitFile => {
             loadQueue.loadEmbed(animalPortraitFile).then(data => {
-              document.animalURL = toDataURL(data, this.chardesc.animalPortrait);
+              document.animalURL = toDataURL(data, this.data.animalPortrait);
             });
           });
         }
 
-        if (this.chardesc.printBackground) {
-          locateAsset(this.chardesc.printBackground, backgroundFile => {
+        if (this.data.printBackground) {
+          locateAsset(this.data.printBackground, backgroundFile => {
             loadQueue.loadEmbed(backgroundFile).then(data => {
-              document.backgroundURL = toDataURL(data, this.chardesc.printBackground);
+              document.backgroundURL = toDataURL(data, this.data.printBackground);
             });
           });
         }
 
         // TODO set character parameters
-        document.printColour = this.chardesc.printColour;
-        document.accentColour = this.chardesc.accentColour;
-        document.watermark = this.chardesc.printWatermark;
+        document.printColour = this.data.printColour;
+        document.accentColour = this.data.accentColour;
+        document.watermark = this.data.printWatermark;
 
         // load units
-        var units = system.getUnits(self.chardesc.units);
+        var units = system.getUnits(this.data.units);
 
         // infer required units (to a finite depth)
         var more = true;
@@ -266,7 +266,7 @@ export class Character {
 
         loadQueue.ready(() => {
           log("Character", "Ready");
-          Events.createElementTreeEvt.call(document.doc, title, this.request);
+          Events.createElementTreeEvt.call(document.doc, document.title, this.request);
           // fs.writeFile(__dirname + '/../test/out/test.json', JSON.stringify(document.doc, null, 2), (err) => {
           //   if (err)
           //     error("Character", "Could not write JSON file:", err);

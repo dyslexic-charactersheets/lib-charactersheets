@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+import { readFile } from 'fs';
 import { log, warn, error } from '../log';
 
 var systems = {};
@@ -39,7 +39,7 @@ export function loadSystemData(codes) {
     var systemFile = __dirname + "/lib-" + code + ".json";
     // log("System", `Loading: ${systemFile}`);
     var promise = new Promise((resolve, reject) => {
-      fs.readFile(systemFile, 'utf-8', (err, data) => {
+      readFile(systemFile, 'utf-8', (err, data) => {
         if (err) {
           error("System", `Error loading system file ${systemFile}:`, err);
           reject();

@@ -1,4 +1,4 @@
-import { log, error } from '../log';
+import { log } from '../log';
 
 import { Character } from './Character';
 import { Party } from './Party';
@@ -20,7 +20,7 @@ export class Request {
   parse(request) {
     // log("Request", "Parsing request", request);
     // included instances go first, in case there's an ID conflict
-    if (Object.hasOwnProperty(request, "included")) {
+    if (request.hasOwnProperty("included")) {
       if (Array.isArray(request.included)) {
         request.included.forEach(instance => this.addInstance(instance, false));
       }
@@ -35,34 +35,43 @@ export class Request {
   }
 
   addInstance(instance, primary) {
-    if (!Object.hasOwnProperty(instance, "id"))
+    if (!instance.hasOwnProperty("id"))
       instance.id = randomID();
     this.instances[instance.id] = instance;
     if (primary)
       this.primary.push(instance);
   }
 
+  getInstance(id) {
+    if (this.instances.hasOwnProperty(id))
+      return this.instances.id;
+    return null;
+  }
+
   getPrimaries(registry) {
     //   log("Request", "getPrimaries", this.primary);
     //   log("Request", "Instances", this.instances);
 
-    this.primary.forEach(primary => {
+    // log("Request", "Known instances:", Object.keys(this.instances));
+
+    var primaries = this.primary.map(primary => {
       // swap in linked instances
-      if (Object.hasOwnProperty(primary, "relationships")) {
+      if (primary.hasOwnProperty("relationships")) {
         Object.keys(primary.relationships).forEach(relkey => {
           primary.attributes[relkey] = primary.relationships[relkey].data.flatMap(link => {
-            if (Object.hasOwnProperty(this.instances, link.id)) {
+            if (this.instances.hasOwnProperty(link.id)) {
               return [this.instances[link.id]];
             } else {
               return [];
             }
           });
-          log("Request", "Substituted relationships: ", relkey, "=", primary.attributes[relkey]);
+          // log("Request", "Substituted relationships: ", relkey, "=", primary.attributes[relkey]);
         });
       }
+      return primary;
     });
 
-    return this.primary.map(primary => {
+    return primaries.map(primary => {
       switch (primary.type) {
         case 'character':
           return new Character(primary, this, registry);
