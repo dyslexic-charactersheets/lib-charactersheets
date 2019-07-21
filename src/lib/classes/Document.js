@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 const Handlebars = require('handlebars');
 
 import { applyContext } from '../context';
-import { esc, replaceColours } from '../util';
+import { esc, replaceColours, has } from '../util';
 
 export class Document {
   constructor(baseUnit) {
@@ -51,7 +51,7 @@ export class Document {
   // TODO more parameters
 
   getVar(varname) {
-    if (!this.vars.hasOwnProperty(varname))
+    if (!has(this.vars, varname))
       return false;
 
     // TODO combine multiple values somehow
@@ -83,20 +83,23 @@ export class Document {
     // log("Document", "Incorporating unit:", unit.id);
     this.units.push(unit);
 
-    if (unit.hasOwnProperty("inc")) {
+    if (has(unit, "inc")) {
       unit.inc.forEach(include => {
-        // log("Character", "At:", include);
-        if (include.hasOwnProperty("at")) {
-          if (include.hasOwnProperty("add"))
-            this.addAtZone(include.at, include.add, false);
-          if (include.hasOwnProperty("replace"))
-            this.addAtZone(include.at, include.replace, true);
-        }
+        let key = Object.keys(include)[0];
 
-        if (include.hasOwnProperty("set")) {
-          if (!this.vars.hasOwnProperty(include.set))
-            this.vars[include.set] = [];
-          this.vars[include.set].push(include);
+        switch (key) {
+          case 'at':
+            if (has(include, "add"))
+              this.addAtZone(include.at, include.add, false);
+            if (has(include, "replace"))
+              this.addAtZone(include.at, include.replace, true);
+            break;
+
+          case 'set':
+            if (!has(this.vars, include.set))
+              this.vars[include.set] = [];
+            this.vars[include.set].push(include);
+            break;
         }
       });
     }
@@ -108,7 +111,7 @@ export class Document {
       return;
     }
     // log("Document", "Adding to zone:", zoneId);
-    if (!this.zones.hasOwnProperty(zoneId))
+    if (!has(this.zones, zoneId))
       this.zones[zoneId] = [];
     elements.forEach(element => {
       if (replace)
@@ -140,7 +143,7 @@ export class Document {
         warn("Document", "Null element");
         return [];
       }
-      if (!element.hasOwnProperty("type")) {
+      if (!has(element, "type")) {
         warn("Document", "Untyped element", element);
         return [element];
       }
@@ -150,10 +153,10 @@ export class Document {
       // first recurse so we have the ingredients
       ["contents", "placeholder", "header", "inputs"].forEach(item_key => {
         // log("compose", "Checking for", item_key);
-        if (element.hasOwnProperty(item_key)) {
+        if (has(element, item_key)) {
           // log("compose", "Preparing item", item_key, element[item_key]);
           if (Array.isArray(element[item_key]))
-            element[item_key] = _.flatMap(element[item_key], compose);
+            element[item_key] = element[item_key].flatMap(compose);
           else
             element[item_key] = compose(element[item_key]);
         }
@@ -174,7 +177,7 @@ export class Document {
       }
 
       // if (element.type == "article") log("compose", "Composed element:", element);
-      // if (element.hasOwnProperty('merge-bottom') && !!element['merge-bottom']) {
+      // if (has(element, 'merge-bottom') && !!element['merge-bottom']) {
       //     // log("compose", "Merge bottom:", element);
       //     element = mergeBottom(element);
       //     if (element.type == 'article') log("compose", "Result:", element);

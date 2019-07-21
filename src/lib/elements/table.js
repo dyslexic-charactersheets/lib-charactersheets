@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-import { interpolate, elementID, elementClass } from '../util';
+import { interpolate, elementID, elementClass, isObject, has } from '../util';
 
 function tableBodyTemplate_basic(rows, columns) {
 
@@ -25,7 +25,7 @@ export let table = {
             else if (_.isString(col)) col = { type: 'label', label: col, misc: (col == "Misc") };
 
             var elem = reg.renderItem(col, doc);
-            var colspan = (col.hasOwnProperty('colspan') && col.colspan > 1) ? ` colspan='${col.colspan}'` : '';
+            var colspan = (has(col, 'colspan') && col.colspan > 1) ? ` colspan='${col.colspan}'` : '';
             return `<th${colspan}>${elem}</th>`;
         });
 
@@ -42,7 +42,7 @@ export let table = {
             rowCallback = function(row) {
                 // log("table", "Template cells", args.template);
                 var templateCells = args.template.flatMap(cell => {
-                    if (_.isPlainObject(cell) && cell.hasOwnProperty("type") && cell.type == "calc") {
+                    if (isObject(cell) && has(cell, "type") && cell.type == "calc") {
                         var fields = _.clone(cell.inputs);
                         fields.unshift({
                             "type": "span",
@@ -62,7 +62,7 @@ export let table = {
                     } else {
                         if (_.isString(cell)) cell = { type: "label", label: cell };
                         // log("-","Cell:", cell);
-                        if (!cell.hasOwnProperty("type")) {
+                        if (!has(cell, "type")) {
                             return '<td></td>';
                         }
 
@@ -80,7 +80,7 @@ export let table = {
                 // log("table", "Table row", row);
                 return row.map(cell => {
                     if (_.isString(cell)) cell = { type: "label", label: cell };
-                    if (!cell.hasOwnProperty("type")) return  '<td></td>';
+                    if (!has(cell, "type")) return  '<td></td>';
                     return `<td>${reg.renderItem(cell, doc)}</td>`;
                 });
             }

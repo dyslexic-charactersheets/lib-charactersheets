@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 
 import { log, error } from './log';
+import { has } from './util';
 
 var contextStack = [];
 
@@ -13,14 +14,14 @@ export function applyContext(item) {
 
     var contentsKey = "contents";
     // log("context", "Item", item);
-    // log("context", "has type:", (item.hasOwnProperty("type") ? "yes" : "no"));
+    // log("context", "has type:", (has(item, "type") ? "yes" : "no"));
 
     // apply context
-    if (item.hasOwnProperty("type")) {
+    if (has(item, "type")) {
         var type = item.type;
         var context = {}
         for (var i = contextStack.length - 1; i >= 0; i--) {
-            if (contextStack[i].hasOwnProperty(type)) {
+            if (has(contextStack[i], type)) {
                 context = _.defaults(context, contextStack[i][type]);
             }
         }
@@ -34,9 +35,9 @@ export function applyContext(item) {
         }
     }
 
-    // log("context", "has", contentsKey+":", (item.hasOwnProperty(contentsKey) ? "yes" : "no"));
+    // log("context", "has", contentsKey+":", (has(item, contentsKey) ? "yes" : "no"));
 
-    if (item.hasOwnProperty(contentsKey)) {
+    if (has(item, contentsKey)) {
         // extract context
         var contextArgs = {};
         Object.entries(item).forEach(pair => {
@@ -46,7 +47,7 @@ export function applyContext(item) {
                 // log("context", "Found a context arg:", pair[0]);
                 var type = match[1];
                 var key = match[2];
-                if (!contextArgs.hasOwnProperty(type)) contextArgs[type] = {};
+                if (!has(contextArgs, type)) contextArgs[type] = {};
                 contextArgs[type][key] = pair[1];
                 delete item[pair[0]];
             }

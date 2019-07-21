@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 
 import { log, warn } from '../log';
+import { has } from '../util';
 
 // elements
 import { unit } from '../elements/unit';
@@ -150,7 +151,7 @@ export class Registry {
   }
 
   get(type) {
-    if (this.registry.hasOwnProperty(type))
+    if (has(this.registry, type))
       return this.registry[type];
     return false;
   }
@@ -175,7 +176,7 @@ export class Registry {
       item.type = item["unit-type"];
 
     // log("Registry", "renderItem", item.type);
-    if (this.registry.hasOwnProperty(item.type)) {
+    if (has(this.registry, item.type)) {
       var reg = this.registry[item.type];
 
       // registered defaults

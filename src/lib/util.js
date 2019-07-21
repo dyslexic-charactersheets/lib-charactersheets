@@ -187,7 +187,7 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
     //     case 'frame': if (value == 'normal') return;
     //     case 'control': if (value == 'input') return;
     // }
-    if (attribDefs.hasOwnProperty(key) && value == attribDefs[key])
+    if (has(attribDefs, key) && value == attribDefs[key])
       return;
 
     switch (key) {
@@ -210,6 +210,10 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
     return '';
   }
   return ` class='${cls.join(" ")}'`;
+}
+
+export function has(container, property) {
+  return container !== null && container.hasOwnProperty(property) && container[property] !== null && container[property] !== undefined;
 }
 
 export function isNull(val) {
@@ -240,7 +244,7 @@ export function interpolate(template, values) {
       var match = tag.match(/#\{(.*?)\}/);
       var index = match[1];
       // console.log("Match index:", index);
-      if (values.hasOwnProperty(index)) {
+      if (has(values, index)) {
         // console.log(` - Replacing #{${index}} -> ${values[index]}`);
         return values[index];
       }
@@ -262,9 +266,9 @@ export function interpolate(template, values) {
     var first = pairs[0][0];
     if (first == 'param') {
       var paramkey = pairs[0][1];
-      if (values.hasOwnProperty(paramkey))
+      if (has(values, paramkey))
         return values[paramkey];
-    } else if (first == 'item' && values.hasOwnProperty('item')) {
+    } else if (first == 'item' && has(values, 'item')) {
       return values['item'];
     }
 
@@ -363,9 +367,9 @@ export function getLabelHeight(args) {
   if (args === null)
     return 1;
 
-  if (args.hasOwnProperty("labelHeight"))
+  if (has(args, "labelHeight"))
     return args.labelHeight;
-  if (args.hasOwnProperty("context") && args.context !== null && args.context.hasOwnProperty("labelHeight"))
+  if (has(args, "context") && args.context !== null && has(args.context, "labelHeight"))
     return args.context.labelHeight;
 
   switch (args.type) {

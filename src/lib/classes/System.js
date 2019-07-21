@@ -1,5 +1,6 @@
 import { readFile } from 'fs';
 import { log, warn, error } from '../log';
+import { has } from '../util';
 
 var systems = {};
 var commonSystem = null;
@@ -16,10 +17,10 @@ export class System {
   }
 
   getUnit(code) {
-    if (this.units.hasOwnProperty(code)) {
+    if (has(this.units, code)) {
       return this.units[code];
     }
-    if (commonSystem !== null && commonSystem.units.hasOwnProperty(code)) {
+    if (commonSystem !== null && has(commonSystem.units, code)) {
       return commonSystem.units[code];
     }
     warn("System", "Unknown unit:", code);

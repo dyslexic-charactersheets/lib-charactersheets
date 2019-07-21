@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { fieldIdent, fieldRadioIdent, fieldDefaults } from './field';
-import { elementClass } from '../util';
+import { elementClass, has } from '../util';
 // import { renderItem } from '../classes/Registry';
 
 var defaultControlRender = args => {
@@ -40,7 +40,7 @@ var renderCompoundControl = (args, reg, doc) => {
     }
     i++;
 
-    if (part.hasOwnProperty("type") && part.type != "field")
+    if (has(part, "type") && part.type != "field")
       return reg.renderItem(part, doc);
 
     part = fieldDefaults(part, reg);
@@ -362,6 +362,7 @@ export let field_control_proficiency = {
       case 'expert': args.value = 2; break;
       case 'master': args.value = 3; break;
       case 'legendary': args.value = 4; break;
+      case 0: case 1: case 2: case 3: case 4: break;
       default: args.value = 0;
     }
 

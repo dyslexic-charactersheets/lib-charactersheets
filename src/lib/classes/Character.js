@@ -6,7 +6,7 @@ import { Events } from './Events';
 
 // import { applyContext } from '../context';
 import { locateAsset, toDataURL, inferMimeType } from '../data';
-import { toKebabCase, toCamelCase, toPathCase, toSpaceCase, toTitleCase, isString, isObject, isNull } from '../util';
+import { toKebabCase, toCamelCase, toPathCase, toSpaceCase, toTitleCase, isString, isObject, isNull, has } from '../util';
 
 function parseCharacter(primary, request) {
   // attributes
@@ -160,7 +160,7 @@ export class Character {
   }
 
   getAsset(asset, callback) {
-    if (!isNull(asset) && isString(asset) && asset != "" && this.data.instances.hasOwnProperty(asset) && !isNull(this.data.instances[asset])) {
+    if (!isNull(asset) && isString(asset) && asset != "" && has(this.data.instances, asset)) {
       // log("Character", "getAsset: known instance", asset);
       asset = this.data.instances[asset];
     }
@@ -270,7 +270,7 @@ export class Character {
           var moreunits = [];
           var unitIds = units.map(unit => unit.id);
           units.forEach(unit => {
-            if (unit.hasOwnProperty("require")) {
+            if (has(unit, "require")) {
               unit.require.forEach(req => {
                 // log("Character", `Unit ${unit.id} requires`, req);
                 // check if the new unit is really new
@@ -278,7 +278,7 @@ export class Character {
                   return;
 
                 // check if the new unit has dependencies on other units
-                if (req.hasOwnProperty("with")) {
+                if (has(req, "with")) {
                   if (!unitIds.includes(req.with))
                     return;
                 }

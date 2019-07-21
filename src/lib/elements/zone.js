@@ -1,5 +1,7 @@
 import * as _ from 'lodash';
 
+import { has } from '../util';
+
 export let zone = {
     name: 'zone',
     key: 'zone', 
@@ -9,8 +11,8 @@ export let zone = {
     },
     transform: (args, ctx) => {
         // log("zone", "Zone", args.zone);
-        var existing = args.hasOwnProperty("contents") && args.contents ? args.contents : [];
-        var insert = ctx.zones.hasOwnProperty(args.zone) ? _.cloneDeep(ctx.zones[args.zone]) : [];
+        var existing = has(args, "contents") && args.contents ? args.contents : [];
+        var insert = has(ctx.zones, args.zone) ? _.cloneDeep(ctx.zones[args.zone]) : [];
 
         var replace = _.reduce(insert, (repl, element) => repl || element.replace, false);
         if (replace) {

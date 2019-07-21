@@ -14,7 +14,6 @@ const MIME_HANDLEBARS = 'text/x-handlebars';
 export function inferMimeType(filename) {
   if (!filename.match(/\..*$/))
     return 'text/plain';
-    
   var ext = filename.match(/\..*$/)[0];
   switch (ext) {
     case '.svg': return MIME_SVG;

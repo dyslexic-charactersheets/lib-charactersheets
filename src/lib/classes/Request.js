@@ -3,6 +3,7 @@ import { log } from '../log';
 import { Character } from './Character';
 import { Party } from './Party';
 import { Events } from './Events';
+import { has } from '../util';
 
 function randomID() {
   return Math.random().toString(16).substring(2, 9)
@@ -20,7 +21,7 @@ export class Request {
   parse(request) {
     // log("Request", "Parsing request", request);
     // included instances go first, in case there's an ID conflict
-    if (request.hasOwnProperty("included")) {
+    if (has(request, "included")) {
       if (Array.isArray(request.included)) {
         request.included.forEach(instance => this.addInstance(instance, false));
       }
@@ -35,7 +36,7 @@ export class Request {
   }
 
   addInstance(instance, primary) {
-    if (!instance.hasOwnProperty("id"))
+    if (!has(instance, "id"))
       instance.id = randomID();
     this.instances[instance.id] = instance;
     if (primary)
@@ -43,7 +44,7 @@ export class Request {
   }
 
   getInstance(id) {
-    if (this.instances.hasOwnProperty(id)) {
+    if (has(this.instances, id)) {
       // log("Request", "getInstance: found", id);
       return this.instances[id];
     }
@@ -59,10 +60,10 @@ export class Request {
 
     var primaries = this.primary.map(primary => {
       // swap in linked instances
-      if (primary.hasOwnProperty("relationships")) {
+      if (has(primary, "relationships")) {
         Object.keys(primary.relationships).forEach(relkey => {
           primary.attributes[relkey] = primary.relationships[relkey].data.flatMap(link => {
-            if (this.instances.hasOwnProperty(link.id)) {
+            if (has(this.instances, link.id)) {
               return [this.instances[link.id]];
             } else {
               return [];

@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-import { elementID, elementClass } from '../util';
+import { elementID, elementClass, has } from '../util';
 import { log } from '../log';
 
 export let slots = {
@@ -53,9 +53,9 @@ export let slots = {
         });
         // log("slots","Filled", slots);
         args.contents.forEach(item => {
-            if (!item.hasOwnProperty(args.key))
+            if (!has(item, args.key))
                 return;
-            if (slots.hasOwnProperty(item[args.key])) {
+            if (has(slots, item[args.key])) {
                 slots[item[args.key]].contents.push(item);
             }
         });
