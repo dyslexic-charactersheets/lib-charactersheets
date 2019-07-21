@@ -43,8 +43,11 @@ export class Request {
   }
 
   getInstance(id) {
-    if (this.instances.hasOwnProperty(id))
-      return this.instances.id;
+    if (this.instances.hasOwnProperty(id)) {
+      // log("Request", "getInstance: found", id);
+      return this.instances[id];
+    }
+    // log("Request", "getInstance: not found", id);
     return null;
   }
 

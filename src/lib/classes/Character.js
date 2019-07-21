@@ -5,10 +5,10 @@ import { LoadQueue } from './LoadQueue';
 import { Events } from './Events';
 
 // import { applyContext } from '../context';
-import { locateAsset, toDataURL } from '../data';
-import { toKebabCase, toCamelCase, toPathCase, toSpaceCase, toTitleCase } from '../util';
+import { locateAsset, toDataURL, inferMimeType } from '../data';
+import { toKebabCase, toCamelCase, toPathCase, toSpaceCase, toTitleCase, isString, isObject, isNull } from '../util';
 
-function parseCharacter(primary) {
+function parseCharacter(primary, request) {
   // attributes
   let attr = Object.assign({
     name: false,
@@ -57,6 +57,7 @@ function parseCharacter(primary) {
     animalPortrait: attr.animalPortrait,
     printBackground: attr.printBackground,
     printWatermark: attr.printWatermark,
+    instances: {},
   };
 
   // get all the flags
@@ -128,6 +129,19 @@ function parseCharacter(primary) {
       break;
   }
 
+  // included assets
+  ["printPortrait", "animalPortrait", "printLogo", "printBackground"].forEach(field => {
+    if (attr[field]) {
+      var id = attr[field];
+      // log("Character", "Asset:", field, "=", id);
+      var instance = request.getInstance(id);
+      if (!isNull(instance)) {
+        // log("Character", "Asset known:", field, "=", id);
+        char.instances[id] = instance.attributes;
+      }
+    }
+  });
+
   // log("Character", "Parsed", char);
   return char;
 }
@@ -142,6 +156,34 @@ export class Character {
     this.registry = registry;
     this.request = request;
     this.data = parseCharacter(primary, request);
+    this.loadQueue = new LoadQueue();
+  }
+
+  getAsset(asset, callback) {
+    if (!isNull(asset) && isString(asset) && asset != "" && this.data.instances.hasOwnProperty(asset) && !isNull(this.data.instances[asset])) {
+      // log("Character", "getAsset: known instance", asset);
+      asset = this.data.instances[asset];
+    }
+
+    if (asset === null) {
+      // log("Character", "getAsset: null");
+      return;
+    } else if (isObject(asset)) {
+      // log("Character", "getAsset: object");
+      var dataURL = toDataURL(asset.data, asset.mimeType);
+      callback(dataURL);
+    } else if (isString(asset)) {
+      // log("Character", "getAsset: string", asset);
+      locateAsset(asset, assetFile => {
+        this.loadQueue.loadEmbed(assetFile).then(data => {
+          var mimeType = inferMimeType(asset);
+          var dataURL = toDataURL(data, mimeType);
+          callback(dataURL);
+        })
+      });
+    } else {
+      warn("Character", "Unknown asset", asset);
+    }
   }
 
   render(callback) {
@@ -181,44 +223,34 @@ export class Character {
         document.title = title;
 
         // Load assets
-        var loadQueue = new LoadQueue();
         if (this.data.favicon) {
-          locateAsset(this.data.favicon, faviconFile => {
-            loadQueue.loadEmbed(faviconFile).then(data => {
-              document.faviconURL = toDataURL(data, this.data.favicon);
-            });
+          this.getAsset(this.data.favicon, dataURL => {
+            document.faviconURL = dataURL;
           });
         }
 
         if (this.data.printLogo) {
-          locateAsset(this.data.printLogo, logoFile => {
-            loadQueue.loadEmbed(logoFile).then(data => {
-              document.logoURL = toDataURL(data, this.data.printLogo);
-            });
+          this.getAsset(this.data.printLogo, dataURL => {
+            document.logoURL = dataURL;
           });
         }
 
         if (this.data.printPortrait) {
-          locateAsset(this.data.printPortrait, portraitFile => {
-            loadQueue.loadEmbed(portraitFile).then(data => {
-              document.portraitURL = toDataURL(data, this.data.printPortrait);
-            });
+
+          this.getAsset(this.data.printPortrait, dataURL => {
+            document.portraitURL = dataURL;
           });
         }
 
         if (this.data.animalPortrait) {
-          locateAsset(this.data.animalPortrait, animalPortraitFile => {
-            loadQueue.loadEmbed(animalPortraitFile).then(data => {
-              document.animalURL = toDataURL(data, this.data.animalPortrait);
-            });
+          this.getAsset(this.data.animalPortrait, dataURL => {
+            document.animalURL = dataURL;
           });
         }
 
         if (this.data.printBackground) {
-          locateAsset(this.data.printBackground, backgroundFile => {
-            loadQueue.loadEmbed(backgroundFile).then(data => {
-              document.backgroundURL = toDataURL(data, this.data.printBackground);
-            });
+          this.getAsset(this.data.printBackground, dataURL => {
+            document.backgroundURL = dataURL;
           });
         }
 
@@ -264,7 +296,7 @@ export class Character {
         units.forEach(unit => document.addUnit(unit));
         document.composeDocument(this.registry);
 
-        loadQueue.ready(() => {
+        this.loadQueue.ready(() => {
           log("Character", "Ready");
           Events.createElementTreeEvt.call(document.doc, document.title, this.request);
           // fs.writeFile(__dirname + '/../test/out/test.json', JSON.stringify(document.doc, null, 2), (err) => {

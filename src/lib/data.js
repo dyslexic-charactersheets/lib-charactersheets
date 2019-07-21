@@ -11,7 +11,10 @@ const MIME_WOFF2 = 'application/font-woff2;charset=utf-8'
 const MIME_SCSS = 'text/x-scss';
 const MIME_HANDLEBARS = 'text/x-handlebars';
 
-function mimeType(filename) {
+export function inferMimeType(filename) {
+  if (!filename.match(/\..*$/))
+    return 'text/plain';
+    
   var ext = filename.match(/\..*$/)[0];
   switch (ext) {
     case '.svg': return MIME_SVG;
@@ -49,7 +52,7 @@ function processSVG(data) {
 }
 
 function needsBase64(filename) {
-  var mime = mimeType(filename);
+  var mime = inferMimeType(filename);
   switch (mime) {
     case MIME_SVG:
       return false;
@@ -58,21 +61,21 @@ function needsBase64(filename) {
   }
 }
 
-export function toDataURL(data, filename) {
+export function toDataURL(data, mimeType) {
   if (data === null) {
     warn("data", 'No data for file:', filename);
     return '';
   }
 
-  var mime = mimeType(filename);
-  switch (mime) {
+  // var mime = mimeType(filename);
+  switch (mimeType) {
     case MIME_SVG:
       data = processSVG(data);
-      return 'data:' + mime + ',' + data;
+      return 'data:' + mimeType + ',' + data;
 
     default:
       data = processBase64(data);
-      return 'data:' + mime + ';base64,' + data;
+      return 'data:' + mimeType + ';base64,' + data;
   }
 }
 

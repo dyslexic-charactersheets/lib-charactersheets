@@ -212,6 +212,22 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
   return ` class='${cls.join(" ")}'`;
 }
 
+export function isNull(val) {
+  return val === null || val === undefined;
+}
+
+export function isString(val) {
+  return typeof val === 'string' || val instanceof String;
+}
+
+export function isArray(val) {
+  return Array.isArray(val);
+}
+
+export function isObject(val) {
+    return val instanceof Object;
+}
+
 export function interpolate(template, values) {
   // console.log("Interpolate:", template);
   // console.log(" - Values:", values);
@@ -219,7 +235,7 @@ export function interpolate(template, values) {
   if (template === null)
     return null;
 
-  if (_.isString(template)) {
+  if (isString(template)) {
     return template.replace(/#\{(.*?)\}/g, function (tag) {
       var match = tag.match(/#\{(.*?)\}/);
       var index = match[1];
@@ -232,11 +248,11 @@ export function interpolate(template, values) {
     });
   }
 
-  if (Array.isArray(template)) {
+  if (isArray(template)) {
     return template.map(item => interpolate(item, values));
   }
 
-  if (_.isPlainObject(template)) {
+  if (isObject(template)) {
     var pairs = _.toPairs(template);
     // console.log(" - value pairs", pairs);
     pairs = pairs.map(pair => [pair[0], interpolate(pair[1], values)]);

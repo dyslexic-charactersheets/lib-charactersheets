@@ -37,7 +37,7 @@ characterSheet.render(html => {
 
 # API
 
-## `create(...)`
+## create(...)
 
 Calling the constructor creates an instance of CharacterSheet.
 
@@ -50,7 +50,7 @@ let characterSheet = CharacterSheets.create(request);
    * `request` \<Object\> - The request object (see below).
    * Returns: \<CharacterSheet\>, a character sheet object.
 
-## `render(...)`
+## render(...)
 
 The `render` method produces a file for the request. It takes a callback which gives you either data to save, or an error.
 
@@ -65,7 +65,7 @@ characterSheet.render((data, err) => {
     * `data` \<String\> - The rendered data (in HTML)
     * `err` \<Error\> - Optional error object
 
-## `addAssetsDir(...)`
+## addAssetsDir(...)
 
 Register a directory with asset files. Do this before calling `create`, and it will refer to this directory when looking for portraits, logos and background images.
 
@@ -76,7 +76,7 @@ CharacterSheets.addAssetsDir('./assets');
 * `addAssetsDir()`
   * `dir` <String> - A directory
 
-## `onCreate(...)`
+## onCreate(...)
 
 A hook that is called when a character is created, before any other actions.
 
@@ -92,7 +92,7 @@ CharacterSheets.onCreate(request => {
 
 Note that you may not modify the request during the callback.
 
-## `onCreateElementTree(...)`
+## onCreateElementTree(...)
 
 A hook that is called after the element tree has been processed, but before it's rendered into HTML. Used for debugging the resulting element tree.
 
@@ -110,7 +110,7 @@ CharacterSheets.onCreateElementTree((elements, title, request) => {
 
 Note that you may not modify the element tree during the callback.
 
-## `onError(...)`
+## onError(...)
 
 A hook that is called when an error occurs.
 
