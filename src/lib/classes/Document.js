@@ -50,7 +50,11 @@ export class Document {
 
   // TODO more parameters
 
-  getVar(varname) {
+  hasVar(varname) {
+    return has(this.vars, varname);
+  }
+
+  getVar(varname, typeHint = null) {
     if (!has(this.vars, varname))
       return false;
 

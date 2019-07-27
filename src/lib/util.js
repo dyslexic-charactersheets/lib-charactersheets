@@ -112,6 +112,16 @@ export function toTitleCase(str) {
   return words.join(" ");
 }
 
+export function clone(original) {
+  if (isArray(original)) {
+    return Array.from(original);
+  }
+  if (isObject(original)) {
+    return Object.assign({}, original);
+  }
+  return original;
+}
+
 export function elementClass(block, element = null, args = {}, modKeys = [], attribDefs = {}) {
   var cls = [];
 
@@ -232,7 +242,7 @@ export function isObject(val) {
     return val instanceof Object;
 }
 
-export function interpolate(template, values) {
+export function interpolate(template, values, document = null) {
   // console.log("Interpolate:", template);
   // console.log(" - Values:", values);
 
@@ -247,27 +257,32 @@ export function interpolate(template, values) {
       if (has(values, index)) {
         // console.log(` - Replacing #{${index}} -> ${values[index]}`);
         return values[index];
+      } else if (!isNull(document) && document.hasVar(index)) {
+        return document.getVar(index);
       }
       return match;
     });
   }
 
   if (isArray(template)) {
-    return template.map(item => interpolate(item, values));
+    return template.map(item => interpolate(item, values, document));
   }
 
   if (isObject(template)) {
     var pairs = _.toPairs(template);
     // console.log(" - value pairs", pairs);
-    pairs = pairs.map(pair => [pair[0], interpolate(pair[1], values)]);
+    pairs = pairs.map(pair => [pair[0], interpolate(pair[1], values, document)]);
     // console.log(" - processed pairs", pairs);
 
     // check if the whole object needs replacing
     var first = pairs[0][0];
     if (first == 'param') {
       var paramkey = pairs[0][1];
-      if (has(values, paramkey))
+      if (has(values, paramkey)) {
         return values[paramkey];
+      } else if (!isNull(document) && document.hasVar(paramkey)) {
+        return document.getVar(paramkey);
+      }
     } else if (first == 'item' && has(values, 'item')) {
       return values['item'];
     }

@@ -19,7 +19,7 @@ import { icon } from '../elements/icon';
 import { label } from '../elements/label';
 import { layout } from '../elements/layout';
 import { level, level_marker } from '../elements/level';
-import { list } from '../elements/list';
+import { list, join } from '../elements/list';
 import { logo } from '../elements/logo';
 import { page } from '../elements/page';
 import { p, ul, li } from '../elements/p';
@@ -86,7 +86,7 @@ export class Registry {
       label,
       layout,
       level, level_marker,
-      list,
+      list, join,
       logo,
       page,
       p, ul, li,

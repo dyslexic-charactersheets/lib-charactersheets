@@ -10,7 +10,7 @@ export let proficiency = {
         if (args.proficiency === null) args.proficiency = "untrained";
         var icon = (args.proficiency == "untrained") ? "proficiency" : "proficiency-"+args.proficiency;
 
-        var contents = args.content ? { type: "p", content: args.content } : args.contents;
+        var contents = args.content ? { type: "p", content: args.content } : { type: "g", contents: args.contents };
         return [
             {
                 type: "layout",

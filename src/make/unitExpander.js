@@ -26,6 +26,7 @@ var expansion = {
     level: 'level',
     'level-marker': 'level',
     list: '',
+    join: 'join',
     logo: 'source',
     p: 'content',
     ul: '',

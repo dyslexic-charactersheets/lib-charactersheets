@@ -26,7 +26,7 @@ export class Party {
       chardesc = Object.assign({}, characterDefaults, chardesc);
       return new Character(chardesc, request, registry);
     });
-    log("Party", "Members:", this.members);
+    // log("Party", "Members:", this.members);
   }
   
   render(callback) {

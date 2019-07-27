@@ -22,6 +22,10 @@ const systems = [
     //     code: "dnd5e",
     //     name: "Dungeons & Dragons 5th Edition"
     // }
+    {
+      code: "premium",
+      name: "Premium Options"
+    }
 ];
 
 systems.forEach(system => {

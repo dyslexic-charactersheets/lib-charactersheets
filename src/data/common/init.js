@@ -1,2 +1,0 @@
-addRegistry("page");
-addRegistry("zone");

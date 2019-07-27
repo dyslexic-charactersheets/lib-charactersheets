@@ -90,11 +90,13 @@ function parseCharacter(primary, request) {
         char.units.push('background/' + attr.background.replace(/^background-/, ''));
 
       if (attr.class) {
-        char.units.push('class/' + attr.class.replace(/^class-/, ''));
-        char.classes.push(attr.class.replace(/^class-/, ''));
-        let cls = toCamelCase('class ' + char.class);
+        let className = attr.class.replace(/^class-/, '');
+        char.units.push('class/' + className);
+        char.classes.push(className);
+        let classPrefix = toCamelCase('class ' + className);
+        // log("Character", "Class name", className, ", prefix", classPrefix);
 
-        let classFeatsKey = cls + 'Feats';
+        let classFeatsKey = classPrefix + 'Feats';
         if (attr[classFeatsKey]) {
           char.classFeats = parseFeats(attr[classFeatsKey]);
         }
@@ -103,10 +105,13 @@ function parseCharacter(primary, request) {
           // log("Character", key);
           // let value = attr[key];
 
-          if (key.startsWith(cls) && !key.endsWith('Feats')) {
-            let selname = key.replace(cls, '');
-            // log("Character", "Class option", key, selname, attr[key]);
-            char.units.push('select/' + char.class + '/' + toKebabCase(selname) + '/' + toKebabCase(attr[key]));
+          if (key.startsWith(classPrefix) && !key.endsWith('Feats')) {
+            let selname = toKebabCase(key.replace(classPrefix, ''));
+            let selvalue = toKebabCase(attr[key]);
+            // log("Character", "Class option", key, selname, "=", selvalue);
+            var unitname = className + '/' + selname + '/' + selvalue;
+            // log("Character", "Class option unit", unitname);
+            char.units.push(unitname);
           }
         });
       }
@@ -284,13 +289,16 @@ export class Character {
                 }
 
                 var newunit = system.getUnit(req.unit);
-                moreunits.push(newunit);
-                more = true; // let's do this again
+                if (!isNull(newunit)) {
+                  moreunits.push(newunit);
+                  more = true; // let's do this again
+                }
               });
             }
           });
           units = units.concat(moreunits);
         }
+        log("Character", "Units:", units.map(unit => unit.id));
 
         // make the element tree
         units.forEach(unit => document.addUnit(unit));

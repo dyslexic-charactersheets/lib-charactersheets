@@ -2,7 +2,6 @@ unit: class/monk
 in: class
 name: "Monk"
 
-
 form:
   - select: feat-monk
     name: "Monk Feats"
@@ -10,7 +9,12 @@ form:
     levels: [ 2, 4, 6, 8, 10, 14, 16, 18, 20 ]
 
 inc:
-
+  - set: class
+    value: "Monk"
+  - set: class-dc-proficiency
+    value: trained
+  - set: perception-proficiency
+    value: trained
   - set: fortitude-proficiency
     value: expert
   - set: reflex-proficiency
@@ -18,6 +22,15 @@ inc:
   - set: will-proficiency
     value: expert
 
+  - at: '@cover-class'
+    replace:
+      - class-icon: monk
+        size: small
+      - h6: "Monk"
+      - field: monk-stance
+        label: "Stance"
+        width: stretch
+        align: left
 
   - at: '@actions'
     add:
@@ -27,7 +40,12 @@ inc:
             header:
               - h5: "Flurry of Blows"
             contents:
-              - p: "Make two unarmed Strikes. If both hit the same creature, combine their damage and enhancements for the purpose of resistances and weaknesses."
+              - p: "Make two unarmed Strikes. If both hit the same creature, combine their damage and enhancements."
+
+  - at: '@focus-points'
+    replace:
+      - field: monk-ki-spells-focus
+        label: "Ki Spells"
 
   - at: '@pages'
     add:
@@ -57,15 +75,15 @@ inc:
                                   - h5: "Powerful Fist"
                                 contents:
                                   - p: "When striking with your fist, deal 1d6 damage instead of 1d4."
-                                  - p: "Use your normal proficiency when making a lethal attack with a nonlethal unarmed attack."
+                                  - p: "Don't take the -2 penalty when making a lethal attack with a nonlethal unarmed attack."
                               - level: 3
                                 contents:
                                   - article:
                                     header:
-                                      - h5: "Magic Strikes"
+                                      - h5: "Mystic Strikes"
                                     contents:
-                                      - p: "Your unarmed attacks become magical, allowing them to bypass resistances accordingly."
-                              - level: 5
+                                      - p: "Your unarmed attacks become magical, allowing them to bypass resistances."
+                              - level: 9
                                 contents:
                                   - article:
                                     header:
@@ -80,47 +98,172 @@ inc:
                                     contents:
                                       - p: "Your unarmed attacks are treated as adamantine."
 
-                  - section: "Incredible Movement"
+                  - section: "Ki Spells"
                     contents:
-                      - zone: '@monk-incredible-movement'
+                      - selectable: ki-spells
                         contents:
                           - calc:
                             output:
-                              field: monk-incredible-movement-speed-bonus
-                              legend: "Speed Bonus"
-                              control: speed
-                              width: gargantuan
+                              field: ki-spell-attack
+                              legend: "Ki Spell\nAttack"
+                              icon: bonus
                             inputs:
-                              - field:
-                                value: 5
-                                overlay: "ft"
-                              - span: "&times; ("
-                              - field:
-                                label: "Level"
-                                ref: level
-                              - span: "&divide; 3)"
-                          - p: "Conditional bonus to your Speed whenever you’re not wearing armor."
+                              - join: "+"
+                                contents:
+                                  - field:
+                                    label: "WIS"
+                                    ref: WIS
+                                    underlay: "WIS"
+                                  - field: ki-spell-proficiency
+                                    control: proficiency
+                                    label: "Proficiency"
+                                  - field: ki-spell-save-misc
+                                    label: "Misc"
+                                    misc: true
+                          - calc:
+                            output:
+                              field: ki-spell-save-dc
+                              legend: "Ki Spell\nSave DC"
+                              icon: dc
+                            inputs:
+                              - join: "+"
+                                contents:
+                                  - span: "10"
+                                  - field:
+                                    label: "WIS"
+                                    ref: WIS
+                                    underlay: "WIS"
+                                  - field: ki-spell-proficiency
+                                    control: proficiency
+                                    label: "Proficiency"
+                                  - field: ki-spell-save-misc
+                                    label: "Misc"
+                                    misc: true
+                      # - field: 'ki-spells'
+                      #   width: stretch
+                      #   frame: none
+                      #   repeat: 2
+                      #   merge-bottom: true
+
+                  - section: "Incredible Movement"
+                    contents:
+                      - list:
+                        zebra: true
+                        hr: true
+                        contents:
+                          - zone: '@monk-incredible-movement'
+                            contents:
+                              - g:
+                                contents:
+                                  - table:
+                                    flip: true
+                                    rows:
+                                      - level: 3
+                                        speed: "+10ft"
+                                      - level: 7
+                                        speed: "+15ft"
+                                      - level: 11
+                                        speed: "+20ft"
+                                      - level: 15
+                                        speed: "+25ft"
+                                      - level: 19
+                                        speed: "+30ft"
+                                    template:
+                                      - level-marker: '#{level}'
+                                      - span: '#{speed}'
+                                  - p: "Bonus to Speed when not wearing armor."
 
                   - section: "Path to Perfection"
                     contents:
-                      - zone: '@monk-path-to-perfection'
+                      - list:
+                        zebra: true
+                        hr: true
                         contents:
-                          - article:
-                            header:
-                              h5: "Second Path to Perfection"
+                          - zone: '@monk-path-to-perfection'
                             contents:
-                              - p: "If you succeed at a saving throw in which your proficiency
-                                  rank is master, you instead critically succeed."
+                              - level: 7
+                                contents:
+                                  - proficiency: master
+                                    contents:
+                                      - article:
+                                        header:
+                                          h5: "Path to Perfection"
+                                        contents:
+                                              - p: "Become master in one saving throw."
+                              - level: 11
+                                contents:
+                                  - proficiency: master
+                                    contents:
+                                      - article:
+                                        header:
+                                          h5: "Second Path to Perfection"
+                                        contents:
+                                              - p: "Become master in a second saving throw."
+                                              - p: "If you succeed at this saving throw, you instead critically succeed."
+                              - level:  15
+                                contents:
+                                  - proficiency: legendary
+                                    contents:
+                                      - article:
+                                        header:
+                                          h5: "Third Path to Perfection"
+                                        contents:
+                                              - p: "Become legendary in one of the above two saving throws."
+                                              - p: "If you critical fail at this saving throw, you fail instead."
+
+                  - section: "Perfected Form"
+                    contents:
+                      - level: 19
+                        contents:
+                          - p: "On the first attack of your turn, any roll below 10 becomes 10."
 
                   - tail:
-                  - spacer:
-
-
+                  # - spacer:
 
               - g:
                 contents:
                   - zone: '@monk-stance'
-                  
+                    contents:
+                      - section: "Stance"
+                        primary: true
+                        contents:
+                          - list:
+                            zebra: true
+                            hr: true
+                            contents:
+                              - selectable:
+                                contents:
+                                  - action:
+                                    contents:
+                                      - article:
+                                        header:
+                                          - field: stance
+                                            size: large
+                                            width: stretch
+                                            align: left
+                                            frame: none
+                                        contents:
+                                          - field: stance-details
+                                            frame: none
+                                            width: stretch
+                                            align: left
+                                            repeat: 3
+                              - selectable:
+                                contents:
+                                  - article:
+                                    header:
+                                      - field: stance-2
+                                        size: large
+                                        width: stretch
+                                        align: left
+                                        frame: none
+                                    contents:
+                                      - field: stance-2
+                                        frame: none
+                                        width: stretch
+                                        align: left
+                                        repeat: 3
+
                   - section: "Flurry of Blows"
                     contents:
                       - list:
@@ -151,7 +294,7 @@ inc:
                                       - h5: "Perfected Form"
                                     contents:
                                       - p: "When you make an unarmed Strike, you can treat any dice whose roll was lower than 10 as if you had rolled a 10. If you do, your Strike gains the fortune trait."
-                                      
+
                   - section: "Monk Feats"
                     contents:
                       - list:
@@ -166,7 +309,7 @@ inc:
                                 contents:
                                   - item:
                             contents:
-                              - slots: [ 2, 4, 6, 8, 10, 14, 16, 18, 20, '' ]
+                              - slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, '' ]
                                 min: 1
                                 max: 1
                                 placeholder:

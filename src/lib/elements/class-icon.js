@@ -4,12 +4,11 @@ export let class_icon = {
     name: 'class-icon',
     key: 'icon', 
     defaults: {
-        output: {},
-        inline: false,
-        inputs: [],
+        icon: '',
+        size: 'medium',
     }, 
     render: args => {
-        var cls = elementClass('class-icon', null, args, [ ], [ 'icon' ]);
+        var cls = elementClass('class-icon', null, args, [ ], { 'icon': '', 'size': 'medium' });
         return `<div${cls}></div>`;
     }
 }

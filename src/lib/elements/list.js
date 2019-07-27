@@ -60,3 +60,21 @@ export let list = {
         }];
     }
 }
+
+export let join = {
+  name: 'join',
+  key: 'join',
+  defaults: {
+    contents: [],
+    join: ''
+  },
+  transform: args => {
+    var items = [];
+    args.contents.forEach(item => {
+      items.push({ type: 'span', content: args.join });
+      items.push(item);
+    });
+    items.shift();
+    return items;
+  }
+}

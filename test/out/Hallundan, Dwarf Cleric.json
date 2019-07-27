@@ -188,6 +188,19 @@
                                       "layout": "center",
                                       "contents": [
                                         {
+                                          "type": "field",
+                                          "id": "key-ability",
+                                          "control": "radio",
+                                          "frame": "none",
+                                          "value": "STR"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "row",
+                                      "layout": "center",
+                                      "contents": [
+                                        {
                                           "type": "spacer"
                                         },
                                         {
@@ -224,6 +237,19 @@
                                         },
                                         {
                                           "type": "spacer"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "row",
+                                      "layout": "center",
+                                      "contents": [
+                                        {
+                                          "type": "field",
+                                          "id": "key-ability",
+                                          "control": "radio",
+                                          "frame": "none",
+                                          "value": "DEX"
                                         }
                                       ]
                                     },
@@ -276,6 +302,19 @@
                                       "layout": "center",
                                       "contents": [
                                         {
+                                          "type": "field",
+                                          "id": "key-ability",
+                                          "control": "radio",
+                                          "frame": "none",
+                                          "value": "CON"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "row",
+                                      "layout": "center",
+                                      "contents": [
+                                        {
                                           "type": "spacer"
                                         },
                                         {
@@ -312,6 +351,19 @@
                                         },
                                         {
                                           "type": "spacer"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "row",
+                                      "layout": "center",
+                                      "contents": [
+                                        {
+                                          "type": "field",
+                                          "id": "key-ability",
+                                          "control": "radio",
+                                          "frame": "none",
+                                          "value": "INT"
                                         }
                                       ]
                                     },
@@ -364,6 +416,19 @@
                                       "layout": "center",
                                       "contents": [
                                         {
+                                          "type": "field",
+                                          "id": "key-ability",
+                                          "control": "radio",
+                                          "frame": "none",
+                                          "value": "WIS"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "row",
+                                      "layout": "center",
+                                      "contents": [
+                                        {
                                           "type": "spacer"
                                         },
                                         {
@@ -400,6 +465,19 @@
                                         },
                                         {
                                           "type": "spacer"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "row",
+                                      "layout": "center",
+                                      "contents": [
+                                        {
+                                          "type": "field",
+                                          "id": "key-ability",
+                                          "control": "radio",
+                                          "frame": "none",
+                                          "value": "CHA"
                                         }
                                       ]
                                     },
@@ -456,10 +534,6 @@
                   "title": "Ancestry",
                   "id": "ancestry",
                   "contents": [
-                    {
-                      "type": "h5",
-                      "title": "Ancestry"
-                    },
                     {
                       "type": "article",
                       "title": null,
@@ -557,23 +631,38 @@
                   "id": "class",
                   "contents": [
                     {
-                      "type": "row",
-                      "layout": null,
+                      "type": "article",
+                      "title": null,
+                      "header": [
+                        {
+                          "type": "row",
+                          "layout": null,
+                          "contents": [
+                            {
+                              "type": "field",
+                              "id": "class",
+                              "legend": "Class",
+                              "size": "large",
+                              "width": "stretch",
+                              "align": "left"
+                            },
+                            {
+                              "type": "field",
+                              "id": "class-level",
+                              "label": "Level",
+                              "size": "large",
+                              "border": "full"
+                            }
+                          ]
+                        }
+                      ],
                       "contents": [
                         {
                           "type": "field",
-                          "id": "class",
-                          "legend": "Class",
-                          "size": "large",
-                          "width": "stretch",
-                          "align": "left"
-                        },
-                        {
-                          "type": "field",
-                          "id": "class-level",
-                          "label": "Level",
-                          "size": "large",
-                          "border": "full"
+                          "id": "class-details",
+                          "repeat": 2,
+                          "frame": "none",
+                          "width": "stretch"
                         }
                       ]
                     },
@@ -1644,6 +1733,11 @@
                           "acp": false
                         },
                         {
+                          "skill": "Diplomacy",
+                          "ability": "CHA",
+                          "acp": false
+                        },
+                        {
                           "skill": "Intimidation",
                           "ability": "CHA",
                           "acp": false
@@ -1905,7 +1999,6 @@
                       "label": "Conditional",
                       "frame": "none",
                       "align": "left",
-                      "repeat": 2,
                       "width": "stretch",
                       "merge-bottom": true
                     }
@@ -2535,49 +2628,84 @@
                   "id": "class-dc",
                   "contents": [
                     {
-                      "type": "row",
-                      "layout": null,
-                      "contents": [
+                      "type": "calc",
+                      "output": {
+                        "type": "field",
+                        "id": "class-dc",
+                        "legend": "#{class}",
+                        "underlay": "DC",
+                        "width": "large",
+                        "icon": "dc",
+                        "eq": "%{#{key-ability}}+%{level}+%{class-dc-item-bonus}"
+                      },
+                      "inputs": [
                         {
-                          "type": "calc",
-                          "output": {
-                            "type": "field",
-                            "id": "class-dc",
-                            "legend": "Class DC",
-                            "underlay": "DC",
-                            "width": "large",
-                            "icon": "dc",
-                            "eq": "%{#{key-ability}}+%{level}+%{class-dc-item-bonus}"
-                          },
-                          "inputs": [
-                            {
-                              "type": "field",
-                              "id": null,
-                              "label": "WIS",
-                              "underlay": "WIS",
-                              "ref": "WIS",
-                              "replace": true
-                            },
-                            {
-                              "type": "span",
-                              "content": "+"
-                            },
-                            {
-                              "type": "field",
-                              "id": null,
-                              "label": "Level",
-                              "ref": "level"
-                            },
-                            {
-                              "type": "span",
-                              "content": "+"
-                            },
-                            {
-                              "type": "field",
-                              "id": "class-dc-item-bonus",
-                              "label": "Item"
-                            }
-                          ]
+                          "type": "field",
+                          "id": null,
+                          "label": "WIS",
+                          "underlay": "WIS",
+                          "ref": "WIS",
+                          "replace": true
+                        },
+                        {
+                          "type": "span",
+                          "content": "+"
+                        },
+                        {
+                          "type": "field",
+                          "id": "class-dc-proficiency",
+                          "label": "Proficiency",
+                          "control": "proficiency"
+                        },
+                        {
+                          "type": "span",
+                          "content": "+"
+                        },
+                        {
+                          "type": "field",
+                          "id": "class-dc-item-bonus",
+                          "label": "Item"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "calc",
+                      "output": {
+                        "type": "field",
+                        "id": "class-dc-other",
+                        "underlay": "DC",
+                        "label": "Archetype",
+                        "width": "large",
+                        "icon": "dc",
+                        "eq": "%{#{key-ability}}+%{level}+%{class-dc-item-bonus}"
+                      },
+                      "inputs": [
+                        {
+                          "type": "field",
+                          "id": null,
+                          "label": "WIS",
+                          "underlay": "WIS",
+                          "ref": "WIS",
+                          "replace": true
+                        },
+                        {
+                          "type": "span",
+                          "content": "+"
+                        },
+                        {
+                          "type": "field",
+                          "id": "class-dc-other-proficiency",
+                          "label": "Proficiency",
+                          "control": "proficiency"
+                        },
+                        {
+                          "type": "span",
+                          "content": "+"
+                        },
+                        {
+                          "type": "field",
+                          "id": "class-dc-other-item-bonus",
+                          "label": "Item"
                         }
                       ]
                     }
@@ -2657,18 +2785,26 @@
                       "inputs": [
                         {
                           "type": "field",
-                          "id": null,
-                          "label": "WIS",
-                          "underlay": "WIS",
-                          "ref": "WIS",
-                          "replace": true
+                          "id": "focus-base",
+                          "label": "Class"
                         },
-                        "+",
+                        {
+                          "type": "span",
+                          "content": "+"
+                        },
                         {
                           "type": "field",
                           "id": "focus-misc",
                           "label": "Misc",
                           "misc": true
+                        },
+                        {
+                          "type": "field",
+                          "id": "max-focus",
+                          "frame": "right",
+                          "border": "full",
+                          "label": "Max focus",
+                          "value": 3
                         }
                       ]
                     },
@@ -2684,6 +2820,13 @@
                           "align": "center",
                           "width": "stretch",
                           "border": "full",
+                          "overlay": "pts"
+                        },
+                        {
+                          "type": "field",
+                          "id": "refocus",
+                          "label": "Refocus",
+                          "prefix": "+",
                           "overlay": "pts"
                         }
                       ]
@@ -2771,7 +2914,7 @@
                       "id": "saving-throws-conditional",
                       "label": "Conditional",
                       "align": "left",
-                      "repeat": 3,
+                      "repeat": 2,
                       "merge-bottom": true,
                       "width": "stretch"
                     }
@@ -3542,7 +3685,7 @@
                             "width": "large",
                             "underlay": "AC",
                             "merge-top": true,
-                            "eq": "10+%{DEX}+%{ac-proficiency}+%{armour-bonus}+%{shield-bonus}"
+                            "eq": "10+%{DEX}+%{ac-proficiency}+%{armour-bonus}+%{ac-items}+%{ac-misc}"
                           },
                           "inputs": [
                             {
@@ -3557,10 +3700,18 @@
                               "label": "DEX"
                             },
                             {
+                              "type": "span",
+                              "content": "+"
+                            },
+                            {
                               "type": "field",
                               "id": "ac-proficiency",
                               "control": "proficiency",
                               "label": "Proficiency"
+                            },
+                            {
+                              "type": "span",
+                              "content": "+"
                             },
                             {
                               "type": "field",
@@ -3568,9 +3719,17 @@
                               "label": "Armour\nBonus"
                             },
                             {
+                              "type": "span",
+                              "content": "+"
+                            },
+                            {
                               "type": "field",
                               "id": "ac-items",
                               "label": "Items"
+                            },
+                            {
+                              "type": "span",
+                              "content": "+"
                             },
                             {
                               "type": "field",
@@ -3588,7 +3747,7 @@
                       "label": "Conditional",
                       "width": "stretch",
                       "merge-bottom": true,
-                      "repeat": 3
+                      "repeat": 2
                     }
                   ]
                 },
@@ -3613,6 +3772,11 @@
                             },
                             {
                               "type": "field",
+                              "id": "armour-bulk",
+                              "label": "Bulk"
+                            },
+                            {
+                              "type": "field",
                               "id": "armour-ac",
                               "label": "AC Bonus",
                               "icon": "ac",
@@ -3626,26 +3790,30 @@
                           "contents": [
                             {
                               "type": "field",
-                              "id": "armour-bulk",
-                              "label": "Bulk"
+                              "id": "armour-cat",
+                              "label": "Category",
+                              "width": "stretch"
                             },
                             {
                               "type": "field",
-                              "id": "armour-max-dex",
-                              "label": "Max DEX\nto AC"
+                              "id": "armour-dex-cap",
+                              "label": "DEX\nCap"
                             },
                             {
                               "type": "field",
                               "id": "armour-acp",
-                              "label": "Armour\nCheck\nPenalty"
+                              "label": "Check\nPenalty"
                             }
                           ]
+                        },
+                        {
+                          "type": "hr"
                         },
                         {
                           "type": "field",
                           "id": "armour-properties",
                           "width": "stretch",
-                          "label": "Properties",
+                          "label": "Armour Traits",
                           "repeat": 3,
                           "merge-bottom": true
                         },
@@ -3659,82 +3827,145 @@
                       "title": "Shield",
                       "contents": [
                         {
-                          "type": "row",
-                          "layout": "split",
+                          "type": "list",
+                          "zebra": true,
+                          "hr": true,
                           "contents": [
                             {
-                              "type": "field",
-                              "id": "shield",
-                              "frame": "none",
-                              "size": "large",
-                              "width": "stretch"
-                            },
-                            {
-                              "type": "field",
-                              "id": "shield-ac",
-                              "label": "AC Bonus",
-                              "icon": "ac",
-                              "border": "full"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "row",
-                          "layout": "split",
-                          "contents": [
-                            {
-                              "type": "field",
-                              "id": "shield-bulk",
-                              "label": "Bulk",
-                              "width": "large"
-                            },
-                            {
-                              "type": "spacer"
-                            },
-                            {
-                              "type": "field",
-                              "id": "armour-acp",
-                              "label": "Armour\nCheck\nPenalty",
-                              "width": "large"
-                            },
-                            {
-                              "type": "field",
-                              "id": "shield-hp",
-                              "label": "Shield Hit Points",
-                              "border": "full",
-                              "icon": "hp",
-                              "temp": true,
-                              "overlay": "hp",
-                              "width": "huge"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "layout",
-                          "layout": "level",
-                          "contents": [
-                            {
-                              "type": "icon",
-                              "icon": "action"
+                              "type": "g",
+                              "contents": [
+                                {
+                                  "type": "row",
+                                  "layout": "split",
+                                  "contents": [
+                                    {
+                                      "type": "field",
+                                      "id": "shield",
+                                      "frame": "none",
+                                      "size": "large",
+                                      "width": "stretch"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "shield-bulk",
+                                      "label": "Bulk"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "shield-ac",
+                                      "label": "AC Bonus",
+                                      "icon": "ac",
+                                      "border": "full"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "layout",
+                                  "layout": "level",
+                                  "contents": [
+                                    {
+                                      "type": "icon",
+                                      "icon": "action"
+                                    },
+                                    {
+                                      "type": "g",
+                                      "contents": [
+                                        {
+                                          "type": "p",
+                                          "content": "Raise shield"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
                             },
                             {
                               "type": "g",
                               "contents": [
                                 {
-                                  "type": "p",
-                                  "content": "Raise shield"
+                                  "type": "layout",
+                                  "layout": "level",
+                                  "contents": [
+                                    {
+                                      "type": "icon",
+                                      "icon": "reaction"
+                                    },
+                                    {
+                                      "type": "g",
+                                      "contents": [
+                                        {
+                                          "type": "row",
+                                          "layout": null,
+                                          "contents": [
+                                            {
+                                              "type": "field",
+                                              "id": null,
+                                              "control": "checkbox",
+                                              "frame": "right",
+                                              "label": "Raise shield"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "row",
+                                  "layout": null,
+                                  "contents": [
+                                    {
+                                      "type": "field",
+                                      "id": "shield-hardness",
+                                      "label": "Hardness",
+                                      "overlay": "hp"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "shield-hp",
+                                      "label": "Hit\nPoints",
+                                      "overlay": "hp"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "shield-bt",
+                                      "label": "Broken\nThreshold",
+                                      "overlay": "hp"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "shield-hp",
+                                      "label": "Shield\nHit Points",
+                                      "border": "full",
+                                      "temp": true,
+                                      "overlay": "hp"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "g",
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": "armour-properties",
+                                  "width": "stretch",
+                                  "label": "Shield Traits",
+                                  "repeat": 2,
+                                  "merge-bottom": true
                                 }
                               ]
                             }
-                          ]
-                        },
-                        {
-                          "type": "field",
-                          "id": "armour-properties",
-                          "width": "stretch",
-                          "label": "Properties",
-                          "repeat": 2,
-                          "merge-bottom": true
+                          ],
+                          "columns": 1,
+                          "flowv": true,
+                          "flex": false,
+                          "sort": true,
+                          "vr": false,
+                          "merge-bottom": false,
+                          "avoid-shade": false
                         },
                         {
                           "type": "tail"

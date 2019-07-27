@@ -1,9 +1,10 @@
 import { readFile } from 'fs';
 import { log, warn, error } from '../log';
-import { has } from '../util';
+import { isNull, has } from '../util';
 
 var systems = {};
 var commonSystem = null;
+var premiumSystem = null;
 var promises = [];
 
 export class System {
@@ -23,15 +24,18 @@ export class System {
     if (commonSystem !== null && has(commonSystem.units, code)) {
       return commonSystem.units[code];
     }
+    if (premiumSystem !== null && has(premiumSystem.units, code)) {
+      return premiumSystem.units[code];
+    }
     warn("System", "Unknown unit:", code);
     return null;
   }
 
   getUnits(codes) {
-    var units = codes.map(code => {
-      return this.getUnit(code);
+    return codes.flatMap(code => {
+      let unit = this.getUnit(code);
+      return isNull(unit) ? [] : [ unit ];
     });
-    return units.filter(unit => unit !== null);
   }
 }
 
@@ -55,6 +59,8 @@ export function loadSystemData(codes) {
         if (code == "common") {
           // log("System", "Found common system");
           commonSystem = system;
+        } else if (code == "premium") {
+          premiumSystem = system;
         }
         resolve();
       });

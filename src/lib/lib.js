@@ -5,7 +5,11 @@ import { Events } from './classes/Events';
 import { addAssetsDir as _addAssetsDir } from './data';
 
 // start this first, it's the slow bit
-loadSystemData(["common", "pathfinder2"]);
+loadSystemData([
+  "common", 
+  "pathfinder2",
+  "premium"
+]);
 
 let registry = new Registry();
 
