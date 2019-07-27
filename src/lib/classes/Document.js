@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 const Handlebars = require('handlebars');
 
 import { applyContext } from '../context';
-import { esc, replaceColours, has } from '../util';
+import { clone, esc, replaceColours, has } from '../util';
 
 export class Document {
   constructor(baseUnit) {
@@ -11,7 +11,7 @@ export class Document {
 
     var baseDocument = baseUnit.contents[0];
     // log("Document", "Base document", baseDocument);
-    this.doc = _.cloneDeep(baseDocument);
+    this.doc = clone(baseDocument);
     this.units = [baseUnit];
     this.zones = {};
     this.templates = {};
@@ -176,16 +176,9 @@ export class Document {
         if (newelements === false)
           return element;
 
-        newelements = _.flatMap(newelements, compose);
+        newelements = newelements.flatMap(compose);
         return newelements;
       }
-
-      // if (element.type == "article") log("compose", "Composed element:", element);
-      // if (has(element, 'merge-bottom') && !!element['merge-bottom']) {
-      //     // log("compose", "Merge bottom:", element);
-      //     element = mergeBottom(element);
-      //     if (element.type == 'article') log("compose", "Result:", element);
-      // }
 
       return [element];
     }
@@ -219,13 +212,11 @@ export class Document {
 
     // logo
     if (this.logoURL) {
-      // var logoURL = getDataURL(characterSheet.game+"/base", characterSheet.logo);
       cssParts.push(`.logo{background-image:url('${this.logoURL}');}`);
     }
 
     // portrait
     if (this.portraitURL) {
-      // var portraitURL = getDataURL(characterSheet.game+"/base", characterSheet.portrait);
       cssParts.push(`.portrait--char_personal .portrait__inner{background-image:url('${this.portraitURL}');}`);
     }
 
@@ -236,7 +227,6 @@ export class Document {
 
     // background
     if (this.backgroundURL) {
-      // var backgroundURL = getDataURL("core", characterSheet.background);
       cssParts.push(`.page{background-image:url('${this.backgroundURL}'); background-size: 100% 100%;}`);
     }
 
@@ -244,11 +234,7 @@ export class Document {
   }
 
   renderDocument(registry) {
-    // TODO load favicon
-    // var faviconData = getDataURL("core", "images/"+args.favicon);
-
     var favicon = this.faviconURL ? `<link id="favicon" rel="shortcut icon" type="image/png" href='${this.faviconURL}' />` : ''
-    // TODO load stylesheet
     var stylesheet = this.getStylesheet();
 
     return `<!DOCTYPE html>

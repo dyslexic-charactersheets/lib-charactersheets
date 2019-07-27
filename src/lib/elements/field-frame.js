@@ -9,14 +9,6 @@ function defaultFrameRender(args, reg) {
     return `${legend}${label}${fieldInner(args, reg)}`;
 };
 
-// export function registerFieldFrame(element, props) {
-//     props = _.defaults(props, {
-//         defaults: {},
-//         render: args => ''
-//     });
-//     CharacterSheets.register('frame:'+element, props, false);
-// };
-
 // Register the faux-elements
 
 export let field_frame_above = {

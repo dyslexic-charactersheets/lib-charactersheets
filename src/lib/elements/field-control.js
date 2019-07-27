@@ -1,17 +1,16 @@
 import * as _ from 'lodash';
 import { fieldIdent, fieldRadioIdent, fieldDefaults } from './field';
 import { elementClass, has } from '../util';
-// import { renderItem } from '../classes/Registry';
 
 var defaultControlRender = args => {
-  args = _.defaults(args, {
+  args = Object.assign({
     align: "center",
     width: "medium",
     editable: true,
     prefix: false,
     overlay: false,
     underlay: false,
-  });
+  }, args);
 
   var ident = fieldIdent(args.id);
   var cls = elementClass("field", "control", args, [], { "align": "centre", "width": "medium" });
@@ -52,14 +51,6 @@ var renderCompoundControl = (args, reg, doc) => {
   // log("control", "Parts:", outputParts);
   return outputParts.join("");
 };
-
-// CharacterSheets.registerFieldControl = function (element, props) {
-//     props = _.defaults(props, {
-//         defaults: {},
-//         render: args => '',
-//     });
-//     CharacterSheets.register('control:'+element, props, false);
-// };
 
 // Register the faux-elements
 
@@ -450,7 +441,7 @@ export let field_control_progression = {
     border: "none",
   },
   render: (args, reg, doc) => {
-    args.parts = _.flatMap(args.parts, part => [part, '<label class="field__separator"></label>']);
+    args.parts = args.parts.flatMap(part => [part, '<label class="field__separator"></label>']);
     args.parts.pop();
     return renderCompoundControl(args, reg, doc);
   }
