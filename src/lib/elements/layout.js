@@ -7,12 +7,13 @@ export let layout = {
     key: 'layout', 
     defaults: {
         layout: 'single',
+        flex: false,
         columns: 0,
         gutter: 'medium',
         contents: [],
     }, 
     render: (args, reg, doc) => {
-        var cls = elementClass('layout', null, args, ['flex', 'no-flex', ], { 'layout': '', 'gutter': '' });
+        var cls = elementClass('layout', null, args, [ 'no-flex' ], { 'layout': '', 'gutter': '', 'flex': false });
 
         // pick a column number
         var columns = args.columns;

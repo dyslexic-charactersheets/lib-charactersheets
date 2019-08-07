@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-import { interpolate } from '../util';
+import { interpolate, isObject } from '../util';
 
 export let each = {
     name: 'each',
@@ -19,7 +19,7 @@ export let each = {
             i++;
 
             var values = _.cloneDeep(args.params);
-            if (i < args.rows.length && _.isObject(args.rows[i]))
+            if (i < args.rows.length && isObject(args.rows[i]))
                 // values = _.defaults(values, args.rows[i]);
                 values = Object.assign(args.rows[i], values);
 

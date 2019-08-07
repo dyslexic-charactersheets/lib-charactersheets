@@ -24,6 +24,10 @@ form:
   - option: permission
     name: "Permission to Print"
     unit: option/permission
+  - select: inventory
+    name: "Inventory"
+    max: 1
+    default: half
 
 inc:
 
@@ -87,34 +91,39 @@ inc:
                         zebra: true
                         hr: true
                         contents:
-                          - layout: alignment
+                          - g:
                             contents:
-                              - g:
+                              - field: character-name
+                                legend: "Character Name"
+                                size: huge
+                                width: stretch
+                                align: left
+                              - layout: alignment
                                 contents:
-                                  - field: character-name
-                                    legend: "Character Name"
-                                    size: huge
-                                    width: stretch
-                                    align: left
-                                  - row:
+                                  - g:
                                     contents:
-                                      - field: gender
-                                        label: "Gender"
-                                        icon: gender
-                                        width: huge
-                                      - spacer:
-                                      - field: age
-                                        label: "Age"
-                                        width: huge
-                                      - spacer:
-                                      - field: size
-                                        label: "Size"
-                                        icon: size
-                                        width: huge
-                                      - spacer:
-                              - field: alignment
-                                frame: none
-                                control: alignment
+                                      - row:
+                                        contents:
+                                          - field: gender
+                                            label: "Gender"
+                                            icon: gender
+                                            width: huge
+                                          - spacer:
+                                          - field: age
+                                            label: "Age"
+                                            width: huge
+                                          - spacer:
+                                          - field: size
+                                            label: "Size"
+                                            icon: size
+                                            width: huge
+                                          - spacer:
+                                      - field: deity
+                                        label: "Deity"
+                                        width: stretch
+                                  - field: alignment
+                                    frame: none
+                                    control: alignment
                           - g:
                             contents:
                               - h5: "Abilities"
@@ -168,147 +177,147 @@ inc:
                   - tail:
               - g:
                 contents:
-                  - section: "Ancestry"
+                  - section: "Character"
                     id: ancestry
                     contents:
-                      - article:
-                        header:
-                          - zone: '@ancestry'
+                      - list:
+                        hr: true
+                        zebra: true
+                        avoid-shade: true
+                        contents:
+                          - g:
                             contents:
                               - field: ancestry
-                                size: large
+                                legend: "Ancestry"
                                 width: stretch
-                                align: left
-                                frame: none
-                        contents:
-                          - zone: '@ancestry-details'
-                          - field: ancestry-details
-                            frame: none
-                            width: stretch
-                            align: left
-                            repeat: 3
+                                # value: '#{ancestry}'
+                              - field: cover-heritage
+                                label: "Heritage"
+                                width: stretch
+                                merge-bottom: true
 
-                      - hr:
-                      - h5: "Heritage"
-                      - article:
-                        header:
-                          - field: heritage
-                            size: large
-                            frame: none
-                            width: stretch
-                            align: left
-                        contents:
-                          - field: heritage-details
-                            frame: none
-                            width: stretch
-                            align: left
-                            repeat: 3
-                            merge-bottom: true
-
-                  - section: "Background"
-                    id: background
-                    contents:
-                      - article:
-                        header:
-                          - zone: '@background'
+                          - g:
                             contents:
-                              - field: background
+                              - field: char-background
                                 legend: "Background"
-                                size: large
-                                frame: none
                                 width: stretch
-                                align: left
-                        contents:
-                          - zone: '@background-details'
-                          - field: background-details
-                            repeat: 3
-                            frame: none
-                            width: stretch
-                            align: left
-                            merge-bottom: true
+                                merge-bottom: true
+                                # value: '#{background}'
 
-                    # - slots:
-                    #   min: 1
-                    #   max: 1
-                    #   contents:
-                    #     - zone: '@background'
-                    #   placeholder:
-                    #     - article:
-                    #       header:
-                    #         - field: background
-                    #           legend: "Background"
-                    #           size: large
-                    #           frame: none
-                    #           width: stretch
-                    #           align: left
-                    #       contents:
-                    #         - field: background-details
-                    #           repeat: 3
-                    #           frame: none
-                    #           width: stretch
-                    #           align: left
-                    #           merge-bottom: true
-
-                  - section: "Class"
-                    id: class
-                    contents:
-                      - article:
-                        header:
-                          - row:
-                            contents:
-                              - zone: '@cover-class'
-                                contents:
-                                  - field: class
-                                    legend: "Class"
-                                    size: large
-                                    width: stretch
-                                    align: left
-                                  - field: specialisation
-                                    label: "Specialisation"
-                                    width: stretch
-                                    align: left
-                              - field: class-level
-                                label: "Level"
-                                size: large
-                                border: full
-                        contents:
-                          # - zone: '@cover-class-specialisation'
-                          #   contents:
-                          #     - field: specialisation
-                          #       label: "Specialisation"
-                          #       width: stretch
-                          #       align: left
-                          - field: class-details
-                            repeat: 3
-                            frame: none
-                            width: stretch
-                      - hr:
-                      - h5: "Archetypes"
-                      - list:
-                        collapse: true
-                        zebra: true
-                        contents:
-                          - repeat: 3
-                            field_frame: none
-                            merge-bottom: true
+                          - g:
                             contents:
                               - row:
                                 contents:
-                                  - field: archetype-#{i}-name
+                                  - field: cover-class
                                     width: stretch
-                                    align: left
-                                    frame: none
-                                  - field: archetype-#{i}-feats
-                                    frame: none
-                                    control: progression
-                                    parts:
-                                      - control: checkbox
-                                      - control: checkbox
-                                      - control: checkbox
-                      - p: "You must take three archetype feats before you can start another."
-                      - p: "You cannot have more than one prestige archetype."
+                                    legend: "Class"
+                                    # value: '#{class}'
+                                  - field: cover-level
+                                    label: "Level"
+                                    border: full
+                              - field: class-specialisation
+                                label: "Specialisation"
+                                width: stretch
+                                merge-bottom: true
 
-                      # - hr:
+                          - g:
+                            contents:
+                              - h5: "Archetypes"
+                              - list:
+                                collapse: true
+                                zebra: true
+                                contents:
+                                  - repeat: 3
+                                    field_frame: none
+                                    merge-bottom: true
+                                    contents:
+                                      - row:
+                                        contents:
+                                          - field: archetype-#{i}-name
+                                            width: stretch
+                                            align: left
+                                            frame: none
+                                          - field: archetype-#{i}-feats
+                                            frame: none
+                                            control: progression
+                                            parts:
+                                              - control: checkbox
+                                              - control: checkbox
+                                              - control: checkbox
+                              - p: "You must take three archetype feats before you can start another."
+                              # - p: "You cannot have more than one prestige archetype."
+
+                      - zone: '@advancement'
+                        contents:
+                          - section: "Advancement"
+                            contents:
+                              - advancement:
+                                labels:
+                                  - "Ancestry, heritage, background, initial proficiencies"
+                                  - ""
+                                  - ""
+                                  - ""
+                                  - ""
+                                  - ""
+                                  - "Master in skills"
+                                  - ""
+                                  - ""
+                                  - ""
+                                  - ""
+                                  - ""
+                                  - ""
+                                  - ""
+                                  - "Legendary in skills"
+                                  - ""
+                                  - ""
+                                  - ""
+                                  - ""
+                                  - ""
+                                fields:
+                                  - id: ancestry-feat
+                                    label: "Ancestry\nfeat"
+                                    levels: [ 1, 5, 9, 13, 17 ]
+                                    shade: true
+                                  - id: general-feat
+                                    label: "General\nfeat"
+                                    levels: [ 3, 7, 11, 15, 19 ]
+                                  - id: class-feat
+                                    label: "Class\nfeat"
+                                    levels: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                                    shade: true
+                                  - id: skill-feat
+                                    label: "Skill\nfeat"
+                                    levels: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                                  - id: skill-increase
+                                    label: "Skill\nincrease"
+                                    levels: [ 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
+                                    shade: true
+                                  - id: ability-boost
+                                    label: "Ability\nboost"
+                                    levels: [ 5, 10, 15, 20 ]
+                                    template:
+                                      field: '#{id}'
+                                      frame: none
+                                      control: checkbox
+
+                  # - hr:
+                  #   swash: true
+                  - tail:
+                  - spacer:
+
+
+      - page: skills
+        name: "Skills"
+        order: 5
+        flex: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+
+                  - zone: '@proficiencies'
+                    contents:
                       - section: "Proficiency"
                         contents:
                           - row: split
@@ -368,6 +377,7 @@ inc:
                           - list:
                             zebra: true
                             collapse: true
+                            columns: 2
                             merge-bottom: true
                             field_frame: none
                             contents:
@@ -380,67 +390,92 @@ inc:
                                         width: stretch
                                         align: left
                                       - field: "proficiency-#{i}-value"
-                                        frame: none
-                                        control: proficiency
-                  - hr:
-                    swash: true
-                  - spacer:
+                                        control: icon
+                                        icon: proficiency
 
+                  - section: "Skill feats"
+                    id: skill-feats
+                    contents:
+                      - zone: '@skill-feats-section'
+                        contents:
+                          - list:
+                            zebra: true
+                            hr: true
+                            avoid-shade: true
+                            contents:
+                              - each:
+                                template:
+                                  - level: "#{level}"
+                                    contents:
+                                      - item: yes
+                                contents:
+                                  - slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, '' ]
+                                    min: 1
+                                    max: 1
+                                    placeholder:
+                                      article: 'skill-feat-#{level}'
+                                      lines: 1
+                                    contents:
+                                      - zone: '@skill-feats'
+                                      
+                          - hr:
+                          - field: skill-notes
+                            flex: small
+                            width: stretch
+                            legend: "Skill Notes"
+                            repeat: 6
+                            merge-bottom: true
 
-      - page: skills
-        name: "Skills"
-        order: 5
-        flex: true
-        contents:
-          - layout: 2l
-            contents:
+                  - zone: '@language-section'
+                    contents:
+                      - section: "Languages"
+                        id: languages
+                        contents:
+                          - field: languages
+                            frame: none
+                            repeat: 4
+                            align: left
+                            width: stretch
+                            merge-bottom: true
+
+                  - tail:
+                  # - spacer:
+
               - g:
                 contents:
-
-                  - section: "Ancestry feats"
-                    id: ancestry-feats
-                    flex: 6
+                  - section: "Ancestry"
                     contents:
                       - list:
-                        zebra: true
                         hr: true
-                        avoid-shade: true
+                        zebra: true
+                        columns: 2
                         contents:
+                          - g:
+                            contents:
+                              # - h5: "Heritage"
+                              - article: heritage
+                                lines: 1
                           - each:
                             template:
                               - level: '#{level}'
                                 contents:
                                   - item: yes
                             contents:
-                              - slots: [ 1, 5, 9, 13, 17, '' ]
+                              - slots: [ 1, 5, 9, 13, 17 ]
                                 min: 1
                                 max: 1
                                 contents:
                                   - zone: '@ancestry-feats'
                                 placeholder:
-                                  - article:
-                                    header:
-                                      - field: 'ancestry-feat-#{i}'
-                                        frame: none
-                                        size: large
-                                        width: stretch
-                                        align: left
-                                    contents:
-                                      - field: 'ancestry-feat-#{i}-details'
-                                        repeat: 2
-                                        frame: none
-                                        width: stretch
-                                        align: left
-                                        merge-bottom: true
+                                  - article: 'ancestry-feat-#{i}'
+                                    lines: 1
 
-                  - section: "General feats"
-                    id: general-feats
-                    flex: 6
+                  - section: "General Feats"
                     contents:
                       - list:
+                        columns: 2
                         zebra: true
                         hr: true
-                        avoid-shade: true
                         contents:
                           - each:
                             template:
@@ -448,42 +483,18 @@ inc:
                                 contents:
                                   - item: yes
                             contents:
-                              - slots: [ 3, 7, 11, 15, 19, '', '' ]
+                              - slots: [ 3, 7, 11, 15, 19 , '' ]
                                 min: 1
                                 max: 1
                                 placeholder:
-                                  article:
-                                  header:
-                                    - field: general-feat-level-#{level}
-                                      width: stretch
-                                      size: large
-                                      frame: none
-                                      align: left
-                                  contents:
-                                    - field: general-feat-level-#{level}-details
-                                      width: stretch
-                                      align: left
-                                      frame: none
-                                      repeat: 2
+                                  article: general-feat-level-#{level}
+                                  lines: 2
                                 contents:
                                   - zone: '@general-feats'
 
-                  - section: "Languages"
-                    id: languages
-                    contents:
-                      - field: languages
-                        frame: none
-                        repeat: 4
-                        align: left
-                        width: stretch
-                        merge-bottom: true
-
-                  - tail:
-
-              - g:
-                contents:
                   - section: "Skills"
                     id: skills
+                    flex: tiny
                     contents:
                       - table:
                         collapse: true
@@ -502,68 +513,91 @@ inc:
                         rows:
                           # - zone: '@skills'
                           #   contents:
-                          - skill: "Acrobatics"
+                          - skill: acrobatics
+                            name: "Acrobatics"
                             ability: "DEX"
                             acp: true
-                          - skill: "Arcana"
+                          - skill: arcana
+                            name: "Arcana"
                             ability: "INT"
                             acp: false
-                          - skill: "Athletics"
+                          - skill: athletics
+                            name: "Athletics"
                             ability: "STR"
                             acp: true
-                          - skill: "Crafting"
+                          - skill: crafting
+                            name: "Crafting"
                             ability: "INT"
                             acp: false
-                          - skill: "Deception"
+                          - skill: deception
+                            name: "Deception"
                             ability: "CHA"
                             acp: false
-                          - skill: "Diplomacy"
+                          - skill: diplomacy
+                            name: "Diplomacy"
                             ability: "CHA"
                             acp: false
-                          - skill: "Intimidation"
+                          - skill: intimidation
+                            name: "Intimidation"
                             ability: "CHA"
                             acp: false
-                          - skill: "Medicine"
+                          - skill: medicine
+                            name: "Medicine"
                             ability: "WIS"
                             acp: false
-                          - skill: "Nature"
+                          - skill: nature
+                            name: "Nature"
                             ability: "WIS"
                             acp: false
-                          - skill: "Occultism"
+                          - skill: occultism
+                            name: "Occultism"
                             ability: "INT"
                             acp: false
-                          - skill: "Performance"
+                          - skill: performance
+                            name: "Performance"
                             ability: "CHA"
                             acp: false
-                          - skill: "Religion"
+                          - skill: religion
+                            name: "Religion"
                             ability: "WIS"
                             acp: false
-                          - skill: "Society"
+                          - skill: society
+                            name: "Society"
                             ability: "INT"
                             acp: false
-                          - skill: "Stealth"
+                          - skill: stealth
+                            name: "Stealth"
                             ability: "DEX"
                             acp: true
-                          - skill: "Survival"
+                          - skill: survival
+                            name: "Survival"
                             ability: "WIS"
                             acp: false
-                          - skill: "Thievery"
+                          - skill: thievery
+                            name: "Thievery"
                             ability: "DEX"
                             acp: true
-                          - skill: "Lore"
+                            fade: false
+                          - skill: lore
+                            name: "Lore"
                             ability: "INT"
                             acp: false
+                            fade: true
                           - skill: ''
+                            name: ''
                             ability: ''
                             acp: false
-                          # - skill: ''
-                          #   ability: ''
-                          #   acp: false
-                          # - skill: ''
-                          #   ability: ''
-                          #   acp: false
+                          - skill: ''
+                            name: ''
+                            ability: ''
+                            acp: false
+                          - skill: ''
+                            name: ''
+                            ability: ''
+                            acp: false
                         template:
-                          - h6: "#{skill}"
+                          - h6: "#{name}"
+                            fade: "#{fade}"
                           - field: "#{skill}-assurance"
                             control: checkbox
                             align: right
@@ -585,16 +619,9 @@ inc:
                             border: full
                             exists: "#{acp}"
                             prefix: "&ndash;"
-                      # - hr:
-                      - layout: 2e
-                        contents:
-                          - level: 7
-                            contents:
-                              - span: "Master in skills"
-                          - level: 15
-                            contents:
-                              - span: "Legendary in skills"
-                      - hr:
+                  - section: "Perception"
+                    flex: small
+                    contents:
                       - row:
                         contents:
                           - calc:
@@ -635,47 +662,12 @@ inc:
                             frame: right
                             control: checkbox
                             label: "Scent"
-                      - field: perception-other
-                        label: "Conditional"
-                        frame: none
-                        align: left
-                        width: stretch
-                        merge-bottom: true
-                  - section: "Skill feats"
-                    id: skill-feats
-                    flex: gargantuan
-                    contents:
-                      - list:
-                        columns: 2
-                        zebra: true
-                        hr: true
-                        flex: true
-                        contents:
-                          - each:
-                            template:
-                              - level: "#{level}"
-                                contents:
-                                  - item: yes
-                            contents:
-                              - slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, '' ]
-                                min: 1
-                                max: 1
-                                placeholder:
-                                  article:
-                                  header:
-                                    - field: skill-feat-level-#{level}
-                                      width: stretch
-                                      size: large
-                                      frame: none
-                                      align: left
-                                  contents:
-                                    - field: skill-feat-level-#{level}-details
-                                      width: stretch
-                                      align: left
-                                      frame: none
-                                      repeat: 2
-                                contents:
-                                  - zone: '@skill-feats'
+                      # - field: perception-other
+                      #   label: "Conditional"
+                      #   align: left
+                      #   width: stretch
+                      #   merge-bottom: true
+                      #   repeat: 2
                   - tail:
 
       - page: combat
@@ -735,31 +727,39 @@ inc:
                   - section: "Speed"
                     id: speed
                     contents:
-                      - row: split
+                      - layout: 3e
                         contents:
+                          - action: 1
+                            contents:
+                              - p: "Stride"
                           - field: speed
                             legend: "Speed"
                             control: speed
                             output: true
+                            width: stretch
                           - field: speed-armour
                             label: "Speed in Armour"
                             control: speed
-                          - field: speed-temp
-                            label: "Temp Speed"
-                            control: speed
-                            output: true
-                            temp: true
-                      - row: split
+                            width: stretch
+                          # - field: speed-temp
+                          #   label: "Temp Speed"
+                          #   control: speed
+                          #   output: true
+                          #   temp: true
+                      - layout: 3e
                         contents:
                           - field: speed-swim
                             label: "Swim Speed"
                             control: speed
+                            width: stretch
                           - field: speed-climb
                             label: "Climb Speed"
                             control: speed
+                            width: stretch
                           - field: speed-fly
                             label: "Fly Speed"
                             control: speed
+                            width: stretch
 
                   - section: "Focus"
                     contents:
@@ -889,22 +889,18 @@ inc:
                             contents:
                               - g:
                                 contents:
-                                  - row:
-                                    contents:
-                                      - field: attack-#{i}-level
-                                        label: "Level"
-                                      - field: attack-#{i}
-                                        width: stretch
-                                        frame: none
-                                        align: left
-                                        size: large
+                                  - field: attack-#{i}
+                                    width: stretch
+                                    frame: none
+                                    align: left
+                                    size: large
                                   - row:
                                     contents:
                                       - calc:
                                         output:
                                           field: attack-#{i}-bonus
                                           label: "Attack Bonus"
-                                          width: large
+                                          width: huge
                                           attack: true
                                           icon: bonus
                                         inputs:
@@ -915,18 +911,18 @@ inc:
                                           - field: attack-#{i}-proficiency
                                             control: proficiency
                                             label: "Proficiency"
-                                          - field: attack-#{i}-quality
-                                            control: icon
-                                            label: "Quality"
-                                            icon: quality
                                           - field: attack-#{i}-potency
                                             control: icon
                                             label: "Potency"
-                                            icon: potency
+                                            icon: quality
+                                          # - field: attack-#{i}-potency
+                                          #   control: icon
+                                          #   label: "Potency"
+                                          #   icon: potency
                                       - field: attack-#{i}-damage
                                         output: true
                                         label: "Damage"
-                                        width: large
+                                        width: huge
                                         icon: damage
                                         control: compound
                                         parts:
@@ -940,6 +936,10 @@ inc:
                                           - label: "+"
                                           - subid: extra
                                             width: tiny
+                                      - field: attack-#{i}-striking
+                                        label: "Striking"
+                                        control: icon
+                                        icon: quality
                                       - field: attack-#{i}-type
                                         label: "Type"
                                       # - field: attack-#{i}-critical
@@ -1223,128 +1223,3 @@ inc:
                             contents:
                               - zone: '@actions'
                   - tail:
-
-      - page: inventory
-        order: 15
-        flex: true
-        landscape: true
-        contents:
-          - layout: 2e
-            contents:
-              - g:
-                contents:
-                  - layout: 2e
-                    contents:
-                      - g:
-                        contents:
-                          - section: "Inventory"
-                            contents:
-                              - list:
-                                zebra: true
-                                collapse: true
-                                field_frame: none
-                                contents:
-                                  - repeat: 30
-                                    contents:
-                                      - row:
-                                        contents:
-                                          - field: inventory-#{i}
-                                            width: stretch
-                                          - field: inventory-#{i}-value
-                                          - field: inventory-#{i}-weight
-                              - g:
-                                contents:
-                                  - field: weight-total
-                                    frame: left
-                                    label: "Total weight"
-                                    border: none
-                                    control: weight
-                                    # width: huge
-                              - hr:
-                              - h5: "Expendables"
-                              - list:
-                                zebra: true
-                                collapse: true
-                                field_frame: none
-                                contents:
-                                  - repeat: 2
-                                    merge-bottom: true
-                                    contents:
-                                      - row:
-                                        contents:
-                                          - field: expendable-#{i}
-                                            width: stretch
-                                          - field: expendable-#{i}-count
-                                            frame: none
-                                            control: checkgrid
-                                            max: 20
-                                            depth: 3
-                          - tail:
-                      - g:
-                        contents:
-                          - section: "Worn Equipment"
-                            contents:
-                              - list:
-                                zebra: true
-                                flex: true
-                                hr: true
-                                # avoid-shade: true
-                                contents:
-                                  - repeat: 8
-                                    contents:
-                                      - article:
-                                        header:
-                                          - field: equipment-#{i}
-                                            width: stretch
-                                            frame: none
-                                            align: left
-                                        contents:
-                                          - field: equipment-#{i}-details
-                                            width: stretch
-                                            frame: none
-                                            align: left
-                                            repeat: 2
-                          - g:
-                            contents:
-                              - hr:
-                              - h5: "Money"
-                              - field: money-platinum
-                                frame: left
-                                control: money
-                                label: "Platinum"
-                                denomination: platinum
-                                digits: 7
-                                shift: 3
-                              - field: money-gold
-                                frame: left
-                                control: money
-                                label: "Gold"
-                                denomination: gold
-                                digits: 8
-                                shift: 2
-                              - field: money-silver
-                                frame: left
-                                control: money
-                                label: "Silver"
-                                denomination: silver
-                                digits: 9
-                                shift: 1
-                              - field: money-copper
-                                frame: left
-                                control: money
-                                label: "Copper"
-                                denomination: copper
-                                digits: 10
-                              - field: money-total
-                                frame: left
-                                output: 'true'
-                                control: money
-                                legend: "Total"
-                                denomination: copper
-                                digits: 10
-                                decimal: 1
-                              - p: "1000 coins = 1 bulk"
-                          - tail:
-
-
-

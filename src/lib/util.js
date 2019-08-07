@@ -62,7 +62,9 @@ export function elementID(element, id = null) {
 
 function pickMods(args, keys) {
   return _.flatMap(args, (v, k) => {
-    return (v && keys.includes(k)) ? [k] : [];
+    if (isString(v))
+      v = v.replace(/#\{.*?\}/g, '');
+    return (v && keys.includes(k) && !isEmpty(v) && v != 'false') ? [k] : [];
   });
 }
 
@@ -159,7 +161,7 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
   // mods are single-word adjectives, eg
   var mods = pickMods(args, modKeys);
   // console.log("["+block+" class] Mods:", mods);
-  _.each(mods, function (mod) {
+  mods.forEach(function (mod) {
     switch (mod) {
       // global mods that don't need a prefix
       // case 'align':
@@ -189,7 +191,7 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
     var key = pair[0];
     var value = pair[1];
 
-    if (value === null)
+    if (value === null || isEmpty(value))
       return;
     // console.log("  -", key, " = ", value);
     // some default values can be skipped
@@ -216,7 +218,7 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
   });
 
   // the class attr, if needed
-  if (_.isEmpty(cls)) {
+  if (isEmpty(cls)) {
     return '';
   }
   return ` class='${cls.join(" ")}'`;
@@ -228,6 +230,18 @@ export function has(container, property) {
 
 export function isNull(val) {
   return val === null || val === undefined;
+}
+
+export function isEmpty(val) {
+  if (val === null || val === undefined)
+    return true;
+  if (isString(val))
+    return val == '';
+  if (isArray(val))
+    return val.length == 0;
+  if (isObject(val))
+    return !Object.entries((val || {})).length;
+  return false;
 }
 
 export function isString(val) {
@@ -260,7 +274,7 @@ export function interpolate(template, values, document = null) {
       } else if (!isNull(document) && document.hasVar(index)) {
         return document.getVar(index);
       }
-      return match;
+      return match[0];
     });
   }
 

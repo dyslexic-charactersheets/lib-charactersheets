@@ -1,5 +1,3 @@
-import * as _ from 'lodash';
-
 import { interpolate, elementID, elementClass, isObject, isString, isNull, has, clone } from '../util';
 
 
@@ -31,8 +29,12 @@ export let table = {
       // cells
       // log("table", "Rows", rows);
       var trows = rows.map(row => {
-        var cells = row.map(cell => {
-          var cellCls = elementClass('td', null, cell, [], { 'align': '' });
+        var cells = row.map((cell, h) => {
+          if (h < headings.length) {
+            if (has(headings[h], "shade") && headings[h].shade)
+              cell.shade = true;
+          }
+          var cellCls = elementClass('td', null, cell, [ 'shade' ], { 'align': '', 'valign': 'bottom' });
           return `<td${cellCls}>${reg.renderItem(cell, doc)}</td>`;
         });
 

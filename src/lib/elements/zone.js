@@ -14,7 +14,7 @@ export let zone = {
         var existing = has(args, "contents") && args.contents ? args.contents : [];
         var insert = has(ctx.zones, args.zone) ? _.cloneDeep(ctx.zones[args.zone]) : [];
 
-        var replace = _.reduce(insert, (repl, element) => repl || element.replace, false);
+        var replace = insert.reduce((repl, element) => repl || element.replace, false);
         if (replace) {
             existing = [];
         }
@@ -25,7 +25,7 @@ export let zone = {
         // sort the contents
         if (args.sort) {
             // log("-","[zone] Sorting");
-            var contents = contents.map(subelement => _.defaults(subelement, { level: 1, order: 1 }));
+            var contents = contents.map(subelement => Object.assign({ level: 1, order: 1 }, subelement));
             contents = contents.sort((a, b) => {
                 if (a.level != b.level)
                     return a.level - b.level;

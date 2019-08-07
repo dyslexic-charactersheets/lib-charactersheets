@@ -51,6 +51,7 @@ export let list = {
         return [{
             type: "layout",
             layout: args.columns+"e",
+            flex: args.flex,
             contents: cols.map(col => {
                 return Object.assign({}, args, {
                     columns: 1,

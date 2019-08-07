@@ -108,13 +108,16 @@ function parseCharacter(primary, request) {
           if (key.startsWith(classPrefix) && !key.endsWith('Feats')) {
             let selname = toKebabCase(key.replace(classPrefix, ''));
             let selvalue = toKebabCase(attr[key]);
-            // log("Character", "Class option", key, selname, "=", selvalue);
+            log("Character", "Class option", key, selname, "=", selvalue);
             var unitname = className + '/' + selname + '/' + selvalue;
             // log("Character", "Class option unit", unitname);
             char.units.push(unitname);
           }
         });
       }
+
+      // todo selectables
+      char.units.push("option/inventory/half");
 
       if (attr.archetypes) {
         attr.archetypes.forEach(archetype => {

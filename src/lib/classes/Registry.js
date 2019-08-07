@@ -6,10 +6,12 @@ import { has } from '../util';
 // elements
 import { unit } from '../elements/unit';
 
+import { advancement } from '../elements/advancement';
 import { article } from '../elements/article';
 import { blockquote } from '../elements/blockquote';
 import { calc } from '../elements/calc';
 import { class_icon } from '../elements/class-icon';
+import { ifelem } from '../elements/control';
 // import { document } from '../elements/document';
 import { each } from '../elements/each';
 import { g } from '../elements/g';
@@ -21,6 +23,7 @@ import { layout } from '../elements/layout';
 import { level, level_marker } from '../elements/level';
 import { list, join } from '../elements/list';
 import { logo } from '../elements/logo';
+import { nothing } from '../elements/nothing';
 import { page } from '../elements/page';
 import { p, ul, li } from '../elements/p';
 import { portrait } from '../elements/portrait';
@@ -74,6 +77,7 @@ export class Registry {
       unit,
       // document,
 
+      advancement,
       article,
       blockquote,
       calc,
@@ -88,6 +92,7 @@ export class Registry {
       level, level_marker,
       list, join,
       logo,
+      nothing,
       page,
       p, ul, li,
       portrait,

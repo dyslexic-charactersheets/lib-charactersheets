@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 
 const Handlebars = require('handlebars');
 
+import { log, warn } from '../log';
 import { applyContext } from '../context';
 import { clone, esc, replaceColours, has } from '../util';
 
@@ -12,6 +13,7 @@ export class Document {
     var baseDocument = baseUnit.contents[0];
     // log("Document", "Base document", baseDocument);
     this.doc = clone(baseDocument);
+    this.language = 'en';
     this.units = [baseUnit];
     this.zones = {};
     this.templates = {};
@@ -111,7 +113,7 @@ export class Document {
 
   addAtZone(zoneId, elements, replace) {
     if (zoneId.charAt(0) != '@') {
-      err("Document", "Not a zone ID:", zoneId);
+      error("Document", "Not a zone ID:", zoneId);
       return;
     }
     // log("Document", "Adding to zone:", zoneId);
@@ -238,7 +240,7 @@ export class Document {
     var stylesheet = this.getStylesheet();
 
     return `<!DOCTYPE html>
-<html lang='en-GB'>
+<html lang='${this.language}'>
 <head>
 <meta charset='utf-8'/>
 <title>${esc(this.doc.title)}</title>

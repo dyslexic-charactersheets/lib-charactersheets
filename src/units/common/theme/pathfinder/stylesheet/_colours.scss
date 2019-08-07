@@ -4,7 +4,8 @@ $colour_mid: #909090;
 $colour_light: #b0b0b0;
 $colour_alt: #a0a0a0;
 $colour_white: #ffffff;
-$colour_zebra: rgba($colour_mid,0.1);
+$colour_zebra: rgba($colour_mid, 0.1);
+$colour_double_zebra: rgba($colour_mid, 0.2);
 
 // Text colours
 html, a, p, * {
@@ -61,18 +62,16 @@ label.field--alignment__chaotic {
 
 // Zebra shading
 
+@mixin double_zebra {
+    background: $colour_double_zebra;
+}
+
 @mixin zebra {
     background: $colour_zebra;
-    // .field__inner {
-    //     background: none;
-    // }
 }
 
 @mixin unzebra {
     background: none;
-    // .field__inner {
-    //    background: rgba(255,255,255,0.5);
-    // }
 }
 	
 .shade, blockquote {
@@ -112,6 +111,10 @@ label.field--alignment__chaotic {
     tbody tr:nth-child(2n) {
         td, th {
             @include zebra;
+
+            &.shade {
+              @include double_zebra;
+            }
         }
     }
 }

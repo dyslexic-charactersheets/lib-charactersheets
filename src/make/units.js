@@ -32,7 +32,7 @@ function getDataURL(unit, filename) {
 
 
     if (_.isNull(data) && _.isNull(base64)) {
-        // log("data", "Data URL: Data not found", unit+":"+filename);
+        log("data", "Data URL: Data not found", unit+":"+filename);
         return '';
     } else {
         // log("data", "Data URL: data:", _.isNull(data) ? "no" : "yes", " base64:", _.isNull(base64) ? "no" : "yes");
@@ -190,7 +190,6 @@ module.exports = {
                     // log("unit", "Looking for assets:", assetsDir);
                     load.assets.walkDirectory(assetsDir, fn => true, (data, assetfile) => {
                         // log("units", "Asset loaded", unitid+":"+assetfile);
-                        // process asset data now, or later?
 
                         // unitassets[assetfile] = data;
                         _assets[unitid][assetfile] = data;

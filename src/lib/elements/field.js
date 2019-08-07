@@ -11,6 +11,7 @@ export let field = {
     control: 'input',
     repeat: 1,
     editable: true,
+    flex: false,
     'merge-bottom': false,
     label: false,
     value: null,
@@ -27,7 +28,7 @@ export let field = {
     var id = elementID('field', args.id);
     var cls = elementClass('field', null, args,
       ["icon", "ref", "misc", "temp"],
-      { "frame": "normal", "width": "medium", "align": "centre", "size": "medium", "control": "input", "shift": 0, "lp": 0, "border": "bottom" });
+      { "frame": "normal", "width": "medium", "align": "centre", "size": "medium", "control": "input", "shift": 0, "lp": 0, "border": "bottom", "flex": false });
 
     var frameArgs = _.defaults({ type: 'frame:' + args.frame }, args);
     var frame = reg.renderItem(frameArgs, doc);

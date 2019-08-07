@@ -1,0 +1,346 @@
+unit: class/rogue
+in: class
+name: "Rogue"
+
+form:
+  - select: rogue-racket
+    name: "Rogue's Racket"
+    max: 1
+  - select: feat-rogue
+    name: "Rogue Feats"
+    max: 8
+    levels: [ 2, 4, 6, 8, 10, 14, 16, 18, 20 ]
+
+inc:
+  - set: class
+    value: "Rogue"
+  - set: class-dc-proficiency
+    value: trained
+  - set: Stealth-proficiency
+    value: trained
+  - set: Perception-proficiency
+    value: expert
+  - set: fortitude-proficiency
+    value: trained
+  - set: reflex-proficiency
+    value: expert
+  - set: will-proficiency
+    value: expert
+
+  - at: '@skill-feats-section'
+    replace:
+      - list:
+        zebra: true
+        hr: true
+        avoid-shade: true
+        contents:
+          - each:
+            template:
+              - level: "#{level}"
+                contents:
+                  - item: yes
+            contents:
+              - slots: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
+                min: 1
+                max: 1
+                placeholder:
+                  article: 'skill-feat-#{level}'
+                  lines: 1
+                contents:
+                  - zone: '@skill-feats'
+
+  - at: '@language-section'
+    replace:
+      - nothing:
+
+  - at: '@proficiencies'
+    replace:
+      - nothing:
+
+  - at: '@advancement'
+    replace:
+      - section: "Rogue Advancement"
+        contents:
+          - advancement:
+            labels:
+              - "Racket, surprise attack"
+              - ""
+              - "Deny advantage"
+              - ""
+              - "Weapon tricks"
+              - ""
+              - "Master in skills, evasion, master in perception"
+              - ""
+              - "Debilitating strike, great fortitude"
+              - ""
+              - "Expert in Rogue class DC"
+              - ""
+              - "Improved evasion, legendary in perception, light armour expertise"
+              - ""
+              - "Legendary in skills, double debilitation, greater weapon specialisation"
+              - ""
+              - "Slippery mind"
+              - ""
+              - "Light armour mastery"
+              - ""
+            fields:
+              - id: surprise-attack
+                label: "Surprise\nattack"
+                shade: true
+                align: center
+                values:
+                  - "1d6"
+                  - ""
+                  - ""
+                  - ""
+                  - "2d6"
+                  - ""
+                  - ""
+                  - ""
+                  - ""
+                  - ""
+                  - "3d6"
+                  - ""
+                  - ""
+                  - ""
+                  - ""
+                  - ""
+                  - "4d6"
+                  - ""
+                  - ""
+                  - ""
+              - id: ancestry-feat
+                label: "Ancestry\nfeat"
+                levels: [ 1, 5, 9, 13, 17 ]
+              - id: general-feat
+                label: "General\nfeat"
+                levels: [ 3, 7, 11, 15, 19 ]
+                shade: true
+              - id: class-feat
+                label: "Class\nfeat"
+                levels: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+              - id: skill-feat
+                label: "Skill\nfeat"
+                levels: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
+                shade: true
+              - id: skill-increase
+                label: "Skill\nincrease"
+                levels: [ 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
+              - id: ability-boost
+                label: "Ability\nboost"
+                levels: [ 5, 10, 15, 20 ]
+                shade: true
+                template:
+                  field: '#{id}'
+                  frame: none
+                  control: checkbox
+
+  - at: '@pages'
+    add:
+      - page: rogue
+        name: "Rogue"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: rogue
+                  - h2: "Rogue"
+
+                  - section: "Sneak Attack"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - g:
+                            contents:
+                              - row:
+                                contents:
+                                  - field: sneak-attack-dmg
+                                    legend: "Sneak Attack\nDamage Bonus"
+                                    icon: damage
+                                    width: large
+                                    border: full
+                                    overlay: "d6"
+                                  - p: "Precision damage"
+                                  - spacer:
+                              - p: "When you attack a flat-footed opponent with an agile or finesse weapon/unarmed strike, or a ranged weapon."
+                          - g:
+                            contents:
+                              - h5: "Surprise Attack"
+                              - p: "On the first round of combat, if you roll Decpetion or Stealth for initiative, creatures that haven't acted yet are flat-footed."
+
+                  - section: "Deny Advantage"
+                    contents:
+                      - level: 3
+                        contents:
+                          - p: "Not flat-footed to hidden, undetected or flanking creatures, or surprise attacks by creatures up to your level."
+
+                  - section: "Weapon Tricks"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - level: 5
+                            contents:
+                              - p: "When you make a critical hit with a suitable weapon, apply the weapon's critical specialisation effect."
+
+                  - section: "Evasion"
+                    contents:
+                      - level: 7
+                        contents:
+                          - p: "Success becomes critical success on Reflex saves."
+
+                  - section: "Weapon Specialisation"
+                    contents:
+                      - level: 7
+                        contents:
+                          - h5: "Damage Bonus"
+                          - layout: 3e
+                            contents:
+                              - row:
+                                contents:
+                                  - icon: proficiency-expert
+                                  - field:
+                                    border: full
+                                    frame: none
+                                    value: "+2"
+                              - row:
+                                contents:
+                                  - icon: proficiency-master
+                                  - field:
+                                    border: full
+                                    frame: none
+                                    value: "+3"
+                              - row:
+                                contents:
+                                  - icon: proficiency-legendary
+                                  - field:
+                                    border: full
+                                    frame: none
+                                    value: "+4"
+
+                      - hr:
+                      - level: 15
+                        contents:
+                          - h5: "Greater Weapon Specialisation"
+                          - layout: 3e
+                            contents:
+                              - row:
+                                contents:
+                                  - icon: proficiency-expert
+                                  - field:
+                                    border: full
+                                    frame: none
+                                    value: "+4"
+                              - row:
+                                contents:
+                                  - icon: proficiency-master
+                                  - field:
+                                    border: full
+                                    frame: none
+                                    value: "+6"
+                              - row:
+                                contents:
+                                  - icon: proficiency-legendary
+                                  - field:
+                                    border: full
+                                    frame: none
+                                    value: "+8"
+
+                  - section: "Debilitating Strike"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - level: 9
+                            contents:
+                              - p: "On hitting a flat-footed target, inflict an effect until the end of your next turn:"
+                              - ul:
+                                contents:
+                                  - li: "-10ft to target's speed"
+                                  - li: "Target is enfeebled 1"
+                          - level: 15
+                            contents:
+                              - h5: "Double Debilitation"
+                              - p: "Apply two effects."
+
+                  - section: "Slippery Mind"
+                    contents:
+                      - level: 17
+                        contents:
+                          - p: "Success becomes critical success on Will saves."
+
+                  - section: "Master Strike"
+                    contents:
+                      - level: 19
+                        contents:
+                          - p: "When your strike hits a flat-footed creature and deals damage, they must also attempt a Fortitude save."
+                          - p: ""
+
+                  - tail:
+                  - spacer:
+              - g:
+                contents:
+                  - section: "Racket"
+                    primary: true
+                    contents:
+                      - zone: '@rogue-racket'
+                        contents:
+                          - g:
+                            contents:
+                              - field: rogue-racket
+                                size: huge
+                                width: stretch
+                                frame: none
+                                merge-bottom: true
+                              - hr:
+                              - field: rogue-racket-special
+                                label: "Special"
+                                width: stretch
+                                repeat: 3
+                              - field: rogue-racket-trained
+                                label: "Trained"
+                                width: stretch
+                                repeat: 2
+
+                  - section: "Rogue Feats"
+                    contents:
+                      # - paste: feats-table
+                      #   class: rogue
+                      #   levels: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, '' ]
+                      - list:
+                        zebra: true
+                        columns: 2
+                        flowv: true
+                        hr: true
+                        contents:
+                          - each:
+                            template:
+                              - level: "#{level}"
+                                contents:
+                                  - item:
+                            contents:
+                              - slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, '' ]
+                                min: 1
+                                max: 1
+                                placeholder:
+                                  article:
+                                  header:
+                                    - field: rogue-feat-level-#{level}
+                                      width: stretch
+                                      frame: none
+                                      align: left
+                                  contents:
+                                    - field: rogue-feat-level-#{level}-details
+                                      width: stretch
+                                      align: left
+                                      frame: none
+                                      repeat: 2
+                                contents:
+                                  - zone: '@rogue-feats'
+                  - tail:
+                  - spacer:
