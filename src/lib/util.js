@@ -233,7 +233,7 @@ export function isNull(val) {
 }
 
 export function isEmpty(val) {
-  if (val === null || val === undefined)
+  if (val === null || val === undefined || val === false)
     return true;
   if (isString(val))
     return val == '';

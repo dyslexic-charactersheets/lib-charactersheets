@@ -103,6 +103,7 @@ export let article = {
         ],
         contents: contents,
         shade: false,
+        annotation: args.annotation,
         'merge-bottom': true,
       };
 
@@ -114,17 +115,14 @@ export let article = {
     var id = elementID('section', args.id);
     var cls = elementClass('section', null, args, ['shade']);
 
-    var headerElements = args.header;
-    if (_.isEmpty(args.header) && args.title != '') {
-      headerElements = [{ type: 'h6', title: args.title }];
-    }
+    var annotation = args.annotation ? `<div class='article__annotation'>${args.annotation}</div>` : '';
     var header = `<header>${reg.render(args.header, doc)}</header>`
     var dl = '';
 
     // var contents = mergeBottom(args.contents);
 
     return `<article${id}${cls}>
-            ${header}${dl}
+            ${annotation}${header}${dl}
             <div class='g'>${reg.render(args.contents, doc)}</div>
             </article>`;
   }
