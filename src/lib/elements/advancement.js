@@ -16,7 +16,8 @@ export let advancement = {
 
     let columns = [{
       type: "label",
-      label: args.index
+      label: args.index,
+      valign: "middle"
     }];
     let template = [{
       type: "level-marker",
@@ -27,7 +28,8 @@ export let advancement = {
       columns.push({
         type: "label",
         label: args.title,
-        align: "left"
+        align: "left",
+        valign: "middle"
       });
       template.push({
         type: "p",

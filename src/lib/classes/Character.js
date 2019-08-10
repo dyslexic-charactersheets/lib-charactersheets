@@ -213,6 +213,7 @@ export class Character {
         var document = new Document(documentUnit);
 
         // TODO get title parts from inside units
+        // TODO translate title parts
         var titleParts = [];
         if (this.data.ancestry) {
           titleParts.push(toTitleCase(this.data.ancestry));

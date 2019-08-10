@@ -1,6 +1,6 @@
 export let proficiency = {
     name: 'proficiency',
-    key: 'proficiency', 
+    key: 'proficiency',
     defaults: {
         proficiency: "untrained",
         content: false,
@@ -29,11 +29,11 @@ export let proficiency = {
 
 export let action = {
     name: 'action',
-    key: 'action', 
+    key: 'action',
     defaults: {
         action: 1,
         contents: [],
-    }, 
+    },
     transform: args => {
         var icon = 'action';
         switch(args.action) {

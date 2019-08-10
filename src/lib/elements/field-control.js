@@ -1,8 +1,9 @@
 import * as _ from 'lodash';
 import { fieldIdent, fieldRadioIdent, fieldDefaults } from './field';
 import { elementClass, has } from '../util';
+import { __ } from '../i18n';
 
-var defaultControlRender = args => {
+var defaultControlRender = (args, reg, doc) => {
   args = Object.assign({
     align: "center",
     width: "medium",
@@ -18,10 +19,10 @@ var defaultControlRender = args => {
   var attr = (args.editable ? '' : 'readonly');
   var input = `<input${ident.ident}${value}${attr}>`;
 
-  var underlay = args.underlay ? `<u>${args.underlay}</u>` : '';
+  var underlay = args.underlay ? `<u>${__(args.underlay, doc)}</u>` : '';
 
-  var prefix = args.prefix ? `<span class='field__overlay'>${args.prefix}</span>` : '';
-  var overlay = args.overlay ? `<span class='field__overlay'>${args.overlay}</span>` : '';
+  var prefix = args.prefix ? `<span class='field__overlay'>${__(args.prefix, doc)}</span>` : '';
+  var overlay = args.overlay ? `<span class='field__overlay'>${__(args.overlay, doc)}</span>` : '';
 
   return `<div${cls}>${prefix}${input}${underlay}</div>${overlay}`;
 };
@@ -154,7 +155,7 @@ export let field_control_weight = {
           },
           {
             type: "label",
-            label: "B",
+            label: __("B", doc),
           },
           {
             type: "field",
@@ -164,7 +165,7 @@ export let field_control_weight = {
           },
           {
             type: "label",
-            label: "L",
+            label: __("L", doc),
           }
         ];
         break;
@@ -303,7 +304,7 @@ export let field_control_alignment = {
     value: '',
     border: 'none',
   },
-  render: args => {
+  render: (args, reg, doc) => {
     var radios = ["lg", "ll", "le", "ng", "nn", "ne", "cg", "cn", "ce"].map(al => {
       var radioIdent = fieldRadioIdent(args.id, args.value);
       return `<div class='field__control field__control-${al}'><input type='radio'${radioIdent.ident}></div>`;
@@ -316,10 +317,10 @@ export let field_control_alignment = {
             <i class='icon icon_lawful'></i>
             <i class='icon icon_chaotic'></i>
 
-            <label class='field__good'>Good</label>
-            <label class='field__evil'>Evil</label>
-            <label class='field__lawful'>Lawful</label>
-            <label class='field__chaotic'>Chaotic</label>
+            <label class='field__good'>${__("Good", doc)}</label>
+            <label class='field__evil'>${__("Evil", doc)}</label>
+            <label class='field__lawful'>${__("Lawful", doc)}</label>
+            <label class='field__chaotic'>${__("Chaotic", doc)}</label>
 
             ${radios.join("")}
         `;
@@ -401,7 +402,7 @@ export let field_control_money = {
     denomination: "copper",
     value: '',
   },
-  render: args => {
+  render: (args, reg, doc) => {
     var unit = '';
     switch (args.denomination) {
       case 'platinum': unit = 'pp'; break;
@@ -409,7 +410,7 @@ export let field_control_money = {
       case 'silver': unit = 'sp'; break;
       case 'copper': unit = 'cp'; break;
     }
-    var overlay = `<span class='field__overlay'>${unit}</span>`;
+    var overlay = `<span class='field__overlay'>${__(unit, doc)}</span>`;
 
     var ident = fieldIdent(args.id);
     var cls = elementClass("field", "control", args, [], { "digits": 0, "shift": 0, "decimal": 0 });

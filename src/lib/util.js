@@ -244,6 +244,10 @@ export function isEmpty(val) {
   return false;
 }
 
+export function isNumber(val) {
+  return Number.isFinite(val);
+}
+
 export function isString(val) {
   return typeof val === 'string' || val instanceof String;
 }

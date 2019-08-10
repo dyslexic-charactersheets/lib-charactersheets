@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 
 import { elementID, elementClass, getLabelHeight, has, interpolate, isArray } from '../util';
+import { __ } from '../i18n';
 // import { render, renderItem } from '../classes/Registry';
 
 export let field = {
@@ -104,7 +105,7 @@ export function fieldRadioIdent(fieldid = '', value = '') {
 export function fieldInner(args, reg, doc) {
   args = _.defaults({ type: 'control:' + args.control }, args);
   var icon = (has(args, "icon") && !!args.icon && _.isString(args.icon) && args.control != "icon") ? `<i class='icon icon_${args.icon}'></i>` : '';
-  var unit = (has(args, "unit") && !!args.unit) ? `<label class='field__unit'>${args.unit}</label>` : '';
+  var unit = (has(args, "unit") && !!args.unit) ? `<label class='field__unit'>${__(args.unit, doc)}</label>` : '';
 
   var boxargs = _.pick(args, ['icon', 'border']);
   var inner;

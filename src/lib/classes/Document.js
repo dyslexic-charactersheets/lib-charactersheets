@@ -235,9 +235,20 @@ export class Document {
     return cssParts.join("");
   }
 
+  getJavascript() {
+    var jsParts = [];
+
+    // jsParts.push("alert('Yo.');");
+
+    jsParts.push('if ( /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window[\'safari\'] || safari.pushNotification) ) { document.documentElement.classList.add("html--safari"); }');
+
+    return jsParts.join("\n");
+  }
+
   renderDocument(registry) {
     var favicon = this.faviconURL ? `<link id="favicon" rel="shortcut icon" type="image/png" href='${this.faviconURL}' />` : ''
     var stylesheet = this.getStylesheet();
+    var javascript = this.getJavascript();
 
     return `<!DOCTYPE html>
 <html lang='${this.language}'>
@@ -260,6 +271,10 @@ ${stylesheet}
 ${registry.render(this.doc.contents, this)}
 </main>
 
+<div class='screen-message' id='screen-message-safari'>
+<p>Backgrounds are currently unavailable on Safari and iOS devices.</p>
+<p>If printing on Safari, please deselect "Print headers and footers".</p>
+</div>
 <nav id='screen-buttons'>
 <!--
 <section id='left-buttons'>
@@ -269,6 +284,9 @@ ${registry.render(this.doc.contents, this)}
 -->
 <button id='button--print' onclick="window.print();return false;">Print</button>
 </nav>
+<script type='text/javascript'>
+${javascript}
+</script>
 </body>
 </html>`;
   }

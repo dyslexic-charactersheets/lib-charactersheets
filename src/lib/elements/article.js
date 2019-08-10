@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 
 import { elementID, elementClass, isEmpty } from '../util';
+import { __ } from '../i18n';
 
 export let article = {
   name: 'article',
@@ -74,7 +75,7 @@ export let article = {
           });
         }
       }
-      
+
       var contents = [];
       if (args.content) {
         contents.push({
@@ -115,7 +116,7 @@ export let article = {
     var id = elementID('section', args.id);
     var cls = elementClass('section', null, args, ['shade']);
 
-    var annotation = args.annotation ? `<div class='article__annotation'>${args.annotation}</div>` : '';
+    var annotation = args.annotation ? `<div class='article__annotation'>${__(args.annotation, doc)}</div>` : '';
     var header = `<header>${reg.render(args.header, doc)}</header>`
     var dl = '';
 

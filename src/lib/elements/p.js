@@ -1,4 +1,5 @@
 import { elementClass, esc } from '../util';
+import { __ } from '../i18n';
 
 export let p = {
     name: 'p',
@@ -7,13 +8,13 @@ export let p = {
         prose: false,
         content: '',
         align: 'left',
-    }, 
-    render: args => {
+    },
+    render: (args, reg, doc) => {
         var cls = elementClass('p', null, args, ['prose'], ['align', 'size']);
-        
+
         // var paras = args.content.split(/[\n\r]/);
 
-        return `<p${cls}>${esc(args.content, true)}</p>`;
+        return `<p${cls}>${esc(__(args.content, doc), true)}</p>`;
     }
 }
 
@@ -30,7 +31,7 @@ export let li = {
     defaults: {
         content: '',
     },
-    render: args => {
-        return `<li>${esc(args.content, true)}</li>`;
+    render: (args, reg, doc) => {
+        return `<li>${esc(__(args.content, doc), true)}</li>`;
     }
 }

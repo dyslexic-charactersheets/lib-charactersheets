@@ -1,10 +1,11 @@
 import { elementClass, esc } from '../util';
+import { __ } from '../i18n';
 
 function renderHeading(h) {
-    return args => {
+    return (args, reg, doc) => {
         // log("headings", "elementClass:", args);
         var cls = elementClass(h, null, args, [ 'fade', 'bold' ], { 'align': '' });
-        return `<${h}${cls}>${esc(args.title, true)}</${h}>`
+        return `<${h}${cls}>${esc(__(args.title, doc), true)}</${h}>`
     }
 }
 

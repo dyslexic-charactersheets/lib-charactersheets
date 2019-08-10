@@ -1,6 +1,8 @@
+import { __ } from '../i18n';
+
 export let level = {
     name: 'level',
-    key: 'level', 
+    key: 'level',
     defaults: {
         level: 1,
         narrow: true,
@@ -35,17 +37,17 @@ export let level = {
 
 export let level_marker = {
     name: 'level-marker',
-    key: 'level', 
+    key: 'level',
     defaults: {
         level: 1,
         marker: "Level",
     },
-    render: args => {
+    render: (args, reg, doc) => {
         var level = (""+args.level).replace(/^\s*/, '').replace(/\s*$/, '');
         if (level == "") {
             return `<div class='level-marker'></div>`;
         }
-        var marker = args.marker ? `<label>${args.marker}</label>` : '';
-        return `<div class='level-marker'>${marker}<div class='level-marker__level'>${level}</div></div>`;
+        var marker = args.marker ? `<label>${__(args.marker, doc)}</label>` : '';
+        return `<div class='level-marker'>${marker}<div class='level-marker__level'>${__(level, doc)}</div></div>`;
     }
 }
