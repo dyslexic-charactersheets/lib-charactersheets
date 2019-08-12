@@ -278,6 +278,7 @@ export class Character {
           // log("Character", "Checking for required units");
           var moreunits = [];
           var unitIds = units.map(unit => unit.id);
+          log("Character", "Unit IDs:", unitIds);
           units.forEach(unit => {
             if (has(unit, "require")) {
               unit.require.forEach(req => {
