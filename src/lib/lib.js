@@ -3,6 +3,7 @@ import { Request } from './classes/Request';
 import { loadSystemData } from './classes/System';
 import { Events } from './classes/Events';
 import { addAssetsDir as _addAssetsDir } from './data';
+import { getFormData as getFormDataF } from './formdata';
 
 // start this first, it's the slow bit
 loadSystemData([
@@ -34,3 +35,5 @@ export function onCreateElementTree(callback) {
 export function onError(callback) {
   Events.errorEvt.on(callback);
 }
+
+export let getFormData = getFormDataF;

@@ -14,6 +14,13 @@ export class System {
     this.units = {};
     system.units.forEach(unit => {
       this.units[unit.id] = unit;
+
+      if (has(unit, "form")) {
+        unit.form.forEach(formitem => {
+          var key = Object.keys(formitem)[0];
+          // log("System", `Found form item ${key}`, formitem);
+        });
+      }
     });
   }
 

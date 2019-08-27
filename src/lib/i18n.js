@@ -1,6 +1,5 @@
 import { log } from './log';
 import { isString, isNumber } from './util';
-import { Exception } from 'handlebars';
 
 // TODO i18n API calls to load files or connect to a PO API.
 

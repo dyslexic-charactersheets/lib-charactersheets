@@ -6,7 +6,7 @@ import { Events } from './Events';
 
 // import { applyContext } from '../context';
 import { locateAsset, toDataURL, inferMimeType } from '../data';
-import { toKebabCase, toCamelCase, toPathCase, toSpaceCase, toTitleCase, isString, isObject, isNull, has } from '../util';
+import { toKebabCase, toCamelCase, toPathCase, toSpaceCase, toTitleCase, isString, isObject, isNull, isArray, has } from '../util';
 
 function parseCharacter(primary, request) {
   // attributes
@@ -77,10 +77,11 @@ function parseCharacter(primary, request) {
       if (attr.ancestry) {
         char.units.push('ancestry/' + attr.ancestry.replace(/^ancestry-/, ''));
         char.ancestry = attr.ancestry.replace(/^ancestry-/, '');
+        
+        if (attr.heritage)
+          char.units.push('heritage/' + char.ancestry + "/" + attr.heritage.replace(/^heritage-/, ''));
       }
 
-      if (attr.heritage)
-        char.units.push('heritage/' + attr.heritage.replace(/^heritage-/, ''));
 
       if (attr.ancestryFeats) {
         char.ancestryFeats = parseFeats(attr.ancestryFeats);
@@ -119,10 +120,12 @@ function parseCharacter(primary, request) {
       // todo selectables
       char.units.push("option/inventory/half");
 
-      if (attr.archetypes) {
+      if (attr.archetypes && isArray(attr.archetypes)) {
         attr.archetypes.forEach(archetype => {
-          char.archetypes.push(archetype);
-          char.units.push('archetype/'+archetype);
+          if (isString(archetype)) {
+            char.archetypes.push(archetype);
+            char.units.push('archetype/'+archetype);
+          }
         });
       }
 

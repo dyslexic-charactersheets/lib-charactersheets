@@ -37,7 +37,9 @@ characterSheet.render(html => {
 
 # API
 
-## create(...)
+## Character objects
+
+### create(...)
 
 Calling the constructor creates an instance of CharacterSheet.
 
@@ -50,7 +52,7 @@ let characterSheet = CharacterSheets.create(request);
    * `request` \<Object\> - The request object (see below).
    * Returns: \<CharacterSheet\>, a character sheet object.
 
-## render(...)
+### render(...)
 
 The `render` method produces a file for the request. It takes a callback which gives you either data to save, or an error.
 
@@ -65,7 +67,9 @@ characterSheet.render((data, err) => {
     * `data` \<String\> - The rendered data (in HTML)
     * `err` \<Error\> - Optional error object
 
-## addAssetsDir(...)
+## Global functions
+
+### addAssetsDir(...)
 
 Register a directory with asset files. Do this before calling `create`, and it will refer to this directory when looking for portraits, logos and background images.
 
@@ -74,9 +78,74 @@ CharacterSheets.addAssetsDir('./assets');
 ```
 
 * `addAssetsDir()`
-  * `dir` <String> - A directory
+  * `dir` \<String\> - A directory
 
-## onCreate(...)
+### getFormData(...)
+
+Load the data needed to render a selection form with all the options. Takes a callback that will process the data.
+
+```javascript
+CharacterSheets.getFormData(system, function (data) {
+  // ...
+});
+```
+
+* `getFormData()`
+  * `system` \<String\> - for example, `pathfinder2`
+  * `callback` \<Function\>
+    * `data` \<Object\> - The form data
+
+The form data is in the format:
+
+```javascript
+{
+  selects: [
+    {
+      select: "class",
+      name: "Class",
+      max: 1,
+      base: true,
+      units: {
+        "class/alchemist": {
+          id: "class/alchemist",
+          name: "Alchemist"
+        },
+        "class/fighter": {
+          id: "class/fighter",
+          name: "Fighter"
+        },
+        ...
+      },
+      groups: [
+        {
+          group: "crb",
+          name: "Core Rulebook",
+          units: [
+            "class/alchemist",
+            "class/fighter",
+            ...
+          ]
+        },
+        ...
+      ]
+    },
+    ...
+  ],
+  options: [
+    {
+      option: "permission",
+      name: "Permission to Print",
+      unit: "option/permission",
+      base: true
+    },
+    ...
+  ]
+}
+```
+
+## Events
+
+### onCreate(...)
 
 A hook that is called when a character is created, before any other actions.
 
@@ -92,7 +161,7 @@ CharacterSheets.onCreate(request => {
 
 Note that you may not modify the request during the callback.
 
-## onCreateElementTree(...)
+### onCreateElementTree(...)
 
 A hook that is called after the element tree has been processed, but before it's rendered into HTML. Used for debugging the resulting element tree.
 
@@ -110,7 +179,7 @@ CharacterSheets.onCreateElementTree((elements, title, request) => {
 
 Note that you may not modify the element tree during the callback.
 
-## onError(...)
+### onError(...)
 
 A hook that is called when an error occurs.
 

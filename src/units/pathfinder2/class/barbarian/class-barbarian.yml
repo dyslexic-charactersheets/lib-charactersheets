@@ -1,15 +1,16 @@
 unit: class/barbarian
 in: class
-name: "Barbarian"
+group: "_{Core Rulebook}"
+name: "_{Barbarian}"
 
 form:
   - option: barbarian-instinct
-    name: "Instinct"
+    name: "_{Instinct}"
     max: 1
 
 inc:
   - set: class
-    value: "Barbarian"
+    value: "_{Barbarian}"
   - set: class-dc-proficiency
     value: trained
   - set: perception-proficiency
@@ -20,13 +21,13 @@ inc:
     value: trained
   - set: will-proficiency
     value: expert
-  - set: Athletics-proficiency
+  - set: athletics-proficiency
     value: trained
 
   - at: '@cover-class'
     replace:
-      - h6: "Barbarian"
-      - field: barbarian-totem
+      - h6: "_{Barbarian}"
+      - field: barbarian-instinct
         label: "Instinct"
         width: stretch
         align: left
@@ -34,14 +35,14 @@ inc:
   - at: '@key-ability-field'
     replace:
       - field:
-        label: "STR"
-        underlay: "STR"
+        label: "_{STR}"
+        underlay: "_{STR}"
         ref: STR
 
   - at: '@pages'
     add:
       - page: barbarian
-        name: "Barbarian"
+        name: "_{Barbarian}"
         # flex: true
         order: 10
         contents:
@@ -50,43 +51,43 @@ inc:
             - g:
               contents:
                 - class-icon: barbarian
-                - h2: "Barbarian"
-                - section: "Totem"
+                - h2: "_{Barbarian}"
+                - section: "_{Totem}"
                   primary: true
                   contents:
                     - article:
                       header:
                         - field: barbarian-totem
-                          legend: "Totem"
+                          legend: "_{Totem}"
                           width: stretch
                           align: left
                       contents:
                         - field: barbarian-totem-anathema
-                          label: "Anathema"
+                          label: "_{Anathema}"
                           width: stretch
                           align: left
                           repeat: 4
                           merge-bottom: true
                         - hr:
                         - field: barbarian-totem-ability
-                          label: "Totem Ability"
+                          label: "_{Totem Ability}"
                           width: stretch
                           align: left
                           repeat: 4
                           merge-bottom: true
                         - hr:
                         - field: barbarian-totem-raging-resistance
-                          label: "Raging Resistance"
+                          label: "_{Raging Resistance}"
                           width: stretch
                           align: left
                           repeat: 4
                           merge-bottom: true
-                - section: "Deny Advantage"
+                - section: "_{Deny Advantage}"
                   contents:
                     - level: 5
                       contents:
-                        - p: "Never flat-footed against creatures of a lower level."
-                - section: "Juggernaut"
+                        - p: "_{Never flat-footed against creatures of a lower level.}"
+                - section: "_{Juggernaut}"
                   contents:
                     - level: 7
                       contents:
@@ -94,47 +95,48 @@ inc:
                           proficiency: master
                           content: Master at Fortitude saves
                         - type: p
-                          content: "When you succeed at a Fortitude save, treat it as a critical success."
+                          content: "_{When you succeed at a Fortitude save, treat it as a critical success.}"
                     - hr:
                     - level: 13
                       contents:
                         - type: proficiency
                           proficiency: legendary
-                          content: "Legendary at Fortitude saves"
-                        - p: "When you critically fail a Fortitude save, treat it as a failure. When you fail a Fortitude save against an effect that deals damage, you halve the damage you take."
-                - section: "Weapon Fury"
+                          content: "_{Legendary at Fortitude saves}"
+                        - p: "_{When you critically fail a Fortitude save, treat it as a failure. When you fail a Fortitude save against an effect that deals damage, you halve the damage you take.}"
+                - section: "_{Weapon Fury}"
                   contents:
                   - level: 13
                     contents:
                     - type: proficiency
                       proficiency: expert
-                      content: "Expert at simple and martial weapons, and unarmed attacks"
-                - section: "Indomitable Will"
+                      content: "_{Expert at simple and martial weapons, and unarmed attacks}"
+                - section: "_{Indomitable Will}"
                   contents:
                   - level: 15
                     contents:
                     - type: proficiency
                       proficiency: master
-                      content: "Master at Will saves"
-                    - p: "When you succeed at a Will save, treat it as a critical success."
-                - section: "Devastating Strikes"
+                      content: "_{Master at Will saves}"
+                    - p: "_{When you succeed at a Will save, treat it as a critical success.}"
+                - section: "_{Devastating Strikes}"
                   contents:
                     - level: 19
                       contents:
                         - calc:
                           output:
                             field: barbarian-raging-resistance-
-                            legend: Resistance Reduction
+                            legend: "_{Resistance Reduction}"
                           inputs:
                             - field:
                               ref: CON
-                              underlay: "CON"
+                              underlay: "_{CON}"
+                              label: "_{CON}"
                             - span: "&times; 2"
-                        - p: "If you succeed at a melee Strike against a target with resistance against the physical damage type of the weapon or unarmed attack you’re using, reduce that resistance."
+                        - p: "_{If you succeed at a melee Strike against a target with resistance against the physical damage type of the weapon or unarmed attack you’re using, reduce that resistance.}"
                 - tail:
             - g:
               contents:
-                - section: "Rage"
+                - section: "_{Rage}"
                   contents:
                     - list:
                       hr: true
@@ -146,26 +148,26 @@ inc:
                                 - row:
                                   contents:
                                     - field: rage-rounds
-                                      legend: "Rage Rounds"
+                                      legend: "_{Rage Rounds}"
                                       control: progression
                                       parts:
                                         - control: checkbox
                                         - control: checkbox
                                         - control: checkbox
                                     - spacer:
-                                    - p: "After raging, you are fatigued for 1 round."
+                                    - p: "_{After raging, you are fatigued for 1 round.}"
                                     - spacer:
-                                - p: "While raging, cannot use actions that require concentration, except for Seek."
+                                - p: "_{While raging, cannot use actions that require concentration, except for Seek.}"
                                 - row:
                                   contents:
                                     - field: barbarian-rage-damage-bonus
                                       output: true
-                                      label: "Damage Bonus"
+                                      label: "_{Damage Bonus}"
                                       width: large
-                                    - p: "To melee and unarmed strikes"
+                                    - p: "_{To melee and unarmed strikes}"
                                     - spacer:
                                     - field: barbarian-rage-ac-penalty
-                                      label: "AC Penalty"
+                                      label: "_{AC Penalty}"
                                       output: true
                                       width: large
                                       value: "-1"
@@ -173,21 +175,22 @@ inc:
                                     - calc:
                                       output:
                                         field: barbarian-rage-temp-hp
-                                        label: "Temporary Hit Points"
+                                        label: "_{Temporary Hit Points}"
                                         overlay: hp
                                         temp: true
                                       inputs:
                                         - field:
                                           ref: CON
-                                          underlay: "CON"
+                                          underlay: "_{CON}"
+                                          label: "_{CON}"
                                         - span: "+"
                                         - field:
                                           ref: level
-                                          label: "Level"
+                                          label: "_{Level}"
                             - level: 3
                               contents:
-                                - h5: "Critical Brutality"
-                                - p: "Gain critical specialization for your melee weapon or unarmed attack."
+                                - h5: "_{Critical Brutality}"
+                                - p: "_{Gain critical specialization for your melee weapon or unarmed attack.}"
                             - level: 9
                               contents:
                                 - row:
@@ -195,23 +198,24 @@ inc:
                                     - calc:
                                       output:
                                         field: barbarian-raging-resistance
-                                        legend: "Raging Resistance"
+                                        legend: "_{Raging Resistance}"
                                         width: large
                                       inputs:
                                         - field:
                                           ref: CON
-                                          underlay: "CON"
+                                          underlay: "_{CON}"
+                                          label: "_{CON}"
                             - level: 11
                               contents:
                                 - action: free
                                   contents:
-                                    - h5: "Mighty Rage"
-                                    - p: "Use one of your rage actions as a free action."
+                                    - h5: "_{Mighty Rage}"
+                                    - p: "_{Use one of your rage actions as a free action.}"
                             - level: 17
                               contents:
-                                - h5: "Tireless Rage"
-                                - p: "Don’t become fatigued after you stop raging. It still takes the normal amount of time before you can use Rage again."
-                - section: "Barbarian Feats"
+                                - h5: "_{Tireless Rage}"
+                                - p: "_{Don’t become fatigued after you stop raging. It still takes the normal amount of time before you can use Rage again.}"
+                - section: "_{Barbarian Feats}"
                   contents:
                     - list:
                       zebra: true

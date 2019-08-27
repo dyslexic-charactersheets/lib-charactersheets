@@ -4,10 +4,11 @@ const path = require('path');
 // const _ = require('lodash');
 // const handlebars = require('handlebars');
 
-const load = require('./loadQueue');
+// const load = require('./loadQueue');
 
 require('./log');
 const units = require('./units');
+const formdata = require('./formdata');
 
 const systems = [
     {
@@ -41,47 +42,14 @@ systems.forEach(system => {
         fs.writeFile(systemFile, systemData, err => {
             if (err) error("make", "Error saving system", system, err);
         });
+
+        if (system.code != "common") {
+          var summary = formdata.summarise(systemUnits);
+          var summaryData = JSON.stringify(summary);
+          var summaryFile = path.normalize(__dirname+'/../../lib/data-'+system.code+".json");
+          fs.writeFile(summaryFile, summaryData, err => {
+            if (err) error("make", "Error saving summary", system, err);
+          });
+        }
     });
 });
-
-/*
-var assetsDir = path.normalize(__dirname+'/../assets');
-var assetsDest = path.normalize(__dirname+'/../../lib/assets');
-var nAssets = 0;
-load.assets.walkDirectory(assetsDir, fn => {
-    if (fn.match(/\.base64$/))
-        return false;
-    if (fn.match(/\.(svg|png|jpg|jpeg)$/))
-        return true;
-    return false;
-}, (data, fn) => {
-    var dest = assetsDest+'/'+fn;
-
-    // log("make", "Processing...", fn);
-    fs.mkdirSync(path.dirname(dest), { recursive: true });
-    
-    if (fn.match(/\.svg$/)) {
-        var dest = assetsDest+'/'+fn;
-        // log("make", " => "+dest);
-        fs.writeFile(dest, data, err => {
-            if (err) error("make", "Error saving asset:", fn, err);
-        });
-    } else {
-        var buff = Buffer.from(data);  
-        var base64data = buff.toString('base64');
-        
-        // var dest = assetsDest+'/'+fn+'.base64';
-        dest = dest+".base64";
-
-        // log("make", " => "+dest);
-        fs.writeFile(dest, base64data, err => {
-            if (err) error("make", "Error saving asset:", fn, err);
-        });
-    }
-
-    nAssets++;
-});
-load.assets.ready(() => {
-    log('make', 'Processed '+nAssets+' assets');
-});
-*/

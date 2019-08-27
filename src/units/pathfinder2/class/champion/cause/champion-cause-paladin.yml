@@ -1,0 +1,25 @@
+unit: champion/cause/paladin
+in: champion/cause
+name: "_{Paladin}"
+
+inc:
+  - at: '@champion-class-name'
+    replace:
+      - class-name:
+        preface: "_{Champion}"
+
+  - at: '@champion-reaction'
+    add:
+      - action: reaction
+        contents:
+          - article: "_{Retributive Strike}"
+            content: "_{When an enemy damages your ally within 15 feet of you, the ally gains resistance. If the enemy is within reach, make a melee strike.}"
+          - calc:
+            output:
+              field: paladin-retributive-strike-damage
+              legend: "_{Resistance}"
+            inputs:
+              - span: "2 +"
+              - field:
+                ref: level
+                label: "_{Level}"
