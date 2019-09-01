@@ -14,7 +14,7 @@ export let proficiency = {
         return [
             {
                 type: "layout",
-                layout: "level",
+                layout: "indent-l",
                 contents: [
                     {
                         type: "icon",
@@ -51,7 +51,7 @@ export let action = {
         return [
             {
                 type: "layout",
-                layout: "level",
+                layout: "indent-l",
                 contents: [
                     {
                         type: "icon",
@@ -78,7 +78,7 @@ export let selectable = {
     return [
         {
             type: "layout",
-            layout: "level",
+            layout: "indent-l",
             contents: [
                 {
                     type: "g",

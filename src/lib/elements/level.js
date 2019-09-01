@@ -13,7 +13,7 @@ export let level = {
         return [
             {
                 type: "layout",
-                layout: "level",
+                layout: "indent-l",
                 contents: [
                     {
                         type: "g",

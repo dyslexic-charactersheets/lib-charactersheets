@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { fieldIdent, fieldRadioIdent, fieldDefaults } from './field';
-import { elementClass, has } from '../util';
+import { elementClass, has, isArray } from '../util';
 import { __ } from '../i18n';
 
 var defaultControlRender = (args, reg, doc) => {
@@ -35,7 +35,7 @@ var renderCompoundControl = (args, reg, doc) => {
     if (typeof part == 'string')
       return part;
 
-    if (Array.isArray(args.value) && args.value.length > i) {
+    if (isArray(args.value) && args.value.length > i) {
       part.value = args.value[i];
     }
     i++;

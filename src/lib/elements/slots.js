@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-import { elementID, elementClass, has } from '../util';
+import { elementID, elementClass, has, isArray } from '../util';
 import { log } from '../log';
 
 export let slots = {
@@ -18,7 +18,7 @@ export let slots = {
         // log("slots", "Slots:", args.slots);
 
         var placeholder = args.placeholder;
-        if (!Array.isArray(placeholder))
+        if (!isArray(placeholder))
             placeholder = [ placeholder ];
         
         function slotItems(items) {

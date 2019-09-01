@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { interpolate } from '../util';
+import { interpolate, isArray } from '../util';
 
 function spellLevel(lvl, style, slots, special) {
     var level_marker = {
@@ -12,7 +12,7 @@ function spellLevel(lvl, style, slots, special) {
     var fields = [];
     if (special) {
         special = interpolate(special, { 'level': lvl });
-        if (Array.isArray(special)) fields = special;
+        if (isArray(special)) fields = special;
         else fields.push(special);
     }
 
@@ -102,7 +102,7 @@ export let spells_list = {
 
         // number of spells at each level
         var slots = {};
-        if (Array.isArray(args.spells)) {
+        if (isArray(args.spells)) {
             var i = 0;
             for (var lvl = min; lvl <= max; lvl++) {
                 slots[lvl] = args.spells[i];
@@ -135,7 +135,7 @@ export let spells_list = {
             var fields = [];
             if (args.special) {
                 var special = interpolate(args.special, { 'level': lvl });
-                if (Array.isArray(special)) fields = special;
+                if (isArray(special)) fields = special;
                 else fields.push(special);
             }
 

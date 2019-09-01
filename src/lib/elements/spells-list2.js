@@ -17,7 +17,7 @@ export let spells_list2 = {
         
         // number of spells at each level
         // var slots = {};
-        // if (Array.isArray(args.spells)) {
+        // if (isArray(args.spells)) {
         //     var i = 0;
         //     for (var lvl = min; lvl <= max; lvl++) {
         //         slots[lvl] = args.spells[i];

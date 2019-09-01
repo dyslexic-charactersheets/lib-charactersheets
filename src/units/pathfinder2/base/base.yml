@@ -309,58 +309,95 @@ inc:
                               - p: "_{You must take three archetype feats before you can start another.}"
                               # - p: "You cannot have more than one prestige archetype."
 
-                      - zone: '@advancement'
+                      - section: '_{Advancement}'
                         contents:
-                          - section: "_{Advancement}"
-                            contents:
-                              - advancement:
-                                labels:
-                                  - "_{Ancestry}, _{Heritage}, _{Background}, _{initial proficiencies}"
-                                  - ""
-                                  - ""
-                                  - ""
-                                  - ""
-                                  - ""
-                                  - "_{Master in skills}"
-                                  - ""
-                                  - ""
-                                  - ""
-                                  - ""
-                                  - ""
-                                  - ""
-                                  - ""
-                                  - "_{Legendary in skills}"
-                                  - ""
-                                  - ""
-                                  - ""
-                                  - ""
-                                  - ""
-                                fields:
-                                  - id: ancestry-feat
-                                    label: "_{Ancestry\nfeat}"
-                                    levels: [ 1, 5, 9, 13, 17 ]
-                                    shade: true
-                                  - id: general-feat
-                                    label: "_{General\nfeat}"
-                                    levels: [ 3, 7, 11, 15, 19 ]
-                                  - id: class-feat
-                                    label: "_{Class\nfeat}"
-                                    levels: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
-                                    shade: true
-                                  - id: skill-feat
-                                    label: "_{Skill\nfeat}"
-                                    levels: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
-                                  - id: skill-increase
-                                    label: "_{Skill\nincrease}"
-                                    levels: [ 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
-                                    shade: true
-                                  - id: ability-boost
-                                    label: "_{Ability\nboost}"
-                                    levels: [ 5, 10, 15, 20 ]
-                                    template:
-                                      field: '#{id}'
-                                      frame: none
-                                      control: checkbox
+                          - advancement:
+                            advances:
+                              - levels: [ 1, 5, 9, 13, 17 ]
+                                ancestry-feat: true
+                              - levels: [ 3, 7, 11, 15, 19 ]
+                                general-feat: true
+                              - levels: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                                class-feat: true
+                              - levels: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                                skill-feat: true
+                              - levels: [ 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
+                                skill-increase: true
+                              - levels: [ 5, 10, 15, 20 ]
+                                ability-boost: true
+                              - level: 7
+                                advance: "_{Master in skills}"
+                              - level: 15
+                                advance: "_{Legendary in skills}"
+                              - zone: '@advancement'
+                            fields:
+                              - zone: '@advancement-fields'
+                              - name: "_{Ancestry\nfeat}"
+                                key: ancestry-feat
+                              - name: "_{General\nfeat}"
+                                key: class-feat
+                              - name: "_{Class\nfeat}"
+                                key: class-feat
+                              - name: "_{Skill\nfeat}"
+                                key: skill-feat
+                              - name: "_{Skill\nincrease}"
+                                key: skill-increase
+                              - name: "_{Ability\nboost}"
+                                key: ability-boost
+
+
+                      # - zone: '@advancement'
+                      #   contents:
+                      #     - section: "_{Advancement}"
+                      #       contents:
+                      #         - advancement:
+                      #           labels:
+                      #             - "_{Ancestry}, _{Heritage}, _{Background}, _{initial proficiencies}"
+                      #             - ""
+                      #             - ""
+                      #             - ""
+                      #             - ""
+                      #             - ""
+                      #             - "_{Master in skills}"
+                      #             - ""
+                      #             - ""
+                      #             - ""
+                      #             - ""
+                      #             - ""
+                      #             - ""
+                      #             - ""
+                      #             - "_{Legendary in skills}"
+                      #             - ""
+                      #             - ""
+                      #             - ""
+                      #             - ""
+                      #             - ""
+                      #           fields:
+                      #             - id: ancestry-feat
+                      #               label: "_{Ancestry\nfeat}"
+                      #               levels: [ 1, 5, 9, 13, 17 ]
+                      #               shade: true
+                      #             - id: general-feat
+                      #               label: "_{General\nfeat}"
+                      #               levels: [ 3, 7, 11, 15, 19 ]
+                      #             - id: class-feat
+                      #               label: "_{Class\nfeat}"
+                      #               levels: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                      #               shade: true
+                      #             - id: skill-feat
+                      #               label: "_{Skill\nfeat}"
+                      #               levels: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                      #             - id: skill-increase
+                      #               label: "_{Skill\nincrease}"
+                      #               levels: [ 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
+                      #               shade: true
+                      #             - id: ability-boost
+                      #               label: "_{Ability\nboost}"
+                      #               levels: [ 5, 10, 15, 20 ]
+                      #               template:
+                      #                 field: '#{id}'
+                      #                 frame: none
+                      #                 control: checkbox
 
                   - tail:
                   - spacer:
@@ -683,51 +720,52 @@ inc:
               - g:
                 contents:
                 
-                  - section: "_{Class DC}"
-                    id: class-dc
-                    contents:
-                      - calc:
-                        output:
-                          field: class-dc
-                          legend: "#{class}"
-                          underlay: "_{DC}"
-                          width: large
-                          icon: dc
-                          eq: '%{#{key-ability}}+%{level}+%{class-dc-item-bonus}'
-                        inputs:
-                          - zone: '@key-ability-field'
-                            contents:
-                              - field:
-                                label: "_{Key Ability}"
-                                ref: key-ability
-                          - span: "+"
-                          - field: class-dc-proficiency
-                            label: "_{Proficiency}"
-                            control: proficiency
-                          - span: "+"
-                          - field: class-dc-item-bonus
-                            label: "_{Item}"
-                      - calc:
-                        output:
-                          field: class-dc-other
-                          underlay: "_{DC}"
-                          label: "_{Archetype}"
-                          width: large
-                          icon: dc
-                          eq: '%{#{key-ability}}+%{level}+%{class-dc-item-bonus}'
-                        inputs:
-                          - zone: '@key-ability-field'
-                            contents:
-                              - field:
-                                label: "_{Key Ability}"
-                                ref: key-ability
-                          - span: "+"
-                          - field: class-dc-other-proficiency
-                            label: "_{Proficiency}"
-                            control: proficiency
-                          - span: "+"
-                          - field: class-dc-other-item-bonus
-                            label: "_{Item}"
+                  # - section: "_{Class DC}"
+                  #   id: class-dc
+                  #   contents:
+                  #     - calc:
+                  #       output:
+                  #         field: class-dc
+                  #         legend: "#{class}"
+                  #         underlay: "_{DC}"
+                  #         width: large
+                  #         icon: dc
+                  #         eq: '%{#{key-ability}}+%{level}+%{class-dc-item-bonus}'
+                  #       inputs:
+                  #         - zone: '@key-ability-field'
+                  #           contents:
+                  #             - field:
+                  #               label: "_{Key Ability}"
+                  #               ref: key-ability
+                  #         - span: "+"
+                  #         - field: class-dc-proficiency
+                  #           label: "_{Proficiency}"
+                  #           control: proficiency
+                  #         - span: "+"
+                  #         - field: class-dc-item-bonus
+                  #           label: "_{Item}"
+                  #     - calc:
+                  #       output:
+                  #         field: class-dc-other
+                  #         underlay: "_{DC}"
+                  #         label: "_{Archetype}"
+                  #         width: large
+                  #         icon: dc
+                  #         eq: '%{#{key-ability}}+%{level}+%{class-dc-item-bonus}'
+                  #       inputs:
+                  #         - zone: '@key-ability-field'
+                  #           contents:
+                  #             - field:
+                  #               label: "_{Key Ability}"
+                  #               ref: key-ability
+                  #         - span: "+"
+                  #         - field: class-dc-other-proficiency
+                  #           label: "_{Proficiency}"
+                  #           control: proficiency
+                  #         - span: "+"
+                  #         - field: class-dc-other-item-bonus
+                  #           label: "_{Item}"
+
                   - section: "_{Speed}"
                     id: speed
                     contents:
@@ -801,6 +839,8 @@ inc:
                             underlay: "1"
                             overlay: "_{pts}"
 
+                  - zone: '@weapon-spec-section'
+
                   - section: "_{Saving Throws}"
                     id: saving-throws
                     contents:
@@ -851,16 +891,16 @@ inc:
                               - field: "#{save}-misc"
                                 misc: true
                       - slots:
-                        min: 2
+                        min: 3
                         merge-bottom: true
+                        contents:
+                          - log: 'Saving throws zone'
+                          - zone: '@saving-throws'
                         placeholder:
                           - field: 'saving-throws-conditional-#{i}'
                             frame: none
                             align: left
                             width: stretch
-                        contents:
-                          - log: 'Saving throws zone'
-                          - zone: '@saving-throws-contitional'
 
               - g:
                 contents:
@@ -928,7 +968,7 @@ inc:
                                           - field: attack-#{i}-potency
                                             control: icon
                                             label: "_{Potency}"
-                                            icon: quality
+                                            icon: runes
                                           # - field: attack-#{i}-potency
                                           #   control: icon
                                           #   label: "Potency"
@@ -950,12 +990,15 @@ inc:
                                           - label: "+"
                                           - subid: extra
                                             width: tiny
+                                      - field: attack-#{i}-weapon-spec
+                                        label: "_{Weap Spec}"
                                       - field: attack-#{i}-striking
                                         label: "_{Striking}"
                                         control: icon
-                                        icon: quality
+                                        icon: runes
                                       - field: attack-#{i}-type
-                                        label: "_{Type}"
+                                        label: "_{Misc}"
+                                        misc: true
                                       # - field: attack-#{i}-critical
                                       #   label: "Critical Effect"
                                       #   width: stretch
@@ -1130,7 +1173,7 @@ inc:
                           - g:
                             contents:
                               # - h5: "Shield"
-                              - layout: level
+                              - layout: indent-l
                                 contents:
                                   - g:
                                   - row:

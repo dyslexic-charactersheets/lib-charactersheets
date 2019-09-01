@@ -1,14 +1,14 @@
 import * as _ from 'lodash';
 
 import { log, error } from './log';
-import { has } from './util';
+import { has, isArray } from './util';
 
 var contextStack = [];
 
 var regex = new RegExp('^(.*?)_(.*)$', '');
 
 export function applyContext(item) {
-    if (Array.isArray(item)) {
+    if (isArray(item)) {
         return item.map(applyContext);
     }
 

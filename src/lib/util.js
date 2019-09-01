@@ -123,6 +123,7 @@ if (!Object.entries) {
 
 // Escape strings for HTML
 export function esc(content, newlines = false) {
+  content = content.replace(/#{.*?}/g, '');
   content = _.escape(content);
   content = content.replace(/’/g, '&rsquo;').replace(/‘/g, '&lsquo;');
   content = content.replace(/—/g, '&mdash;');
@@ -260,7 +261,7 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
 
   // attribs are key-values, eg align=left
   var attribKeys;
-  if (Array.isArray(attribDefs)) {
+  if (isArray(attribDefs)) {
     attribKeys = attribDefs;
     attribDefs = {};
   } else {
@@ -307,7 +308,7 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
 }
 
 export function has(container, property) {
-  return container !== null && container.hasOwnProperty(property) && container[property] !== null && container[property] !== undefined;
+  return container !== null && container !== undefined && container.hasOwnProperty(property) && container[property] !== null && container[property] !== undefined;
 }
 
 export function isNull(val) {

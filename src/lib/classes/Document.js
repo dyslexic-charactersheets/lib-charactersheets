@@ -1,10 +1,8 @@
-import * as _ from 'lodash';
-
 const Handlebars = require('handlebars');
 
 import { log, warn } from '../log';
 import { applyContext } from '../context';
-import { clone, esc, replaceColours, has } from '../util';
+import { clone, esc, replaceColours, has, isArray } from '../util';
 
 export class Document {
   constructor(baseUnit) {
@@ -61,16 +59,16 @@ export class Document {
       return false;
 
     // TODO combine multiple values somehow
-    var isArray = false;
+    var is_array = false;
     this.vars[varname].forEach(include => {
-      if (Array.isArray(include.value))
-        isArray = true;
+      if (isArray(include.value))
+        is_array = true;
     });
 
-    if (isArray) {
+    if (is_array) {
       var values = [];
       this.vars[varname].forEach(include => {
-        if (Array.isArray(include.value)) {
+        if (isArray(include.value)) {
           values = values.concat(include.value);
         } else {
           values.push(include.value);
@@ -144,6 +142,32 @@ export class Document {
 
     var self = this;
 
+    // the lesser form: only expand zones within, don't do full unit expansion
+    function complete(element) {
+      if (isArray(element))
+        return element.flatMap(complete);
+      if (!has(element, "type"))
+        return [ element ];
+
+      switch(element.type) {
+        case 'zone':
+          var reg = registry.get(element.type);
+          
+          if (reg && reg.transform) {
+            // log("compose", "Applying transformation to", element.type);
+            var newelements = reg.transform(Object.assign({}, reg.defaults, element), { zones: self.zones, templates: self.templates });
+            if (newelements === false)
+              return element;
+
+            newelements = newelements.flatMap(complete);
+            return newelements;
+          }
+          break;
+      }
+      return [ element ];
+    }
+
+    // the greater form: give all elements a chance to transform themselves
     function compose(element) {
       if (element === null) {
         warn("Document", "Null element");
@@ -157,11 +181,22 @@ export class Document {
       // if (element.type == 'table') log("Document", "Compose item", element);
 
       // first recurse so we have the ingredients
+      switch (element.type) {
+        case 'advancement':
+          element.advances = complete(element.advances);
+          element.fields = complete(element.fields);
+          break;
+        case 'table':
+          element.rows = complete(element.rows);
+          element.columns = complete(element.columns);
+          break;
+      }
+
       ["contents", "placeholder", "header", "inputs"].forEach(item_key => {
         // log("compose", "Checking for", item_key);
         if (has(element, item_key)) {
           // log("compose", "Preparing item", item_key, element[item_key]);
-          if (Array.isArray(element[item_key]))
+          if (isArray(element[item_key]))
             element[item_key] = element[item_key].flatMap(compose);
           else
             element[item_key] = compose(element[item_key]);
@@ -174,7 +209,7 @@ export class Document {
 
       if (reg && reg.transform) {
         // log("compose", "Applying transformation to", element.type);
-        var newelements = reg.transform(_.defaults(element, reg.defaults), { zones: self.zones, templates: self.templates });
+        var newelements = reg.transform(Object.assign({}, reg.defaults, element), { zones: self.zones, templates: self.templates });
         if (newelements === false)
           return element;
 

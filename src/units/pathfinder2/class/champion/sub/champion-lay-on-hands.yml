@@ -1,0 +1,52 @@
+unit: champion/devotion-spell/lay-on-hands
+name: "_{Lay on Hands}"
+
+inc:
+  - at: '@champion-devotion-spells'
+    add:
+      - section: "_{Lay On Hands}"
+        contents:
+          - action: 1
+            contents:
+              - layout: indent-r
+                contents:
+                  - layout: 2e
+                    contents:
+                      - g:
+                        valign: top
+                        contents:
+                          - calc:
+                            output:
+                              field: champion-lay-on-hands-healing
+                              legend: "_{Heal\nAllies}"
+                              width: huge
+                            inputs:
+                              - span: "6 &times;"
+                              - field:
+                                ref: level
+                                label: "Spell Level"
+                          - p: "_{Allies gain +2 AC for 1 round.}"
+                      - g:
+                        contents:
+                          - calc:
+                            output:
+                              field: champion-lay-on-hands-damage
+                              legend: "_{Damage\nUndead}"
+                              overlay: "d6"
+                              width: huge
+                            inputs:
+                              - span: "_{1d6} &times;"
+                              - field:
+                                ref: level
+                                label: "Spell Level"
+                          - p: "_{Target must make a Fortitude save or suffer -2 AC for 1 round.}"
+                  - level-marker: "1pt"
+                    marker: "_{Focus}"
+
+  - at: '@actions'
+    add:
+      - action: 1
+        contents:
+          - article:
+            title: "_{Lay On Hands}"
+            content: "_{Heal and protect an ally, or harm an undead creature.}"

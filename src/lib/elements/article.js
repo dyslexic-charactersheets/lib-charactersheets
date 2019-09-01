@@ -23,85 +23,93 @@ export let article = {
     lines: 2,
   },
   transform: args => {
-    if (isEmpty(args.header) && isEmpty(args.contents)) {
-      var header = [];
+    if (isEmpty(args.header) || isEmpty(args.contents)) {
+      var header = args.header;
+      if (isEmpty(args.header)) {
+        header = [];
 
-      if (args.title) {
-        header.push({
-          type: 'h6',
-          title: args.title
-        });
-      } else {
-        header.push({
-          type: 'field',
-          id: args.id,
-          frame: 'none',
-          // size: 'large',
-          width: 'stretch'
-        });
-      }
-      if (args.cat || args['show-cat']) {
-        if (args.cat) {
+        if (args.title) {
           header.push({
-            type: 'span',
-            'article-cat': true,
-            content: args.cat
+            type: 'h6',
+            title: args.title
           });
         } else {
           header.push({
             type: 'field',
-            id: args.id+'-cat',
+            id: args.id,
             frame: 'none',
-            size: 'large',
-            align: 'right',
-            width: 'large'
+            // size: 'large',
+            width: 'stretch'
           });
         }
-      }
-      if (args.level || args['show-level']) {
-        if (args.level) {
-          header.push({
-            type: 'level-marker',
-            level: args.level,
-            marker: false
-          });
-        } else {
-          header.push({
-            type: 'field',
-            id: args.id+'-level',
-            frame: 'none',
-            size: 'large',
-            width: 'small'
-          });
+        if (args.cat || args['show-cat']) {
+          if (args.cat) {
+            header.push({
+              type: 'span',
+              'article-cat': true,
+              content: args.cat
+            });
+          } else {
+            header.push({
+              type: 'field',
+              id: args.id+'-cat',
+              frame: 'none',
+              size: 'large',
+              align: 'right',
+              width: 'large'
+            });
+          }
         }
+        if (args.level || args['show-level']) {
+          if (args.level) {
+            header.push({
+              type: 'level-marker',
+              level: args.level,
+              marker: false
+            });
+          } else {
+            header.push({
+              type: 'field',
+              id: args.id+'-level',
+              frame: 'none',
+              size: 'large',
+              width: 'small'
+            });
+          }
+        }
+
+        header = [
+          {
+            type: 'row',
+            contents: header
+          }
+        ];
       }
 
-      var contents = [];
-      if (args.content) {
-        contents.push({
-          type: 'p',
-          content: args.content
-        });
-      } else {
-        contents.push({
-          type: 'field',
-          id: args.id+'-details',
-          frame: 'none',
-          repeat: args.lines,
-          width: 'stretch',
-          'merge-bottom': args['merge-bottom']
-        });
+      var contents = args.contents;
+      if (isEmpty(args.contents)) {
+        contents = [];
+        if (args.content) {
+          contents.push({
+            type: 'p',
+            content: args.content
+          });
+        } else {
+          contents.push({
+            type: 'field',
+            id: args.id+'-details',
+            frame: 'none',
+            repeat: args.lines,
+            width: 'stretch',
+            'merge-bottom': args['merge-bottom']
+          });
+        }
       }
 
       let article = {
         type: 'article',
         id: args.id,
-        header: [
-          {
-            type: 'row',
-            contents: header
-          }
-        ],
+        header: header,
         contents: contents,
         shade: false,
         annotation: args.annotation,

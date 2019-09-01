@@ -1,26 +1,25 @@
-unit: champion/cause/paladin
+unit: champion/cause/redeemer
 in: champion/cause
-name: "_{Paladin}"
+name: "_{Redeemer}"
 
 require:
   - unit: champion/devotion-spell/lay-on-hands
 
 inc:
   - set: class
-    value: "_{Paladin}"
-    
-  - set: champion-cause-name
-    value: "_{Paladin}"
+    value: "_{Redeemer}"
+  - set: 'champion-cause-name'
+    value: '_{Redeemer}'
 
   - at: '@champion-class-name'
     replace:
-      - class-name: "_{Paladin}"
+      - class-name: "_{Redeemer}"
         preface: "_{Champion}"
         affix: "_{of}"
 
   - at: '@champion-cause-section'
     replace:
-      - section: "_{Paladin}"
+      - section: "_{Redeemer}"
         primary: true
         contents:
           - list:
@@ -46,8 +45,8 @@ inc:
                     contents:
                       - li: "_{Never perform an evil act, such as murder, torture, or casting an evil spell.}"
                       - li: "_{Never knowingly harm an innocent, or allow allow harm when you could reasonably prevent it.}"
-                      - li: "_{Act with honour, never taking advantage of others, lying, or cheating.}"
-                      - li: "_{Respect the lawful authority of legitimate leadership, and follow its laws.}"
+                      - li: "_{First try to redeem those who commit evil acts, rather than meting out punishment.}"
+                      - li: "_{Show compassion for others, regardless of their authority or station.}"
                   - h5: "_{Anathema}"
                   - field: champion-anathema
                     width: stretch
@@ -58,29 +57,33 @@ inc:
   - at: '@advancement'
     add:
       - level: 1
-        advance: "_{Retributive Strike}"
+        advance: "_{Glimpse of Redemption}"
 
   - at: '@actions'
     add:
       - action: reaction
         contents:
           - article:
-            title: "_{Retributive Strike}"
-            content: "_{Grant nearby allies resistance, and strike their attacker.}"
+            title: "_{Glimpse of Redemption}"
+            content: "_{Force an enemy to reconsider their action.}"
 
   - at: '@champion-reaction-section'
     replace:
-      - section: "_{Retributive Strike}"
+      - section: "_{Glimpse of Redemption}"
         contents:
           - list:
             hr: true
             contents:
               - action: reaction
                 contents:
-                  - p: "_{When an enemy damages your ally within 15 feet of you, the ally gains resistance. If the enemy is within reach, make a melee strike.}"
+                  - p: "_{When an enemy damages your ally within 15 feet of you, force the enemy to hesitate. They must choose:}"
+                  - ul:
+                    contents:
+                      - li: Your ally is unharmed
+                      - li: You ally gains resistance, and the foe is enfeebled 2 until the end of their turn
                   - calc:
                     output:
-                      field: paladin-retributive-strike-damage
+                      field: paladin-glimpse-of-redemption-resistance
                       legend: "_{Resistance}"
                       width: large
                       prefix: "+"
@@ -92,10 +95,10 @@ inc:
               - level: 9
                 contents:
                   - h5: "_{Divine Smite}"
-                  - p: "_{If you hit, target takes persistent good damage:}"
+                  - p: "If the foe chooses to deal damage, they take persistent good damage:"
                   - calc:
                     output:
-                      field: champion-divine-smite-retributive-strike-damage
+                      field: champion-divine-smite-glimpse-of-redemption
                       legend: "_{Divine Smite\nDamage}"
                       overlay: "_{pts}"
                       width: large
@@ -107,4 +110,4 @@ inc:
               - level: 11
                 contents:
                   - h5: "_{Exalt}"
-                  - p: "_{When you use Retributive Strike, allies in range can spend a reaction to strike the target with a -5 penalty.}"
+                  - p: "_{Apply to yourself and all allies within 15ft, with a bonus 2 lower.}"

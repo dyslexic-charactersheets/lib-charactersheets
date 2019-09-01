@@ -1,4 +1,5 @@
 import { log, error } from '../log';
+import { adjustColour } from '../util';
 import { ready as systemsReady, getSystem } from './System';
 import { Document } from './Document';
 import { LoadQueue } from './LoadQueue';
@@ -6,7 +7,7 @@ import { Events } from './Events';
 
 // import { applyContext } from '../context';
 import { locateAsset, toDataURL, inferMimeType } from '../data';
-import { toKebabCase, toCamelCase, toPathCase, toSpaceCase, toTitleCase, isString, isObject, isNull, isArray, has } from '../util';
+import { toKebabCase, toCamelCase, toPathCase, toSpaceCase, toTitleCase, isString, isObject, isNull, isArray, has, isEmpty } from '../util';
 
 function parseCharacter(primary, request) {
   // attributes
@@ -23,7 +24,7 @@ function parseCharacter(primary, request) {
     archetypes: false,
 
     printColour: '#707070',
-    accentColour: '#707070',
+    accentColour: '',
     printWatermark: '',
     printLogo: false,
     printPortrait: false,
@@ -59,6 +60,10 @@ function parseCharacter(primary, request) {
     printWatermark: attr.printWatermark,
     instances: {},
   };
+
+  if (isEmpty(char.accentColour)) {
+    char.accentColour = adjustColour('#707070', char.printColour);
+  }
 
   // get all the flags
   Object.keys(attr).forEach(key => {
@@ -232,6 +237,7 @@ export class Character {
         if (this.data.name) {
           title = `${this.data.name}, ${title}`;
         }
+        if (isEmpty(title)) title = "Character";
         document.title = title;
 
         // Load assets
@@ -248,7 +254,6 @@ export class Character {
         }
 
         if (this.data.printPortrait) {
-
           this.getAsset(this.data.printPortrait, dataURL => {
             document.portraitURL = dataURL;
           });

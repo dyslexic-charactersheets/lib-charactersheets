@@ -1,5 +1,8 @@
-import { interpolate, elementID, elementClass, isObject, isString, isNull, has, clone } from '../util';
+import { interpolate, elementID, elementClass, isObject, isString, isArray, isNull, has, clone } from '../util';
 
+import { renderTableBasic } from './table-basic';
+import { renderTableFlipped } from './table-flipped';
+// import { renderTableGrid } from './table-grid';
 
 export let table = {
   name: 'table',
@@ -11,115 +14,6 @@ export let table = {
     template: [],
   },
   render: (args, reg, doc) => {
-
-    // Standard table
-    function renderTableBasic(headings, rows) {
-      // headings
-      var thead = '';
-      if (!isNull(headings)) {
-        var tcols = headings.map(col => {
-          var elem = reg.renderItem(col, doc);
-          var cs = has(col, 'colspan') ? col.colspan : 1;
-          var colspan = (cs > 1) ? ` colspan='${col.colspan}'` : '';
-          return `<th${colspan}>${elem}</th>`;
-        });
-        thead = `<thead>${tcols.join("\n")}</thead>\n`;
-      }
-
-      // cells
-      // log("table", "Rows", rows);
-      var trows = rows.map(row => {
-        var cells = row.map((cell, h) => {
-          if (h < headings.length) {
-            if (has(headings[h], "shade") && headings[h].shade)
-              cell.shade = true;
-          }
-          var cellCls = elementClass('td', null, cell, [ 'shade' ], { 'align': '', 'valign': 'bottom' });
-          return `<td${cellCls}>${reg.renderItem(cell, doc)}</td>`;
-        });
-
-        return `<tr>${cells.join("\n")}</tr>\n`;
-      })
-
-      // put it all together
-      var cls = elementClass('table', null, args, ['zebra', 'collapse', 'fixed'], ['width', 'layout']);
-      return `<table${cls}>${thead}<tbody>${trows.join("\n")}</tbody></table>`;
-    }
-
-
-    // Column-oriented table
-    function renderTableFlipped(headings, cols) {
-      // log("table", "Flipped", headings, cols);
-
-      // find the size of the table and make an empty grid of cells
-      var hasHeading = false;
-      var ncols = cols.length;
-      var nrows = 0;
-      headings = headings.map(heading => {
-        if (isNull(heading)) heading = { type: 'label', label: '' };
-        else hasHeading = true;
-
-        if (!has(heading, "rowspan")) heading.rowspan = 1;
-        nrows += heading.rowspan;
-        return heading;
-      });
-      cols.forEach(col => {
-        if (col.length > nrows) nrows = col.length;
-      });
-
-      if (hasHeading) ncols++;
-      // log("table", `Table: ${nrows} rows, ${ncols} cols`);
-      var cells = Array.from({length: nrows}, r => Array(ncols).fill(null));
-      // log("table", "Cell grid:", cells);
-
-      // fill the grid
-      if (hasHeading) {
-        // log("table", "Headings");
-        var row = 0;
-        headings.forEach(heading => {
-          cells[row][0] = heading;
-          row += heading.rowspan;
-        });
-      }
-
-      cols.forEach((col, c) => {
-        if (hasHeading) c++;
-        // log("table", "Column", c, col);
-        col.forEach((cell, r) => {
-          // log("table", "Cell at:", r, c, "=", cell);
-          cells[r][c] = cell;
-        });
-      });
-
-      // log("table", "Cells", cells);
-
-      // render it
-      var trows = cells.map(row => {
-        var th = '';
-        if (hasHeading) {
-          var head = row.shift();
-          var rowspan = head.rowspan > 1 ? ` rowspan="${head.rowspan}"` : '';
-          var th = `<th scope="row"${rowspan}>${isNull(head) ? '' : reg.renderItem(head, doc)}</th>`;
-        }
-
-        var tds = row.map(elem => {
-          return `<td>${isNull(elem) ? '' : reg.renderItem(elem, doc)}</td>`;
-        });
-
-        return `<tr>${th}${tds.join("")}</tr>`;
-      });
-
-      // put it all together
-      var cls = elementClass('table', null, args, ['zebra', 'collapse', 'fixed'], ['width', 'layout']);
-      return `<table${cls}><tbody>${trows.join("\n")}</tbody></table>`;
-    }
-
-    // Flexible grid-based table
-    function renderTableGrid(args, headings, cells) {
-
-    }
-
-
     // get headings
     var headings = args.columns.map(col => {
       if (isNull(col)) {
@@ -174,7 +68,7 @@ export let table = {
 
     // apply the row template
 
-    if (Array.isArray(args.template) && args.template.length > 0) {
+    if (isArray(args.template) && args.template.length > 0) {
       var templateCells = args.template.flatMap(cell => {
         if (isObject(cell) && has(cell, "type") && cell.type == "calc") {
           var fields = [...cell.inputs];
@@ -191,7 +85,7 @@ export let table = {
 
       rows = rows.map(row => {
         return templateCells.map((cell, i) => {
-          cell = interpolate(cell, row);
+          cell = interpolate(cell, row, doc);
           if (cell === null) {
             return null;
           } else {
@@ -219,9 +113,9 @@ export let table = {
     // render
     // return renderTableBasic(headings, rows);
     if (args.flip) {
-      return renderTableFlipped(headings, rows);
+      return renderTableFlipped(args, reg, doc, headings, rows);
     } else {
-      return renderTableBasic(headings, rows);
+      return renderTableBasic(args, reg, doc, headings, rows);
     }
   }
 }

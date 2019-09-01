@@ -8,11 +8,19 @@ form:
     name: "_{Champion's Cause}"
     max: 1
 
+require:
+  - unit: weapon-spec/fast
+  - unit: feat/shield-block
+
 inc:
   - set: class
     value: "_{Champion}"
+  - set: champion-cause-name
+    value: "_{Cause}"
     
   - set: class-dc-proficiency
+    value: trained
+  - set: divine-spell-proficiency
     value: trained
   - set: perception-proficiency
     value: trained
@@ -25,39 +33,269 @@ inc:
   - set: religion-proficiency
     value: trained
 
+  - at: '@advancement'
+    add:
+      - level: 3
+        advance: "_{Divine Ally}"
+      - level: 9
+        advance: "_{Divine Smite}"
+      - level: 11
+        advance: "_{Exalt}"
+      - level: 19
+        advance: "_{Hero's Defiance}"
+
+  - at: '@focus-points'
+    replace:
+      - field: champion-devotion-spells-focus
+        label: "_{Devotion\nSpells}"
+
+  - at: '@saving-throws'
+    add:
+      - level: 9
+        contents:
+          - p: "_{Upgraded success at Fortitude saves.}"
+      - level: 11
+        contents:
+          - p: "_{Upgraded success at Will saves.}"
+
   - at: '@pages'
     add:
       - page: champion
         order: 10
+        flex: true
         contents:
           - layout: 2l
             contents:
               - g:
                 contents:
-                  - class-icon: champion
+                  - class-icon: box
                   - zone: '@champion-class-name'
                     contents:
-                      - class-name:
+                      - class-name: ''
                         preface: "_{Champion}"
                         affix: "_{of}"
                   - field: cleric-deity
                     width: stretch
                     frame: none
                     align: center
-                  - section: "_{Cause}"
+
+                  - section: "_{Deific Weapon}"
                     contents:
-                  - section: ""
+                      - row:
+                        contents:
+                          - field: champion-deific-weapon
+                            label: "_{Favoured Weapon}"
+                            width: stretch
+                          - field: champion-deific-weapon-die
+                            label: "_{Weapon Die}"
+                            prefix: "_{d}"
+
+                  - zone: '@champion-reaction-section'
                     contents:
+                      - section: "_{Champion's Reaction}"
+                        contents:
+                          - list:
+                            hr: true
+                            contents:
+                              - action: reaction
+                                contents:
+                                  - article: 
+                                    lines: 3
+                              - level: 9
+                                contents:
+                                  - h5: "_{Divine Smite}"
+                                  - article:
+                                    lines: 3
+                              - level: 11
+                                contents:
+                                  - h5: "_{Exalt}"
+                                  - article:
+                                    lines: 3
+
+                  - section: "_{Shield Block}"
+                    contents:
+                      - action: reaction
+                        contents:
+                          - p: "_{While you have your shield raised, you can use it to absorb damage.}"
+
+                  - section: "_{Divine Ally}"
+                    contents:
+                      - level: 3
+                        contents:
+                          - list:
+                            hr: true
+                            contents:
+                              - selectable: champion-blade-ally
+                                contents:
+                                  - h5: "_{Blade Ally}"
+                                  - row:
+                                    contents:
+                                      - field: champion-blade-ally-weapon
+                                        label: "_{Weapon}"
+                                        width: stretch
+                                      - field: champion-blade-ally-rune
+                                        label: "Rune"
+                                        width: stretch
+                              - selectable: champion-shield-ally
+                                contents:
+                                  - h5: "_{Shield Ally}"
+                                  - row:
+                                    contents:
+                                      - field:
+                                        control: value
+                                        label: "_{Hardness}"
+                                        value: "+2"
+                                      - field:
+                                        label: "_{Shield\nHit Points}"
+                                        overlay: "hp"
+                                      - field:
+                                        label: "_{Broken\nThreshold}"
+                                        overlay: "hp"
+                              - selectable: champion-steed-ally
+                                contents:
+                                  - h5: "_{Steed}"
+                                  - field: champion-steed-ally-mount
+                                    width: stretch
+
                   - tail:
                   - spacer:
+
               - g:
                 contents:
-                  - section: "_{Dedication Spells}"
+
+                  - zone: '@champion-cause-section'
                     contents:
+                      - section: "_{Cause}"
+                        primary: true
+                        contents:
+                          - list:
+                            contents:
+                              - layout: alignment
+                                contents:
+                                  - g:
+                                    contents:
+                                      - field: cause
+                                        width: stretch
+                                        size: large
+                                        frame: none
+                                      - field: cause-detail
+                                        width: stretch
+                                        frame: none
+                                  - field: cause-alignment
+                                    control: alignment
+                                    frame: none
+                              - g:
+                                contents:
+                                  - h5: "_{Tenets}"
+                                  - field: champion-tenets
+                                    width: stretch
+                                    repeat: 5
+                                  - h5: "_{Anathema}"
+                                  - field: champion-anathema
+                                    width: stretch
+                                    repeat: 3
+                                  - p: "_{If you violate your code of conduct, you lose your focus pool and divine ally until you demonstrate repentance.}"
+
+                  - section: "_{Devotion Spells}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        avoid-shade: true
+                        contents:
+                          - row:
+                            contents:
+                              - calc:
+                                output:
+                                  field: divine-spell-attack
+                                  label: "_{Divine Spell\nAttack}"
+                                  width: large
+                                  icon: bonus
+                                inputs:
+                                  - field: key-ability
+                                    label: "Key\nAbility"
+                                    misc: true
+                                    ref: true
+                                  - field: divine-spell-proficiency
+                                    control: proficiency
+                                    label: "Proficiency"
+                              - calc:
+                                output:
+                                  field: divine-spell-dc
+                                  label: "_{Divine Spell\nDC}"
+                                  underlay: "_{DC}"
+                                  width: large
+                                  icon: dc
+                                inputs:
+                                  - span: "10 +"
+                                  - field: key-ability
+                                    label: "Key\nAbility"
+                                    misc: true
+                                    ref: true
+                                  - field: divine-spell-proficiency
+                                    control: proficiency
+                                    label: "Proficiency"
+
+                      - slots:
+                        min: 1
+                        contents:
+                          - zone: '@champion-devotion-spells'
+                        placeholder:
+                          section: "_{Devotion Spell}"
+                          contents:
+                            - article:
+                              line: 2
+
+                      - section: "_{Hero's Defiance}"
+                        contents:
+                          - level: 19
+                            contents:
+                              - action: free
+                                contents:
+                                  - layout: indent-r
+                                    contents:
+                                      - p: "_{On being reduced to 0hp, recover 10d4+20 hp.}"
+                                      - level-marker:
+                                        marker: "Focus"
+                                        level: "1pt"
+
 
                   - section: "_{Champion Feats}"
                     contents:
+                    - list:
+                      zebra: true
+                      columns: 2
+                      flowv: true
+                      hr: true
+                      contents:
+                        - repeat: 12
+                          rows:
+                            - level: 1
+                            - level: 2
+                            - level: 4
+                            - level: 6
+                            - level: 8
+                            - level: 10
+                            - level: 12
+                            - level: 14
+                            - level: 16
+                            - level: 18
+                            - level: 20
+                            - level: " "
+                          contents:
+                            - level: "#{level}"
+                              contents:
+                                - article:
+                                  header:
+                                    - field: champion-feat-level-#{level}
+                                      width: stretch
+                                      frame: none
+                                      align: left
+                                  contents:
+                                    - field: champion-feat-level-#{level}-details
+                                      width: stretch
+                                      align: left
+                                      frame: none
+                                      repeat: 2
 
                   - tail:
-                  - spacer:
-

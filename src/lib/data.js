@@ -1,4 +1,5 @@
 import { existsSync } from "fs";
+import { log, error } from './log';
 
 const MIME_SVG = 'image/svg+xml';
 const MIME_PNG = 'image/png';

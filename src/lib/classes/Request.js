@@ -3,7 +3,7 @@ import { log } from '../log';
 import { Character } from './Character';
 import { Party } from './Party';
 import { Events } from './Events';
-import { has } from '../util';
+import { has, isArray } from '../util';
 
 function randomID() {
   return Math.random().toString(16).substring(2, 9)
@@ -22,13 +22,13 @@ export class Request {
     // log("Request", "Parsing request", request);
     // included instances go first, in case there's an ID conflict
     if (has(request, "included")) {
-      if (Array.isArray(request.included)) {
+      if (isArray(request.included)) {
         request.included.forEach(instance => this.addInstance(instance, false));
       }
     }
 
     // primary data may be one item or several
-    if (Array.isArray(request.data)) {
+    if (isArray(request.data)) {
       request.data.forEach(instance => this.addInstance(instance, true));
     } else {
       this.addInstance(request.data, true);

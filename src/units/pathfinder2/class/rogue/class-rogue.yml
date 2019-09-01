@@ -70,82 +70,110 @@ inc:
       - nothing:
 
   - at: '@advancement'
-    replace:
-      - section: "_{Rogue Advancement}"
-        contents:
-          - advancement:
-            labels:
-              - "_{Racket, surprise attack}"
-              - ""
-              - "_{Deny advantage}"
-              - ""
-              - "_{Weapon tricks}"
-              - ""
-              - "_{Master in skills}, _{evasion}, _{master in perception}"
-              - ""
-              - "_{Debilitating strike}, _{great fortitude}"
-              - ""
-              - "_{Expert in Rogue class DC}"
-              - ""
-              - "_{Improved evasion}, _{legendary in perception}, _{light armour expertise}"
-              - ""
-              - "_{Legendary in skills}, _{double debilitation}, _{greater weapon specialisation}"
-              - ""
-              - "_{Slippery mind}"
-              - ""
-              - "_{Light armour mastery}"
-              - ""
-            fields:
-              - id: sneak-attack
-                label: "_{Sneak\nattack}"
-                shade: true
-                align: center
-                values:
-                  - "_{1d6}"
-                  - ""
-                  - ""
-                  - ""
-                  - "_{2d6}"
-                  - ""
-                  - ""
-                  - ""
-                  - ""
-                  - ""
-                  - "_{3d6}"
-                  - ""
-                  - ""
-                  - ""
-                  - ""
-                  - ""
-                  - "_{4d6}"
-                  - ""
-                  - ""
-                  - ""
-              - id: ancestry-feat
-                label: "_{Ancestry\nfeat}"
-                levels: [ 1, 5, 9, 13, 17 ]
-              - id: general-feat
-                label: "_{General\nfeat}"
-                levels: [ 3, 7, 11, 15, 19 ]
-                shade: true
-              - id: class-feat
-                label: "_{Class\nfeat}"
-                levels: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
-              - id: skill-feat
-                label: "_{Skill\nfeat}"
-                levels: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
-                shade: true
-              - id: skill-increase
-                label: "_{Skill\nincrease}"
-                levels: [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
-              - id: ability-boost
-                label: "_{Ability\nboost}"
-                levels: [ 5, 10, 15, 20 ]
-                shade: true
-                template:
-                  field: '#{id}'
-                  frame: none
-                  control: checkbox
+    add:
+      - levels: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
+        skill-feat: true
+      - levels: [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
+        skill-increase: true
+      - level: 1
+        advance: "_{Racket}"
+      - levels: [ 1, 5, 11, 17 ]
+        sneak-attack: [ "_{1d6}", "_{2d6}", "_{3d6}", "_{4d6}" ]
+      - level: 3
+        advance: "_{Deny Advantage}"
+      - level: 5
+        proficiency: expert
+        in: "_{Simple weapons, rapier, sap, shortbow, shortsword}"
+      - level: 9
+        advance: "_{Debilitating Strike}"
+      - level: 13
+        advance: "_{Master Tricks}"
+      - level: 20
+        advance: "_{Master Strike}"
+
+  - at: '@advancement-fields'
+    add:
+      - name: "_{Sneak\nAttack}"
+        key: sneak-attack
+        format: string
+
+  # - at: '@advancement'
+  #   replace:
+  #     - section: "_{Rogue Advancement}"
+  #       contents:
+  #         - advancement:
+  #           labels:
+  #             - "_{Racket, surprise attack}"
+  #             - ""
+  #             - "_{Deny advantage}"
+  #             - ""
+  #             - "_{Weapon tricks}"
+  #             - ""
+  #             - "_{Master in skills}, _{evasion}, _{master in perception}"
+  #             - ""
+  #             - "_{Debilitating strike}, _{great fortitude}"
+  #             - ""
+  #             - "_{Expert in Rogue class DC}"
+  #             - ""
+  #             - "_{Improved evasion}, _{legendary in perception}, _{light armour expertise}"
+  #             - ""
+  #             - "_{Legendary in skills}, _{double debilitation}, _{greater weapon specialisation}"
+  #             - ""
+  #             - "_{Slippery mind}"
+  #             - ""
+  #             - "_{Light armour mastery}"
+  #             - ""
+  #           fields:
+  #             - id: sneak-attack
+  #               label: "_{Sneak\nattack}"
+  #               shade: true
+  #               align: center
+  #               values:
+  #                 - "_{1d6}"
+  #                 - ""
+  #                 - ""
+  #                 - ""
+  #                 - "_{2d6}"
+  #                 - ""
+  #                 - ""
+  #                 - ""
+  #                 - ""
+  #                 - ""
+  #                 - "_{3d6}"
+  #                 - ""
+  #                 - ""
+  #                 - ""
+  #                 - ""
+  #                 - ""
+  #                 - "_{4d6}"
+  #                 - ""
+  #                 - ""
+  #                 - ""
+  #             - id: ancestry-feat
+  #               label: "_{Ancestry\nfeat}"
+  #               levels: [ 1, 5, 9, 13, 17 ]
+  #             - id: general-feat
+  #               label: "_{General\nfeat}"
+  #               levels: [ 3, 7, 11, 15, 19 ]
+  #               shade: true
+  #             - id: class-feat
+  #               label: "_{Class\nfeat}"
+  #               levels: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+  #             - id: skill-feat
+  #               label: "_{Skill\nfeat}"
+  #               levels: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
+  #               shade: true
+  #             - id: skill-increase
+  #               label: "_{Skill\nincrease}"
+  #               levels: [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
+  #             - id: ability-boost
+  #               label: "_{Ability\nboost}"
+  #               levels: [ 5, 10, 15, 20 ]
+  #               shade: true
+  #               template:
+  #                 field: '#{id}'
+  #                 frame: none
+  #                 control: checkbox
 
   - at: '@pages'
     add:

@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 import { log, warn } from '../log';
-import { has } from '../util';
+import { has, isArray } from '../util';
 
 // elements
 import { unit } from '../elements/unit';
@@ -66,6 +66,7 @@ import {
   field_control_proficiency_icon,
   field_control_icon,
 } from '../elements/field-control';
+import { isString } from 'util';
 
 
 export class Registry {
@@ -177,6 +178,9 @@ export class Registry {
       exists: true,
     }, item);
 
+    // check if the item actually exists
+    if (isString(item.exists))
+      item.exists = item.exists.replace(/#{.*?}/g, '');
     if (!item.exists || item.exists === "false")
       return '';
 
@@ -212,7 +216,7 @@ export class Registry {
 }
 
 export function mergeBottom(element) {
-  if (Array.isArray(element)) {
+  if (isArray(element)) {
     element[element.length - 1] = mergeBottom(element[element.length - 1]);
   }
 
