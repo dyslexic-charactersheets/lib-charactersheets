@@ -37,7 +37,7 @@ export let field_frame_right = {
         legend: false,
     },
     render: (args, reg, doc) => {
-        var ident = 'radio' ? fieldRadioIdent(args.id, args.value) : fieldIdent(args.id);
+        var ident = (args.control == 'radio') ? fieldRadioIdent(args.id, args.value) : fieldIdent(args.id);
         var label = args.label ? `<label${ident.for}>${esc(__(args.label, doc), true)}</label>` : '';
         var legend = args.legend ? `<legend>${esc(__(args.legend, doc), true)}</legend>`: '';
 
@@ -63,6 +63,15 @@ export let field_frame_none = {
     render: (args, reg, doc) => {
         return fieldInner(args, reg, doc);
     }
+}
+
+export let field_frame_annotation = {
+  name: 'frame:annotation',
+  render: (args, reg, doc) => {
+    var ident = fieldIdent(args.id);
+    var label = args.label ? `<label${ident.for}>${esc(__(args.label, doc), true)}</label>` : '';
+    return `${label}${fieldInner(args, reg, doc)}`;
+  }
 }
 
 export let field_frame_circle = {

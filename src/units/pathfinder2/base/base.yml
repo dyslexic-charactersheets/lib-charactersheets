@@ -720,52 +720,6 @@ inc:
               - g:
                 contents:
                 
-                  # - section: "_{Class DC}"
-                  #   id: class-dc
-                  #   contents:
-                  #     - calc:
-                  #       output:
-                  #         field: class-dc
-                  #         legend: "#{class}"
-                  #         underlay: "_{DC}"
-                  #         width: large
-                  #         icon: dc
-                  #         eq: '%{#{key-ability}}+%{level}+%{class-dc-item-bonus}'
-                  #       inputs:
-                  #         - zone: '@key-ability-field'
-                  #           contents:
-                  #             - field:
-                  #               label: "_{Key Ability}"
-                  #               ref: key-ability
-                  #         - span: "+"
-                  #         - field: class-dc-proficiency
-                  #           label: "_{Proficiency}"
-                  #           control: proficiency
-                  #         - span: "+"
-                  #         - field: class-dc-item-bonus
-                  #           label: "_{Item}"
-                  #     - calc:
-                  #       output:
-                  #         field: class-dc-other
-                  #         underlay: "_{DC}"
-                  #         label: "_{Archetype}"
-                  #         width: large
-                  #         icon: dc
-                  #         eq: '%{#{key-ability}}+%{level}+%{class-dc-item-bonus}'
-                  #       inputs:
-                  #         - zone: '@key-ability-field'
-                  #           contents:
-                  #             - field:
-                  #               label: "_{Key Ability}"
-                  #               ref: key-ability
-                  #         - span: "+"
-                  #         - field: class-dc-other-proficiency
-                  #           label: "_{Proficiency}"
-                  #           control: proficiency
-                  #         - span: "+"
-                  #         - field: class-dc-other-item-bonus
-                  #           label: "_{Item}"
-
                   - section: "_{Speed}"
                     id: speed
                     contents:
@@ -1002,11 +956,21 @@ inc:
                                       # - field: attack-#{i}-critical
                                       #   label: "Critical Effect"
                                       #   width: stretch
-                                  - field: attack-#{i}-details
-                                    frame: none
-                                    width: stretch
-                                    align: left
-                                    merge-bottom: true
+                                  - row:
+                                    contents:
+                                      - field: attack-#{i}-details
+                                        frame: annotation
+                                        label: "Weapon Traits"
+                                        width: stretch
+                                        align: left
+                                        merge-bottom: true
+                                      - vr:
+                                      - field: attack-#{i}-details
+                                        frame: annotation
+                                        label: "Critical"
+                                        width: stretch
+                                        align: left
+                                        merge-bottom: true
 
                           - layout: 2e
                             contents:

@@ -48,6 +48,7 @@ import {
   field_frame_left,
   field_frame_right,
   field_frame_h_label,
+  field_frame_annotation,
   field_frame_circle,
 } from '../elements/field-frame';
 import {
@@ -121,6 +122,7 @@ export class Registry {
       field_frame_left,
       field_frame_right,
       field_frame_h_label,
+      field_frame_annotation,
       field_frame_circle,
       field_control_input,
       field_control_speed,
