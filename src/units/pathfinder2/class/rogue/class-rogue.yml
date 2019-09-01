@@ -12,6 +12,9 @@ form:
     max: 8
     levels: [ 2, 4, 6, 8, 10, 14, 16, 18, 20 ]
 
+require:
+  - unit: weapon-spec/fast
+
 inc:
   - set: class
     value: "_{Rogue}"
@@ -97,84 +100,6 @@ inc:
         key: sneak-attack
         format: string
 
-  # - at: '@advancement'
-  #   replace:
-  #     - section: "_{Rogue Advancement}"
-  #       contents:
-  #         - advancement:
-  #           labels:
-  #             - "_{Racket, surprise attack}"
-  #             - ""
-  #             - "_{Deny advantage}"
-  #             - ""
-  #             - "_{Weapon tricks}"
-  #             - ""
-  #             - "_{Master in skills}, _{evasion}, _{master in perception}"
-  #             - ""
-  #             - "_{Debilitating strike}, _{great fortitude}"
-  #             - ""
-  #             - "_{Expert in Rogue class DC}"
-  #             - ""
-  #             - "_{Improved evasion}, _{legendary in perception}, _{light armour expertise}"
-  #             - ""
-  #             - "_{Legendary in skills}, _{double debilitation}, _{greater weapon specialisation}"
-  #             - ""
-  #             - "_{Slippery mind}"
-  #             - ""
-  #             - "_{Light armour mastery}"
-  #             - ""
-  #           fields:
-  #             - id: sneak-attack
-  #               label: "_{Sneak\nattack}"
-  #               shade: true
-  #               align: center
-  #               values:
-  #                 - "_{1d6}"
-  #                 - ""
-  #                 - ""
-  #                 - ""
-  #                 - "_{2d6}"
-  #                 - ""
-  #                 - ""
-  #                 - ""
-  #                 - ""
-  #                 - ""
-  #                 - "_{3d6}"
-  #                 - ""
-  #                 - ""
-  #                 - ""
-  #                 - ""
-  #                 - ""
-  #                 - "_{4d6}"
-  #                 - ""
-  #                 - ""
-  #                 - ""
-  #             - id: ancestry-feat
-  #               label: "_{Ancestry\nfeat}"
-  #               levels: [ 1, 5, 9, 13, 17 ]
-  #             - id: general-feat
-  #               label: "_{General\nfeat}"
-  #               levels: [ 3, 7, 11, 15, 19 ]
-  #               shade: true
-  #             - id: class-feat
-  #               label: "_{Class\nfeat}"
-  #               levels: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
-  #             - id: skill-feat
-  #               label: "_{Skill\nfeat}"
-  #               levels: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
-  #               shade: true
-  #             - id: skill-increase
-  #               label: "_{Skill\nincrease}"
-  #               levels: [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
-  #             - id: ability-boost
-  #               label: "_{Ability\nboost}"
-  #               levels: [ 5, 10, 15, 20 ]
-  #               shade: true
-  #               template:
-  #                 field: '#{id}'
-  #                 frame: none
-  #                 control: checkbox
-
   - at: '@pages'
     add:
       - page: rogue
@@ -189,10 +114,37 @@ inc:
                   - class-icon: rogue
                   - h2: "_{Rogue}"
 
+                  - section: "_{Class DC}"
+                    id: class-dc
+                    contents:
+                      - calc:
+                        output:
+                          field: class-dc
+                          legend: "Rogue\nClass DC"
+                          underlay: "_{DC}"
+                          width: large
+                          icon: dc
+                          eq: '%{#{key-ability}}+%{level}+%{class-dc-item-bonus}'
+                        inputs:
+                          - zone: '@key-ability-field'
+                            contents:
+                              - field:
+                                label: "_{Key\nAbility}"
+                                ref: key-ability
+                          - span: "+"
+                          - field: class-dc-proficiency
+                            label: "_{Proficiency}"
+                            control: proficiency
+                          - span: "+"
+                          - field: class-dc-item-bonus
+                            label: "_{Item}"
+
                   - section: "_{Sneak Attack}"
                     contents:
                       - list:
                         hr: true
+                        zebra: true
+                        avoid-shade: true
                         contents:
                           - g:
                             contents:
@@ -295,6 +247,7 @@ inc:
                       - list:
                         hr: true
                         zebra: true
+                        avoid-shade: true
                         contents:
                           - level: 9
                             contents:
@@ -322,7 +275,8 @@ inc:
                           - p: ""
 
                   - tail:
-                  - spacer:
+                  # - spacer:
+
               - g:
                 contents:
                   - section: "_{Racket}"
