@@ -252,6 +252,7 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
       //     break;
       case 'shade':
       case 'lp':
+      case 'optional':
         cls.push(mod);
         break;
       default:

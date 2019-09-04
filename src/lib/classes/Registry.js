@@ -186,6 +186,9 @@ export class Registry {
     if (!item.exists || item.exists === "false")
       return '';
 
+    if (doc.largePrint && has(item, "optional") && item.optional)
+      return '';
+
     if (item.type == "unit")
       item.type = item["unit-type"];
 

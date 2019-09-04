@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 
 import { elementID, elementClass, isEmpty } from '../util';
 import { __ } from '../i18n';
+import { log } from '../log';
 
 export let article = {
   name: 'article',
@@ -22,7 +23,7 @@ export let article = {
     'show-level': false,
     lines: 2,
   },
-  transform: args => {
+  transform: (args, ctx) => {
     if (isEmpty(args.header) || isEmpty(args.contents)) {
       var header = args.header;
       if (isEmpty(args.header)) {
@@ -88,6 +89,10 @@ export let article = {
 
       var contents = args.contents;
       if (isEmpty(args.contents)) {
+        if (ctx.largePrint && args.lines > 1) {
+          args.lines--;
+        }
+
         contents = [];
         if (args.content) {
           contents.push({

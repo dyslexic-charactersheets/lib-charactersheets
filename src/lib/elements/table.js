@@ -15,6 +15,10 @@ export let table = {
   },
   render: (args, reg, doc) => {
     // get headings
+    if (doc.isLargePrint) {
+      args.columns = args.columns.filter(col => !(has(col, "optional") && col.optional));
+    }
+
     var headings = args.columns.map(col => {
       if (isNull(col)) {
         col = {
@@ -48,6 +52,10 @@ export let table = {
       }
       return [row];
     });
+
+    if (doc.isLargePrint) {
+      rows = rows.filter(row => !(has(row, "optional") && row.optional));
+    }
 
     // repeat the whole set
     if (has(args, "repeat") && args.repeat > 1) {

@@ -23,6 +23,10 @@ function parseCharacter(primary, request) {
     class: false,
     archetypes: false,
 
+    printLarge: false,
+    printHighContrast: false,
+    printDyslexic: false,
+
     printColour: '#707070',
     accentColour: '',
     printWatermark: '',
@@ -31,6 +35,11 @@ function parseCharacter(primary, request) {
     animalPortrait: false,
     printBackground: false
   }, primary.attributes);
+
+  // if (attr.printHighContrast) {
+  //   attr.printColour = '#707070';
+  //   attr.accentColour = '';
+  // }
 
   // an object to start with
   let char = {
@@ -50,6 +59,11 @@ function parseCharacter(primary, request) {
     },
     spellbookStyle: 'normal',
     miniSize: 'medium',
+
+    printLarge: attr.printLarge,
+    printHighContrast: attr.printHighContrast,
+    printDyslexic: attr.printDyslexic,
+
     printColour: attr.printColour,
     accentColour: attr.accentColour,
     printLogo: attr.printLogo,
@@ -76,6 +90,17 @@ function parseCharacter(primary, request) {
     }
   });
 
+  // accessibility options
+  if (attr.printLarge) {
+    char.units.push('large-print');
+  }
+  if (attr.printHighContrast) {
+    char.units.push('high-contrast');
+  }
+  if (attr.printDyslexic) {
+    char.units.push('dyslexic');
+  }
+
   // game-specific settings
   switch (attr.game) {
     case 'pathfinder2':
@@ -87,13 +112,13 @@ function parseCharacter(primary, request) {
           char.units.push('heritage/' + char.ancestry + "/" + attr.heritage.replace(/^heritage-/, ''));
       }
 
-
       if (attr.ancestryFeats) {
         char.ancestryFeats = parseFeats(attr.ancestryFeats);
       }
 
-      if (attr.background)
+      if (attr.background) {
         char.units.push('background/' + attr.background.replace(/^background-/, ''));
+      }
 
       if (attr.class) {
         let className = attr.class.replace(/^class-/, '');
@@ -122,7 +147,7 @@ function parseCharacter(primary, request) {
         });
       }
 
-      // todo selectables
+      // todo select inventory size
       char.units.push("option/inventory/half");
 
       if (attr.archetypes && isArray(attr.archetypes)) {
@@ -239,6 +264,10 @@ export class Character {
         }
         if (isEmpty(title)) title = "Character";
         document.title = title;
+
+        if (this.data.printLarge) {
+          document.largePrint = true;
+        }
 
         // Load assets
         if (this.data.favicon) {

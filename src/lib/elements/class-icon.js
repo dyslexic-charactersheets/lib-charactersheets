@@ -5,6 +5,7 @@ export let class_icon = {
     key: 'icon', 
     defaults: {
         icon: '',
+        optional: true,
         size: 'medium',
     }, 
     render: args => {

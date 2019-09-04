@@ -16,6 +16,7 @@ export class Document {
     this.zones = {};
     this.templates = {};
 
+    this.largePrint = false;
     this.printColour = '#808080';
     this.accentColour = '#808080';
 
@@ -42,6 +43,14 @@ export class Document {
 
   set watermark(watermark) {
     this.doc.watermark = watermark;
+  }
+
+  get largePrint() {
+    return this.doc.largePrint;
+  }
+
+  set largePrint(large) {
+    this.doc.largePrint = large;
   }
 
   nextPageNumber() {
@@ -155,7 +164,8 @@ export class Document {
           
           if (reg && reg.transform) {
             // log("compose", "Applying transformation to", element.type);
-            var newelements = reg.transform(Object.assign({}, reg.defaults, element), { zones: self.zones, templates: self.templates });
+            // log("Document", "Large print?", self.largePrint);
+            var newelements = reg.transform(Object.assign({}, reg.defaults, element), { zones: self.zones, templates: self.templates, largePrint: self.largePrint });
             if (newelements === false)
               return element;
 
@@ -209,7 +219,7 @@ export class Document {
 
       if (reg && reg.transform) {
         // log("compose", "Applying transformation to", element.type);
-        var newelements = reg.transform(Object.assign({}, reg.defaults, element), { zones: self.zones, templates: self.templates });
+        var newelements = reg.transform(Object.assign({}, reg.defaults, element), { zones: self.zones, templates: self.templates, largePrint: self.largePrint });
         if (newelements === false)
           return element;
 

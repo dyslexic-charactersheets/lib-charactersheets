@@ -12,6 +12,7 @@ export let slots = {
         placeholder: null,
         max: false,
         min: false,
+        reduce: 0,
         contents: [],
     }, 
     transform: (args, ctx) => {
@@ -20,6 +21,11 @@ export let slots = {
         var placeholder = args.placeholder;
         if (!isArray(placeholder))
             placeholder = [ placeholder ];
+
+        if (ctx.largePrint && args.reduce > 0) {
+          args.min -= args.reduce;
+          args.max -= args.reduce;
+        }
         
         function slotItems(items) {
             // log("slots", "Items", items);

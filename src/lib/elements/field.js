@@ -11,6 +11,7 @@ export let field = {
     frame: 'above',
     control: 'input',
     repeat: 1,
+    reduce: 0,
     editable: true,
     flex: false,
     'merge-bottom': false,
@@ -109,6 +110,9 @@ export function fieldInner(args, reg, doc) {
 
   var boxargs = _.pick(args, ['icon', 'border']);
   var inner;
+  if (doc.largePrint && args.reduce > 0) {
+    args.repeat -= args.reduce;
+  }
   if (args.repeat > 1) {
     var boxes = [];
     var values = isArray(args.value) ? args.value : [ args.value ];
