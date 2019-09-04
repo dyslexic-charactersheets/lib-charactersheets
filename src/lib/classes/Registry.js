@@ -227,6 +227,9 @@ export function mergeBottom(element) {
       // horizontal elements don't
       case 'calc':
       case 'row':
+        element.contents.forEach(e => {
+          e['merge-bottom'] = true;
+        });
         break;
 
       case 'field':

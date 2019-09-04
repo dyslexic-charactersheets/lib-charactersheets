@@ -252,8 +252,7 @@ inc:
                               - field: ancestry
                                 legend: "_{Ancestry}"
                                 width: stretch
-                                # value: '#{ancestry}'
-                              - field: cover-heritage
+                              - field: heritage
                                 label: "_{Heritage}"
                                 width: stretch
                                 merge-bottom: true
@@ -270,11 +269,10 @@ inc:
                             contents:
                               - row:
                                 contents:
-                                  - field: cover-class
+                                  - field: class
                                     width: stretch
                                     legend: "_{Class}"
-                                    # value: '#{class}'
-                                  - field: cover-level
+                                  - field: level
                                     label: "_{Level}"
                                     border: full
                               - field: class-specialisation
@@ -345,60 +343,6 @@ inc:
                               - name: "_{Ability\nboost}"
                                 key: ability-boost
 
-
-                      # - zone: '@advancement'
-                      #   contents:
-                      #     - section: "_{Advancement}"
-                      #       contents:
-                      #         - advancement:
-                      #           labels:
-                      #             - "_{Ancestry}, _{Heritage}, _{Background}, _{initial proficiencies}"
-                      #             - ""
-                      #             - ""
-                      #             - ""
-                      #             - ""
-                      #             - ""
-                      #             - "_{Master in skills}"
-                      #             - ""
-                      #             - ""
-                      #             - ""
-                      #             - ""
-                      #             - ""
-                      #             - ""
-                      #             - ""
-                      #             - "_{Legendary in skills}"
-                      #             - ""
-                      #             - ""
-                      #             - ""
-                      #             - ""
-                      #             - ""
-                      #           fields:
-                      #             - id: ancestry-feat
-                      #               label: "_{Ancestry\nfeat}"
-                      #               levels: [ 1, 5, 9, 13, 17 ]
-                      #               shade: true
-                      #             - id: general-feat
-                      #               label: "_{General\nfeat}"
-                      #               levels: [ 3, 7, 11, 15, 19 ]
-                      #             - id: class-feat
-                      #               label: "_{Class\nfeat}"
-                      #               levels: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
-                      #               shade: true
-                      #             - id: skill-feat
-                      #               label: "_{Skill\nfeat}"
-                      #               levels: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
-                      #             - id: skill-increase
-                      #               label: "_{Skill\nincrease}"
-                      #               levels: [ 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
-                      #               shade: true
-                      #             - id: ability-boost
-                      #               label: "_{Ability\nboost}"
-                      #               levels: [ 5, 10, 15, 20 ]
-                      #               template:
-                      #                 field: '#{id}'
-                      #                 frame: none
-                      #                 control: checkbox
-
                   - tail:
                   - spacer:
 
@@ -424,7 +368,7 @@ inc:
                             avoid-shade: true
                             contents:
                               - article: 'skill-feat-#{level}'
-                                lines: 1
+                                lines: 2
                                 annotation: "_{Background}"
                               - each:
                                 template:
@@ -441,27 +385,28 @@ inc:
                                     contents:
                                       - zone: '@skill-feats'
 
+                          - section: "_{Skill Notes}"
+                            contents:
                               - field: skill-notes
                                 flex: small
                                 width: stretch
-                                legend: "_{Skill Notes}"
+                                frame: none
                                 repeat: 6
                                 merge-bottom: true
 
-                          # - zone: '@language-section'
-                          #   contents:
-                          #     - section: "Languages"
-                          #       id: languages
-                          #       contents:
-                          #         - field: languages
-                          #           frame: none
-                          #           repeat: 4
-                          #           align: left
-                          #           width: stretch
-                          #           merge-bottom: true
+                          - zone: '@language-section'
+                            contents:
+                              - section: "_{Languages}"
+                                id: languages
+                                contents:
+                                  - field: languages
+                                    frame: none
+                                    repeat: 4
+                                    align: left
+                                    width: stretch
+                                    merge-bottom: true
 
                           - tail:
-                          - spacer:
 
               - g:
                 contents:
@@ -702,12 +647,15 @@ inc:
                             frame: right
                             control: checkbox
                             label: "_{Scent}"
-                      # - field: perception-other
-                      #   label: "Conditional"
-                      #   align: left
-                      #   width: stretch
-                      #   merge-bottom: true
-                      #   repeat: 2
+                      - zone: '@perception'
+                        contents:
+                          - field: perception-other
+                            # label: "Conditional"
+                            frame: none
+                            align: left
+                            width: stretch
+                            merge-bottom: true
+                            # repeat: 2
                   - tail:
 
       - page: combat
@@ -964,7 +912,7 @@ inc:
                                         width: stretch
                                         align: left
                                         merge-bottom: true
-                                      - vr:
+                                      # - vr:
                                       - field: attack-#{i}-details
                                         frame: annotation
                                         label: "Critical"
@@ -1033,10 +981,8 @@ inc:
                               - field: hp-ancestry
                                 label: "_{Ancestry}"
                               - span: "+ ("
-                              - zone: '@field-class-hp'
-                                contents:
-                                  - field: hp-class
-                                    label: "_{Class}"
+                              - field: hp-class
+                                label: "_{Class}"
                               - span: "+"
                               - field:
                                 label: "_{CON}"
@@ -1125,7 +1071,7 @@ inc:
                           - g:
                             contents:
                               - slots:
-                                min: 3
+                                min: 4
                                 merge-bottom: true
                                 contents:
                                   - zone: '@ac-conditional'

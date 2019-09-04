@@ -3,59 +3,119 @@ in: class
 group: "Core Rulebook"
 name: "Generic"
 
+require:
+  - unit: weapon-spec/generic
+
 inc:
   - at: '@pages'
     add:
       - page: generic
         name: "Generic"
         order: 10
+        flex: true
         contents:
           - layout: 2l
             contents:
               - g:
                 contents:
                   - class-icon: box
-                  - field:
+                  - field: generic-class
                     legend: "Class"
-                  - section: "Specialisation"
-                    primary: true
+                    width: stretch
+                  - field: generic-subclass
+                    label: "Subclass"
+                    width: stretch
+                    
+                  - section: "_{Class DC}"
+                    id: class-dc
                     contents:
-                      - field: class-specialisation
-                        frame: none
-                        width: stretch
-                        align: center
-                        merge-bottom: true
-                        size: large
+                      - calc:
+                        output:
+                          field: class-dc
+                          legend: "Class DC"
+                          underlay: "_{DC}"
+                          width: large
+                          icon: dc
+                          eq: '%{#{key-ability}}+%{level}+%{class-dc-item-bonus}'
+                        inputs:
+                          - zone: '@key-ability-field'
+                            contents:
+                              - field:
+                                label: "_{Key Ability}"
+                                ref: key-ability
+                          - span: "+"
+                          - field: class-dc-proficiency
+                            label: "_{Proficiency}"
+                            control: proficiency
+                          - span: "+"
+                          - field: class-dc-item-bonus
+                            label: "_{Item}"
+
+                  - section: "Class features"
+                    contents:
                       - hr:
                       - list:
                         zebra: true
                         hr: true
                         contents:
-                          - each:
-                            template:
-                              - level: '#{level}'
-                                contents:
-                                  - item:
+                          - repeat: 9
                             contents:
-                              - repeat: 6
+                              - level: ''
                                 contents:
                                   - article:
                                     header:
                                       - row:
                                         contents:
-                                          - field: "class-specialisation-#{level}"
+                                          - field: "class-specialisation-#{i}"
                                             width: stretch
                                             frame: none
-                                          - field: "class-specialisation-#{level}-level"
+                                          - field: "class-specialisation-#{i}-level"
                                             frame: none
                                     contents:
-                                      - field: "class-specialisation-#{level}-details"
+                                      - field: "class-specialisation-#{i}-details"
                                         width: stretch
                                         frame: none
                                         merge-bottom: true
-                                        repeat: 2
+                                        repeat: 3
+                  - tail:
+
               - g:
                 contents:
+                
+                  - section: "Subclass"
+                    primary: true
+                    contents:
+                      - field: subclass
+                        frame: none
+                        width: stretch
+                        align: center
+                        merge-bottom: true
+                        size: gargantuan
+                      - hr:
+                      - list:
+                        zebra: true
+                        hr: true
+                        contents:
+                          - repeat: 5
+                            contents:
+                              - level: ''
+                                contents:
+                                  - article:
+                                    header:
+                                      - row:
+                                        contents:
+                                          - field: "subclass-feature-#{i}"
+                                            width: stretch
+                                            frame: none
+                                          - field: "class-feature-#{i}-level"
+                                            frame: none
+                                    contents:
+                                      - field: "class-feature-#{i}-details"
+                                        width: stretch
+                                        frame: none
+                                        merge-bottom: true
+                                        repeat: 3
+
                   - section: "Class Feats"
                     contents:
                       - list:
@@ -70,7 +130,7 @@ inc:
                                 contents:
                                   - item:
                             contents:
-                              - slots: [ 2, 4, 6, 8, 10, 14, 16, 18, 20 ]
+                              - slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, '' ]
                                 min: 1
                                 max: 1
                                 placeholder:
@@ -88,3 +148,4 @@ inc:
                                       repeat: 2
                                 contents:
                   - tail:
+                  - spacer:

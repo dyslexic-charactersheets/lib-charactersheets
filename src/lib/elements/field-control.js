@@ -15,7 +15,7 @@ var defaultControlRender = (args, reg, doc) => {
 
   var ident = fieldIdent(args.id);
   var cls = elementClass("field", "control", args, [], { "align": "centre", "width": "medium" });
-  var value = (args.value == '') ? '' : ` value='${args.value}'`;
+  var value = (args.value == '') ? '' : ` value='${__(args.value)}'`;
   var attr = (args.editable ? '' : 'readonly');
   var input = `<input${ident.ident}${value}${attr}>`;
 
