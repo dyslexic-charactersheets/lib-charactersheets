@@ -1,5 +1,3 @@
-import * as _ from 'lodash';
-
 import { elementClass, getLabelHeight } from '../util';
 
 export let calc = {
@@ -21,7 +19,6 @@ export let calc = {
         var output = Object.assign({
             border: "full"
         }, args.output);
-        // var output = _.defaults(args.output, { "border": "full" });
         // log("-","Output:", output);
         var parts = [
             output,

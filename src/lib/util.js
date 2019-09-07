@@ -397,31 +397,31 @@ export function interpolate(template, values, document = null) {
 };
 
 
-export function replaceColours(str, documentColour, accentColour) {
+export function replaceColours(str, documentColour, accentColour, highContrast) {
   // var accentColour = '#a6085e'; // CharacterSheets._current.accentColour
 
-  str = str.replace(/#[0-9a-fA-F]{6}/g, c => adjustColour(c, documentColour));
+  str = str.replace(/#[0-9a-fA-F]{6}/g, c => adjustColour(c, documentColour, highContrast));
   str = str.replace(/%23[0-9a-fA-F]{6}/g, c => {
     c = c.replace('%23', '#');
-    c = adjustColour(c, documentColour);
+    c = adjustColour(c, documentColour, highContrast);
     c = c.replace('#', '%23');
     return c;
   });
-  str = str.replace(/rgba\(.*?,.*?,.*?,(.*?)\)/g, c => adjustColour(c, documentColour)); // (c, opacity) => adjustColourRGBA(c, opacity));
+  str = str.replace(/rgba\(.*?,.*?,.*?,(.*?)\)/g, c => adjustColour(c, documentColour, highContrast)); // (c, opacity) => adjustColourRGBA(c, opacity, highContrast));
   str = str.replace(/--c-accent/g, accentColour);
   str = str.replace(/="#([0-9a-fA-F]{6})"/g, '="%23$1"');
   return str;
 }
 
-export function adjustColourRGBA(c, opacity) {
+export function adjustColourRGBA(c, opacity, highContrast) {
   // var col1 = color(c);
-  var col2 = color(this.adjustColour(c));
+  var col2 = color(this.adjustColour(c, highContrast));
 
   col2.fade(opacity);
   return col2.rgba();
 }
 
-export function adjustColour(c, documentColour) {
+export function adjustColour(c, documentColour, highContrast) {
   // var documentColour = '#102820'; // CharacterSheets._current.documentColour
   try {
     var base = color(c);
@@ -429,6 +429,11 @@ export function adjustColour(c, documentColour) {
 
     const lmin = 16;
     var lightness = base.lightness();
+    if (highContrast) {
+      if (lightness < 50) {
+        lightness = lightness * 0.8;
+      }
+    }
     if (lightness < lmin) lightness = lmin;
     col = col.lightness(lightness);
 

@@ -1,4 +1,4 @@
-import { log } from './log';
+import { log, error } from './log';
 import { isString, isNumber } from './util';
 
 // TODO i18n API calls to load files or connect to a PO API.
@@ -14,7 +14,7 @@ export function __(str, doc) {
   }
   if (!isString(str)) {
     error("i18n", "Not a string", str);
-    throw new Exception("Not a string");
+    throw "Not a string";
   }
   return str.replace(/_\{(.*?)\}/gs, (m, p) => translate(p, doc));
 }

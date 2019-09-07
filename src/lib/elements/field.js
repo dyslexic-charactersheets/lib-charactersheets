@@ -1,7 +1,8 @@
 import * as _ from 'lodash';
 
-import { elementID, elementClass, getLabelHeight, has, interpolate, isArray } from '../util';
+import { elementID, elementClass, getLabelHeight, has, interpolate, isArray, isString } from '../util';
 import { __ } from '../i18n';
+import { log } from '../log';
 // import { render, renderItem } from '../classes/Registry';
 
 export let field = {
@@ -64,7 +65,13 @@ export function fieldDefaults(args, reg, doc) {
     icon: false,
   });
 
-  args.lp = getLabelHeight(args);
+  if (args.frame == "none" || args.frame == "annotation") {
+    args.lp = 0;
+    // log("field", "Frameless, no label padding");
+  } else {
+    args.lp = getLabelHeight(args);
+    // log("field", `Frame ${args.frame}, label padding ${args.lp}`);
+  }
 
   args = interpolate(args, {}, doc);
   return args;
@@ -105,7 +112,7 @@ export function fieldRadioIdent(fieldid = '', value = '') {
 
 export function fieldInner(args, reg, doc) {
   args = _.defaults({ type: 'control:' + args.control }, args);
-  var icon = (has(args, "icon") && !!args.icon && _.isString(args.icon) && args.control != "icon") ? `<i class='icon icon_${args.icon}'></i>` : '';
+  var icon = (has(args, "icon") && !!args.icon && isString(args.icon) && args.control != "icon") ? `<i class='icon icon_${args.icon}'></i>` : '';
   var unit = (has(args, "unit") && !!args.unit) ? `<label class='field__unit'>${__(args.unit, doc)}</label>` : '';
 
   var boxargs = _.pick(args, ['icon', 'border']);

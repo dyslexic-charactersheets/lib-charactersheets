@@ -17,6 +17,7 @@ export class Document {
     this.templates = {};
 
     this.largePrint = false;
+    this.highContrast = false;
     this.printColour = '#808080';
     this.accentColour = '#808080';
 
@@ -250,7 +251,7 @@ export class Document {
       var template = Handlebars.compile(css);
       var rendered = template({});
       if (unit.id != "document")
-        rendered = replaceColours(rendered, this.printColour, this.accentColour);
+        rendered = replaceColours(rendered, this.printColour, this.accentColour, this.highContrast);
       cssParts.push(rendered);
     });
 
@@ -275,6 +276,8 @@ export class Document {
     // background
     if (this.backgroundURL) {
       cssParts.push(`.page{background-image:url('${this.backgroundURL}'); background-size: 100% 100%;}`);
+    } else if (this.backgroundColour) {
+      cssParts.push(`.page{background: ${this.backgroundColour};}`);
     }
 
     return cssParts.join("");
@@ -321,12 +324,6 @@ ${registry.render(this.doc.contents, this)}
 <p>If printing on Safari, please deselect "Print headers and footers".</p>
 </div>
 <nav id='screen-buttons'>
-<!--
-<section id='left-buttons'>
-<button id='button--large' class='btn' onclick="document.getElementsByTagName('html')[0].className += ' html--size_large';"><i></i><span>Large font</span></button>
-<button id='button--high-contrast' class='btn' onclick="document.getElementsByTagName('html')[0].className += ' html--high_contrast';"><i></i><span>High contrast</span></button>
-</section>
--->
 <button id='button--print' onclick="window.print();return false;">Print</button>
 </nav>
 <script type='text/javascript'>

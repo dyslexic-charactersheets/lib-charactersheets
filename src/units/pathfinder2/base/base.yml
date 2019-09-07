@@ -327,9 +327,9 @@ inc:
                                 ancestry-feat: true
                               - levels: [ 3, 7, 11, 15, 19 ]
                                 general-feat: true
-                              - levels: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                              - levels: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
                                 class-feat: true
-                              - levels: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                              - levels: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
                                 skill-feat: true
                               - levels: [ 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
                                 skill-increase: true
@@ -345,7 +345,7 @@ inc:
                               - name: "_{Ancestry\nfeat}"
                                 key: ancestry-feat
                               - name: "_{General\nfeat}"
-                                key: class-feat
+                                key: general-feat
                               - name: "_{Class\nfeat}"
                                 key: class-feat
                               - name: "_{Skill\nfeat}"
@@ -371,6 +371,7 @@ inc:
 
                   - section: "_{Skill feats}"
                     id: skill-feats
+                    flex: huge
                     contents:
                       - zone: '@skill-feats-section'
                         contents:
@@ -403,7 +404,7 @@ inc:
                                 flex: small
                                 width: stretch
                                 frame: none
-                                repeat: 6
+                                repeat: 4
                                 merge-bottom: true
 
                           - zone: '@language-section'
@@ -413,7 +414,7 @@ inc:
                                 contents:
                                   - field: languages
                                     frame: none
-                                    repeat: 4
+                                    repeat: 3
                                     align: left
                                     width: stretch
                                     merge-bottom: true
@@ -448,28 +449,6 @@ inc:
                                 placeholder:
                                   - article: 'ancestry-feat-#{i}'
                                     lines: 1
-
-                  - section: "_{General Feats}"
-                    contents:
-                      - list:
-                        columns: 2
-                        zebra: true
-                        hr: true
-                        contents:
-                          - each:
-                            template:
-                              - level: "#{level}"
-                                contents:
-                                  - item: yes
-                            contents:
-                              - slots: [ 3, 7, 11, 15, 19 , '' ]
-                                min: 1
-                                max: 1
-                                placeholder:
-                                  article: general-feat-level-#{level}
-                                  lines: 2
-                                contents:
-                                  - zone: '@general-feats'
 
                   - section: "_{Skills}"
                     id: skills
@@ -618,6 +597,7 @@ inc:
                             border: full
                             exists: "#{acp}"
                             prefix: "&ndash;"
+
                   - section: "_{Perception}"
                     flex: small
                     contents:
@@ -663,14 +643,39 @@ inc:
                             label: "_{Scent}"
                       - zone: '@perception'
                         contents:
-                          - field: perception-other
-                            # label: "Conditional"
-                            frame: none
-                            align: left
-                            width: stretch
-                            merge-bottom: true
-                            optional: true
-                            # repeat: 2
+                          - row:
+                            contents:
+                              - field: perception-other
+                                # label: "Conditional"
+                                frame: none
+                                align: left
+                                width: stretch
+                                merge-bottom: true
+                                optional: true
+                                # repeat: 2
+
+                  - section: "_{General Feats}"
+                    contents:
+                      - list:
+                        columns: 2
+                        zebra: true
+                        hr: true
+                        contents:
+                          - each:
+                            template:
+                              - level: "#{level}"
+                                contents:
+                                  - item: yes
+                            contents:
+                              - slots: [ 3, 7, 11, 15, 19 , '' ]
+                                min: 1
+                                max: 1
+                                placeholder:
+                                  article: general-feat-level-#{level}
+                                  lines: 2
+                                contents:
+                                  - zone: '@general-feats'
+
                   - tail:
 
       - page: combat
@@ -686,39 +691,45 @@ inc:
                   - section: "_{Speed}"
                     id: speed
                     contents:
-                      - layout: 3e
+                      - row:
                         contents:
-                          - action: 1
+                          - layout: 3e
                             contents:
-                              - p: "_{Stride}"
-                          - field: speed
-                            legend: "_{Speed}"
-                            control: speed
-                            output: true
-                            width: stretch
-                          - field: speed-armour
-                            label: "_{Speed in Armour}"
-                            control: speed
-                            width: stretch
-                          # - field: speed-temp
-                          #   label: "_{Temp Speed}"
-                          #   control: speed
-                          #   output: true
-                          #   temp: true
-                      - layout: 3e
+                              - action: 1
+                                contents:
+                                  - p: "_{Stride}"
+                              - field: speed
+                                legend: "_{Speed}"
+                                control: speed
+                                output: true
+                                width: stretch
+                              - field: speed-armour
+                                label: "_{Speed in Armour}"
+                                control: speed
+                                width: stretch
+                              # - field: speed-temp
+                              #   label: "_{Temp Speed}"
+                              #   control: speed
+                              #   output: true
+                              #   temp: true
+                      - spacer:
+                      - row:
                         contents:
-                          - field: speed-swim
-                            label: "_{Swim Speed}"
-                            control: speed
-                            width: stretch
-                          - field: speed-climb
-                            label: "_{Climb Speed}"
-                            control: speed
-                            width: stretch
-                          - field: speed-fly
-                            label: "_{Fly Speed}"
-                            control: speed
-                            width: stretch
+                          - layout: 3e
+                            contents:
+                              - field: speed-swim
+                                label: "_{Swim Speed}"
+                                control: speed
+                                width: stretch
+                              - field: speed-climb
+                                label: "_{Climb Speed}"
+                                control: speed
+                                width: stretch
+                              - field: speed-fly
+                                label: "_{Fly Speed}"
+                                control: speed
+                                width: stretch
+                      - spacer:
 
                   - section: "_{Focus}"
                     contents:
@@ -1110,6 +1121,7 @@ inc:
                                         label: "_{Shield Bonus}"
                                         # icon: ac
                                         border: full
+                                        prefix: "+"
                                         width: large
                               - selectable: 'raise-shield'
                                 contents:
@@ -1166,21 +1178,23 @@ inc:
                             max: 6
                             reduce: 1
                             placeholder:
-                              article:
-                              header:
-                                - row:
-                                  contents:
-                                    - icon: action-template
-                                    - field: action-#{i}
-                                      frame: none
-                                      width: stretch
-                                      align: left
+                              action: template
                               contents:
-                                - field: action-#{i}-details
-                                  width: stretch
-                                  frame: none
-                                  align: left
-                                  repeat: 2
+                                - article:
+                                  lines: 2
+                                  # header:
+                                  #   - row:
+                                  #     contents:
+                                  #       - field: action-#{i}
+                                  #         frame: none
+                                  #         width: stretch
+                                  #         align: left
+                                  # contents:
+                                  #   - field: action-#{i}-details
+                                  #     width: stretch
+                                  #     frame: none
+                                  #     align: left
+                                  #     repeat: 2
                             contents:
                               - zone: '@actions'
                   - tail:

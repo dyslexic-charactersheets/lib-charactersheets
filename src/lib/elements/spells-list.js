@@ -1,320 +1,262 @@
-import * as _ from 'lodash';
-import { interpolate, isArray } from '../util';
+import { interpolate, isArray, isString } from '../util';
+import { log } from '../log';
 
-function spellLevel(lvl, style, slots, special) {
-    var level_marker = {
-        type: "level-marker",
-        level: lvl,
-        marker: '',
-    };
+function spellField(lvl, style, n, annotation) {
+  // log("spells", `Spell field: level = ${lvl}, style = ${style}, n = ${n}`);
+  var frame = "none";
+  var label = null;
+  // var border = "bottom";
+  if (annotation) {
+    frame = "annotation";
+    label = annotation;
+    // border = "full";
+    // log("spells", "Annotation", annotation);
+  }
 
-    // number of spells
-    var fields = [];
-    if (special) {
-        special = interpolate(special, { 'level': lvl });
-        if (isArray(special)) fields = special;
-        else fields.push(special);
-    }
-
-    var n = parseInt(2 * Math.ceil((slots + fields.length) / 2.0)) + fields.length;
-    // log("spells", "Adding up to", n, "spell fields");
-    for (var i = fields.length; i < n; i++) {
-        switch (style) {
-            case 'prepared':
-                fields.push({
-                    type: "field",
-                    id: `spells-level-${lvl}-${n}`,
-                    frame: "none",
-                    control: "compound",
-                    parts: [
-                        {
-                            control: "checkbox",
-                            id: `spells-level-${lvl}-${n}`
-                        },
-                        {
-                            control: "input",
-                            align: 'left',
-                            width: 'stretch',
-                        }
-                    ]
-                });
-                break;
-
-            case 'spontaneous':
-                fields.push({
-                    type: "field",
-                    id: `spells-level-${lvl}-${n}`,
-                    frame: "none",
-                    align: "left",
-                    width: "stretch"
-                });
-                break;
-        }
-    }
-
-    var left = [];
-    var right = [];
-    for (var i = 0; i < fields.length; i++) {
-        left.push(fields[i]);
-        i++;
-        right.push(fields[i]);
-    }
-
-    // full level
-    return {
-        type: "layout",
-        layout: "spells-list",
-        narrow: true,
-        contents: [
-            {
-                type: "list",
-                collapse: true,
-                "merge-bottom": true,
-                contents: left
-            },
-            level_marker,
-            {
-                type: "list",
-                collapse: true,
-                "merge-bottom": true,
-                marker: '',
-                contents: right
-            }
+  switch (style) {
+    case 'prepared':
+      return {
+        type: "field",
+        id: `spells-level-${lvl}-${n}`,
+        frame: frame,
+        label: label,
+        // border: border,
+        control: "compound",
+        parts: [
+          {
+            control: "checkbox",
+            id: `spells-level-${lvl}-${n}`
+          },
+          {
+            control: "input",
+            width: 'stretch',
+          }
         ]
-    };
+      };
+
+    case 'spontaneous':
+      return {
+        type: "field",
+        id: `spells-level-${lvl}-${n}`,
+        frame: frame,
+        label: label,
+        // border: border,
+        width: "stretch"
+      };
+
+    default:
+      warn("spells", "Unknown style", style);
+      return {};
+  }
 }
 
-export let spells_list = {
-    name: 'spells-list',
-    key: 'style',
-    defaults: {
-        min: 1,
-        max: 9,
-        spells: 4,
-        cantrips: false,
-        daily: false,
-        special: false,
-        style: "prepared",
-    }, 
-    render: (args, reg, doc) => {
-        var min = args.min;
-        var max = args.max;
+function spellLevel(lvl, ord, style, slots, special) {
+  // log("spells", "Spell level:", lvl);
+  var level_marker = {
+    type: "level-marker",
+    level: ord,
+    marker: '',
+  };
 
-        // number of spells at each level
-        var slots = {};
-        if (isArray(args.spells)) {
-            var i = 0;
-            for (var lvl = min; lvl <= max; lvl++) {
-                slots[lvl] = args.spells[i];
-            }
-        } else {
-            for (var lvl = min; lvl <= max; lvl++) {
-                slots[lvl] = args.spells;
-            }
-        }
-
-        // objects to render
-        var spell_levels = [];
-
-        if (args.cantrips) {
-            spell_levels.push(spellLevel(0, 'spontaneous', args.cantrips, false));
-        }
-
-        for (var lvl = min; lvl <= max; lvl++) {
-            spell_levels.push(spellLevel(lvl, args.style, slots[lvl], args.special));
-        }
-
-        /*
-        for (var lvl = min; lvl <= max; lvl++) {
-            var level_marker = {
-                type: "level-marker",
-                level: lvl,
-            };
-
-            // number of spells
-            var fields = [];
-            if (args.special) {
-                var special = interpolate(args.special, { 'level': lvl });
-                if (isArray(special)) fields = special;
-                else fields.push(special);
-            }
-
-            var n = parseInt(2 * Math.ceil((slots[lvl] + fields.length) / 2.0)) + fields.length;
-            // log("-","[spells] Adding up to", n, "spell fields");
-            for (var i = fields.length; i < n; i++) {
-                switch (args.style) {
-                    case 'prepared':
-                        fields.push({
-                            type: "field",
-                            id: `spells-level-${lvl}-${n}`,
-                            frame: "none",
-                            control: "compound",
-                            parts: [
-                                {
-                                    control: "checkbox",
-                                    id: `spells-level-${lvl}-${n}`
-                                },
-                                {
-                                    control: "input",
-                                    align: 'left',
-                                    width: 'stretch',
-                                }
-                            ]
-                        });
-                        break;
-
-                    case 'spontaneous':
-                        fields.push({
-                            type: "field",
-                            id: `spells-level-${lvl}-${n}`,
-                            frame: "none",
-                            align: "left",
-                            width: "stretch"
-                        });
-                        break;                        
-                }
-            }
-
-            var left = [];
-            var right = [];
-            // var n = Math.ceil(slots[lvl] / 2.0);
-            for (var i = 0; i < fields.length; i++) {
-                left.push(fields[i]);
-                i++;
-                right.push(fields[i]);
-            }
-
-            // full level
-            spell_levels.push({
-                type: "layout",
-                layout: "spells-list",
-                narrow: true,
-                contents: [
-                    {
-                        type: "list",
-                        collapse: true,
-                        "merge-bottom": true,
-                        contents: left
-                    },
-                    level_marker,
-                    {
-                        type: "list",
-                        collapse: true,
-                        "merge-bottom": true,
-                        marker: '',
-                        contents: right
-                    }
-                ]
-            });
-        }
-        */
-        
-        return reg.render([
-            {
-                type: "list",
-                hr: true,
-                zebra: true,
-                'avoid-shade': true,
-                contents: spell_levels
-            }
-        ], doc);
+  // number of spells
+  var fields = [];
+  if (special) {
+    if (isString(special)) {
+      // log("spells", "Adding special entry", special);
+      special = spellField(lvl, style, "special", special);
+      // log("spells", "Special", special);
     }
+    special = interpolate(special, { 'level': lvl });
+    if (isArray(special)) fields = special;
+    else fields.push(special);
+  }
+
+  var n = parseInt(2 * Math.ceil((slots + fields.length) / 2.0)) - fields.length;
+  // log("spells", `Adding up to ${n} spell fields`);
+  for (var i = 1; i <= n; i++) {
+    fields.push(spellField(lvl, style, i, ''));
+  }
+  // log("spells", "Spell fields", fields);
+
+  var left = [];
+  var right = [];
+  for (var i = 0; i < fields.length; i++) {
+    left.push(fields[i]);
+    i++;
+    right.push(fields[i]);
+  }
+
+  // full level
+  return {
+    type: "layout",
+    layout: "spells-list",
+    narrow: true,
+    contents: [
+      {
+        type: "list",
+        collapse: true,
+        "merge-bottom": true,
+        contents: left
+      },
+      level_marker,
+      {
+        type: "list",
+        collapse: true,
+        "merge-bottom": true,
+        marker: '',
+        contents: right
+      }
+    ]
+  };
+}
+
+function ordinal(number) {
+  switch (number) {
+    case 0: return '';
+    case 1: return "_{1st}";
+    case 2: return "_{2nd}";
+    case 3: return "_{3rd}";
+    case 4: return "_{4th}";
+    case 5: return "_{5th}";
+    case 6: return "_{6th}";
+    case 7: return "_{7th}";
+    case 8: return "_{8th}";
+    case 9: return "_{9th}";
+    case 10: return "_{10th}";
+  }
+}
+
+
+export let spells_list = {
+  name: 'spells-list',
+  key: 'style',
+  defaults: {
+    min: 1,
+    max: 9,
+    spells: 4,
+    cantrips: false,
+    daily: false,
+    special: false,
+    style: "prepared",
+    ordinal: true,
+  },
+  transform: (args, ctx) => {
+    var min = args.min;
+    var max = args.max;
+
+    // number of spells at each level
+    var slots = {};
+    if (isArray(args.spells)) {
+      var i = 0;
+      for (var lvl = min; lvl <= max; lvl++) {
+        slots[lvl] = args.spells[i];
+      }
+    } else {
+      for (var lvl = min; lvl <= max; lvl++) {
+        slots[lvl] = args.spells;
+      }
+    }
+
+    // objects to render
+    var spell_levels = [];
+
+    if (args.cantrips) {
+      spell_levels.push(spellLevel(0, '', 'spontaneous', args.cantrips, false));
+    }
+
+    for (var lvl = min; lvl <= max; lvl++) {
+      var ord = args.ordinal ? ordinal(lvl) : lvl;
+      spell_levels.push(spellLevel(lvl, ord, args.style, slots[lvl], args.special));
+    }
+
+    return [
+      {
+        type: "list",
+        hr: true,
+        zebra: true,
+        flex: args.flex,
+        'avoid-shade': true,
+        contents: spell_levels
+      }
+    ];
+  }
 }
 
 export let spells_table = {
-    name: 'spells-table',
-    defaults:  {
-        'max-level': 9,
-        'spells-per-day': true,
-        flip: false,
-    },
-    transform: args => {
-        // log("-","[spells] Expanding spells table:", args);
+  name: 'spells-table',
+  defaults: {
+    min: 1,
+    max: 9,
+    'spells-per-day': true,
+    'spells-today': false,
+    'expanded': false,
+    ordinal: true,
+    flip: false,
+  },
+  transform: args => {
+    // log("-","[spells] Expanding spells table:", args);
 
-        
-        var rows = [];
-        var columns = [];
-        var template = [];
+    var rows = [];
+    var columns = [];
+    var template = [];
 
-        // Rows
-        for (var lvl = 1; lvl < args['max-level']; lvl++) {
-            rows.push({ level: lvl });
-        }
-
-        // Spell Level
-        columns.push("Spell\nLevel");
-        template.push({
-            type: "level-marker",
-            level: "#{level}",
-            marker: ""
-        });
-
-        // Spells per day
-        if (args['spells-per-day']) {
-            columns.push("Spells\nper day");
-            template.push({
-                type: "field",
-                id: "spells-#{level}-per-day",
-                frame: "none"
-            });
-        }
-
-        var table = {
-            type: "table",
-            // flip: args.flip,
-            rows: rows,
-            columns: columns,
-            template: template
-        };
-        table = _.defaults(table, args);
-        // log("-","[spells] Expanded spells table:", table);
-        return [ table ];
-        
-        /*
-        return [
-            {
-                type: "row",
-                narrow: true,
-                contents: [
-                    { type: 'g', contents: [
-                        { type: "level-marker", level: 1, marker: "Spell Level" },
-                        { type: "field", id: "spells-1-per-day", width: "small", frame: "none" },
-                    ]},
-                    { type: 'g', contents: [
-                        { type: "level-marker", level: 2, marker: "Spell Level" },
-                        { type: "field", id: "spells-2-per-day", width: "small", frame: "none" },
-                    ]},
-                    { type: 'g', contents: [
-                        { type: "level-marker", level: 3, marker: "Spell Level" },
-                        { type: "field", id: "spells-3-per-day", width: "small", frame: "none" },
-                    ]},
-                    { type: 'g', contents: [
-                        { type: "level-marker", level: 4, marker: "Spell Level" },
-                        { type: "field", id: "spells-4-per-day", width: "small", frame: "none" },
-                    ]},
-                    { type: 'g', contents: [
-                        { type: "level-marker", level: 5, marker: "Spell Level" },
-                        { type: "field", id: "spells-5-per-day", width: "small", frame: "none" },
-                    ]},
-                    { type: 'g', contents: [
-                        { type: "level-marker", level: 6, marker: "Spell Level" },
-                        { type: "field", id: "spells-6-per-day", width: "small", frame: "none" },
-                    ]},
-                    { type: 'g', contents: [
-                        { type: "level-marker", level: 7, marker: "Spell Level" },
-                        { type: "field", id: "spells-7-per-day", width: "small", frame: "none" },
-                    ]},
-                    { type: 'g', contents: [
-                        { type: "level-marker", level: 8, marker: "Spell Level" },
-                        { type: "field", id: "spells-8-per-day", width: "small", frame: "none" },
-                    ]},
-                    { type: 'g', contents: [
-                        { type: "level-marker", level: 9, marker: "Spell Level" },
-                        { type: "field", id: "spells-9-per-day", width: "small", frame: "none" },
-                    ]}
-                ]
-            }
-        ];
-        */
+    // Rows
+    for (var lvl = args.min; lvl <= args.max; lvl++) {
+      var ord = args.ordinal ? ordinal(lvl) : lvl;
+      rows.push({ level: lvl, ordinal: ord });
     }
+
+    // Spell Level
+    columns.push("Spell\nLevel");
+    template.push({
+      type: "level-marker",
+      level: "#{ordinal}",
+      marker: ""
+    });
+
+    // Spells per day
+    if (args['spells-per-day']) {
+      columns.push("_{Spells\nper day}");
+      template.push({
+        type: "field",
+        id: "spells-#{level}-per-day",
+        border: "full",
+        frame: "none"
+      });
+    }
+
+    if (args['spells-today']) {
+      columns.push("_{Spell\ntoday}");
+      template.push({
+        type: "field",
+        id: "spells-#{level}-today",
+        control: "checkgrid",
+        max: 6,
+        depth: 2,
+        frame: "none"
+      });
+    }
+    if (args.expanded) {
+      columns.push(args.expanded);
+      template.push({
+        type: "field",
+        id: "spells-#{level}-expanded",
+        width: "stretch",
+        frame: "none"
+      });
+    }
+
+    var table = {
+      type: "table",
+      width: "stretch",
+      collapse: true,
+      // flip: args.flip,
+      rows: rows,
+      columns: columns,
+      template: template
+    };
+    table = Object.assign({}, args, table);
+    // log("-","[spells] Expanded spells table:", table);
+    return [table];
+  }
 }

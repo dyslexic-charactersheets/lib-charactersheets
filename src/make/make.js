@@ -9,6 +9,7 @@ const path = require('path');
 require('./log');
 const units = require('./units');
 const formdata = require('./formdata');
+const i18n = require('./i18n');
 
 const systems = [
     {
@@ -51,5 +52,9 @@ systems.forEach(system => {
             if (err) error("make", "Error saving summary", system, err);
           });
         }
+
+        i18n.parseSystemUnits(system, systemUnits);
     });
 });
+
+i18n.writePot();

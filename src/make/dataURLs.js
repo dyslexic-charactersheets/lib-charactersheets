@@ -90,7 +90,10 @@ function toDataURL (data, base64, filename) {
 
         default:
             // log("data", "Returning base64 data for", filename);
-            if (_.isNull(base64)) return '';
+            if (_.isNull(base64) || _.isEmpty(base64)) {
+              warn("data", 'No base64 data for file:', filename);
+              return '';
+            }
             base64 = processBase64(base64);
             return 'data:'+mime+';base64,'+base64;
     }

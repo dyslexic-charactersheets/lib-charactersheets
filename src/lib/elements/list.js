@@ -18,7 +18,7 @@ export let list = {
         if (args.zebra && args['avoid-shade']) {
             args['zebra-inverse'] = (args.contents.length % 2 == 0);
         }
-        var cls = elementClass('list', null, args, [ "zebra", "zebra-inverse", "collapse", "flex", "vr", "hr", "merge-bottom" ], []);
+        var cls = elementClass('list', null, args, [ "zebra", "zebra-inverse", "collapse", "vr", "hr", "merge-bottom" ], { "flex": false });
         return `<div${cls}>${reg.render(args.contents, doc)}</div>`;
     }, 
     transform: args => {

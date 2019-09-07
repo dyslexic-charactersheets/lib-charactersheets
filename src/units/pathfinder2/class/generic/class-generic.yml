@@ -19,12 +19,15 @@ inc:
               - g:
                 contents:
                   - class-icon: box
-                  - field: generic-class
-                    legend: "Class"
-                    width: stretch
-                  - field: generic-subclass
-                    label: "Subclass"
-                    width: stretch
+                  - g:
+                    contents:
+                      - spacer:
+                      - field: generic-class
+                        legend: "Class"
+                        width: stretch
+                      # - field: generic-subclass
+                      #   label: "Subclass"
+                      #   width: stretch
                     
                   - section: "_{Class DC}"
                     id: class-dc
@@ -36,6 +39,27 @@ inc:
                           underlay: "_{DC}"
                           width: large
                           icon: dc
+                          eq: '%{10+#{key-ability}}+%{level}+%{class-dc-item-bonus}'
+                        inputs:
+                          - span: "10+"
+                          - zone: '@key-ability-field'
+                            contents:
+                              - field:
+                                label: "_{Key Ability}"
+                                ref: key-ability
+                          - field: class-dc-proficiency
+                            label: "_{Proficiency}"
+                            control: proficiency
+                          - field: class-dc-item-bonus
+                            label: "_{Item}"
+
+                      - spacer:
+                      - calc:
+                        output:
+                          field: spell-attack
+                          legend: "Spell Attack"
+                          width: large
+                          icon: bonus
                           eq: '%{#{key-ability}}+%{level}+%{class-dc-item-bonus}'
                         inputs:
                           - zone: '@key-ability-field'
@@ -43,13 +67,35 @@ inc:
                               - field:
                                 label: "_{Key Ability}"
                                 ref: key-ability
-                          - span: "+"
-                          - field: class-dc-proficiency
+                          - field: spell-attack-proficiency
                             label: "_{Proficiency}"
                             control: proficiency
-                          - span: "+"
-                          - field: class-dc-item-bonus
+                          - field: spell-attack-item-bonus
                             label: "_{Item}"
+
+                      - spacer:
+                      - calc:
+                        output:
+                          field: spell-dc
+                          legend: "Spell DC"
+                          underlay: "_{DC}"
+                          width: large
+                          icon: dc
+                          eq: '%{10+#{key-ability}}+%{level}+%{class-dc-item-bonus}'
+                        inputs:
+                          - span: "10+"
+                          - zone: '@key-ability-field'
+                            contents:
+                              - field:
+                                label: "_{Key Ability}"
+                                ref: key-ability
+                          - field: spell-dc-proficiency
+                            label: "_{Proficiency}"
+                            control: proficiency
+                          - field: spell-dc-item-bonus
+                            label: "_{Item}"
+
+                      - spacer:
 
                   - section: "Class features"
                     contents:
@@ -57,9 +103,9 @@ inc:
                         zebra: true
                         hr: true
                         contents:
-                          - repeat: 9
+                          - repeat: 8
                             contents:
-                              - level: ''
+                              - level: '_'
                                 contents:
                                   - article:
                                     header:
@@ -84,20 +130,19 @@ inc:
                   - section: "Subclass"
                     primary: true
                     contents:
-                      - field: subclass
-                        frame: none
-                        width: stretch
-                        align: center
-                        merge-bottom: true
-                        size: gargantuan
-                      - hr:
                       - list:
                         zebra: true
                         hr: true
                         contents:
-                          - repeat: 5
+                          - field: subclass
+                            frame: none
+                            width: stretch
+                            align: center
+                            merge-bottom: true
+                            size: gargantuan
+                          - repeat: 4
                             contents:
-                              - level: ''
+                              - level: '_'
                                 contents:
                                   - article:
                                     header:
@@ -113,7 +158,27 @@ inc:
                                         width: stretch
                                         frame: none
                                         merge-bottom: true
-                                        repeat: 3
+                                        repeat: 2
+
+                  - section: "Cantrips"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - spells-list:
+                            min: 0
+                            max: 0
+                            spells: 4
+
+                  - section: "Spells"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - spells-list:
+                            min: 1
+                            max: 4
+                            spells: 4
 
                   - section: "Class Feats"
                     contents:
@@ -147,4 +212,4 @@ inc:
                                       repeat: 2
                                 contents:
                   - tail:
-                  - spacer:
+                  # - spacer:

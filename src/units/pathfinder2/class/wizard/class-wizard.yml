@@ -1,26 +1,27 @@
 unit: class/wizard
 in: class
-group: "Core Rulebook"
-name: "Wizard"
+group: "_{Core Rulebook}"
+name: "_{Wizard}"
 
 form:
   - option: wizard-school
-    name: "Arcane School"
+    name: "_{Arcane School}"
     max: 1
   - option: wizard-thesis
-    name: "Arcane Thesis"
+    name: "_{Arcane Thesis}"
     max: 1
   - option: feat-wizard
-    name: "Wizard Feats"
+    name: "_{Wizard Feats}"
     max: 8
     levels: 
 
-requiere:
+require:
   - unit: weapon-spec/slow
+  - unit: option/spellbook
 
 inc:
   - set: class
-    value: "Wizard"
+    value: "_{Wizard}"
   - set: hp-class
     value: 6
   - set: perception-proficiency
@@ -31,28 +32,20 @@ inc:
     value: trained
   - set: will-proficiency
     value: expert
-  - set: Arcana-proficiency
+  - set: arcana-proficiency
     value: trained
-
-  - at: '@cover-class'
-    replace:
-      - h6: "Wizard"
-      - field: wizard-thesis
-        label: "Thesis"
-        width: stretch
-        align: left
 
   - at: '@key-ability-field'
     replace:
-      - field:
-        label: "INT"
-        underlay: "INT"
+      - field: key-ability
+        label: "_{INT}"
+        underlay: "_{INT}"
         ref: INT
 
   - at: '@pages'
     add:
       - page: wizard
-        name: "Wizard"
+        name: "_{Wizard}"
         order: 10
         contents:
           - layout: 2l
@@ -60,32 +53,32 @@ inc:
               - g:
                 contents:
                   - class-icon: wizard
-                  - h2: "Wizard"
-                  - section: "Thesis"
+                  - h2: "_{Wizard}"
+                  - section: "_{Thesis}"
                     primary: true
                     contents:
                       - field: thesis
                         size: large
                         width: stretch
                         align: left
-                        label: "Title"
+                        label: "_{Title}"
                         repeat: 3
                         merge-bottom: true
                       - hr:
                       - field: thesis-details
                         width: stretch
                         align: left
-                        label: "Abstract"
+                        label: "_{Abstract}"
                         repeat: 8
                         merge-bottom: true
 
-                  - section: "Specialisation"
+                  - section: "_{Specialisation}"
                     contents:
                       - field: wizard-school
-                        label: "School"
+                        label: "_{School}"
                         width: stretch
                         align: left
-                      - h4: "School Power"
+                      - h4: "_{School Power}"
                       - slots:
                         min: 1
                         max: 1
@@ -104,7 +97,8 @@ inc:
                               repeat: 2
                         contents:
                           - zone: '@wizard-school-power'
-                  - section: "Spells"
+
+                  - section: "_{Spells}"
                     contents:
                       - spells-table:
                         flip: true
@@ -128,40 +122,38 @@ inc:
                       #       marker: ""
                       #     - field: spells-#{level}-per-day
                       #       frame: none
-                  - section: "Arcane Focus"
+                  - section: "_{Arcane Focus}"
                     contents:
                       - field: wizard-arcane-focus-item
-                        label: "Focus Item"
+                        label: "_{Focus Item}"
                         width: stretch
                         align: left
                       - action: free
                         contents:
                           - article:
-                            header:
-                              - h4: "Drain Arcane Focus"
+                            title: "_{Drain Arcane Focus}"
                             contents:
-                              - p: "Expend the power stored in your arcane focus to cast one spell you prepared and cast today, without spending a spell slot."
+                              - p: "_{Expend the power stored in your arcane focus to cast one spell you prepared and cast today, without spending a spell slot.}"
 
-                      
                   - tail:
 
               - g:
                 contents:
-                  - section: "Cantrips"
+                  - section: "_{Cantrips}"
                     contents:
                       - spells-list:
                         min: 0
                         max: 0
                         spells: 5
 
-                  - section: "Spells"
+                  - section: "_{Spells}"
                     contents:
                       - spells-list:
                         min: 1
                         max: 9
                         spells: 4
 
-                  - section: "Wizard Feats"
+                  - section: "_{Wizard Feats}"
                     contents:
                       - list:
                         zebra: true

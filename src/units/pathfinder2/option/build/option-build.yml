@@ -31,7 +31,9 @@ inc:
                 valign: top
                 contents:
                   - h4: "_{Step One}"
-                  - p: "_{Pick your race and where your character comes from.}"
+                  - p: "_{Pick your race and heritage.}"
+                  - p: "_{CRB p33}"
+                    icon: book
               - section: "_{Ancestry}"
                 contents:
                   - g:
@@ -75,6 +77,8 @@ inc:
                 contents:
                   - h4: "_{Step Two}"
                   - p: "_{Decide how your character grew up.}"
+                  - p: "_{CRB p60}"
+                    icon: book
               - section: "_{Background}"
                 contents:
                   - layout: 2e
@@ -87,14 +91,19 @@ inc:
                         contents:
                           - icon: proficiency-trained
                           - field: build-background-skill
-                            label: "_{Skill bonus}"
+                            label: "_{Skill}"
                             align: left
-                      - g:
                       - level: 1
                         contents:
                           - field: build-background-skill-feat
                             label: "_{Skill feat}"
                             width: stretch
+                            align: left
+                      - row:
+                        contents:
+                          - icon: proficiency-trained
+                          - field: build-background-lore
+                            label: "_{Lore}"
                             align: left
 
               - g:
@@ -102,7 +111,10 @@ inc:
                 contents:
                   - h4: "_{Step Three}"
                   - p: "_{Pick from one of the available classes.}"
-                  - p: "_{You may need to pick a specialisation, such as a Sorcerer's bloodline or Cleric's domain.}"
+                  - p: "_{You may need to pick a subclass, such as a Sorcerer's bloodline or Cleric's doctrine.}"
+                  - p: "_{CRB p67}"
+                    icon: book
+                  - p: "_{If two sources give you training in the same skill, they don't add up. You may be able to spend the training elsewhere.}"
                   - spacer:
               - section: "_{Class}"
                 contents:
@@ -113,64 +125,102 @@ inc:
                           - field: build-class
                             label: "_{Class}"
                             width: stretch
-                            align: left
                       - row:
                         contents:
-                          # - field: build-class-level
-                          #   label: "Level"
-                          #   output: true
-                          #   underlay: 1
                           - field: build-class-hp
                             label: "_{Hit Points}"
                             icon: hp
                             overlay: "_{hp}"
+                            width: large
                           - field: build-class-key-ability
                             label: "_{Key Ability}"
-                            width: stretch
-                          # - spacer:
+                            width: huge
+                          - spacer:
+                          - field: build-class-level
+                            label: "Level"
+                            underlay: 1
+                            border: full
                       - field: build-class-specialisation
                         label: "_{Subclass}"
                         width: stretch
-                        align: left
-                      - row:
+                      - field: build-deity
+                        label: "_{Deity}"
+                        width: stretch
+                  - layout: 3e
+                    contents:
+                      - g:
+                        contents:
+                          - proficiency:
+                            content: "_{Fortitude}"
+                          - proficiency:
+                            content: "_{Reflex}"
+                          - proficiency:
+                            content: "_{Will}"
+                      - g:
                         contents:
                           - proficiency:
                             content: "_{Perception}"
-                  - h5: "_{Saving Throws}"
-                  - list:
-                    columns: 3
-                    contents:
-                      - proficiency:
-                        content: "_{Fortitude}"
-                      - proficiency:
-                        content: "_{Reflex}"
-                      - proficiency:
-                        content: "_{Will}"
-                  - h5: "_{Skills}"
-                  - list:
-                    columns: 3
-                    contents:
-                      - row:
-                        valign: middle
+                          - proficiency:
+                            content: "_{Class DC}"
+                          - proficiency:
+                            content: "_{Spell DC}"
+                      - g:
                         contents:
-                          - icon: proficiency
-                          - field: proficiency-skill-1
-                            frame: none
-                            width: stretch
-                      - row:
-                        valign: middle
-                        contents:
-                          - icon: proficiency
-                          - field: proficiency-skill-1
-                            frame: none
-                            width: stretch
-                      - row:
-                        valign: middle
-                        contents:
-                          - icon: proficiency
-                          - field: proficiency-skill-1
-                            frame: none
-                            width: stretch
+                          - row:
+                            valign: middle
+                            contents:
+                              - icon: proficiency
+                              - field: proficiency-skill-1
+                                frame: none
+                                width: stretch
+                          - row:
+                            valign: middle
+                            contents:
+                              - icon: proficiency
+                              - field: proficiency-skill-1
+                                frame: none
+                                width: stretch
+                          - row:
+                            valign: middle
+                            contents:
+                              - icon: proficiency
+                              - field: proficiency-skill-1
+                                frame: none
+                                width: stretch
+                  # - list:
+                  #   columns: 3
+                  #   contents:
+                  #     - proficiency:
+                  #       content: "_{Fortitude}"
+                  #     - proficiency:
+                  #       content: "_{Reflex}"
+                  #     - proficiency:
+                  #       content: "_{Will}"
+                  # - h5: "_{Skills}"
+                  # - list:
+                  #   columns: 3
+                  #   contents:
+                  #     - row:
+                  #       valign: middle
+                  #       contents:
+                  #         - icon: proficiency
+                  #         - field: proficiency-skill-1
+                  #           frame: none
+                  #           width: stretch
+                  #     - row:
+                  #       valign: middle
+                  #       contents:
+                  #         - icon: proficiency
+                  #         - field: proficiency-skill-1
+                  #           frame: none
+                  #           width: stretch
+                  #     - row:
+                  #       valign: middle
+                  #       contents:
+                  #         - icon: proficiency
+                  #         - field: proficiency-skill-1
+                  #           frame: none
+                  #           width: stretch
 
               - g:
                 valign: top
@@ -180,10 +230,10 @@ inc:
                   - ul:
                     contents:
                       - li: "_{Several +2 or -2 from your ancestry.}"
-                      - li: "_{Optionally, take a -2 flaw in two abilities to gain a +2 boost in one other. This may not take your ancestry bonus above +2 or below -2.}"
+                      - li: "_{Optionally, you may take a -2 flaw in two abilities to gain a +2 boost in one other. This may not take your ancestry bonus above +2 or below -2.}"
                       - li: "_{One +2 from your background.}"
                       - li: "_{Several +2 from your class.}"
-                      - li: "_{Free +2 to any four abilities.}"
+                      - li: "_{Free +2 to any FOUR abilities.}"
               - section: "_{Details}"
                 contents:
                   - table:
@@ -196,9 +246,10 @@ inc:
                       - "_{Ancestry}\n-2 / +2"
                       - "_{Background}\n+2"
                       - "_{Class}\n+2"
-                      - "_{Free}\n+2"
+                      - "_{4 Free}\n+2"
                       - ""
                       - "_{Ability\nScore}"
+                      - ""
                       - "_{Ability\nModifier}"
                       - "_{Key\nAbility}"
                     rows:
@@ -236,6 +287,7 @@ inc:
                         down: false
                       - span: "&rArr;"
                       - field: build-#{code}-score
+                      - span: "&rArr;"
                       - field: build-#{code}-modifier
                         icon: dc
                         border: full
@@ -362,7 +414,9 @@ inc:
                 valign: top
                 contents:
                   - h4: "_{Step Five}"
-                  - p: "_{Work out what your character owns at the start of the game, including clothes and weapons.}"
+                  - p: "_{Work out what your character owns, including clothes and weapons.}"
+                  - p: "_{CRB p271}"
+                    icon: book
                   - row:
                     layout: split
                     contents:
@@ -396,6 +450,8 @@ inc:
                         name: "_{Armour}"
                       - id: gear
                         name: "_{Gear}"
+                      - id: other
+                        name: "_{Other}"
                     template:
                       - h6: "#{name}"
                       - row:
@@ -406,4 +462,5 @@ inc:
                             control: money
                             denomination: silver
                             digits: 4
+                  - spacer:
                   - tail:

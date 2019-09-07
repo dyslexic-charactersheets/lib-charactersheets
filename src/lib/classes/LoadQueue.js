@@ -1,5 +1,7 @@
 const fs = require('fs');
 
+import { log, error } from '../log';
+
 export class LoadQueue {
   constructor() {
     this.promises = [];
@@ -36,7 +38,7 @@ export class LoadQueue {
 
   ready(callback) {
     Promise.all(this.promises).then(callback).catch(err => {
-      error("load", "Queue error", err, err.stack);
+      error("LoadQueue", "Queue error", err, err.stack);
     });
   }
 }

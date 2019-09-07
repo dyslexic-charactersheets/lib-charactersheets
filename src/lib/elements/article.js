@@ -1,5 +1,3 @@
-import * as _ from 'lodash';
-
 import { elementID, elementClass, isEmpty } from '../util';
 import { __ } from '../i18n';
 import { log } from '../log';

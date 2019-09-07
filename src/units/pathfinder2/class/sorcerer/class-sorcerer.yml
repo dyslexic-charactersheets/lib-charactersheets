@@ -1,0 +1,241 @@
+unit: class/sorcerer
+in: class
+group: "_{Core Rulebook}"
+name: "_{Sorcerer}"
+
+form:
+  - select: sorcerer/bloodline
+    name: "_{Sorcerer Bloodline}"
+    max: 1
+  - option: feat/sorcerer
+    name: "_{Sorcerer Feats}"
+    max: 8
+    levels: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+
+require:
+  - unit: weapon-spec/slow
+  - unit: option/spellbook
+
+inc:
+  - set: class
+    value: "_{Sorcerer}"
+  - set: hp-class
+    value: 6
+  - set: perception-proficiency
+    value: trained
+  - set: fortitude-proficiency
+    value: trained
+  - set: reflex-proficiency
+    value: trained
+  - set: will-proficiency
+    value: expert
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        advance: "_{Bloodline}"
+      - level: 3
+        advance: "_{Signature Spells}"
+      - level: 19
+        advance: "_{Bloodline Paragon}"
+      - levels: [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
+        spell-level: [ "_{1st}", "_{2nd}", "_{3rd}", "_{4th}", "_{5th}", "_{6th}", "_{7th}", "_{8th}", "_{9th}", "_{10th}" ]
+
+  - at: '@advancement-fields'
+    add:
+      - name: "_{Spell\nLevel}"
+        key: spell-level
+        format: string
+
+  - at: '@key-ability-field'
+    replace:
+      - field: key-ability
+        label: "_{CHA}"
+        underlay: "_{CHA}"
+        ref: CHA
+
+  - at: '@focus-points'
+    replace:
+      - field: focus-bloodline
+        label: "_{Bloodline}"
+        underlay: "1"
+
+  - at: '@pages'
+    add:
+      - page: sorcerer
+        name: "_{Sorcerer}"
+        order: 10
+        flex: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - zone: '@class-icon'
+                    contents:
+                      - class-icon: sorcerer
+
+                  - h2: "_{Sorcerer}"
+
+                  - section: "_{Bloodline}"
+                    primary: true
+                    contents:
+                      - zone: '@sorcerer-bloodline'
+                        contents:
+                          - field: sorcerer-bloodline
+                            size: large
+                            width: stretch
+                            legend: "_{Bloodline}"
+                            merge-bottom: true
+                      - hr:
+                      - field: spell-list
+                        label: "_{Spell List}"
+                        width: stretch
+                        merge-bottom: true
+
+                  - section: "_{Cantrips}"
+                    contents:
+                      - field: sorcerer-cantrips
+                        width: stretch
+                        frame: none
+                        repeat: 5
+                        merge-bottom: true
+
+                  - section: "_{Spells}"
+                    contents:
+                      - spells-table:
+                        spells-today: true
+                        expanded: "_{Signature Spell}"
+                      - p: "_{Signature spells can be heightened without learning separately.}"
+                      
+                  - section: "_{Bloodline Spells}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - zone: '@bloodline-spells'
+                            contents:
+                              - action: template
+                                contents:
+                                  - article:
+                                    lines: 3
+                              - selectable:
+                                contents:
+                                  - action: template
+                                    contents:
+                                      - h5: "_{Advanced}"
+                                      - article:
+                                        lines: 3
+                              - selectable:
+                                contents:
+                                  - action: template
+                                    contents:
+                                      - h5: "_{Greater}"
+                                      - article:
+                                        lines: 3
+
+                  - section: "_{Blood Magic}"
+                    contents:
+                      - zone: '@blood-magic'
+                        contents:
+                          - field: blood-magic
+                            frame: none
+                            repeat: 3
+                            width: stretch
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+
+                  - section: "_{Spells}"
+                    flex: huge
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          
+                          - row:
+                            flex: large
+                            contents:
+                              - calc:
+                                output:
+                                  field: spell-attack
+                                  legend: "Spell Attack"
+                                  width: large
+                                  icon: bonus
+                                  eq: '%{#{key-ability}}+%{level}+%{class-dc-item-bonus}'
+                                inputs:
+                                  - zone: '@key-ability-field'
+                                    contents:
+                                      - field:
+                                        label: "_{Key Ability}"
+                                        ref: key-ability
+                                  - field: spell-attack-proficiency
+                                    label: "_{Proficiency}"
+                                    control: proficiency
+                                  # - field: spell-attack-item-bonus
+                                  #   label: "_{Item}"
+
+                              - calc:
+                                output:
+                                  field: spell-dc
+                                  legend: "Spell DC"
+                                  underlay: "_{DC}"
+                                  width: large
+                                  icon: dc
+                                  eq: '%{10+#{key-ability}}+%{level}+%{class-dc-item-bonus}'
+                                inputs:
+                                  - span: "10+"
+                                  - zone: '@key-ability-field'
+                                    contents:
+                                      - field:
+                                        label: "_{Key Ability}"
+                                        ref: key-ability
+                                  - field: spell-dc-proficiency
+                                    label: "_{Proficiency}"
+                                    control: proficiency
+                                  # - field: spell-dc-item-bonus
+                                  #   label: "_{Item}"
+
+                          - spells-list:
+                            min: 1
+                            max: 9
+                            spells: 5
+                            style: spontaneous
+                            special: "_{Bloodline}"
+                            flex: huge
+                          - spells-list:
+                            min: 10
+                            max: 10
+                            spells: 2
+                            style: spontaneous
+                            flex: tiny
+
+                  - section: "_{Sorcerer Feats}"
+                    contents:
+                      - list:
+                        zebra: true
+                        columns: 2
+                        flowv: true
+                        hr: true
+                        contents:
+                          - each:
+                            template:
+                              - level: "#{level}"
+                                contents:
+                                  - item:
+                            contents:
+                              - slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                                min: 1
+                                max: 1
+                                placeholder:
+                                  article: sorcerer-feat-level-#{level}
+                                  lines: 2
+                                contents:
+                                  - zone: '@sorcerer-feats'
+                  - tail:
+
+

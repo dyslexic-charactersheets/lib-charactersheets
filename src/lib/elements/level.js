@@ -47,6 +47,9 @@ export let level_marker = {
         if (level == "") {
             return `<div class='level-marker'></div>`;
         }
+        if (level == "_") {
+          level = "&nbsp;";
+        }
         var marker = args.marker ? `<label>${__(args.marker, doc)}</label>` : '';
         return `<div class='level-marker'>${marker}<div class='level-marker__level'>${__(level, doc)}</div></div>`;
     }

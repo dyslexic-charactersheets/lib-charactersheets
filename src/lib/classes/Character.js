@@ -268,6 +268,9 @@ export class Character {
         if (this.data.printLarge) {
           document.largePrint = true;
         }
+        if (this.data.printHighContrast) {
+          document.highContrast = true;
+        }
 
         // Load assets
         if (this.data.favicon) {
@@ -295,9 +298,20 @@ export class Character {
         }
 
         if (this.data.printBackground) {
-          this.getAsset(this.data.printBackground, dataURL => {
-            document.backgroundURL = dataURL;
-          });
+          var printBackground = this.data.printBackground;
+          log("Character", "Background:", printBackground);
+          var bgColours = {
+            magnolia: '#F4E9D8',
+          };
+          if (has(bgColours, printBackground)) {
+            document.backgroundColour = bgColours[printBackground];
+          } else if (printBackground.match(/(#[A-Za-z0-9]{6}|rgb\([0-9]+,[0-9]+,[0-9]+\))/)) {
+            document.backgroundColour = printBackground;   
+          } else {
+            this.getAsset(printBackground, dataURL => {
+              document.backgroundURL = dataURL;
+            });
+          }
         }
 
         // TODO set character parameters
@@ -315,7 +329,7 @@ export class Character {
           // log("Character", "Checking for required units");
           var moreunits = [];
           var unitIds = units.map(unit => unit.id);
-          log("Character", "Unit IDs:", unitIds);
+          // log("Character", "Unit IDs:", unitIds);
           units.forEach(unit => {
             if (has(unit, "require")) {
               unit.require.forEach(req => {

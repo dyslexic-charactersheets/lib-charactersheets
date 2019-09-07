@@ -26,7 +26,7 @@ import { logelem } from '../elements/log';
 import { logo } from '../elements/logo';
 import { nothing } from '../elements/nothing';
 import { page } from '../elements/page';
-import { p, ul, li } from '../elements/p';
+import { p, ul, li, dl } from '../elements/p';
 import { portrait } from '../elements/portrait';
 import { proficiency, action, selectable } from '../elements/proficiency';
 import { repeat } from '../elements/repeat';
@@ -99,7 +99,7 @@ export class Registry {
       logo,
       nothing,
       page,
-      p, ul, li,
+      p, ul, li, dl,
       portrait,
       proficiency, action, selectable,
       repeat,

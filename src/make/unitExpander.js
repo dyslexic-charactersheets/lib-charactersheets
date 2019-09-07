@@ -35,6 +35,7 @@ var expansion = {
     p: 'content',
     ul: '',
     li: 'content',
+    dl: '',
     page: 'id',
     proficiency: 'proficiency',
     action: 'action',
