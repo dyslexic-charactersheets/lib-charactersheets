@@ -52,7 +52,7 @@ export function renderTableFlipped(args, reg, doc, headings, cols) {
     var th = '';
     if (hasHeading) {
       var head = row.shift();
-      var rowspan = head.rowspan > 1 ? ` rowspan="${head.rowspan}"` : '';
+      var rowspan = (has(head, "rowspan") && head.rowspan > 1) ? ` rowspan="${head.rowspan}"` : '';
       var th = `<th scope="row"${rowspan}>${isNull(head) ? '' : reg.renderItem(head, doc)}</th>`;
     }
 

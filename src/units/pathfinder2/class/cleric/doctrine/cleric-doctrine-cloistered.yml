@@ -1,0 +1,55 @@
+unit: cleric/doctrine/cloistered
+in: cleric/doctrine
+group: "_{Core Rulebook}"
+name: "_{Cloistered Cleric}"
+
+inc:
+  - set: cleric-doctrine
+    value: "_{Cloistered Cleric}"
+
+  - at: '@cleric-doctrine'
+    replace:
+      - h4: "_{Cloistered Cleric}"
+      - g:
+        contents:
+          - h5: "_{Domain Initiate}"
+          - layout: indent-lr
+            contents:
+              - g:
+              - row:
+                contents:
+                  - field: domain
+                    width: stretch
+                    label: "_{Domain}"
+                  - field: domain-spell
+                    label: "_{Domain Spell}"
+                    width: stretch
+              - level-marker:
+                level: "1"
+                marker: "Focus"
+
+      - level: 11
+        contents:
+          - p: "_{Gain the critical specialisation effect for your deity's favoured weapon. Use your divine spell DC if necessary.}"
+          - layout: indent-r
+            contents:
+              - row:
+                contents:
+                  - field: cleric-deity-weapon
+                    label: "_{Favoured Weapon}"
+                    width: stretch
+                  - field: cleric-deity-weapon-critical
+                    label: "_{Critical Effect}"
+                    width: stretch
+              - g:
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        advance: "_{Domain}"
+
+  - at: '@focus-points'
+    replace:
+      - field: focus-domain
+        label: "_{Domain}"
+        underlay: "1"

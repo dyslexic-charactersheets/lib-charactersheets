@@ -52,7 +52,7 @@ var expansion = {
     'spells-list2': '',
     table: '',
     tail: '',
-    define: 'template',
+    copy: 'template',
     paste: 'template',
     unit: 'id',
     vr: '',
@@ -91,6 +91,11 @@ function expandObjectKV(kv) {
 
     if (objtype == 'at') {
         object = { 'at': value };
+        return expandValues(object, kv);
+    }
+
+    if (objtype == 'copy') {
+        object = { 'copy': value };
         return expandValues(object, kv);
     }
 

@@ -99,9 +99,10 @@ export class Document {
 
     if (has(unit, "inc")) {
       unit.inc.forEach(include => {
-        let key = Object.keys(include)[0];
+        let directive = Object.keys(include)[0];
+        // log("Document", "Incorporating directive:", directive);
 
-        switch (key) {
+        switch (directive) {
           case 'at':
             if (has(include, "add"))
               this.addAtZone(include.at, include.add, false);
@@ -113,6 +114,14 @@ export class Document {
             if (!has(this.vars, include.set))
               this.vars[include.set] = [];
             this.vars[include.set].push(include);
+            break;
+          
+          case 'copy':
+            // log("Document", "Copy template:", include.copy);
+            this.templates[include.copy] = {
+              params: include.params,
+              contents: include.contents,
+            };
             break;
         }
       });

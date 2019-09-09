@@ -639,11 +639,11 @@
                     },
                     {
                       "type": "li",
-                      "content": "_{Optionally, you may take a -2 flaw in two abilities to gain a +2 boost in one other. This may not take your ancestry bonus above +2 or below -2.}"
+                      "content": "_{Optionally, take a -2 flaw in two abilities to gain a +2 boost in one other. This may not take your ancestry bonus above +2 or below -2.}"
                     },
                     {
                       "type": "li",
-                      "content": "_{One +2 from your background.}"
+                      "content": "_{Two +2 from your background, one a free choice.}"
                     },
                     {
                       "type": "li",
@@ -1048,7 +1048,7 @@
                 },
                 {
                   "type": "p",
-                  "content": "_{Work out what your character owns, including clothes and weapons.}"
+                  "content": "_{Work out what your character owns.}"
                 },
                 {
                   "type": "p",
@@ -1108,7 +1108,7 @@
                     },
                     {
                       "id": "armour",
-                      "name": "_{Armour}"
+                      "name": "_{Armour & Clothes}"
                     },
                     {
                       "id": "gear",
@@ -2035,13 +2035,12 @@
                             {
                               "ancestry-feat": true,
                               "skill-increase": true,
-                              "ability-boost": true,
                               "skill-feat": true,
                               "sneak-attack": "_{2d6}",
                               "proficiency": "expert",
                               "in": "_{Simple weapons, rapier, sap, shortbow, shortsword}",
                               "level": 5,
-                              "advance": ""
+                              "advance": "_{Ability boost}"
                             },
                             {
                               "class-feat": true,
@@ -2055,7 +2054,7 @@
                               "skill-increase": true,
                               "skill-feat": true,
                               "level": 7,
-                              "advance": "_{Master in skills}"
+                              "advance": "_{Master in skills}, _{Weapon Specialisation}"
                             },
                             {
                               "class-feat": true,
@@ -2074,10 +2073,9 @@
                             {
                               "class-feat": true,
                               "skill-feat": true,
-                              "ability-boost": true,
                               "skill-increase": true,
                               "level": 10,
-                              "advance": ""
+                              "advance": "_{Ability boost}"
                             },
                             {
                               "general-feat": true,
@@ -2111,10 +2109,9 @@
                             {
                               "general-feat": true,
                               "skill-increase": true,
-                              "ability-boost": true,
                               "skill-feat": true,
                               "level": 15,
-                              "advance": "_{Legendary in skills}"
+                              "advance": "_{Ability boost}, _{Legendary in skills}, _{Greater Weapon Specialisation}"
                             },
                             {
                               "class-feat": true,
@@ -2148,10 +2145,9 @@
                             {
                               "class-feat": true,
                               "skill-feat": true,
-                              "ability-boost": true,
                               "skill-increase": true,
                               "level": 20,
-                              "advance": "_{Master Strike}"
+                              "advance": "_{Ability boost}, _{Master Strike}"
                             }
                           ],
                           "columns": [
@@ -2207,13 +2203,6 @@
                               "align": "center",
                               "valign": "bottom",
                               "shade": false
-                            },
-                            {
-                              "type": "label",
-                              "label": "_{Ability\nboost}",
-                              "align": "center",
-                              "valign": "bottom",
-                              "shade": true
                             }
                           ],
                           "template": [
@@ -2276,15 +2265,6 @@
                               "width": "small",
                               "exists": "#{skill-increase}",
                               "shade": false
-                            },
-                            {
-                              "type": "field",
-                              "id": "advancement-#{level}-ability-boost",
-                              "frame": "none",
-                              "control": "checkbox",
-                              "width": "small",
-                              "exists": "#{ability-boost}",
-                              "shade": true
                             }
                           ]
                         }
@@ -4555,45 +4535,38 @@
                   "title": "_{Focus}",
                   "contents": [
                     {
-                      "type": "calc",
-                      "output": {
-                        "type": "field",
-                        "id": "focus",
-                        "overlay": "_{pts}",
-                        "width": "huge",
-                        "legend": "_{Focus Points}"
-                      },
-                      "inputs": [
-                        {
-                          "type": "field",
-                          "id": "focus-base",
-                          "label": "_{Class}"
-                        },
-                        {
-                          "type": "span",
-                          "content": "+"
-                        },
-                        {
-                          "type": "field",
-                          "id": "focus-misc",
-                          "label": "_{Misc}",
-                          "misc": true
-                        }
-                      ]
-                    },
-                    {
                       "type": "row",
                       "layout": null,
                       "contents": [
                         {
-                          "type": "field",
-                          "id": "current-focus",
-                          "temp": true,
-                          "label": "_{Current Focus Points}",
-                          "align": "center",
-                          "width": "stretch",
-                          "border": "full",
-                          "overlay": "_{pts}"
+                          "type": "calc",
+                          "output": {
+                            "type": "field",
+                            "id": "focus",
+                            "overlay": "_{pts}",
+                            "width": "huge",
+                            "legend": "_{Focus Points}"
+                          },
+                          "inputs": [
+                            {
+                              "type": "field",
+                              "id": "focus-base",
+                              "label": "_{Class}"
+                            },
+                            {
+                              "type": "span",
+                              "content": "+"
+                            },
+                            {
+                              "type": "field",
+                              "id": "focus-misc",
+                              "label": "_{Misc}",
+                              "misc": true
+                            }
+                          ]
+                        },
+                        {
+                          "type": "spacer"
                         },
                         {
                           "type": "field",
@@ -4603,6 +4576,50 @@
                           "width": "large",
                           "prefix": "+",
                           "underlay": "1",
+                          "overlay": "_{pts}"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "row",
+                      "layout": null,
+                      "contents": [
+                        {
+                          "type": "calc",
+                          "output": {
+                            "type": "field",
+                            "id": "focus-level",
+                            "legend": "_{Focus\nLevel}",
+                            "width": "large"
+                          },
+                          "inputs": [
+                            {
+                              "type": "field",
+                              "id": null,
+                              "ref": "level",
+                              "label": "_{Level}"
+                            },
+                            {
+                              "type": "span",
+                              "content": "&divide; 2"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "label",
+                          "label": "_{(Round\nup)}"
+                        },
+                        {
+                          "type": "spacer"
+                        },
+                        {
+                          "type": "field",
+                          "id": "current-focus",
+                          "temp": true,
+                          "label": "_{Current Focus Points}",
+                          "align": "center",
+                          "width": "huge",
+                          "border": "full",
                           "overlay": "_{pts}"
                         }
                       ]
@@ -5062,6 +5079,7 @@
                             {
                               "type": "row",
                               "layout": null,
+                              "flex": "huge",
                               "contents": [
                                 {
                                   "type": "field",
@@ -5074,12 +5092,18 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": "attack-1-details",
+                                  "id": "attack-1-critical",
                                   "frame": "annotation",
                                   "label": "Critical",
                                   "width": "stretch",
-                                  "align": "left",
+                                  "align": "right",
                                   "merge-bottom": true
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-1-critical-unlocked",
+                                  "frame": "none",
+                                  "control": "checkbox"
                                 }
                               ]
                             }
@@ -5190,6 +5214,7 @@
                             {
                               "type": "row",
                               "layout": null,
+                              "flex": "huge",
                               "contents": [
                                 {
                                   "type": "field",
@@ -5202,12 +5227,18 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": "attack-2-details",
+                                  "id": "attack-2-critical",
                                   "frame": "annotation",
                                   "label": "Critical",
                                   "width": "stretch",
-                                  "align": "left",
+                                  "align": "right",
                                   "merge-bottom": true
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-2-critical-unlocked",
+                                  "frame": "none",
+                                  "control": "checkbox"
                                 }
                               ]
                             }
@@ -5318,6 +5349,7 @@
                             {
                               "type": "row",
                               "layout": null,
+                              "flex": "huge",
                               "contents": [
                                 {
                                   "type": "field",
@@ -5330,12 +5362,18 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": "attack-3-details",
+                                  "id": "attack-3-critical",
                                   "frame": "annotation",
                                   "label": "Critical",
                                   "width": "stretch",
-                                  "align": "left",
+                                  "align": "right",
                                   "merge-bottom": true
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-3-critical-unlocked",
+                                  "frame": "none",
+                                  "control": "checkbox"
                                 }
                               ]
                             }
@@ -5446,6 +5484,7 @@
                             {
                               "type": "row",
                               "layout": null,
+                              "flex": "huge",
                               "contents": [
                                 {
                                   "type": "field",
@@ -5458,12 +5497,18 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": "attack-4-details",
+                                  "id": "attack-4-critical",
                                   "frame": "annotation",
                                   "label": "Critical",
                                   "width": "stretch",
-                                  "align": "left",
+                                  "align": "right",
                                   "merge-bottom": true
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-4-critical-unlocked",
+                                  "frame": "none",
+                                  "control": "checkbox"
                                 }
                               ]
                             }
@@ -5785,8 +5830,15 @@
                               "id": "ac-conditional-#{i}",
                               "frame": "none",
                               "width": "stretch"
+                            },
+                            {
+                              "type": "field",
+                              "id": "ac-conditional-#{i}",
+                              "frame": "none",
+                              "width": "stretch"
                             }
-                          ]
+                          ],
+                          "merge-bottom": true
                         },
                         {
                           "type": "g",
@@ -5873,7 +5925,7 @@
                                                   "contents": [
                                                     {
                                                       "type": "p",
-                                                      "content": "_{Raise shield}"
+                                                      "content": "_{Shield block}"
                                                     }
                                                   ]
                                                 }
@@ -5883,8 +5935,16 @@
                                         },
                                         {
                                           "type": "field",
+                                          "id": "shield-hardness",
+                                          "label": "_{Hardness}",
+                                          "border": "full",
+                                          "overlay": "_{hp}",
+                                          "width": "large"
+                                        },
+                                        {
+                                          "type": "field",
                                           "id": "shield-hp",
-                                          "label": "_{Shield Hit Points}",
+                                          "label": "_{Shield Health}",
                                           "border": "full",
                                           "temp": true,
                                           "overlay": "_{hp}",
@@ -5895,6 +5955,10 @@
                                   ]
                                 }
                               ]
+                            },
+                            {
+                              "type": "p",
+                              "content": "_{Deduct hardness, then apply remaining damage to both shield and yourself.}"
                             }
                           ]
                         }
@@ -6481,11 +6545,11 @@
                       "output": {
                         "type": "field",
                         "id": "class-dc",
-                        "legend": "Rogue\nClass DC",
+                        "legend": "_{Rogue\nClass DC}",
                         "underlay": "_{DC}",
                         "width": "large",
                         "icon": "dc",
-                        "eq": "%{#{key-ability}}+%{level}+%{class-dc-item-bonus}"
+                        "eq": "10+'%{#{key-ability}}+%{level}+%{class-dc-item-bonus}'"
                       },
                       "inputs": [
                         {
@@ -6507,15 +6571,6 @@
                           "id": "class-dc-proficiency",
                           "label": "_{Proficiency}",
                           "control": "proficiency"
-                        },
-                        {
-                          "type": "span",
-                          "content": "+"
-                        },
-                        {
-                          "type": "field",
-                          "id": "class-dc-item-bonus",
-                          "label": "_{Item}"
                         }
                       ]
                     }

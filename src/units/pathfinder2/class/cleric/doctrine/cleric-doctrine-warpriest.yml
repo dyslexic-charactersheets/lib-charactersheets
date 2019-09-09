@@ -1,0 +1,51 @@
+unit: cleric/doctrine/warpriest
+in: cleric/doctrine
+group: "_{Core Rulebook}"
+name: "_{Warpriest}"
+
+inc:
+  - set: cleric-doctrine
+    value: "_{Warpriest}"
+
+  - at: '@cleric-doctrine'
+    replace:
+      - h4: "_{Warpriest}"
+      - g:
+        contents:
+          # - h5: "_{Deadly Simplicity}"
+          - p: "_{Increase the damage die of your deity's favoured weapon by one step (at least d6).}"
+          - layout: indent-l
+            contents:
+              - g:
+              - row:
+                contents:
+                  - field: cleric-deity-weapon
+                    label: "_{Favoured Weapon}"
+                    width: stretch
+                  - field: cleric-deity-weapon-die
+                    label: "_{Weapon die}"
+                    border: full
+                    prefix: "_{d}"
+                    width: large
+      - level: 7
+        contents:
+          - p: "_{Gain the critical specialisation effect for your deity's favoured weapon. Use your divine spell DC if necessary.}"
+          - row:
+            contents:
+              - field: cleric-deity-weapon-critical
+                label: "_{Critical Effect}"
+                width: stretch
+
+  - at: '@saving-throws'
+    add:
+      - level: 15
+        contents:
+          - p: "_{Upgraded success at Fortitude saves.}"
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        advance: "_{Deadly simplicity}"
+      - level: 1
+        advance: "_{Shield block}"
+

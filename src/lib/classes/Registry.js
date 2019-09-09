@@ -38,7 +38,7 @@ import { span } from '../elements/span';
 import { spells_list, spells_table } from '../elements/spells-list';
 import { spells_list2 } from '../elements/spells-list2';
 import { table } from '../elements/table';
-import { define, paste } from '../elements/template';
+import { copy, paste } from '../elements/template';
 import { zone } from '../elements/zone';
 
 import { field } from '../elements/field';
@@ -53,6 +53,7 @@ import {
 } from '../elements/field-frame';
 import {
   field_control_input,
+  field_control_value,
   field_control_speed,
   field_control_alignment,
   field_control_boost,
@@ -112,7 +113,7 @@ export class Registry {
       spells_table,
       spells_list2,
       table,
-      define, paste,
+      copy, paste,
       unit,
       zone,
 
@@ -125,6 +126,7 @@ export class Registry {
       field_frame_annotation,
       field_frame_circle,
       field_control_input,
+      field_control_value,
       field_control_speed,
       field_control_alignment,
       field_control_boost,
@@ -229,6 +231,11 @@ export function mergeBottom(element) {
     switch (element.type) {
       // horizontal elements don't
       case 'calc':
+        element.inputs.forEach(e => {
+          e['merge-bottom'] = true;
+        });
+        break;
+
       case 'row':
         element.contents.forEach(e => {
           e['merge-bottom'] = true;

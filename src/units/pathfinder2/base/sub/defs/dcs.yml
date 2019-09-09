@@ -1,0 +1,83 @@
+unit: defs/dcs
+
+inc:
+  - copy: class-dc
+    params:
+      id: class-dc
+      legend: "_{Class DC}"
+    contents:
+      - calc:
+        output:
+          field: "#{id}"
+          legend: "#{legend}"
+          underlay: "_{DC}"
+          width: large
+          icon: dc
+          eq: 10+'%{#{key-ability}}+%{level}+%{#{id}-item-bonus}'
+        inputs:
+          - span: 10+
+          - zone: '@key-ability-field'
+            contents:
+              - field:
+                label: "_{Key\nAbility}"
+                ref: key-ability
+          - span: "+"
+          - field: "#{id}-proficiency"
+            label: "_{Proficiency}"
+            control: proficiency
+          # - span: "+"
+          # - field: "#{id}-item-bonus"
+          #   label: "_{Item}"
+
+  - copy: spell-attack
+    params:
+      id: spell-attack
+      legend: "_{Spell Attack}"
+    contents:
+      - calc:
+        output:
+          field: "#{id}"
+          legend: "#{legend}"
+          underlay: "_{DC}"
+          width: large
+          icon: dc
+          eq: '%{#{key-ability}}+%{level}+%{#{id}-item-bonus}'
+        inputs:
+          - zone: '@key-ability-field'
+            contents:
+              - field:
+                label: "_{Key\nAbility}"
+                ref: key-ability
+          - span: "+"
+          - field: "#{id}-proficiency"
+            label: "_{Proficiency}"
+            control: proficiency
+          - span: "+"
+          - field: "#{id}-misc"
+            label: "_{Misc}"
+            misc: true
+
+  - copy: spell-dc
+    params:
+      id: spell-dc
+      legend: "_{Spell Save DC}"
+    contents:
+      - calc:
+        output:
+          field: "#{id}"
+          legend: "#{legend}"
+          underlay: "_{DC}"
+          width: large
+          icon: dc
+          eq: '10+%{#{key-ability}}+%{level}+%{#{id}-item-bonus}'
+        inputs:
+          - span: 10+
+          - zone: '@key-ability-field'
+            contents:
+              - field:
+                label: "_{Key\nAbility}"
+                ref: key-ability
+          - span: "+"
+          - field: "#{id}-proficiency"
+            label: "_{Proficiency}"
+            control: proficiency

@@ -12,7 +12,7 @@ export let row = {
     },
     render: (args, reg, doc) => {
         args.lp = getLabelHeight(args);
-        var cls = elementClass('row', null, args, [ 'unlabelled', 'narrow' ], { 'layout': 'left', 'valign': 'bottom', 'lp': '' });
+        var cls = elementClass('row', null, args, [ 'unlabelled', 'narrow' ], { 'layout': 'left', 'valign': 'bottom', 'lp': '', 'flex': 'medium' });
         return `<div${cls}><div class='row__inner'>${reg.render(args.contents, doc)}</div></div>`;
     }
 }

@@ -1,0 +1,62 @@
+unit: druid/order/animal
+in: druid/order
+name: "_{Animal Order}"
+
+inc:
+  - set: athletics-proficiency
+    value: trained
+
+  - at: '@druid-order'
+    replace:
+      - h4: "_{Animal Order}"
+      - g:
+        contents:
+          - h5: "_{Order Feat}"
+          - article:
+            title: "_{Animal Companion}"
+            content: "_{You gain a young animal companion.}"
+      - g:
+        contents:
+          - h5: "_{Order Power}"
+          - article:
+            title: "_{Heal Animal}"
+            contents:
+              - list:
+                hr: true
+                contents:
+                  - action: 1
+                    contents:
+                      - p: "_{Touch one creature}"
+                      - calc:
+                        output:
+                          field: druid-heal-animal-1-healing
+                          legend: "Healing"
+                          overlay: "d8"
+                          width: large
+
+                        inputs:
+                          - field: 
+                            label: "_{Foxus\nLevel}"
+                  - action: 2
+                    contents:
+                      - p: "_{One creature within 30ft}"
+                      - calc:
+                        output:
+                          field: druid-heal-animal-2-healing
+                          legend: "Healing"
+                          width: gargantuan
+                          control: compound
+                          parts:
+                            - field: druid-heal-animal-2-healing-dice
+                            - span: "d8 +"
+                            - field: druid-heal-animal-2-healing-bonus
+
+                        inputs:
+                          - field: 
+                            label: "_{Focus\nLevel}"
+
+
+  - at: '@anathema'
+    replace:
+      - li: "_{Committing wanton cruelty to animals}"
+      - li: "_{Killing animals unnecessarily}"

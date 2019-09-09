@@ -1,19 +1,43 @@
+import { has, cloneDeep, interpolate, isEmpty } from "../util";
+import { log, warn } from "../log";
+
 export let paste = {
-    name: 'paste',
-    key: 'template',
-    defaults: {
-        params: {}
-    }, 
-    render: args => ''
+  name: 'paste',
+  key: 'template',
+  defaults: {
+    template: '',
+    params: {}
+  },
+  transform: (args, ctx) => {
+    // log("template", "Paste template:", args.template);
+    if (!has(ctx.templates, args.template))
+      return [];
+
+    var template = ctx.templates[args.template];
+    if (isEmpty(template))
+      return [];
+
+    var params = Object.assign({}, template.params, args.params);
+    var contents = cloneDeep(template.contents);
+    contents = interpolate(contents, params);
+    return contents;
+  }
 }
 
-export let define = {
-    name: 'define',
-    key: 'template', 
-    defaults: {
-        template: '',
-        params: {},
-        contents: [],
-    }, 
-    render: args => ''
+export let copy = {
+  name: 'copy',
+  key: 'template',
+  defaults: {
+    template: '',
+    params: {},
+    contents: [],
+  },
+  transform: (args, ctx) => {
+    // log("template", "Copy template:", args.template);
+    ctx.templates[args.template] = {
+      params: args.params,
+      contents: args.contents,
+    }
+    return [];
+  }
 }

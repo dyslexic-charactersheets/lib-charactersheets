@@ -1,0 +1,58 @@
+unit: druid/order/leaf
+in: druid/order
+name: "_{Leaf Order}"
+
+inc:
+  - set: diplomacy-proficiency
+    value: trained
+
+  - at: '@druid-order'
+    replace:
+      - h4: "_{Leaf Order}"
+      - g:
+        contents:
+          - h5: "_{Order Feat}"
+          - article:
+            title: "_{Leshy Familiar}"
+            content: "_{You gain a leshy familiar, a Tiny plant that embodies one of the many spirits of nature.}"
+      - g:
+        contents:
+          - h5: "_{Order Power}"
+          - article:
+            title: "_{Goodberry}"
+            contents:
+              - layout: indent-r
+                contents:
+                  - g:
+                    contents:
+                      - p: "_{Imbue berries with healing.}"
+                      - row:
+                        contents:
+                          - calc:
+                            output:
+                              field: goodberry-berries
+                              legend: "_{Berries}"
+                              width: large
+                            inputs:
+                              - field: 
+                                label: "_{Focus\nLevel}"
+
+                          - spacer:
+                          - field: goodberry-healing
+                            label: "Healing"
+                            control: value
+                            value: "_{1d8}+5"
+                            width: large
+                  - level-marker:
+                    level: 1
+                    marker: "_{Focus}"
+
+  - at: '@focus-points'
+    replace:
+      - field: druid-leaf-goodberry-focus
+        label: "_{Leaf\nOrder}"
+
+  - at: '@anathema'
+    replace:
+      - li: "_{Committing wanton cruelty to plants}"
+      - li: "_{Killing plants unnecessarily}"

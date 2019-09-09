@@ -87,6 +87,29 @@ function spellLevel(lvl, ord, style, slots, special) {
   }
 
   // full level
+  if (ord == "") {
+    return {
+      type: "layout",
+      layout: "2e",
+      narrow: true,
+      contents: [
+        {
+          type: "list",
+          collapse: true,
+          "merge-bottom": true,
+          contents: left
+        },
+        {
+          type: "list",
+          collapse: true,
+          "merge-bottom": true,
+          marker: '',
+          contents: right
+        }
+      ]
+    };
+  }
+
   return {
     type: "layout",
     layout: "spells-list",
@@ -192,6 +215,7 @@ export let spells_table = {
     'expanded': false,
     ordinal: true,
     flip: false,
+    'merge-bottom': true,
   },
   transform: args => {
     // log("-","[spells] Expanding spells table:", args);
@@ -202,7 +226,7 @@ export let spells_table = {
 
     // Rows
     for (var lvl = args.min; lvl <= args.max; lvl++) {
-      var ord = args.ordinal ? ordinal(lvl) : lvl;
+      var ord = (args.ordinal && !args.flip) ? ordinal(lvl) : lvl;
       rows.push({ level: lvl, ordinal: ord });
     }
 
@@ -220,8 +244,10 @@ export let spells_table = {
       template.push({
         type: "field",
         id: "spells-#{level}-per-day",
-        border: "full",
-        frame: "none"
+        border: args.flip ? (args['merge-bottom'] ? "right" : "bottom-right") : "full",
+        frame: "none",
+        width: args.flip ? "small" : "medium",
+        'merge-right': true,
       });
     }
 
@@ -246,11 +272,15 @@ export let spells_table = {
       });
     }
 
+    if (args.flip) {
+      columns = [];
+    }
+
     var table = {
       type: "table",
       width: "stretch",
       collapse: true,
-      // flip: args.flip,
+      flip: args.flip,
       rows: rows,
       columns: columns,
       template: template

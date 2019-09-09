@@ -198,12 +198,37 @@ export function toTitleCase(str) {
 }
 
 export function clone(original) {
+  if (isNull(original)) {
+    return null;
+  }
   if (isArray(original)) {
     return Array.from(original);
   }
   if (isObject(original)) {
     return Object.assign({}, original);
   }
+  return original;
+}
+
+export function cloneDeep(original) {
+  if (isNull(original)) {
+    return null;
+  }
+
+  if (isArray(original)) {
+    var product = new Array(original.length);
+    for (var i = 0; i < original.length; i++) {
+      product[i] = cloneDeep(original[i]);
+    }
+  }
+
+  if (isObject(original)) {
+    var product = {};
+    Object.keys(original).forEach(key => {
+      product[key] = cloneDeep(original[key]);
+    })
+  }
+
   return original;
 }
 

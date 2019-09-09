@@ -31,6 +31,7 @@ form:
     default: half
 
 require:
+  - unit: defs/dcs
   - with: high-contrast
     unit: pathfinder2/high-contrast
   - with: large-print
@@ -334,7 +335,7 @@ inc:
                               - levels: [ 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
                                 skill-increase: true
                               - levels: [ 5, 10, 15, 20 ]
-                                ability-boost: true
+                                advance: "_{Ability boost}"
                               - level: 7
                                 advance: "_{Master in skills}"
                               - level: 15
@@ -352,8 +353,8 @@ inc:
                                 key: skill-feat
                               - name: "_{Skill\nincrease}"
                                 key: skill-increase
-                              - name: "_{Ability\nboost}"
-                                key: ability-boost
+                              # - name: "_{Ability\nboost}"
+                              #   key: ability-boost
 
                   - tail:
                   - spacer:
@@ -733,38 +734,55 @@ inc:
 
                   - section: "_{Focus}"
                     contents:
-                      - calc:
-                        output:
-                          field: focus
-                          overlay: "_{pts}"
-                          width: huge
-                          legend: "_{Focus Points}"
-                        inputs:
-                          - join: '+'
-                            contents:
-                              - zone: '@focus-points'
-                                contents:
-                                  - field: focus-base
-                                    label: "_{Class}"
-                              - field: focus-misc
-                                label: "_{Misc}"
-                                misc: true
-                      # - p: "Maximum focus: 3"
                       - row:
                         contents:
-                          - field: current-focus
-                            temp: true
-                            label: "_{Current Focus Points}"
-                            align: center
-                            width: stretch
-                            border: full
-                            overlay: "_{pts}"
+                          - calc:
+                            output:
+                              field: focus
+                              overlay: "_{pts}"
+                              width: huge
+                              legend: "_{Focus Points}"
+                            inputs:
+                              - join: '+'
+                                contents:
+                                  - zone: '@focus-points'
+                                    contents:
+                                      - field: focus-base
+                                        label: "_{Class}"
+                                  - field: focus-misc
+                                    label: "_{Misc}"
+                                    misc: true
+                          # - p: "Maximum focus: 3"
+                          - spacer:
                           - field: refocus
                             label: "_{Refocus}"
                             border: full
                             width: large
                             prefix: "+"
                             underlay: "1"
+                            overlay: "_{pts}"
+
+                      - row:
+                        contents:
+                          - calc:
+                            output:
+                              field: focus-level
+                              legend: "_{Focus\nLevel}"
+                              width: large
+                            inputs:
+                              - field:
+                                ref: level
+                                label: "_{Level}"
+                              - span: "&divide; 2"
+                          - label: "_{(Round\nup)}"
+
+                          - spacer:
+                          - field: current-focus
+                            temp: true
+                            label: "_{Current Focus Points}"
+                            align: center
+                            width: huge
+                            border: full
                             overlay: "_{pts}"
 
                   - zone: '@weapon-spec-section'
@@ -934,6 +952,7 @@ inc:
                                       #   label: "Critical Effect"
                                       #   width: stretch
                                   - row:
+                                    flex: huge
                                     contents:
                                       - field: attack-#{i}-details
                                         frame: annotation
@@ -942,12 +961,19 @@ inc:
                                         align: left
                                         merge-bottom: true
                                       # - vr:
-                                      - field: attack-#{i}-details
+                                      - field: attack-#{i}-critical
                                         frame: annotation
                                         label: "Critical"
                                         width: stretch
-                                        align: left
+                                        align: right
                                         merge-bottom: true
+                                        # control: compound
+                                        # parts:
+                                        #   - control: checkbox
+                                        #   - align: left
+                                      - field: attack-#{i}-critical-unlocked
+                                        frame: none
+                                        control: checkbox
 
                           - layout: 2e
                             contents:
@@ -1095,10 +1121,10 @@ inc:
                       - layout: 2e
                         contents:
                           - g:
+                            merge-bottom: true
                             contents:
                               - slots:
-                                min: 4
-                                merge-bottom: true
+                                min: 5
                                 contents:
                                   - zone: '@ac-conditional'
                                 placeholder:
@@ -1131,13 +1157,19 @@ inc:
                                         contents:
                                           - row:
                                             contents:
-                                              - p: "_{Raise shield}"
+                                              - p: "_{Shield block}"
+                                      - field: shield-hardness
+                                        label: "_{Hardness}"
+                                        border: full
+                                        overlay: "_{hp}"
+                                        width: large
                                       - field: shield-hp
-                                        label: "_{Shield Hit Points}"
+                                        label: "_{Shield Health}"
                                         border: full
                                         temp: true
                                         overlay: "_{hp}"
                                         width: large
+                              - p: "_{Deduct hardness, then apply remaining damage to both shield and yourself.}"
 
                   - section: "_{Proficiencies}"
                     # optional: true

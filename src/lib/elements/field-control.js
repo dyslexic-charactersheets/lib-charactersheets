@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { fieldIdent, fieldRadioIdent, fieldDefaults } from './field';
-import { elementClass, has, isArray } from '../util';
+import { elementClass, has, isArray, esc } from '../util';
 import { __ } from '../i18n';
 
 var defaultControlRender = (args, reg, doc) => {
@@ -24,7 +24,7 @@ var defaultControlRender = (args, reg, doc) => {
   var prefix = args.prefix ? `<span class='field__overlay'>${__(args.prefix, doc)}</span>` : '';
   var overlay = args.overlay ? `<span class='field__overlay'>${__(args.overlay, doc)}</span>` : '';
 
-  return `<div${cls}>${prefix}${input}${underlay}</div>${overlay}`;
+  return `${prefix}<div${cls}>${input}${underlay}</div>${overlay}`;
 };
 
 var renderCompoundControl = (args, reg, doc) => {
@@ -63,6 +63,26 @@ export let field_control_input = {
   },
   render: defaultControlRender
 }
+
+export let field_control_value = {
+  name: 'control:value',
+  defaults: {
+    value: '',
+    border: 'none',
+  },
+  render: (args, reg, doc) => {
+    // var ident = fieldIdent(args.id);
+    var cls = elementClass("field", "control", args, [], { "control": "", "align": "centre" });
+
+    var prefix = args.prefix ? `<span class='field__overlay'>${__(args.prefix, doc)}</span>` : '';
+    var overlay = args.overlay ? `<span class='field__overlay'>${__(args.overlay, doc)}</span>` : '';
+    var underlay = args.underlay ? `<u>${__(args.underlay, doc)}</u>` : '';
+
+    var value = `<span>${esc(__(args.value))}</span>`;
+
+    return `${prefix}<div${cls}>${value}${underlay}</div>${overlay}`;
+  }
+};
 
 export let field_control_speed = {
   name: 'control:speed',

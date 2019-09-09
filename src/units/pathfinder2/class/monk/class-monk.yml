@@ -31,6 +31,29 @@ inc:
   - set: will-proficiency
     value: expert
   
+  - at: '@advancement'
+    add:
+      - level: 1
+        class-feat: true
+
+      - level: 1
+        advance: "_{Flurry of Blows}"
+      - level: 1
+        advance: "_{Powerful Fist}"
+
+      - level: 3
+        advance: "_{Mystic Strikes}"
+      - level: 9
+        advance: "_{Metal Strikes}"
+      - level: 17
+        advance: "_{Adamantine Strikes"
+
+      - level: 7
+        advance: "_{Path to Perfection}"
+      - level: 11
+        advance: "_{Second path to Perfection}"
+      - level: 19
+        advance: "_{Third path to Perfection}"
 
   - at: '@cover-class'
     replace:
@@ -69,89 +92,52 @@ inc:
                   - class-icon: monk
                   - h2: "_{Monk}"
 
-                  - section: "_{Unarmed}"
+                  - section: "_{Class DC}"
                     contents:
-                      - list:
-                        hr: true
-                        zebra: true
-                        avoid-shade: true
-                        contents:
-                          - zone: '@monk-unarmed'
-                            contents:
-                              - article:
-                                header:
-                                  - h5: "_{Powerful Fist}"
-                                contents:
-                                  - p: "_{When striking with your fist, deal 1d6 damage instead of 1d4.}"
-                                  - p: "_{Don't take the -2 penalty when making a lethal attack with a nonlethal unarmed attack.}"
-                              - level: 3
-                                contents:
-                                  - article:
-                                    header:
-                                      - h5: "_{Mystic Strikes}"
-                                    contents:
-                                      - p: "_{Your unarmed attacks become magical, allowing them to bypass resistances.}"
-                              - level: 9
-                                contents:
-                                  - article:
-                                    header:
-                                      - h5: "_{Metal Strikes}"
-                                    contents:
-                                      - p: "_{Your unarmed attacks are treated as cold iron and silver.}"
-                              - level: 17
-                                contents:
-                                  - article:
-                                    header:
-                                      - h5: "_{Adamantine Strikes}"
-                                    contents:
-                                      - p: "_{Your unarmed attacks are treated as adamantine.}"
+                      - paste: class-dc
+                        params:
+                          legend: "_{Monk\nClass DC}"
 
                   - section: "_{Ki Spells}"
                     contents:
-                      - selectable: ki-spells
+
+                      - list:
+                        hr: true
                         contents:
-                          - calc:
-                            output:
-                              field: ki-spell-attack
-                              legend: "_{Ki Spell\nAttack}"
-                              icon: bonus
-                            inputs:
-                              - join: "+"
-                                contents:
-                                  - field:
-                                    label: "_{WIS}"
-                                    ref: WIS
-                                    underlay: "_{WIS}"
-                                  - field: ki-spell-proficiency
-                                    control: proficiency
-                                    label: "_{Proficiency}"
-                                  - field: ki-spell-save-misc
-                                    label: "_{Misc}"
-                                    misc: true
-                          - calc:
-                            output:
-                              field: ki-spell-save-dc
-                              legend: "_{Ki Spell\nSave DC}"
-                              icon: dc
-                            inputs:
-                              - join: "+"
-                                contents:
-                                  - span: "10"
-                                  - field:
-                                    label: "_{WIS}"
-                                    ref: WIS
-                                    underlay: "_{WIS}"
-                                  - field: ki-spell-proficiency
-                                    control: proficiency
-                                    label: "_{Proficiency}"
-                                  - field: ki-spell-save-misc
-                                    label: "_{Misc}"
-                                    misc: true
-                      # - field: 'ki-spells'
-                      #   width: stretch
-                      #   frame: none
-                      #   repeat: 2
-                      #   merge-bottom: true
+
+                          - row: center
+                            contents:
+                              - field: ki-spells
+                                value: divine
+                                frame: left
+                                control: radio
+                                label: "_{Divine}"
+                              # - icon: good
+                              - span: "&nbsp;"
+                              # - icon: evil
+                              - field: ki-spells
+                                value: occult
+                                frame: right
+                                control: radio
+                                label: "_{Occult}"
+                          
+                          - g:
+                            contents:
+                              - paste: spell-attack
+                                params:
+                                  id: ki-spell-attack
+                                  legend: "_{Ki Spell\nAttack}"
+
+                              - paste: spell-dc
+                                params:
+                                  id: ki-spell-save-dc
+                                  legend: "_{Ki Spell\nSave DC}"
+                          
+                          - field: ki-spells
+                            frame: none
+                            merge-bottom: true
+                            width: stretch
+                            repeat: 6
 
                   - section: "_{Incredible Movement}"
                     contents:
@@ -226,7 +212,7 @@ inc:
                           - p: "_{On the first attack of your turn, any roll below 10 becomes 10.}"
 
                   - tail:
-                  # - spacer:
+                  - spacer:
 
               - g:
                 contents:
@@ -272,6 +258,43 @@ inc:
                                         align: left
                                         repeat: 3
 
+                  - section: "_{Unarmed}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        avoid-shade: true
+                        contents:
+                          - zone: '@monk-unarmed'
+                            contents:
+                              - article:
+                                header:
+                                  - h5: "_{Powerful Fist}"
+                                contents:
+                                  - p: "_{When striking with your fist, deal 1d6 damage instead of 1d4.}"
+                                  - p: "_{Don't take the -2 penalty when making a lethal attack with a nonlethal unarmed attack.}"
+                              - level: 3
+                                contents:
+                                  - article:
+                                    header:
+                                      - h5: "_{Mystic Strikes}"
+                                    contents:
+                                      - p: "_{Your unarmed attacks become magical, allowing them to bypass resistances.}"
+                              - level: 9
+                                contents:
+                                  - article:
+                                    header:
+                                      - h5: "_{Metal Strikes}"
+                                    contents:
+                                      - p: "_{Your unarmed attacks are treated as cold iron and silver.}"
+                              - level: 17
+                                contents:
+                                  - article:
+                                    header:
+                                      - h5: "_{Adamantine Strikes}"
+                                    contents:
+                                      - p: "_{Your unarmed attacks are treated as adamantine.}"
+
                   - section: "_{Flurry of Blows}"
                     contents:
                       - list:
@@ -302,6 +325,8 @@ inc:
                                       - h5: "_{Perfected Form}"
                                     contents:
                                       - p: "_{When you make an unarmed Strike, you can treat any dice whose roll was lower than 10 as if you had rolled a 10. If you do, your Strike gains the fortune trait.}"
+
+
 
                   - section: "_{Monk Feats}"
                     contents:

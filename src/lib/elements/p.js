@@ -37,9 +37,19 @@ export let li = {
   key: 'content',
   defaults: {
     content: '',
+    contents: '',
   },
   render: (args, reg, doc) => {
-    return `<li>${esc(__(args.content, doc), true)}</li>`;
+    // return `<li>${esc(__(args.content, doc), true)}</li>`;
+    if (isEmpty(args.contents) && !isEmpty(args.content)) {
+      args.contents = [
+        {
+          type: "p",
+          content: args.content
+        }
+      ]
+    }
+    return `<li>${reg.render(args.contents, doc)}</li>`;
   }
 }
 

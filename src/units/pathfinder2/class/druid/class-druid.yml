@@ -4,10 +4,10 @@ group: "_{Core Rulebook}"
 name: "_{Druid}"
 
 form:
-  - select: druid-order
+  - select: druid/order
     name: "_{Druid Order}"
     max: 1
-  - select: feat-druid
+  - select: feat/druid
     name: "_{Druid Feats}"
     max: 8
     levels: [ 2, 4, 6, 8, 10, 14, 16, 18, 20 ]
@@ -24,6 +24,11 @@ inc:
     value: 8
   - set: class-dc-proficiency
     value: trained
+  - set: primal-spell-attack-proficiency
+    value: trained
+  - set: primal-spell-save-dc-proficiency
+    value: trained
+
   - set: perception-proficiency
     value: trained
   - set: fortitude-proficiency
@@ -32,8 +37,15 @@ inc:
     value: trained
   - set: will-proficiency
     value: expert
-  - set: Nature-proficiency
+  - set: nature-proficiency
     value: trained
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        advance: "_{Druidic Order}"
+      - level: 1
+        advance: "_{Shield Block}"
 
   - at: '@cover-class'
     replace:
@@ -124,17 +136,32 @@ inc:
                                 repeat: 3
                                 merge-bottom: 2
 
-                  - section: "_{Wild Empathy}"
+                  - section: "_{Class DC}"
                     contents:
-                      - p: "_{Communicate with creatures on a rudimentary level. You can use Diplomacy to Make an Impression on animals and to make very simple Requests of them.}"
+                      - paste: class-dc
+                        params:
+                          legend: "_{Druid\nClass DC}"
 
                   - section: "_{Spellcasting}"
                     contents:
                       - spells-table:
                         prepared: true
                         flip: true
+                        merge-bottom: false
 
-                  # ...
+                      - paste: spell-attack
+                        params:
+                          id: primal-spell-attack
+                          legend: "_{Primal\nSpell Attack}"
+                        
+                      - paste: spell-dc
+                        params:
+                          id: primal-spell-save-dc
+                          legend: "_{Primal Spell\nSave DC}"
+
+                  - section: "_{Wild Empathy}"
+                    contents:
+                      - p: "_{Communicate with creatures on a rudimentary level. You can use Diplomacy to Make an Impression on animals and to make very simple Requests of them.}"
 
                   - tail:
                   - spacer:
@@ -152,11 +179,17 @@ inc:
 
                   - section: "_{Spells}"
                     contents:
-                      - spells-list:
-                        min: 1
-                        max: 10
-                        spells: 4
-                        # special: "Domain"
+                      - list:
+                        hr: true
+                        contents:
+                          - spells-list:
+                            min: 1
+                            max: 9
+                            spells: 4
+                          - spells-list:
+                            min: 10
+                            max: 10
+                            spells: 2
 
                   - section: "_{Druid Feats}"
                     contents:
