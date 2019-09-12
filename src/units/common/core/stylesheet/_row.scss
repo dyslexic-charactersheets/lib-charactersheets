@@ -1,7 +1,7 @@
 /* A row of elements */
 
 .row {
-	margin: 2pt 0;
+	@include elementMargin;
 	display: flex;
 	flex-direction: column;
     justify-content: center;
@@ -19,12 +19,12 @@
             // flex: 1 1 auto;
 
             + * {
-                margin-left: 3pt;
+                margin-left: 3*$pt;
             }
         }
 
         > span {
-            margin: 0 2pt;
+            margin: 0 2*$pt;
             font-family: "Merriweather", Georgia, 'Times New Roman', Times, serif;
             font-weight: bold;
             font-size: 1.1rem;
@@ -76,13 +76,25 @@
         line-height: 2rem;
         flex: 100 1 auto;
     }
+
+    $rb: 0.85rem;
+    $rbsp: 0.15rem;
+    &.rb_1 {
+      padding-bottom: $rbsp + $rb;
+    }
+    &.rb_2 {
+      padding-bottom: $rbsp + $rb * 2;
+    }
+    &.rb_3 {
+      padding-bottom: $rbsp + $rb * 3;
+    }
 }
 
 .list > .g > .row {
     &:first-child {
-        margin-top: 1pt;
+        margin-top: $pt;
     }
     &:last-child {
-        margin-bottom: 1pt;
+        margin-bottom: $pt;
     }
 }

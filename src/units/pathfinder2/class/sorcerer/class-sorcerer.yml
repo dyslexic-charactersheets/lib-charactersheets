@@ -85,7 +85,7 @@ inc:
                           - field: sorcerer-bloodline
                             size: large
                             width: stretch
-                            legend: "_{Bloodline}"
+                            frame: none
                             merge-bottom: true
                       - hr:
                       - field: spell-list
@@ -93,19 +93,23 @@ inc:
                         width: stretch
                         merge-bottom: true
 
-                  - section: "_{Cantrips}"
-                    contents:
-                      - field: sorcerer-cantrips
-                        width: stretch
-                        frame: none
-                        repeat: 5
-                        merge-bottom: true
-
-                  - section: "_{Spells}"
+                  - section: "_{Spellcasting}"
                     contents:
                       - spells-table:
                         spells-today: true
                         expanded: "_{Signature Spell}"
+                        
+                      - paste: spell-attack
+                        params:
+                          id: primal-spell-attack
+                          legend: "_{Primal\nSpell Attack}"
+                        
+                      - paste: spell-dc
+                        params:
+                          id: primal-spell-save-dc
+                          legend: "_{Primal Spell\nSave DC}"
+
+                      - hr:
                       - level: 3
                         contents:
                           - p: "_{Signature spells can be heightened without learning separately.}"
@@ -120,22 +124,22 @@ inc:
                             contents:
                               - action: template
                                 contents:
-                                  - article:
-                                    lines: 3
+                                  - article: sorcerer-bloodline-spell
+                                    lines: 1
                               - selectable:
                                 contents:
                                   - action: template
                                     contents:
                                       - h5: "_{Advanced}"
-                                      - article:
-                                        lines: 3
+                                      - article: sorcerer-bloodline-spell-advanced
+                                        lines: 1
                               - selectable:
                                 contents:
                                   - action: template
                                     contents:
                                       - h5: "_{Greater}"
-                                      - article:
-                                        lines: 3
+                                      - article: sorcerer-bloodline-greater
+                                        lines: 1
 
                   - section: "_{Blood Magic}"
                     contents:
@@ -145,6 +149,7 @@ inc:
                             frame: none
                             repeat: 3
                             width: stretch
+                            merge-bottom: true
 
                   - tail:
                   - spacer:
@@ -152,56 +157,21 @@ inc:
               - g:
                 contents:
 
+                  - section: "_{Cantrips}"
+                    flex: tiny
+                    contents:
+                      - spells-list:
+                        min: 0
+                        max: 0
+                        spells: 6
+                        style: spontaneous
+
                   - section: "_{Spells}"
                     flex: huge
                     contents:
                       - list:
                         hr: true
                         contents:
-                          
-                          - row:
-                            flex: large
-                            contents:
-                              - calc:
-                                output:
-                                  field: spell-attack
-                                  legend: "Spell Attack"
-                                  width: large
-                                  icon: bonus
-                                  eq: '%{#{key-ability}}+%{level}+%{class-dc-item-bonus}'
-                                inputs:
-                                  - zone: '@key-ability-field'
-                                    contents:
-                                      - field:
-                                        label: "_{Key Ability}"
-                                        ref: key-ability
-                                  - field: spell-attack-proficiency
-                                    label: "_{Proficiency}"
-                                    control: proficiency
-                                  # - field: spell-attack-item-bonus
-                                  #   label: "_{Item}"
-
-                              - calc:
-                                output:
-                                  field: spell-dc
-                                  legend: "Spell DC"
-                                  underlay: "_{DC}"
-                                  width: large
-                                  icon: dc
-                                  eq: '%{10+#{key-ability}}+%{level}+%{class-dc-item-bonus}'
-                                inputs:
-                                  - span: "10+"
-                                  - zone: '@key-ability-field'
-                                    contents:
-                                      - field:
-                                        label: "_{Key Ability}"
-                                        ref: key-ability
-                                  - field: spell-dc-proficiency
-                                    label: "_{Proficiency}"
-                                    control: proficiency
-                                  # - field: spell-dc-item-bonus
-                                  #   label: "_{Item}"
-
                           - spells-list:
                             min: 1
                             max: 9
@@ -235,7 +205,7 @@ inc:
                                 max: 1
                                 placeholder:
                                   article: sorcerer-feat-level-#{level}
-                                  lines: 2
+                                  lines: 1
                                 contents:
                                   - zone: '@sorcerer-feats'
                   - tail:

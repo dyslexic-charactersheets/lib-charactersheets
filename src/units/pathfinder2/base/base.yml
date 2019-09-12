@@ -32,6 +32,7 @@ form:
 
 require:
   - unit: defs/dcs
+  - unit: defs/feats
   - with: high-contrast
     unit: pathfinder2/high-contrast
   - with: large-print
@@ -390,7 +391,7 @@ inc:
                                     contents:
                                       - item: yes
                                 contents:
-                                  - slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, '' ]
+                                  - slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
                                     min: 1
                                     max: 1
                                     placeholder:
@@ -399,16 +400,19 @@ inc:
                                     contents:
                                       - zone: '@skill-feats'
 
-                          - section: "_{Skill Notes}"
-                            contents:
-                              - field: skill-notes
-                                flex: small
-                                width: stretch
-                                frame: none
-                                repeat: 4
-                                merge-bottom: true
+                              - g:
+                                contents:
+                                  - h5: "_{Skill Notes}"
+                                  - field: skill-notes
+                                    flex: small
+                                    width: stretch
+                                    frame: none
+                                    repeat: 4
+                                    reduce: 1
+                                    merge-bottom: true
 
                           - zone: '@language-section'
+                            flex: tiny
                             contents:
                               - section: "_{Languages}"
                                 id: languages
@@ -416,6 +420,7 @@ inc:
                                   - field: languages
                                     frame: none
                                     repeat: 3
+                                    reduce: 1
                                     align: left
                                     width: stretch
                                     merge-bottom: true
@@ -460,6 +465,7 @@ inc:
                         zebra: true
                         field_frame: none
                         sort_by: name
+                        width: stretch
                         columns:
                           -
                           - label: "_{Assurance}"
@@ -471,109 +477,106 @@ inc:
                           - "_{Feats\nMisc}"
                           - "_{Armour\nCheck\nPenalty}"
                         rows:
-                          # - zone: '@skills'
-                          #   contents:
-                          - skill: acrobatics
-                            name: "_{Acrobatics}"
-                            ability: "_{DEX}"
-                            abilityref: DEX
-                            acp: true
-                          - skill: arcana
-                            name: "_{Arcana}"
-                            ability: "_{INT}"
-                            abilityref: INT
-                            acp: false
-                          - skill: athletics
-                            name: "_{Athletics}"
-                            ability: "_{STR}"
-                            abilityref: STR
-                            acp: true
-                          - skill: crafting
-                            name: "_{Crafting}"
-                            ability: "_{INT}"
-                            abilityref: INT
-                            acp: false
-                          - skill: deception
-                            name: "_{Deception}"
-                            ability: "_{CHA}"
-                            abilityref: CHA
-                            acp: false
-                          - skill: diplomacy
-                            name: "_{Diplomacy}"
-                            ability: "_{CHA}"
-                            abilityref: CHA
-                            acp: false
-                          - skill: intimidation
-                            name: "_{Intimidation}"
-                            ability: "_{CHA}"
-                            abilityref: CHA
-                            acp: false
-                          - skill: medicine
-                            name: "_{Medicine}"
-                            ability: "_{WIS}"
-                            abilityref: WIS
-                            acp: false
-                          - skill: nature
-                            name: "_{Nature}"
-                            ability: "_{WIS}"
-                            abilityref: WIS
-                            acp: false
-                          - skill: occultism
-                            name: "_{Occultism}"
-                            ability: "_{INT}"
-                            abilityref: INT
-                            acp: false
-                          - skill: performance
-                            name: "_{Performance}"
-                            ability: "_{CHA}"
-                            abilityref: CHA
-                            acp: false
-                          - skill: religion
-                            name: "_{Religion}"
-                            ability: "_{WIS}"
-                            abilityref: WIS
-                            acp: false
-                          - skill: society
-                            name: "_{Society}"
-                            ability: "_{INT}"
-                            abilityref: INT
-                            acp: false
-                          - skill: stealth
-                            name: "_{Stealth}"
-                            ability: "_{DEX}"
-                            abilityref: DEX
-                            acp: true
-                          - skill: survival
-                            name: "_{Survival}"
-                            ability: "_{WIS}"
-                            abilityref: WIS
-                            acp: false
-                          - skill: thievery
-                            name: "_{Thievery}"
-                            ability: "_{DEX}"
-                            abilityref: DEX
-                            acp: true
-                            fade: false
-                          - skill: lore
-                            name: "_{Lore}"
-                            ability: "_{INT}"
-                            abilityref: INT
-                            acp: false
-                            fade: true
-                          - skill: ''
-                            name: ''
-                            ability: ''
-                            acp: false
-                          - skill: ''
-                            name: ''
-                            ability: ''
-                            acp: false
-                            optional: true
-                          - skill: ''
-                            name: ''
-                            ability: ''
-                            acp: false
-                            optional: true
+                          - slots:
+                            min: 22
+                            contents:
+                              - sort: name
+                                contents:
+                                  - zone: '@skills'
+                                    contents:
+                                      - skill: acrobatics
+                                        name: "_{Acrobatics}"
+                                        ability: "_{DEX}"
+                                        abilityref: DEX
+                                        acp: true
+                                      - skill: arcana
+                                        name: "_{Arcana}"
+                                        ability: "_{INT}"
+                                        abilityref: INT
+                                        acp: false
+                                      - skill: athletics
+                                        name: "_{Athletics}"
+                                        ability: "_{STR}"
+                                        abilityref: STR
+                                        acp: true
+                                      - skill: crafting
+                                        name: "_{Crafting}"
+                                        ability: "_{INT}"
+                                        abilityref: INT
+                                        acp: false
+                                      - skill: deception
+                                        name: "_{Deception}"
+                                        ability: "_{CHA}"
+                                        abilityref: CHA
+                                        acp: false
+                                      - skill: diplomacy
+                                        name: "_{Diplomacy}"
+                                        ability: "_{CHA}"
+                                        abilityref: CHA
+                                        acp: false
+                                      - skill: intimidation
+                                        name: "_{Intimidation}"
+                                        ability: "_{CHA}"
+                                        abilityref: CHA
+                                        acp: false
+                                      - skill: medicine
+                                        name: "_{Medicine}"
+                                        ability: "_{WIS}"
+                                        abilityref: WIS
+                                        acp: false
+                                      - skill: nature
+                                        name: "_{Nature}"
+                                        ability: "_{WIS}"
+                                        abilityref: WIS
+                                        acp: false
+                                      - skill: occultism
+                                        name: "_{Occultism}"
+                                        ability: "_{INT}"
+                                        abilityref: INT
+                                        acp: false
+                                      - skill: performance
+                                        name: "_{Performance}"
+                                        ability: "_{CHA}"
+                                        abilityref: CHA
+                                        acp: false
+                                      - skill: religion
+                                        name: "_{Religion}"
+                                        ability: "_{WIS}"
+                                        abilityref: WIS
+                                        acp: false
+                                      - skill: society
+                                        name: "_{Society}"
+                                        ability: "_{INT}"
+                                        abilityref: INT
+                                        acp: false
+                                      - skill: stealth
+                                        name: "_{Stealth}"
+                                        ability: "_{DEX}"
+                                        abilityref: DEX
+                                        acp: true
+                                      - skill: survival
+                                        name: "_{Survival}"
+                                        ability: "_{WIS}"
+                                        abilityref: WIS
+                                        acp: false
+                                      - skill: thievery
+                                        name: "_{Thievery}"
+                                        ability: "_{DEX}"
+                                        abilityref: DEX
+                                        acp: true
+                                        fade: false
+                              - skill: lore
+                                name: "_{Lore}"
+                                ability: "_{INT}"
+                                abilityref: INT
+                                acp: false
+                                fade: true
+                            placeholder:
+                              skill: ''
+                              name: ''
+                              ability: ''
+                              acp: false
+                              optional: true
                         template:
                           - h6: "#{name}"
                             fade: "#{fade}"
@@ -673,7 +676,7 @@ inc:
                                 max: 1
                                 placeholder:
                                   article: general-feat-level-#{level}
-                                  lines: 2
+                                  lines: 1
                                 contents:
                                   - zone: '@general-feats'
 
@@ -740,8 +743,8 @@ inc:
                             output:
                               field: focus
                               overlay: "_{pts}"
-                              width: huge
-                              legend: "_{Focus Points}"
+                              width: large
+                              legend: "_{Focus}"
                             inputs:
                               - join: '+'
                                 contents:
@@ -770,11 +773,12 @@ inc:
                               legend: "_{Focus\nLevel}"
                               width: large
                             inputs:
-                              - field:
-                                ref: level
-                                label: "_{Level}"
-                              - span: "&divide; 2"
-                          - label: "_{(Round\nup)}"
+                              - ruby: "_{(Round up)}"
+                                contents:
+                                  - field:
+                                    ref: level
+                                    label: "_{Level}"
+                                  - span: "&divide; 2"
 
                           - spacer:
                           - field: current-focus
@@ -791,6 +795,7 @@ inc:
                     id: saving-throws
                     contents:
                       - table:
+                        width: stretch
                         columns:
                           -
                           -
@@ -841,7 +846,7 @@ inc:
                         reduce: 1
                         merge-bottom: true
                         contents:
-                          - log: 'Saving throws zone'
+                          # - log: 'Saving throws zone'
                           - zone: '@saving-throws'
                         placeholder:
                           - field: 'saving-throws-conditional-#{i}'
@@ -917,12 +922,8 @@ inc:
                                             control: icon
                                             label: "_{Potency}"
                                             icon: runes
-                                          # - field: attack-#{i}-potency
-                                          #   control: icon
-                                          #   label: "Potency"
-                                          #   icon: potency
                                       - field: attack-#{i}-damage
-                                        output: true
+                                        border: full
                                         label: "_{Damage}"
                                         width: huge
                                         icon: damage
@@ -948,9 +949,6 @@ inc:
                                         label: "_{Misc}"
                                         misc: true
                                         optional: true
-                                      # - field: attack-#{i}-critical
-                                      #   label: "Critical Effect"
-                                      #   width: stretch
                                   - row:
                                     flex: huge
                                     contents:
@@ -960,17 +958,12 @@ inc:
                                         width: stretch
                                         align: left
                                         merge-bottom: true
-                                      # - vr:
                                       - field: attack-#{i}-critical
                                         frame: annotation
                                         label: "Critical"
                                         width: stretch
                                         align: right
                                         merge-bottom: true
-                                        # control: compound
-                                        # parts:
-                                        #   - control: checkbox
-                                        #   - align: left
                                       - field: attack-#{i}-critical-unlocked
                                         frame: none
                                         control: checkbox
@@ -1052,20 +1045,7 @@ inc:
                                 label: "_{Misc}"
                                 optional: true
                                 misc: true
-                          - spacer:
-                          - field: dying
-                            control: progression
-                            label: "_{Dying}"
-                            parts:
-                              - id: dying-1
-                                control: checkbox
-                              - id: dying-2
-                                control: checkbox
-                              - id: dying-3
-                                control: checkbox
-                              - icon: evil
-                                size: small
-                                optional: true
+                          # - spacer:
                       - row:
                         contents:
                           - field: current-hp
@@ -1081,6 +1061,20 @@ inc:
                             temp: true
                             overlay: "_{hp}"
                             width: huge
+                            
+                          - field: dying
+                            control: progression
+                            label: "_{Dying}"
+                            parts:
+                              - id: dying-1
+                                control: checkbox
+                              - id: dying-2
+                                control: checkbox
+                              - id: dying-3
+                                control: checkbox
+                              - icon: evil
+                                size: small
+                                optional: true
 
                   - section: "_{Armour Class}"
                     id: armour

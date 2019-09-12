@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
-import { elementID, elementClass, has, isArray } from '../util';
-import { log } from '../log';
+import { has, isArray, isString, cloneDeep, interpolate } from '../util';
+import { log, warn } from '../log';
 
 export let slots = {
     name: 'slots',
@@ -13,6 +13,8 @@ export let slots = {
         max: false,
         min: false,
         reduce: 0,
+        extra: 0,
+        even: false,
         contents: [],
     }, 
     transform: (args, ctx) => {
@@ -33,7 +35,7 @@ export let slots = {
                 var n = args.min - items.length;
                 for (var i = 0; i < n; i++) {
                     // log("slots","Placeholder", args.placeholder);
-                    items = items.concat(_.cloneDeep(args.placeholder));
+                    items = items.concat(cloneDeep(args.placeholder));
                 }
             }
             if (args.max && items.length > args.max) {
@@ -50,6 +52,13 @@ export let slots = {
         }
 
         var slots = {};
+        if (!isArray(args.slots)) {
+          if (isString(args.slots)) {
+            args.slots = args.slots.split(/,/);
+          } else {
+            warn("slots", "Not a list of slots:", args.slots);
+          }
+        }
         args.slots.forEach(s => {
             slots[s] = {
                 key: s,
@@ -75,6 +84,18 @@ export let slots = {
         // log("slots", "Final slots:", slots);
         var contents = Object.values(slots).flatMap(s => s.contents);
 
+        var blank = {};
+        blank[args.key] = '';
+        for (var i = 0; i < args.extra; i++) {
+          var add = cloneDeep(args.placeholder);
+          add = interpolate(add, blank);
+          contents = contents.concat(add);
+        }
+        if (args.even && contents.length % 2 != 0) {
+          var add = cloneDeep(args.placeholder);
+          add = interpolate(add, blank);
+          contents = contents.concat(add);
+        }
         // log("slots", contents);
         return contents;
     }

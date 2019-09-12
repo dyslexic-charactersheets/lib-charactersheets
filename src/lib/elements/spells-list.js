@@ -244,7 +244,7 @@ export let spells_table = {
       template.push({
         type: "field",
         id: "spells-#{level}-per-day",
-        border: args.flip ? (args['merge-bottom'] ? "right" : "bottom-right") : "full",
+        border: args.flip ? (args['merge-bottom'] ? "right" : "bottom-right") : "bottom",
         frame: "none",
         width: args.flip ? "small" : "medium",
         'merge-right': true,

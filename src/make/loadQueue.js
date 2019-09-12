@@ -43,11 +43,13 @@ class LoadQueue {
                         return;
                     }
                     error("load", "Error loading file", filename);
+                    reject();
                     return;
                 }
                 d[filename] = data;
                 if (callback !== null) {
                     callback(data, filename);
+                    resolve();
                 }
             });
         });
@@ -125,6 +127,7 @@ module.exports = {
     files: new LoadQueue(),
     assets: new LoadQueue(),
     stylesheets: new LoadQueue(),
+    javascripts: new LoadQueue(),
     units: new LoadQueue(),
     ready: callback => {
         Promise.all(loadPromises).then(() => {

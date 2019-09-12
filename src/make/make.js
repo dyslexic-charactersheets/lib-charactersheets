@@ -53,8 +53,8 @@ systems.forEach(system => {
           });
         }
 
-        i18n.parseSystemUnits(system, systemUnits);
+        // i18n.parseSystemUnits(system, systemUnits);
     });
 });
 
-i18n.writePot();
+// i18n.writePot();

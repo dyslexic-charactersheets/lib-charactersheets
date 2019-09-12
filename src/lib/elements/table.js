@@ -1,4 +1,4 @@
-import { interpolate, elementID, elementClass, isObject, isString, isArray, isNull, has, clone } from '../util';
+import { interpolate, isObject, isString, isArray, isNull, isEmpty, has, cloneDeep } from '../util';
 
 import { renderTableBasic } from './table-basic';
 import { renderTableFlipped } from './table-flipped';
@@ -12,6 +12,7 @@ export let table = {
     repeat: 1,
     flip: false,
     template: [],
+    width: '',
   },
   render: (args, reg, doc) => {
     // get headings
@@ -37,7 +38,7 @@ export let table = {
     });
 
 
-    if (isNull(args, "rows") || args.rows == []) {
+    if (isEmpty(args.rows) || args.rows == []) {
       // log("table", "Filling in empty rows");
       args.rows = [ {} ];
     }
@@ -62,7 +63,7 @@ export let table = {
       let rows2 = Array(rows.length * args.repeat);
       for (var i = 0; i < args.repeat; i += rows.length) {
         for (var j = 0; j < rows.length; j++) {
-          rows2[i+j] = clone(rows[j]);
+          rows2[i+j] = cloneDeep(rows[j]);
         }
       }
       rows = rows2;

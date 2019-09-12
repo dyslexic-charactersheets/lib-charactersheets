@@ -1,4 +1,5 @@
 import { __ } from '../i18n';
+import { esc } from '../util';
 
 export let level = {
     name: 'level',
@@ -50,7 +51,7 @@ export let level_marker = {
         if (level == "_") {
           level = "&nbsp;";
         }
-        var marker = args.marker ? `<label>${__(args.marker, doc)}</label>` : '';
-        return `<div class='level-marker'>${marker}<div class='level-marker__level'>${__(level, doc)}</div></div>`;
+        var marker = args.marker ? `<label>${esc(__(args.marker, doc), true)}</label>` : '';
+        return `<div class='level-marker'>${marker}<div class='level-marker__level'>${esc(__(level, doc))}</div></div>`;
     }
 }

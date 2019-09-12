@@ -115,7 +115,7 @@ export class Document {
               this.vars[include.set] = [];
             this.vars[include.set].push(include);
             break;
-          
+
           case 'copy':
             // log("Document", "Copy template:", include.copy);
             this.templates[include.copy] = {
@@ -161,21 +161,27 @@ export class Document {
 
     var self = this;
 
-    // the lesser form: only expand zones within, don't do full unit expansion
+    // the lesser form: only expand a few types, don't do full unit expansion
     function complete(element) {
       if (isArray(element))
         return element.flatMap(complete);
       if (!has(element, "type"))
-        return [ element ];
+        return [element];
 
-      switch(element.type) {
+      switch (element.type) {
         case 'zone':
+        case 'sort':
+        case 'slots':
           var reg = registry.get(element.type);
-          
+
           if (reg && reg.transform) {
+            if (has(element, "contents")) {
+              element.contents = complete(element.contents);
+            }
+
             // log("compose", "Applying transformation to", element.type);
             // log("Document", "Large print?", self.largePrint);
-            var newelements = reg.transform(Object.assign({}, reg.defaults, element), { zones: self.zones, templates: self.templates, largePrint: self.largePrint });
+            var newelements = reg.transform(Object.assign({}, reg.defaults, element), { zones: self.zones, templates: self.templates, largePrint: self.largePrint, locale: self.language });
             if (newelements === false)
               return element;
 
@@ -184,7 +190,7 @@ export class Document {
           }
           break;
       }
-      return [ element ];
+      return [element];
     }
 
     // the greater form: give all elements a chance to transform themselves
@@ -229,7 +235,7 @@ export class Document {
 
       if (reg && reg.transform) {
         // log("compose", "Applying transformation to", element.type);
-        var newelements = reg.transform(Object.assign({}, reg.defaults, element), { zones: self.zones, templates: self.templates, largePrint: self.largePrint });
+        var newelements = reg.transform(Object.assign({}, reg.defaults, element), { zones: self.zones, templates: self.templates, largePrint: self.largePrint, locale: self.language });
         if (newelements === false)
           return element;
 
@@ -295,9 +301,11 @@ export class Document {
   getJavascript() {
     var jsParts = [];
 
-    // jsParts.push("alert('Yo.');");
-
-    jsParts.push('if ( /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window[\'safari\'] || safari.pushNotification) ) { document.documentElement.classList.add("html--safari"); }');
+    this.units.forEach(unit => {
+      if (!has(unit, "js") || unit.js == "")
+        return;
+      jsParts.push(unit.js);
+    });
 
     return jsParts.join("\n");
   }

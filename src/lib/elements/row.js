@@ -1,4 +1,4 @@
-import { elementClass, getLabelHeight } from '../util';
+import { elementClass, getLabelHeight, getRubyHeight } from '../util';
 
 export let row = {
     name: 'row',
@@ -12,7 +12,8 @@ export let row = {
     },
     render: (args, reg, doc) => {
         args.lp = getLabelHeight(args);
-        var cls = elementClass('row', null, args, [ 'unlabelled', 'narrow' ], { 'layout': 'left', 'valign': 'bottom', 'lp': '', 'flex': 'medium' });
+        args.rb = getRubyHeight(args);
+        var cls = elementClass('row', null, args, [ 'unlabelled', 'narrow' ], { 'layout': 'left', 'valign': 'bottom', 'lp': '', 'rb': '', 'flex': 'medium' });
         return `<div${cls}><div class='row__inner'>${reg.render(args.contents, doc)}</div></div>`;
     }
 }

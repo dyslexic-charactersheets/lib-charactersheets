@@ -5,6 +5,7 @@ name: "Alchemist"
 
 require:
   - unit: weapon-spec/slow
+  - unit: option/formula-book
 
 form:
   - select: alchemist/research-field
@@ -17,3 +18,334 @@ inc:
     value: "_{Alchemist}"
   - set: hp-class
     value: 8
+
+  - set: alchemist-class-dc-proficiency
+    value: trained
+  - set: perception-proficiency
+    value: trained
+
+  - set: fortitude-proficiency
+    value: expert
+  - set: reflex-proficiency
+    value: expert
+  - set: will-proficiency
+    value: trained
+    
+  - set: crafting-proficiency
+    value: trained
+
+  - at: '@key-ability-field'
+    replace:
+      - field: key-ability
+        label: "_{INT}"
+        underlay: "_{INT}"
+        ref: INT
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        class-feat: true
+      - level: 1
+        advance: "_{Research Field}"
+
+      - level: 5
+        advance: "_{Field Discovery}"
+      - level: 13
+        advance: "_{Greater Field Discovery}"
+      - level: 7
+        advance: "_{Perpetual Infusions}"
+      - level: 11
+        advance: "_{Perpetual Potency}"
+      - level: 17
+        advance: "_{Perpetual Perfection}"
+        
+      - level: 9
+        advance: "_{Double Brew}"
+      - level: 15
+        advance: "_{Alchemical Alacrity}"
+
+  - at: '@saving-throws'
+    add:
+      - level: 7
+        contents:
+          - p: "_{Upgraded success at Will saves.}"
+      - level: 11
+        contents:
+          - p: "_{Upgraded success at Fortitude saves.}"
+      - level: 17
+        contents:
+          - p: "_{Upgraded success at Reflex saves.}"
+
+  - at: '@pages'
+    add:
+      - page: alchemist
+        order: 10
+        flex: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: alchemist
+                  - class-name: '_{Alchemist}'
+
+                  - section: "_{Alchemy}"
+                    contents:
+                      - row:
+                        contents:
+                          - calc:
+                            output:
+                              field: alchemist-infused-reagents-per-day
+                              legend: "Infused Reagents\nPer Day"
+                              width: large
+                            inputs:
+                              - field:
+                                ref: level
+                                label: "_{Level}"
+                              - span: "+"
+                              - field:
+                                ref: INT
+                                label: "_{INT}"
+                                underlay: "_{INT}"
+
+                          - spacer:
+                          - field: alchmist-infused-reagents-today
+                            label: "Today"
+                            temp: true
+                            border: full
+                            width: huge
+                      
+                      - p: "_{Use infused reagents for either Advanced Alchemy or Quick Alchemy.}"
+                      - hr:
+                      
+                      - paste: class-dc
+                        params:
+                          id: alchemist-class-dc
+                          legend: "_{Alchemist\nClass DC}"
+
+                      - row:
+                        contents:
+                          - field: alchemist-splash
+                            legend: "_{Splash}"
+                            border: full
+                            overlay: "_{ft}"
+                            width: huge
+                          - spacer:
+                          - p: "_{Splash weapons don't add strength bonus to damage.}"
+
+                  - section: "_{Advanced Alchemy}"
+                    contents:
+                      - row:
+                        contents:
+                          - p: "_{Prepare alchemical items.}"
+                          - spacer:
+                          - level-marker:
+                            level: 1
+                            marker: "_{Infused\nReagents}"
+                          - span: "&rarr;"
+                          - level-marker:
+                            level: 2
+                            marker: "_{Alchemical\nItems}"
+                      - hr:
+                      - list:
+                        zebra: true
+                        merge-bottom: true
+                        avoid-shade: true
+                        contents:
+                          - repeat: 6
+                            contents:
+                              - row:
+                                contents:
+                                  - field: alchemist-advanced-alchemy-infusion-#{i}
+                                    width: stretch
+                                    frame: none
+                                  - field: alchemist-advanced-alchemy-infusion-#{i}-count
+                                    frame: none
+                                    underlay: "#"
+                                  - field: alchemist-advanced-alchemy-infusion-#{i}-used
+                                    frame: none
+                                    control: checkgrid
+                                    depth: 2
+                                    max: 8
+                        
+                  - section: "_{Quick Alchemy}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - action:
+                            contents:
+                              - row:
+                                contents:
+                                  - level-marker:
+                                    level: 1
+                                    marker: "_{Infused\nReagents}"
+                                  - span: "&rarr;"
+                                  - level-marker:
+                                    level: 1
+                                    marker: "_{Alchemical\nItems}"
+                              - p: "_{Swiftly mix up an infusion using a formula in your book, wihtout spending the normal cost.}"
+
+                          - level: 7
+                            contents:
+                              - h5: "_{Perpetual Infusions}"
+                              - row:
+                                contents:
+                                  - level-marker:
+                                    level: 0
+                                    marker: "_{Infused\nReagents}"
+                                  # - span: "&rarr;"
+                                  - field: alchemist-perpetual-infusions
+                                    width: stretch
+                                    frame: none
+                                    merge-bottom: true
+                                    repeat: 2
+
+                          - level: 9
+                            contents:
+                              - h5: "_{Double Brew}"
+                              - row:
+                                contents:
+                                  - level-marker:
+                                    level: 2
+                                    marker: "_{Infused\nReagents}"
+                                  - span: "&rarr;"
+                                  - level-marker:
+                                    level: 2
+                                    marker: "_{Alchemical\nItems}"
+
+                          - level: 11
+                            contents:
+                              - h5: "_{Perpetual Potency}"
+                              - row:
+                                contents:
+                                  - level-marker:
+                                    level: 0
+                                    marker: "_{Infused\nReagents}"
+                                  # - span: "&rarr;"
+                                  - field: alchemist-perpetual-potency
+                                    width: stretch
+                                    frame: none
+                                    merge-bottom: true
+                                    repeat: 2
+
+                          - level: 15
+                            contents:
+                              - h5: "_{Alchemical Alacrity}"
+                              - row:
+                                contents:
+                                  - level-marker:
+                                    level: 3
+                                    marker: "_{Infused\nReagents}"
+                                  - span: "&rarr;"
+                                  - level-marker:
+                                    level: 3
+                                    marker: "_{Alchemical\nItems}"
+                          
+                          - level: 17
+                            contents:
+                              - h5: "_{Perpetual Perfection}"
+                              - row:
+                                contents:
+                                  - level-marker:
+                                    level: 0
+                                    marker: "_{Infused\nReagents}"
+                                  # - span: "&rarr;"
+                                  - field: alchemist-perpetual-perfection
+                                    width: stretch
+                                    frame: none
+                                    merge-bottom: true
+                                    repeat: 2
+
+
+                  - tail:
+                  # - spacer:
+
+              - g:
+                contents:
+                  - section: "_{Research Field}"
+                    primary: true
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - zone: '@alchemist/research-field'
+                            contents:
+                              - g:
+                                contents:
+                                  - field: alchemist-research-field
+                                    size: huge
+                                    width: stretch
+                                    frame: none
+                                  - field: alchemist-research-field-details
+                                    frame: none
+                                    width: stretch
+                                    repeat: 2
+                                    merge-bottom: true
+                              - level: 5
+                                contents:
+                                  - h5: "_{Field Discovery}"
+                                  - field: alchemist-research-field-discovery
+                                    frame: none
+                                    width: stretch
+                                    repeat: 2
+                                    merge-bottom: true
+                              - level: 13
+                                contents:
+                                  - h5: "_{Greater Field Discovery}"
+                                  - field: alchemist-research-field-greater-discovery
+                                    frame: none
+                                    width: stretch
+                                    repeat: 2
+                                    merge-bottom: true
+
+                  - section: "_{Formulas}"
+                    flex: large
+                    contents:
+                      - zone: '@alchemist/formulas'
+                        contents:
+                          - list:
+                            columns: 3
+                            # zebra: true
+                            gutter: small
+                            merge-bottom: true
+                            contents:
+                              - repeat: 15
+                                contents:
+                                  - row:
+                                    contents:
+                                      - field: alchemist-formula-#{i}
+                                        frame: none
+                                        width: stretch
+                                      - field: alchemist-formula-#{i}-level
+                                        frame: none
+                                        width: small
+                        
+                      - list:
+                        columns: 3
+                        # zebra: true
+                        gutter: small
+                        merge-bottom: true
+                        contents:
+                          - repeat: 27
+                            reduce: 12
+                            contents:
+                              - row:
+                                contents:
+                                  - field: alchemist-formula-#{i}
+                                    frame: none
+                                    width: stretch
+                                  - field: alchemist-formula-#{i}-level
+                                    frame: none
+                                    width: small
+                  
+                  - paste: class-feats
+                    params:
+                      id: alchemist-feats
+                      title: "_{Alchemist Feats}"
+                      slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                      lines: 1
+
+                  - tail:
+                  # - spacer:
+

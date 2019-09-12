@@ -1,0 +1,81 @@
+unit: option/formula-book
+name: "_{Formula Book}"
+inc:
+  - copy: formula-book/items
+    params:
+      count: 7
+      i: 0
+    contents:
+      - list:
+        zebra: true
+        hr: true
+        flex: true
+        contents:
+          - repeat: "#{count}"
+            reduce: 1
+            index: j
+            contents:
+              - article: formula-book-col-#{i}-forumula-#{j}
+                show-level: true
+                header:
+                  - row:
+                    contents:
+                      - field: 'formula-book-col-#{i}-formula-#{j}'
+                        width: stretch
+                        align: left
+                        label: "_{Formula}"
+                      - field: 'formula-book-col-#{i}-formula-#{j}-level'
+                        label: "_{Level}"
+                  
+                contents:
+                  - field: 'formula-book-col-#{i}-formula-#{j}-details'
+                    width: stretch
+                    align: left
+                    frame: none
+                    repeat: 3
+                  - row:
+                    contents:
+                      - field: 'formula-book-col-#{i}-formula-#{j}-final'
+                        width: stretch
+                        label: "_{}"
+                      - field: 'formula-book-col-#{i}-formula-#{j}-ref'
+                        icon: book
+                        label: "_{Source}"
+                        align: left
+                        width: huge
+                        control: compound
+                        parts:
+                          - width: large
+                          - span: 'p'
+                          - width: large
+                            align: left
+
+
+  - at: '@pages'
+    add:
+      - page: formula-book
+        order: 17
+        flex: true
+        contents:
+          - h2: "_{Formula Book}"
+          - layout: 3e
+            contents:
+              - g:
+                contents:
+                  - hr:
+                  - zone: '@formula-book/left'
+                    contents:
+                      - paste: formula-book/items
+                        params:
+                          i: 0
+                  - tail:
+
+              - repeat: 2
+                contents:
+                  - g:
+                    contents:
+                      - hr:
+                      - paste: formula-book/items
+                        params:
+                          i: "#{i}"
+                      - tail:

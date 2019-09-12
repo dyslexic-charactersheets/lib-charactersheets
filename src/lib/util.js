@@ -220,13 +220,15 @@ export function cloneDeep(original) {
     for (var i = 0; i < original.length; i++) {
       product[i] = cloneDeep(original[i]);
     }
+    return product;
   }
 
   if (isObject(original)) {
     var product = {};
     Object.keys(original).forEach(key => {
-      product[key] = cloneDeep(original[key]);
-    })
+      product[cloneDeep(key)] = cloneDeep(original[key]);
+    });
+    return product;
   }
 
   return original;
@@ -316,6 +318,7 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
       case 'align':
       case 'valign':
       case 'lp':
+      case 'rb':
       case 'icon':
       case 'flex':
         cls.push(`${key}_${value}`);
@@ -511,7 +514,7 @@ export function adjustColour(c, documentColour, highContrast) {
 }
 
 export function getLabelHeight(args) {
-  if (args === null)
+  if (isNull(args))
     return 1;
 
   if (has(args, "labelHeight"))
@@ -559,3 +562,40 @@ export function getLabelHeight(args) {
   }
   return 0;
 };
+
+export function getRubyHeight(args) {
+  if (isNull(args))
+    return 0;
+  
+    switch (args.type) {
+      case 'ruby':
+        var rubyHeight = args.ruby.split(/\n/).length;
+        return rubyHeight;
+
+      case 'field':
+        return 0;
+  
+      case 'calc':
+        var height = getRubyHeight(args.output);
+        args.inputs.forEach(field => {
+          var h = getRubyHeight(field);
+          if (h > height)
+            height = h;
+        });
+        return height;
+  
+      case 'row':
+        var height = 0;
+        args.contents.forEach(field => {
+          var h = getRubyHeight(field);
+          if (h > height)
+            height = h;
+        });
+        return height;
+  
+      case 'g':
+        var height = getRubyHeight(args.contents[0]);
+        return height;
+    }
+    return 0;
+}

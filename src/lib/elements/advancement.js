@@ -1,4 +1,5 @@
 import { has, isEmpty, isArray } from '../util';
+import { log, warn } from '../log';
 
 export let advancement = {
   name: 'advancement',

@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 import { log, warn } from '../log';
-import { has, isArray } from '../util';
+import { has, isArray, isString } from '../util';
 
 // elements
 import { unit } from '../elements/unit';
@@ -31,7 +31,9 @@ import { portrait } from '../elements/portrait';
 import { proficiency, action, selectable } from '../elements/proficiency';
 import { repeat } from '../elements/repeat';
 import { row } from '../elements/row';
+import { ruby } from '../elements/ruby';
 import { section } from '../elements/section';
+import { sort } from '../elements/sort';
 import { slots } from '../elements/slots';
 import { spacer } from '../elements/spacer';
 import { span } from '../elements/span';
@@ -68,7 +70,6 @@ import {
   field_control_proficiency_icon,
   field_control_icon,
 } from '../elements/field-control';
-import { isString } from 'util';
 
 
 export class Registry {
@@ -105,7 +106,9 @@ export class Registry {
       proficiency, action, selectable,
       repeat,
       row,
+      ruby,
       section,
+      sort,
       slots,
       spacer,
       span,

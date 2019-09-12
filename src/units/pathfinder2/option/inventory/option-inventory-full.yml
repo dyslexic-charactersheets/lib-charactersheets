@@ -1,0 +1,300 @@
+unit: option/inventory/full
+in: option/inventory
+name: "_{Inventory (full size)}"
+
+inc:
+  - at: '@pages'
+    add:
+      - page: inventory
+        order: 16
+        flex: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - section: "_{Inventory}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - g:
+                            contents:
+                              - row:
+                                contents:
+                                  - field: inventory-kit
+                                    width: stretch
+                                    legend: "_{Kit}"
+                                  - field: inventory-kit-value
+                                    label: "_{Value}"
+                                  - field: inventory-kit-weight
+                                    label: "_{Weight}"
+                                  # - field: inventory-kit-checked
+                                  #   control: checkbox
+                                  #   label: "_{Ready}"
+                              - field: inventory-kit-contents
+                                frame: none
+                                width: stretch
+                                repeat: 3
+                                reduce: 1
+                                merge-bottom: true
+                          - g:
+                            contents:
+                              - h5: "_{Items}"
+                              - list:
+                                zebra: true
+                                collapse: true
+                                field_frame: none
+                                contents:
+                                  - repeat: 14
+                                    reduce: 6
+                                    contents:
+                                      - row:
+                                        contents:
+                                          - field: inventory-#{i}
+                                            width: stretch
+                                          - field: inventory-#{i}-value
+                                          - field: inventory-#{i}-weight
+                                          - field: inventory-#{i}-checked
+                                            control: checkbox
+                              - field: weight-total
+                                frame: left
+                                label: "Total weight"
+                                border: none
+                                control: weight
+                            
+                          - g:
+                            contents:
+                              - h5: "_{Backpack}"
+                              - list:
+                                zebra: true
+                                collapse: true
+                                field_frame: none
+                                contents:
+                                  - repeat: 8
+                                    contents:
+                                      - row:
+                                        contents:
+                                          - field: inventory-#{i}
+                                            width: stretch
+                                          - field: inventory-#{i}-value
+                                          - field: inventory-#{i}-weight
+                                          - field: inventory-#{i}-checked
+                                            control: checkbox
+                              - g:
+                                contents:
+                                  - field: weight-total
+                                    frame: left
+                                    label: "Total weight"
+                                    border: none
+                                    control: weight
+
+                          - g:
+                            contents:
+                              - h5: "_{Expendables}"
+                              - list:
+                                zebra: true
+                                collapse: true
+                                field_frame: none
+                                merge-bottom: true
+                                contents:
+                                  - repeat: 3
+                                    contents:
+                                      - row:
+                                        contents:
+                                          - field: expendable-#{i}
+                                            width: stretch
+                                          - field: expendable-#{i}-count
+                                            frame: none
+                                            control: checkgrid
+                                            max: 20
+                                            depth: 3
+                                    
+                  - section: "_{Money}"
+                    contents:
+                      - field: money-platinum
+                        frame: left
+                        control: money
+                        label: "_{Platinum}"
+                        denomination: platinum
+                        digits: 7
+                        shift: 3
+                      - field: money-gold
+                        frame: left
+                        control: money
+                        label: "_{Gold}"
+                        denomination: gold
+                        digits: 8
+                        shift: 2
+                      - field: money-silver
+                        frame: left
+                        control: money
+                        label: "_{Silver}"
+                        denomination: silver
+                        digits: 9
+                        shift: 1
+                      - field: money-copper
+                        frame: left
+                        control: money
+                        label: "_{Copper}"
+                        denomination: copper
+                        digits: 10
+                      - field: money-total
+                        frame: left
+                        output: 'true'
+                        control: money
+                        legend: "_{Total}"
+                        denomination: copper
+                        digits: 10
+                        decimal: 1
+                      - p: "_{1000 coins = 1 bulk}"
+                  - tail:
+
+              - g:
+                contents:
+                  - layout: 2e
+                    contents:
+                      - g:
+                        contents:
+                          - g:
+                            contents:
+                              - section: "_{Armour}"
+                                contents:
+                                  - row:
+                                    layout: split
+                                    contents:
+                                      - field: armour
+                                        frame: none
+                                        size: large
+                                        width: stretch
+                                      - field: armour-bulk
+                                        label: "_{Bulk}"
+                                      - field: armour-ac
+                                        label: "_{AC Bonus}"
+                                        icon: ac
+                                        border: full
+                                  - row:
+                                    layout: split
+                                    contents:
+                                      - field: armour-cat
+                                        label: "_{Category}"
+                                        width: stretch
+                                      - field: armour-dex-cap
+                                        label: "_{DEX\nCap}"
+                                      - field: armour-acp
+                                        label: "_{Check\nPenalty}"
+                                  - field: armour-properties
+                                    width: stretch
+                                    label: "_{Armour Traits}"
+                                    repeat: 3
+                                    reduce: 1
+                                    merge-bottom: true
+
+                              - section: "_{Shield}"
+                                contents:
+                                  - row:
+                                    layout: split
+                                    contents:
+                                      - field: shield
+                                        frame: none
+                                        size: large
+                                        width: stretch
+                                      - field: shield-bulk
+                                        label: "_{Bulk}"
+                                      - field: shield-ac
+                                        label: "_{AC Bonus}"
+                                        icon: ac
+                                        border: full
+                                  - row:
+                                    contents:
+                                      - field: shield-hardness
+                                        label: "_{Hardness}"
+                                        width: large
+                                        overlay: "_{hp}"
+                                      - spacer:
+                                      - field: shield-bt
+                                        label: "_{Broken}"
+                                        overlay: "_{hp}"
+                                        prefix: "&le;"
+                                        width: large
+                                      - spacer:
+                                      - field: shield-hp
+                                        label: "_{Hit Points}"
+                                        icon: hp
+                                        border: full
+                                        width: large
+                                        overlay: "_{hp}"
+                                  - field: shield-properties
+                                    width: stretch
+                                    label: "_{Shield Traits}"
+                                    repeat: 3
+                                    reduce: 1
+                                    merge-bottom: true
+
+                              - tail:
+                              - portrait: personal
+
+                      - section: "_{Worn Equipment}"
+                        contents:
+                          - list:
+                            zebra: true
+                            # columns: 2
+                            flex: true
+                            avoid-shade: true
+                            hr: true
+                            contents:
+                              - repeat: 10
+                                contents:
+                                  - level: '#{i}'
+                                    marker: ''
+                                    contents:
+                                      - article:
+                                        lines: 2
+                                        show-level: true
+
+                  - layout: 2e
+                    contents:
+                      - section: "_{Scrolls}"
+                        contents:
+                          - list:
+                            merge-bottom: true
+                            zebra: true
+                            avoid-shade: true
+                            contents:
+                              - repeat: 8
+                                reduce: 2
+                                contents:
+                                  - row:
+                                    contents:
+                                      - field: inventory-scrolls-#{i}
+                                        frame: none
+                                        width: stretch
+                                      - field: inventory-scrolls-#{i}-use
+                                        control: checkbox
+                                        frame: none
+                          - tail:
+
+                      - section: "_{Potions}"
+                        contents:
+                          - list:
+                            merge-bottom: true
+                            zebra: true
+                            avoid-shade: true
+                            contents:
+                              - repeat: 8
+                                reduce: 2
+                                contents:
+                                  - row:
+                                    contents:
+                                      - field: inventory-potion-#{i}
+                                        width: stretch
+                                        frame: none
+                                      - field: inventory-potion-#{i}-count
+                                        underlay: "#"
+                                        frame: none
+                                      - field: inventory-potion-#{i}-use
+                                        frame: none
+                                        control: checkgrid
+                                        max: 6
+                                        depth: 2
+                          - tail:

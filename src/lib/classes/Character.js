@@ -148,7 +148,19 @@ function parseCharacter(primary, request) {
       }
 
       // todo select inventory size
-      char.units.push("option/inventory/half");
+      switch (attr.inventoryStyle) {
+        case "full":
+          char.units.push("option/inventory/full");
+          break;
+
+        case "both":
+          char.units.push("option/inventory/half");
+          char.units.push("option/inventory/full");
+          break;
+
+        default:
+          char.units.push("option/inventory/half");
+      }
 
       if (attr.archetypes && isArray(attr.archetypes)) {
         attr.archetypes.forEach(archetype => {
@@ -299,7 +311,7 @@ export class Character {
 
         if (this.data.printBackground) {
           var printBackground = this.data.printBackground;
-          log("Character", "Background:", printBackground);
+          // log("Character", "Background:", printBackground);
           var bgColours = {
             magnolia: '#F4E9D8',
           };
@@ -354,7 +366,7 @@ export class Character {
           });
           units = units.concat(moreunits);
         }
-        log("Character", "Units:", units.map(unit => unit.id));
+        // log("Character", "Units:", units.map(unit => unit.id));
 
         // make the element tree
         units.forEach(unit => document.addUnit(unit));

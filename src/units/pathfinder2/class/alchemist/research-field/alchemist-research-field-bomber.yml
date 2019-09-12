@@ -1,0 +1,172 @@
+unit: alchemist/research-field/bomber
+in: alchemist/research-field
+group: "_{Core Rulebook}"
+name: "_{Bomber}"
+
+inc:
+  - set: alchemist-research-field
+    value: "_{Bomber}"
+
+  - at: '@alchemist/research-field'
+    replace:
+      - g:
+        contents:
+          - h4: "_{Bomber}"
+          - p: "_{You can choose to deal splash damage to only your primary target instead of the usual splash area.}"
+      - level: 5
+        contents:
+          - h5: "_{Field Discovery}"
+          - row:
+            contents:
+              - level-marker:
+                level: 1
+                marker: "_{Infused\nReagents}"
+              - span: "&rarr;"
+              - level-marker:
+                level: 3
+                marker: "_{Bombs}"
+              - p: "_{When preparing alchemical items with Advanced Alchemy.}"
+      - level: 13
+        contents:
+          - h5: "_{Greater Field Discovery}"
+          - p: "_{Increase splash area to 10ft (or 15ft if you have Expanded Splash).}"
+          
+  - at: '@alchemist/formulas'
+    replace:
+      - table:
+        field_frame: none
+        width: stretch
+        columns:
+          - label: "_{Bomb}"
+            align: left
+          - "_{Level}"
+          - "_{Type}"
+          - "_{Attack}"
+          - "_{Damage}"
+          - "_{Persistent}"
+          - "_{Splash}"
+        rows:
+          - n: 1
+        repeat: 6
+        template:
+          - field: alchemist-bomb-#{i}
+            width: stretch
+            label: "_{Bomb}"
+          - field: alchemist-bomb-#{i}-level
+            width: small
+
+          - field: alchemist-bomb-#{i}-type
+            width: huge
+            
+          - field: alchemist-bomb-#{i}-attack-bonus
+            prefix: "+"
+            border: full
+            
+          - field: alchemist-bomb-#{i}-damage
+            width: huge
+            icon: damage
+            control: compound
+            parts:
+              - subid: ndice
+                width: tiny
+                align: right
+              - label: "_{d}"
+              - subid: die
+                width: tiny
+                align: left
+
+          - field: alchemist-bomb-#{i}-persistent-damage
+          - field: alchemist-bomb-#{i}-splash
+            label: "_{Splash}"
+            control: compound
+            width: large
+            parts:
+              - field: alchemist-bomb-#{i}-splash
+                control: checkbox
+              - field: alchemist-bomb-#{i}-splash-dmg
+                width: large
+      - hr:
+
+  - at: '@formula-book/left'
+    replace:
+      - list:
+        zebra: true
+        hr: true
+        flex: true
+        contents:
+          - repeat: 5
+            index: j
+            contents:
+              - article: formula-book-bomb-#{j}
+                show-level: true
+                header:
+                  - row:
+                    contents:
+                      - field: 'formula-book-bomb-#{j}'
+                        width: stretch
+                        align: left
+                        legend: "_{Bomb}"
+                      - field: 'formula-book-bomb-#{j}-level'
+                        label: "_{Level}"
+                  
+                contents:
+                  - field: 'formula-book-bomb-#{j}-details'
+                    width: stretch
+                    align: left
+                    frame: none
+                    repeat: 2
+                    reduce: 1
+                  - row:
+                    contents:
+                      - field: formula-book-bomb-#{j}-type
+                        width: stretch
+                        label: "_{Type}"
+                        
+                      - field: formula-book-bomb-#{j}-attack-bonus
+                        prefix: "+"
+                        border: full
+                        label: "_{Attack}"
+                        
+                  - row:
+                    contents:
+                      -
+                      - field: formula-book-bomb-#{j}-damage
+                        width: huge
+                        icon: damage
+                        control: compound
+                        label: "_{Damage}"
+                        parts:
+                          - subid: ndice
+                            width: tiny
+                            align: right
+                          - label: "_{d}"
+                          - subid: die
+                            width: tiny
+                            align: left
+                      - field: formula-book-bomb-#{j}-persistent-damage
+                        label: "_{Persistent}"
+                      - field: formula-book-bomb-#{j}-splash
+                        label: "_{Splash}"
+                        control: compound
+                        width: large
+                        parts:
+                          - field: formula-book-bomb-#{j}-splash
+                            control: checkbox
+                          - field: formula-book-bomb-#{j}-splash-dmg
+                            width: large
+                  - row:
+                    contents:
+                      - field: 'formula-book-bomb-#{j}-final'
+                        width: stretch
+                        label: "_{}"
+                      - field: 'formula-book-bomb-#{j}-ref'
+                        icon: book
+                        label: "_{Source}"
+                        align: left
+                        width: huge
+                        control: compound
+                        parts:
+                          - width: large
+                          - span: 'p'
+                          - width: large
+                            align: left

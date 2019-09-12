@@ -43,7 +43,9 @@ var expansion = {
     portrait: 'char',
     repeat: 'repeat',
     row: 'layout',
+    ruby: 'ruby',
     section: 'title',
+    sort: 'orderby',
     slots: 'slots',
     spacer: '',
     span: 'content',
@@ -58,21 +60,6 @@ var expansion = {
     vr: '',
     zone: 'zone',
 };
-
-// populate from the registry
-/*
-_.each(CharacterSheets.getRegistry(), (reg, element) => {
-    // var expected = _.keys(reg.defaults);
-    // if (reg.key != "") expected.unshift(reg.key);
-    // expected.unshift("level");
-    expansion[element] = {
-        key: reg.key,
-        expected: reg.expect //expected
-    };
-});
-*/
-// console.log("[expand] Registry", expansion);
-
 
 function expandObject (object) {
     // console.log(`[expand] expandObject ${JSON.stringify(object)}`);
@@ -143,17 +130,6 @@ function expandContinuation(object, kv) {
         // console.log(`[expand]   kv ${object.type} contents:`, object.contents);
         return expandContinuation(object, kv);
     }
-    
-    // if (_.has(expansion, object.type)) {
-    //     var exp = expansion[object.type];
-    //     // console.log("[expand]   kv exp", object.type, exp.expected);
-    //     if (key != exp /*&& exp.expected.indexOf(key) == -1*/ && _.has(expansion, key)) {
-    //         kv.unshift(pair);
-    //         var content = expandObjectKV(kv);
-    //         object.contents = [ content ];
-    //         return object;
-    //     }
-    // }
     
     object[key] = expandValue(value);
     return expandContinuation(object, kv);

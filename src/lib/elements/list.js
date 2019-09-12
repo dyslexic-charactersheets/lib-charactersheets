@@ -52,6 +52,7 @@ export let list = {
             type: "layout",
             layout: args.columns+"e",
             flex: args.flex,
+            gutter: args.gutter,
             'merge-bottom': args['merge-bottom'],
             contents: cols.map(col => {
                 return Object.assign({}, args, {
