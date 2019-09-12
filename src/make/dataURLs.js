@@ -72,10 +72,6 @@ function processRaw(data) {
     return data;
 }
 
-// function waitForData (callback) {
-//     Promise.all(loadingQueue).then(callback);
-// };
-
 function toDataURL (data, base64, filename) {
     var mime = mimeType(filename);
     switch (mime) {

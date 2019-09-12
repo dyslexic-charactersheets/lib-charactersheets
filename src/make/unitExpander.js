@@ -94,19 +94,14 @@ function expandObjectKV(kv) {
     if (_.has(expansion, objtype)) {
         var object = {type: objtype};
 
-        // if (_.isArray(value)) {
-        //     object.contents = _.map(value, expandValue);
-        //     return expandContinuation(object, kv);
-        // } else {
-            var exp = expansion[objtype];
-            // console.log("[expand]   exp", objtype, exp.expected);
-            // console.log(`[expand]   ${exp.key} = ${value}`);
-            if (exp != "" && !_.isUndefined(value)) {
-                object[exp] = value;
-            }
-            // console.log(`[expand]   ${JSON.stringify(object)}`);
-            return expandContinuation(object, kv);
-        // }
+        var exp = expansion[objtype];
+        // console.log("[expand]   exp", objtype, exp.expected);
+        // console.log(`[expand]   ${exp.key} = ${value}`);
+        if (exp != "" && !_.isUndefined(value)) {
+            object[exp] = value;
+        }
+        // console.log(`[expand]   ${JSON.stringify(object)}`);
+        return expandContinuation(object, kv);
     }
 
     var object = {};

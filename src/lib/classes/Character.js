@@ -36,11 +36,6 @@ function parseCharacter(primary, request) {
     printBackground: false
   }, primary.attributes);
 
-  // if (attr.printHighContrast) {
-  //   attr.printColour = '#707070';
-  //   attr.accentColour = '';
-  // }
-
   // an object to start with
   let char = {
     name: attr.name,

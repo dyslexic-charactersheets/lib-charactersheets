@@ -46,36 +46,14 @@ function getDataURL(unit, filename) {
 Handlebars.registerHelper('dataurl', function (filename, options) {
   // log("units", "dataurl:", filename, " Options:", options);
   var unit = options.data.root.unit;
-  // var data = CharacterSheets._assets[unit][filename];
-  // return toDataURL(data, filename);
-  // return getDataURL(filename, false);
-
   return getDataURL(unit, filename);
 });
 
 Handlebars.registerHelper('dataurlraw', function (filename, options) {
   // log("units", "dataurlraw:", filename, " Options:", options);
   var unit = options.data.root.unit;
-  // var asset = CharacterSheets._assets[unit][filename];
-  // return toDataURL(data, filename);
-  // return getDataURL(filename, true);
   return getDataURL(unit, filename);
 });
-
-
-
-// function getUnit (unitid) {
-//     // log("units", "getUnit", unitid);
-//     if (_.has(_units, unitid))
-//         return _units[unitid];
-//     else
-//         error("units", "getUnit: Unknown unit", unitid);
-// };
-
-// function getUnits(unitids) {
-//     // log("units", "getUnits", unitids);
-//     return _.map(unitids, code => getUnit(code));
-// };
 
 module.exports = {
   loadSystem: function (system, callback) {
@@ -170,10 +148,6 @@ module.exports = {
                   unit: unitid
                 });
 
-                // if (rendered.length > 0)
-                //     log("units", "Loaded stylesheet:", unitid, rendered.substring(0, 30)+"...");
-                // else
-                //     log("units", "Empty stylesheet:", unitid);
                 fs.writeFile(`${debugDir}/${unitid.replace(/\//g, '-')}.css`, rendered, err => {
                   if (err) error("units", "Error saving unit", unitid, err);
                 });
