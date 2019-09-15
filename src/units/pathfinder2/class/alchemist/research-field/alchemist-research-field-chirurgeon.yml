@@ -1,18 +1,18 @@
-unit: alchemist/research-field/mutagenist
+unit: alchemist/research-field/chirurgeon
 in: alchemist/research-field
 group: "_{Core Rulebook}"
-name: "_{Mutagenist}"
+name: "_{Chirurgeon}"
 
 inc:
   - set: alchemist-research-field
-    value: "_{Mutagenist}"
+    value: "_{Chirurgeon}"
 
   - at: '@alchemist/research-field'
     replace:
       - g:
         contents:
-          - h4: "_{Mutagenist}"
-          - p: "_{Gain the benefits of any mutagen, even if it wasn't specifically brewed for you.}"
+          - h4: "_{Chirurgeon}"
+          - p: "_{May use Crafting instead for any untrained or trained uses of Medicine.}"
       - level: 5
         contents:
           - h5: "_{Field Discovery}"
@@ -24,13 +24,12 @@ inc:
               - span: "&rarr;"
               - level-marker:
                 level: 3
-                marker: "_{Mutagens}"
-              - p: "_{When preparing mutagens with Advanced Alchemy.}"
+                marker: "_{Elixirs}"
+              - p: "_{When preparing elixirs with Advanced Alchemy.}"
       - level: 13
         contents:
           - h5: "_{Greater Field Discovery}"
-          - p: "_{Gain the benefits and drawbacks of two mutagens at once.}"
-          - p: "_{If you take a third mutagen, lose the benefits (but not the drawbacks) of one. If you take a polymorph effect, lose the benefits (but not the drawbacks) or all mutagens.}"
+          - p: "_{Increase splash area to 10ft (or 15ft if you have Expanded Splash).}"
 
   - at: '@alchemist/formulas'
     replace:
@@ -38,34 +37,30 @@ inc:
         field_frame: none
         width: stretch
         columns:
-          - label: "_{Mutagen}"
+          - label: "_{elixir}"
             align: left
           - "_{Level}"
           - "_{Type}"
           - "_{Bonus}"
           - "_{Effect}"
-          - "_{Duration}"
         rows:
           - n: 1
-        repeat: 4
+        repeat: 5
         template:
-          - field: alchemist-mutagen-#{i}
+          - field: alchemist-elixir-#{i}
             width: stretch
-            label: "_{mutagen}"
-          - field: alchemist-mutagen-#{i}-level
+            label: "_{elixir}"
+          - field: alchemist-elixir-#{i}-level
             width: small
 
-          - field: alchemist-mutagen-#{i}-type
+          - field: alchemist-elixir-#{i}-type
             width: huge
             
-          - field: alchemist-mutagen-#{i}-bonus
+          - field: alchemist-elixir-#{i}-bonus
             prefix: "+"
             border: full
-          - field: alchemist-mutagen-#{i}-effect
+          - field: alchemist-elixir-#{i}-effect
             width: stretch
-            
-          - field: alchemist-mutagen-#{i}-duration
-            width: huge
       - hr:
 
   - at: '@formula-book/left'
@@ -75,43 +70,36 @@ inc:
         hr: true
         flex: true
         contents:
-          - repeat: 5
+          - repeat: 6
             index: j
             contents:
-              - article: formula-book-mutagen-#{j}
+              - article: formula-book-elixir-#{j}
                 show-level: true
                 header:
                   - row:
                     contents:
-                      - field: 'formula-book-mutagen-#{j}'
+                      - field: 'formula-book-elixir-#{j}'
                         width: stretch
                         align: left
-                        legend: "_{Mutagen}"
-                      - field: 'formula-book-mutagen-#{j}-level'
+                        legend: "_{elixir}"
+                      - field: 'formula-book-elixir-#{j}-level'
                         label: "_{Level}"
                   
                 contents:
-                  - field: 'formula-book-mutagen-#{j}-benefits'
-                    label: "_{Benefit}"
+                  - field: 'formula-book-elixir-#{j}-benefits'
+                    label: "_{Effect}"
                     width: stretch
                     align: left
                     frame: annotation
                     repeat: 3
                     reduce: 1
-                  - field: 'formula-book-mutagen-#{j}-drawbacks'
-                    label: "_{Drawback}"
-                    width: stretch
-                    align: left
-                    frame: annotation
-                    repeat: 2
-                    reduce: 1
                         
                   - row:
                     contents:
-                      - field: 'formula-book-mutagen-#{j}-final'
+                      - field: 'formula-book-elixir-#{j}-final'
                         width: stretch
                         label: "_{}"
-                      - field: 'formula-book-mutagen-#{j}-ref'
+                      - field: 'formula-book-elixir-#{j}-ref'
                         icon: book
                         label: "_{Source}"
                         align: left
