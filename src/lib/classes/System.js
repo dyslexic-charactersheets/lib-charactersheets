@@ -54,7 +54,7 @@ export function loadSystemData(codes) {
       readFile(systemFile, 'utf-8', (err, data) => {
         if (err) {
           error("System", `Error loading system file ${systemFile}:`, err);
-          reject();
+          resolve();
           return;
         }
 
