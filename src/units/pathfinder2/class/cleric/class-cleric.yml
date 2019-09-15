@@ -73,19 +73,59 @@ inc:
                   - class-icon: box
                   - class-name: "_{Cleric}"
                     affix: "_{of}"
-                  - field: cleric-deity
-                    width: stretch
-                    label: "_{Deity}"
-                    align: center
+                    flex: tiny
+                    contents:
+                      - field: cleric-deity
+                        width: stretch
+                        label: "_{Deity}"
+                        align: center
+                        size: huge
+
+                  - section: "_{Doctrine}"
+                    primary: true
+                    flex: large
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - zone: '@cleric-doctrine'
+                            contents:
+                              - field: cleric-doctrine
+                                frame: none
+                                width: stretch
+                                align: center
+                                merge-bottom: true
+                                size: huge
+                              - list:
+                                hr: true
+                                merge-bottom: true
+                                contents:
+                                  - repeat: 6
+                                    rows:
+                                      - level: 1
+                                      - level: 3
+                                      - level: 7
+                                      - level: 11
+                                      - level: 15
+                                      - level: 19
+                                    contents:
+                                      - level: '#{level}'
+                                        contents:
+                                          - field: cleric-doctrine-#{i}
+                                            width: stretch
+                                            frame: none
+                                            repeat: 2
+                                            merge-bottom: true
 
                   - section: "_{Anathema}"
+                    flex: small
                     contents:
                       - ul:
                         merge-bottom: true
                         contents:
                           - zone: '@anathema'
                             contents:
-                              - repeat: 4
+                              - repeat: 5
                                 contents:
                                   - li:
                                     contents:
@@ -93,10 +133,13 @@ inc:
                                         frame: none
                                         width: stretch
 
-                  - section: "_{Divine Spells}"
+                  - section: "_{Spellcasting}"
                     id: class-dc
                     contents:
-                      
+                      - spells-table:
+                        flip: true
+                        merge-bottom: false
+
                       - paste: spell-attack
                         params:
                           id: divine-spell-attack
@@ -107,14 +150,10 @@ inc:
                           id: divine-spell-dc
                           legend: "_{Divine\nSpell DC}"
 
-                  - section: "_{Spells Per Day}"
-                    contents:
-                      - spells-table:
-                        flip: true
-
                   - zone: '@cleric-left'
 
                   - section: "_{Divine Font}"
+                    flex: large
                     contents:
                       - row: center
                         contents:
@@ -183,45 +222,13 @@ inc:
                               - p: "_{All allies and enemies in range}"
 
                   - tail:
-                  - spacer:
+                  # - spacer:
 
               - g:
                 contents:
 
-                  - section: "_{Doctrine}"
-                    primary: true
-                    contents:
-                      - list:
-                        hr: true
-                        contents:
-                          - zone: '@cleric-doctrine'
-                            contents:
-                              - field: cleric-doctrine
-                                frame: none
-                                width: stretch
-                                align: center
-                                merge-bottom: true
-                                size: huge
-                              - list:
-                                columns: 2
-                                merge-bottom: true
-                                contents:
-                                  - repeat: 6
-                                    rows:
-                                      - level: 1
-                                      - level: 3
-                                      - level: 7
-                                      - level: 11
-                                      - level: 15
-                                      - level: 19
-                                    contents:
-                                      - level: '#{level}'
-                                        contents:
-                                          - field: cleric-doctrine-#{i}
-                                            width: stretch
-                                            frame: none
-
                   - section: "_{Cantrips}"
+                    flex: small
                     contents:
                       - spells-list:
                         min: 0
@@ -230,15 +237,18 @@ inc:
                         style: spontaneous
 
                   - section: "_{Spells}"
+                    flex: huge
                     contents:
                       - list:
                         hr: true
                         contents:
                           - spells-list:
+                            flex: huge
                             min: 1
                             max: 9
                             spells: 4
                           - spells-list:
+                            flex: tiny
                             min: 10
                             max: 10
                             spells: 2
