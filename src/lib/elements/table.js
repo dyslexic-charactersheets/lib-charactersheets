@@ -14,7 +14,7 @@ export let table = {
     template: [],
     width: '',
   },
-  render: (args, reg, doc) => {
+  render(args, reg, doc) {
     // get headings
     if (doc.isLargePrint) {
       args.columns = args.columns.filter(col => !(has(col, "optional") && col.optional));
@@ -40,7 +40,7 @@ export let table = {
 
     if (isEmpty(args.rows) || args.rows == []) {
       // log("table", "Filling in empty rows");
-      args.rows = [ {} ];
+      args.rows = [{}];
     }
 
     // individual rows repeat
@@ -49,7 +49,7 @@ export let table = {
       var rep = has(row, "repeat") ? row.repeat : 1;
       if (rep > 1) {
         // log("table", "Repeating row", rep, "times:", row);
-        return Array.from({length: rep}, e => Array.from(row));
+        return Array.from({ length: rep }, e => Array.from(row));
       }
       return [row];
     });
@@ -63,7 +63,7 @@ export let table = {
       let rows2 = Array(rows.length * args.repeat);
       for (var i = 0; i < args.repeat; i += rows.length) {
         for (var j = 0; j < rows.length; j++) {
-          rows2[i+j] = cloneDeep(rows[j]);
+          rows2[i + j] = cloneDeep(rows[j]);
         }
       }
       rows = rows2;

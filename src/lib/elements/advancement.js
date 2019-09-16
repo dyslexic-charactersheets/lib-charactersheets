@@ -14,7 +14,7 @@ export let advancement = {
     labels: [],
     fields: []
   },
-  transform: args => {
+  transform(args, ctx) {
     let table_id = isEmpty(args.id) ? 'advancement' : args.id;
     // log("advancement", "Advances", args.advances);
 
@@ -26,11 +26,11 @@ export let advancement = {
 
     args.advances.forEach(advance => {
       // log("advancement", "Advance", advance);
-      
+
       let levels = advance.levels;
       delete advance.levels;
       if (isEmpty(levels) && has(advance, "level")) {
-        levels = [ advance.level ];
+        levels = [advance.level];
         delete advance.level;
       }
 
@@ -38,7 +38,7 @@ export let advancement = {
         warn("advancement", "Cannot place advancement", advance);
         return;
       }
-      
+
       var keys = Object.keys(advance);
       keys.forEach(key => {
         if (!isArray(advance[key])) {
@@ -48,7 +48,7 @@ export let advancement = {
       // log("advancement", "Placing", levels, advance);
 
       levels.forEach((level, i) => {
-        let item = {level: level};
+        let item = { level: level };
         keys.forEach(key => {
           item[key] = advance[key][i];
         });
@@ -75,8 +75,8 @@ export let advancement = {
         if (has(item, "advance")) {
           labels.push(item.advance);
           has_labels = true;
-        // } else if (has(item, "proficiency")) {
-        //   proficiencies[item.proficiency].push(item.in);
+          // } else if (has(item, "proficiency")) {
+          //   proficiencies[item.proficiency].push(item.in);
         }
       });
       delete flags.level;
@@ -86,7 +86,7 @@ export let advancement = {
       // delete flags.proficiency;
       // delete flags.in;
       // log("advancement", `Level ${lv}`, labels, flags);
-      
+
       rows.push(Object.assign(flags, {
         level: lv,
         advance: labels.join(", "),
@@ -142,11 +142,11 @@ export let advancement = {
         case 'checkbox':
           template.push({
             type: "field",
-            id: table_id+'-#{level}-'+field.key,
+            id: table_id + '-#{level}-' + field.key,
             frame: "none",
             control: "checkbox",
             width: "small",
-            exists: "#{"+field.key+"}",
+            exists: "#{" + field.key + "}",
             shade: field.shade
           });
           break;
@@ -154,7 +154,7 @@ export let advancement = {
         case 'string':
           template.push({
             type: "span",
-            content: "#{"+field.key+"}",
+            content: "#{" + field.key + "}",
             shade: field.shade
           });
           break;
@@ -179,135 +179,6 @@ export let advancement = {
     }
 
     // log("advancement", "Table", table);
-    return [ table ];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-    let columns = [{
-      type: "label",
-      label: args.index,
-      valign: "middle"
-    }];
-    let template = [{
-      type: "level-marker",
-      marker: '',
-      level: '#{level}'
-    }];
-    // if (!isEmpty(args.labels)) {
-      columns.push({
-        type: "label",
-        label: args.title,
-        align: "left",
-        valign: "middle"
-      });
-      template.push({
-        type: "p",
-        content: "#{label}",
-        align: "left"
-      });
-    // }
-    args.fields.forEach(field => {
-      var align = (has(field, "align") && !isEmpty(field.align)) ? field.align : '';
-      columns.push({
-        type: "label",
-        label: field.label,
-        align: align,
-        shade: has(field, "shade") && field.shade
-      });
-      if (has(field, "values")) {
-        template.push({
-          type: "p",
-          align: align,
-          content: "#{"+field.id+"}"
-        });
-      } else if (has(field, "template")) {
-        field.template.exists = "#{"+field.id+"}";
-        template.push(field.template);
-      } else {
-        template.push({
-          type: "field",
-          id: args.id+'-#{level}-'+field.id,
-          frame: "none",
-          control: "checkbox",
-          width: "small",
-          exists: "#{"+field.id+"}"
-        });
-      }
-    });
-
-    let rows = [];
-    for (var lv = args.start; lv <= args.end; lv++) {
-      let i = lv - args.start;
-      let row = { level: lv };
-
-      if (i < args.labels.length) {
-        row.label = args.labels[i];
-      } else {
-        row.label = "";
-      }
-
-      args.fields.forEach(field => {
-        if (has(field, "values")) {
-          if (i < field.values.length) {
-            row[field.id] = field.values[i];
-          } else {
-            row[field.id] = '';
-          }
-        } else {
-          if (field.levels.includes(lv)) {
-            row[field.id] = true;
-          } else {
-            row[field.id] = false;
-          }
-        }
-      });
-      rows.push(row);
-    }
-    // log("advancement", "Rows", rows);
-
-    let table = {
-      type: 'table',
-      zebra: true,
-      collapse: true,
-      narrow: true,
-      rows: rows,
-      columns: columns,
-      template: template,
-    }
-
-    return [ table ];
-    */
+    return [table];
   }
 };

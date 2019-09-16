@@ -181,7 +181,9 @@ export class Document {
 
             // log("compose", "Applying transformation to", element.type);
             // log("Document", "Large print?", self.largePrint);
-            var newelements = reg.transform(Object.assign({}, reg.defaults, element), { zones: self.zones, templates: self.templates, largePrint: self.largePrint, locale: self.language });
+            let args = Object.assign({}, reg.defaults, element);
+            let ctx = { zones: self.zones, templates: self.templates, largePrint: self.largePrint, locale: self.language };
+            var newelements = reg.transform(args, ctx);
             if (newelements === false)
               return element;
 
@@ -235,7 +237,9 @@ export class Document {
 
       if (reg && reg.transform) {
         // log("compose", "Applying transformation to", element.type);
-        var newelements = reg.transform(Object.assign({}, reg.defaults, element), { zones: self.zones, templates: self.templates, largePrint: self.largePrint, locale: self.language });
+        let args = Object.assign({}, reg.defaults, element);
+        let ctx = { zones: self.zones, templates: self.templates, largePrint: self.largePrint, locale: self.language };
+        var newelements = reg.transform(args, ctx);
         if (newelements === false)
           return element;
 

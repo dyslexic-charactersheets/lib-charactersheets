@@ -41,7 +41,7 @@ export class System {
   getUnits(codes) {
     return codes.flatMap(code => {
       let unit = this.getUnit(code);
-      return isNull(unit) ? [] : [ unit ];
+      return isNull(unit) ? [] : [unit];
     });
   }
 }

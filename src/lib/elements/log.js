@@ -6,7 +6,7 @@ export let logelem = {
   defaults: {
     message: '',
   },
-  transform: args => {
+  transform(args) {
     log("-", args.message);
     return [];
   }

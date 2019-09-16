@@ -7,7 +7,7 @@ import { getFormData as getFormDataF } from './formdata';
 
 // start this first, it's the slow bit
 loadSystemData([
-  "common", 
+  "common",
   "pathfinder2",
   "premium"
 ]);

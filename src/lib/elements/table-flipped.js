@@ -23,7 +23,7 @@ export function renderTableFlipped(args, reg, doc, headings, cols) {
 
   if (hasHeading) ncols++;
   // log("table", `Table: ${nrows} rows, ${ncols} cols`);
-  var cells = Array.from({length: nrows}, r => Array(ncols).fill(null));
+  var cells = Array.from({ length: nrows }, r => Array(ncols).fill(null));
   // log("table", "Cell grid:", cells);
 
   // fill the grid

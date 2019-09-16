@@ -5,7 +5,7 @@ export let ifelem = {
     cond: '',
     then: [],
   },
-  transform: args => {
+  transform(args) {
     
     return args.then;
   }

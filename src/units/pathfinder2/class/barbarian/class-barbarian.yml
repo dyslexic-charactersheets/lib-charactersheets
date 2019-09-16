@@ -4,7 +4,7 @@ group: "_{Core Rulebook}"
 name: "_{Barbarian}"
 
 form:
-  - option: barbarian-instinct
+  - select: barbarian/instinct
     name: "_{Instinct}"
     max: 1
 
@@ -16,16 +16,19 @@ inc:
     value: "_{Barbarian}"
   - set: hp-class
     value: 12
+
   - set: class-dc-proficiency
     value: trained
   - set: perception-proficiency
     value: expert
+
   - set: fortitude-proficiency
     value: expert
   - set: reflex-proficiency
     value: trained
   - set: will-proficiency
     value: expert
+
   - set: athletics-proficiency
     value: trained
 
@@ -44,11 +47,30 @@ inc:
         underlay: "_{STR}"
         ref: STR
 
+  - at: '@advancement'
+    add:
+      - level: 1
+        class-feat: true
+      - level: 1
+        advance: "_{Instinct}"
+      
+  - at: '@saving-throws'
+    add:
+      - level: 7
+        contents:
+          - p: "_{Upgraded success at Fortitude saves.}"
+      - level: 13
+        contents:
+          - p: "_{Reduced failure at Fortitude saves.}"
+      - level: 15
+        contents:
+          - p: "_{Upgraded success at Will saves.}"
+
   - at: '@pages'
     add:
       - page: barbarian
         name: "_{Barbarian}"
-        # flex: true
+        flex: true
         order: 10
         contents:
           - layout: 2l
@@ -57,84 +79,68 @@ inc:
               contents:
                 - class-icon: barbarian
                   optional: true
-                - h2: "_{Barbarian}"
-                - section: "_{Totem}"
+                - class-name: "_{Barbarian}"
+
+                - section: "_{Instinct}"
                   primary: true
                   contents:
-                    - article:
-                      header:
-                        - field: barbarian-totem
-                          legend: "_{Totem}"
-                          width: stretch
-                          align: left
+                    - list:
+                      hr: true
                       contents:
-                        - field: barbarian-totem-anathema
-                          label: "_{Anathema}"
-                          width: stretch
-                          align: left
-                          repeat: 4
-                          reduce: 2
-                          merge-bottom: true
-                        - hr:
-                        - field: barbarian-totem-ability
-                          label: "_{Totem Ability}"
-                          width: stretch
-                          align: left
-                          repeat: 4
-                          reduce: 2
-                          merge-bottom: true
-                        - hr:
-                        - field: barbarian-totem-raging-resistance
-                          label: "_{Raging Resistance}"
-                          width: stretch
-                          align: left
-                          repeat: 4
-                          reduce: 2
-                          merge-bottom: true
+                        - zone: '@barbarian/instinct'
+                          contents:
+                            - field: barbarian-instinct
+                              frame: none
+                              size: huge
+                              width: stretch
+                              align: left
+                              merge-bottom: true
+                        - g:
+                          contents:
+                            - h5: "_{Anathema}"
+                            - paste: anathema
+                              params:
+                                id: barbarian/anathema
+                                lines: 3
+                        - g:
+                          contents:
+                            - h5: "_{Instinct Ability}"
+                            - zone: barbarian/instinct-ability
+                              contents:
+                                - article:
+                                  lines: 5
+                                  reduce: 2
+                        - level: 7
+                          contents:
+                            - h5: "_{Specialisation Ability}"
+                            - zone: barbarian/specialisation-ability
+                              contents:
+                                - article:
+                                  lines: 3
+                                  reduce: 1
+
+                - section: "_{Class DC}"
+                  contents:
+                    - paste: class-dc
+                      params:
+                        id: barbarian-class-dc
+                        legend: "_{Barbarian\nClass DC}"
+
                 - section: "_{Deny Advantage}"
                   contents:
                     - level: 5
                       contents:
                         - p: "_{Never flat-footed against creatures of a lower level.}"
-                - section: "_{Juggernaut}"
-                  contents:
-                    - level: 7
-                      contents:
-                        - type: proficiency
-                          proficiency: master
-                          content: Master at Fortitude saves
-                        - type: p
-                          content: "_{When you succeed at a Fortitude save, treat it as a critical success.}"
-                    - hr:
-                    - level: 13
-                      contents:
-                        - type: proficiency
-                          proficiency: legendary
-                          content: "_{Legendary at Fortitude saves}"
-                        - p: "_{When you critically fail a Fortitude save, treat it as a failure. When you fail a Fortitude save against an effect that deals damage, you halve the damage you take.}"
-                - section: "_{Weapon Fury}"
-                  contents:
-                  - level: 13
-                    contents:
-                    - type: proficiency
-                      proficiency: expert
-                      content: "_{Expert at simple and martial weapons, and unarmed attacks}"
-                - section: "_{Indomitable Will}"
-                  contents:
-                  - level: 15
-                    contents:
-                    - type: proficiency
-                      proficiency: master
-                      content: "_{Master at Will saves}"
-                    - p: "_{When you succeed at a Will save, treat it as a critical success.}"
+
                 - section: "_{Devastating Strikes}"
                   contents:
                     - level: 19
                       contents:
                         - calc:
                           output:
-                            field: barbarian-raging-resistance-
-                            legend: "_{Resistance Reduction}"
+                            field: barbarian-devastating-strikes-resistance-reduction
+                            legend: "_{Resistance\nReduction}"
+                            width: large
                           inputs:
                             - field:
                               ref: CON
@@ -143,9 +149,11 @@ inc:
                             - span: "&times; 2"
                         - p: "_{If you succeed at a melee Strike against a target with resistance against the physical damage type of the weapon or unarmed attack you’re using, reduce that resistance.}"
                 - tail:
+                - spacer:
+
             - g:
               contents:
-                - section: "_{Rage}"
+                - section: "_{Rage!}"
                   id: barbarian-rage
                   contents:
                     - list:
@@ -157,36 +165,24 @@ inc:
                               contents:
                                 - row:
                                   contents:
-                                    - field: rage-rounds
-                                      legend: "_{Rage Rounds}"
-                                      control: progression
-                                      parts:
-                                        - control: checkbox
-                                        - control: checkbox
-                                        - control: checkbox
-                                    - spacer:
-                                    - p: "_{After raging, you are fatigued for 1 round.}"
-                                    - spacer:
-                                - p: "_{While raging, cannot use actions that require concentration, except for Seek.}"
-                                - row:
-                                  contents:
-                                    - field: barbarian-rage-damage-bonus
-                                      output: true
-                                      label: "_{Damage Bonus}"
+                                    - field: rage-duration
+                                      border: full
+                                      legend: "_{Rage Duration}"
                                       width: large
-                                    - p: "_{To melee and unarmed strikes}"
+                                      overlay: "_{rds}"
                                     - spacer:
-                                    - field: barbarian-rage-ac-penalty
-                                      label: "_{AC Penalty}"
-                                      output: true
-                                      width: large
-                                      value: "-1"
+                                    - field: rage-current
+                                      label:
+                                      control: checkgrid
+                                      depth: 3
+                                      max: 10
                                     - spacer:
                                     - calc:
                                       output:
                                         field: barbarian-rage-temp-hp
-                                        label: "_{Temporary Hit Points}"
+                                        legend: "_{Temporary\nHit Points}"
                                         overlay: hp
+                                        width: large
                                         temp: true
                                       inputs:
                                         - field:
@@ -197,24 +193,52 @@ inc:
                                         - field:
                                           ref: level
                                           label: "_{Level}"
+                                - row:
+                                  contents:
+                                    - field: barbarian-rage-damage-bonus
+                                      border: full
+                                      legend: "_{Rage\nDamage Bonus}"
+                                      prefix: "+"
+                                      width: large
+                                    - p: "_{To melee and unarmed strikes}"
+                                    - spacer:
+                                    - field: barbarian-rage-ac-penalty
+                                      legend: "_{AC Penalty}"
+                                      border: full
+                                      width: large
+                                      underlay: "_{AC}"
+                                    - spacer:
+                                - p: "_{While raging, cannot use actions that require concentration, except for Seek.}"
+                                - p: "_{After raging, lose temporary hit points. You cannot rage again for 1 minute.}"
+                                  pad: true
                             - level: 3
                               contents:
-                                - h5: "_{Critical Brutality}"
-                                - p: "_{Gain critical specialization for your melee weapon or unarmed attack.}"
+                                - g:
+                                  pad: true
+                                  contents:
+                                    - h5: "_{Critical Brutality}"
+                                    - p: "_{Gain critical specialization for your melee weapon or unarmed attack.}"
+                                      pad: true
                             - level: 9
                               contents:
                                 - row:
+                                  pad: true
                                   contents:
                                     - calc:
                                       output:
                                         field: barbarian-raging-resistance
-                                        legend: "_{Raging Resistance}"
+                                        legend: "_{Raging\nResistance}"
                                         width: large
                                       inputs:
                                         - field:
                                           ref: CON
                                           underlay: "_{CON}"
                                           label: "_{CON}"
+                                    - zone: '@barbarian/raging-resistance'
+                                      contents:
+                                        - field: barbarian-raging-resistance-type
+                                          label: "_{Damage type}"
+                                          width: stretch
                             - level: 11
                               contents:
                                 - action: free
@@ -234,4 +258,5 @@ inc:
                     slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
                     
                 - tail:
+                - spacer:
 

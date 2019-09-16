@@ -11,7 +11,6 @@ import { article } from '../elements/article';
 import { blockquote } from '../elements/blockquote';
 import { calc } from '../elements/calc';
 import { class_icon } from '../elements/class-icon';
-// import { ifelem } from '../elements/control';
 // import { document } from '../elements/document';
 import { each } from '../elements/each';
 import { g } from '../elements/g';

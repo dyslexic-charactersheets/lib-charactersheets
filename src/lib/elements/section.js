@@ -12,7 +12,7 @@ export let section = {
     untitled: false,
     contents: [],
   },
-  render: (args, reg, doc) => {
+  render(args, reg, doc) {
     var id = elementID('section', args.id);
     var cls = elementClass('section', null, args, ['primary', 'fill', 'untitled'], { flex: 'medium' });
 

@@ -102,7 +102,7 @@ function parseCharacter(primary, request) {
       if (attr.ancestry) {
         char.units.push('ancestry/' + attr.ancestry.replace(/^ancestry-/, ''));
         char.ancestry = attr.ancestry.replace(/^ancestry-/, '');
-        
+
         if (attr.heritage)
           char.units.push('heritage/' + char.ancestry + "/" + attr.heritage.replace(/^heritage-/, ''));
       }
@@ -161,7 +161,7 @@ function parseCharacter(primary, request) {
         attr.archetypes.forEach(archetype => {
           if (isString(archetype)) {
             char.archetypes.push(archetype);
-            char.units.push('archetype/'+archetype);
+            char.units.push('archetype/' + archetype);
           }
         });
       }
@@ -313,7 +313,7 @@ export class Character {
           if (has(bgColours, printBackground)) {
             document.backgroundColour = bgColours[printBackground];
           } else if (printBackground.match(/(#[A-Za-z0-9]{6}|rgb\([0-9]+,[0-9]+,[0-9]+\))/)) {
-            document.backgroundColour = printBackground;   
+            document.backgroundColour = printBackground;
           } else {
             this.getAsset(printBackground, dataURL => {
               document.backgroundURL = dataURL;
@@ -380,7 +380,7 @@ export class Character {
 
           callback({
             data: data,
-            filename: title+".html",
+            filename: title + ".html",
             mimeType: "text/html"
           });
         });

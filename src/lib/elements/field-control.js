@@ -27,7 +27,7 @@ var defaultControlRender = (args, reg, doc) => {
   return `${prefix}<div${cls}>${input}${underlay}</div>${overlay}`;
 };
 
-var renderCompoundControl = (args, reg, doc) => {
+function renderCompoundControl(args, reg, doc) {
   var parts = args.parts;
 
   var i = 0;
@@ -70,7 +70,7 @@ export let field_control_value = {
     value: '',
     border: 'none',
   },
-  render: (args, reg, doc) => {
+  render(args, reg, doc) {
     // var ident = fieldIdent(args.id);
     var cls = elementClass("field", "control", args, [], { "control": "", "align": "centre" });
 
@@ -91,7 +91,7 @@ export let field_control_speed = {
     value: '',
     width: 'large',
   },
-  render: (args, reg, doc) => {
+  render(args, reg, doc) {
     switch (args.units) {
       case "imperial":
         var ftIdent = fieldIdent(args.id, "ft");
@@ -161,7 +161,7 @@ export let field_control_weight = {
     schema: "starfinder",
     width: "huge"
   },
-  render: (args, reg, doc) => {
+  render(args, reg, doc) {
     switch (args.schema) {
       case "starfinder":
         var bulkIdent = fieldIdent(args.id, "bulk");
@@ -201,7 +201,7 @@ export let field_control_radio = {
     value: false,
     border: 'none',
   },
-  render: args => {
+  render(args) {
     var ident = fieldRadioIdent(args.id, args.value);
     var cls = elementClass("field", "control", args, [], ["control"]);
     return `<div${cls}><input type='radio'${ident.ident}><label${ident.for}></label></div>`;
@@ -214,7 +214,7 @@ export let field_control_checkbox = {
     value: false,
     border: 'none',
   },
-  render: args => {
+  render(args) {
     var ident = fieldIdent(args.id);
     var cls = elementClass("field", "control", args, [], ["control"]);
     var checked = args.value ? ' checked' : '';
@@ -230,8 +230,7 @@ export let field_control_boost = {
     down: true,
     border: 'none',
   },
-  render: args => {
-
+  render(args) {
     var up = '';
     if (args.up) {
       var upident = fieldIdent(args.id, "up");
@@ -258,7 +257,7 @@ export let field_control_checkgrid = {
     depth: 3,
     value: 0
   },
-  render: args => {
+  render(args) {
     var g = args.group;
     if (args.max < args.group) g = args.max;
     var grouplen = Math.ceil(parseFloat(g) / parseFloat(args.depth));
@@ -285,34 +284,9 @@ export let field_control_checkgrid = {
       var grouplen = Math.ceil(parseFloat(ch.length) / parseFloat(args.depth));
       var a = { dir: args.dir, w: args.w, h: args.h };
       a[args.direction == 'horizontal' ? 'w' : 'h'] = grouplen;
-      // if (args.direction == "horizontal") {
-      //     a.w = grouplen;
-      // } else {
-      //     a.h = grouplen;
-      // }
       var cls = elementClass("field", "control-group", a, [], ["dir", "w", "h"]);
       return `<div${cls}>${ch.join("")}</div>`
     });
-
-    // var groups = [];
-    // for (var i = 0; i < args.max; i += args.group) {
-    //     var n = args.max - i;
-    //     if (n > args.group) n = group;
-    //     args.w = Math.ceil(parseFloat(g) / parseFloat(args.depth));
-
-    //     var checks = [];
-    //     for (var j = 1; j <= n; j++) {
-    //         var ident = fieldIdent(args.id, i+j);
-    //         var checked = (i <= args.value) ? ' checked' : '';
-    //         var cls = elementClass("field", "control", args, [], [ "control" ]);
-    //         var check = `<div${cls}><input type='checkbox'${ident.ident}${checked}><label${ident.for}></label></div>`;
-    //         checks.push(check);
-    //     }
-
-    //     var cls = elementClass("field", "control-group", args, [], [ "dir", "w", "h" ]);
-    //     var group = `<div${cls}>${checks.join("")}</div>`;
-    //     groups.push(group);
-    // }
 
     return groups.join("");
   }
@@ -324,26 +298,26 @@ export let field_control_alignment = {
     value: '',
     border: 'none',
   },
-  render: (args, reg, doc) => {
+  render(args, reg, doc) {
     var radios = ["lg", "ll", "le", "ng", "nn", "ne", "cg", "cn", "ce"].map(al => {
       var radioIdent = fieldRadioIdent(args.id, args.value);
       return `<div class='field__control field__control-${al}'><input type='radio'${radioIdent.ident}></div>`;
     });
 
     return `
-            <i class='field__grid'></i>
-            <i class='icon icon_good'></i>
-            <i class='icon icon_evil'></i>
-            <i class='icon icon_lawful'></i>
-            <i class='icon icon_chaotic'></i>
+      <i class='field__grid'></i>
+      <i class='icon icon_good'></i>
+      <i class='icon icon_evil'></i>
+      <i class='icon icon_lawful'></i>
+      <i class='icon icon_chaotic'></i>
 
-            <label class='field__good'>${__("Good", doc)}</label>
-            <label class='field__evil'>${__("Evil", doc)}</label>
-            <label class='field__lawful'>${__("Lawful", doc)}</label>
-            <label class='field__chaotic'>${__("Chaotic", doc)}</label>
+      <label class='field__good'>${__("Good", doc)}</label>
+      <label class='field__evil'>${__("Evil", doc)}</label>
+      <label class='field__lawful'>${__("Lawful", doc)}</label>
+      <label class='field__chaotic'>${__("Chaotic", doc)}</label>
 
-            ${radios.join("")}
-        `;
+      ${radios.join("")}
+    `;
   }
 }
 
@@ -354,7 +328,7 @@ export let field_control_icon = {
     border: 'none',
     icon: '',
   },
-  render: args => {
+  render(args) {
     var cls = elementClass("field", "control", args, [], ["control"]);
     var iconcls = elementClass("icon", null, { icon: args.icon }, [], ["icon"]);
     return `<div${cls}><i${iconcls}></i></div>`;
@@ -367,7 +341,7 @@ export let field_control_proficiency = {
     value: 0,
     icon: true,
   },
-  render: (args, reg, doc) => {
+  render(args, reg, doc) {
     switch (args.value) {
       case 'untrained': args.value = 0; break;
       case 'trained': args.value = 1; break;
@@ -397,18 +371,17 @@ export let field_control_proficiency = {
 
 export let field_control_proficiency_icon = {
   name: 'control:proficiency-icon',
-  render: args => {
+  render(args) {
     var cls = elementClass("field", "control", { control: "icon" }, [], { "control": "input" });
 
     // TODO checkboxes? radio buttons?
-    return `
-            <div${cls}>
-            <input type='checkbox'${fieldIdent(args.id, "trained").ident} class='field--proficiency__trained'${args.value > 0 ? ' checked="checked"' : ''}>
-            <input type='checkbox'${fieldIdent(args.id, "expert").ident} class='field--proficiency__expert'${args.value > 1 ? ' checked="checked"' : ''}>
-            <input type='checkbox'${fieldIdent(args.id, "master").ident} class='field--proficiency__master'${args.value > 2 ? ' checked="checked"' : ''}>
-            <input type='checkbox'${fieldIdent(args.id, "legendary").ident} class='field--proficiency__legendary'${args.value > 3 ? ' checked="checked"' : ''}>
-            <i class='icon field--proficiency__icon'></i>
-            </div>`;
+    return `<div${cls}>
+      <input type='checkbox'${fieldIdent(args.id, "trained").ident} class='field--proficiency__trained'${args.value > 0 ? ' checked="checked"' : ''}>
+      <input type='checkbox'${fieldIdent(args.id, "expert").ident} class='field--proficiency__expert'${args.value > 1 ? ' checked="checked"' : ''}>
+      <input type='checkbox'${fieldIdent(args.id, "master").ident} class='field--proficiency__master'${args.value > 2 ? ' checked="checked"' : ''}>
+      <input type='checkbox'${fieldIdent(args.id, "legendary").ident} class='field--proficiency__legendary'${args.value > 3 ? ' checked="checked"' : ''}>
+      <i class='icon field--proficiency__icon'></i>
+    </div>`;
   }
 }
 
@@ -422,7 +395,7 @@ export let field_control_money = {
     denomination: "copper",
     value: '',
   },
-  render: (args, reg, doc) => {
+  render(args, reg, doc) {
     var unit = '';
     switch (args.denomination) {
       case 'platinum': unit = 'pp'; break;
@@ -461,7 +434,7 @@ export let field_control_progression = {
     parts: [],
     border: "none",
   },
-  render: (args, reg, doc) => {
+  render(args, reg, doc) {
     args.parts = args.parts.flatMap(part => [part, '<label class="field__separator"></label>']);
     args.parts.pop();
     return renderCompoundControl(args, reg, doc);

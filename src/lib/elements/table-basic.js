@@ -23,7 +23,7 @@ export function renderTableBasic(args, reg, doc, headings, rows) {
         if (has(headings[h], "shade") && headings[h].shade)
           cell.shade = true;
       }
-      var cellCls = elementClass('td', null, cell, [ 'shade' ], { 'align': '', 'valign': 'bottom' });
+      var cellCls = elementClass('td', null, cell, ['shade'], { 'align': '', 'valign': 'bottom' });
       return `<td${cellCls}>${reg.renderItem(cell, doc)}</td>`;
     });
 

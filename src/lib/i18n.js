@@ -10,7 +10,7 @@ export function translate(str, doc) {
 
 export function __(str, doc) {
   if (isNumber(str)) {
-    str = ""+str;
+    str = "" + str;
   }
   if (!isString(str)) {
     error("i18n", "Not a string", str);

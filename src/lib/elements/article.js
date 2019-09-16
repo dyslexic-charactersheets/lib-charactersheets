@@ -21,7 +21,7 @@ export let article = {
     'show-level': false,
     lines: 2,
   },
-  transform: (args, ctx) => {
+  transform(args, ctx) {
     if (isEmpty(args.header) || isEmpty(args.contents)) {
       var header = args.header;
       if (isEmpty(args.header)) {
@@ -51,7 +51,7 @@ export let article = {
           } else {
             header.push({
               type: 'field',
-              id: args.id+'-cat',
+              id: args.id + '-cat',
               frame: 'none',
               size: 'large',
               align: 'right',
@@ -69,7 +69,7 @@ export let article = {
           } else {
             header.push({
               type: 'field',
-              id: args.id+'-level',
+              id: args.id + '-level',
               frame: 'none',
               size: 'large',
               width: 'small'
@@ -100,7 +100,7 @@ export let article = {
         } else {
           contents.push({
             type: 'field',
-            id: args.id+'-details',
+            id: args.id + '-details',
             frame: 'none',
             repeat: args.lines,
             width: 'stretch',
@@ -119,11 +119,11 @@ export let article = {
         'merge-bottom': true,
       };
 
-      return [ article ];
+      return [article];
     }
     return false;
   },
-  render: (args, reg, doc) => {
+  render(args, reg, doc) {
     var id = elementID('section', args.id);
     var cls = elementClass('section', null, args, ['shade']);
 
@@ -134,8 +134,8 @@ export let article = {
     // var contents = mergeBottom(args.contents);
 
     return `<article${id}${cls}>
-            ${annotation}${header}${dl}
-            <div class='g'>${reg.render(args.contents, doc)}</div>
-            </article>`;
+      ${annotation}${header}${dl}
+      <div class='g'>${reg.render(args.contents, doc)}</div>
+      </article>`;
   }
 }

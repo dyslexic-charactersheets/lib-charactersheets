@@ -20,7 +20,7 @@ export let field = {
     value: null,
   },
   expect: ['icon'],
-  render: (args, reg, doc) => {
+  render(args, reg, doc) {
     args = fieldDefaults(args, reg, doc);
 
     if (args.value === null) {
@@ -33,7 +33,7 @@ export let field = {
       ["icon", "ref", "misc", "temp"],
       { "frame": "normal", "width": "medium", "align": "centre", "size": "medium", "control": "input", "shift": 0, "lp": 0, "border": "bottom", "flex": false });
 
-    var frameArgs = _.defaults({ type: 'frame:' + args.frame }, args);
+    var frameArgs = Object.assign({}, args, { type: 'frame:' + args.frame });
     var frame = reg.renderItem(frameArgs, doc);
     return `<div${id}${cls}>${frame}</div>`;
   }
@@ -41,10 +41,10 @@ export let field = {
 
 // field defaults are a combination of the defaults from the field's frame and control
 export function fieldDefaults(args, reg, doc) {
-  args = _.defaults(args, {
+  args = Object.assign({
     frame: 'above',
     control: 'input'
-  });
+  }, args);
 
   var frame = reg.get('frame:' + args.frame);
   if (!frame) {
@@ -58,12 +58,12 @@ export function fieldDefaults(args, reg, doc) {
     control = reg.get('control:input');
   }
 
-  args = _.defaults(args, frame.defaults, control.defaults, {
+  args = Object.assign({
     border: (args.output ? 'full' : 'bottom'),
     align: (args.width == "stretch" ? "left" : "centre"),
     width: "medium",
     icon: false,
-  });
+  }, control.defaults, frame.defaults, args);
 
   if (args.frame == "none" || args.frame == "annotation") {
     args.lp = 0;
@@ -111,7 +111,7 @@ export function fieldRadioIdent(fieldid = '', value = '') {
 };
 
 export function fieldInner(args, reg, doc) {
-  args = _.defaults({ type: 'control:' + args.control }, args);
+  args = Object.assign({}, args, { type: 'control:' + args.control });
   var icon = (has(args, "icon") && !!args.icon && isString(args.icon) && args.control != "icon") ? `<i class='icon icon_${args.icon}'></i>` : '';
   var unit = (has(args, "unit") && !!args.unit) ? `<label class='field__unit'>${__(args.unit, doc)}</label>` : '';
 
@@ -122,7 +122,7 @@ export function fieldInner(args, reg, doc) {
   }
   if (args.repeat > 1) {
     var boxes = [];
-    var values = isArray(args.value) ? args.value : [ args.value ];
+    var values = isArray(args.value) ? args.value : [args.value];
 
     for (var i = 0; i < args.repeat; i++) {
       var value = i >= values.length ? null : values[i];

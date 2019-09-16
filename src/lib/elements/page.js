@@ -15,7 +15,7 @@ export let page = {
     flex: false,
     landscape: false,
   },
-  render: (args, reg, doc) => {
+  render(args, reg, doc) {
     var id = elementID('page', args.id);
     var cls = elementClass('page', null, args, ['flex', 'landscape', 'no-bg']);
 

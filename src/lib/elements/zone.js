@@ -1,5 +1,3 @@
-import * as _ from 'lodash';
-
 import { has, cloneDeep } from '../util';
 
 export let zone = {
@@ -9,10 +7,10 @@ export let zone = {
     zone: '',
     sort: false,
   },
-  transform: (args, ctx) => {
+  transform(args, ctx) {
     // log("zone", "Zone", args.zone);
     var existing = has(args, "contents") && args.contents ? args.contents : [];
-    var insert = has(ctx.zones, args.zone) ? _.cloneDeep(ctx.zones[args.zone]) : [];
+    var insert = has(ctx.zones, args.zone) ? cloneDeep(ctx.zones[args.zone]) : [];
 
     var replace = insert.reduce((repl, element) => repl || element.replace, false);
     if (replace) {

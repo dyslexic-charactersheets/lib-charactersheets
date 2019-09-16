@@ -8,7 +8,7 @@ export let paste = {
     template: '',
     params: {}
   },
-  transform: (args, ctx) => {
+  transform(args, ctx) {
     // log("template", "Paste template:", args.template);
     if (!has(ctx.templates, args.template))
       return [];
@@ -32,7 +32,7 @@ export let copy = {
     params: {},
     contents: [],
   },
-  transform: (args, ctx) => {
+  transform(args, ctx) {
     // log("template", "Copy template:", args.template);
     ctx.templates[args.template] = {
       params: args.params,

@@ -61,12 +61,12 @@ export let class_name = {
     contents: [],
     flex: 'medium',
   },
-  render: (args, reg, doc) => {
+  render(args, reg, doc) {
     var preface = isEmpty(args.preface) ? '' : `<h5>${esc(__(args.preface), true)}</h5>`;
     var name = `<h2>${esc(__(args.title), true)}</h2>`;
     var affix = isEmpty(args.affix) ? '' : `<h5>${esc(__(args.affix), true)}</h5>`;
 
-    var cls = elementClass('class-name', null, args, [], {flex: 'medium'});
+    var cls = elementClass('class-name', null, args, [], { flex: 'medium' });
     return `<div${cls}>${preface}${name}${affix}${reg.render(args.contents, doc)}</div>`;
   }
 }

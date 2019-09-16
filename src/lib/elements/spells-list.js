@@ -163,7 +163,7 @@ export let spells_list = {
     style: "prepared",
     ordinal: true,
   },
-  transform: (args, ctx) => {
+  transform(args, ctx) {
     var min = args.min;
     var max = args.max;
 
@@ -217,7 +217,7 @@ export let spells_table = {
     flip: false,
     'merge-bottom': true,
   },
-  transform: args => {
+  transform(args) {
     // log("-","[spells] Expanding spells table:", args);
 
     var rows = [];

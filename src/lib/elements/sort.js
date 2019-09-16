@@ -10,10 +10,10 @@ export let sort = {
     sort: false,
     contents: []
   },
-  transform: (args, ctx) => {
+  transform(args, ctx) {
     var key = args.orderby;
     // log("sort", `Sorting ${args.contents.length} items by ${key}`);
-    
+
     var contents = args.contents.sort((a, b) => {
       var ka = has(a, key) ? a[key] : false;
       var kb = has(b, key) ? b[key] : false;

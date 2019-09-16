@@ -41,19 +41,19 @@ if (!Array.prototype.flatMap) {
 
 
 if (!String.prototype.padEnd) {
-  String.prototype.padEnd = function padEnd(targetLength,padString) {
-      targetLength = targetLength>>0; //floor if number or convert non-number to 0;
-      padString = String((typeof padString !== 'undefined' ? padString : ' '));
-      if (this.length > targetLength) {
-          return String(this);
+  String.prototype.padEnd = function padEnd(targetLength, padString) {
+    targetLength = targetLength >> 0; //floor if number or convert non-number to 0;
+    padString = String((typeof padString !== 'undefined' ? padString : ' '));
+    if (this.length > targetLength) {
+      return String(this);
+    }
+    else {
+      targetLength = targetLength - this.length;
+      if (targetLength > padString.length) {
+        padString += padString.repeat(targetLength / padString.length); //append to original to ensure we are longer than needed
       }
-      else {
-          targetLength = targetLength-this.length;
-          if (targetLength > padString.length) {
-              padString += padString.repeat(targetLength/padString.length); //append to original to ensure we are longer than needed
-          }
-          return String(this) + padString.slice(0,targetLength);
-      }
+      return String(this) + padString.slice(0, targetLength);
+    }
   };
 }
 
@@ -110,13 +110,13 @@ if (!Array.prototype.includes) {
 }
 
 if (!Object.entries) {
-  Object.entries = function( obj ){
-    var ownProps = Object.keys( obj ),
-        i = ownProps.length,
-        resArray = new Array(i); // preallocate the Array
+  Object.entries = function (obj) {
+    var ownProps = Object.keys(obj),
+      i = ownProps.length,
+      resArray = new Array(i); // preallocate the Array
     while (i--)
       resArray[i] = [ownProps[i], obj[ownProps[i]]];
-    
+
     return resArray;
   };
 }
@@ -293,7 +293,7 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
     attribKeys = attribDefs;
     attribDefs = {};
   } else {
-    attribKeys = _.keys(attribDefs);
+    attribKeys = Object.keys(attribDefs);
   }
   var attribs = pickAttribs(args, attribKeys);
   // console.log("["+block+" class] Attribs:", attribs);
@@ -369,7 +369,7 @@ export function isArray(val) {
 }
 
 export function isObject(val) {
-    return val instanceof Object;
+  return val instanceof Object;
 }
 
 export function interpolate(template, values, document = null) {
@@ -566,36 +566,36 @@ export function getLabelHeight(args) {
 export function getRubyHeight(args) {
   if (isNull(args))
     return 0;
-  
-    switch (args.type) {
-      case 'ruby':
-        var rubyHeight = args.ruby.split(/\n/).length;
-        return rubyHeight;
 
-      case 'field':
-        return 0;
-  
-      case 'calc':
-        var height = getRubyHeight(args.output);
-        args.inputs.forEach(field => {
-          var h = getRubyHeight(field);
-          if (h > height)
-            height = h;
-        });
-        return height;
-  
-      case 'row':
-        var height = 0;
-        args.contents.forEach(field => {
-          var h = getRubyHeight(field);
-          if (h > height)
-            height = h;
-        });
-        return height;
-  
-      case 'g':
-        var height = getRubyHeight(args.contents[0]);
-        return height;
-    }
-    return 0;
+  switch (args.type) {
+    case 'ruby':
+      var rubyHeight = args.ruby.split(/\n/).length;
+      return rubyHeight;
+
+    case 'field':
+      return 0;
+
+    case 'calc':
+      var height = getRubyHeight(args.output);
+      args.inputs.forEach(field => {
+        var h = getRubyHeight(field);
+        if (h > height)
+          height = h;
+      });
+      return height;
+
+    case 'row':
+      var height = 0;
+      args.contents.forEach(field => {
+        var h = getRubyHeight(field);
+        if (h > height)
+          height = h;
+      });
+      return height;
+
+    case 'g':
+      var height = getRubyHeight(args.contents[0]);
+      return height;
+  }
+  return 0;
 }

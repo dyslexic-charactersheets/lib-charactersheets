@@ -16,7 +16,7 @@ export class Party {
   constructor(primary, request, registry) {
     this.registry = registry;
     this.data = parseParty(primary, request);
-    
+
     let characterDefaults = {
       game: this.data.game,
       language: this.data.language,
@@ -28,7 +28,7 @@ export class Party {
     });
     // log("Party", "Members:", this.members);
   }
-  
+
   render(callback) {
     log("Party", "Render");
     var files = [];
