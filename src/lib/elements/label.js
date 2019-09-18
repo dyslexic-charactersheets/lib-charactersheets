@@ -8,7 +8,7 @@ export let label = {
     label: "",
   },
   render(args, reg, doc) {
-    var cls = elementClass('label', null, args, [], ["align"]);
+    const cls = elementClass('label', null, args, [], ["align"]);
     return `<label${cls}>${esc(__(args.label, doc), true)}</label>`;
   }
 }

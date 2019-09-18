@@ -20,7 +20,7 @@ export let table = {
       args.columns = args.columns.filter(col => !(has(col, "optional") && col.optional));
     }
 
-    var headings = args.columns.map(col => {
+    const headings = args.columns.map(col => {
       if (isNull(col)) {
         col = {
           type: 'label',
@@ -44,12 +44,12 @@ export let table = {
     }
 
     // individual rows repeat
-    var rows = args.rows;
+    let rows = args.rows;
     rows = rows.flatMap(row => {
-      var rep = has(row, "repeat") ? row.repeat : 1;
+      const rep = has(row, "repeat") ? row.repeat : 1;
       if (rep > 1) {
         // log("table", "Repeating row", rep, "times:", row);
-        return Array.from({ length: rep }, e => Array.from(row));
+        return Array.from({ length: rep }, e => [ ...row ]);
       }
       return [row];
     });
@@ -61,8 +61,8 @@ export let table = {
     // repeat the whole set
     if (has(args, "repeat") && args.repeat > 1) {
       let rows2 = Array(rows.length * args.repeat);
-      for (var i = 0; i < args.repeat; i += rows.length) {
-        for (var j = 0; j < rows.length; j++) {
+      for (let i = 0; i < args.repeat; i += rows.length) {
+        for (let j = 0; j < rows.length; j++) {
           rows2[i + j] = cloneDeep(rows[j]);
         }
       }
@@ -78,14 +78,14 @@ export let table = {
     // apply the row template
 
     if (isArray(args.template) && args.template.length > 0) {
-      var templateCells = args.template.flatMap(cell => {
+      const templateCells = args.template.flatMap(cell => {
         if (isObject(cell) && has(cell, "type") && cell.type == "calc") {
-          var fields = [...cell.inputs];
+          let fields = [...cell.inputs];
           fields.unshift({
             type: "span",
             content: "=",
           });
-          var output = Object.assign({ output: true }, cell.output);
+          const output = Object.assign({ output: true }, cell.output);
           fields.unshift(output);
           return fields;
         }
@@ -104,7 +104,7 @@ export let table = {
               return null;
             }
 
-            var col = Object.assign({}, headings[i], { label: '', legend: '' });
+            const col = Object.assign({}, headings[i], { label: '', legend: '' });
             return Object.assign({}, { type: 'label', label: '' }, col, cell);
           }
         });

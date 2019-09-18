@@ -1,4 +1,4 @@
-import { elementClass, getLabelHeight } from '../util';
+import { elementClass, getLabelHeight, isString } from '../util';
 
 export let calc = {
   name: 'calc',
@@ -14,28 +14,32 @@ export let calc = {
     args.labelHeight = getLabelHeight(args);
 
     args.calc = true;
-    var cls = elementClass('row', null, args, ["calc", "inline", "labelHeight", "pad"], { 'layout': 'center' });
+    const cls = elementClass('row', null, args, ["calc", "inline", "labelHeight", "pad"], { 'layout': 'center' });
 
     // parts of the calculation
-    var output = Object.assign({
+    const outputPart = Object.assign({
       border: "full"
     }, args.output);
     // log("-","Output:", output);
-    var parts = [
-      output,
-      {
-        "type": "span",
-        "content": "="
-      }
-    ].concat(args.inputs.map(part => {
-      if (typeof part == 'string') {
+
+    const inputParts = args.inputs.map(part => {
+      if (isString(part)) {
         return {
           "type": "span",
           "content": part
         };
       }
       return part;
-    }));
+    });
+
+    const parts = [
+      outputPart,
+      {
+        "type": "span",
+        "content": "="
+      },
+      ...inputParts
+    ]
     // log("-","Calculation contents", parts);
 
     // contextual args

@@ -9,21 +9,22 @@ export let zone = {
   },
   transform(args, ctx) {
     // log("zone", "Zone", args.zone);
-    var existing = has(args, "contents") && args.contents ? args.contents : [];
-    var insert = has(ctx.zones, args.zone) ? cloneDeep(ctx.zones[args.zone]) : [];
+    let existing = has(args, "contents") && args.contents ? args.contents : [];
+    const insert = has(ctx.zones, args.zone) ? cloneDeep(ctx.zones[args.zone]) : [];
 
-    var replace = insert.reduce((repl, element) => repl || element.replace, false);
+    const replace = insert.reduce((repl, element) => repl || element.replace, false);
     if (replace) {
       existing = [];
     }
 
-    var contents = existing.concat(insert);
+    let contents = existing.concat(insert);
+    // const contents = [ ...existing, ...insert ];
     // log("-","[zone] Contents", contents);
 
     // sort the contents
     if (args.sort) {
       // log("-","[zone] Sorting");
-      var contents = contents.map(subelement => Object.assign({ level: 1, order: 1 }, subelement));
+      contents = contents.map(subelement => ({ level: 1, order: 1, ...subelement }));
       contents = contents.sort((a, b) => {
         if (a.level != b.level)
           return a.level - b.level;

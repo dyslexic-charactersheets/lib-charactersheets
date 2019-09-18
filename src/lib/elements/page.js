@@ -16,16 +16,16 @@ export let page = {
     landscape: false,
   },
   render(args, reg, doc) {
-    var id = elementID('page', args.id);
-    var cls = elementClass('page', null, args, ['flex', 'landscape', 'no-bg']);
+    const id = elementID('page', args.id);
+    const cls = elementClass('page', null, args, ['flex', 'landscape', 'no-bg']);
 
-    var pageNumber = args.numbered ? `<div class='page-number'>${doc.nextPageNumber()}</div>` : '';
-    var copyrightAttribution = paizoCopyrightAttribution;
+    const pageNumber = args.numbered ? `<div class='page-number'>${doc.nextPageNumber()}</div>` : '';
+    let copyrightAttribution = paizoCopyrightAttribution;
 
     if (args.id == 'permission')
       copyrightAttribution = '';
 
-    var watermark = doc.watermark ? `<div class='page__watermark'><div class='page__watermark__inner'>${doc.watermark}</div></div>` : '';
+    const watermark = doc.watermark ? `<div class='page__watermark'><div class='page__watermark__inner'>${doc.watermark}</div></div>` : '';
 
     return `<div${id}${cls}>
       ${copyrightAttribution}${pageNumber}${watermark}

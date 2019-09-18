@@ -18,7 +18,7 @@ export let slots = {
   transform(args, ctx) {
     // log("slots", "Slots:", args.slots);
 
-    var placeholder = args.placeholder;
+    let placeholder = args.placeholder;
     if (!isArray(placeholder))
       placeholder = [placeholder];
 
@@ -30,8 +30,8 @@ export let slots = {
     function slotItems(items) {
       // log("slots", "Items", items);
       if (args.min && items.length < args.min) {
-        var n = args.min - items.length;
-        for (var i = 0; i < n; i++) {
+        const n = args.min - items.length;
+        for (let i = 0; i < n; i++) {
           // log("slots","Placeholder", args.placeholder);
           items = items.concat(cloneDeep(args.placeholder));
         }
@@ -49,7 +49,7 @@ export let slots = {
       return slotItems(args.contents);
     }
 
-    var slots = {};
+    let slots = {};
     if (!isArray(args.slots)) {
       if (isString(args.slots)) {
         args.slots = args.slots.split(/,/);
@@ -80,17 +80,20 @@ export let slots = {
     };
 
     // log("slots", "Final slots:", slots);
-    var contents = Object.values(slots).flatMap(s => s.contents);
+    let contents = Object.values(slots).flatMap(s => s.contents);
 
-    var blank = {};
-    blank[args.key] = '';
-    for (var i = 0; i < args.extra; i++) {
-      var add = cloneDeep(args.placeholder);
+    //let blank = {};
+    //blank[args.key] = '';
+    const blank = {
+      [args.key]: ''
+    };
+    for (let i = 0; i < args.extra; i++) {
+      let add = cloneDeep(args.placeholder);
       add = interpolate(add, blank);
       contents = contents.concat(add);
     }
     if (args.even && contents.length % 2 != 0) {
-      var add = cloneDeep(args.placeholder);
+      let add = cloneDeep(args.placeholder);
       add = interpolate(add, blank);
       contents = contents.concat(add);
     }

@@ -111,7 +111,7 @@ if (!Array.prototype.includes) {
 
 if (!Object.entries) {
   Object.entries = function (obj) {
-    var ownProps = Object.keys(obj),
+    const ownProps = Object.keys(obj),
       i = ownProps.length,
       resArray = new Array(i); // preallocate the Array
     while (i--)
@@ -157,22 +157,22 @@ function pickAttribs(args, keys) {
 
 // Convert string case
 function splitAnyCase(str) {
-  var words = str.split(/[ _/-]+/);
+  let words = str.split(/[ _/-]+/);
   words = words.flatMap(word => word.split(/([A-Z][a-z]+)/));
   words = words.map(word => word.toLowerCase());
-  words = words.filter(word => word != "")
+  words = words.filter(word => word != "");
   return words;
 }
 
 export function toKebabCase(str) {
   // convert-a-string-to-kebab-case
-  var words = splitAnyCase(str);
+  const words = splitAnyCase(str);
   return words.join("-");
 }
 
 export function toCamelCase(str) {
   // convertAStringToCamelCase
-  var words = splitAnyCase(str);
+  let words = splitAnyCase(str);
   words = words.map(word => word.charAt(0).toUpperCase() + word.substr(1).toLowerCase());
   words[0] = words[0].toLowerCase();
   return words.join("");
@@ -180,19 +180,19 @@ export function toCamelCase(str) {
 
 export function toPathCase(str) {
   // convert/a/string/to/path/case
-  var words = splitAnyCase(str);
+  const words = splitAnyCase(str);
   return words.join("/");
 }
 
 export function toSpaceCase(str) {
   // convert a string to space case
-  var words = splitAnyCase(str);
+  const words = splitAnyCase(str);
   return words.join(" ");
 }
 
 export function toTitleCase(str) {
   // Convert A String To Title Case
-  var words = str.split(" ");
+  let words = str.split(" ");
   words = words.map(word => word.charAt(0).toUpperCase() + word.substr(1).toLowerCase());
   return words.join(" ");
 }
@@ -202,10 +202,10 @@ export function clone(original) {
     return null;
   }
   if (isArray(original)) {
-    return Array.from(original);
+    return [ ...original ];
   }
   if (isObject(original)) {
-    return Object.assign({}, original);
+    return { ...original };
   }
   return original;
 }
@@ -216,15 +216,11 @@ export function cloneDeep(original) {
   }
 
   if (isArray(original)) {
-    var product = new Array(original.length);
-    for (var i = 0; i < original.length; i++) {
-      product[i] = cloneDeep(original[i]);
-    }
-    return product;
+    return original.map(o => cloneDeep(o));
   }
 
   if (isObject(original)) {
-    var product = {};
+    let product = {};
     Object.keys(original).forEach(key => {
       product[cloneDeep(key)] = cloneDeep(original[key]);
     });
@@ -235,13 +231,9 @@ export function cloneDeep(original) {
 }
 
 export function elementClass(block, element = null, args = {}, modKeys = [], attribDefs = {}) {
-  var cls = [];
+  let cls = [];
 
-  var prefix = block;
-  if (element !== null) {
-    prefix = `${block}__${element}`;
-  }
-  // console.log("["+block+" class] Prefix:", prefix);
+  const prefix = isNull(element) ? block : `${block}__${element}`;
 
   // built-in elements don't need to repeat that in their class
   switch (prefix) {
@@ -269,7 +261,7 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
   }
 
   // mods are single-word adjectives, eg
-  var mods = pickMods(args, modKeys);
+  const mods = pickMods(args, modKeys);
   // console.log("["+block+" class] Mods:", mods);
   mods.forEach(function (mod) {
     switch (mod) {
@@ -288,21 +280,21 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
   });
 
   // attribs are key-values, eg align=left
-  var attribKeys;
+  let attribKeys;
   if (isArray(attribDefs)) {
     attribKeys = attribDefs;
     attribDefs = {};
   } else {
     attribKeys = Object.keys(attribDefs);
   }
-  var attribs = pickAttribs(args, attribKeys);
+  const attribs = pickAttribs(args, attribKeys);
   // console.log("["+block+" class] Attribs:", attribs);
 
   Object.entries(attribs).forEach(pair => {
-    var key = pair[0];
-    var value = pair[1];
+    const key = pair[0];
+    const value = pair[1];
 
-    if (value === null || isEmpty(value))
+    if (isEmpty(value))
       return;
     // console.log("  -", key, " = ", value);
     // some default values can be skipped
@@ -337,7 +329,7 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
 }
 
 export function has(container, property) {
-  return container !== null && container !== undefined && container.hasOwnProperty(property) && container[property] !== null && container[property] !== undefined;
+  return container !== null && container !== undefined && Object.prototype.hasOwnProperty.call(container, property) && container[property] !== null && container[property] !== undefined;
 }
 
 export function isNull(val) {
@@ -381,8 +373,8 @@ export function interpolate(template, values, document = null) {
 
   if (isString(template)) {
     return template.replace(/#\{(.*?)\}/g, function (tag) {
-      var match = tag.match(/#\{(.*?)\}/);
-      var index = match[1];
+      const match = tag.match(/#\{(.*?)\}/);
+      const index = match[1];
       // console.log("Match index:", index);
       if (has(values, index)) {
         // console.log(` - Replacing #{${index}} -> ${values[index]}`);
@@ -399,15 +391,15 @@ export function interpolate(template, values, document = null) {
   }
 
   if (isObject(template)) {
-    var pairs = _.toPairs(template);
+    let pairs = _.toPairs(template);
     // console.log(" - value pairs", pairs);
     pairs = pairs.map(pair => [pair[0], interpolate(pair[1], values, document)]);
     // console.log(" - processed pairs", pairs);
 
     // check if the whole object needs replacing
-    var first = pairs[0][0];
+    const first = pairs[0][0];
     if (first == 'param') {
-      var paramkey = pairs[0][1];
+      const paramkey = pairs[0][1];
       if (has(values, paramkey)) {
         return values[paramkey];
       } else if (!isNull(document) && document.hasVar(paramkey)) {
@@ -417,7 +409,7 @@ export function interpolate(template, values, document = null) {
       return values['item'];
     }
 
-    var obj = _.fromPairs(pairs);
+    const obj = _.fromPairs(pairs);
     return obj;
   }
 
@@ -426,8 +418,6 @@ export function interpolate(template, values, document = null) {
 
 
 export function replaceColours(str, documentColour, accentColour, highContrast) {
-  // var accentColour = '#a6085e'; // CharacterSheets._current.accentColour
-
   str = str.replace(/#[0-9a-fA-F]{6}/g, c => adjustColour(c, documentColour, highContrast));
   str = str.replace(/%23[0-9a-fA-F]{6}/g, c => {
     c = c.replace('%23', '#');
@@ -442,21 +432,18 @@ export function replaceColours(str, documentColour, accentColour, highContrast) 
 }
 
 export function adjustColourRGBA(c, opacity, highContrast) {
-  // var col1 = color(c);
-  var col2 = color(this.adjustColour(c, highContrast));
-
+  let col2 = color(this.adjustColour(c, highContrast));
   col2.fade(opacity);
   return col2.rgba();
 }
 
 export function adjustColour(c, documentColour, highContrast) {
-  // var documentColour = '#102820'; // CharacterSheets._current.documentColour
   try {
-    var base = color(c);
-    var col = color(documentColour);
+    const base = color(c);
+    let col = color(documentColour);
 
     const lmin = 16;
-    var lightness = base.lightness();
+    let lightness = base.lightness();
     if (highContrast) {
       if (lightness < 50) {
         lightness = lightness * 0.8;
@@ -476,14 +463,14 @@ export function adjustColour(c, documentColour, highContrast) {
     const nhigh = nmid + nd;
     const f = 1.3;
 
-    var saturation = col.saturationl();
+    let saturation = col.saturationl();
     // console.log(" - saturation:", saturation);
     saturation = saturation + 10;
     if (lightness > nlow && lightness <= nmid) {
-      var diff = lightness - nlow;
+      const diff = lightness - nlow;
       saturation -= diff * f;
     } else if (lightness > nmid && lightness < nhigh) {
-      var diff = nhigh - lightness;
+      const diff = nhigh - lightness;
       saturation -= diff * f;
     }
     if (saturation < 0) saturation = 0;
@@ -492,19 +479,19 @@ export function adjustColour(c, documentColour, highContrast) {
     col = col.saturationl(saturation);
 
     // readjust the opacity
-    var alpha = base.alpha();
+    const alpha = base.alpha();
     col.alpha(alpha);
 
     if (alpha != 1) {
       // console.log("Alpha:", alpha);
-      var red = Math.round(col.red());
-      var green = Math.round(col.green());
-      var blue = Math.round(col.blue());
-      var result = `rgba(${red},${green},${blue},${alpha})`;
+      const red = Math.round(col.red());
+      const green = Math.round(col.green());
+      const blue = Math.round(col.blue());
+      const result = `rgba(${red},${green},${blue},${alpha})`;
       // console.log(" Alpha colour:", result);
       return result;
     }
-    var result = col.hex();
+    const result = col.hex();
     // console.log(" - adjusted:", result);
     return result;
   } catch (x) {
@@ -523,7 +510,7 @@ export function getLabelHeight(args) {
     return args.context.labelHeight;
 
   switch (args.type) {
-    case 'field':
+    case 'field': {
       switch (args.frame) {
         case 'none':
         case 'left':
@@ -533,32 +520,36 @@ export function getLabelHeight(args) {
           return 0;
 
         default:
-          var labelHeight = args.label ? args.label.split(/\n/).length : 0;
-          var legendHeight = args.legend ? args.legend.split(/\n/).length : 0;
+          const labelHeight = args.label ? args.label.split(/\n/).length : 0;
+          const legendHeight = args.legend ? args.legend.split(/\n/).length : 0;
           return Math.max(labelHeight, legendHeight, 0);
       }
+    }
 
-    case 'calc':
-      var height = getLabelHeight(args.output);
+    case 'calc': {
+      let height = getLabelHeight(args.output);
       args.inputs.forEach(field => {
-        var h = getLabelHeight(field);
+        const h = getLabelHeight(field);
         if (h > height)
           height = h;
       });
       return height;
+    }
 
-    case 'row':
-      var height = 0;
+    case 'row': {
+      let height = 0;
       args.contents.forEach(field => {
-        var h = getLabelHeight(field);
+        const h = getLabelHeight(field);
         if (h > height)
           height = h;
       });
       return height;
+    }
 
-    case 'g':
-      var height = getLabelHeight(args.contents[0]);
+    case 'g': {
+      const height = getLabelHeight(args.contents[0]);
       return height;
+    }
   }
   return 0;
 };
@@ -568,34 +559,39 @@ export function getRubyHeight(args) {
     return 0;
 
   switch (args.type) {
-    case 'ruby':
-      var rubyHeight = args.ruby.split(/\n/).length;
+    case 'ruby': {
+      const rubyHeight = args.ruby.split(/\n/).length;
       return rubyHeight;
+    }
 
-    case 'field':
+    case 'field': {
       return 0;
+    }
 
-    case 'calc':
-      var height = getRubyHeight(args.output);
+    case 'calc': {
+      let height = getRubyHeight(args.output);
       args.inputs.forEach(field => {
-        var h = getRubyHeight(field);
+        const h = getRubyHeight(field);
         if (h > height)
           height = h;
       });
       return height;
+    }
 
-    case 'row':
-      var height = 0;
+    case 'row': {
+      let height = 0;
       args.contents.forEach(field => {
-        var h = getRubyHeight(field);
+        const h = getRubyHeight(field);
         if (h > height)
           height = h;
       });
       return height;
+    }
 
-    case 'g':
-      var height = getRubyHeight(args.contents[0]);
+    case 'g': {
+      const height = getRubyHeight(args.contents[0]);
       return height;
+    }
   }
   return 0;
 }

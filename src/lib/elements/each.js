@@ -11,12 +11,12 @@ export let each = {
     contents: [],
   },
   transform(args) {
-    var i = 0;
+    let i = 0;
     // log("each", "Items", args.contents);
     return args.contents.flatMap(item => {
       i++;
 
-      var values = cloneDeep(args.params);
+      let values = cloneDeep(args.params);
       if (i < args.rows.length && isObject(args.rows[i]))
         values = Object.assign(args.rows[i], values);
 
@@ -26,7 +26,7 @@ export let each = {
 
       // log("each", "Template", args.template);
       // log("each", "Interpolating", values);
-      var product = interpolate(args.template, values);
+      const product = interpolate(args.template, values);
       // log("each", "Product", values);
       return product;
     });

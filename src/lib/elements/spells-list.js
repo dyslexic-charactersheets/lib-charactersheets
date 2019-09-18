@@ -3,9 +3,9 @@ import { log } from '../log';
 
 function spellField(lvl, style, n, annotation) {
   // log("spells", `Spell field: level = ${lvl}, style = ${style}, n = ${n}`);
-  var frame = "none";
-  var label = null;
-  // var border = "bottom";
+  let frame = "none";
+  let label = null;
+  // let border = "bottom";
   if (annotation) {
     frame = "annotation";
     label = annotation;
@@ -52,14 +52,14 @@ function spellField(lvl, style, n, annotation) {
 
 function spellLevel(lvl, ord, style, slots, special) {
   // log("spells", "Spell level:", lvl);
-  var level_marker = {
+  const level_marker = {
     type: "level-marker",
     level: ord,
     marker: '',
   };
 
   // number of spells
-  var fields = [];
+  let fields = [];
   if (special) {
     if (isString(special)) {
       // log("spells", "Adding special entry", special);
@@ -71,16 +71,16 @@ function spellLevel(lvl, ord, style, slots, special) {
     else fields.push(special);
   }
 
-  var n = parseInt(2 * Math.ceil((slots + fields.length) / 2.0)) - fields.length;
+  const n = parseInt(2 * Math.ceil((slots + fields.length) / 2.0)) - fields.length;
   // log("spells", `Adding up to ${n} spell fields`);
-  for (var i = 1; i <= n; i++) {
+  for (let i = 1; i <= n; i++) {
     fields.push(spellField(lvl, style, i, ''));
   }
   // log("spells", "Spell fields", fields);
 
-  var left = [];
-  var right = [];
-  for (var i = 0; i < fields.length; i++) {
+  let left = [];
+  let right = [];
+  for (let i = 0; i < fields.length; i++) {
     left.push(fields[i]);
     i++;
     right.push(fields[i]);
@@ -164,31 +164,31 @@ export let spells_list = {
     ordinal: true,
   },
   transform(args, ctx) {
-    var min = args.min;
-    var max = args.max;
+    const min = args.min;
+    const max = args.max;
 
     // number of spells at each level
-    var slots = {};
+    let slots = {};
     if (isArray(args.spells)) {
-      var i = 0;
-      for (var lvl = min; lvl <= max; lvl++) {
-        slots[lvl] = args.spells[i];
+      let i = 0;
+      for (let lvl = min; lvl <= max; lvl++) {
+        slots[lvl] = args.spells[i++];
       }
     } else {
-      for (var lvl = min; lvl <= max; lvl++) {
+      for (let lvl = min; lvl <= max; lvl++) {
         slots[lvl] = args.spells;
       }
     }
 
     // objects to render
-    var spell_levels = [];
+    let spell_levels = [];
 
     if (args.cantrips) {
       spell_levels.push(spellLevel(0, '', 'spontaneous', args.cantrips, false));
     }
 
-    for (var lvl = min; lvl <= max; lvl++) {
-      var ord = args.ordinal ? ordinal(lvl) : lvl;
+    for (let lvl = min; lvl <= max; lvl++) {
+      const ord = args.ordinal ? ordinal(lvl) : lvl;
       spell_levels.push(spellLevel(lvl, ord, args.style, slots[lvl], args.special));
     }
 
@@ -220,13 +220,13 @@ export let spells_table = {
   transform(args) {
     // log("-","[spells] Expanding spells table:", args);
 
-    var rows = [];
-    var columns = [];
-    var template = [];
+    let rows = [];
+    let columns = [];
+    let template = [];
 
     // Rows
-    for (var lvl = args.min; lvl <= args.max; lvl++) {
-      var ord = (args.ordinal && !args.flip) ? ordinal(lvl) : lvl;
+    for (let lvl = args.min; lvl <= args.max; lvl++) {
+      const ord = (args.ordinal && !args.flip) ? ordinal(lvl) : lvl;
       rows.push({ level: lvl, ordinal: ord });
     }
 
@@ -276,7 +276,7 @@ export let spells_table = {
       columns = [];
     }
 
-    var table = {
+    let table = {
       type: "table",
       width: "stretch",
       collapse: true,

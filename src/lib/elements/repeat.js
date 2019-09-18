@@ -10,18 +10,18 @@ export let repeat = {
     rows: []
   },
   transform(args, ctx) {
-    var contents = [];
+    let contents = [];
 
     if (ctx.largePrint && args.reduce > 0)
       args.repeat -= args.reduce;
 
-    for (var i = 1; i <= args.repeat; i++) {
-      var vars = {};
+    for (let i = 1; i <= args.repeat; i++) {
+      let vars = {};
       if (i <= args.rows.length) {
         vars = args.rows[i - 1];
       }
       vars[args.index] = i;
-      var items = interpolate(args.contents, vars);
+      const items = interpolate(args.contents, vars);
       contents = contents.concat(items);
     }
 

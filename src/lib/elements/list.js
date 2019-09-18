@@ -18,7 +18,7 @@ export let list = {
     if (args.zebra && args['avoid-shade']) {
       args['zebra-inverse'] = (args.contents.length % 2 == 0);
     }
-    var cls = elementClass('list', null, args, ["zebra", "zebra-inverse", "collapse", "vr", "hr", "merge-bottom"], { "flex": false });
+    const cls = elementClass('list', null, args, ["zebra", "zebra-inverse", "collapse", "vr", "hr", "merge-bottom"], { "flex": false });
     return `<div${cls}>${reg.render(args.contents, doc)}</div>`;
   },
   transform(args) {
@@ -27,23 +27,23 @@ export let list = {
 
     // log("-",`[zone] Split into ${element.columns} columns`);
     // log("-",`[zone] Contents:`, element.contents);
-    var cols = [];
+    let cols = [];
     if (args.flowv) {
-      for (var i = 0; i < args.columns; i++) {
+      for (let i = 0; i < args.columns; i++) {
         cols.push([]);
       }
-      var i = 0;
+      let i = 0;
       args.contents.forEach(element => {
         cols[i].push(element);
         i++;
         if (i >= cols.length) i = 0;
       });
     } else {
-      var split = Math.ceil((args.contents.length + 0.0) / (args.columns + 0.0));
+      const split = Math.ceil((args.contents.length + 0.0) / (args.columns + 0.0));
       // log("-",`[zone] Split every ${element.contents.length} / ${element.columns} = ${split} items`);
 
-      for (var i = 0; i < args.columns; i++) {
-        var contents = args.contents.slice(i * split, (i + 1) * split);
+      for (let i = 0; i < args.columns; i++) {
+        const contents = args.contents.slice(i * split, (i + 1) * split);
         cols.push(contents);
       }
     }
@@ -55,10 +55,11 @@ export let list = {
       gutter: args.gutter,
       'merge-bottom': args['merge-bottom'],
       contents: cols.map(col => {
-        return Object.assign({}, args, {
+        return {
+          ...args,
           columns: 1,
           contents: col
-        });
+        };
       })
     }];
   }
@@ -72,7 +73,7 @@ export let join = {
     join: ''
   },
   transform(args) {
-    var items = [];
+    let items = [];
     args.contents.forEach(item => {
       items.push({ type: 'span', content: args.join });
       items.push(item);

@@ -31,8 +31,8 @@ export class Party {
 
   render(callback) {
     log("Party", "Render");
-    var files = [];
-    var promises = [];
+    let files = [];
+    let promises = [];
 
     this.members.forEach(member => {
       let promise = new Promise((resolve, reject) => {

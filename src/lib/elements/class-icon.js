@@ -9,7 +9,7 @@ export let class_icon = {
     size: 'medium',
   },
   render(args, reg, doc) {
-    var cls = elementClass('class-icon', null, args, [], { 'icon': '', 'size': 'medium' });
+    const cls = elementClass('class-icon', null, args, [], { 'icon': '', 'size': 'medium' });
     return `<div${cls}></div>`;
   }
 }

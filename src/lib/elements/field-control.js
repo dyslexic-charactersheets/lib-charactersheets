@@ -3,7 +3,7 @@ import { fieldIdent, fieldRadioIdent, fieldDefaults } from './field';
 import { elementClass, has, isArray, esc } from '../util';
 import { __ } from '../i18n';
 
-var defaultControlRender = (args, reg, doc) => {
+function defaultControlRender (args, reg, doc) {
   args = Object.assign({
     align: "center",
     width: "medium",
@@ -13,25 +13,25 @@ var defaultControlRender = (args, reg, doc) => {
     underlay: false,
   }, args);
 
-  var ident = fieldIdent(args.id);
-  var cls = elementClass("field", "control", args, [], { "align": "centre", "width": "medium" });
-  var value = (args.value == '') ? '' : ` value='${__(args.value)}'`;
-  var attr = (args.editable ? '' : 'readonly');
-  var input = `<input${ident.ident}${value}${attr}>`;
+  const ident = fieldIdent(args.id);
+  const cls = elementClass("field", "control", args, [], { "align": "centre", "width": "medium" });
+  const value = (args.value == '') ? '' : ` value='${__(args.value)}'`;
+  const attr = (args.editable ? '' : 'readonly');
+  const input = `<input${ident.ident}${value}${attr}>`;
 
-  var underlay = args.underlay ? `<u>${__(args.underlay, doc)}</u>` : '';
+  const underlay = args.underlay ? `<u>${__(args.underlay, doc)}</u>` : '';
 
-  var prefix = args.prefix ? `<span class='field__overlay'>${__(args.prefix, doc)}</span>` : '';
-  var overlay = args.overlay ? `<span class='field__overlay'>${__(args.overlay, doc)}</span>` : '';
+  const prefix = args.prefix ? `<span class='field__overlay'>${__(args.prefix, doc)}</span>` : '';
+  const overlay = args.overlay ? `<span class='field__overlay'>${__(args.overlay, doc)}</span>` : '';
 
   return `${prefix}<div${cls}>${input}${underlay}</div>${overlay}`;
 };
 
 function renderCompoundControl(args, reg, doc) {
-  var parts = args.parts;
+  const parts = args.parts;
 
-  var i = 0;
-  var outputParts = parts.map(part => {
+  let i = 0;
+  const outputParts = parts.map(part => {
     if (typeof part == 'string')
       return part;
 
@@ -71,14 +71,13 @@ export let field_control_value = {
     border: 'none',
   },
   render(args, reg, doc) {
-    // var ident = fieldIdent(args.id);
-    var cls = elementClass("field", "control", args, [], { "control": "", "align": "centre" });
+    const cls = elementClass("field", "control", args, [], { "control": "", "align": "centre" });
 
-    var prefix = args.prefix ? `<span class='field__overlay'>${__(args.prefix, doc)}</span>` : '';
-    var overlay = args.overlay ? `<span class='field__overlay'>${__(args.overlay, doc)}</span>` : '';
-    var underlay = args.underlay ? `<u>${__(args.underlay, doc)}</u>` : '';
+    const prefix = args.prefix ? `<span class='field__overlay'>${__(args.prefix, doc)}</span>` : '';
+    const overlay = args.overlay ? `<span class='field__overlay'>${__(args.overlay, doc)}</span>` : '';
+    const underlay = args.underlay ? `<u>${__(args.underlay, doc)}</u>` : '';
 
-    var value = `<span>${esc(__(args.value))}</span>`;
+    const value = `<span>${esc(__(args.value))}</span>`;
 
     return `${prefix}<div${cls}>${value}${underlay}</div>${overlay}`;
   }
@@ -93,9 +92,9 @@ export let field_control_speed = {
   },
   render(args, reg, doc) {
     switch (args.units) {
-      case "imperial":
-        var ftIdent = fieldIdent(args.id, "ft");
-        var sqIdent = fieldIdent(args.id, "sq");
+      case "imperial": {
+        const ftIdent = fieldIdent(args.id, "ft");
+        const sqIdent = fieldIdent(args.id, "sq");
 
         args.parts = [
           {
@@ -120,10 +119,11 @@ export let field_control_speed = {
           },
         ];
         break;
+      }
 
-      case "metric":
-        var ftIdent = fieldIdent(args.id, "m");
-        var sqIdent = fieldIdent(args.id, "sq");
+      case "metric": {
+        const ftIdent = fieldIdent(args.id, "m");
+        const sqIdent = fieldIdent(args.id, "sq");
 
         args.parts = [
           {
@@ -148,6 +148,7 @@ export let field_control_speed = {
           },
         ];
         break;
+      }
     }
 
     // log("field", "Speed field", args);
@@ -158,14 +159,14 @@ export let field_control_speed = {
 export let field_control_weight = {
   name: 'control:weight',
   defaults: {
-    schema: "starfinder",
+    schema: "bulk",
     width: "huge"
   },
   render(args, reg, doc) {
     switch (args.schema) {
-      case "starfinder":
-        var bulkIdent = fieldIdent(args.id, "bulk");
-        var lightIdent = fieldIdent(args.id, "light");
+      case "bulk": {
+        const bulkIdent = fieldIdent(args.id, "bulk");
+        const lightIdent = fieldIdent(args.id, "light");
 
         args.parts = [
           {
@@ -189,6 +190,7 @@ export let field_control_weight = {
           }
         ];
         break;
+      }
     }
 
     return renderCompoundControl(args, reg, doc);
@@ -202,8 +204,8 @@ export let field_control_radio = {
     border: 'none',
   },
   render(args) {
-    var ident = fieldRadioIdent(args.id, args.value);
-    var cls = elementClass("field", "control", args, [], ["control"]);
+    const ident = fieldRadioIdent(args.id, args.value);
+    const cls = elementClass("field", "control", args, [], ["control"]);
     return `<div${cls}><input type='radio'${ident.ident}><label${ident.for}></label></div>`;
   }
 }
@@ -215,9 +217,9 @@ export let field_control_checkbox = {
     border: 'none',
   },
   render(args) {
-    var ident = fieldIdent(args.id);
-    var cls = elementClass("field", "control", args, [], ["control"]);
-    var checked = args.value ? ' checked' : '';
+    const ident = fieldIdent(args.id);
+    const cls = elementClass("field", "control", args, [], ["control"]);
+    const checked = args.value ? ' checked' : '';
     return `<div${cls}><input type='checkbox'${checked}${ident.ident}><label${ident.for}></label></div>`;
   }
 }
@@ -231,14 +233,14 @@ export let field_control_boost = {
     border: 'none',
   },
   render(args) {
-    var up = '';
+    let up = '';
     if (args.up) {
-      var upident = fieldIdent(args.id, "up");
+      const upident = fieldIdent(args.id, "up");
       up = `<div class='field__control field__control--boost_up'><input type='checkbox' ${upident.ident}><label ${upident.for}></label></div>`
     }
-    var down = '';
+    let down = '';
     if (args.down) {
-      var downident = fieldIdent(args.id, "down");
+      const downident = fieldIdent(args.id, "down");
       down = `<div class='field__control field__control--boost_down'><input type='checkbox' ${downident.ident}><label ${downident.for}></label></div>`
     }
 
@@ -258,9 +260,9 @@ export let field_control_checkgrid = {
     value: 0
   },
   render(args) {
-    var g = args.group;
+    let g = args.group;
     if (args.max < args.group) g = args.max;
-    var grouplen = Math.ceil(parseFloat(g) / parseFloat(args.depth));
+    const grouplen = Math.ceil(parseFloat(g) / parseFloat(args.depth));
     if (args.direction == "horizontal") {
       args.dir = "h";
       args.w = grouplen;
@@ -271,20 +273,20 @@ export let field_control_checkgrid = {
       args.w = args.width;
     }
 
-    var checks = [];
-    for (var i = 1; i <= args.max; i++) {
-      var ident = fieldIdent(args.id, i);
-      var checked = (i <= args.value) ? ' checked' : '';
-      var cls = elementClass("field", "control", args, [], ["control"]);
-      var check = `<div${cls}><input type='checkbox'${ident.ident}${checked}><label${ident.for}></label></div>`;
+    let checks = [];
+    for (let i = 1; i <= args.max; i++) {
+      const ident = fieldIdent(args.id, i);
+      const checked = (i <= args.value) ? ' checked' : '';
+      const cls = elementClass("field", "control", args, [], ["control"]);
+      const check = `<div${cls}><input type='checkbox'${ident.ident}${checked}><label${ident.for}></label></div>`;
       checks.push(check);
     }
 
-    var groups = _.chunk(checks, args.group).map(ch => {
-      var grouplen = Math.ceil(parseFloat(ch.length) / parseFloat(args.depth));
-      var a = { dir: args.dir, w: args.w, h: args.h };
+    const groups = _.chunk(checks, args.group).map(ch => {
+      const grouplen = Math.ceil(parseFloat(ch.length) / parseFloat(args.depth));
+      let a = { dir: args.dir, w: args.w, h: args.h };
       a[args.direction == 'horizontal' ? 'w' : 'h'] = grouplen;
-      var cls = elementClass("field", "control-group", a, [], ["dir", "w", "h"]);
+      const cls = elementClass("field", "control-group", a, [], ["dir", "w", "h"]);
       return `<div${cls}>${ch.join("")}</div>`
     });
 
@@ -299,8 +301,8 @@ export let field_control_alignment = {
     border: 'none',
   },
   render(args, reg, doc) {
-    var radios = ["lg", "ll", "le", "ng", "nn", "ne", "cg", "cn", "ce"].map(al => {
-      var radioIdent = fieldRadioIdent(args.id, args.value);
+    const radios = ["lg", "ll", "le", "ng", "nn", "ne", "cg", "cn", "ce"].map(al => {
+      const radioIdent = fieldRadioIdent(args.id, args.value);
       return `<div class='field__control field__control-${al}'><input type='radio'${radioIdent.ident}></div>`;
     });
 
@@ -329,8 +331,8 @@ export let field_control_icon = {
     icon: '',
   },
   render(args) {
-    var cls = elementClass("field", "control", args, [], ["control"]);
-    var iconcls = elementClass("icon", null, { icon: args.icon }, [], ["icon"]);
+    const cls = elementClass("field", "control", args, [], ["control"]);
+    const iconcls = elementClass("icon", null, { icon: args.icon }, [], ["icon"]);
     return `<div${cls}><i${iconcls}></i></div>`;
   }
 }
@@ -372,7 +374,7 @@ export let field_control_proficiency = {
 export let field_control_proficiency_icon = {
   name: 'control:proficiency-icon',
   render(args) {
-    var cls = elementClass("field", "control", { control: "icon" }, [], { "control": "input" });
+    const cls = elementClass("field", "control", { control: "icon" }, [], { "control": "input" });
 
     // TODO checkboxes? radio buttons?
     return `<div${cls}>
@@ -396,25 +398,25 @@ export let field_control_money = {
     value: '',
   },
   render(args, reg, doc) {
-    var unit = '';
+    let unit = '';
     switch (args.denomination) {
       case 'platinum': unit = 'pp'; break;
       case 'gold': unit = 'gp'; break;
       case 'silver': unit = 'sp'; break;
       case 'copper': unit = 'cp'; break;
     }
-    var overlay = `<span class='field__overlay'>${__(unit, doc)}</span>`;
+    const overlay = `<span class='field__overlay'>${__(unit, doc)}</span>`;
 
-    var ident = fieldIdent(args.id);
-    var cls = elementClass("field", "control", args, [], { "digits": 0, "shift": 0, "decimal": 0 });
-    var value = (args.value == '') ? '' : ` value='${args.value}'`;
+    const ident = fieldIdent(args.id);
+    const cls = elementClass("field", "control", args, [], { "digits": 0, "shift": 0, "decimal": 0 });
+    const value = (args.value == '') ? '' : ` value='${args.value}'`;
 
-    var ticks = [];
-    for (var i = 1; i < args.digits; i++) {
-      var decimal = (i == args.decimal) ? ' field__tick--decimal' : '';
+    let ticks = [];
+    for (let i = 1; i < args.digits; i++) {
+      const decimal = (i == args.decimal) ? ' field__tick--decimal' : '';
       ticks.push(`<label class='field__tick field__tick-${i}${decimal}'></label>`);
     }
-    var shift = args.shift > 0 ? `<div class='field__shift field__shift--shift_${args.shift}'></div>` : '';
+    const shift = args.shift > 0 ? `<div class='field__shift field__shift--shift_${args.shift}'></div>` : '';
 
     return `<div${cls}><input${ident.ident}${value} size='${args.digits}'>${ticks.join("")}</div>${shift}${overlay}`;
   }

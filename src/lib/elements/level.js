@@ -44,14 +44,14 @@ export let level_marker = {
     marker: "Level",
   },
   render(args, reg, doc) {
-    var level = ("" + args.level).replace(/^\s*/, '').replace(/\s*$/, '');
+    let level = ("" + args.level).replace(/^\s*/, '').replace(/\s*$/, '');
     if (level == "") {
       return `<div class='level-marker'></div>`;
     }
     if (level == "_") {
       level = "&nbsp;";
     }
-    var marker = args.marker ? `<label>${esc(__(args.marker, doc), true)}</label>` : '';
+    const marker = args.marker ? `<label>${esc(__(args.marker, doc), true)}</label>` : '';
     return `<div class='level-marker'>${marker}<div class='level-marker__level'>${esc(__(level, doc))}</div></div>`;
   }
 }

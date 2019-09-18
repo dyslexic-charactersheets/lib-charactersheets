@@ -2,10 +2,10 @@ import { readFile } from 'fs';
 import { log, warn, error } from '../log';
 import { isNull, has } from '../util';
 
-var systems = {};
-var commonSystem = null;
-var premiumSystem = null;
-var promises = [];
+let systems = {};
+let commonSystem = null;
+let premiumSystem = null;
+let promises = [];
 
 export class System {
   constructor(system) {
@@ -14,13 +14,6 @@ export class System {
     this.units = {};
     system.units.forEach(unit => {
       this.units[unit.id] = unit;
-
-      if (has(unit, "form")) {
-        unit.form.forEach(formitem => {
-          var key = Object.keys(formitem)[0];
-          // log("System", `Found form item ${key}`, formitem);
-        });
-      }
     });
   }
 
@@ -48,9 +41,9 @@ export class System {
 
 export function loadSystemData(codes) {
   codes.forEach(code => {
-    var systemFile = __dirname + "/lib-" + code + ".json";
+    const systemFile = __dirname + "/lib-" + code + ".json";
     // log("System", `Loading: ${systemFile}`);
-    var promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       readFile(systemFile, 'utf-8', (err, data) => {
         if (err) {
           error("System", `Error loading system file ${systemFile}:`, err);
@@ -58,8 +51,8 @@ export function loadSystemData(codes) {
           return;
         }
 
-        var systemData = JSON.parse(data);
-        var system = new System(systemData);
+        const systemData = JSON.parse(data);
+        const system = new System(systemData);
         log("System", `Loaded ${system.name} (${systemData.units.length} units)`);
 
         systems[code] = system;

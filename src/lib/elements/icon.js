@@ -7,7 +7,7 @@ export let icon = {
     icon: "",
   },
   render(args) {
-    var cls = elementClass('icon', null, args, [], ["icon", "size"]);
+    const cls = elementClass('icon', null, args, [], ["icon", "size"]);
     return `<i${cls}></i>`;
   }
 }

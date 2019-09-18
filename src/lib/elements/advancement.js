@@ -20,7 +20,7 @@ export let advancement = {
 
     // collect items by level
     let itemsByLevel = {};
-    for (var lv = 1; lv <= 20; lv++) {
+    for (let lv = 1; lv <= 20; lv++) {
       itemsByLevel[lv] = [];
     }
 
@@ -39,7 +39,7 @@ export let advancement = {
         return;
       }
 
-      var keys = Object.keys(advance);
+      let keys = Object.keys(advance);
       keys.forEach(key => {
         if (!isArray(advance[key])) {
           advance[key] = Array(levels.length).fill(advance[key]);
@@ -87,11 +87,11 @@ export let advancement = {
       // delete flags.in;
       // log("advancement", `Level ${lv}`, labels, flags);
 
-      rows.push(Object.assign(flags, {
+      rows.push({
+        ...flags,
         level: lv,
         advance: labels.join(", "),
-        // proficiencies: proficiencies
-      }));
+      });
     }
 
     // allocate cells and columns
@@ -121,7 +121,7 @@ export let advancement = {
 
     // identify columns
     // cast shade
-    var sh = true;
+    let sh = true;
     args.fields.forEach(field => {
       if (!has(field, "name"))
         return;
@@ -137,7 +137,7 @@ export let advancement = {
         shade: field.shade
       });
 
-      var format = has(field, "format") ? field.format : 'checkbox';
+      const format = has(field, "format") ? field.format : 'checkbox';
       switch (format) {
         case 'checkbox':
           template.push({
@@ -168,7 +168,7 @@ export let advancement = {
     });
 
     // log("advancement", "Rows", rows);
-    let table = {
+    const table = {
       type: 'table',
       zebra: true,
       collapse: true,

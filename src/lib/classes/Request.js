@@ -58,7 +58,7 @@ export class Request {
 
     // log("Request", "Known instances:", Object.keys(this.instances));
 
-    var primaries = this.primary.map(primary => {
+    const primaries = this.primary.map(primary => {
       // swap in linked instances
       if (has(primary, "relationships")) {
         Object.keys(primary.relationships).forEach(relkey => {

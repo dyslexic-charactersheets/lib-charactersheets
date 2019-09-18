@@ -13,12 +13,11 @@ export let section = {
     contents: [],
   },
   render(args, reg, doc) {
-    var id = elementID('section', args.id);
-    var cls = elementClass('section', null, args, ['primary', 'fill', 'untitled'], { flex: 'medium' });
+    const id = elementID('section', args.id);
+    const cls = elementClass('section', null, args, ['primary', 'fill', 'untitled'], { flex: 'medium' });
 
-    var title = args.untitled ? '' : `<h3>${esc(__(args.title, doc))}</h3>`;
-    // var content = (args.contents.length == 1 && args.contents[0].type == "g") ? render(args.contents) : `<div class='g'>${render(args.contents)}</div>`;
-    var content = `<div class='section__inner'>${reg.render(args.contents, doc)}</div>`;
+    const title = args.untitled ? '' : `<h3>${esc(__(args.title, doc))}</h3>`;
+    const content = `<div class='section__inner'>${reg.render(args.contents, doc)}</div>`;
 
     return `<section${id}${cls}>${title}
             ${content}

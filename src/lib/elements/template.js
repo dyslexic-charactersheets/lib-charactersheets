@@ -13,12 +13,12 @@ export let paste = {
     if (!has(ctx.templates, args.template))
       return [];
 
-    var template = ctx.templates[args.template];
+    const template = ctx.templates[args.template];
     if (isEmpty(template))
       return [];
 
-    var params = Object.assign({}, template.params, args.params);
-    var contents = cloneDeep(template.contents);
+    const params = Object.assign({}, template.params, args.params);
+    let contents = cloneDeep(template.contents);
     contents = interpolate(contents, params);
     return contents;
   }

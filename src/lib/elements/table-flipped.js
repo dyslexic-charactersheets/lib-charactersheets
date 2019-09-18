@@ -6,9 +6,9 @@ export function renderTableFlipped(args, reg, doc, headings, cols) {
   // log("table", "Flipped", headings, cols);
 
   // find the size of the table and make an empty grid of cells
-  var hasHeading = false;
-  var ncols = cols.length;
-  var nrows = 0;
+  let hasHeading = false;
+  const ncols = cols.length;
+  let nrows = 0;
   headings = headings.map(heading => {
     if (isNull(heading)) heading = { type: 'label', label: '' };
     else hasHeading = true;
@@ -23,13 +23,13 @@ export function renderTableFlipped(args, reg, doc, headings, cols) {
 
   if (hasHeading) ncols++;
   // log("table", `Table: ${nrows} rows, ${ncols} cols`);
-  var cells = Array.from({ length: nrows }, r => Array(ncols).fill(null));
+  let cells = Array.from({ length: nrows }, r => Array(ncols).fill(null));
   // log("table", "Cell grid:", cells);
 
   // fill the grid
   if (hasHeading) {
     // log("table", "Headings");
-    var row = 0;
+    let row = 0;
     headings.forEach(heading => {
       cells[row][0] = heading;
       row += heading.rowspan;
@@ -48,15 +48,15 @@ export function renderTableFlipped(args, reg, doc, headings, cols) {
   // log("table", "Cells", cells);
 
   // render it
-  var trows = cells.map(row => {
-    var th = '';
+  const trows = cells.map(row => {
+    let th = '';
     if (hasHeading) {
-      var head = row.shift();
-      var rowspan = (has(head, "rowspan") && head.rowspan > 1) ? ` rowspan="${head.rowspan}"` : '';
-      var th = `<th scope="row"${rowspan}>${isNull(head) ? '' : reg.renderItem(head, doc)}</th>`;
+      const head = row.shift();
+      const rowspan = (has(head, "rowspan") && head.rowspan > 1) ? ` rowspan="${head.rowspan}"` : '';
+      th = `<th scope="row"${rowspan}>${isNull(head) ? '' : reg.renderItem(head, doc)}</th>`;
     }
 
-    var tds = row.map(elem => {
+    const tds = row.map(elem => {
       return `<td>${isNull(elem) ? '' : reg.renderItem(elem, doc)}</td>`;
     });
 
@@ -64,6 +64,6 @@ export function renderTableFlipped(args, reg, doc, headings, cols) {
   });
 
   // put it all together
-  var cls = elementClass('table', null, args, ['zebra', 'collapse', 'fixed'], ['width', 'layout']);
+  const cls = elementClass('table', null, args, ['zebra', 'collapse', 'fixed'], ['width', 'layout']);
   return `<table${cls}><tbody>${trows.join("\n")}</tbody></table>`;
 }

@@ -6,7 +6,7 @@ export let hr = {
     swash: false,
   },
   render(args) {
-    var cls = elementClass('hr', null, args, ['swash']);
+    const cls = elementClass('hr', null, args, ['swash']);
     return `<hr${cls}>`;
   }
 }
@@ -15,7 +15,7 @@ export let tail = {
   name: 'tail',
   render(args) {
     args.tail = true;
-    var cls = elementClass('hr', null, args, ['tail']);
+    const cls = elementClass('hr', null, args, ['tail']);
     return `<hr${cls}>`;
   }
 }

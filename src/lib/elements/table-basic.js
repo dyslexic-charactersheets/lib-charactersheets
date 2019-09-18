@@ -4,12 +4,12 @@ import { log, warn } from '../log';
 // Standard table
 export function renderTableBasic(args, reg, doc, headings, rows) {
   // headings
-  var thead = '';
+  let thead = '';
   if (!isNull(headings)) {
-    var tcols = headings.map(col => {
-      var elem = reg.renderItem(col, doc);
-      var cs = has(col, 'colspan') ? col.colspan : 1;
-      var colspan = (cs > 1) ? ` colspan='${col.colspan}'` : '';
+    const tcols = headings.map(col => {
+      const elem = reg.renderItem(col, doc);
+      const cs = has(col, 'colspan') ? col.colspan : 1;
+      const colspan = (cs > 1) ? ` colspan='${col.colspan}'` : '';
       return `<th${colspan}>${elem}</th>`;
     });
     thead = `<thead>${tcols.join("\n")}</thead>\n`;
@@ -17,13 +17,13 @@ export function renderTableBasic(args, reg, doc, headings, rows) {
 
   // cells
   // log("table", "Rows", rows);
-  var trows = rows.map(row => {
-    var cells = row.map((cell, h) => {
+  const trows = rows.map(row => {
+    const cells = row.map((cell, h) => {
       if (h < headings.length) {
         if (has(headings[h], "shade") && headings[h].shade)
           cell.shade = true;
       }
-      var cellCls = elementClass('td', null, cell, ['shade'], { 'align': '', 'valign': 'bottom' });
+      const cellCls = elementClass('td', null, cell, ['shade'], { 'align': '', 'valign': 'bottom' });
       return `<td${cellCls}>${reg.renderItem(cell, doc)}</td>`;
     });
 
@@ -31,6 +31,6 @@ export function renderTableBasic(args, reg, doc, headings, rows) {
   })
 
   // put it all together
-  var cls = elementClass('table', null, args, ['zebra', 'collapse', 'fixed'], ['width', 'layout']);
+  const cls = elementClass('table', null, args, ['zebra', 'collapse', 'fixed'], ['width', 'layout']);
   return `<table${cls}>${thead}<tbody>${trows.join("\n")}</tbody></table>`;
 }

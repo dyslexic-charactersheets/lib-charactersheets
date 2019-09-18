@@ -157,7 +157,7 @@ export class Registry {
     }, params);
 
     // find expected keys
-    var expect = Object.keys(params.defaults).concat(params.expect);
+    let expect = Object.keys(params.defaults).concat(params.expect);
     expect = [...new Set(expect)]; // uniq
     expect.unshift("level");
     params.expect = expect;
@@ -173,7 +173,7 @@ export class Registry {
 
   render(items, doc) {
     // log("registry", "Render", items);
-    var rendered = items.map(item => this.renderItem(item, doc));
+    const rendered = items.map(item => this.renderItem(item, doc));
     return rendered.join("");
   }
 
@@ -198,7 +198,7 @@ export class Registry {
 
     // log("Registry", "renderItem", item.type);
     if (has(this.registry, item.type)) {
-      var reg = this.registry[item.type];
+      let reg = this.registry[item.type];
 
       // registered defaults
       Object.keys(item).forEach(key => {
@@ -213,7 +213,7 @@ export class Registry {
         item = mergeBottom(item);
 
       this.stack.push(item.type + ((item.id == null) ? '' : ":" + item.id) + ((item.title == null) ? '' : ':' + item.title));
-      var output = reg.render(item, this, doc);
+      const output = reg.render(item, this, doc);
       this.stack.pop();
       return output;
     } else {

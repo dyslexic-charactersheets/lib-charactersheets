@@ -8,7 +8,7 @@ export class Document {
   constructor(baseUnit) {
     this.nextPage = 1;
 
-    var baseDocument = baseUnit.contents[0];
+    const baseDocument = baseUnit.contents[0];
     // log("Document", "Base document", baseDocument);
     this.doc = clone(baseDocument);
     this.language = 'en';
@@ -69,14 +69,14 @@ export class Document {
       return false;
 
     // TODO combine multiple values somehow
-    var is_array = false;
+    let is_array = false;
     this.vars[varname].forEach(include => {
       if (isArray(include.value))
         is_array = true;
     });
 
     if (is_array) {
-      var values = [];
+      let values = [];
       this.vars[varname].forEach(include => {
         if (isArray(include.value)) {
           values = values.concat(include.value);
@@ -159,7 +159,8 @@ export class Document {
     // log("compose", " - Templates:", templates);
     // log("compose", " - Registry", registry);
 
-    var self = this;
+    //const self = this;
+    const ctx = { zones: this.zones, templates: this.templates, largePrint: this.largePrint, locale: this.language };
 
     // the lesser form: only expand a few types, don't do full unit expansion
     function complete(element) {
@@ -172,7 +173,7 @@ export class Document {
         case 'zone':
         case 'sort':
         case 'slots':
-          var reg = registry.get(element.type);
+          const reg = registry.get(element.type);
 
           if (reg && reg.transform) {
             if (has(element, "contents")) {
@@ -181,9 +182,9 @@ export class Document {
 
             // log("compose", "Applying transformation to", element.type);
             // log("Document", "Large print?", self.largePrint);
-            let args = Object.assign({}, reg.defaults, element);
-            let ctx = { zones: self.zones, templates: self.templates, largePrint: self.largePrint, locale: self.language };
-            var newelements = reg.transform(args, ctx);
+            const args = Object.assign({}, reg.defaults, element);
+            //const ctx = { zones: self.zones, templates: self.templates, largePrint: self.largePrint, locale: self.language };
+            let newelements = reg.transform(args, ctx);
             if (newelements === false)
               return element;
 
@@ -232,14 +233,13 @@ export class Document {
       });
 
       // transform the element
-      var reg = registry.get(element.type);
+      const reg = registry.get(element.type);
       // log("compose", "Registry entry for", element.type, reg);
 
       if (reg && reg.transform) {
         // log("compose", "Applying transformation to", element.type);
-        let args = Object.assign({}, reg.defaults, element);
-        let ctx = { zones: self.zones, templates: self.templates, largePrint: self.largePrint, locale: self.language };
-        var newelements = reg.transform(args, ctx);
+        const args = Object.assign({}, reg.defaults, element);
+        let newelements = reg.transform(args, ctx);
         if (newelements === false)
           return element;
 
@@ -250,9 +250,8 @@ export class Document {
       return [element];
     }
 
-    var c = compose(this.doc);
-    this.doc = c[0];
-    this.doc = applyContext(this.doc);
+    const c = compose(this.doc);
+    this.doc = applyContext(c[0]);
   }
 
   getFavicon() {
@@ -261,14 +260,14 @@ export class Document {
 
   getStylesheet() {
     // find both SASS-compiled and data-URL-embedded parts for each of those
-    var cssParts = [];
+    let cssParts = [];
     this.units.forEach(unit => {
-      var css = unit.stylesheet;
+      const css = unit.stylesheet;
       if (css == "")
         return;
 
-      var template = Handlebars.compile(css);
-      var rendered = template({});
+      const template = Handlebars.compile(css);
+      let rendered = template({});
       if (unit.id != "document")
         rendered = replaceColours(rendered, this.printColour, this.accentColour, this.highContrast);
       cssParts.push(rendered);
@@ -303,7 +302,7 @@ export class Document {
   }
 
   getJavascript() {
-    var jsParts = [];
+    let jsParts = [];
 
     this.units.forEach(unit => {
       if (!has(unit, "js") || unit.js == "")
@@ -315,9 +314,9 @@ export class Document {
   }
 
   renderDocument(registry) {
-    var favicon = this.faviconURL ? `<link id="favicon" rel="shortcut icon" type="image/png" href='${this.faviconURL}' />` : ''
-    var stylesheet = this.getStylesheet();
-    var javascript = this.getJavascript();
+    const favicon = this.faviconURL ? `<link id="favicon" rel="shortcut icon" type="image/png" href='${this.faviconURL}' />` : ''
+    const stylesheet = this.getStylesheet();
+    const javascript = this.getJavascript();
 
     return `<!DOCTYPE html>
 <html lang='${this.language}'>

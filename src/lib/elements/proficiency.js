@@ -8,9 +8,9 @@ export let proficiency = {
   },
   transform(args) {
     if (args.proficiency === null) args.proficiency = "untrained";
-    var icon = (args.proficiency == "untrained") ? "proficiency" : "proficiency-" + args.proficiency;
+    const icon = (args.proficiency == "untrained") ? "proficiency" : "proficiency-" + args.proficiency;
 
-    var contents = args.content ? { type: "p", content: args.content } : { type: "g", contents: args.contents };
+    const contents = args.content ? { type: "p", content: args.content } : { type: "g", contents: args.contents };
     return [
       {
         type: "layout",
@@ -35,7 +35,7 @@ export let action = {
     contents: [],
   },
   transform(args) {
-    var icon = 'action';
+    let icon = 'action';
     switch (args.action) {
       case 1: icon = 'action'; break;
       case 2: icon = 'action2'; break;

@@ -15,7 +15,7 @@ const MIME_HANDLEBARS = 'text/x-handlebars';
 export function inferMimeType(filename) {
   if (!filename.match(/\..*$/))
     return 'text/plain';
-  var ext = filename.match(/\..*$/)[0];
+  const ext = filename.match(/\..*$/)[0];
   switch (ext) {
     case '.svg': return MIME_SVG;
     case '.png': return MIME_PNG;
@@ -51,7 +51,7 @@ function processSVG(data) {
 }
 
 function needsBase64(filename) {
-  var mime = inferMimeType(filename);
+  const mime = inferMimeType(filename);
   switch (mime) {
     case MIME_SVG:
       return false;
@@ -66,7 +66,6 @@ export function toDataURL(data, mimeType) {
     return '';
   }
 
-  // var mime = mimeType(filename);
   switch (mimeType) {
     case MIME_SVG:
       data = processSVG(data);
@@ -79,7 +78,7 @@ export function toDataURL(data, mimeType) {
 }
 
 // Assets on disk
-var assetsDirs = [
+let assetsDirs = [
   __dirname + '/assets/'
 ];
 

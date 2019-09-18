@@ -10,7 +10,7 @@ export let g = {
     padg: false,
   },
   render(args, reg, doc) {
-    var cls = elementClass('g', null, args, ['pad'], { 'galign': 'justify', 'valign': 'center' });
+    const cls = elementClass('g', null, args, ['pad'], { 'galign': 'justify', 'valign': 'center' });
     return `<div${cls}>${reg.render(args.contents, doc)}</div>`;
   }
 }

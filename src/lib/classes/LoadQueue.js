@@ -8,7 +8,7 @@ export class LoadQueue {
   }
 
   loadFile(filename) {
-    var promise = new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       fs.readFile(filename, 'utf-8', (err, data) => {
         if (err) {
           if (err.code == 'ENOENT') {

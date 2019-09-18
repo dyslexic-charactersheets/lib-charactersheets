@@ -4,7 +4,7 @@ import { __ } from '../i18n';
 function renderHeading(h) {
   return (args, reg, doc) => {
     // log("headings", "elementClass:", args);
-    var cls = elementClass(h, null, args, ['fade', 'bold'], { 'align': '' });
+    const cls = elementClass(h, null, args, ['fade', 'bold'], { 'align': '' });
     return `<${h}${cls}>${esc(__(args.title, doc), true)}</${h}>`
   }
 }
@@ -62,11 +62,11 @@ export let class_name = {
     flex: 'medium',
   },
   render(args, reg, doc) {
-    var preface = isEmpty(args.preface) ? '' : `<h5>${esc(__(args.preface), true)}</h5>`;
-    var name = `<h2>${esc(__(args.title), true)}</h2>`;
-    var affix = isEmpty(args.affix) ? '' : `<h5>${esc(__(args.affix), true)}</h5>`;
+    const preface = isEmpty(args.preface) ? '' : `<h5>${esc(__(args.preface), true)}</h5>`;
+    const name = `<h2>${esc(__(args.title), true)}</h2>`;
+    const affix = isEmpty(args.affix) ? '' : `<h5>${esc(__(args.affix), true)}</h5>`;
 
-    var cls = elementClass('class-name', null, args, [], { flex: 'medium' });
+    const cls = elementClass('class-name', null, args, [], { flex: 'medium' });
     return `<div${cls}>${preface}${name}${affix}${reg.render(args.contents, doc)}</div>`;
   }
 }

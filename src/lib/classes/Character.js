@@ -11,7 +11,7 @@ import { toKebabCase, toCamelCase, toPathCase, toSpaceCase, toTitleCase, isStrin
 
 function parseCharacter(primary, request) {
   // attributes
-  let attr = Object.assign({
+  let attr = {
     name: false,
     game: 'pathfinder2',
     theme: 'pathfinder',
@@ -33,8 +33,9 @@ function parseCharacter(primary, request) {
     printLogo: false,
     printPortrait: false,
     animalPortrait: false,
-    printBackground: false
-  }, primary.attributes);
+    printBackground: false,
+    ...primary.attributes
+  };
 
   // an object to start with
   let char = {
@@ -78,7 +79,6 @@ function parseCharacter(primary, request) {
   Object.keys(attr).forEach(key => {
     if (key.match(/^option/)) {
       let flag = toKebabCase(key.replace(/^option/, ''));
-      // log("Character", "Option", flag, attr[key]);
       let ok = char.options[flag] = !!attr[key];
       if (ok)
         char.units.push('option/' + flag);
@@ -135,7 +135,7 @@ function parseCharacter(primary, request) {
             let selname = toKebabCase(key.replace(classPrefix, ''));
             let selvalue = toKebabCase(attr[key]);
             log("Character", "Class option", key, selname, "=", selvalue);
-            var unitname = className + '/' + selname + '/' + selvalue;
+            const unitname = className + '/' + selname + '/' + selvalue;
             // log("Character", "Class option unit", unitname);
             char.units.push(unitname);
           }
@@ -180,9 +180,9 @@ function parseCharacter(primary, request) {
   // included assets
   ["printPortrait", "animalPortrait", "printLogo", "printBackground"].forEach(field => {
     if (attr[field]) {
-      var id = attr[field];
+      const id = attr[field];
       // log("Character", "Asset:", field, "=", id);
-      var instance = request.getInstance(id);
+      const instance = request.getInstance(id);
       if (!isNull(instance)) {
         // log("Character", "Asset known:", field, "=", id);
         char.instances[id] = instance.attributes;
@@ -218,14 +218,14 @@ export class Character {
       return;
     } else if (isObject(asset)) {
       // log("Character", "getAsset: object");
-      var dataURL = toDataURL(asset.data, asset.mimeType);
+      const dataURL = toDataURL(asset.data, asset.mimeType);
       callback(dataURL);
     } else if (isString(asset)) {
       // log("Character", "getAsset: string", asset);
       locateAsset(asset, assetFile => {
         this.loadQueue.loadEmbed(assetFile).then(data => {
-          var mimeType = inferMimeType(asset);
-          var dataURL = toDataURL(data, mimeType);
+          const mimeType = inferMimeType(asset);
+          const dataURL = toDataURL(data, mimeType);
           callback(dataURL);
         })
       });
@@ -235,26 +235,26 @@ export class Character {
   }
 
   render(callback) {
-    var self = this;
+    //const self = this;
     // log("Character", "Render character");
     // log("Character", `Name: ${this.data.name}, game: ${this.data.game}`);
     // log("Character", `Units: ${this.data.units}`);
 
     systemsReady(() => {
       try {
-        var system = getSystem(this.data.game);
+        const system = getSystem(this.data.game);
         if (system === null) {
           error("Character", "System not found:", this.data.game);
           return;
         }
 
         // start with a document
-        var documentUnit = system.getUnit("document");
-        var document = new Document(documentUnit);
+        const documentUnit = system.getUnit("document");
+        const document = new Document(documentUnit);
 
         // TODO get title parts from inside units
         // TODO translate title parts
-        var titleParts = [];
+        let titleParts = [];
         if (this.data.ancestry) {
           titleParts.push(toTitleCase(this.data.ancestry));
         }
@@ -265,7 +265,7 @@ export class Character {
           titleParts.push(toTitleCase(archetype))
         });
 
-        var title = titleParts.join(" ");
+        let title = titleParts.join(" ");
         if (this.data.name) {
           title = `${this.data.name}, ${title}`;
         }
@@ -305,9 +305,9 @@ export class Character {
         }
 
         if (this.data.printBackground) {
-          var printBackground = this.data.printBackground;
+          const printBackground = this.data.printBackground;
           // log("Character", "Background:", printBackground);
-          var bgColours = {
+          const bgColours = {
             magnolia: '#F4E9D8',
           };
           if (has(bgColours, printBackground)) {
@@ -327,15 +327,15 @@ export class Character {
         document.watermark = this.data.printWatermark;
 
         // load units
-        var units = system.getUnits(this.data.units);
+        let units = system.getUnits(this.data.units);
 
         // infer required units (to a finite depth)
-        var more = true;
-        for (var i = 0; more && i < 10; i++) {
+        let more = true;
+        for (let i = 0; more && i < 10; i++) {
           more = false;
           // log("Character", "Checking for required units");
-          var moreunits = [];
-          var unitIds = units.map(unit => unit.id);
+          let moreunits = [];
+          let unitIds = units.map(unit => unit.id);
           // log("Character", "Unit IDs:", unitIds);
           units.forEach(unit => {
             if (has(unit, "require")) {
@@ -351,7 +351,7 @@ export class Character {
                     return;
                 }
 
-                var newunit = system.getUnit(req.unit);
+                const newunit = system.getUnit(req.unit);
                 if (!isNull(newunit)) {
                   moreunits.push(newunit);
                   more = true; // let's do this again
@@ -376,7 +376,7 @@ export class Character {
           // });
 
           // render the document
-          var data = document.renderDocument(this.registry);
+          const data = document.renderDocument(this.registry);
 
           callback({
             data: data,

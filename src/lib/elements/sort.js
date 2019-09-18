@@ -11,12 +11,12 @@ export let sort = {
     contents: []
   },
   transform(args, ctx) {
-    var key = args.orderby;
+    const key = args.orderby;
     // log("sort", `Sorting ${args.contents.length} items by ${key}`);
 
-    var contents = args.contents.sort((a, b) => {
-      var ka = has(a, key) ? a[key] : false;
-      var kb = has(b, key) ? b[key] : false;
+    const contents = args.contents.sort((a, b) => {
+      const ka = has(a, key) ? a[key] : false;
+      const kb = has(b, key) ? b[key] : false;
       if (!ka && !kb) return 0;
       if (!ka) return 1;
       if (!kb) return -1;

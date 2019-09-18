@@ -23,7 +23,7 @@ export let article = {
   },
   transform(args, ctx) {
     if (isEmpty(args.header) || isEmpty(args.contents)) {
-      var header = args.header;
+      let header = args.header;
       if (isEmpty(args.header)) {
         header = [];
 
@@ -85,7 +85,7 @@ export let article = {
         ];
       }
 
-      var contents = args.contents;
+      let contents = args.contents;
       if (isEmpty(args.contents)) {
         if (ctx.largePrint && args.lines > 1) {
           args.lines--;
@@ -109,7 +109,7 @@ export let article = {
         }
       }
 
-      let article = {
+      const article = {
         type: 'article',
         id: args.id,
         header: header,
@@ -124,14 +124,14 @@ export let article = {
     return false;
   },
   render(args, reg, doc) {
-    var id = elementID('section', args.id);
-    var cls = elementClass('section', null, args, ['shade']);
+    const id = elementID('section', args.id);
+    const cls = elementClass('section', null, args, ['shade']);
 
-    var annotation = args.annotation ? `<div class='article__annotation'>${__(args.annotation, doc)}</div>` : '';
-    var header = `<header>${reg.render(args.header, doc)}</header>`
-    var dl = '';
+    const annotation = args.annotation ? `<div class='article__annotation'>${__(args.annotation, doc)}</div>` : '';
+    const header = `<header>${reg.render(args.header, doc)}</header>`
+    const dl = '';
 
-    // var contents = mergeBottom(args.contents);
+    // const contents = mergeBottom(args.contents);
 
     return `<article${id}${cls}>
       ${annotation}${header}${dl}

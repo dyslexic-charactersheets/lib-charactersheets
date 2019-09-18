@@ -13,10 +13,10 @@ export let layout = {
     contents: [],
   },
   render(args, reg, doc) {
-    var cls = elementClass('layout', null, args, ['no-flex'], { 'layout': '', 'gutter': '', 'flex': false });
+    const cls = elementClass('layout', null, args, ['no-flex'], { 'layout': '', 'gutter': '', 'flex': false });
 
     // pick a column number
-    var columns = args.columns;
+    let columns = args.columns;
     if (columns == 0) {
       switch (args.layout) {
         case '1n':
@@ -45,7 +45,7 @@ export let layout = {
     }
 
     // chunk the contents
-    var parts = [];
+    let parts = [];
     if (columns == 0) {
       parts.push(args.contents);
     } else {

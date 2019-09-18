@@ -10,8 +10,8 @@ export let portrait = {
   },
   render(args, reg, doc) {
     // TODO get the right copyright attribution from the data
-    var copyright = "Image &copy; Paizo Publishing";
-    var cls = elementClass('portrait', null, args, ['overprint'], { 'char': '' });
+    const copyright = "Image &copy; Paizo Publishing";
+    const cls = elementClass('portrait', null, args, ['overprint'], { 'char': '' });
     return `<figure${cls}><div class='portrait__inner'></div><figcaption>${__(copyright, doc)}</figcaption></figure>`;
   }
 }

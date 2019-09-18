@@ -13,10 +13,10 @@ export let p = {
     pad: false,
   },
   render(args, reg, doc) {
-    var cls = elementClass('p', null, args, ['prose', 'pad'], { 'align': 'left', 'size': 'medium' });
+    const cls = elementClass('p', null, args, ['prose', 'pad'], { 'align': 'left', 'size': 'medium' });
 
-    // var paras = args.content.split(/[\n\r]/);
-    var icon = args.icon ? reg.renderItem({
+    // let paras = args.content.split(/[\n\r]/);
+    const icon = args.icon ? reg.renderItem({
       type: 'icon',
       icon: args.icon,
       size: 'small'
@@ -64,7 +64,7 @@ export let dl = {
   },
   render(args, reg, doc) {
     let defs = Object.keys(args.defs).map(term => {
-      var termdef = args.defs[term];
+      let termdef = args.defs[term];
       if (isEmpty(termdef))
         return '';
       switch (term) {
