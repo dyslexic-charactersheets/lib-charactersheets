@@ -20,6 +20,7 @@ function spellField(lvl, style, n, annotation) {
         id: `spells-level-${lvl}-${n}`,
         frame: frame,
         label: label,
+        align: 'left',
         // border: border,
         control: "compound",
         parts: [
@@ -268,6 +269,7 @@ export let spells_table = {
         type: "field",
         id: "spells-#{level}-expanded",
         width: "stretch",
+        align: "left",
         frame: "none"
       });
     }

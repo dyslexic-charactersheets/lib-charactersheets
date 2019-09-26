@@ -1,0 +1,222 @@
+unit: class/bard
+in: class
+group: "Core Rulebook"
+name: "Bard"
+
+form:
+  - select: bard/muse
+    name: "_{Bard's Muse}"
+    max: 1
+  - select: feat/bard
+    name: "_{bard Feats}"
+    max: 8
+    levels: [ 2, 4, 6, 8, 10, 14, 16, 18, 20 ]
+
+require:
+  - unit: weapon-spec/slow
+
+inc:
+
+  - set: class
+    value: "_{Bard}"
+  - set: hp-class
+    value: 8
+  # - set: class-dc-proficiency
+  #   value: trained
+  - set: occult-spell-dc
+    value: trained
+
+  - set: occultism-proficiency
+    value: trained
+  - set: performance-proficiency
+    value: trained
+  - set: perception-proficiency
+    value: expert
+
+  - set: fortitude-proficiency
+    value: trained
+  - set: reflex-proficiency
+    value: trained
+  - set: will-proficiency
+    value: expert
+    
+  - set: unarmoured-proficiency
+    value: trained
+  - set: light-armour-proficiency
+    value: trained
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        gain: "_{Muse}"
+      - level: 3
+        advance: "_{Signature Spells}"
+      - levels: [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
+        spell-level: [ "_{1st}", "_{2nd}", "_{3rd}", "_{4th}", "_{5th}", "_{6th}", "_{7th}", "_{8th}", "_{9th}", "_{10th}" ]
+      - level: 19
+        advance: "_{Magnum Opus}"
+
+  - at: '@advancement-fields'
+    add:
+      - name: "_{Spell\nLevel}"
+        key: spell-level
+        format: string
+
+  - at: '@focus-points'
+    replace:
+      - field: bard-composition-spells-focus
+        label: "_{Composition\nSpells}"
+        underlay: "1"
+
+  - at: '@pages'
+    add:
+      - page: bard
+        name: "_{Bard}"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: bard
+                    optional: true
+                  - class-name: "_{Bard}"
+
+                  - section: "_{Muse}"
+                    primary: true
+                    contents:
+                      - zone: '@bard/muse'
+                        contents:
+                          - field: bard-muse
+                            size: huge
+                            width: stretch
+                            label: "_{Name}"
+                          - field: bard-muse-type
+                            label: "_{Muse Type}"
+                            width: stretch
+                            size: large
+                            merge-bottom: true
+                          - hr:
+                          - h5: "_{Bonus Feat}"
+                          - article:
+                            lines: 4
+
+
+                  - section: "_{Spellcasting}"
+                    id: spellcasting
+                    contents:
+                      - spells-table:
+                        # spells-today: true
+                        expanded: "_{Signature Spell}"
+
+                      - paste: spell-attack
+                        params:
+                          id: divine-spell-attack
+                          legend: "_{Divine\nSpell Attack}"
+
+                      - paste: spell-dc
+                        params:
+                          id: divine-spell-dc
+                          legend: "_{Divine\nSpell DC}"
+
+                      - hr:
+                      - level: 3
+                        contents:
+                          - p: "_{Signature spells can be heightened without learning separately.}"
+
+                  - section: "_{Compositions}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - layout: indent-r
+                            contents:
+                              - p: "_{Spells cast using Performance.}"
+                              - level-marker:
+                                level: "1"
+                                marker: "Focus"
+                          - slots:
+                            min: 3
+                            max: 3
+                            reduce: 1
+                            contents:
+                              - zone: '@bard/compositions'
+                                contents:
+                                  - article:
+                                    title: "_{Counter Performance}"
+                                    content: "_{Roll a performance check to counter an auditory or visual effect. You and allies within 30ft can take that in place of a saving throw.}"
+                            placeholder:
+                              article:
+                              lines: 2
+                              show-level: true
+
+                  - tail:
+                  # - spacer:
+
+              - g:
+                contents:
+
+                  - section: "_{Cantrips}"
+                    contents:
+                      - spells-list:
+                        min: 0
+                        max: 0
+                        spells: 5
+                        style: spontaneous
+                      - hr:
+                      - h5: "_{Composition Cantrips}"
+                      - list:
+                        hr: true
+                        columns: 2
+                        contents:
+                          - slots:
+                            min: 2
+                            max: 2
+                            contents:
+                              - zone: '@bard/composition-cantrips'
+                                contents:
+                                  - article:
+                                    title: "_{Inspire Courage}"
+                                    contents:
+                                      - row:
+                                        contents:
+                                          - field: bard-inspire-courage-bonus
+                                            frame: none
+                                            border: full
+                                            control: value
+                                            # width: large
+                                            value: "+1"
+                                          - p: "_{To attack, damage and saves against fear for allies within 60ft.}"
+                            placeholder:
+                              article:
+                              lines: 2
+
+                      
+                  - section: "_{Spells}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - spells-list:
+                            flex: huge
+                            min: 1
+                            max: 9
+                            spells: 4
+                            contents:
+                              - "_{Inspire Courage}"
+                          - spells-list:
+                            flex: tiny
+                            min: 10
+                            max: 10
+                            spells: 2
+                      
+
+                  - paste: class-feats
+                    params:
+                      id: bard-feats
+                      title: "_{Bard Feats}"
+
+                  - tail:
+                  # - spacer:

@@ -18,7 +18,7 @@ export function renderTableFlipped(args, reg, doc, headings, cols) {
     return heading;
   });
   cols.forEach(col => {
-    if (col.length > nrows) nrows = col.length;
+    if (col.cells.length > nrows) nrows = col.cells.length;
   });
 
   if (hasHeading) ncols++;
@@ -39,7 +39,7 @@ export function renderTableFlipped(args, reg, doc, headings, cols) {
   cols.forEach((col, c) => {
     if (hasHeading) c++;
     // log("table", "Column", c, col);
-    col.forEach((cell, r) => {
+    col.cells.forEach((cell, r) => {
       // log("table", "Cell at:", r, c, "=", cell);
       cells[r][c] = cell;
     });

@@ -7,16 +7,16 @@ import { getFormData as getFormDataF } from './formdata';
 
 // start this first, it's the slow bit
 loadSystemData([
-  "common",
-  "pathfinder2",
-  "premium"
+  'common',
+  'pathfinder2',
+  'premium',
 ]);
 
-let registry = new Registry();
+const registry = new Registry();
 
 export function create(chardesc) {
-  let request = new Request(chardesc);
-  let primary = request.getPrimaries(registry);
+  const request = new Request(chardesc);
+  const primary = request.getPrimaries(registry);
   return primary[0];
 }
 
@@ -36,4 +36,4 @@ export function onError(callback) {
   Events.errorEvt.on(callback);
 }
 
-export let getFormData = getFormDataF;
+export const getFormData = getFormDataF;

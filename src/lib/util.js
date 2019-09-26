@@ -1,6 +1,10 @@
 const color = require('color');
 
 import * as _ from 'lodash';
+import { log, warn, error } from './log';
+
+
+// Polyfills
 
 // polyfill for Array.flat and Array.flatMap, which aren't well supported even with Babel
 // cf https://github.com/jonathantneal/array-flat-polyfill
@@ -30,9 +34,7 @@ if (!Array.prototype.flatMap) {
   Object.defineProperty(Array.prototype, 'flatMap', {
     configurable: true,
     value: function flatMap(callback) {
-      // return Array.prototype.map.apply(this, arguments).flat();
       var parts = Array.prototype.map.apply(this, arguments);
-      // console.log(parts);
       return parts.flat();
     },
     writable: true
@@ -111,7 +113,7 @@ if (!Array.prototype.includes) {
 
 if (!Object.entries) {
   Object.entries = function (obj) {
-    const ownProps = Object.keys(obj),
+    var ownProps = Object.keys(obj),
       i = ownProps.length,
       resArray = new Array(i); // preallocate the Array
     while (i--)
@@ -119,6 +121,49 @@ if (!Object.entries) {
 
     return resArray;
   };
+}
+
+
+// identity functions
+export function isNull(val) {
+  return val === null || val === undefined;
+}
+
+export function isNumber(val) {
+  return Number.isFinite(val);
+}
+
+export function isString(val) {
+  return typeof val === 'string' || val instanceof String;
+}
+
+export function isArray(val) {
+  return Array.isArray(val);
+}
+
+export function isObject(val) {
+  return val instanceof Object;
+}
+
+export function isEmpty(val) {
+  if (val === null || val === undefined || val === false) {
+    return true;
+  }
+  if (isString(val)) {
+    return val == '';
+  }
+  if (isArray(val)) {
+    return val.length == 0;
+  }
+  if (isObject(val)) {
+    return !Object.entries((val || {})).length;
+  }
+  return false;
+}
+
+export function has(container, property) {
+  if (isNull(container)) return false;
+  return Object.prototype.hasOwnProperty.call(container, property) && !isNull(container[property]);
 }
 
 // Escape strings for HTML
@@ -145,8 +190,9 @@ export function elementID(element, id = null) {
 
 function pickMods(args, keys) {
   return _.flatMap(args, (v, k) => {
-    if (isString(v))
+    if (isString(v)) {
       v = v.replace(/#\{.*?\}/g, '');
+    }
     return (v && keys.includes(k) && !isEmpty(v) && v != 'false') ? [k] : [];
   });
 }
@@ -160,14 +206,14 @@ function splitAnyCase(str) {
   let words = str.split(/[ _/-]+/);
   words = words.flatMap(word => word.split(/([A-Z][a-z]+)/));
   words = words.map(word => word.toLowerCase());
-  words = words.filter(word => word != "");
+  words = words.filter(word => word != '');
   return words;
 }
 
 export function toKebabCase(str) {
   // convert-a-string-to-kebab-case
   const words = splitAnyCase(str);
-  return words.join("-");
+  return words.join('-');
 }
 
 export function toCamelCase(str) {
@@ -175,26 +221,26 @@ export function toCamelCase(str) {
   let words = splitAnyCase(str);
   words = words.map(word => word.charAt(0).toUpperCase() + word.substr(1).toLowerCase());
   words[0] = words[0].toLowerCase();
-  return words.join("");
+  return words.join('');
 }
 
 export function toPathCase(str) {
   // convert/a/string/to/path/case
   const words = splitAnyCase(str);
-  return words.join("/");
+  return words.join('/');
 }
 
 export function toSpaceCase(str) {
   // convert a string to space case
   const words = splitAnyCase(str);
-  return words.join(" ");
+  return words.join(' ');
 }
 
 export function toTitleCase(str) {
   // Convert A String To Title Case
-  let words = str.split(" ");
+  let words = str.split(' ');
   words = words.map(word => word.charAt(0).toUpperCase() + word.substr(1).toLowerCase());
-  return words.join(" ");
+  return words.join(' ');
 }
 
 export function clone(original) {
@@ -202,7 +248,7 @@ export function clone(original) {
     return null;
   }
   if (isArray(original)) {
-    return [ ...original ];
+    return [...original];
   }
   if (isObject(original)) {
     return { ...original };
@@ -262,8 +308,7 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
 
   // mods are single-word adjectives, eg
   const mods = pickMods(args, modKeys);
-  // console.log("["+block+" class] Mods:", mods);
-  mods.forEach(function (mod) {
+  mods.forEach((mod) => {
     switch (mod) {
       // global mods that don't need a prefix
       // case 'align':
@@ -288,22 +333,17 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
     attribKeys = Object.keys(attribDefs);
   }
   const attribs = pickAttribs(args, attribKeys);
-  // console.log("["+block+" class] Attribs:", attribs);
 
   Object.entries(attribs).forEach(pair => {
     const key = pair[0];
     const value = pair[1];
 
-    if (isEmpty(value))
+    if (isEmpty(value)) {
       return;
-    // console.log("  -", key, " = ", value);
-    // some default values can be skipped
-    // switch (key) {
-    //     case 'frame': if (value == 'normal') return;
-    //     case 'control': if (value == 'input') return;
-    // }
-    if (has(attribDefs, key) && value == attribDefs[key])
+    }
+    if (has(attribDefs, key) && value == attribDefs[key]) {
       return;
+    }
 
     switch (key) {
       // global attributes that don't need a prefix
@@ -325,59 +365,20 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
   if (isEmpty(cls)) {
     return '';
   }
-  return ` class='${cls.join(" ")}'`;
+  return ` class='${cls.join(' ')}'`;
 }
 
-export function has(container, property) {
-  return container !== null && container !== undefined && Object.prototype.hasOwnProperty.call(container, property) && container[property] !== null && container[property] !== undefined;
-}
-
-export function isNull(val) {
-  return val === null || val === undefined;
-}
-
-export function isEmpty(val) {
-  if (val === null || val === undefined || val === false)
-    return true;
-  if (isString(val))
-    return val == '';
-  if (isArray(val))
-    return val.length == 0;
-  if (isObject(val))
-    return !Object.entries((val || {})).length;
-  return false;
-}
-
-export function isNumber(val) {
-  return Number.isFinite(val);
-}
-
-export function isString(val) {
-  return typeof val === 'string' || val instanceof String;
-}
-
-export function isArray(val) {
-  return Array.isArray(val);
-}
-
-export function isObject(val) {
-  return val instanceof Object;
-}
 
 export function interpolate(template, values, document = null) {
-  // console.log("Interpolate:", template);
-  // console.log(" - Values:", values);
-
-  if (template === null)
+  if (isNull(template)) {
     return null;
+  }
 
   if (isString(template)) {
     return template.replace(/#\{(.*?)\}/g, function (tag) {
       const match = tag.match(/#\{(.*?)\}/);
       const index = match[1];
-      // console.log("Match index:", index);
       if (has(values, index)) {
-        // console.log(` - Replacing #{${index}} -> ${values[index]}`);
         return values[index];
       } else if (!isNull(document) && document.hasVar(index)) {
         return document.getVar(index);
@@ -392,12 +393,12 @@ export function interpolate(template, values, document = null) {
 
   if (isObject(template)) {
     let pairs = _.toPairs(template);
-    // console.log(" - value pairs", pairs);
-    pairs = pairs.map(pair => [pair[0], interpolate(pair[1], values, document)]);
-    // console.log(" - processed pairs", pairs);
+    pairs = pairs.map((pair) => [pair[0], interpolate(pair[1], values, document)]);
 
     // check if the whole object needs replacing
-    const first = pairs[0][0];
+    let first = pairs[0][0];
+    if (first == "type")
+      first = template[first];
     if (first == 'param') {
       const paramkey = pairs[0][1];
       if (has(values, paramkey)) {
@@ -406,7 +407,7 @@ export function interpolate(template, values, document = null) {
         return document.getVar(paramkey);
       }
     } else if (first == 'item' && has(values, 'item')) {
-      return values['item'];
+      return values.item;
     }
 
     const obj = _.fromPairs(pairs);
@@ -418,14 +419,14 @@ export function interpolate(template, values, document = null) {
 
 
 export function replaceColours(str, documentColour, accentColour, highContrast) {
-  str = str.replace(/#[0-9a-fA-F]{6}/g, c => adjustColour(c, documentColour, highContrast));
-  str = str.replace(/%23[0-9a-fA-F]{6}/g, c => {
+  str = str.replace(/#[0-9a-fA-F]{6}/g, (c) => adjustColour(c, documentColour, highContrast));
+  str = str.replace(/%23[0-9a-fA-F]{6}/g, (c) => {
     c = c.replace('%23', '#');
     c = adjustColour(c, documentColour, highContrast);
     c = c.replace('#', '%23');
     return c;
   });
-  str = str.replace(/rgba\(.*?,.*?,.*?,(.*?)\)/g, c => adjustColour(c, documentColour, highContrast)); // (c, opacity) => adjustColourRGBA(c, opacity, highContrast));
+  str = str.replace(/rgba\(.*?,.*?,.*?,(.*?)\)/g, (c) => adjustColour(c, documentColour, highContrast));
   str = str.replace(/--c-accent/g, accentColour);
   str = str.replace(/="#([0-9a-fA-F]{6})"/g, '="%23$1"');
   return str;
@@ -452,9 +453,6 @@ export function adjustColour(c, documentColour, highContrast) {
     if (lightness < lmin) lightness = lmin;
     col = col.lightness(lightness);
 
-    // console.log("Color:", col.hex());
-    // console.log(" - lightness:", lightness);
-
     // reduce the saturation of mid-lightness colours so they don't look too odd
     // enhance the saturation of dark colours so they don't fade away
     const nd = 24;
@@ -464,7 +462,6 @@ export function adjustColour(c, documentColour, highContrast) {
     const f = 1.3;
 
     let saturation = col.saturationl();
-    // console.log(" - saturation:", saturation);
     saturation = saturation + 10;
     if (lightness > nlow && lightness <= nmid) {
       const diff = lightness - nlow;
@@ -475,7 +472,6 @@ export function adjustColour(c, documentColour, highContrast) {
     }
     if (saturation < 0) saturation = 0;
     if (saturation > 100) saturation = 100;
-    // console.log(" - adjust:", saturation);
     col = col.saturationl(saturation);
 
     // readjust the opacity
@@ -483,31 +479,31 @@ export function adjustColour(c, documentColour, highContrast) {
     col.alpha(alpha);
 
     if (alpha != 1) {
-      // console.log("Alpha:", alpha);
       const red = Math.round(col.red());
       const green = Math.round(col.green());
       const blue = Math.round(col.blue());
       const result = `rgba(${red},${green},${blue},${alpha})`;
-      // console.log(" Alpha colour:", result);
       return result;
     }
     const result = col.hex();
-    // console.log(" - adjusted:", result);
     return result;
   } catch (x) {
-    error("util", "Colour error:", x, x.stack);
+    error('util', 'Colour error:', x, x.stack);
     return c;
   }
 }
 
 export function getLabelHeight(args) {
-  if (isNull(args))
+  if (isNull(args)) {
     return 1;
+  }
 
-  if (has(args, "labelHeight"))
+  if (has(args, 'labelHeight')) {
     return args.labelHeight;
-  if (has(args, "context") && args.context !== null && has(args.context, "labelHeight"))
+  }
+  if (has(args, 'context') && args.context !== null && has(args.context, 'labelHeight')) {
     return args.context.labelHeight;
+  }
 
   switch (args.type) {
     case 'field': {
@@ -519,29 +515,32 @@ export function getLabelHeight(args) {
         case 'circle':
           return 0;
 
-        default:
+        default: {
           const labelHeight = args.label ? args.label.split(/\n/).length : 0;
           const legendHeight = args.legend ? args.legend.split(/\n/).length : 0;
           return Math.max(labelHeight, legendHeight, 0);
+        }
       }
     }
 
     case 'calc': {
       let height = getLabelHeight(args.output);
-      args.inputs.forEach(field => {
+      args.inputs.forEach((field) => {
         const h = getLabelHeight(field);
-        if (h > height)
+        if (h > height) {
           height = h;
+        }
       });
       return height;
     }
 
     case 'row': {
       let height = 0;
-      args.contents.forEach(field => {
+      args.contents.forEach((field) => {
         const h = getLabelHeight(field);
-        if (h > height)
+        if (h > height) {
           height = h;
+        }
       });
       return height;
     }
@@ -555,8 +554,9 @@ export function getLabelHeight(args) {
 };
 
 export function getRubyHeight(args) {
-  if (isNull(args))
+  if (isNull(args)) {
     return 0;
+  }
 
   switch (args.type) {
     case 'ruby': {
@@ -570,20 +570,22 @@ export function getRubyHeight(args) {
 
     case 'calc': {
       let height = getRubyHeight(args.output);
-      args.inputs.forEach(field => {
+      args.inputs.forEach((field) => {
         const h = getRubyHeight(field);
-        if (h > height)
+        if (h > height) {
           height = h;
+        }
       });
       return height;
     }
 
     case 'row': {
       let height = 0;
-      args.contents.forEach(field => {
+      args.contents.forEach((field) => {
         const h = getRubyHeight(field);
-        if (h > height)
+        if (h > height) {
           height = h;
+        }
       });
       return height;
     }

@@ -1,5 +1,6 @@
 import { has, isArray, isString, cloneDeep, interpolate } from '../util';
 import { log, warn } from '../log';
+import { mergeBottom } from '../classes/Registry';
 
 export let slots = {
   name: 'slots',
@@ -46,7 +47,11 @@ export let slots = {
     if (args.slots === null || args.slots == []) {
       // log("slots", "Slots item:", args);
       // log("slots","Single slot");
-      return slotItems(args.contents);
+      let contents = slotItems(args.contents);
+      if (args['merge-bottom']) {
+        contents = mergeBottom(contents);
+      }
+      return contents;
     }
 
     let slots = {};
@@ -98,6 +103,9 @@ export let slots = {
       contents = contents.concat(add);
     }
     // log("slots", contents);
+    if (args['merge-bottom']) {
+      contents = mergeBottom(contents);
+    }
     return contents;
   }
 }

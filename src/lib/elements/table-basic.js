@@ -18,7 +18,7 @@ export function renderTableBasic(args, reg, doc, headings, rows) {
   // cells
   // log("table", "Rows", rows);
   const trows = rows.map(row => {
-    const cells = row.map((cell, h) => {
+    const cells = row.cells.map((cell, h) => {
       if (h < headings.length) {
         if (has(headings[h], "shade") && headings[h].shade)
           cell.shade = true;
@@ -27,7 +27,9 @@ export function renderTableBasic(args, reg, doc, headings, rows) {
       return `<td${cellCls}>${reg.renderItem(cell, doc)}</td>`;
     });
 
-    return `<tr>${cells.join("\n")}</tr>\n`;
+    // log("table", "Table row class", row);
+    const rowCls = elementClass('tr', null, row, ['hr']);
+    return `<tr${rowCls}>${cells.join("\n")}</tr>\n`;
   })
 
   // put it all together

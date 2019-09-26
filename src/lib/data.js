@@ -1,5 +1,5 @@
-import { existsSync } from "fs";
-import { log, error } from './log';
+import { existsSync } from 'fs';
+import { warn } from './log';
 
 const MIME_SVG = 'image/svg+xml';
 const MIME_PNG = 'image/png';
@@ -8,13 +8,14 @@ const MIME_JPEG = 'image/jpeg';
 // const MIME_WOFF = 'application/x-font-woff;charset=utf-8';
 const MIME_WOFF = 'application/x-font-woff;charset=utf-8';
 // const MIME_WOFF = 'font/woff;charset=utf-8';
-const MIME_WOFF2 = 'application/font-woff2;charset=utf-8'
+const MIME_WOFF2 = 'application/font-woff2;charset=utf-8';
 const MIME_SCSS = 'text/x-scss';
 const MIME_HANDLEBARS = 'text/x-handlebars';
 
 export function inferMimeType(filename) {
-  if (!filename.match(/\..*$/))
+  if (!filename.match(/\..*$/)) {
     return 'text/plain';
+  }
   const ext = filename.match(/\..*$/)[0];
   switch (ext) {
     case '.svg': return MIME_SVG;
@@ -24,19 +25,22 @@ export function inferMimeType(filename) {
     case '.woff2': return MIME_WOFF2;
     case '.scss': return MIME_SCSS;
     case '.h': return MIME_HANDLEBARS;
-    default: return "text/plain";
+    default: return 'text/plain';
   }
 }
 
-function processBase64(data) {
-  if (data === null)
+function processBase64(original) {
+  if (original === null) {
     return '';
+  }
+  let data = original;
   data = data.replace(/\n$/, '');
   data = data.replace(/[\r\n]/g, '');
   return data;
 }
 
-function processSVG(data) {
+function processSVG(original) {
+  let data = original;
   // log("data", "processSVG");
   data = data.replace(/<!--.*?-->/g, '');
   data = data.replace(/[\r\n]\s*/g, ' ');
@@ -62,41 +66,41 @@ function needsBase64(filename) {
 
 export function toDataURL(data, mimeType) {
   if (data === null) {
-    warn("data", 'No data for file:', filename);
+    warn('data', 'No data');
     return '';
   }
 
   switch (mimeType) {
-    case MIME_SVG:
-      data = processSVG(data);
-      return 'data:' + mimeType + ',' + data;
+    case MIME_SVG: {
+      const svg = processSVG(data);
+      return `data:${mimeType},${svg}`;
+    }
 
-    default:
-      data = processBase64(data);
-      return 'data:' + mimeType + ';base64,' + data;
+    default: {
+      const base64 = processBase64(data);
+      return `data:${mimeType};base64,${base64}`;
+    }
   }
 }
 
 // Assets on disk
-let assetsDirs = [
-  __dirname + '/assets/'
+const assetsDirs = [
+  `${__dirname}/assets/`,
 ];
 
 export function addAssetsDir(dir) {
-  if (!dir.match(/\/$/))
-    dir = dir + '/';
-  assetsDirs.push(dir);
+  const adir = dir.match(/\/$/) ? dir : `${dir}/`;
+  assetsDirs.push(adir);
 }
 
 export function locateAsset(filename, cb) {
   // log("data", "Locating asset:", filename, assetsDirs);
-  assetsDirs.flatMap(dir => {
-    let name = dir + filename;
-    let file = needsBase64(filename) ? (name + '.base64') : name;
+  assetsDirs.flatMap((dir) => {
+    const name = dir + filename;
+    const file = needsBase64(filename) ? (`${name}.base64`) : name;
     if (existsSync(file)) {
       // log("data", "Located asset", name);
       cb(name);
-      return;
     }
-  })
+  });
 }

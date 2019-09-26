@@ -342,6 +342,7 @@ export let field_control_proficiency = {
   defaults: {
     value: 0,
     icon: true,
+    'has-bonus': true,
   },
   render(args, reg, doc) {
     switch (args.value) {
@@ -354,18 +355,30 @@ export let field_control_proficiency = {
       default: args.value = 0;
     }
 
-    args.parts = [
-      {
-        type: "field",
-        control: "proficiency-icon",
-        value: args.value,
-        id: args.id
-      },
-      {
-        control: "input",
-        id: args.id + "-bonus"
-      }
-    ];
+
+    if (args['has-bonus']) {
+      args.parts = [
+        {
+          type: "field",
+          control: "proficiency-icon",
+          value: args.value,
+          id: args.id
+        },
+        {
+          control: "input",
+          id: args.id + "-bonus"
+        }
+      ];
+    } else {
+      args.parts = [
+        {
+          type: "field",
+          control: "proficiency-icon",
+          value: args.value,
+          id: args.id
+        }
+      ]
+    }
 
     return renderCompoundControl(args, reg, doc);
   }

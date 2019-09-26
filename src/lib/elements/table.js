@@ -45,11 +45,29 @@ export let table = {
 
     // individual rows repeat
     let rows = args.rows;
+    let hr = false;
     rows = rows.flatMap(row => {
+      if (has(row, "hr") || (has(row, "type") && row.type == "hr")) {
+        // log("table", "Found hr");
+        hr = true;
+        return [];
+      }
+      
       const rep = has(row, "repeat") ? row.repeat : 1;
       if (rep > 1) {
-        // log("table", "Repeating row", rep, "times:", row);
-        return Array.from({ length: rep }, e => [ ...row ]);
+        log("table", "Repeating row", rep, "times:", row);
+        let reprows = Array.from({ length: rep }, e => [ ...row ]);
+        if (hr) {
+          // log("table", "Setting repeated row hr");
+          reprows[0].hr = true;
+          hr = false;
+        }
+        return reprows;
+      }
+      if (hr) {
+        // log("table", "Setting row hr");
+        row.hr = true;
+        hr = false;
       }
       return [row];
     });
@@ -93,7 +111,9 @@ export let table = {
       });
 
       rows = rows.map(row => {
-        return templateCells.map((cell, i) => {
+        let cells = templateCells.map((cell, i) => {
+          // let params = {...args, ...row};
+          // log("table", "Interpolating cell", cell, row);
           cell = interpolate(cell, row, doc);
           if (cell === null) {
             return null;
@@ -104,18 +124,21 @@ export let table = {
               return null;
             }
 
-            const col = Object.assign({}, headings[i], { label: '', legend: '' });
-            return Object.assign({}, { type: 'label', label: '' }, col, cell);
+            const col = {...headings[i], label: '', legend: '' };
+            return { type: 'label', label: '', ...col, ...cell };
           }
         });
+        // cells = interpolate(cells, {...args, ...row}, doc);
+        return { params: row, cells: cells };
       });
     } else {
       rows = args.rows.map(row => {
-        return row.map(cell => {
+        let cells = row.map(cell => {
           if (isString(cell)) return { type: "label", label: cell };
           if (!has(cell, "type")) return null;
           return cell;
         });
+        return { params: row, cells: cells };
       });
     }
 

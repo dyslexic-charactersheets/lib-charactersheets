@@ -41,7 +41,7 @@ function parseCharacter(primary, request) {
   let char = {
     name: attr.name,
     game: attr.game,
-    units: ['core', 'base', 'theme/' + attr.theme],
+    units: ['core', 'base', 'base/character', 'theme/' + attr.theme],
     language: attr.language,
     classes: [],
     archetypes: [],

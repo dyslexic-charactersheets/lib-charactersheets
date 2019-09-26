@@ -1,0 +1,110 @@
+unit: defs/weapons
+
+inc:
+  - copy: weapon
+    params:
+      i: 0
+    contents:
+      - g:
+        contents:
+          - field: attack-#{i}
+            width: stretch
+            frame: none
+            align: left
+            size: large
+          - row:
+            contents:
+              - calc:
+                output:
+                  field: attack-#{i}-bonus
+                  label: "_{Attack Bonus}"
+                  width: huge
+                  attack: true
+                  icon: bonus
+                inputs:
+                  - field:
+                    ref: true
+                    misc: true
+                    label: "_{Ability}"
+                  - field: attack-#{i}-proficiency
+                    control: proficiency
+                    label: "_{Proficiency}"
+                  - field: attack-#{i}-potency
+                    control: icon
+                    label: "_{Potency}"
+                    icon: runes
+              - field: attack-#{i}-damage
+                border: full
+                label: "_{Damage}"
+                width: huge
+                icon: damage
+                control: compound
+                parts:
+                  - subid: ndice
+                    width: tiny
+                    align: right
+                  - label: "_{d}"
+                  - subid: die
+                    width: tiny
+                    align: left
+                  - label: "+"
+                  - subid: extra
+                    width: tiny
+              - field: attack-#{i}-weapon-spec
+                label: "_{Weap Spec}"
+              - field: attack-#{i}-striking
+                label: "_{Striking}"
+                control: icon
+                icon: runes
+              - field: attack-#{i}-type
+                label: "_{Misc}"
+                misc: true
+                optional: true
+          - row:
+            flex: huge
+            contents:
+              - field: attack-#{i}-details
+                # frame: annotation
+                label: "Weapon Traits"
+                width: stretch
+                align: left
+                merge-bottom: true
+              - field: attack-#{i}-critical
+                # frame: annotation
+                label: "Critical"
+                width: stretch
+                align: right
+                merge-bottom: true
+              - field: attack-#{i}-critical-unlocked
+                frame: none
+                control: checkbox
+
+  - copy: ammo
+    params:
+      i: 0
+      max: 20
+      legend: ''
+      label: ''
+    contents:
+      - row:
+        contents:
+          - field: ammo-#{i}-type
+            legend: "#{legend}"
+            label: "#{label}"
+            width: stretch
+            align: left
+            unlined: true
+          - field: ammo-#{i}
+            # frame: h-label
+            frame: none
+            unlined: true
+            width: small
+            size: huge
+            underlay: "#"
+            # label: "_{Charges}"
+          - field: ammo-#{i}-count
+            frame: none
+            control: checkgrid
+            max: '#{max}'
+            depth: 3
+

@@ -37,6 +37,7 @@ export let article = {
             type: 'field',
             id: args.id,
             frame: 'none',
+            align: 'left',
             // size: 'large',
             width: 'stretch'
           });
@@ -102,6 +103,7 @@ export let article = {
             type: 'field',
             id: args.id + '-details',
             frame: 'none',
+            align: 'left',
             repeat: args.lines,
             width: 'stretch',
             'merge-bottom': args['merge-bottom']

@@ -60,6 +60,7 @@ export let li = {
 export let dl = {
   name: 'dl',
   defaults: {
+    div: false,
     defs: []
   },
   render(args, reg, doc) {
@@ -73,10 +74,16 @@ export let dl = {
         case 'target': term = "_{Target}"; break;
         case 'area': term = "_{Area}"; break;
         case 'save': term = "_{Saving Throw}"; break;
+        case 'critical_success': term = "_{Critical Success}"; break;
+        case 'success': term = "_{Success}"; break;
+        case 'failure': term = "_{Failure}"; break;
+        case 'critical_failure': term = "_{Critical Failure}"; break;
       }
       // log("p", "dl", term, termdef);
       return `<div><dt>${esc(__(term))}</dt><dd>${esc(__(termdef))}</dd></div> `;
     });
-    return `<dl>${defs.join("")}</dl>`;
+
+    const dlCls = elementClass('dl', null, args, ['div']);
+    return `<dl${dlCls}>${defs.join("")}</dl>`;
   }
 }

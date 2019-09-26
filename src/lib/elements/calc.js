@@ -8,7 +8,7 @@ export let calc = {
     layout: 'left',
     inline: false,
     inputs: [],
-    pad: true,
+    pad: false,
   },
   render(args, reg, doc) {
     args.labelHeight = getLabelHeight(args);

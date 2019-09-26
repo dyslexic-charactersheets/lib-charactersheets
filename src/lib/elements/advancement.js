@@ -1,4 +1,4 @@
-import { has, isEmpty, isArray } from '../util';
+import { has, isEmpty, isArray, toKebabCase } from '../util';
 import { log, warn } from '../log';
 
 export let advancement = {
@@ -30,7 +30,10 @@ export let advancement = {
       let levels = advance.levels;
       delete advance.levels;
       if (isEmpty(levels) && has(advance, "level")) {
-        levels = [advance.level];
+        if (isArray(advance.level))
+          levels = advance.level;
+        else
+          levels = [advance.level];
         delete advance.level;
       }
 
@@ -52,6 +55,8 @@ export let advancement = {
         keys.forEach(key => {
           item[key] = advance[key][i];
         });
+        if (!has(itemsByLevel, level))
+          warn("advancement", "Unknown level:", level);
         itemsByLevel[level].push(item);
       });
     });
@@ -63,34 +68,51 @@ export let advancement = {
     let rows = [];
     for (let lv = 1; lv <= 20; lv++) {
       let flags = {};
-      let labels = [];
-      // let proficiencies = {
-      //   trained: [],
-      //   expert: [],
-      //   master: [],
-      //   legendary: []
-      // };
+      let advances = [];
+      let gains = [];
+
       itemsByLevel[lv].forEach(item => {
         Object.assign(flags, item);
         if (has(item, "advance")) {
-          labels.push(item.advance);
+          advances.push(item.advance);
           has_labels = true;
-          // } else if (has(item, "proficiency")) {
-          //   proficiencies[item.proficiency].push(item.in);
+        } else if (has(item, "gain")) {
+          gains.push(item.gain);
+          has_labels = true;
         }
       });
       delete flags.level;
       delete flags.label;
       delete flags.advance;
+      delete flags.gain;
       delete flags.type;
-      // delete flags.proficiency;
-      // delete flags.in;
-      // log("advancement", `Level ${lv}`, labels, flags);
+
+      const items = gains.map((gain) => {
+        let slug = gain.replace(/_\{(.*?)\}/g, '$1');
+        slug = "gain-"+toKebabCase(slug);
+        return {
+          type: "field",
+          id: slug,
+          control: "checkbox",
+          frame: "right",
+          label: gain,
+          align: "left",
+        };
+      });
+      if (!isEmpty(advances)) {
+        items.push({
+          type: "p",
+          content: advances.join(", ")
+        });
+      }
 
       rows.push({
         ...flags,
         level: lv,
-        advance: labels.join(", "),
+        item: {
+          type: "g",
+          contents: items
+        }
       });
     }
 
@@ -112,10 +134,13 @@ export let advancement = {
         align: "left",
         valign: "bottom"
       });
+      // template.push({
+      //   type: "p",
+      //   content: "#{advance}",
+      //   align: "left"
+      // });
       template.push({
-        type: "p",
-        content: "#{advance}",
-        align: "left"
+        type: "item"
       });
     }
 
@@ -176,6 +201,7 @@ export let advancement = {
       rows: rows,
       columns: columns,
       template: template,
+      td_valign: 'middle',
     }
 
     // log("advancement", "Table", table);
