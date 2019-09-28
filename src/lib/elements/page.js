@@ -19,7 +19,7 @@ export let page = {
     const id = elementID('page', args.id);
     const cls = elementClass('page', null, args, ['flex', 'landscape', 'no-bg']);
 
-    const pageNumber = args.numbered ? `<div class='page-number'>${doc.nextPageNumber()}</div>` : '';
+    const pageNumber = args.numbered ? `<div class='page__number'>${doc.nextPageNumber()}</div>` : '';
     let copyrightAttribution = paizoCopyrightAttribution;
 
     if (args.id == 'permission')

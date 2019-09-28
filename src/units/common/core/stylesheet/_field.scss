@@ -1,214 +1,227 @@
 /* Fields */
 
 .field {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+
+  @include elementMargin;
+  flex: 1 1 auto;
+  padding: 0.9rem 0 0 0;
+
+  break-inside: avoid;
+
+  .row &,
+  .calc & {
+    @include inlineMargin;
+    display: inline-flex;
+  }
+
+  .g &,
+  .row .g & {
     display: flex;
-    flex-direction: row;
-    position: relative;
+  }
 
-    @include elementMargin;
-    flex: 1 1 auto;
-    padding: 0.9rem 0 0 0;
+  /* width and flex */
 
-    break-inside: avoid;
-    
+  $field-width: 2.5rem;
+  $icon-width: 1.3rem;
+  $frame-width: 0.25rem;
+  $frame-temp-width: 1rem;
 
-    .row &, .calc & {
-        @include inlineMargin;
-        display: inline-flex;
-    }
+  width: $field-width;
+  flex: 3 1 auto;
 
-    .g &, .row .g & {
-        display: flex;
-    }
-    
+  &.field--icon {
+    width: $field-width + $icon-width;
+  }
 
-    /* width and flex */
+  input {
+    flex-basis: 1rem;
+  }
 
-    $field-width: 2.5rem;
-    $icon-width: 1.3rem;
-    $frame-width: 0.25rem;
-    $frame-temp-width: 1rem;
-
-    width: $field-width;
-    flex: 3 1 auto;
-
-    &.field--icon {
-        width: $field-width+$icon-width;
-    }
-
-    input {
-        flex-basis: 1rem;
-    }
-
-    @mixin field_width($name, $width, $grow) {
-        &.field--width_#{$name} {
-            width: $width;
-            flex: $grow 0 auto;
-            &.field--icon {
-                width: $width+$icon-width;
-            }
-        }
-        .field__control--width_#{$name} {
-            width: $width - $frame-width;
-            .row & {
-                flex: $grow 1 auto;
-            }
-        }
-        &.field--icon .field__control--width_#{$name} {
-            width: $width - $icon-width - $frame-width;
-        }
-        &.field--temp .field__control--width_#{$name} {
-            width: $width - $frame-temp-width;
-        }
-        &.field--icon.field--temp .field__control--width_#{$name} {
-            width: $width - $icon-width - $frame-temp-width;
-        }
-        
-        &.field--frame_left, &.field--frame_right {
-            &, &.field--icon {
-                width: auto;
-            }
-
-            .field_frame {
-                width: $width - $frame-width;
-            }
-
-            &.field--temp .field_frame {
-                width: $width - $frame-temp-width;
-            }
-            
-            &.field--icon .field_frame {
-                width: $width + $icon-width;
-            }
-
-            &.field--icon.field--temp .field_frame {
-                width: $width + $icon-width - $frame-temp-width;
-            }
-        }
-    }
-
-    @include field_width("tiny", 0.5 * $field-width, 1);
-    @include field_width("small", 0.8 * $field-width, 1.5);
-    @include field_width("medium", $field-width, 2.5);
-    @include field_width("large", 1.5 * $field-width, 4);
-    @include field_width("huge", 2 * $field-width, 5);
-    @include field_width("gargantuan", 3 * $field-width, 6);
-
-    &.field--width_stretch {
-        width: auto;
-        display: flex;
-        
-        .row & {
-            flex: 100 1 auto;
-        }
-
-        .field__frame {
-            flex-direction: column;
-        }
-
-        &.field__box {
-            display: flex;
-        }
-    }
-
-    .field__control--width_stretch {
-        flex: 100 1 auto;
-    }
-
-
-    /* size = */
-
-    @mixin field_size($name, $font-size) {
-      $field-height: $font-size * 1.5;
-
-	    &.field--size_#{$name} {
-        .field__control {
-          height: $field-height;
-        }
-        input {
-          font-size: $font-size;
-          height: $field-height;
-          line-height: $field-height;
-        }
+  @mixin field_width($name, $width, $grow) {
+    &.field--width_#{$name} {
+      width: $width;
+      flex: $grow 0 auto;
+      &.field--icon {
+        width: $width + $icon-width;
       }
     }
-
-    @include field_size("small", 0.8rem);
-    @include field_size("medium", 1rem);
-    @include field_size("large", 1.2rem);
-    @include field_size("huge", 1.5rem);
-
-
-    /* align= */
-
-    legend, label {
-        white-space: nowrap;
+    .field__control--width_#{$name} {
+      width: $width - $frame-width;
+      .row & {
+        flex: $grow 1 auto;
+      }
+    }
+    &.field--icon .field__control--width_#{$name} {
+      width: $width - $icon-width - $frame-width;
+    }
+    &.field--temp .field__control--width_#{$name} {
+      width: $width - $frame-temp-width;
+    }
+    &.field--icon.field--temp .field__control--width_#{$name} {
+      width: $width - $icon-width - $frame-temp-width;
     }
 
-    label, input {
-        text-align: center;
-    }
-
-    &.align_left {
-        label, input {
-            text-align: left;
-        }
-    }
-
-    &.align_centre {
-        label, input {
-            text-align: center;
-        }
-    }
-
-    &.align_right {
-        label, input {
-            text-align: right;
-        }
-    }
-
-
-    /* control= */
-
-    &--control_checkbox, &--control_radio {
-        width: 1rem;
-        flex: 0 0 auto;
-    }
-
-    &.field--control_compound, &.field--control_progression {
+    &.field--frame_left,
+    &.field--frame_right {
+      &,
+      &.field--icon {
         width: auto;
+      }
+
+      .field_frame {
+        width: $width - $frame-width;
+      }
+
+      &.field--temp .field_frame {
+        width: $width - $frame-temp-width;
+      }
+
+      &.field--icon .field_frame {
+        width: $width + $icon-width;
+      }
+
+      &.field--icon.field--temp .field_frame {
+        width: $width + $icon-width - $frame-temp-width;
+      }
     }
+  }
+
+  @include field_width("tiny", 0.5 * $field-width, 1);
+  @include field_width("small", 0.8 * $field-width, 1.5);
+  @include field_width("medium", $field-width, 2.5);
+  @include field_width("large", 1.5 * $field-width, 4);
+  @include field_width("huge", 2 * $field-width, 5);
+  @include field_width("gargantuan", 3 * $field-width, 6);
+
+  &.field--width_stretch {
+    width: auto;
+    display: flex;
+
+    .row & {
+      flex: 100 1 auto;
+    }
+
+    .field__frame {
+      flex-direction: column;
+    }
+
+    &.field__box {
+      display: flex;
+    }
+  }
+
+  .field__control--width_stretch {
+    flex: 100 1 auto;
+  }
+
+  /* size = */
+
+  @mixin field_size($name, $font-size) {
+    $field-height: $font-size * 1.5;
+
+    &.field--size_#{$name} {
+      .field__control {
+        height: $field-height;
+      }
+      input {
+        font-size: $font-size;
+        height: $field-height;
+        line-height: $field-height;
+      }
+    }
+  }
+
+  @include field_size("small", 0.8rem);
+  @include field_size("medium", 1rem);
+  @include field_size("large", 1.2rem);
+  @include field_size("huge", 1.5rem);
+
+  /* align= */
+
+  legend,
+  label {
+    white-space: nowrap;
+  }
+
+  label,
+  input {
+    text-align: center;
+  }
+
+  &.align_left {
+    label,
+    input {
+      text-align: left;
+    }
+  }
+
+  &.align_centre {
+    label,
+    input {
+      text-align: center;
+    }
+  }
+
+  &.align_right {
+    label,
+    input {
+      text-align: right;
+    }
+  }
+
+  /* control= */
+
+  &--control_checkbox,
+  &--control_radio {
+    width: 1rem;
+    flex: 0 0 auto;
+
+    ul > & {
+      margin-left: -1.5rem;
+    }
+
+    .field__frame {
+      flex: 0 0 auto;
+    }
+  }
+
+  &.field--control_compound,
+  &.field--control_progression {
+    width: auto;
+  }
 }
 
 .field__frame {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 auto;
-    max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  max-width: 100%;
 }
 
-
 .field__box {
-    flex: 1 1 auto;
+  flex: 1 1 auto;
 
-    display: flex;
-    flex-direction: row;
-    flex-direction: row;
-    align-items: flex-end;
+  display: flex;
+  flex-direction: row;
+  flex-direction: row;
+  align-items: flex-end;
 }
 
 .field__control {
-    display: flex;
-    flex-direction: row;
-    flex: 1 1 auto;
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 auto;
 
-    input {
-        flex: 1 1 auto;
-        border: 0 none;
-    }
+  input {
+    flex: 1 1 auto;
+    border: 0 none;
+  }
 }
 
 table td .field {
-    margin-left: 2*$pt;
-    margin-right: 2*$pt;
+  margin-left: 2 * $pt;
+  margin-right: 2 * $pt;
 }
