@@ -8,6 +8,9 @@ export let zone = {
     sort: false,
   },
   transform(args, ctx) {
+    if (args.zone.charAt(0) != '@') {
+      warn("zone", "Not a zone ID:", args.zone);
+    }
     // log("zone", "Zone", args.zone);
     let existing = has(args, "contents") && args.contents ? args.contents : [];
     const insert = has(ctx.zones, args.zone) ? cloneDeep(ctx.zones[args.zone]) : [];
