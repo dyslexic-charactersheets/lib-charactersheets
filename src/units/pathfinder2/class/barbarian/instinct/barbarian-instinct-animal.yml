@@ -18,17 +18,17 @@ inc:
             width: stretch
             align: left
             merge-bottom: true
-
-  - at: '@barbarian/anathema'
-    add:
-      - li: "_{Disrespecting your chosen animal.}"
-      - li: "_{Using weapons while raging.}"
-
-  - at: '@barbarian/instinct-ability'
-    replace:
-      - article:
-        title: "_{Bestial Rage}"
+      - g:
         contents:
+          - h5: "_{Anathema}"
+          - ul:
+            contents:
+              - li: "_{Disrespecting this animal.}"
+              - li: "_{Using weapons while raging.}"
+      - g:
+        contents:
+          - h5: "_{Bestial Rage}"
+          - p: "_{When raging, you gain your animal's unarmed attacks.}"
           - field: barbarian-animal-instinct-attack
             label: "_{Natural attack}"
             width: stretch
@@ -56,20 +56,16 @@ inc:
                 width: stretch
           - p: "_{Rage actions gain the morph, primal and transmutation traits.}"
 
-  - at: '@barbarian/specialisation-ability'
-    replace:
       - level: 7
         contents:
           - p: "_{Increase the damage die of your bestial rage attacks by one step.}"
-          - row:
-            contents:
-              - field: barbarian-bestial-rage-damage-bonus
-                label: "_{Damage\nBonus}"
-                border: none
-                control: value
-                width: large
-                value: 5
-              - p: "_{Rage damage bonus for bestial rage.}"
+          - field:
+            label: "_{Rage damage bonus}"
+            # border: full
+            frame: right
+            control: value
+            width: large
+            value: "+5"
           - row:
             contents:
               - field: barbarian-bestial-rage-range
@@ -79,17 +75,16 @@ inc:
                 width: large
                 value: 10ft
               - p: "_{For the frog's tongue and deer's anters.}"
+
       - level: 15
         contents:
-          - row:
-            contents:
-              - field: barbarian-bestial-rage-damage-bonus-greater
-                label: "_{Damage\nBonus}"
-                border: none
-                control: value
-                width: large
-                value: 12
-              - p: "_{Rage damage bonus for bestial rage.}"
+          - field:
+            label: "_{Rage damage bonus}"
+            # border: full
+            frame: right
+            control: value
+            width: large
+            value: "+12"
 
   - at: '@barbarian/raging-resistance'
     replace:

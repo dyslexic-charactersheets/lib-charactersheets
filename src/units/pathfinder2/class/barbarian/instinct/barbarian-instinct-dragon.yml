@@ -27,87 +27,74 @@ inc:
             control: radio
             frame: right
             label: "_{You abhor this dragon type}"
-
-  - at: '@barbarian/anathema'
-    add:
-      - li: "_{Letting a personal insult against you slide.}"
-      - field: barbarian-dragon-instinct-rel
-        value: respect
-        control: radio
-        frame: right
-        label: "_{Defying this dragon type}"
-      - field: barbarian-dragon-instinct-rel
-        value: abhor
-        control: radio
-        frame: right
-        label: "_{Failing to defeat this dragon type}"
-
-  - at: '@barbarian/instinct-ability'
-    replace:
-      - article:
-        title: "_{Draconic Rage}"
+      - g:
         contents:
-          - field: barbarian-animal-instinct-attack
-            label: "_{Breath Weapon}"
-            width: stretch
-          # - row:
-          #   contents:
-          #     - field: barbarian-animal-instinct-damage
-          #       border: full
-          #       label: "_{Damage}"
-          #       width: huge
-          #       icon: damage
-          #       control: compound
-          #       parts:
-          #         - subid: ndice
-          #           width: tiny
-          #           align: right
-          #         - label: "_{d}"
-          #         - subid: die
-          #           width: tiny
-          #           align: left
-          #         - label: "+"
-          #         - subid: extra
-          #           width: tiny
-          #     - field: barbarian-animal-instinct-traits
-          #       label: "_{Traits}"
-          #       width: stretch
-          # - p: "_{Rage actions gain the morph, primal and transmutation traits.}"
+          - h5: "_{Anathema}"
+          - ul:
+            contents:
+              - li: "_{Letting a personal insult against you slide.}"
+              - field: barbarian-dragon-instinct-anathema
+                value: respect
+                control: radio
+                frame: right
+                label: "_{Defying this dragon type}"
+              - field: barbarian-dragon-instinct-anathema
+                value: abhor
+                control: radio
+                frame: right
+                label: "_{Failing to defeat this dragon type}"
 
-  # - at: '@barbarian/specialisation-ability'
-  #   replace:
-  #     - level: 7
-  #       contents:
-  #         - p: "_{Increase the damage die of your bestial rage attacks by one step.}"
-  #         - row:
-  #           contents:
-  #             - field: barbarian-bestial-rage-damage-bonus
-  #               label: "_{Damage\nBonus}"
-  #               border: none
-  #               control: value
-  #               width: large
-  #               value: 5
-  #             - p: "_{Rage damage bonus for bestial rage.}"
-  #         - row:
-  #           contents:
-  #             - field: barbarian-bestial-rage-range
-  #               label: "_{Range}"
-  #               border: none
-  #               control: value
-  #               width: large
-  #               value: 10ft
-  #             - p: "_{For the frog's tongue and deer's anters.}"
-  #     - level: 15
-  #       contents:
-  #         - row:
-  #           contents:
-  #             - field: barbarian-bestial-rage-damage-bonus-greater
-  #               label: "_{Damage\nBonus}"
-  #               border: none
-  #               control: value
-  #               width: large
-  #               value: 12
-  #             - p: "_{Rage damage bonus for bestial rage.}"
+  - at: '@barbarian/left'
+    add:
+      - section: "_{Draconic Rage}"
+        contents:
+          - list:
+            hr: true
+            contents:
+              - g:
+                contents:
+                  - row:
+                    contents:
+                      - field:
+                        control: radio
+                        frame: right
+                        label: "_{Cone}"
+                      - field:
+                        control: radio
+                        frame: right
+                        label: "_{Line}"
+                  - field: barbarian-animal-instinct-attack
+                    label: "Damage Type"
+                    width: stretch
+                  - indent: left
+                    contents:
+                      - field: barbarian-bestial-rage-damage-bonus
+                        label: "_{Draconic Rage damage bonus}"
+                        # border: full
+                        frame: right
+                        control: value
+                        width: large
+                        value: "+4"
+                    
+              - level: 7
+                contents:
+                  - field: barbarian-bestial-rage-damage-bonus
+                    label: "_{Draconic Rage damage bonus}"
+                    # border: full
+                    frame: right
+                    control: value
+                    width: large
+                    value: "+8"
+
+              - level: 15
+                contents:
+                  - field: barbarian-bestial-rage-damage-bonus-greater
+                    label: "_{Draconic Rage damage bonus}"
+                    # border: full
+                    frame: right
+                    control: value
+                    width: large
+                    value: "+16"
 
   - at: '@barbarian/raging-resistance'
     replace:

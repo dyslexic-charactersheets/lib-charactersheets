@@ -4,7 +4,7 @@ const _ = require('lodash');
 
 // This list of element names and key fields is duplicated from the data in src/lib/elements,
 // because that's loaded into the library, and this is needed 
-var expansion = {
+const expansion = {
     advancement: 'id',
     article: 'id',
     blockquote: '',
@@ -23,6 +23,7 @@ var expansion = {
     h6: 'title',
     hr: '',
     icon: 'icon',
+    indent: 'layout',
     label: 'label',
     layout: 'layout',
     level: 'level',

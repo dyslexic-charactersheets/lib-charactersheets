@@ -18,7 +18,7 @@ import { h1, h2, h3, h4, h5, h6, class_name } from '../elements/headings';
 import { hr, tail, vr } from '../elements/hr';
 import { icon } from '../elements/icon';
 import { label } from '../elements/label';
-import { layout } from '../elements/layout';
+import { layout, indent } from '../elements/layout';
 import { level, level_marker } from '../elements/level';
 import { list, join } from '../elements/list';
 import { logelem } from '../elements/log';
@@ -93,7 +93,7 @@ export class Registry {
       hr, tail, vr,
       icon,
       label,
-      layout,
+      layout, indent,
       level, level_marker,
       list, join,
       logelem,

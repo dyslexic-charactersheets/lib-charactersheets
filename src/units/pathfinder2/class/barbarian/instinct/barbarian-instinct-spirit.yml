@@ -1,0 +1,75 @@
+unit: barbarian/instinct/spirit
+in: barbarian/instinct
+group: "_{Core Rulebook}"
+name: "_{Spirit}"
+
+inc:
+  - set: barbarian-instinct
+    value: "_{Spirit}"
+
+  - at: '@barbarian/instinct'
+    replace:
+      - g:
+        contents:
+          - h4: "_{Spirit}"
+      - g:
+        contents:
+          - h5: "_{Anathema}"
+          - ul:
+            contents:
+              - li: "_{Disrespecting corpses or sprits.}"
+      - g:
+        contents:
+
+  - at: '@barbarian/left'
+    add:
+      - section: "_{Spirit Rage}"
+        contents:
+          - list:
+            hr: true
+            contents:
+              - g:
+                contents:
+                  - p: "May deal positive or negative energy damage, choose each time you rage."
+                  - indent: left
+                    contents:
+                      - field: barbarian-spirit-rage-damage-bonus
+                        label: "_{Spirit Rage damage bonus}"
+                        # border: full
+                        frame: right
+                        control: value
+                        width: large
+                        value: "+3"
+              - level: 7
+                contents:
+                  - field: barbarian-spirit-rage-damage-bonus
+                    label: "_{Spirit Rage damage bonus}"
+                    # border: full
+                    frame: right
+                    control: value
+                    width: large
+                    value: "+7"
+              - level: 15
+                contents:
+                  - field: barbarian-spirit-rage-bonus-greater
+                    label: "_{Spirit Rage damage bonus}"
+                    # border: full
+                    frame: right
+                    control: value
+                    width: large
+                    value: "+13"
+
+  - at: '@barbarian/raging-resistance'
+    replace:
+      - field: barbarian-raging-resistance-negative
+        label: "_{Negative energy}"
+        width: stretch
+        control: checkbox
+        value: true
+        frame: right
+      - field: barbarian-raging-resistance-undead
+        label: "_{Damage by undead creatures}"
+        width: stretch
+        control: checkbox
+        value: true
+        frame: right
