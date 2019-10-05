@@ -6,7 +6,8 @@ export let paste = {
   key: 'template',
   defaults: {
     template: '',
-    params: {}
+    params: {},
+    contents: [],
   },
   transform(args, ctx) {
     // log("template", "Paste template:", args.template);
@@ -17,6 +18,7 @@ export let paste = {
     if (isEmpty(template))
       return [];
 
+    // const params = { ...template.params, ...args.params, item: args.contents };
     const params = Object.assign({}, template.params, args.params);
     let contents = cloneDeep(template.contents);
     contents = interpolate(contents, params);

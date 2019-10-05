@@ -7,7 +7,7 @@ export function renderTableFlipped(args, reg, doc, headings, cols) {
 
   // find the size of the table and make an empty grid of cells
   let hasHeading = false;
-  const ncols = cols.length;
+  let ncols = cols.length;
   let nrows = 0;
   headings = headings.map(heading => {
     if (isNull(heading)) heading = { type: 'label', label: '' };

@@ -170,7 +170,7 @@ export let advancement = {
             id: table_id + '-#{level}-' + field.key,
             frame: "none",
             control: "checkbox",
-            width: "small",
+            // width: "small",
             exists: "#{" + field.key + "}",
             shade: field.shade
           });
