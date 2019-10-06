@@ -1706,7 +1706,7 @@
                                       "type": "field",
                                       "id": "proficiency-untrained",
                                       "label": "_{Untrained}",
-                                      "output": true,
+                                      "border": "full",
                                       "control": "proficiency",
                                       "value": 0
                                     },
@@ -1728,7 +1728,7 @@
                                       "type": "field",
                                       "id": "proficiency-trained",
                                       "label": "_{Trained}",
-                                      "output": true,
+                                      "border": "full",
                                       "control": "proficiency",
                                       "value": "trained"
                                     },
@@ -1747,7 +1747,7 @@
                                       "type": "field",
                                       "id": "proficiency-expert",
                                       "label": "_{Expert}",
-                                      "output": true,
+                                      "border": "full",
                                       "control": "proficiency",
                                       "value": "expert"
                                     },
@@ -1766,7 +1766,7 @@
                                       "type": "field",
                                       "id": "proficiency-master",
                                       "label": "_{Master}",
-                                      "output": true,
+                                      "border": "full",
                                       "control": "proficiency",
                                       "value": "master"
                                     },
@@ -1785,7 +1785,7 @@
                                       "type": "field",
                                       "id": "proficiency-legendary",
                                       "label": "_{Legendary}",
-                                      "output": true,
+                                      "border": "full",
                                       "control": "proficiency",
                                       "value": "legendary"
                                     },
@@ -3071,6 +3071,9 @@
                               "label": "_{Misc}"
                             }
                           ]
+                        },
+                        {
+                          "type": "spacer"
                         }
                       ]
                     },
@@ -4682,7 +4685,7 @@
                               "id": "speed",
                               "legend": "_{Speed}",
                               "control": "speed",
-                              "output": true,
+                              "border": "full",
                               "width": "stretch"
                             },
                             {
@@ -5013,105 +5016,157 @@
                 },
                 {
                   "type": "section",
-                  "title": "_{Saving Throws}",
-                  "id": "saving-throws",
+                  "title": "_{Actions}",
+                  "id": "actions",
                   "contents": [
                     {
-                      "type": "table",
-                      "width": "stretch",
-                      "columns": [
-                        null,
-                        null,
-                        "_{Ability\nModifier}",
-                        "_{Proficiency}",
-                        "_{Item}",
-                        "_{Misc}"
-                      ],
-                      "rows": [
+                      "type": "list",
+                      "zebra": true,
+                      "flex": true,
+                      "hr": true,
+                      "contents": [
                         {
-                          "save": "fortitude",
-                          "legend": "_{Fortitude}",
-                          "short": "_{FORT}",
-                          "ability": "_{CON}",
-                          "abilityref": "CON"
+                          "type": "layout",
+                          "layout": "indent-l",
+                          "contents": [
+                            {
+                              "type": "icon",
+                              "icon": "action-template"
+                            },
+                            {
+                              "type": "g",
+                              "contents": [
+                                {
+                                  "type": "article",
+                                  "id": null,
+                                  "header": [
+                                    {
+                                      "type": "row",
+                                      "contents": [
+                                        {
+                                          "type": "field",
+                                          "id": null,
+                                          "frame": "none",
+                                          "align": "left",
+                                          "width": "stretch"
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "contents": [
+                                    {
+                                      "type": "field",
+                                      "id": "null-details",
+                                      "frame": "none",
+                                      "align": "left",
+                                      "repeat": 2,
+                                      "width": "stretch",
+                                      "merge-bottom": true
+                                    }
+                                  ],
+                                  "shade": false,
+                                  "annotation": false,
+                                  "merge-bottom": true
+                                }
+                              ]
+                            }
+                          ]
                         },
                         {
-                          "save": "reflex",
-                          "legend": "_{Reflex}",
-                          "short": "_{REF}",
-                          "ability": "_{DEX}",
-                          "abilityref": "DEX"
+                          "type": "layout",
+                          "layout": "indent-l",
+                          "contents": [
+                            {
+                              "type": "icon",
+                              "icon": "action-template"
+                            },
+                            {
+                              "type": "g",
+                              "contents": [
+                                {
+                                  "type": "article",
+                                  "id": null,
+                                  "header": [
+                                    {
+                                      "type": "row",
+                                      "contents": [
+                                        {
+                                          "type": "field",
+                                          "id": null,
+                                          "frame": "none",
+                                          "align": "left",
+                                          "width": "stretch"
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "contents": [
+                                    {
+                                      "type": "field",
+                                      "id": "null-details",
+                                      "frame": "none",
+                                      "align": "left",
+                                      "repeat": 2,
+                                      "width": "stretch",
+                                      "merge-bottom": true
+                                    }
+                                  ],
+                                  "shade": false,
+                                  "annotation": false,
+                                  "merge-bottom": true
+                                }
+                              ]
+                            }
+                          ]
                         },
                         {
-                          "save": "will",
-                          "legend": "_{Will}",
-                          "short": "_{WILL}",
-                          "ability": "_{WIS}",
-                          "abilityref": "WIS"
-                        }
-                      ],
-                      "template": [
-                        {
-                          "type": "calc",
-                          "output": {
-                            "type": "field",
-                            "id": "#{save}",
-                            "legend": "#{legend}",
-                            "icon": "bonus",
-                            "border": "full",
-                            "width": "large",
-                            "underlay": "#{short}",
-                            "merge-top": true,
-                            "eq": "%{#{abilityref}}+%{#{save}-proficiency}+%{#{save}-item-bonus}+%{#{save}-misc}"
-                          },
-                          "inputs": [
+                          "type": "layout",
+                          "layout": "indent-l",
+                          "contents": [
                             {
-                              "type": "field",
-                              "id": null,
-                              "frame": "h-label",
-                              "label": "#{ability}",
-                              "underlay": "#{ability}",
-                              "ref": "#{abilityref}"
+                              "type": "icon",
+                              "icon": "action-template"
                             },
                             {
-                              "type": "field",
-                              "id": "#{save}-proficiency",
-                              "control": "proficiency"
-                            },
-                            {
-                              "type": "field",
-                              "id": "#{save}-item-bonus"
-                            },
-                            {
-                              "type": "field",
-                              "id": "#{save}-misc",
-                              "misc": true
+                              "type": "g",
+                              "contents": [
+                                {
+                                  "type": "article",
+                                  "id": null,
+                                  "header": [
+                                    {
+                                      "type": "row",
+                                      "contents": [
+                                        {
+                                          "type": "field",
+                                          "id": null,
+                                          "frame": "none",
+                                          "align": "left",
+                                          "width": "stretch"
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "contents": [
+                                    {
+                                      "type": "field",
+                                      "id": "null-details",
+                                      "frame": "none",
+                                      "align": "left",
+                                      "repeat": 2,
+                                      "width": "stretch",
+                                      "merge-bottom": true
+                                    }
+                                  ],
+                                  "shade": false,
+                                  "annotation": false,
+                                  "merge-bottom": true
+                                }
+                              ]
                             }
                           ]
                         }
                       ]
-                    },
-                    {
-                      "type": "field",
-                      "id": "saving-throws-conditional-#{i}",
-                      "frame": "none",
-                      "align": "left",
-                      "width": "stretch"
-                    },
-                    {
-                      "type": "field",
-                      "id": "saving-throws-conditional-#{i}",
-                      "frame": "none",
-                      "align": "left",
-                      "width": "stretch"
-                    },
-                    {
-                      "type": "field",
-                      "id": "saving-throws-conditional-#{i}",
-                      "frame": "none",
-                      "align": "left",
-                      "width": "stretch",
-                      "merge-bottom": true
                     }
                   ]
                 }
@@ -5153,7 +5208,7 @@
                               "id": "map-1",
                               "frame": "left",
                               "label": "_{1st}",
-                              "output": true,
+                              "border": "full",
                               "width": "large",
                               "underlay": 0
                             },
@@ -5166,7 +5221,7 @@
                               "id": "map-2",
                               "frame": "left",
                               "label": "_{2nd}",
-                              "output": true,
+                              "border": "full",
                               "width": "large",
                               "underlay": -5
                             },
@@ -5179,7 +5234,7 @@
                               "id": "map-3",
                               "frame": "left",
                               "label": "_{3rd}",
-                              "output": true,
+                              "border": "full",
                               "width": "large",
                               "underlay": -10
                             }
@@ -6162,6 +6217,18 @@
                               "id": "ac-conditional-#{i}",
                               "frame": "none",
                               "width": "stretch"
+                            },
+                            {
+                              "type": "field",
+                              "id": "ac-conditional-#{i}",
+                              "frame": "none",
+                              "width": "stretch"
+                            },
+                            {
+                              "type": "field",
+                              "id": "ac-conditional-#{i}",
+                              "frame": "none",
+                              "width": "stretch"
                             }
                           ],
                           "merge-bottom": true
@@ -6285,173 +6352,10 @@
                             },
                             {
                               "type": "p",
-                              "content": "_{Deduct hardness, then apply remaining damage to both shield and yourself.}"
+                              "content": "_{Deduct hardness, then apply remaining damage to both shield and yourself.}",
+                              "optional": true
                             }
                           ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "title": "_{Proficiencies}",
-                  "contents": [
-                    {
-                      "type": "layout",
-                      "layout": "2e",
-                      "flex": false,
-                      "merge-bottom": true,
-                      "contents": [
-                        {
-                          "contents": [
-                            {
-                              "type": "row",
-                              "layout": null,
-                              "contents": [
-                                {
-                                  "frame": "none",
-                                  "type": "field",
-                                  "id": "proficiency-1-value",
-                                  "control": "icon",
-                                  "icon": "proficiency"
-                                },
-                                {
-                                  "frame": "none",
-                                  "type": "field",
-                                  "id": "proficiency-1-name",
-                                  "width": "stretch",
-                                  "align": "left"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "row",
-                              "layout": null,
-                              "contents": [
-                                {
-                                  "frame": "none",
-                                  "type": "field",
-                                  "id": "proficiency-3-value",
-                                  "control": "icon",
-                                  "icon": "proficiency"
-                                },
-                                {
-                                  "frame": "none",
-                                  "type": "field",
-                                  "id": "proficiency-3-name",
-                                  "width": "stretch",
-                                  "align": "left"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "row",
-                              "layout": null,
-                              "contents": [
-                                {
-                                  "frame": "none",
-                                  "type": "field",
-                                  "id": "proficiency-5-value",
-                                  "control": "icon",
-                                  "icon": "proficiency"
-                                },
-                                {
-                                  "frame": "none",
-                                  "type": "field",
-                                  "id": "proficiency-5-name",
-                                  "width": "stretch",
-                                  "align": "left"
-                                }
-                              ]
-                            }
-                          ],
-                          "columns": 1,
-                          "flowv": true,
-                          "zebra": true,
-                          "flex": false,
-                          "sort": true,
-                          "hr": false,
-                          "vr": false,
-                          "merge-bottom": true,
-                          "avoid-shade": false,
-                          "type": "list",
-                          "collapse": true
-                        },
-                        {
-                          "contents": [
-                            {
-                              "type": "row",
-                              "layout": null,
-                              "contents": [
-                                {
-                                  "frame": "none",
-                                  "type": "field",
-                                  "id": "proficiency-2-value",
-                                  "control": "icon",
-                                  "icon": "proficiency"
-                                },
-                                {
-                                  "frame": "none",
-                                  "type": "field",
-                                  "id": "proficiency-2-name",
-                                  "width": "stretch",
-                                  "align": "left"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "row",
-                              "layout": null,
-                              "contents": [
-                                {
-                                  "frame": "none",
-                                  "type": "field",
-                                  "id": "proficiency-4-value",
-                                  "control": "icon",
-                                  "icon": "proficiency"
-                                },
-                                {
-                                  "frame": "none",
-                                  "type": "field",
-                                  "id": "proficiency-4-name",
-                                  "width": "stretch",
-                                  "align": "left"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "row",
-                              "layout": null,
-                              "contents": [
-                                {
-                                  "frame": "none",
-                                  "type": "field",
-                                  "id": "proficiency-6-value",
-                                  "control": "icon",
-                                  "icon": "proficiency"
-                                },
-                                {
-                                  "frame": "none",
-                                  "type": "field",
-                                  "id": "proficiency-6-name",
-                                  "width": "stretch",
-                                  "align": "left"
-                                }
-                              ]
-                            }
-                          ],
-                          "columns": 1,
-                          "flowv": true,
-                          "zebra": true,
-                          "flex": false,
-                          "sort": true,
-                          "hr": false,
-                          "vr": false,
-                          "merge-bottom": true,
-                          "avoid-shade": false,
-                          "type": "list",
-                          "collapse": true
                         }
                       ]
                     }
@@ -6467,247 +6371,222 @@
               "contents": [
                 {
                   "type": "section",
-                  "title": "_{Actions}",
-                  "id": "actions",
+                  "title": "_{Saving Throws}",
+                  "id": "saving-throws",
+                  "contents": [
+                    {
+                      "type": "table",
+                      "width": "stretch",
+                      "columns": [
+                        null,
+                        null,
+                        "_{Ability\nModifier}",
+                        "_{Proficiency}",
+                        "_{Item}",
+                        "_{Misc}"
+                      ],
+                      "rows": [
+                        {
+                          "save": "fortitude",
+                          "legend": "_{Fortitude}",
+                          "short": "_{FORT}",
+                          "ability": "_{CON}",
+                          "abilityref": "CON"
+                        },
+                        {
+                          "save": "reflex",
+                          "legend": "_{Reflex}",
+                          "short": "_{REF}",
+                          "ability": "_{DEX}",
+                          "abilityref": "DEX"
+                        },
+                        {
+                          "save": "will",
+                          "legend": "_{Will}",
+                          "short": "_{WILL}",
+                          "ability": "_{WIS}",
+                          "abilityref": "WIS"
+                        }
+                      ],
+                      "template": [
+                        {
+                          "type": "calc",
+                          "output": {
+                            "type": "field",
+                            "id": "#{save}",
+                            "legend": "#{legend}",
+                            "icon": "bonus",
+                            "border": "full",
+                            "width": "large",
+                            "underlay": "#{short}",
+                            "merge-top": true,
+                            "eq": "%{#{abilityref}}+%{#{save}-proficiency}+%{#{save}-item-bonus}+%{#{save}-misc}"
+                          },
+                          "inputs": [
+                            {
+                              "type": "field",
+                              "id": null,
+                              "frame": "h-label",
+                              "label": "#{ability}",
+                              "underlay": "#{ability}",
+                              "ref": "#{abilityref}"
+                            },
+                            {
+                              "type": "field",
+                              "id": "#{save}-proficiency",
+                              "control": "proficiency"
+                            },
+                            {
+                              "type": "field",
+                              "id": "#{save}-item-bonus"
+                            },
+                            {
+                              "type": "field",
+                              "id": "#{save}-misc",
+                              "misc": true
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "field",
+                      "id": "saving-throws-conditional-#{i}",
+                      "frame": "none",
+                      "align": "left",
+                      "width": "stretch"
+                    },
+                    {
+                      "type": "field",
+                      "id": "saving-throws-conditional-#{i}",
+                      "frame": "none",
+                      "align": "left",
+                      "width": "stretch"
+                    },
+                    {
+                      "type": "field",
+                      "id": "saving-throws-conditional-#{i}",
+                      "frame": "none",
+                      "align": "left",
+                      "width": "stretch"
+                    },
+                    {
+                      "type": "field",
+                      "id": "saving-throws-conditional-#{i}",
+                      "frame": "none",
+                      "align": "left",
+                      "width": "stretch",
+                      "merge-bottom": true
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "title": "_{Proficiencies}",
                   "contents": [
                     {
                       "type": "list",
                       "zebra": true,
-                      "flex": true,
-                      "hr": true,
+                      "collapse": true,
+                      "merge-bottom": true,
                       "contents": [
                         {
-                          "type": "layout",
-                          "layout": "indent-l",
+                          "type": "row",
+                          "layout": null,
                           "contents": [
                             {
-                              "type": "icon",
-                              "icon": "action-template"
+                              "frame": "none",
+                              "type": "field",
+                              "id": "proficiency-1-value",
+                              "control": "icon",
+                              "icon": "proficiency"
                             },
                             {
-                              "type": "g",
-                              "contents": [
-                                {
-                                  "type": "article",
-                                  "id": null,
-                                  "header": [
-                                    {
-                                      "type": "row",
-                                      "contents": [
-                                        {
-                                          "type": "field",
-                                          "id": null,
-                                          "frame": "none",
-                                          "align": "left",
-                                          "width": "stretch"
-                                        }
-                                      ]
-                                    }
-                                  ],
-                                  "contents": [
-                                    {
-                                      "type": "field",
-                                      "id": "null-details",
-                                      "frame": "none",
-                                      "align": "left",
-                                      "repeat": 2,
-                                      "width": "stretch",
-                                      "merge-bottom": true
-                                    }
-                                  ],
-                                  "shade": false,
-                                  "annotation": false,
-                                  "merge-bottom": true
-                                }
-                              ]
+                              "frame": "none",
+                              "type": "field",
+                              "id": "proficiency-1-name",
+                              "width": "stretch",
+                              "align": "left"
                             }
                           ]
                         },
                         {
-                          "type": "layout",
-                          "layout": "indent-l",
+                          "type": "row",
+                          "layout": null,
                           "contents": [
                             {
-                              "type": "icon",
-                              "icon": "action-template"
+                              "frame": "none",
+                              "type": "field",
+                              "id": "proficiency-2-value",
+                              "control": "icon",
+                              "icon": "proficiency"
                             },
                             {
-                              "type": "g",
-                              "contents": [
-                                {
-                                  "type": "article",
-                                  "id": null,
-                                  "header": [
-                                    {
-                                      "type": "row",
-                                      "contents": [
-                                        {
-                                          "type": "field",
-                                          "id": null,
-                                          "frame": "none",
-                                          "align": "left",
-                                          "width": "stretch"
-                                        }
-                                      ]
-                                    }
-                                  ],
-                                  "contents": [
-                                    {
-                                      "type": "field",
-                                      "id": "null-details",
-                                      "frame": "none",
-                                      "align": "left",
-                                      "repeat": 2,
-                                      "width": "stretch",
-                                      "merge-bottom": true
-                                    }
-                                  ],
-                                  "shade": false,
-                                  "annotation": false,
-                                  "merge-bottom": true
-                                }
-                              ]
+                              "frame": "none",
+                              "type": "field",
+                              "id": "proficiency-2-name",
+                              "width": "stretch",
+                              "align": "left"
                             }
                           ]
                         },
                         {
-                          "type": "layout",
-                          "layout": "indent-l",
+                          "type": "row",
+                          "layout": null,
                           "contents": [
                             {
-                              "type": "icon",
-                              "icon": "action-template"
+                              "frame": "none",
+                              "type": "field",
+                              "id": "proficiency-3-value",
+                              "control": "icon",
+                              "icon": "proficiency"
                             },
                             {
-                              "type": "g",
-                              "contents": [
-                                {
-                                  "type": "article",
-                                  "id": null,
-                                  "header": [
-                                    {
-                                      "type": "row",
-                                      "contents": [
-                                        {
-                                          "type": "field",
-                                          "id": null,
-                                          "frame": "none",
-                                          "align": "left",
-                                          "width": "stretch"
-                                        }
-                                      ]
-                                    }
-                                  ],
-                                  "contents": [
-                                    {
-                                      "type": "field",
-                                      "id": "null-details",
-                                      "frame": "none",
-                                      "align": "left",
-                                      "repeat": 2,
-                                      "width": "stretch",
-                                      "merge-bottom": true
-                                    }
-                                  ],
-                                  "shade": false,
-                                  "annotation": false,
-                                  "merge-bottom": true
-                                }
-                              ]
+                              "frame": "none",
+                              "type": "field",
+                              "id": "proficiency-3-name",
+                              "width": "stretch",
+                              "align": "left"
                             }
                           ]
                         },
                         {
-                          "type": "layout",
-                          "layout": "indent-l",
+                          "type": "row",
+                          "layout": null,
                           "contents": [
                             {
-                              "type": "icon",
-                              "icon": "action-template"
+                              "frame": "none",
+                              "type": "field",
+                              "id": "proficiency-4-value",
+                              "control": "icon",
+                              "icon": "proficiency"
                             },
                             {
-                              "type": "g",
-                              "contents": [
-                                {
-                                  "type": "article",
-                                  "id": null,
-                                  "header": [
-                                    {
-                                      "type": "row",
-                                      "contents": [
-                                        {
-                                          "type": "field",
-                                          "id": null,
-                                          "frame": "none",
-                                          "align": "left",
-                                          "width": "stretch"
-                                        }
-                                      ]
-                                    }
-                                  ],
-                                  "contents": [
-                                    {
-                                      "type": "field",
-                                      "id": "null-details",
-                                      "frame": "none",
-                                      "align": "left",
-                                      "repeat": 2,
-                                      "width": "stretch",
-                                      "merge-bottom": true
-                                    }
-                                  ],
-                                  "shade": false,
-                                  "annotation": false,
-                                  "merge-bottom": true
-                                }
-                              ]
+                              "frame": "none",
+                              "type": "field",
+                              "id": "proficiency-4-name",
+                              "width": "stretch",
+                              "align": "left"
                             }
                           ]
                         },
                         {
-                          "type": "layout",
-                          "layout": "indent-l",
+                          "type": "row",
+                          "layout": null,
                           "contents": [
                             {
-                              "type": "icon",
-                              "icon": "action-template"
+                              "frame": "none",
+                              "type": "field",
+                              "id": "proficiency-5-value",
+                              "control": "icon",
+                              "icon": "proficiency"
                             },
                             {
-                              "type": "g",
-                              "contents": [
-                                {
-                                  "type": "article",
-                                  "id": null,
-                                  "header": [
-                                    {
-                                      "type": "row",
-                                      "contents": [
-                                        {
-                                          "type": "field",
-                                          "id": null,
-                                          "frame": "none",
-                                          "align": "left",
-                                          "width": "stretch"
-                                        }
-                                      ]
-                                    }
-                                  ],
-                                  "contents": [
-                                    {
-                                      "type": "field",
-                                      "id": "null-details",
-                                      "frame": "none",
-                                      "align": "left",
-                                      "repeat": 2,
-                                      "width": "stretch",
-                                      "merge-bottom": true
-                                    }
-                                  ],
-                                  "shade": false,
-                                  "annotation": false,
-                                  "merge-bottom": true
-                                }
-                              ]
+                              "frame": "none",
+                              "type": "field",
+                              "id": "proficiency-5-name",
+                              "width": "stretch",
+                              "align": "left"
                             }
                           ]
                         }
