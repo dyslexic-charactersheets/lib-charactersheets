@@ -8,9 +8,10 @@ export let span = {
     content: '',
     'field-separator': false,
     'article-cat': false,
+    value: false,
   },
   render(args, reg, doc) {
-    const cls = elementClass('span', null, args, ['field-separator', 'article-cat']);
+    const cls = elementClass('span', null, args, ['field-separator', 'article-cat', 'value']);
     return `<span${cls}>${esc(__(args.content, doc), true)}</span>`;
   }
 }

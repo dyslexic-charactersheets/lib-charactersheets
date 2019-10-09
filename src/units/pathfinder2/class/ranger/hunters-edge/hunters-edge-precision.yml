@@ -1,0 +1,64 @@
+unit: ranger/hunters-edge/precision
+in: ranger/hunters-edge
+group: "_{Core Rulebook}"
+name: "_{Precision}"
+
+inc:
+  - at: '@advancement'
+    add:
+      - level: 1
+        first-attack: "_{1d8}"
+      - level: 11
+        first-attack: "_{2d8}"
+      - level: 17
+        second-attack: "_{1d8}"
+      - level: 19
+        first-attack: "_{3d8}"
+        second-attack: "_{2d8}"
+
+  - at: '@advancement-fields'
+    add:
+      - name: "_{First\nAttack}"
+        key: first-attack
+        format: string
+      - name: "_{Second\nAttack}"
+        key: second-attack
+        format: string
+
+  - at: '@ranger/hunters-edge'
+    replace:
+      - g:
+        contents:
+          - h4: "_{Precision}"
+
+          - table:
+            rows:
+              - lv: 1
+                a1: "+_{1d8}"
+                detail: "_{Precision damage}"
+              - lv: 11
+                a1: "+_{2d8}"
+              - lv: 17
+                a2: "+_{1d8}"
+              - lv: 19
+                a1: "+_{3d8}"
+                a2: "+_{2d8}"
+            columns:
+              - "_{Level}"
+              - "_{First\nAttack}"
+              - "_{Second\nAttack}"
+              - ""
+            template:
+              - field:
+                control: value
+                value: "#{lv}"
+                frame: none
+              - field:
+                control: value
+                value: "#{a1}"
+                frame: none
+              - field:
+                control: value
+                value: "#{a2}"
+                frame: none
+              - p: "#{detail}"

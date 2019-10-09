@@ -1,8 +1,10 @@
 # Dyslexic Character Sheets
 
-A library to generate character sheets for Pathfinder 2nd Edition.
+A library to generate character sheets for Pathfinder 2nd Edition and other games.
 
-See: https://www.dyslexic-charactersheets.com/.
+See the website: https://www.dyslexic-charactersheets.com/.
+
+This project is a Node.js module: https://npmjs.com/package/dyslexic-charactersheets
 
 ## This is a work in progress
 
@@ -12,9 +14,27 @@ You can follow progress on [the project's Patreon page](https://www.patreon.com/
 
 # Install
 
-```bash
+To install this library in another project:
+```sh
 $ npm install dyslexic-charactersheets
 ```
+
+To clone this library for development:
+```sh
+$ git clone https://github.com/dyslexic-charactersheets/lib-charactersheets.git
+$ cd lib-charactersheets
+$ npm install  # install dependencies
+```
+
+You can make changes, then import your version of this module into another project with:
+
+```sh
+$ npm test  # compile and run the code
+$ sudo npm link -g  # export this library folder
+$ cd ../your-project
+$ npm link dyslexic-charactersheets  # import the library into your project
+```
+
 
 # Usage
 
@@ -23,7 +43,14 @@ The library expects to be given a character's details in the form of a plain Jav
 ```javascript
 let request = {
   data: {
-    class: 'druid'
+    type: 'character',
+    id: '76af3e1',
+    attributes: {
+      game: 'pathfinder2',
+      name: 'Valeros',
+      class: 'druid',
+      ...a lot more details...
+    }
   }
 };
 

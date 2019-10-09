@@ -89,7 +89,7 @@ export let advancement = {
 
       const items = gains.map((gain) => {
         let slug = gain.replace(/_\{(.*?)\}/g, '$1');
-        slug = "gain-"+toKebabCase(slug);
+        slug = `gain-${lv}-${toKebabCase(slug)}`;
         return {
           type: "field",
           id: slug,
