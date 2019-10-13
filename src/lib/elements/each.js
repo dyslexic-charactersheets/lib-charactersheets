@@ -1,4 +1,5 @@
 import { interpolate, isObject, cloneDeep } from '../util';
+import { log } from '../log';
 
 export let each = {
   name: 'each',
@@ -18,14 +19,13 @@ export let each = {
 
       let values = cloneDeep(args.params);
       if (i < args.rows.length && isObject(args.rows[i]))
-        values = Object.assign(args.rows[i], values);
+        values = { ...args.rows[i], ...values };
 
-      values['item'] = item;
-      values = Object.assign({}, item, values);
+      values = { ...item, ...values, item: cloneDeep(item) };
       values[args.index] = i;
 
       // log("each", "Template", args.template);
-      // log("each", "Interpolating", values);
+      // log("each", "Values", values);
       const product = interpolate(args.template, values);
       // log("each", "Product", values);
       return product;

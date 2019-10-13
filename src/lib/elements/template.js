@@ -10,7 +10,7 @@ export let paste = {
     contents: [],
   },
   transform(args, ctx) {
-    // log("template", "Paste template:", args.template);
+    // log("template", "Paste", args.template);
     if (!has(ctx.templates, args.template))
       return [];
 
@@ -19,8 +19,16 @@ export let paste = {
       return [];
 
     // const params = { ...template.params, ...args.params, item: args.contents };
-    const params = Object.assign({}, template.params, args.params);
+    // const item = {
+    //   type: 'g',
+    //   contents: cloneDeep(args.contents)
+    // };
+    const item = cloneDeep(args.contents);
+    const params = { item, ...template.params, ...args.params };
+
     let contents = cloneDeep(template.contents);
+    // log("template", "Paste", args.template, "template:", contents);
+    // log("template", "Paste", args.template, "params:", params);
     contents = interpolate(contents, params);
     return contents;
   }

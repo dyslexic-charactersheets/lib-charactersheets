@@ -128,7 +128,7 @@ export function fieldInner(args, reg, doc) {
       const value = i >= values.length ? null : values[i];
       const controlArgs = Object.assign({}, args, { value: value });
       const control = reg.renderItem(controlArgs, doc);
-      if (i == args.repeat - 1 && args['merge-bottom'])
+      if (i == args.repeat - 1 && args['merge-bottom'] && boxargs['border'] == 'bottom')
         boxargs['border'] = 'none';
       const boxcls = elementClass('field', 'box', boxargs, ["icon"], { "border": "bottom" });
       const box = `<div${boxcls}>${icon}${control}${unit}</div>`;
@@ -137,7 +137,7 @@ export function fieldInner(args, reg, doc) {
     inner = boxes.join("");
   } else {
     const control = reg.renderItem(args, doc);
-    if (args['merge-bottom'])
+    if (args['merge-bottom'] && boxargs['border'] == 'bottom')
       boxargs['border'] = 'none';
     const boxcls = elementClass('field', 'box', boxargs, ["icon"], { "border": "bottom" });
     inner = `<div${boxcls}>${icon}${control}${unit}</div>`;

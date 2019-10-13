@@ -388,7 +388,8 @@ export function interpolate(template, values, document = null) {
   }
 
   if (isArray(template)) {
-    return template.map(item => interpolate(item, values, document));
+    const product = template.map(item => interpolate(item, values, document));
+    return product.flatMap(item => isArray(item) ? item : [ item ]);
   }
 
   if (isObject(template)) {
@@ -406,7 +407,7 @@ export function interpolate(template, values, document = null) {
       } else if (!isNull(document) && document.hasVar(paramkey)) {
         return document.getVar(paramkey);
       }
-    } else if (first == 'item' && has(values, 'item')) {
+    } else if (first == 'item' && has(values, 'item') && !isEmpty(values.item)) {
       return values.item;
     }
 

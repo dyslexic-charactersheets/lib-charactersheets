@@ -45,6 +45,7 @@ inc:
         zebra: true
         hr: true
         avoid-shade: true
+        flex: shrink
         contents:
           - article: 'skill-feat-#{level}'
             lines: 1
@@ -63,7 +64,6 @@ inc:
                   lines: 1
                 contents:
                   - zone: '@skill-feats'
-      - tail:
 
   - at: '@language-section'
     replace:
@@ -140,7 +140,7 @@ inc:
                                     icon: damage
                                     width: large
                                     border: full
-                                    overlay: "_{d6}"
+                                    suffix: "_{d6}"
                                   - p: "_{Precision damage}"
                                   - spacer:
                               - p: "_{When you attack a flat-footed opponent with an agile or finesse weapon/unarmed strike, or a ranged weapon.}"
@@ -200,10 +200,16 @@ inc:
                       - level: 19
                         contents:
                           - p: "_{When your strike hits a flat-footed creature and deals damage, they must also attempt a Fortitude save.}"
-                          - p: ""
+                          - dl:
+                            div: true
+                            defs:
+                              critical_success: "_{No effect}"
+                              success: "_{Enfeebled 2 for 1 round}"
+                              failure: "_{Paralysed for 4 rounds}"
+                              critical_failure: "_{Paralysed for 4 rounds, knocked unconscious for 2 hours, or killed (your choice)}"
 
                   - tail:
-                  # - spacer:
+                  - spacer:
 
               - g:
                 contents:

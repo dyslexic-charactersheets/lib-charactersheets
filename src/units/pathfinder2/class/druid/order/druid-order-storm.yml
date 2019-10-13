@@ -16,3 +16,50 @@ inc:
           - article:
             title: "_{Storm Born}"
             content: "_{No penalties or checks to ranged spell attacks or Perception due to weather.}"
+      - g:
+        contents:
+          - h5: "_{Order Power}"
+          - article:
+            title: "_{Tempest Surge}"
+            contents:
+              - paste: focus
+                contents:
+                  - p: "_{Surround one enemy with a storm.}"
+                  - calc:
+                    output:
+                      field: tempest-surge-damage
+                      legend: "_{Damage}"
+                      width: large
+                      suffix: "_{d12}"
+                    inputs:
+                      - label: "_{Focus\nLevel}"
+
+                  - p: "_{Target must make a Reflex save or be clumsy 2 and take persistent electricity damage.}"
+                  - row:
+                    contents:
+                      - calc:
+                        output:
+                          field: tempest-surge-clumsy-duration
+                          legend: "_{Duration}"
+                          width: large
+                          suffix: "_{rds}"
+                        inputs:
+                          - label: "_{Focus\nLevel}"
+                      - spacer:
+                      - calc:
+                        output:
+                          field: tempest-surge-clumsy-damage
+                          legend: "_{Damage}"
+                          width: large
+                        inputs:
+                          - label: "_{Focus\nLevel}"
+
+  - at: '@focus-points'
+    replace:
+      - field: druid-tempest-surge-focus
+        label: "_{Storm\nOrder}"
+
+  - at: '@anathema'
+    replace:
+      - li: "_{Polluting the air}"
+      - li: "_{Allowing those who cause major pollution or cause climate shifts to go unpunished}"

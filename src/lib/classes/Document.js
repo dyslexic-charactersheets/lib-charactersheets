@@ -202,6 +202,9 @@ export class Document {
         warn("Document", "Null element");
         return [];
       }
+      if (isArray(element)) {
+        return element.map(e => compose(e));
+      }
       if (!has(element, "type")) {
         warn("Document", "Untyped element", element);
         return [element];

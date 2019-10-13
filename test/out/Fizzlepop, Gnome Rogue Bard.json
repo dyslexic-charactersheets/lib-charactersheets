@@ -205,7 +205,7 @@
                               "id": "build-ancestry-hp",
                               "label": "_{Hit Points}",
                               "icon": "hp",
-                              "overlay": "_{hp}"
+                              "suffix": "_{hp}"
                             },
                             {
                               "type": "field",
@@ -427,7 +427,7 @@
                           "id": "build-class-hp",
                           "label": "_{Hit Points}",
                           "icon": "hp",
-                          "overlay": "_{hp}",
+                          "suffix": "_{hp}",
                           "width": "large"
                         },
                         {
@@ -861,7 +861,7 @@
                     "id": "build-hp",
                     "legend": "_{Hit Points}",
                     "icon": "hp",
-                    "overlay": "_{hp}",
+                    "suffix": "_{hp}",
                     "width": "large"
                   },
                   "inputs": [
@@ -1065,7 +1065,7 @@
                       "type": "field",
                       "id": "build-starting-money",
                       "legend": "_{Starting\nMoney}",
-                      "overlay": "_{sp}",
+                      "suffix": "_{sp}",
                       "value": "150",
                       "border": "full",
                       "control": "money",
@@ -3505,6 +3505,7 @@
                       "zebra": true,
                       "hr": true,
                       "avoid-shade": true,
+                      "flex": "shrink",
                       "contents": [
                         {
                           "type": "article",
@@ -4620,12 +4621,11 @@
                         }
                       ],
                       "replace": true
-                    },
-                    {
-                      "type": "tail",
-                      "replace": true
                     }
                   ]
+                },
+                {
+                  "type": "tail"
                 }
               ]
             }
@@ -4753,7 +4753,7 @@
                           "output": {
                             "type": "field",
                             "id": "focus",
-                            "overlay": "_{pts}",
+                            "suffix": "_{pts}",
                             "width": "large",
                             "legend": "_{Focus}"
                           },
@@ -4786,7 +4786,7 @@
                           "width": "large",
                           "prefix": "+",
                           "underlay": "1",
-                          "overlay": "_{pts}"
+                          "suffix": "_{pts}"
                         }
                       ]
                     },
@@ -4832,7 +4832,7 @@
                           "align": "center",
                           "width": "huge",
                           "border": "full",
-                          "overlay": "_{pts}"
+                          "suffix": "_{pts}"
                         }
                       ]
                     }
@@ -5943,7 +5943,7 @@
                             "id": "hp",
                             "legend": "_{Hit Points}",
                             "icon": "hp",
-                            "overlay": "_{hp}",
+                            "suffix": "_{hp}",
                             "width": "large",
                             "eq": "%{hp-ancestry}+((%{hp-class}+%{CON})*%{level})"
                           },
@@ -6009,7 +6009,7 @@
                           "border": "full",
                           "temp": true,
                           "icon": "hp",
-                          "overlay": "_{hp}",
+                          "suffix": "_{hp}",
                           "width": "stretch"
                         },
                         {
@@ -6018,7 +6018,7 @@
                           "label": "_{Temp Hit Points}",
                           "border": "full",
                           "temp": true,
-                          "overlay": "_{hp}",
+                          "suffix": "_{hp}",
                           "width": "huge"
                         },
                         {
@@ -6332,7 +6332,7 @@
                                           "id": "shield-hardness",
                                           "label": "_{Hardness}",
                                           "border": "full",
-                                          "overlay": "_{hp}",
+                                          "suffix": "_{hp}",
                                           "width": "large"
                                         },
                                         {
@@ -6341,7 +6341,7 @@
                                           "label": "_{Shield Health}",
                                           "border": "full",
                                           "temp": true,
-                                          "overlay": "_{hp}",
+                                          "suffix": "_{hp}",
                                           "width": "large"
                                         }
                                       ]
@@ -6691,7 +6691,7 @@
                                   "icon": "damage",
                                   "width": "large",
                                   "border": "full",
-                                  "overlay": "_{d6}"
+                                  "suffix": "_{d6}"
                                 },
                                 {
                                   "type": "p",
@@ -6962,8 +6962,14 @@
                               "content": "_{When your strike hits a flat-footed creature and deals damage, they must also attempt a Fortitude save.}"
                             },
                             {
-                              "type": "p",
-                              "content": ""
+                              "type": "dl",
+                              "div": true,
+                              "defs": {
+                                "critical_success": "_{No effect}",
+                                "success": "_{Enfeebled 2 for 1 round}",
+                                "failure": "_{Paralysed for 4 rounds}",
+                                "critical_failure": "_{Paralysed for 4 rounds, knocked unconscious for 2 hours, or killed (your choice)}"
+                              }
                             }
                           ]
                         }
@@ -6973,6 +6979,9 @@
                 },
                 {
                   "type": "tail"
+                },
+                {
+                  "type": "spacer"
                 }
               ]
             },
@@ -8744,7 +8753,7 @@
                                       "id": "shield-hardness",
                                       "label": "_{Hardness}",
                                       "width": "large",
-                                      "overlay": "_{hp}"
+                                      "suffix": "_{hp}"
                                     },
                                     {
                                       "type": "spacer"
@@ -8753,7 +8762,7 @@
                                       "type": "field",
                                       "id": "shield-bt",
                                       "label": "_{Broken}",
-                                      "overlay": "_{hp}",
+                                      "suffix": "_{hp}",
                                       "prefix": "&le;",
                                       "width": "large"
                                     },
@@ -8767,7 +8776,7 @@
                                       "icon": "hp",
                                       "border": "full",
                                       "width": "large",
-                                      "overlay": "_{hp}"
+                                      "suffix": "_{hp}"
                                     }
                                   ]
                                 },

@@ -9,7 +9,7 @@ function defaultControlRender (args, reg, doc) {
     width: "medium",
     editable: true,
     prefix: false,
-    overlay: false,
+    suffix: false,
     underlay: false,
   }, args);
 
@@ -22,9 +22,9 @@ function defaultControlRender (args, reg, doc) {
   const underlay = args.underlay ? `<u>${__(args.underlay, doc)}</u>` : '';
 
   const prefix = args.prefix ? `<span class='field__overlay'>${__(args.prefix, doc)}</span>` : '';
-  const overlay = args.overlay ? `<span class='field__overlay'>${__(args.overlay, doc)}</span>` : '';
+  const suffix = args.suffix ? `<span class='field__overlay'>${__(args.suffix, doc)}</span>` : '';
 
-  return `${prefix}<div${cls}>${input}${underlay}</div>${overlay}`;
+  return `${prefix}<div${cls}>${input}${underlay}</div>${suffix}`;
 };
 
 function renderCompoundControl(args, reg, doc) {
@@ -74,12 +74,12 @@ export let field_control_value = {
     const cls = elementClass("field", "control", args, [], { "control": "", "align": "centre" });
 
     const prefix = args.prefix ? `<span class='field__overlay'>${__(args.prefix, doc)}</span>` : '';
-    const overlay = args.overlay ? `<span class='field__overlay'>${__(args.overlay, doc)}</span>` : '';
+    const suffix = args.suffix ? `<span class='field__overlay'>${__(args.suffix, doc)}</span>` : '';
     const underlay = args.underlay ? `<u>${__(args.underlay, doc)}</u>` : '';
 
     const value = `<span>${esc(__(args.value))}</span>`;
 
-    return `${prefix}<div${cls}>${value}${underlay}</div>${overlay}`;
+    return `${prefix}<div${cls}>${value}${underlay}</div>${suffix}`;
   }
 };
 
@@ -418,7 +418,7 @@ export let field_control_money = {
       case 'silver': unit = 'sp'; break;
       case 'copper': unit = 'cp'; break;
     }
-    const overlay = `<span class='field__overlay'>${__(unit, doc)}</span>`;
+    const suffix = `<span class='field__overlay'>${__(unit, doc)}</span>`;
 
     const ident = fieldIdent(args.id);
     const cls = elementClass("field", "control", args, [], { "digits": 0, "shift": 0, "decimal": 0 });
@@ -431,7 +431,7 @@ export let field_control_money = {
     }
     const shift = args.shift > 0 ? `<div class='field__shift field__shift--shift_${args.shift}'></div>` : '';
 
-    return `<div${cls}><input${ident.ident}${value} size='${args.digits}'>${ticks.join("")}</div>${shift}${overlay}`;
+    return `<div${cls}><input${ident.ident}${value} size='${args.digits}'>${ticks.join("")}</div>${shift}${suffix}`;
   }
 }
 

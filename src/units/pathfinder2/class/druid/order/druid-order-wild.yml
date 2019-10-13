@@ -4,7 +4,7 @@ group: "_{Core Rulebook}"
 name: "_{Wild}"
 
 inc:
-  - set: diplomacy-proficiency
+  - set: intimidation-proficiency
     value: trained
 
   - at: '@druid-order'
@@ -15,4 +15,51 @@ inc:
           - h5: "_{Order Feat}"
           - article:
             title: "_{Wild Shape}"
-            content: "_{You gain a leshy familiar, a Tiny plant that embodies one of the many spirits of nature.}"
+            content: "_{.}"
+
+
+
+      - g:
+        contents:
+          - h5: "_{Order Power}"
+          - article:
+            title: "_{Wild Morph}"
+            contents:
+              - p: "_{Morph your hands into claws.}"
+              
+              - calc:
+                output:
+                  field: wild-morph-attack-bonus
+                  label: "_{Attack Bonus}"
+                  width: huge
+                  attack: true
+                  icon: bonus
+                inputs:
+                  - field:
+                    ref: STR
+                    label: "_{STR}"
+                    underlay: "_{STR}"
+                  - field: wild-morph-attack-proficiency
+                    control: proficiency
+                    label: "_{Proficiency}"
+                    
+              - field: wild-morph-attack-damage
+                border: full
+                label: "_{Damage}"
+                width: huge
+                icon: damage
+                suffix: "_{d6}"
+
+      - level: 11
+        contents:
+          - p:
+      - level: 19
+        contents:
+          - p:
+
+
+
+
+  - at: '@anathema'
+    replace:
+      - li: "_{Becoming fully domesticated by the temptations of civilization}"
