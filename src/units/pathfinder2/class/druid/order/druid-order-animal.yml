@@ -3,57 +3,58 @@ in: druid/order
 group: "_{Core Rulebook}"
 name: "_{Animal}"
 
+require:
+  - unit: option/animal-companion
+
 inc:
   - set: athletics-proficiency
     value: trained
 
-  - at: '@druid-order'
+  - at: '@druid/order'
     replace:
       - h4: "_{Animal Order}"
-      - g:
+
+  - at: '@druid/order-feat'
+    replace:
+      - section: "_{Animal Companion}"
         contents:
-          - h5: "_{Order Feat}"
-          - article:
-            title: "_{Animal Companion}"
-            content: "_{You gain a young animal companion.}"
-      - g:
+          - p: "_{You gain a young animal companion.}"
+
+  - at: '@druid/order-power'
+    replace:
+      - section: "_{Heal Animal}"
         contents:
-          - h5: "_{Order Power}"
-          - article:
-            title: "_{Heal Animal}"
+          - list:
+            hr: true
             contents:
-              - list:
-                # hr: true
+              - action: 1
                 contents:
-                  - action: 1
-                    contents:
-                      - p: "_{Touch one creature}"
-                      - calc:
-                        output:
-                          field: druid-heal-animal-1-healing
-                          legend: "Healing"
-                          suffix: "d8"
-                          width: large
+                  - p: "_{Touch one creature}"
+                  - calc:
+                    output:
+                      field: druid-heal-animal-1-healing
+                      legend: "Healing"
+                      suffix: "d8"
+                      width: large
 
-                        inputs:
-                          - label: "_{Focus\nLevel}"
-                  - action: 2
-                    contents:
-                      - p: "_{One creature within 30ft}"
-                      - calc:
-                        output:
-                          field: druid-heal-animal-2-healing
-                          legend: "Healing"
-                          width: gargantuan
-                          control: compound
-                          parts:
-                            - field: druid-heal-animal-2-healing-dice
-                            - span: "d8 +"
-                            - field: druid-heal-animal-2-healing-bonus
+                    inputs:
+                      - label: "_{Focus\nLevel}"
+              - action: 2
+                contents:
+                  - p: "_{One creature within 30ft}"
+                  - calc:
+                    output:
+                      field: druid-heal-animal-2-healing
+                      legend: "Healing"
+                      width: gargantuan
+                      control: compound
+                      parts:
+                        - field: druid-heal-animal-2-healing-dice
+                        - span: "d8 +"
+                        - field: druid-heal-animal-2-healing-bonus
 
-                        inputs:
-                          - label: "_{Focus\nLevel}"
-
+                    inputs:
+                      - label: "_{Focus\nLevel}"
 
   - at: '@anathema'
     replace:

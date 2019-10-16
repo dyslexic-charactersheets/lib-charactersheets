@@ -3,44 +3,46 @@ in: druid/order
 group: "_{Core Rulebook}"
 name: "_{Leaf}"
 
+require:
+  - unit: option/animal-companion
+  
 inc:
   - set: diplomacy-proficiency
     value: trained
 
-  - at: '@druid-order'
+  - at: '@druid/order'
     replace:
       - h4: "_{Leaf Order}"
-      - g:
-        contents:
-          - h5: "_{Order Feat}"
-          - article:
-            title: "_{Leshy Familiar}"
-            content: "_{You gain a leshy familiar, a Tiny plant that embodies one of the many spirits of nature.}"
-      - g:
-        contents:
-          - h5: "_{Order Power}"
-          - article:
-            title: "_{Goodberry}"
-            contents:
-              - paste: focus
-                contents:
-                  - p: "_{Imbue berries with healing.}"
-                  - row:
-                    contents:
-                      - calc:
-                        output:
-                          field: goodberry-berries
-                          legend: "_{Berries}"
-                          width: large
-                        inputs:
-                          - label: "_{Focus\nLevel}"
 
-                      - spacer:
-                      - field: goodberry-healing
-                        label: "Healing"
-                        control: value
-                        value: "_{1d8}+5"
-                        width: large
+  - at: '@druid/order-feat'
+    replace:
+      - section: "_{Leshy Familiar}"
+        content:
+          - p: "_{You gain a leshy familiar, a Tiny plant that embodies one of the many spirits of nature.}"
+
+  - at: '@druid/order-power'
+    replace:
+      - section: "_{Goodberry}"
+        contents:
+          - paste: focus
+            contents:
+              - p: "_{Imbue berries with healing.}"
+              - row:
+                contents:
+                  - calc:
+                    output:
+                      field: goodberry-berries
+                      legend: "_{Berries}"
+                      width: large
+                    inputs:
+                      - label: "_{Focus\nLevel}"
+
+                  - spacer:
+                  - field: goodberry-healing
+                    label: "Healing"
+                    control: value
+                    value: "_{1d8}+5"
+                    width: large
 
   - at: '@focus-points'
     replace:

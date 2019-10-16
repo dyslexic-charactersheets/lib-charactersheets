@@ -43,8 +43,13 @@ function parseCharacter(primary, request) {
     game: attr.game,
     units: ['core', 'base', 'base/character', 'theme/' + attr.theme],
     language: attr.language,
+    race: false,
+    ancestry: false,
+    heritage: false,
+    background: false,
     classes: [],
     archetypes: [],
+    feats: [],
     options: {
       'animal-companion': false,
       'party-funds': false,
@@ -77,13 +82,19 @@ function parseCharacter(primary, request) {
 
   // get all the flags
   Object.keys(attr).forEach(key => {
-    if (key.match(/^option/)) {
-      let flag = toKebabCase(key.replace(/^option/, ''));
-      let ok = char.options[flag] = !!attr[key];
-      if (ok)
-        char.units.push('option/' + flag);
+    let flag = toKebabCase(key);
+
+    if (key.match(/^option-/)) {
+      let option = flag.replace(/^option-/, '');
+      let ok = char.options[option] = !!attr[key];
+      if (ok) {
+        log("Character", "Option", option);
+        char.units.push('option/' + option);
+      }
     }
   });
+
+  if (attr)
 
   // accessibility options
   if (attr.printLarge) {
@@ -125,6 +136,10 @@ function parseCharacter(primary, request) {
         let classFeatsKey = classPrefix + 'Feats';
         if (attr[classFeatsKey]) {
           char.classFeats = parseFeats(attr[classFeatsKey]);
+          char.classFeats.forEach(feat => {
+            log("Character", "Class feat:", feat);
+            char.units.push('feat/'+className+'/'+feat);
+          });
         }
 
         Object.keys(attr).forEach(key => {
@@ -140,6 +155,11 @@ function parseCharacter(primary, request) {
             char.units.push(unitname);
           }
         });
+
+        // attr.feats.forEach(key => {
+        //   let flag = toKebabCase(key);
+        //   if (flag.startsWith()
+        // });
       }
 
       // todo select inventory size
@@ -361,7 +381,7 @@ export class Character {
           });
           units = units.concat(moreunits);
         }
-        // log("Character", "Units:", units.map(unit => unit.id));
+        log("Character", "Units:", units.map(unit => unit.id));
 
         // make the element tree
         units.forEach(unit => document.addUnit(unit));

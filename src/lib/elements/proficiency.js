@@ -72,6 +72,7 @@ export let selectable = {
   key: 'id',
   defaults: {
     id: '',
+    selected: false,
     contents: []
   },
   transform(args) {
@@ -87,7 +88,8 @@ export let selectable = {
                 type: "field",
                 id: args.id,
                 control: 'checkbox',
-                frame: 'none'
+                frame: 'none',
+                value: args.selected,
               }
             ]
           },

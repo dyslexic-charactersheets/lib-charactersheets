@@ -7,52 +7,51 @@ inc:
   - set: acrobatics-proficiency
     value: trained
 
-  - at: '@druid-order'
+  - at: '@druid/order'
     replace:
       - h4: "_{Storm Order}"
-      - g:
+
+  - at: '@druid/order-feat'
+    replace:
+      - section: "_{Storm Born}"
         contents:
-          - h5: "_{Order Feat}"
-          - article:
-            title: "_{Storm Born}"
-            content: "_{No penalties or checks to ranged spell attacks or Perception due to weather.}"
-      - g:
+          - p: "_{No penalties or checks to ranged spell attacks or Perception due to weather.}"
+
+  - at: '@druid/order-power'
+    replace:
+      - section: "_{Tempest Surge}"
         contents:
-          - h5: "_{Order Power}"
-          - article:
-            title: "_{Tempest Surge}"
+          - paste: focus
             contents:
-              - paste: focus
+              - p: "_{Surround one enemy with a storm.}"
+              - calc:
+                output:
+                  field: tempest-surge-damage
+                  legend: "_{Damage}"
+                  width: large
+                  suffix: "_{d12}"
+                inputs:
+                  - label: "_{Focus\nLevel}"
+
+              - p: "_{Target must make a Reflex save or be clumsy 2 and take persistent electricity damage.}"
+              - row:
                 contents:
-                  - p: "_{Surround one enemy with a storm.}"
                   - calc:
                     output:
-                      field: tempest-surge-damage
-                      legend: "_{Damage}"
+                      field: tempest-surge-clumsy-duration
+                      legend: "_{Duration}"
                       width: large
-                      suffix: "_{d12}"
+                      suffix: "_{rds}"
                     inputs:
                       - label: "_{Focus\nLevel}"
-
-                  - p: "_{Target must make a Reflex save or be clumsy 2 and take persistent electricity damage.}"
-                  - row:
-                    contents:
-                      - calc:
-                        output:
-                          field: tempest-surge-clumsy-duration
-                          legend: "_{Duration}"
-                          width: large
-                          suffix: "_{rds}"
-                        inputs:
-                          - label: "_{Focus\nLevel}"
-                      - spacer:
-                      - calc:
-                        output:
-                          field: tempest-surge-clumsy-damage
-                          legend: "_{Damage}"
-                          width: large
-                        inputs:
-                          - label: "_{Focus\nLevel}"
+                  - spacer:
+                  - calc:
+                    output:
+                      field: tempest-surge-clumsy-damage
+                      legend: "_{Damage}"
+                      width: large
+                    inputs:
+                      - label: "_{Focus\nLevel}"
 
   - at: '@focus-points'
     replace:
