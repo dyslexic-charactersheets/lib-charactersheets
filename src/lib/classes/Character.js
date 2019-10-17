@@ -381,6 +381,7 @@ export class Character {
           });
           units = units.concat(moreunits);
         }
+        units = [...new Set(units)];
         log("Character", "Units:", units.map(unit => unit.id));
 
         // make the element tree

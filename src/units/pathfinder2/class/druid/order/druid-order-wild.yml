@@ -16,6 +16,14 @@ inc:
 
   - at: '@druid/order-feat'
     replace:
+      - nothing:
+      # - section: "_{Wild Shape}"
+      #   contents:
+      #     - p: "_{Transform into any creature from 'Pest form'.}"
+      #     - p: "_{Heighten to your focus level.}"
+
+  - at: '@wild-shape/high'
+    add:
       - section: "_{Wild Shape}"
         contents:
           - table:
@@ -34,23 +42,25 @@ inc:
                 value: '#{duration}'
               - p: '#{class}'
 
-          - field: druid-wild-shape-attack
-            frame: right
-            label: "_{Attack bonus}"
-            border: full
-            control: value
-            value: "+2"
-            width: large
+  - at: '@wild-shape/attacks'
+    add:
+      - field: druid-wild-shape-attack
+        label: "_{When using your own attack bonus}"
+        frame: right
+        border: none
+        control: value
+        value: "+2"
 
   - at: '@druid/right'
     replace:
       - section: "_{Wild Shape}"
         contents:
+          - p: "_{Heighten to your focus level.}"
           - list:
             columns: 2
             merge-bottom: true
             contents:
-              - repeat: 12
+              - repeat: 10
                 reduce: 4
                 contents:
                   - row:
@@ -89,7 +99,7 @@ inc:
                                     output:
                                       field: druid-wild-morph-attack-bonus
                                       label: "_{Attack Bonus}"
-                                      width: huge
+                                      width: large
                                       attack: true
                                       icon: bonus
                                     inputs:

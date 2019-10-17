@@ -19,8 +19,9 @@ inc:
                     contents:
                       - g:
                         contents:
-                          - h2: "Wild Shape"
-                          - section: "Attributes"
+                          - class-name: "_{Wild Shape}"
+
+                          - section: "_{Attributes}"
                             id: wild-shape-attributes
                             contents:
                               - layout: 3e
@@ -28,12 +29,15 @@ inc:
                                 contents:
                                   - repeat: 3
                                     rows:
-                                      - name: "Strength"
-                                        short: "STR"
-                                      - name: "Dexterity"
-                                        short: "DEX"
-                                      - name: "Constitution"
-                                        short: "CON"
+                                      - name: "_{Strength}"
+                                        short: "_{STR}"
+                                        id: STR
+                                      - name: "_{Dexterity}"
+                                        short: "_{DEX}"
+                                        id: DEX
+                                      - name: "_{Constitution}"
+                                        short: "_{CON}"
+                                        id: CON
                                     contents:
                                       - g:
                                         valign: top
@@ -55,71 +59,54 @@ inc:
                                                 # width: small
                                                 frame: none
                                               - spacer:
-                          - section: "Saving Throws"
-                            id: saving-throws
+                          - section: "_{Speed}"
                             contents:
-                              - table:
-                                columns:
-                                  - 
-                                  - 
-                                  - "Ability\nModifier"
-                                  - "Proficiency"
-                                  - "Misc"
-                                rows:
-                                  - save: fortitude
-                                    legend: "Fortitude"
-                                    short: "FORT"
-                                    ability: CON
-                                  - save: reflex
-                                    legend: "Reflex"
-                                    short: "REF"
-                                    ability: DEX
-                                  - save: will
-                                    legend: "Will"
-                                    short: "WILL"
-                                    ability: WIS
-                                template:
-                                  - calc:
-                                    output:
-                                      field: "animal-companion-#{save}"
-                                      legend: "#{legend}"
-                                      icon: bonus
-                                      border: full
-                                      width: large
-                                      underlay: "#{short}"
-                                    inputs:
-                                      - field:
-                                        label: "#{ability}"
-                                        underlay: "#{ability}"
-                                        ref: "#{ability}"
-                                      - field:
-                                        id: "#{save}-proficiency"
-                                        control: proficiency
-                                      - field:
-                                        id: "#{save}-misc-bonus"
-                                        misc: true
-                              - field: animal-companion-saving-throws-conditional
-                                label: "Conditional"
-                                align: left
-                                # repeat: 2
-                                merge-bottom: true
-                                width: stretch
+                              - action:
+                                contents:
+                                  - row:
+                                    contents:
+                                      - field: speed
+                                        frame: none
+                                        control: speed
+                                        width: huge
+                                      - spacer:
+
+                          - section: "_{Actions}"
+                            contents:
+                              - list:
+                                zebra: true
+                                flex: true
+                                hr: true
+                                avoid-shade: true
+                                contents:
+                                  - repeat: 2
+                                    contents:
+                                      - action: template
+                                        contents:
+                                          - article:
+                                            lines: 2
+                                            reduce: 1
                       - g:
                         contents:
-                          - section: "Attacks"
+                          - zone: '@wild-shape/high'
+
+                          - section: "_{Attacks}"
                             contents:
                               - list:
                                 zebra: true
                                 hr: true
                                 flex: true
+                                avoid-shade: true
                                 contents:
+                                  - zone: '@wild-shape/attacks'
+
                                   - repeat: 3
                                     contents:
                                       - g:
                                         contents:
                                           - row:
                                             contents:
-                                              - field: animal-companion-attack-#{i}
+                                              - field: wild-shape-attack-#{i}
                                                 width: stretch
                                                 frame: none
                                                 align: left
@@ -128,28 +115,28 @@ inc:
                                             contents:
                                               - calc:
                                                 output:
-                                                  field: animal-companion-attack-#{i}-bonus
-                                                  label: "Attack Bonus"
+                                                  field: wild-shape-attack-#{i}-bonus
+                                                  label: "_{Attack Bonus}"
                                                   # width: large
                                                   attack: true
                                                   icon: bonus
                                                 inputs:
                                                   - field:
                                                     ref: true
-                                                    label: "Ability"
+                                                    label: "_{Ability}"
                                                     misc: true
                                                   - field:
                                                     control: proficiency
-                                                    label: "Proficiency"
-                                              - field: animal-companion-attack-#{i}-damage
+                                                    label: "_{Proficiency}"
+                                              - field: wild-shape-attack-#{i}-damage
                                                 border: full
-                                                label: "Damage"
+                                                label: "_{Damage}"
                                                 width: small
                                                 icon: damage
                                                 control: compound
                                                 parts:
                                                   - subid: ndice
-                                                    suffix: "d"
+                                                    suffix: "_{d}"
                                                   - subid: die
                                                     suffix: "+"
                                                   - subid: extra
@@ -157,7 +144,7 @@ inc:
                                               #   label: "Type"
                                           - row:
                                             contents:
-                                              - field: animal-companion-attack-#{i}-critical
+                                              - field: wild-shape-attack-#{i}-critical
                                                 # label: "Critical Effect"
                                                 frame: none
                                                 width: stretch
@@ -168,78 +155,146 @@ inc:
                     contents:
                       - g:
                         contents:
-                          - section: "Health"
+                          - section: "_{Health}"
                             contents:
                               - calc:
                                 output:
-                                  field: animal-companion-hp
-                                  legend: "Hit Points"
+                                  field: wild-shape-hp
+                                  legend: "_{Hit Points}"
                                   icon: hp
-                                  suffix: hp
+                                  suffix: "_{hp}"
                                   width: large
                                 inputs:
                                   - field:
-                                    label: "Ancestry"
+                                    label: "_{Ancestry}"
+                                    width: small
                                   - span: "+ ("
                                   - field:
                                     ref: CON
-                                    label: "CON"
-                                    underlay: "CON"
+                                    label: "_{CON}"
+                                    underlay: "_{CON}"
                                   - span: "+"
-                                  - field: animal-companion-hp-per-level
+                                  - field: wild-shape-hp-per-level
                                     underlay: "6"
                                     width: tiny
                                   - span: ") &times;"
                                   - field:
                                     ref: level
-                                    label: "Level"
+                                    label: "_{Level}"
+                                    width: small
                               - row:
                                 contents:
-                                  - field: animal-companion-current-hp
-                                    label: "Current hit points"
+                                  - field: wild-shape-current-hp
+                                    label: "_{Current hit points}"
                                     border: full
                                     temp: true
                                     icon: hp
                                     suffix: hp
                                     width: stretch
-                                  - field: animal-companion-temp-hp
-                                    label: "Temp hit points"
+                                  - field: wild-shape-temp-hp
+                                    label: "_{Temp hit points}"
                                     border: full
                                     temp: true
                                     suffix: hp
                                     width: large
                                 
-                          - section: "Defence"
+                          - section: "_{Defence}"
                             contents:
                               - calc:
                                 output:
-                                  field: "animal-companion-ac"
-                                  legend: "Armour Class"
+                                  field: "wild-shape-ac"
+                                  legend: "_{Armour Class}"
                                   icon: "ac"
                                   border: full
                                   width: large
-                                  underlay: "AC"
+                                  underlay: "_{AC}"
                                 inputs:
                                   - span: "10 +"
                                   - field:
-                                    ref: "DEX"
-                                    label: "DEX"
+                                    ref: DEX
+                                    label: "_{DEX}"
                                     # frame: h-label
-                                    underlay: "DEX"
-                                  - field: "animal-companion-ac-proficiency"
+                                    underlay: "_{DEX}"
+                                  - span: "+"
+                                  - field: "wild-shape-ac-proficiency"
                                     control: proficiency
-                                    label: "Proficiency"
+                                    label: "_{Proficiency}"
+                                    width: small
+                                  - span: "+"
                                   - field: armour-bonus
-                                    label: "Barding\nBonus"
-                                  - field:
-                                    misc: true
-                                    label: "Misc"
-                              - field: animal-companion-ac-conditional
-                                label: "Conditional"
+                                    label: "_{Barding\nBonus}"
+                                  # - field:
+                                  #   misc: true
+                                  #   label: "_{Misc}"
+                              - field: wild-shape-ac-conditional
+                                label: "_{Conditional}"
                                 width: stretch
                                 align: left
-                                repeat: 3
+                                repeat: 4
+                                reduce: 2
                                 merge-bottom: true
+                          - tail:
                       - g:
                         contents:
-                          - section: ""
+                          - section: "_{Saving Throws}"
+                            id: saving-throws
+                            contents:
+                              - table:
+                                columns:
+                                  - 
+                                  - 
+                                  - "_{Ability\nModifier}"
+                                  - "_{Proficiency}"
+                                  # - "_{Misc}"
+                                rows:
+                                  - save: fortitude
+                                    legend: "_{Fortitude}"
+                                    short: "_{FORT}"
+                                    ability: "_{CON}"
+                                    abilityid: CON
+                                  - save: reflex
+                                    legend: "_{Reflex}"
+                                    short: "_{REF}"
+                                    ability: "_{DEX}"
+                                    abilityid: DEX
+                                  # - save: will
+                                  #   legend: "_{Will}"
+                                  #   short: "_{WILL}"
+                                  #   ability: "_{WIS}"
+                                  #   abilityid: WIS
+                                template:
+                                  - calc:
+                                    output:
+                                      field: "wild-shape-#{save}"
+                                      legend: "#{legend}"
+                                      icon: bonus
+                                      border: full
+                                      width: large
+                                      underlay: "#{short}"
+                                    inputs:
+                                      - field:
+                                        label: "#{ability}"
+                                        underlay: "#{ability}"
+                                        ref: "#{abilityid}"
+                                      - field:
+                                        id: "#{save}-proficiency"
+                                        control: proficiency
+                                      # - field:
+                                      #   id: "#{save}-misc-bonus"
+                                      #   misc: true
+                              - field: wild-shape-saving-throws-conditional
+                                label: "_{Conditional}"
+                                align: left
+                                repeat: 3
+                                reduce: 1
+                                merge-bottom: true
+                                width: stretch
+                          - section: "_{Abilities}"
+                            contents:
+                              - field: wwild-shape-abilities
+                                width: stretch
+                                frame: none
+                                repeat: 4
+                                reduce: 2
+                                merge-bottom: true
+                          - tail:
