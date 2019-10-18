@@ -14,7 +14,7 @@ function parseCharacter(primary, request) {
   let attr = {
     name: false,
     game: 'pathfinder2',
-    theme: 'pathfinder',
+    theme: 'adventurer',
     language: 'en',
 
     ancestry: false,
