@@ -7,7 +7,7 @@ export let g = {
     contents: [],
     galign: 'justify',
     valign: 'center',
-    padg: false,
+    pad: false,
   },
   render(args, reg, doc) {
     const cls = elementClass('g', null, args, ['pad'], { 'galign': 'justify', 'valign': 'center' });
