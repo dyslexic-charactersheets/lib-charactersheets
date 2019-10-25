@@ -297,6 +297,8 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
     case 'footer':
     case 'img':
     case 'table':
+    case 'tr':
+    case 'td':
     case 'p':
     case 'span':
     case 'b':
@@ -311,9 +313,6 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
   mods.forEach((mod) => {
     switch (mod) {
       // global mods that don't need a prefix
-      // case 'align':
-      //     cls.push(``)
-      //     break;
       case 'shade':
       case 'lp':
       case 'optional':

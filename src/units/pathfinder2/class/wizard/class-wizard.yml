@@ -4,16 +4,16 @@ group: "_{Core Rulebook}"
 name: "_{Wizard}"
 
 form:
-  - option: wizard-school
+  - select: wizard/school
     name: "_{Arcane School}"
     max: 1
-  - option: wizard-thesis
+  - select: wizard/thesis
     name: "_{Arcane Thesis}"
     max: 1
-  - option: feat-wizard
+  - select: feat/wizard
     name: "_{Wizard Feats}"
-    max: 8
-    levels: 
+    max: 9
+    levels: [ 1, 2, 4, 6, 8, 10, 14, 16, 18, 20 ]
 
 require:
   - unit: weapon-spec/slow
@@ -60,25 +60,35 @@ inc:
                   - section: "_{Thesis}"
                     primary: true
                     contents:
-                      - field: thesis
-                        size: large
-                        width: stretch
-                        align: left
-                        label: "_{Title}"
-                        repeat: 3
-                        merge-bottom: true
-                      - hr:
-                      - field: thesis-details
-                        width: stretch
-                        align: left
-                        label: "_{Abstract}"
-                        repeat: 8
-                        merge-bottom: true
+                      - list:
+                        hr: true
+                        contents:
+                          - field: wizard-thesis-title
+                            size: large
+                            width: stretch
+                            align: left
+                            legend: "_{Title}"
+                            repeat: 3
+                            merge-bottom: true
+                          - zone: '@wizard/thesis'
+                            contents:
+                              - field: wizard-thesis
+                                size: large
+                                width: stretch
+                                align: left
+                                label: "_{Thesis Type}"
+                                merge-bottom: true
+                              - field: wizard-thesis-details
+                                width: stretch
+                                align: left
+                                frame: none
+                                repeat: 8
+                                merge-bottom: true
 
                   - section: "_{Specialisation}"
                     contents:
                       - field: wizard-school
-                        label: "_{School}"
+                        legend: "_{School}"
                         width: stretch
                         align: left
                       - h5: "_{School Power}"
@@ -155,4 +165,88 @@ inc:
                       
                   - tail:
 
+      - page: 'wizard-thesis'
+        order: 20
+        flex: true
+        landscape: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - spacer:
+                  - layout: 1e
+                    contents:
+                      - field: wizard-thesis-title
+                        width: stretch
+                        size: huge
+                        align: center
+                        legend: "_{Thesis}"
+                        repeat: 2
+                  - layout: 1n
+                    contents:
+                      - field: name
+                        width: stretch
+                        label: "_{by}"
+                        size: large
+                        align: center
 
+                  - spacer:
+                  - layout: 1n
+                    contents:
+                      - field: wizard-thesis-abstract
+                        width: stretch
+                        legend: "_{Abstract}"
+                        repeat: 10
+
+                  - spacer:
+                  - layout: 2e
+                    contents:
+                      - g:
+                        contents:
+                          - h6: "_{Introduction}"
+                          - field: wizard-thesis-p1-left
+                            width: stretch
+                            repeat: 10
+                            frame: none
+                      - field: wizard-thesis-p1-right
+                        width: stretch
+                        repeat: 11
+                        frame: none
+                
+              - g:
+                contents:
+                  - layout: 2e
+                    contents:
+                      - g:
+                        contents:
+                          - hr:
+                          - field: wizard-thesis-p2-left-high
+                            width: stretch
+                            frame: none
+                            repeat: 8
+                            merge-bottom: true
+                          - hr:
+                          - spacer:
+                          - p: "_{Fig. 1}"
+                          - hr:
+                          - field: wizard-thesis-p2-left-low
+                            width: stretch
+                            frame: none
+                            repeat: 16
+                      - g:
+                        contents:
+                          - hr:
+                          - field: wizard-thesis-p2-right-high
+                            width: stretch
+                            frame: none
+                            repeat: 16
+                            merge-bottom: true
+                          - hr:
+                          - spacer:
+                          - p: "_{Fig. 2}"
+                          - hr:
+                          - field: wizard-thesis-p2-right-low
+                            width: stretch
+                            frame: none
+                            repeat: 8

@@ -55,6 +55,19 @@ Handlebars.registerHelper('dataurlraw', function (filename, options) {
   return getDataURL(unit, filename);
 });
 
+Handlebars.registerHelper('embed', function (filename, options) {
+  // log("units", "Embed file", filename);
+  filename = path.normalize(`${__dirname}/../../${filename}`);
+
+  if (!fs.existsSync(filename)) {
+    warn("units", "File not found", filename);
+    return '';
+  }
+
+  var data = fs.readFileSync(filename, 'utf-8');
+  return data;
+});
+
 module.exports = {
   loadSystem: function (system, callback) {
     var unitsBase = __dirname + '/../units/' + system;
@@ -163,7 +176,13 @@ module.exports = {
         if (fs.existsSync(jsFile)) {
           load.javascripts.loadItem(jsFile, (data, filename) => {
             if (data != "") {
-              _units[unitid].js = data;
+              // log("units", `Templating JS for ${unitid}`);
+              var template = Handlebars.compile(data);
+              var rendered = template({
+                unit: unitid
+              });
+
+              _units[unitid].js = rendered;
             }
           });
         }

@@ -239,11 +239,18 @@ export function mergeBottom(element) {
         break;
 
       case 'row':
+      case 'td':
         element.contents.forEach(e => {
           e['merge-bottom'] = true;
         });
         break;
 
+      case 'tr':
+        element.cells.forEach(e => {
+          e['merge-bottom'] = true;
+        });
+        break;
+        
       case 'field':
         element['merge-bottom'] = true;
         break;

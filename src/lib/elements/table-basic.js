@@ -1,5 +1,6 @@
 import { isNull, has, elementClass } from '../util';
 import { log, warn } from '../log';
+import { mergeBottom } from '../classes/Registry';
 
 // Standard table
 export function renderTableBasic(args, reg, doc, headings, rows) {
@@ -15,6 +16,13 @@ export function renderTableBasic(args, reg, doc, headings, rows) {
     thead = `<thead>${tcols.join("\n")}</thead>\n`;
   }
 
+  // take care of the 'hr'
+  rows.forEach((row, i) => {
+    if (row.params.hasOwnProperty('hr') && row.params.hr) {
+      mergeBottom(rows[i - 1].cells);
+    }
+  });
+
   // cells
   // log("table", "Rows", rows);
   const trows = rows.map(row => {
@@ -27,10 +35,10 @@ export function renderTableBasic(args, reg, doc, headings, rows) {
       return `<td${cellCls}>${reg.renderItem(cell, doc)}</td>`;
     });
 
-    // log("table", "Table row class", row);
-    const rowCls = elementClass('tr', null, row, ['hr']);
+    const rowCls = elementClass('tr', null, row.params, ['hr']);
+    // log("table", "Table row class", row, rowCls);
     return `<tr${rowCls}>${cells.join("\n")}</tr>\n`;
-  })
+  });
 
   // put it all together
   const cls = elementClass('table', null, args, ['zebra', 'collapse', 'fixed'], ['width', 'layout']);

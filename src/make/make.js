@@ -8,6 +8,7 @@ const path = require('path');
 
 require('./log');
 const units = require('./units');
+const unitGen = require('./unitGen');
 const formdata = require('./formdata');
 const i18n = require('./i18n');
 
@@ -29,6 +30,8 @@ const systems = [
       name: "Premium Options"
     }
 ];
+
+unitGen.generateUnits();
 
 systems.forEach(system => {
     log("make", "Building "+system.name);
