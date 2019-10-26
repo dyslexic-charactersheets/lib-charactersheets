@@ -34,6 +34,7 @@ function generateUnits() {
         let skill = toKebabCase(value.skill);
         let lorename = value.lore;
         let loreskill = toKebabCase(lorename)+"-lore";
+        let feat = "feat/"+toKebabCase(value.feat);
         // log("unitGen", `Unit: ${id} - ${name}`);
 
         let unitfile = path.normalize(__dirname+'/../units/pathfinder2/'+id+'.yml');
@@ -42,6 +43,9 @@ function generateUnits() {
 in: background
 group: "_{${book}}"
 name: "_{${name}}"
+
+require:
+  - unit: ${feat}
 
 inc:
   - set: char-background

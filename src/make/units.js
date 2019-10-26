@@ -108,7 +108,6 @@ module.exports = {
           // console.log(excerpt);
         }
 
-        // reject();
         return;
       }
 
@@ -116,6 +115,10 @@ module.exports = {
         var unitid = unitdata.unit;
         unitdata.id = unitid;
         delete unitdata.unit;
+
+        var enabled = _.has(unitdata, "enabled") ? unitdata.enabled : true;
+        if (!enabled)
+          return;
 
         // log("units", "Loading unit", unitid, "-", unitdata.name);
 
