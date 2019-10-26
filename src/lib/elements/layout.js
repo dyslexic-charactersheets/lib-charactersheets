@@ -92,6 +92,14 @@ export let indent = {
           { type: 'g', contents: args.contents },
           { type: 'g' }
         ]
+
+      case false:
+        return [
+          {
+            type: 'g',
+            contents 
+          }
+        ];
     }
 
     return [

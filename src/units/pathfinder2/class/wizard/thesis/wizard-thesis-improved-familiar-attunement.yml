@@ -4,17 +4,67 @@ group: "_{Core Rulebook}"
 name: "_{Improved Familiar Attunement}"
 
 require:
-  - unit: feat/wizard/familiar
+  - unit: option/animal-companion
 
 inc:
+  - at: '@advancement'
+    add:
+      - level: 1
+        advance: "_{Familiar}"
+      - level: 6
+        advance: "_{Familiar Ability}"
+      - level: 12
+        advance: "_{Familiar Ability}"
+      - level: 18
+        advance: "_{Familiar Ability}"
+
   - at: '@wizard/thesis'
     replace:
-      - h4: "_{Improved Familiar Attunement}"
       - g:
         contents:
-      - level: 6
+          - label: "_{Thesis Type}"
+            align: left
+          - g:
+            pad: true
+            contents:
+              - h6: "_{Improved Familiar Attunement}"
+
+  - at: '@wizard/left'
+    add:
+      - section: "_{Familiar}"
         contents:
-      - level: 12
-        contents:
-      - level: 18
-        contents:
+          - list:
+            hr: true
+            contents:
+              - g:
+                contents:
+                  - paste: animal
+                    params:
+                      id: wizard-familiar
+                      name: "_{Familiar}"
+                      
+                  - level: 1
+                    contents:
+                      - field: wizard-familiar-level1-ability
+                        label: "_{Familiar Ability}"
+                        width: stretch
+                        merge-bottom: true
+
+              - level: 6
+                contents:
+                  - field: wizard-familiar-level6-ability
+                    label: "_{Familiar Ability}"
+                    width: stretch
+                    merge-bottom: true
+              - level: 12
+                contents:
+                  - field: wizard-familiar-level12-ability
+                    label: "_{Familiar Ability}"
+                    width: stretch
+                    merge-bottom: true
+              - level: 18
+                contents:
+                  - field: wizard-familiar-level18-ability
+                    label: "_{Familiar Ability}"
+                    width: stretch
+                    merge-bottom: true

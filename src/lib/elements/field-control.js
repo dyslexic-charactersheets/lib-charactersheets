@@ -219,6 +219,10 @@ export let field_control_checkbox = {
   render(args) {
     const ident = fieldIdent(args.id);
     const cls = elementClass("field", "control", args, [], ["control"]);
+    
+    if (args.value == "false") {
+      args.value = false;
+    }
     const checked = args.value ? ' checked' : '';
     return `<div${cls}><input type='checkbox'${checked}${ident.ident}><label${ident.for}></label></div>`;
   }

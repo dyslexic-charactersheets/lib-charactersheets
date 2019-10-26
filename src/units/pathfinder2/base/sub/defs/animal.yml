@@ -1,0 +1,82 @@
+unit: defs/animal
+
+inc:
+  - copy: animal
+    params:
+      id: animal-companion
+      name: "_{Animal Companion}"
+    contents:
+      - field: "#{id}-name"
+        label: "_{Name}"
+        width: stretch
+        size: large
+      - field: "#{id}-creature"
+        width: stretch
+        label: "_{Animal type}"
+
+      - table:
+        collapse: true
+        width: stretch
+        rows:
+          - cat: young
+            label: "_{Young}"
+            indent: false
+            checked: true
+            dmg: "1d_"
+          - cat: mature
+            label: "_{Mature}"
+            indent: false
+            checked: false
+            dmg: "2d_"
+            boost: "_{+1 Str, Dex, Con, Wis}"
+          - cat: nible
+            label: "_{Nimble}"
+            checked: false
+            indent: true
+            dmg: "+2"
+            boost: "_{+2 Dex, +1 Str, Con, Wis}"
+          - cat: savage
+            label: "_{Savage}"
+            checked: false
+            indent: true
+            dmg: "+3"
+            boost: "_{+2 Str, +1 Dex, Con, Wis}"
+        columns:
+          -
+          - "_{Damage}"
+          - "_{Advance}"
+        template:
+          # - indent: "#{indent}"
+          #   contents:
+          - field: "#{id}-#{cat}"
+            control: checkbox
+            frame: right
+            label: "#{label}"
+            indent: "#{indent}"
+            value: "#{checked}"
+          - field: "#{id}-#{cat}-dmg"
+            control: value
+            frame: none
+            value: "#{dmg}"
+          - p: "#{boost}"
+            align: left
+            exists: "#{boost}"
+
+      # - field: "#{id}-young"
+      #   control: checkbox
+      #   frame: right
+      #   label: "_{Young}"
+      # - field: "#{id}-mature"
+      #   control: checkbox
+      #   frame: right
+      #   label: "_{Mature}"
+      # - indent:
+      #   contents:
+      #     - field: "#{id}-nimble"
+      #       control: checkbox
+      #       frame: right
+      #       label: "_{Nimble}"
+      #     - field: "#{id}-savage"
+      #       control: checkbox
+      #       frame: right
+      #       label: "_{Savage}"

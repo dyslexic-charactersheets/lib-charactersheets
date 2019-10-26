@@ -17,6 +17,7 @@ export let field = {
     flex: false,
     'merge-bottom': false,
     label: false,
+    indent: false,
     value: null,
   },
   expect: ['icon'],
@@ -30,7 +31,7 @@ export let field = {
 
     const id = elementID('field', args.id);
     const cls = elementClass('field', null, args,
-      ["icon", "ref", "misc", "temp"],
+      ["icon", "ref", "misc", "temp", "indent"],
       { "frame": "normal", "width": "medium", "align": "centre", "size": "medium", "control": "input", "shift": 0, "lp": 0, "border": "bottom", "flex": false });
 
     const frameArgs = Object.assign({}, args, { type: 'frame:' + args.frame });
