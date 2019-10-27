@@ -84,11 +84,11 @@ function parseCharacter(primary, request) {
   Object.keys(attr).forEach(key => {
     let flag = toKebabCase(key);
 
-    if (key.match(/^option-/)) {
+    if (flag.match(/^option-/)) {
       let option = flag.replace(/^option-/, '');
       let ok = char.options[option] = !!attr[key];
+      log("Character", "Option", option, ok);
       if (ok) {
-        log("Character", "Option", option);
         char.units.push('option/' + option);
       }
     }
