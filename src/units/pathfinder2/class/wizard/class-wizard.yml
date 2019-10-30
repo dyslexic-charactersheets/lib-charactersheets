@@ -4,11 +4,11 @@ group: "_{Core Rulebook}"
 name: "_{Wizard}"
 
 form:
-  - select: wizard/school
-    name: "_{Arcane School}"
-    max: 1
   - select: wizard/thesis
     name: "_{Arcane Thesis}"
+    max: 1
+  - select: wizard/school
+    name: "_{Arcane School}"
     max: 1
   - select: feat/wizard
     name: "_{Wizard Feats}"
@@ -44,6 +44,20 @@ inc:
         label: "_{INT}"
         underlay: "_{INT}"
         ref: INT
+
+  - at: '@saving-throws'
+    add:
+      - level: 17
+        contents:
+          - paste: resolve
+
+  - at: '@actions'
+    add:
+      - action: free
+        contents:
+          - article:
+            title: "_{Drain Bonded Item}"
+            content: "_{Cast one spell you prepared and cast today, without spending a spell slot.}"
 
   - at: '@pages'
     add:
@@ -86,31 +100,29 @@ inc:
                                 merge-bottom: true
                   - zone: '@wizard/left'
 
-                  - section: "_{Specialisation}"
+                  - section: "_{Arcane School}"
                     contents:
                       - field: wizard-school
                         legend: "_{School}"
                         width: stretch
                         align: left
-                      - h5: "_{School Power}"
-                      - slots:
-                        min: 1
-                        max: 1
-                        placeholder:
-                          article:
-                          header:
-                            - field: wizard-feat-level-#{level}
-                              width: stretch
-                              frame: none
-                              align: left
-                          contents:
-                            - field: wizard-feat-level-#{level}-details
-                              width: stretch
-                              align: left
-                              frame: none
-                              repeat: 2
+                        size: large
+                      - zone: '@wizard/school'
                         contents:
-                          - zone: '@wizard-school-power'
+                          - level: "_{1st}"
+                            marker: ""
+                            contents:
+                              - field: wizard-school-bonus-spell
+                                label: "_{Extra Spell}"
+                                width: stretch
+                                align: left
+                                merge-bottom: true
+                          - hr:
+                          - h5: "_{School Spell}"
+                          - paste: focus
+                            contents:
+                              - article:
+                                lines: 2
 
                   - section: "_{Spellcasting}"
                     contents:
@@ -128,18 +140,25 @@ inc:
                           id: arcane-spell-dc
                           legend: "_{Arcane\nSpell DC}"
 
-                  - section: "_{Arcane Focus}"
+                  - section: "_{Arcane Bond}"
                     contents:
                       - field: wizard-arcane-focus-item
-                        label: "_{Focus Item}"
+                        label: "_{Bonded Item}"
                         width: stretch
                         align: left
-                      - action: free
+                      - zone: '@wizard/drain-bonded-item'
                         contents:
-                          - article:
-                            title: "_{Drain Arcane Focus}"
+                          - action: free
                             contents:
-                              - p: "_{Expend the power stored in your arcane focus to cast one spell you prepared and cast today, without spending a spell slot.}"
+                              - article:
+                                title: "_{Drain Bonded Item}"
+                                contents:
+                                  - layout: indent-r
+                                    contents:
+                                      - p: "_{Expend the power stored in your arcane bond to cast one spell you prepared and cast today, without spending a spell slot.}"
+                                      - field: wizard-drain-bonded-item-today
+                                        control: checkbox
+                                        label: "_{Used\ntoday}"
 
                   - tail:
 
@@ -148,6 +167,7 @@ inc:
                   - zone: '@wizard/right'
 
                   - section: "_{Cantrips}"
+                    flex: small
                     contents:
                       - spells-list:
                         min: 0
@@ -156,10 +176,25 @@ inc:
 
                   - section: "_{Spells}"
                     contents:
-                      - spells-list:
-                        min: 1
-                        max: 9
-                        spells: 4
+                      - list:
+                        hr: true
+                        zebra: true
+                        flatten: true
+                        avoid-shade: true
+                        contents:
+                          - spells-list:
+                            min: 1
+                            max: 9
+                            spells: 3
+                            style: prepared
+                            special: "_{School}"
+                            flex: huge
+                          - spells-list:
+                            min: 10
+                            max: 10
+                            spells: 1
+                            style: prepared
+                            flex: tiny
 
                   - paste: class-feats
                     params:

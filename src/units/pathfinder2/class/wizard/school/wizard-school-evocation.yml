@@ -1,0 +1,40 @@
+unit: wizard/school/evocation
+in: wizard/school
+group: "_{Core Rulebook}"
+name: "_{Evocation}"
+
+inc:
+  - set: wizard-school
+    value: "_{Evocation}"
+
+  - at: '@wizard/school'
+    replace:
+      - level: "_{1st}"
+        marker: ""
+        contents:
+          - field: wizard-school-bonus-spell
+            label: "_{Evocation Spell}"
+            width: stretch
+            align: left
+            merge-bottom: true
+      - hr:
+      - h5: "_{School Spell}"
+      - paste: focus
+        contents:
+          - article:
+            title: "_{Force Bolt}"
+            contents:
+              - action:
+                contents:
+                  - p: "_{Target one creature or object within 30ft.}"
+                  - calc:
+                    output:
+                      legend: "_{Damage}"
+                      width: huge
+                      overlay: "d4 + 1"
+                    inputs:
+                      - field:
+                        ref: level
+                        label: "_{Level}"
+                      - span: "&divide; 2"
+                    

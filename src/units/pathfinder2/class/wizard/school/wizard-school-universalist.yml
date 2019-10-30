@@ -1,0 +1,67 @@
+unit: wizard/school/universalist
+in: wizard/school
+group: "_{Core Rulebook}"
+name: "_{Universalist}"
+
+inc:
+  - set: wizard-school
+    value: "_{Universalist}"
+
+  - at: '@wizard/school'
+    replace:
+      - level: "_{1st}"
+        marker: ""
+        contents:
+          - field: wizard-school-bonus-spell
+            label: "_{Bonus Spell}"
+            width: stretch
+            align: left
+            merge-bottom: true
+      - hr:
+      - h5: "_{Bonus Feat}"
+      - article:
+        lines: 3
+      # - paste: focus
+      #   contents:
+      #     - article:
+      #       title: "_{Physical Boost}"
+      #       contents:
+      #         - action:
+      #           contents:
+      #             - p: "_{}"
+
+  - at: '@wizard/drain-bonded-item'
+    replace:
+      - action: free
+        contents:
+          - article:
+            title: "_{Drain Bonded Item}"
+            contents:
+              - p: "_{Expend the power stored in your arcane bond to cast one spell you prepared and cast today, without spending a spell slot.}"
+      - type: table
+        width: stretch
+        collapse: true
+        flip: true
+        rows:
+          - level: "_{1st}"
+          - level: "_{2nd}"
+          - level: "_{3rd}"
+          - level: "_{4th}"
+          - level: "_{5th}"
+          - level: "_{6th}"
+          - level: "_{7th}"
+          - level: "_{8th}"
+          - level: "_{9th}"
+          - level: "_{10th}"
+        # columns:
+        #   - 
+        #   -
+        template:
+          - level-marker:
+            level: "#{level}"
+            marker: ""
+          - field: "wizard-drain-bonded-item-#{i}"
+            control: checkbox
+            frame: none
+
+  

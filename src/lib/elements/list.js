@@ -1,4 +1,5 @@
-import { elementClass } from '../util';
+import { elementClass, has, isObject } from '../util';
+import { log } from '../log';
 
 export let list = {
   name: 'list',
@@ -14,6 +15,7 @@ export let list = {
     light: false,
     'merge-bottom': false,
     'avoid-shade': false,
+    flatten: false,
   },
   render(args, reg, doc) {
     if (args.zebra && args['avoid-shade']) {
@@ -23,46 +25,65 @@ export let list = {
     return `<div${cls}>${reg.render(args.contents, doc)}</div>`;
   },
   transform(args) {
-    if (args.columns == 1)
-      return false;
+    // transform columns into a grid of lists
+    if (args.columns > 1) {
+      // log("-",`[zone] Split into ${element.columns} columns`);
+      // log("-",`[zone] Contents:`, element.contents);
+      let cols = [];
+      if (args.flowv) {
+        for (let i = 0; i < args.columns; i++) {
+          cols.push([]);
+        }
+        let i = 0;
+        args.contents.forEach(element => {
+          cols[i].push(element);
+          i++;
+          if (i >= cols.length) i = 0;
+        });
+      } else {
+        const split = Math.ceil((args.contents.length + 0.0) / (args.columns + 0.0));
+        // log("-",`[zone] Split every ${element.contents.length} / ${element.columns} = ${split} items`);
 
-    // log("-",`[zone] Split into ${element.columns} columns`);
-    // log("-",`[zone] Contents:`, element.contents);
-    let cols = [];
-    if (args.flowv) {
-      for (let i = 0; i < args.columns; i++) {
-        cols.push([]);
+        for (let i = 0; i < args.columns; i++) {
+          const contents = args.contents.slice(i * split, (i + 1) * split);
+          cols.push(contents);
+        }
       }
-      let i = 0;
-      args.contents.forEach(element => {
-        cols[i].push(element);
-        i++;
-        if (i >= cols.length) i = 0;
-      });
-    } else {
-      const split = Math.ceil((args.contents.length + 0.0) / (args.columns + 0.0));
-      // log("-",`[zone] Split every ${element.contents.length} / ${element.columns} = ${split} items`);
 
-      for (let i = 0; i < args.columns; i++) {
-        const contents = args.contents.slice(i * split, (i + 1) * split);
-        cols.push(contents);
-      }
+      return [{
+        type: "layout",
+        layout: args.columns + "e",
+        flex: args.flex,
+        gutter: args.gutter,
+        'merge-bottom': args['merge-bottom'],
+        contents: cols.map(col => {
+          return {
+            ...args,
+            columns: 1,
+            contents: col
+          };
+        })
+      }];
     }
 
-    return [{
-      type: "layout",
-      layout: args.columns + "e",
-      flex: args.flex,
-      gutter: args.gutter,
-      'merge-bottom': args['merge-bottom'],
-      contents: cols.map(col => {
-        return {
-          ...args,
-          columns: 1,
-          contents: col
-        };
-      })
-    }];
+    // flatten lists
+    if (args.flatten) {
+      let flattened = false;
+      args.contents = args.contents.flatMap((item) => {
+        if (isObject(item) && has(item, "type") && item.type == "list") {
+          flattened = true;
+          return item.contents;
+        }
+        return [item];
+      });
+      
+      // log("list", "Flatten:", flattened);
+      if (flattened) {
+        return [args];
+      }
+    }
+  
+    return false;
   }
 }
 

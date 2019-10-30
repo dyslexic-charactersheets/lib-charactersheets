@@ -1,0 +1,36 @@
+unit: wizard/school/enchantment
+in: wizard/school
+group: "_{Core Rulebook}"
+name: "_{Enchantment}"
+
+inc:
+  - set: wizard-school
+    value: "_{Enchantment}"
+
+  - at: '@wizard/school'
+    replace:
+      - level: "_{1st}"
+        marker: ""
+        contents:
+          - field: wizard-school-bonus-spell
+            label: "_{Enchantment Spell}"
+            width: stretch
+            align: left
+            merge-bottom: true
+      - hr:
+      - h5: "_{School Spell}"
+      - paste: focus
+        contents:
+          - article:
+            title: "_{Charming Words}"
+            contents:
+              - action:
+                contents:
+                  - p: "_{Target must make a will save}"
+                  - dl:
+                    div: true
+                    defs:
+                      critical_success: "_{Target is unaffected}"
+                      success: "_{Target takes -1 to attack and damage against you}"
+                      failure: "_{Target cannot take hostile actions against you}"
+                      critical_failure: "_{Target is also stunned 1}"

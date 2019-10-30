@@ -118,7 +118,7 @@ export let article = {
         contents: contents,
         shade: false,
         annotation: args.annotation,
-        'merge-bottom': true,
+        'merge-bottom': args['merge-bottom'],
       };
 
       return [article];

@@ -69,7 +69,7 @@ export let field_frame_annotation = {
   name: 'frame:annotation',
   render(args, reg, doc) {
     const ident = fieldIdent(args.id);
-    const label = args.label ? `<label${ident.for}>${esc(__(args.label, doc), true)}</label>` : '';
+    const label = args.label ? `<label class='field__annotation'${ident.for}>${esc(__(args.label, doc), true)}</label>` : '';
     return `${label}${fieldInner(args, reg, doc)}`;
   }
 }

@@ -78,6 +78,7 @@ export let dl = {
         case 'success': term = "_{Success}"; break;
         case 'failure': term = "_{Failure}"; break;
         case 'critical_failure': term = "_{Critical Failure}"; break;
+        case 'sustain': term = "_{Sustain}"; break;
       }
       // log("p", "dl", term, termdef);
       return `<div><dt>${esc(__(term))}</dt><dd>${esc(__(termdef))}</dd></div> `;

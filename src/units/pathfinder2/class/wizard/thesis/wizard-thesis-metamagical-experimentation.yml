@@ -4,10 +4,39 @@ group: "_{Core Rulebook}"
 name: "_{Metamagical Experimentation}"
 
 inc:
+  - at: '@advancement'
+    add:
+      - level: 1
+        gain: "_{Metamagic feat}"
+      - level: 4
+        advance: "_{Daily metamagic feat}"
+
   - at: '@wizard/thesis'
     replace:
-      - h4: "_{Metamagical Experimentation}"
+      - g:
+        pad: true
+        contents:
+          - label: "_{Thesis Type}"
+            align: left
+          - h6: "_{Metamagical Experimentation}"
       - g:
         contents:
+          - h5: "_{Metamagic feat}"
+          - article:
+            lines: 3
       - level: 4
         contents:
+          - h5: "_{Daily metamagic feat}"
+          - article:
+            lines: 3
+            merge-bottom: false
+          - calc:
+            output:
+              field: wizard-metamagical-experimentation-feat-level
+              legend: "_{Feat Level}"
+              width: large
+            inputs:
+              - field:
+                ref: level
+                label: "_{Label}"
+              - "&divide; 2"
