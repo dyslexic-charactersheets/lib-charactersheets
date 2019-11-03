@@ -1,0 +1,78 @@
+unit: sorcerer/bloodline/angelic
+in: sorcerer/bloodline
+group: "_{Core Rulebook}"
+name: "_{Angelic}"
+
+inc:
+  - set: diplomacy-proficiency
+    value: trained
+  - set: religion-proficiency
+    value: trained
+
+  - set: sorcerer-bloodline
+    value: "_{Angelic}"
+  - set: spell-list
+    value: "_{Divine}"
+  - set: divine-spell-proficiency
+    value: trained
+
+  - at: '@sorcerer/bloodline'
+    replace:
+      - h4: "_{Angelic}"
+
+  - at: '@sorcerer/dcs'
+    replace:
+      - paste: divine-spell-dcs
+
+  - at: '@sorcerer/bloodline-spells'
+    replace:
+      - article:
+        title: "_{Angelic Halo}"
+        action: 1
+        right:
+          - paste: focus
+        contents:
+          - calc:
+            inline: true
+            output:
+              label: "_{Healing\nBonus}"
+            inputs:
+              - label: "_{Focus\nLevel}"
+              - span: "&times; 2"
+          - p: "_{Bonus to healing done.}"
+          
+      - selectable:
+        contents:
+          - h5: "_{Advanced}"
+          - article:
+            title: "_{Angelic Wings}"
+            action: 1
+            right:
+              - paste: focus
+            contents:
+              - p: "_{Wings let you fly at your usual speed for 3 rounds, and cast bright light.}"
+              - hr:
+              - level: 5
+                contents:
+                  - p: "_{Duration increases to 1 minute.}"
+      - selectable:
+        contents:
+          - h5: "_{Greater}"
+          - article:
+            title: "_{Celestial Brand}"
+            action: 1
+            right:
+              - paste: focus
+            contents:
+              - p: "_{A symbol appears on one target. You and allies gain a bonus to attacks and saves against that target, and +1d4 damage.}"
+              - calc:
+                inline: true
+                output:
+                  label: "_{Brand\nBonus}"
+                inputs:
+                  - label: "_{Focus\nLevel}"
+                  - span: "&divide; 2"
+      
+  - at: '@sorcerer/blood-magic'
+    replace:
+      - p: "_{+1 to saves for you or one other}"

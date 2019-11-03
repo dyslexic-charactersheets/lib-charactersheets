@@ -75,23 +75,7 @@ inc:
                     contents:
                       - class-icon: sorcerer
 
-                  - h2: "_{Sorcerer}"
-
-                  - section: "_{Bloodline}"
-                    primary: true
-                    contents:
-                      - zone: '@sorcerer-bloodline'
-                        contents:
-                          - field: sorcerer-bloodline
-                            size: large
-                            width: stretch
-                            frame: none
-                            merge-bottom: true
-                      - hr:
-                      - field: spell-list
-                        label: "_{Spell List}"
-                        width: stretch
-                        merge-bottom: true
+                  - class-name: "_{Sorcerer}"
 
                   - section: "_{Spellcasting}"
                     contents:
@@ -99,15 +83,10 @@ inc:
                         spells-today: true
                         expanded: "_{Signature Spell}"
                         
-                      - paste: spell-attack
-                        params:
-                          id: primal-spell-attack
-                          legend: "_{Primal\nSpell Attack}"
-                        
-                      - paste: spell-dc
-                        params:
-                          id: primal-spell-save-dc
-                          legend: "_{Primal Spell\nSave DC}"
+                      - zone: '@sorcerer/dcs'
+                        contents:
+                          - paste: spell-attack
+                          - paste: spell-dc
 
                       - hr:
                       - level: 3
@@ -120,45 +99,93 @@ inc:
                         hr: true
                         zebra: true
                         contents:
-                          - zone: '@bloodline-spells'
+                          - zone: '@sorcerer/bloodline-spells'
                             contents:
-                              - action: template
-                                contents:
-                                  - article: sorcerer-bloodline-spell
-                                    lines: 1
+                              - article: sorcerer-bloodline-spell
+                                lines: 3
+                                action: template
+                                right:
+                                  - paste: focus-marker
                               - selectable:
                                 contents:
-                                  - action: template
-                                    contents:
-                                      - h5: "_{Advanced}"
-                                      - article: sorcerer-bloodline-spell-advanced
-                                        lines: 1
+                                  - h5: "_{Advanced}"
+                                  - article: sorcerer-bloodline-spell-advanced
+                                    lines: 3
+                                    action: template
+                                    right:
+                                      - paste: focus-marker
                               - selectable:
                                 contents:
-                                  - action: template
-                                    contents:
-                                      - h5: "_{Greater}"
-                                      - article: sorcerer-bloodline-greater
-                                        lines: 1
-
-                  - section: "_{Blood Magic}"
-                    contents:
-                      - zone: '@blood-magic'
-                        contents:
-                          - field: blood-magic
-                            frame: none
-                            repeat: 3
-                            width: stretch
-                            merge-bottom: true
+                                  - h5: "_{Greater}"
+                                  - article: sorcerer-bloodline-greater
+                                    lines: 3
+                                    action: template
+                                    right:
+                                      - paste: focus-marker
+                          - g:
+                            contents:
+                              - h5: "_{Blood Magic}"
+                              - zone: '@sorcerer/blood-magic'
+                                contents:
+                                  - field: blood-magic
+                                    frame: none
+                                    repeat: 2
+                                    width: stretch
+                                    merge-bottom: true
 
                   - tail:
-                  - spacer:
+                  # - spacer:
 
               - g:
                 contents:
 
-                  - section: "_{Cantrips}"
+                  - section: "_{Bloodline}"
+                    primary: true
                     flex: tiny
+                    contents:
+                      # - zone: '@sorcerer/bloodline'
+                      #   contents:
+                      #     - field: sorcerer-bloodline
+                      #       size: large
+                      #       width: stretch
+                      #       frame: none
+                      #       merge-bottom: true
+                      # - hr:
+                      # - row:
+                      #   contents:
+                      #     - field: spell-list
+                      #       label: "_{Spell List}"
+                      #       width: stretch
+                      #       frame: annotation
+                      #       merge-bottom: true
+                      #     - field: spell-list-page
+                      #       control: ref
+                      #       frame: none
+                      #       merge-bottom: true
+
+                            
+                      - layout: 2e
+                        contents:
+                          - zone: '@sorcerer/bloodline'
+                            contents:
+                              - field: sorcerer-bloodline
+                                size: large
+                                width: stretch
+                                frame: none
+                                merge-bottom: true
+                          # - g:
+                          #   contents:
+                          - field: spell-list
+                            label: "_{Spell List}"
+                            width: stretch
+                                # frame: annotation
+                              # - field: spell-list-page
+                              #   control: ref
+                              #   frame: none
+                              #   merge-bottom: true
+
+                  - section: "_{Cantrips}"
+                    flex: small
                     contents:
                       - spells-list:
                         min: 0
@@ -171,6 +198,9 @@ inc:
                     contents:
                       - list:
                         hr: true
+                        avoid-shade: true
+                        zebra: true
+                        flatten: true
                         contents:
                           - spells-list:
                             min: 1
@@ -190,6 +220,8 @@ inc:
                     params:
                       id: sorcerer-feats
                       title: "_{Sorcerer Feats}"
+                      extra: 0
+                      lines: 1
                   - tail:
 
 

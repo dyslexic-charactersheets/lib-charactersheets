@@ -1,4 +1,4 @@
-import { elementID, elementClass, isEmpty } from '../util';
+import { elementID, elementClass, isEmpty, embed } from '../util';
 import { __ } from '../i18n';
 import { log } from '../log';
 
@@ -20,6 +20,10 @@ export let article = {
     'show-cat': false,
     'show-level': false,
     lines: 2,
+
+    left: false,
+    right: false,
+    action: false,
   },
   transform(args, ctx) {
     if (isEmpty(args.header) || isEmpty(args.contents)) {
@@ -109,6 +113,33 @@ export let article = {
             'merge-bottom': args['merge-bottom']
           });
         }
+      }
+
+      if (args.action && !args.left) {
+        args.left = { type: 'icon', icon: (args.action == 1 ? 'action' : 'action'+args.action) };
+      }
+
+      if (args.left || args.right) {
+        let layout = '';
+
+        if (args.left && args.right) {
+          layout = 'indent-lr';
+          contents = [embed(args.left), embed(contents), embed(args.right)];
+        } else if (args.left) {
+          layout = 'indent-l';
+          contents = [embed(args.length), embed(contents)];
+        } else if (args.right) {
+          layout = 'indent-r';
+          contents = [embed(contents), embed(args.right)];
+        }
+
+        contents = [
+          {
+            type: 'layout',
+            layout: layout,
+            contents
+          }
+        ];
       }
 
       const article = {

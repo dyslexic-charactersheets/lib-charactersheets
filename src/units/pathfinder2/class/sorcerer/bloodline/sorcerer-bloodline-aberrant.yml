@@ -1,0 +1,99 @@
+unit: sorcerer/bloodline/aberrant
+in: sorcerer/bloodline
+group: "_{Core Rulebook}"
+name: "_{Aberrant}"
+
+inc:
+  - set: intimidation-proficiency
+    value: trained
+  - set: occultism-proficiency
+    value: trained
+
+  - set: sorcerer-bloodline
+    value: "_{Aberrant}"
+  - set: spell-list
+    value: "_{Occult}"
+  - set: occult-spell-proficiency
+    value: trained
+
+  - at: '@sorcerer/bloodline'
+    replace:
+      - h4: "_{Aberrant}"
+
+  - at: '@sorcerer/dcs'
+    replace:
+      - paste: occult-spell-dcs
+
+  - at: '@sorcerer/bloodline-spells'
+    replace:
+      - article:
+        title: "_{Tentacular Limbs}"
+        action: 1
+        right:
+          - paste: focus-marker
+        contents:
+          - p: "_{Tentacles can make touch spells and unarmed strikes.}"
+          - calc:
+            inline: true
+            output:
+              label: "_{Tentacle\nReach}"
+            inputs:
+              - span: "("
+              - label: "_{Focus\nLevel}"
+              - span: "&divide; 2"
+              - span: ") &times; 10ft"
+
+      - selectable:
+        contents:
+          - h5: "_{Advanced}"
+          - article:
+            title: "_{Aberrant Whispers}"
+            action: 1
+            right:
+              - paste: focus-marker
+            contents:
+              - calc:
+                inline: true
+                output:
+                  label: "_{Spell\nRange}"
+                inputs:
+                  - span: "("
+                  - label: "_{Focus\nLevel}"
+                  - span: "&divide; 3 +"
+                  - icon: action2nd
+                  - span: ") &times; 5ft"
+              - p: "_{Targets must make a will save.}"
+              - dl:
+                div: true
+                defs:
+                  success: "_{No effect}"
+                  failure: "_{Stupefied 2}"
+                  critical_failure: "_{Confused}"
+
+      - selectable:
+        contents:
+          - h5: "_{Greater}"
+          - article:
+            title: "_{Unusual Anatomy}"
+            action: 1
+            right:
+              - paste: focus-marker
+            contents:
+              - calc:
+                inline: true
+                output:
+                  label: "_{Damage\nResistance}"
+                inputs:
+                  - span: "("
+                  - label: "_{Focus\nLevel}"
+                  - span: "&divide; 2 + 1"
+                  - span: ") &times; 5ft"
+              - ul:
+                contents:
+                  - li: "_{Resistance to precision and critical hit damage}"
+                  - li: "_{Darkvision}"
+                  - li: "_{2d6 return damage when hit in melee}"
+
+  - at: '@sorcerer/blood-magic'
+    replace:
+      - p: "_{Grant yourself or one other +2 to Will saves.}"

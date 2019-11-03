@@ -1,5 +1,5 @@
-import { elementClass, esc } from '../util';
-import { __ } from '../i18n';
+import { elementClass } from '../util';
+import { __, _e } from '../i18n';
 
 export let ruby = {
   name: 'ruby',
@@ -11,6 +11,38 @@ export let ruby = {
   },
   render(args, reg, doc) {
     const cls = elementClass('ruby', null, args, [], { 'align': 'center' });
-    return `<div${cls}><label class='ruby__text'>${esc(__(args.ruby))}</label>${reg.render(args.contents, doc)}</div>`;
+    return `<div${cls}><label class='ruby__text'>${_e(args.ruby)}</label>${reg.render(args.contents, doc)}</div>`;
+  }
+}
+
+export let ruby_round_down = {
+  name: 'ruby-round-down',
+  defaults: {
+    contents: []
+  },
+  transform(args) {
+    return [
+      {
+        type: 'ruby',
+        ruby: '_{(Round down)}',
+        contents: args.contents
+      }
+    ];
+  }
+}
+
+export let ruby_round_up = {
+  name: 'ruby-round-up',
+  defaults: {
+    contents: []
+  },
+  transform(args) {
+    return [
+      {
+        type: 'ruby',
+        ruby: '[b]_{(Round up)}[/b]',
+        contents: args.contents
+      }
+    ];
   }
 }

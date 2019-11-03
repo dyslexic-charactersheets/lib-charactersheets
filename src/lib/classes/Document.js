@@ -2,7 +2,8 @@ const Handlebars = require('handlebars');
 
 import { log, warn } from '../log';
 import { applyContext } from '../context';
-import { clone, esc, replaceColours, has, isArray } from '../util';
+import { clone, replaceColours, has, isArray } from '../util';
+import { esc, _e } from '../i18n';
 
 export class Document {
   constructor(baseUnit) {

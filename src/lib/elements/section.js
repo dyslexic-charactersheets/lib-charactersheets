@@ -1,5 +1,5 @@
-import { elementClass, esc, elementID } from '../util';
-import { __ } from '../i18n';
+import { elementClass, elementID } from '../util';
+import { __, _e } from '../i18n';
 
 export let section = {
   name: 'section',
@@ -16,7 +16,7 @@ export let section = {
     const id = elementID('section', args.id);
     const cls = elementClass('section', null, args, ['primary', 'fill', 'untitled'], { flex: 'medium' });
 
-    const title = args.untitled ? '' : `<h3>${esc(__(args.title, doc))}</h3>`;
+    const title = args.untitled ? '' : `<h3>${_e(args.title, doc)}</h3>`;
     const content = `<div class='section__inner'>${reg.render(args.contents, doc)}</div>`;
 
     return `<section${id}${cls}>${title}

@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { fieldIdent, fieldRadioIdent, fieldDefaults } from './field';
-import { elementClass, has, isArray, esc } from '../util';
-import { __ } from '../i18n';
+import { elementClass, has, isArray } from '../util';
+import { __, _e } from '../i18n';
 
 function defaultControlRender (args, reg, doc) {
   args = Object.assign({
@@ -77,11 +77,40 @@ export let field_control_value = {
     const suffix = args.suffix ? `<span class='field__overlay'>${__(args.suffix, doc)}</span>` : '';
     const underlay = args.underlay ? `<u>${__(args.underlay, doc)}</u>` : '';
 
-    const value = `<span>${esc(__(args.value))}</span>`;
+    const value = `<span>${_e(args.value)}</span>`;
 
     return `${prefix}<div${cls}>${value}${underlay}</div>${suffix}`;
   }
 };
+
+export let field_control_ref = {
+  name: 'control:ref',
+  defaults: {
+    icon: "book",
+    width: "huge"
+  },
+  render(args, reg, doc) {
+    let id = args.id;
+    args.parts = [
+      {
+        type: "field",
+        id: `${id}-book`,
+        width: "large"
+      },
+      {
+        type: "span",
+        content: "_{p}"
+      },
+      {
+        type: "field",
+        id: `${id}-page`,
+        width: "large",
+        align: "left"
+      }
+    ];
+    return renderCompoundControl(args, reg, doc);
+  }
+}
 
 export let field_control_speed = {
   name: 'control:speed',

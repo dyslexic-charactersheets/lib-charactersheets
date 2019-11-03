@@ -1,5 +1,5 @@
-import { elementClass, esc } from '../util';
-import { __ } from '../i18n';
+import { elementClass } from '../util';
+import { __, _e } from '../i18n';
 
 export let label = {
   name: 'label',
@@ -11,6 +11,6 @@ export let label = {
   },
   render(args, reg, doc) {
     const cls = elementClass('label', null, args, ["rotate"], {"align": ""});
-    return `<label${cls}>${esc(__(args.label, doc), true)}</label>`;
+    return `<label${cls}>${_e(args.label, doc)}</label>`;
   }
 }

@@ -166,20 +166,6 @@ export function has(container, property) {
   return Object.prototype.hasOwnProperty.call(container, property) && !isNull(container[property]);
 }
 
-// Escape strings for HTML
-export function esc(content, newlines = false) {
-  content = content.replace(/#{.*?}/g, '');
-  content = _.escape(content);
-  content = content.replace(/’/g, '&rsquo;').replace(/‘/g, '&lsquo;');
-  content = content.replace(/—/g, '&mdash;');
-  content = content.replace(/&amp;(.+);/, '&$1;');
-
-  if (newlines) {
-    content = content.replace(/[\n\r]+/g, '<br>');
-  }
-  return content;
-}
-
 export function elementID(element, id = null) {
   if (id === null || id == '' || id == 'null') {
     return '';
@@ -241,6 +227,21 @@ export function toTitleCase(str) {
   let words = str.split(' ');
   words = words.map(word => word.charAt(0).toUpperCase() + word.substr(1).toLowerCase());
   return words.join(' ');
+}
+
+export function embed(contents) {
+  if (isArray(contents)) {
+    if (contents.length == 1) {
+      return contents[0];
+    } else {
+      return { type: 'g', contents };
+    }
+  }
+  if (isObject(contents) && has(contents, "type")) {
+    return contents;
+  }
+  warn("util", "Embed: unknown element!");
+  return contents;
 }
 
 export function clone(original) {

@@ -8,19 +8,37 @@ inc:
     value: trained
   - set: religion-proficiency
     value: trained
+    
   - set: sorcerer-bloodline
     value: "_{Diabolic}"
   - set: spell-list
     value: "_{Divine}"
+  - set: primal-spell-proficiency
+    value: trained
 
-  - at: '@sorcerer-bloodline'
+  - at: '@sorcerer/bloodline'
     replace:
       - h4: "_{Diabolic}"
 
-  - at: '@bloodline-spells'
+  - at: '@sorcerer/dcs'
+    replace:
+      - paste: spell-attack
+        params:
+          id: primal-spell-attack
+          legend: "_{Primal\nSpell\nAttack}"
+        
+      - paste: spell-dc
+        params:
+          id: primal-spell-save-dc
+          legend: "_{Primal Spell\nSave DC}"
+
+  - at: '@sorcerer/bloodline-spells'
     replace:
       - article:
         title: "_{Diabolic Edict}"
+        action: 1
+        right:
+          - paste: focus
         content: "_{Issue an edict, demanding a target perform a task and offering rewards for its fulfillment.}"
 
       - selectable:
@@ -28,6 +46,9 @@ inc:
           - h5: "_{Advanced}"
           - article:
             title: "_{Embrace The Pit}"
+            action: 1
+            right:
+              - paste: focus
             content: "_{Take on a diabilical appearance, and gain resistance to fire and evil, and weaknesses to good damage.}"
 
       - selectable:
@@ -35,9 +56,12 @@ inc:
           - h5: "_{Greater}"
           - article:
             title: "_{Hellfire Plume}"
+            action: 1
+            right:
+              - paste: focus
             content: "_{Call forth a plume of hellfire from below.}"
 
-  - at: '@blood-magic'
+  - at: '@sorcerer/blood-magic'
     replace:
       - ul:
         contents:

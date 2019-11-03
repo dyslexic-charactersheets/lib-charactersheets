@@ -30,7 +30,7 @@ import { portrait } from '../elements/portrait';
 import { proficiency, action, selectable } from '../elements/proficiency';
 import { repeat } from '../elements/repeat';
 import { row } from '../elements/row';
-import { ruby } from '../elements/ruby';
+import { ruby, ruby_round_down, ruby_round_up } from '../elements/ruby';
 import { section } from '../elements/section';
 import { sort } from '../elements/sort';
 import { slots } from '../elements/slots';
@@ -55,6 +55,7 @@ import {
 import {
   field_control_input,
   field_control_value,
+  field_control_ref,
   field_control_speed,
   field_control_alignment,
   field_control_boost,
@@ -105,7 +106,7 @@ export class Registry {
       proficiency, action, selectable,
       repeat,
       row,
-      ruby,
+      ruby, ruby_round_up, ruby_round_down,
       section,
       sort,
       slots,
@@ -129,6 +130,7 @@ export class Registry {
       field_frame_circle,
       field_control_input,
       field_control_value,
+      field_control_ref,
       field_control_speed,
       field_control_alignment,
       field_control_boost,

@@ -1,0 +1,139 @@
+unit: sorcerer/bloodline/demonic
+in: sorcerer/bloodline
+group: "_{Core Rulebook}"
+name: "_{Demonic}"
+
+inc:
+  - set: intimidation-proficiency
+    value: trained
+  - set: religion-proficiency
+    value: trained
+
+  - set: sorcerer-bloodline
+    value: "_{Demonic}"
+  - set: spell-list
+    value: "_{Divine}"
+  - set: divine-spell-proficiency
+    value: trained
+
+  - at: '@sorcerer/bloodline'
+    replace:
+      - h4: "_{Demonic}"
+
+  - at: '@sorcerer/dcs'
+    replace:
+      - paste: divine-spell-dcs
+
+  - at: '@sorcerer/bloodline-spells'
+    replace:
+      - article:
+        title: "_{Glutton's Jaws}"
+        action: 1
+        right:
+          - paste: focus
+        contents:
+          - p: "_{Jaws deal 1d8 damage, and grant temporary hit points.}"
+          - calc:
+            inline: true
+            output:
+              label: "_{Temporary\nHit Points}"
+            inputs:
+              - span: "("
+              - label: "_{Focus\nLevel}"
+              - span: "&divide; 2 )"
+              - span: "&times; d6"
+          
+      - selectable:
+        contents:
+          - h5: "_{Advanced}"
+          - article:
+            title: "_{Swamp of Sloth}"
+            action: 1
+            right:
+              - paste: focus
+            contents:
+              - calc:
+                inline: true
+                output:
+                  label: "_{Burst\nRadius}"
+                inputs:
+                  - span: "("
+                  - label: "_{Focus\nLevel}"
+                  - span: "&divide; 2 +"
+                  - icon: action2nd
+                  - span: ") &times; 5ft"
+              - p: "_{Ground in the area turns a fetid swamp filled with sludge beasts that deal acid damage to anyone ending their turn in the area.}"
+              - hr:
+                light: true
+              - calc:
+                inline: true
+                output:
+                  label: "_{Acid\nDamage}"
+                inputs:
+                  - span: "("
+                  - label: "_{Focus\nLevel}"
+                  - span: "&divide; 2 )"
+                  - span: "&times; d6"
+
+              - row:
+                contents:
+                  - h5: "_{FORT}"
+                  - icon: save-crit-succeed
+                  - p: "0"
+                  - icon: save-succeed
+                  - p: "&frac12;"
+                  - icon: save-fail
+                  - p: "1 &times;"
+                  - icon: save-crit-fail
+                  - p: "2 &times;"
+
+      - selectable:
+        contents:
+          - h5: "_{Greater}"
+          - article:
+            title: "_{Abyssal Wrath}"
+            action: 2
+            right:
+              - paste: focus
+            contents:
+              - table:
+                collapse: true
+                columns:
+                  - "_{1d4}"
+                  - "_{Realm}"
+                  - "_{Damage types}"
+                rows:
+                  - i: 1
+                    realm: "_{Skies}"
+                    damage: "_{Bludgeoning, electricity}"
+                  - i: 2
+                    realm: "_{Depths}"
+                    damage: "_{Slashing, acid}"
+                  - i: 3
+                    realm: "_{Frozen}"
+                    damage: "_{Bludgeoning, cold}"
+                  - i: 4
+                    realm: "_{Volcanic}"
+                    damage: "_{Piercing, fire}"
+                template:
+                  - h6: "#{i}"
+                  - h6: "#{realm}"
+                  - h6: "#{damage}"
+              - hr:
+                light: true
+              - calc:
+                inline: true
+                output:
+                  label: "_{Damage}"
+                inputs:
+                  - span: "("
+                  - label: "_{Focus\nLevel}"
+                  - span: "+ 3"
+                  - span: ") &times; d6"
+      
+  - at: '@sorcerer/blood-magic'
+    replace:
+      - ul:
+        contents:
+          - li: "_{EITHER a target takes -1 to AC for 1 round}"
+          - li: "_{OR you gain +1 to intimidation checks for 1 round}"

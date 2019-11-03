@@ -4,9 +4,10 @@ export let hr = {
   name: 'hr',
   defaults: {
     swash: false,
+    light: false,
   },
   render(args) {
-    const cls = elementClass('hr', null, args, ['swash']);
+    const cls = elementClass('hr', null, args, ['swash', 'light']);
     return `<hr${cls}>`;
   }
 }

@@ -1,4 +1,4 @@
-import { elementClass, getLabelHeight, isString } from '../util';
+import { elementClass, getLabelHeight, getRubyHeight, isString } from '../util';
 
 export let calc = {
   name: 'calc',
@@ -11,10 +11,11 @@ export let calc = {
     pad: false,
   },
   render(args, reg, doc) {
-    args.labelHeight = getLabelHeight(args);
+    args.lp = getLabelHeight(args);
+    args.rb = getRubyHeight(args);
 
     args.calc = true;
-    const cls = elementClass('row', null, args, ["calc", "inline", "labelHeight", "pad"], { 'layout': 'center' });
+    const cls = elementClass('row', null, args, ["calc", "inline", "pad"], { 'layout': 'center', 'lp': '', 'rb': '' });
 
     // parts of the calculation
     const outputPart = Object.assign({

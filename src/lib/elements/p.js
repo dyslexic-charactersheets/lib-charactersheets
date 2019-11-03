@@ -1,6 +1,6 @@
-import { elementClass, esc, isEmpty } from '../util';
+import { elementClass, isEmpty } from '../util';
 import { log, error } from '../log';
-import { __ } from '../i18n';
+import { __, _e } from '../i18n';
 
 export let p = {
   name: 'p',
@@ -22,7 +22,7 @@ export let p = {
       size: 'small'
     }, doc) : '';
 
-    return `<p${cls}>${icon}${esc(__(args.content, doc), true)}</p>`;
+    return `<p${cls}>${icon}${_e(args.content, doc)}</p>`;
   }
 }
 
@@ -44,7 +44,6 @@ export let li = {
     contents: '',
   },
   render(args, reg, doc) {
-    // return `<li>${esc(__(args.content, doc), true)}</li>`;
     if (isEmpty(args.contents) && !isEmpty(args.content)) {
       args.contents = [
         {
@@ -81,7 +80,7 @@ export let dl = {
         case 'sustain': term = "_{Sustain}"; break;
       }
       // log("p", "dl", term, termdef);
-      return `<div><dt>${esc(__(term))}</dt><dd>${esc(__(termdef))}</dd></div> `;
+      return `<div><dt>${_e(term, doc)}</dt><dd>${_e(termdef, doc)}</dd></div> `;
     });
 
     const dlCls = elementClass('dl', null, args, ['div']);

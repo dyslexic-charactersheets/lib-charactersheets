@@ -45,6 +45,8 @@ const expansion = {
     repeat: 'repeat',
     row: 'layout',
     ruby: 'ruby',
+    'ruby-round-up': '',
+    'ruby-round-down': '',
     section: 'title',
     sort: 'orderby',
     slots: 'slots',

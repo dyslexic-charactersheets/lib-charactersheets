@@ -1,11 +1,11 @@
-import { elementClass, esc, isEmpty } from '../util';
-import { __ } from '../i18n';
+import { elementClass, isEmpty } from '../util';
+import { __, _e } from '../i18n';
 
 function renderHeading(h) {
   return (args, reg, doc) => {
     // log("headings", "elementClass:", args);
     const cls = elementClass(h, null, args, ['fade', 'bold'], { 'align': '' });
-    return `<${h}${cls}>${esc(__(args.title, doc), true)}</${h}>`
+    return `<${h}${cls}>${_e(args.title, doc)}</${h}>`
   }
 }
 
@@ -57,16 +57,16 @@ export let class_name = {
   defaults: {
     title: '',
     preface: '',
-    affix: '',
+    suffix: '',
     contents: [],
     flex: 'medium',
   },
   render(args, reg, doc) {
-    const preface = isEmpty(args.preface) ? '' : `<h5>${esc(__(args.preface), true)}</h5>`;
-    const name = `<h2>${esc(__(args.title), true)}</h2>`;
-    const affix = isEmpty(args.affix) ? '' : `<h5>${esc(__(args.affix), true)}</h5>`;
+    const preface = isEmpty(args.preface) ? '' : `<h5>${_e(args.preface, doc)}</h5>`;
+    const name = `<h2>${_e(args.title, doc)}</h2>`;
+    const suffix = isEmpty(args.suffix) ? '' : `<h5>${_e(args.suffix, doc)}</h5>`;
 
     const cls = elementClass('class-name', null, args, [], { flex: 'medium' });
-    return `<div${cls}>${preface}${name}${affix}${reg.render(args.contents, doc)}</div>`;
+    return `<div${cls}>${preface}${name}${suffix}${reg.render(args.contents, doc)}</div>`;
   }
 }
