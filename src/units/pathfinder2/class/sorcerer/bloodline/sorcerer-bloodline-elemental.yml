@@ -1,0 +1,107 @@
+unit: sorcerer/bloodline/elemental
+in: sorcerer/bloodline
+group: "_{Core Rulebook}"
+name: "_{Elemental}"
+
+inc:
+  - set: intimidation-proficiency
+    value: trained
+  - set: nature-proficiency
+    value: trained
+
+  - set: sorcerer-bloodline
+    value: "_{Elemental}"
+  - set: spell-list
+    value: "_{Primal}"
+  - set: primal-spell-proficiency
+    value: trained
+
+  - at: '@sorcerer/bloodline'
+    replace:
+      - h4: "_{Elemental}"
+
+  - at: '@sorcerer/dcs'
+    replace:
+      - paste: primal-spell-dcs
+
+  - at: '@sorcerer/bloodline-spells'
+    replace:
+      - g:
+        contents:
+          - field: sorcerer/bloodline/elemental/elemental-type
+            width: stretch
+            legend: "_{Elemental Type}"
+            merge-bottom: true
+
+      - article:
+        title: "_{Elemental Toss}"
+        action: 1
+        right:
+          - paste: focus
+        contents:
+          - p: "_{Make a spell attack roll.}"
+          - calc:
+            inline: true
+            output:
+              label: "_{Breath\nDamage}"
+            inputs:
+              - label: "_{Focus\nLevel}"
+              - span: " &times; _{d8}"
+          
+      - selectable:
+        contents:
+          - h5: "_{Advanced}"
+          - article:
+            title: "_{Elemental Motion}"
+            action: 2
+            right:
+              - paste: focus
+            contents:
+              - list:
+                hr: true
+                light: true
+                contents:
+                  - row:
+                    merge-bottom: true
+                    contents:
+                      - field: sorcerer/bloodline/elemental/motion-speed
+                        control: speed
+                        label: "_{Speed}"
+                        width: huge
+                      - field: sorcerer/bloodline/elemental/motion
+                        width: stretch
+                        label: "_{Motion}"
+                  - level: 6
+                    marker: "_{Focus\nLevel}"
+                    contents:
+                      - p: "_{+10ft speed}"
+                  - level: 9
+                    marker: "_{Focus\nLevel}"
+                    contents:
+                      - p: "_{+10ft speed}"
+
+      - selectable:
+        contents:
+          - h5: "_{Greater}"
+          - article:
+            title: "_{Elemental Blast}"
+            action: 2
+            right:
+              - paste: focus
+            contents:
+              - p: "_{A 10ft area burst (range 20ft), 30ft cone or 60ft line.}"
+              - calc:
+                inline: true
+                output:
+                  label: "_{Blast\nDamage}"
+                inputs:
+                  - span: "_{6d8} + ("
+                  - label: "_{Focus\nLevel}"
+                  - span: " &times; _{2d8})"
+      
+  - at: '@sorcerer/blood-magic'
+    replace:
+      - ul:
+        contents:
+          - li: "_{EITHER +1 to intimidation}"
+          - li: "_{OR target takes 1 damage per focus level}"

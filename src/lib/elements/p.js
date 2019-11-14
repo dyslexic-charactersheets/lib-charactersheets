@@ -60,11 +60,13 @@ export let dl = {
   name: 'dl',
   defaults: {
     div: false,
+    min: false,
     defs: []
   },
   render(args, reg, doc) {
     let defs = Object.keys(args.defs).map(term => {
       let termdef = args.defs[term];
+      let icon = '';
       if (isEmpty(termdef))
         return '';
       switch (term) {
@@ -73,14 +75,19 @@ export let dl = {
         case 'target': term = "_{Target}"; break;
         case 'area': term = "_{Area}"; break;
         case 'save': term = "_{Saving Throw}"; break;
-        case 'critical_success': term = "_{Critical Success}"; break;
-        case 'success': term = "_{Success}"; break;
-        case 'failure': term = "_{Failure}"; break;
-        case 'critical_failure': term = "_{Critical Failure}"; break;
+        case 'critical_success': icon = 'save-crit-succeed'; term = "_{Critical Success}"; break;
+        case 'success': icon = 'save-succeed'; term = "_{Success}"; break;
+        case 'failure': icon = 'save-fail'; term = "_{Failure}"; break;
+        case 'critical_failure': icon = 'save-crit-fail'; term = "_{Critical Failure}"; break;
         case 'sustain': term = "_{Sustain}"; break;
       }
+
+      if (args.min)
+        term = "";
+
+      if (icon !== "") icon = `<i class='icon icon_${icon}'></i>`;
       // log("p", "dl", term, termdef);
-      return `<div><dt>${_e(term, doc)}</dt><dd>${_e(termdef, doc)}</dd></div> `;
+      return `<div><dt>${icon}${_e(term, doc)}</dt><dd>${_e(termdef, doc)}</dd></div> `;
     });
 
     const dlCls = elementClass('dl', null, args, ['div']);

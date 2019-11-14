@@ -117,6 +117,7 @@ export let article = {
 
       if (args.action && !args.left) {
         args.left = { type: 'icon', icon: (args.action == 1 ? 'action' : 'action'+args.action) };
+        // log("article", "Adding action:", args.action, args.left);
       }
 
       if (args.left || args.right) {
@@ -127,7 +128,7 @@ export let article = {
           contents = [embed(args.left), embed(contents), embed(args.right)];
         } else if (args.left) {
           layout = 'indent-l';
-          contents = [embed(args.length), embed(contents)];
+          contents = [embed(args.left), embed(contents)];
         } else if (args.right) {
           layout = 'indent-r';
           contents = [embed(contents), embed(args.right)];

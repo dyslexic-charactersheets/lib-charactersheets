@@ -9,113 +9,120 @@ $colour_zebra: rgba($colour_mid, 0.1);
 $colour_double_zebra: rgba($colour_mid, 0.2);
 
 // Text colours
-html, a, p, * {
-    color: $colour_main;
+html,
+a,
+p,
+* {
+  color: $colour_main;
 }
 
 .copyright-attribution {
-    &, a {
-        color: $colour_mid;
-    }
+  &,
+  a {
+    color: $colour_mid;
+  }
 }
 
 article {
-    header {
-        h6 {
-            border-bottom: 0.5*$pt solid $colour_alt;
-        }
+  header {
+    h6 {
+      border-bottom: 0.5 * $pt solid $colour_alt;
     }
+  }
 }
 
 // Fields
 
 .field {
-    .field__inner {
-        border-color: $colour_main !important;
-    }
-    
-    &.field--misc .field__inner {
-        border-color: $colour_light !important;
-    }
-    .underlay {
-        color: $colour_dark;
-        opacity: 0.2;
-    }
+  .field__inner {
+    border-color: $colour_main !important;
+  }
+
+  &.field--misc .field__inner {
+    border-color: $colour_light !important;
+  }
+  .underlay {
+    color: $colour_dark;
+    opacity: 0.2;
+  }
 }
 
-.field.field--misc label, .label--misc {
-	color: $colour_light;
+.field.field--misc label,
+.label--misc {
+  color: $colour_light;
 }
-
 
 label.field--alignment__good,
 label.field--alignment__evil,
 label.field--alignment__lawful,
 label.field--alignment__chaotic {
-	color: $colour_dark;
+  color: $colour_dark;
 }
 
 // Zebra shading
 
 @mixin double_zebra {
-    background: $colour_double_zebra;
+  background: $colour_double_zebra;
 }
 
 @mixin zebra {
-    background: $colour_zebra;
+  background: $colour_zebra;
 }
 
 @mixin unzebra {
-    background: none;
-}
-	
-.shade, blockquote {
-    @include zebra;
+  background: none;
 }
 
-.field--zebra input:nth-child(2n+1) {
-    @include zebra;
+.shade,
+blockquote {
+  @include zebra;
+}
+
+.field--zebra input:nth-child(2n + 1) {
+  @include zebra;
 }
 
 .list--zebra {
+  > *:nth-child(2n) {
+    @include zebra;
+  }
+
+  + .list--zebra {
     > *:nth-child(2n) {
-        @include zebra;
+      @include unzebra;
+    }
+    > *:nth-child(2n + 1) {
+      @include zebra;
+    }
+  }
+
+  &.list--zebra-inverse {
+    > *:nth-child(2n) {
+      @include unzebra;
     }
 
-    + .list--zebra {
-        > *:nth-child(2n) {
-            @include unzebra;
-        }
-        > *:nth-child(2n+1) {
-            @include zebra;
-        }
+    > *:nth-child(2n + 1) {
+      @include zebra;
     }
-
-    &.list--zebra-inverse {
-        > *:nth-child(2n) {
-            @include unzebra;
-        }
-
-        > *:nth-child(2n+1) {
-            @include zebra;
-        }
-    }
+  }
 }
 
 .table--zebra {
-    tbody tr:nth-child(2n) {
-        td, th {
-            @include zebra;
+  tbody tr:nth-child(2n) {
+    td,
+    th {
+      @include zebra;
 
-            &.shade {
-              @include double_zebra;
-            }
-        }
+      &.shade {
+        @include double_zebra;
+      }
     }
+  }
 }
 
 table tr.hr {
-    td, th {
-        border-top-color: $colour_main;
-    }
+  td,
+  th {
+    border-top-color: $colour_main;
+  }
 }

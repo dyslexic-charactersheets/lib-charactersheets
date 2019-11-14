@@ -1,0 +1,86 @@
+unit: sorcerer/bloodline/fey
+in: sorcerer/bloodline
+group: "_{Core Rulebook}"
+name: "_{Fey}"
+
+inc:
+  - set: deception-proficiency
+    value: trained
+  - set: nature-proficiency
+    value: trained
+
+  - set: sorcerer-bloodline
+    value: "_{Fey}"
+  - set: spell-list
+    value: "_{Primal}"
+  - set: primal-spell-proficiency
+    value: trained
+
+  - at: '@sorcerer/bloodline'
+    replace:
+      - h4: "_{Fey}"
+
+  - at: '@sorcerer/dcs'
+    replace:
+      - paste: primal-spell-dcs
+
+  - at: '@sorcerer/bloodline-spells'
+    replace:
+
+      - article:
+        title: "_{Faerie Dust}"
+        action: 1
+        right:
+          - paste: focus
+        contents:
+          - p: "_{Targets in an area }"
+          - calc:
+            inline: true
+            output:
+              label: "_{Dust\nRange}"
+            inputs:
+              - span: "("
+              - label: "_{Focus\nLevel}"
+              - span: "&divide; 3"
+              - span: ") &times; 5ft"
+          - dl:
+            div: true
+            defs:
+              success: "_{No effect}"
+              failure: "_{No reactions; -2 Perception and Will saves for 1 round}"
+              critical_failure: "_{Also -1 Perception and Will saves for 1 minutes}"
+          
+      - selectable:
+        contents:
+          - h5: "_{Advanced}"
+          - article:
+            title: "_{Fey Disappearance}"
+            action: 1
+            right:
+              - paste: focus
+            contents:
+              - g:
+                contents:
+                  - p: "_{Become invisible and ignore difficult terrain.}"
+              - level: 5
+                marker: "_{Focus\nLevel}"
+                contents:
+                  - p: "_{Invisibility doesn't end with a hostile action.}"
+
+      - selectable:
+        contents:
+          - h5: "_{Greater}"
+          - article:
+            title: "_{Fey Glamour}"
+            action: 2
+            right:
+              - paste: focus
+            contents:
+              - ul:
+                contents:
+                  - li: "_{EITHER create an illustory scene}"
+                  - li: "_{OR disguise up to 10 creatures}"
+      
+  - at: '@sorcerer/blood-magic'
+    replace:
+      - p: "_{Colourful glamours conceal you or another for 1 round.}"

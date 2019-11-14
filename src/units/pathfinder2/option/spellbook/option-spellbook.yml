@@ -1,10 +1,66 @@
 unit: option/spellbook
 name: "_{Spellbook}"
 inc:
+  - copy: spellbook/spell
+    params:
+      id:
+      lines: 3
+    contents:
+      - article: '#{id}'
+        contents:
+          - field: '#{id}-details'
+            width: stretch
+            align: left
+            frame: none
+            repeat: '#{lines}'
+          - row:
+            contents:
+              - field: '#{id}-final'
+                width: stretch
+                label: "_{School}"
+              - field: '#{id}-ref'
+                control: ref
+                label: "_{Source}"
+
+  - copy: spellbook/header
+    params:
+      i: 0
+    contents:
+      - g:
+        contents:
+          - row:
+            contents:
+              - spacer:
+              - field: spellbook-col-#{i}-level
+                border: full
+                frame: circle
+                label: "_{Spell Level}"
+                size: large
+                width: large
+              - spacer:
+          - hr:
+
+  - copy: spellbook/items
+    params:
+      count: 7
+      i: 0
+    contents:
+      - list:
+        zebra: true
+        hr: true
+        flex: true
+        contents:
+          - repeat: 7
+            index: j
+            contents:
+              - paste: spellbook/spell
+                params:
+                  id: spellbook-col-#{i}-spell-#{j}
+
   - at: '@pages'
     add:
       - page: spellbook
-        order: 16
+        order: 12
         flex: true
         contents:
           - h2: "_{Spellbook}"
@@ -12,52 +68,10 @@ inc:
             contents:
               - repeat: 3
                 contents:
+                  - paste: spellbook/header
+              - repeat: 3
+                contents:
                   - g:
                     contents:
-                      - row:
-                        contents:
-                          - spacer:
-                          - field: spellbook-col-#{i}-level
-                            border: full
-                            frame: circle
-                            label: "_{Spell Level}"
-                            size: large
-                            width: large
-                          - spacer:
-                      - hr:
-                      - list:
-                        zebra: true
-                        hr: true
-                        flex: true
-                        contents:
-                          - repeat: 7
-                            index: j
-                            contents:
-                              - article: spellbook-col-#{i}-spell-#{j}
-                                contents:
-                                  - field: 'spellbook-col-#{i}-spell-#{j}-details'
-                                    width: stretch
-                                    align: left
-                                    frame: none
-                                    repeat: 3
-                                  - row:
-                                    contents:
-                                      - field: 'spellbook-col-#{i}-spell-#{j}-final'
-                                        width: stretch
-                                        label: "_{School}"
-                                      - field: 'spellbook-col-#{i}-spell-#{j}-ref'
-                                        control: ref
-                                        label: "_{Source}"
-
-                                      # - field: 'spellbook-col-#{i}-spell-#{j}-ref'
-                                      #   icon: book
-                                      #   label: "_{Source}"
-                                      #   align: left
-                                      #   width: huge
-                                      #   control: compound
-                                      #   parts:
-                                      #     - width: large
-                                      #     - span: 'p'
-                                      #     - width: large
-                                      #       align: left
+                      - paste: spellbook/items
                       - tail:

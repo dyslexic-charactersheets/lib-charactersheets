@@ -240,7 +240,7 @@ export function embed(contents) {
   if (isObject(contents) && has(contents, "type")) {
     return contents;
   }
-  warn("util", "Embed: unknown element!");
+  warn("util", "Embed: unknown element!", contents);
   return contents;
 }
 

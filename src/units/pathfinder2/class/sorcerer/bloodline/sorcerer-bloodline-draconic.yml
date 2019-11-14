@@ -1,0 +1,123 @@
+unit: sorcerer/bloodline/draconic
+in: sorcerer/bloodline
+group: "_{Core Rulebook}"
+name: "_{Draconic}"
+
+inc:
+  - set: arcana-proficiency
+    value: trained
+  - set: intimidation-proficiency
+    value: trained
+
+  - set: sorcerer-bloodline
+    value: "_{Draconic}"
+  - set: spell-list
+    value: "_{Arcane}"
+  - set: arcane-spell-proficiency
+    value: trained
+
+  - at: '@sorcerer/bloodline'
+    replace:
+      - h4: "_{Draconic}"
+
+  - at: '@sorcerer/dcs'
+    replace:
+      - paste: arcane-spell-dcs
+
+  - at: '@sorcerer/bloodline-spells'
+    replace:
+      - g:
+        contents:
+          - field: sorcerer/bloodline/draconic/dragon-type
+            width: stretch
+            legend: "_{Dragon Type}"
+          - row:
+            merge-bottom: true
+            contents:
+              - field: sorcerer/bloodline/draconic/breath-area
+                label: "_{Breath weapon area}"
+                control: compound
+                parts:
+                  - subid: range
+                    align: right
+                  - label: "_{ft}"
+                  - subid: shape
+                    align: left
+              - field: sorcerer/bloodline/draconic/breath-damage
+                label: "_{Damage type}"
+                align: left
+              - field: sorcerer/bloodline/draconic/save
+                label: "_{Saving throw}"
+                align: left
+
+      - article:
+        title: "_{Dragon Claws}"
+        action: 1
+        right:
+          - paste: focus
+        contents:
+          - table:
+            collapse: true
+            columns:
+              - "_{Focus\nLevel}"
+              - "_{Damage}"
+              - "_{Damage\nResistance}"
+            rows:
+              - level: 1
+                damage: "_{1d6}"
+                resistance: 5
+              - level: 5
+                damage: "_{2d6}"
+                resistance: 10
+              - level: 9
+                damage: "_{3d6}"
+                resistance: 15
+            template:
+              - level-marker: "#{level}"
+                marker: ""
+              - span: "_{1d4} slashing + #{damage}"
+              - span: "#{resistance}"
+          
+      - selectable:
+        contents:
+          - h5: "_{Advanced}"
+          - article:
+            title: "_{Dragon Breath}"
+            action: 1
+            right:
+              - paste: focus
+            contents:
+              - calc:
+                inline: true
+                output:
+                  label: "_{Breath\nDamage}"
+                inputs:
+                  - span: "_{3d6} + ("
+                  - label: "_{Focus\nLevel}"
+                  - span: " &times; _{2d6})"
+
+      - selectable:
+        contents:
+          - h5: "_{Greater}"
+          - article:
+            title: "_{Dragon Wings}"
+            action: 1
+            right:
+              - paste: focus
+            contents:
+              - dl:
+                defs:
+                  "_{Fly speed}": "_{60ft}"
+                  duration: "_{1 min}"
+              - hr:
+              - level: 5
+                marker: "_{Focus\nLevel}"
+                inline: true
+                contents:
+                  - dl:
+                    defs:
+                      duration: "_{10 mins}"
+      
+  - at: '@sorcerer/blood-magic'
+    replace:
+      - p: "_{+1 to AC for 1 round.}"

@@ -1,4 +1,5 @@
 import { __, _e } from '../i18n';
+import { elementClass } from '../util';
 
 export let level = {
   name: 'level',
@@ -8,18 +9,25 @@ export let level = {
     narrow: true,
     marker: "Level",
     contents: [],
+    inline: false,
   },
   transform(args) {
+    let layout = "indent-l";
+    if (args.inline) {
+      layout = "indent-lw";
+    }
+
     return [
       {
         type: "layout",
-        layout: "indent-l",
+        layout: layout,
         contents: [
           {
             type: "g",
             contents: [
               {
                 type: "level-marker",
+                inline: args.inline,
                 level: args.level,
                 marker: args.marker
               }
@@ -41,6 +49,7 @@ export let level_marker = {
   defaults: {
     level: 1,
     marker: "Level",
+    inline: false,
   },
   render(args, reg, doc) {
     let level = ("" + args.level).replace(/^\s*/, '').replace(/\s*$/, '');
@@ -50,7 +59,8 @@ export let level_marker = {
     if (level == "_") {
       level = "&nbsp;";
     }
+    const cls = elementClass("level-marker", null, args, ['inline']);
     const marker = args.marker ? `<label>${_e(args.marker, doc)}</label>` : '';
-    return `<div class='level-marker'>${marker}<div class='level-marker__level'>${_e(level, doc)}</div></div>`;
+    return `<div${cls}>${marker}<div class='level-marker__level'>${_e(level, doc)}</div></div>`;
   }
 }
