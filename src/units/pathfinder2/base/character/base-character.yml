@@ -57,7 +57,6 @@ inc:
                             border: circle
                             size: huge
 
-
                       - row:
                         contents:
                           - field: campaign-name
@@ -69,6 +68,8 @@ inc:
                             underlay: "_{XP}"
                             width: large
                             border: full
+
+                      - zone: '@player-header'
                   - hr:
                     swash: true
                   - portrait: personal
@@ -351,28 +352,37 @@ inc:
                     contents:
                       - list:
                         hr: true
-                        zebra: true
-                        columns: 2
                         contents:
-                          - g:
+                          - field: ancestry
+                            size: huge
+                            width: stretch
+                            frame: none
+                            merge-bottom: true
+                            flex: tiny
+                          - list:
+                            hr: true
+                            zebra: true
+                            columns: 2
                             contents:
-                              - article: heritage
-                                lines: 1
-                                annotation: "_{Heritage}"
-                          - each:
-                            template:
-                              - level: '#{level}'
+                              - g:
                                 contents:
-                                  - item: yes
-                            contents:
-                              - slots: [ 1, 5, 9, 13, 17 ]
-                                min: 1
-                                max: 1
-                                contents:
-                                  - zone: '@ancestry-feats'
-                                placeholder:
-                                  - article: 'ancestry-feat-#{i}'
+                                  - article: heritage
                                     lines: 1
+                                    annotation: "_{Heritage}"
+                              - each:
+                                template:
+                                  - level: '#{level}'
+                                    contents:
+                                      - item: yes
+                                contents:
+                                  - slots: [ 1, 5, 9, 13, 17 ]
+                                    min: 1
+                                    max: 1
+                                    contents:
+                                      - zone: '@ancestry-feats'
+                                    placeholder:
+                                      - article: 'ancestry-feat-#{i}'
+                                        lines: 1
 
                   - section: "_{Skills}"
                     id: skills

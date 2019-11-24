@@ -24,6 +24,161 @@ inc:
     replace:
       - paste: primal-spell-dcs
 
+  - at: '@sorcerer/bloodline/extra'
+    add:
+      - field: sorcerer/bloodline/elemental/elemental-type
+        width: stretch
+        legend: "_{Elemental Type}"
+
+  - at: '@sorcerer/bloodline-spell/initial'
+    replace:
+      - article:
+        title: "_{Elemental Toss}"
+        action: 1
+        content: "_{Fling a chunk of elemental matter at your foe.}"
+
+  - at: '@sorcerer/bloodline-spell/advanced'
+    replace:
+      - article:
+        title: "_{Elemental Motion}"
+        action: 2
+        content: "_{Call upon your element to propel you.}"
+
+  - at: '@sorcerer/bloodline-spell/greater'
+    replace:
+      - article:
+        title: "_{Elemental Blast}"
+        action: 2
+        content: "_{Blast your foes with elemental energy.}"
+
+  - at: '@sorcerer/blood-magic'
+    replace:
+      - p: "_{Deal bludgeoning damage, or gain a bonus to intimidation.}"
+
+  - at: '@sorcerer/spellbook/bloodline/preface'
+    add:
+      - g:
+        contents:
+          - field: sorcerer/bloodline/elemental/elemental-type
+            width: stretch
+            legend: "_{Elemental Type}"
+
+  - at: '@sorcerer/spellbook/bloodline-spell/initial'
+    replace:
+      - article:
+        title: "_{Elemental Toss}"
+        contents:
+          - action: 1
+            contents:
+              - dl:
+                defs:
+                  range: "_{30ft}"
+              - p: "_{With a flick of your wrist, fling a chunk of your element at your foe.}"
+          - calc:
+            output:
+              field: sorcerer/draconic
+              legend: "_{Damage}"
+              width: large
+              suffix: "_{d8}"
+            inputs:
+              - field:
+                ref: focus-level
+                label: "_{Focus\nLevel}"
+          - p: "_{Bludgeoning damage, or fire damage if fire is your element.}"
+
+  - at: '@sorcerer/spellbook/bloodline-spell/advanced'
+    replace:
+      - article:
+        title: "_{Elemental Motion}"
+        contents:
+          - action: 2
+            contents:
+              - dl:
+                defs:
+                  duration: "_{1 minute}"
+              - p: "_{Call upon your element to propel you.}"
+
+          - list:
+            hr: true
+            contents:
+              - g:
+                contents:
+                  - field:
+                    legend: "_{Speed}"
+                    control: speed
+                    border: full
+                    width: huge
+              - level: 6
+                marker: "_{Focus\nLevel}"
+                contents:
+                  - field:
+                    control: value
+                    value: "+10ft"
+                    frame: right
+                    label: "_{Speed bonus}"
+              - level: 9
+                marker: "_{Focus\nLevel}"
+                contents:
+                  - field:
+                    control: value
+                    value: "+20ft"
+                    frame: right
+                    label: "_{Speed bonus}"
+
+  - at: '@sorcerer/spellbook/bloodline-spell/greater'
+    replace:
+      - article:
+        title: "_{Elemental Blast}"
+        contents:
+          - action: 2
+            contents:
+              - dl:
+                defs:
+                  range: "_{30ft} _{(burst only)}"
+                  area: "_{10ft radius burst, 30ft cone or 60ft line}"
+              - p: "_{Blast your foes with elemental energy.}"
+              
+          - calc:
+            output:
+              field:
+              legend: "_{Damage}"
+              width: large
+              suffix: "_{d8}"
+            inputs:
+              - span: "("
+              - field:
+                ref: focus-level
+                label: "_{Focus\nLevel}"
+              - span: "&divide; 2 ) - 2"
+          - p: "_{Bludgeoning damage, or fire damage if fire is your element.}"
+
+  - at: '@sorcerer/spellbook/blood-magic'
+    replace:
+      - p: "_{}"
+      - ul:
+        contents:
+          - li: "_{EITHER +1 to intimidation}"
+          - li: "_{OR target takes 1 bludgeoning damage per focus level}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   - at: '@sorcerer/bloodline-spells'
     replace:
       - g:

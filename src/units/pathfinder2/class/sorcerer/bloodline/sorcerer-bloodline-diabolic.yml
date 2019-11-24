@@ -22,46 +22,140 @@ inc:
 
   - at: '@sorcerer/dcs'
     replace:
-      - paste: spell-attack
-        params:
-          id: primal-spell-attack
-          legend: "_{Primal\nSpell\nAttack}"
-        
-      - paste: spell-dc
-        params:
-          id: primal-spell-save-dc
-          legend: "_{Primal Spell\nSave DC}"
+      - paste: primal-spell-attack-dcs
 
-  - at: '@sorcerer/bloodline-spells'
+  - at: '@sorcerer/bloodline-spell/initial'
     replace:
       - article:
         title: "_{Diabolic Edict}"
         action: 1
-        right:
-          - paste: focus
-        content: "_{Issue an edict, demanding a target perform a task and offering rewards for its fulfillment.}"
+        content: "_{Demand a target perform a task while offering a reward.}"
 
-      - selectable:
-        contents:
-          - h5: "_{Advanced}"
-          - article:
-            title: "_{Embrace The Pit}"
-            action: 1
-            right:
-              - paste: focus
-            content: "_{Take on a diabilical appearance, and gain resistance to fire and evil, and weaknesses to good damage.}"
+  - at: '@sorcerer/bloodline-spell/advanced'
+    replace:
+      - article:
+        title: "_{Embrace The Pit}"
+        action: 1
+        content: "_{Take on a diabilical appearance. Gain resistance to fire, poison and evil, and weaknesses to good damage.}"
 
-      - selectable:
-        contents:
-          - h5: "_{Greater}"
-          - article:
-            title: "_{Hellfire Plume}"
-            action: 1
-            right:
-              - paste: focus
-            content: "_{Call forth a plume of hellfire from below.}"
+  - at: '@sorcerer/bloodline-spell/greater'
+    replace:
+      - article:
+        title: "_{Hellfire Plume}"
+        action: 2
+        content: "_{Call forth a plume of hellfire from below.}"
 
   - at: '@sorcerer/blood-magic'
+    replace:
+      - p: "_{Either deal fire damage, or gain a bonus to deception checks.}"
+
+
+  - at: '@sorcerer/spellbook/bloodline-spell/initial'
+    replace:
+      - article:
+        title: "_{Diabolic Edict}"
+        contents:
+          - action: 1
+            contents:
+              - dl:
+                defs:
+                  range: "_{30ft}"
+                  duration: "_{1 round}"
+              - p: "_{Issue a diabolic edict to one target, demanding they perform a task and offering rewards for its fulfillment.}"
+          - ul:
+            contents:
+              - li: "_{If they agree to perform the task, they gain +1 to attack rolls and skill checks related to performing the task.}"
+              - li: "_{Otherwise, they take a -1 penalty to related attack roles and skill checks.}"
+
+  - at: '@sorcerer/spellbook/bloodline-spell/advanced'
+    replace:
+      - article:
+        title: "_{Embrace The Pit}"
+        contents:
+          - list:
+            hr: true
+            light: true
+            contents:
+              - action: 1
+                contents:
+                  - dl:
+                    defs:
+                      duration: "_{1 minute}"
+                  - p: "_{Devil horns grow from your skull, and your appearance takes on features of your diabolical bloodline.}"
+              - g:
+                contents:
+                  - p: "_{Resistance to evil, fire and poison:}"
+                  - calc:
+                    output:
+                      field: sorcerer/bloodline/diabolic/embrace-the-pit/resistance
+                      width: large
+                      legend: "_{Damage\nResistance}"
+                    inputs:
+                      - span: "("
+                      - field:
+                        ref: focus-level
+                        label: "_{Focus\nLevel}"
+                      - span: "&divide; 2"
+                      - span: ") &times; 5"
+              - g:
+                contents:
+                  - p: "_{Resistance to physical damage (except silver):}"
+                  - calc:
+                    output:
+                      field: sorcerer/bloodline/diabolic/embrace-the-pit/resistance-physical
+                      width: large
+                      legend: "_{Damage\nResistance}"
+                    inputs:
+                      - span: "("
+                      - field:
+                        ref: focus-level
+                        label: "_{Focus\nLevel}"
+                      - span: "&divide; 2"
+                      - span: ") &times; 2"
+              - g:
+                contents:
+                  - p: "_{Weakness to good damage:}"
+                  - calc:
+                    output:
+                      field: sorcerer/bloodline/diabolic/embrace-the-pit/weakness
+                      width: large
+                      legend: "_{Weakness\nto good}"
+                    inputs:
+                      - span: "("
+                      - field:
+                        ref: focus-level
+                        label: "_{Focus\nLevel}"
+                      - span: "&divide; 2"
+                      - span: ") &times; 5"
+
+  - at: '@sorcerer/spellbook/bloodline-spell/greater'
+    replace:
+      - article:
+        title: "_{Hellfire Plume}"
+        contents:
+          - action: 2
+            contents:
+              - dl:
+                defs:
+                  range: "_{60ft}"
+                  area: "_{10ft radius, 60ft tall cylinder}"
+              - p: "_{A plume of hellfire erupts from below}"
+          - calc:
+            output:
+              field: sorcerer/bloodline/diabolic/hellfire-plume/damage
+              width: large
+              legend: "_{Damage}"
+              suffix: "_{d6}"
+            inputs:
+              - field:
+                ref: focus-level
+                label: "_{Focus\nLevel}"
+              - span: "- 1"
+          - paste: basic-save
+            params:
+              save: "_{REF}"
+
+  - at: '@sorcerer/spellbook/blood-magic'
     replace:
       - ul:
         contents:

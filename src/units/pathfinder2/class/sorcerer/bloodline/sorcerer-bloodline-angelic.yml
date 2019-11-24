@@ -24,58 +24,106 @@ inc:
     replace:
       - paste: divine-spell-dcs
 
-  - at: '@sorcerer/bloodline-spells'
+
+  - at: '@sorcerer/bloodline-spell/initial'
     replace:
       - article:
         title: "_{Angelic Halo}"
         action: 1
-        right:
-          - paste: focus
+        content: "_{Boost healing spells done to allies.}"
+
+  - at: '@sorcerer/bloodline-spell/advanced'
+    replace:
+      - article:
+        title: "_{Angelic Wings}"
+        action: 2
+        content: "_{Wings of pure light spread from your back.}"
+
+  - at: '@sorcerer/bloodline-spell/greater'
+    replace:
+      - article:
+        title: "_{Celestial Brand}"
+        action: 1
+        content: "_{A blazing symbol appears on the target, marking it for divine justice.}"
+
+  - at: '@sorcerer/blood-magic'
+    replace:
+      - p: "_{+1 to saves for you or one other}"
+
+
+  - at: '@sorcerer/spellbook/bloodline-spell/initial'
+    replace:
+      - article:
+        title: "_{Angelic Halo}"
         contents:
+          - action: 1
+            contents:
+              - dl:
+                defs:
+                  duration: "_{1 minute}"
+                  area: "_{15ft}"
+              - p: "_{Gain a halo with that grants a bonus to healing}"
           - calc:
-            inline: true
             output:
               label: "_{Healing\nBonus}"
             inputs:
               - label: "_{Focus\nLevel}"
               - span: "&times; 2"
-          - p: "_{Bonus to healing done to allies within 15ft.}"
-          
-      - selectable:
+
+  - at: '@sorcerer/spellbook/bloodline-spell/advanced'
+    replace:
+      - article:
+        title: "_{Angelic Wings}"
         contents:
-          - h5: "_{Advanced}"
-          - article:
-            title: "_{Angelic Wings}"
-            action: 1
-            right:
-              - paste: focus
+          - list:
+            hr: true
             contents:
-              - p: "_{Wings let you fly at your usual speed for 3 rounds, and cast bright light.}"
-              - hr:
+              - action: 2
+                contents:
+                  - dl:
+                    defs:
+                      duration: "_{3 rounds}"
+                  - p: "_{Wings let you fly at your usual speed, and cast bright light.}"
               - level: 5
                 marker: "_{Focus\nLevel}"
                 contents:
-                  - p: "_{Duration increases to 1 minute.}"
-      - selectable:
-        contents:
-          - h5: "_{Greater}"
-          - article:
-            title: "_{Celestial Brand}"
-            action: 1
-            right:
-              - paste: focus
-            contents:
-              - p: "_{A symbol appears on one target. You and allies gain a bonus to attacks and saves against that target, and +1d4 damage.}"
-              - hr:
-                light: true
-              - calc:
-                inline: true
-                output:
-                  label: "_{Brand\nBonus}"
-                inputs:
-                  - label: "_{Focus\nLevel}"
-                  - span: "&divide; 2"
-      
-  - at: '@sorcerer/blood-magic'
+                  - dl:
+                    defs:
+                      duration: "_{1 minute}"
+
+  - at: '@sorcerer/spellbook/bloodline-spell/greater'
     replace:
-      - p: "_{+1 to saves for you or one other}"
+      - article:
+        title: "_{Celestial Brand}"
+        contents:
+          - action: 1
+            contents:
+              - p: "_{A symbol appears on one target.}"
+          - p: "_{You and allies gain a bonus to attacks, saves and damage against the target.}"
+          - calc:
+            output:
+              label: "_{Brand\nBonus}"
+            inputs:
+              - label: "_{Focus\nLevel}"
+              - span: "&divide; 2"
+          - field:
+            control: value
+            value: "+_{1d4}"
+            frame: right
+            label: "_{Damage bonus}"
+
+  - at: '@sorcerer/spellbook/blood-magic'
+    replace:
+      - dl:
+        defs:
+          duration: "_{1 round}"
+      - p: "_{An angelic aura protects you or one target.}"
+      - field:
+        control: value
+        value: "+1"
+        frame: right
+        label: "_{Bonus to saving throws}"
+
+
+
+

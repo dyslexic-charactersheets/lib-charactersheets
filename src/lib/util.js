@@ -352,6 +352,7 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
       case 'lp':
       case 'rb':
       case 'icon':
+      case 'size':
       case 'flex':
         cls.push(`${key}_${value}`);
         break;

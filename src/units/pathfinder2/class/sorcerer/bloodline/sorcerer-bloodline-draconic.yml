@@ -24,6 +24,182 @@ inc:
     replace:
       - paste: arcane-spell-dcs
 
+  - at: '@sorcerer/bloodline/extra'
+    add:
+      - field: sorcerer/bloodline/draconic/dragon-type
+        width: stretch
+        legend: "_{Dragon Type}"
+
+
+  - at: '@sorcerer/bloodline-spell/initial'
+    replace:
+      - article:
+        title: "_{Dragon Claws}"
+        action: 1
+        content: "_{Vicious claws grow from your fingers.}"
+
+  - at: '@sorcerer/bloodline-spell/advanced'
+    replace:
+      - article:
+        title: "_{Dragon Breath}"
+        action: 1
+        content: "_{Spew forth energy.}"
+
+  - at: '@sorcerer/bloodline-spell/greater'
+    replace:
+      - article:
+        title: "_{Dragon Wings}"
+        action: 1
+        content: "_{Leathery wings sprout from your back.}"
+
+  - at: '@sorcerer/blood-magic'
+    replace:
+      - p: "_{Draconic scaled grant a +1 AC bonus to you or an ally.}"
+
+
+  - at: '@sorcerer/spellbook/bloodline/preface'
+    add:
+      - g:
+        contents:
+          - field: sorcerer/bloodline/draconic/dragon-type
+            width: stretch
+            legend: "_{Dragon Type}"
+          - row:
+            merge-bottom: true
+            contents:
+              - field: sorcerer/bloodline/draconic/breath-area
+                label: "_{Breath weapon area}"
+                control: compound
+                parts:
+                  - subid: range
+                    align: right
+                  - label: "_{ft}"
+                  - subid: shape
+                    align: left
+              - field: sorcerer/bloodline/draconic/breath-damage
+                label: "_{Damage type}"
+                align: left
+              - field: sorcerer/bloodline/draconic/save
+                label: "_{Saving throw}"
+                align: left
+
+  - at: '@sorcerer/spellbook/bloodline-spell/initial'
+    replace:
+      - article:
+        title: "_{Dragon Claws}"
+        contents:
+          - action: 1
+            contents:
+              - dl:
+                defs:
+                  duration: "_{1 minute}"
+              - p: "_{Vicious claws grow from your fingers, dealing extra damage depending on your dragon type. You gain resistance against that damage type.}"
+          - table:
+            collapse: true
+            columns:
+              - "_{Focus\nLevel}"
+              - "_{Damage}"
+              - "_{Damage\nResistance}"
+            rows:
+              - level: 1
+                damage: "_{1d6}"
+                resistance: 5
+              - level: 5
+                damage: "_{2d6}"
+                resistance: 10
+              - level: 9
+                damage: "_{3d6}"
+                resistance: 15
+            template:
+              - level-marker: "#{level}"
+                marker: ""
+              - span: "_{1d4 slashing} + #{damage}"
+              - span: "#{resistance}"
+
+  - at: '@sorcerer/spellbook/bloodline-spell/advanced'
+    replace:
+      - article:
+        title: "_{Dragon Breath}"
+        contents:
+          - action: 2
+            contents:
+              - p: "_{Spew forth energy.}"
+          - calc:
+            inline: true
+            output:
+              field: sorcerer/draconic
+              legend: "_{Breath\nDamage}"
+              width: large
+              suffix: "_{d6}"
+            inputs:
+              - span: "("
+              - field:
+                ref: focus-level
+                label: "_{Focus\nLevel}"
+              - span: "&times; 2) - 1"
+          - paste: basic-save
+            params:
+              "_{Save}"
+
+  - at: '@sorcerer/spellbook/bloodline-spell/greater'
+    replace:
+      - article:
+        title: "_{Dragon Wings}"
+        contents:
+          - action: 2
+            contents:
+              - dl:
+                defs:
+                  "_{Fly speed}": "_{60ft}"
+                  duration: "_{1 minute}"
+              - p: "_{Leathery wings sprout from your back.}"
+          - list:
+            hr: true
+            light: true
+            contents:
+              - p: "_{When this spell ends, you float to the ground.}"
+              - g:
+                contents:
+                  - paste: focus
+                    params:
+                      points: "+1"
+                    contents:
+                      - p: "_{Spend an extra focus point to also grow claws.}"
+
+          - hr:
+          - level: 5
+            marker: "_{Focus\nLevel}"
+            contents:
+              - dl:
+                defs:
+                  duration: "_{10 mins}"
+
+  - at: '@sorcerer/spellbook/blood-magic'
+    replace:
+      - dl:
+        defs:
+          duration: "_{1 round}"
+      - p: "_{Draconic scales grown on you or one other, granting +1 AC.}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   - at: '@sorcerer/bloodline-spells'
     replace:
       - g:

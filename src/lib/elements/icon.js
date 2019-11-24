@@ -5,9 +5,10 @@ export let icon = {
   key: 'icon',
   defaults: {
     icon: "",
+    size: "medium"
   },
   render(args) {
-    const cls = elementClass('icon', null, args, [], ["icon", "size"]);
+    const cls = elementClass('icon', null, args, [], { "icon": "", "size": "medium" });
     return `<i${cls}></i>`;
   }
 }

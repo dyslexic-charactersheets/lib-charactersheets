@@ -1,6 +1,6 @@
 const Handlebars = require('handlebars');
 
-import { log, warn } from '../log';
+import { log, warn, error } from '../log';
 import { applyContext } from '../context';
 import { clone, replaceColours, has, isArray } from '../util';
 import { esc, _e } from '../i18n';
