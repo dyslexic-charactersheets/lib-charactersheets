@@ -5,7 +5,6 @@ import { __, _e } from '../i18n';
 export let ul = {
   name: 'ul',
   defaults: {
-    pad: false,
   },
   render(args, reg, doc) {
     return `<ul>${reg.render(args.contents, doc)}</ul>`;
@@ -28,6 +27,6 @@ export let li = {
         }
       ]
     }
-    return `<li>${reg.render(args.contents, doc)}</li>`;
+    return `<li class='blk'>${reg.render(args.contents, doc)}</li>`;
   }
 }

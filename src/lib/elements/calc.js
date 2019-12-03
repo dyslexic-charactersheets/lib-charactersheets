@@ -8,14 +8,14 @@ export let calc = {
     layout: 'left',
     inline: false,
     inputs: [],
-    pad: false,
+    blk: true,
   },
   render(args, reg, doc) {
     args.lp = getLabelHeight(args);
     args.rb = getRubyHeight(args);
 
     args.calc = true;
-    const cls = elementClass('row', null, args, ["calc", "inline", "pad"], { 'layout': 'center', 'lp': '', 'rb': '' });
+    const cls = elementClass('row', null, args, ["calc", "inline", "blk"], { 'layout': 'center', 'lp': '', 'rb': '' });
 
     // parts of the calculation
     const outputPart = Object.assign({

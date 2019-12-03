@@ -7,7 +7,8 @@ export let hr = {
     light: false,
   },
   render(args) {
-    const cls = elementClass('hr', null, args, ['swash', 'light']);
+    args.blk = true;
+    const cls = elementClass('hr', null, args, ['swash', 'light', 'blk']);
     return `<hr${cls}>`;
   }
 }
@@ -16,7 +17,8 @@ export let tail = {
   name: 'tail',
   render(args) {
     args.tail = true;
-    const cls = elementClass('hr', null, args, ['tail']);
+    args.blk = true;
+    const cls = elementClass('hr', null, args, ['tail', 'blk']);
     return `<hr${cls}>`;
   }
 }

@@ -1,4 +1,12 @@
+import { elementClass } from '../util';
+
 export let blockquote = {
     name: 'blockquote',
-    render: (args, reg, doc) => `<blockquote>${reg.render(args.contents, doc)}</blockquote>`
+    defaults: {
+        blk: true,
+    },
+    render (args, reg, doc) {
+        let cls = elementClass('blockquote', null, args, ['blk']);
+        return `<blockquote>${reg.render(args.contents, doc)}</blockquote>`;
+    }
 }

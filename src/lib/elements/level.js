@@ -50,6 +50,7 @@ export let level_marker = {
     level: 1,
     marker: "Level",
     inline: false,
+    blk: true,
   },
   render(args, reg, doc) {
     let level = ("" + args.level).replace(/^\s*/, '').replace(/\s*$/, '');
@@ -59,7 +60,7 @@ export let level_marker = {
     if (level == "_") {
       level = "&nbsp;";
     }
-    const cls = elementClass("level-marker", null, args, ['inline']);
+    const cls = elementClass("level-marker", null, args, ['inline', 'blk']);
     const marker = args.marker ? `<label>${_e(args.marker, doc)}</label>` : '';
     return `<div${cls}>${marker}<div class='level-marker__level'>${_e(level, doc)}</div></div>`;
   }

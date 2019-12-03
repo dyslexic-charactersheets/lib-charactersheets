@@ -1,0 +1,172 @@
+unit: sorcerer/bloodline/undead
+in: sorcerer/bloodline
+group: "_{Core Rulebook}"
+name: "_{Undead}"
+
+inc:
+  - set: intimidation-proficiency
+    value: trained
+  - set: religion-proficiency
+    value: trained
+
+  - set: sorcerer-bloodline
+    value: "_{Undead}"
+  - set: spell-list
+    value: "_{Divine}"
+  - set: divine-spell-proficiency
+    value: trained
+
+  - at: '@actions'
+    replace:
+      - action: 1
+        contents:
+          - article:
+            title: "_{Touch of Undeath}"
+            content: "_{Harm spells heal one target.}"
+
+  - at: '@sorcerer/bloodline'
+    replace:
+      - h4: "_{Undead}"
+
+  - at: '@sorcerer/dcs'
+    replace:
+      - paste: divine-spell-dcs
+
+
+  - at: '@sorcerer/bloodline-spell/initial'
+    replace:
+      - article:
+        title: "_{Touch of Undeath}"
+        action: 1
+        content: "_{Harm spells heal one target.}"
+
+  - at: '@sorcerer/bloodline-spell/advanced'
+    replace:
+      - article:
+        title: "_{Drain Life}"
+        action: 1
+        content: "_{Pull life energy from another creature into yourself.}"
+
+  - at: '@sorcerer/bloodline-spell/greater'
+    replace:
+      - article:
+        title: "_{Grasping Grave}"
+        action: 2
+        content: "_{Hundreds of skeletal arms erupt from the ground, clawing at creatures within and holidng them in place.}"
+
+  - at: '@sorcerer/blood-magic'
+    replace:
+      - p: "_{Either gain temporary hit points or deal necromantic damage.}"
+
+
+  - at: '@sorcerer/spellbook/bloodline-spell/initial'
+    replace:
+      - article:
+        title: "_{Touch of Undeath}"
+        contents:
+          - action: 1
+            contents:
+              - dl:
+                defs:
+                  range: "_{Touch}"
+                  duration: "_{1 minute}"
+              - p: "_{Harm spells heal one target.}"
+          - list:
+            hr: true
+            light: true
+            contents:
+              - g:
+                pad: true
+                contents:
+                  - calc:
+                    output:
+                      field:
+                      legend: "_{Bonus\nhealing}"
+                      width: large
+                      affix: "_{hp}"
+                    inputs:
+                      - span: "1 + ("
+                      - field:
+                        ref: focus-level
+                        label: "_{Focus\nLevel}"
+                      - span: "&times; 2 )"
+              - g:
+                contents:
+                  - p: "_{A target who wishes to refuse the spell makes a will save:}"
+                  - paste: save
+                    params:
+                      critical_success: "_{No effect}"
+                      success: "_{Target heals half as much from heal and takes half as much damage from harm for 1 round.}"
+                      failure: "_{As described}"
+
+  - at: '@sorcerer/spellbook/bloodline-spell/advanced'
+    replace:
+      - article:
+        title: "_{Drain Life}"
+        contents:
+          - action: 1
+            contents:
+              - dl:
+                defs:
+                  range: "_{30ft}"
+              - p: "_{Pull life energy from another creature into yourself.}"
+              - calc:
+                output:
+                  field:
+                  legend: "_{Damage}"
+                  width: large
+                  affix: "_{d4}"
+                inputs:
+                  - field:
+                    ref: focus-level
+                    label: "_{Focus\nLevel}"
+              - paste: basic-save
+                params:
+                  save: "_{Fort}"
+
+  - at: '@sorcerer/spellbook/bloodline-spell/greater'
+    replace:
+      - article:
+        title: "_{Grasping Grave}"
+        contents:
+          - action: 2
+            contents:
+              - dl:
+                defs:
+                  range: "_{60ft}"
+                  area: "_{20ft radius}"
+              - p: "_{Hundreds of skeletal arms erupt from the ground, clawing at creatures within and holding them in place.}"
+          - calc:
+            output:
+              field:
+              legend: "_{Damage}"
+              width: large
+              affix: "_{d6}"
+            inputs:
+              - span: "("
+              - field:
+                ref: focus-level
+                label: "_{Focus\nLevel}"
+              - span: "&times; 2 ) - 4"
+
+          - paste: save
+            params:
+              critical_success: "_{No effect}"
+              success: "_{Half damage}"
+              failure: "_{Full damage, and -10 speed for 1 round}"
+              critical_failure: "_{Double damage, and immobilised for 1 round}"
+              
+
+  - at: '@sorcerer/spellbook/blood-magic'
+    replace:
+      - p: "_{Either gain temporary hit points, lasting 1 round; or deal necromantic damage.}"
+      - calc:
+        output:
+          field: sorcerer/bloodline/undead/blood-magic/hp
+          legend: "_{Temporary\nHit Points /\nDamage}"
+          width: large
+          affix: "_{hp}"
+        inputs:
+          - field:
+            ref: focus-level
+            label: "_{Focus\nLevel}"

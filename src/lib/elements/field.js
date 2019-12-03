@@ -19,6 +19,7 @@ export let field = {
     label: false,
     indent: false,
     value: null,
+    blk: true,
   },
   expect: ['icon'],
   render(args, reg, doc) {
@@ -31,7 +32,7 @@ export let field = {
 
     const id = elementID('field', args.id);
     const cls = elementClass('field', null, args,
-      ["icon", "ref", "misc", "temp", "indent"],
+      ["icon", "ref", "misc", "temp", "indent", "blk"],
       { "frame": "normal", "width": "medium", "align": "centre", "size": "medium", "control": "input", "shift": 0, "lp": 0, "border": "bottom", "flex": false });
 
     const frameArgs = Object.assign({}, args, { type: 'frame:' + args.frame });

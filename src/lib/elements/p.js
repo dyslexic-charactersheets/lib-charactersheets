@@ -10,10 +10,10 @@ export let p = {
     content: '',
     align: 'left',
     icon: false,
-    pad: false,
+    blk: true,
   },
   render(args, reg, doc) {
-    const cls = elementClass('p', null, args, ['prose', 'pad'], { 'align': 'left', 'size': 'medium' });
+    const cls = elementClass('p', null, args, ['prose', 'blk'], { 'align': 'left', 'size': 'medium' });
 
     // let paras = args.content.split(/[\n\r]/);
     const icon = args.icon ? reg.renderItem({

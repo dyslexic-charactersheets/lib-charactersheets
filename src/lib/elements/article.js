@@ -116,7 +116,15 @@ export let article = {
       }
 
       if (args.action && !args.left) {
-        args.left = { type: 'icon', icon: (args.action == 1 ? 'action' : 'action'+args.action) };
+        var icon;
+        switch (args.action) {
+          case 1:           icon = 'action'; break;
+          case 'reaction':  icon = 'reaction'; break;
+          case 'free':      icon = 'free-action'; break;
+          case 'template':  icon = 'action-template'; break;
+          default:          icon = 'action'+args.action; break;
+        }
+        args.left = { type: 'icon', icon: icon };
         // log("article", "Adding action:", args.action, args.left);
       }
 

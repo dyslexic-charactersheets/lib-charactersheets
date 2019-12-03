@@ -8,7 +8,8 @@ export let icon = {
     size: "medium"
   },
   render(args) {
-    const cls = elementClass('icon', null, args, [], { "icon": "", "size": "medium" });
+    args.blk = true;
+    const cls = elementClass('icon', null, args, ["blk"], { "icon": "", "size": "medium" });
     return `<i${cls}></i>`;
   }
 }

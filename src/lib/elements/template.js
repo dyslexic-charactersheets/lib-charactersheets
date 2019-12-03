@@ -39,6 +39,7 @@ export let copy = {
   key: 'template',
   defaults: {
     template: '',
+    alias: [],
     params: {},
     contents: [],
   },
@@ -48,6 +49,12 @@ export let copy = {
       params: args.params,
       contents: args.contents,
     }
+    args.alias.forEach(alias => {
+      ctx.templates[alias] = {
+        params: args.params,
+        contents: args.contents,
+      };
+    });
     return [];
   }
 }

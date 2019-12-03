@@ -2,28 +2,68 @@ unit: defs/saves
 
 inc:
 
+  # Template for saving throw improvements
+  - copy: improved-save
+    params:
+      save: ""
+    contents:
+      - p: "_{Upgraded success at #{save} saves.}"
+        icon: save-crit-succeed
+
+  - copy: improved-save-two
+    params:
+      save: ""
+    contents:
+      - p: "_{Reduced failure at #{save} saves.}"
+        icon: save-fail
+      - p: "_{On failing a #{save} save, take half damage.}"
+
+
+
+  # Actual improvements by name
   - copy: juggernaut
     contents:
-      - p: "_{Upgraded success at Fortitude saves.}"
+      - paste: improved-save
+        params:
+          save: "Fortitude"
 
+  - copy: greater-juggernaut
+    contents:
+      - paste: improved-save-two
+        params:
+          save: "Fortitude"
 
   - copy: evasion
     contents:
-      - p: "_{Upgraded success at Reflex saves.}"
+      - paste: improved-save
+        params:
+          save: "Reflex"
 
   - copy: improved-evasion
     contents:
-      - p: "_{Downgraded failure at Reflex saves.}"
-      - p: "_{On failing a Reflex save, take half damage.}"
-
-  - copy: resolve
-    contents:
-      - p: "_{Upgraded success at Will saves.}"
+      - paste: improved-save-two
+        params:
+          save: "Reflex"
 
   - copy: slippery-mind
+    alias:
+      - bravery
+      - indomitable-will
+      - resolve
     contents:
-      - p: "_{Upgraded success at Will saves.}"
+      - paste: improved-save
+        params:
+          save: "Will"
 
+  - copy: greater-resolve
+    contents:
+      - paste: improved-save-two
+        params:
+          save: "Will"
+
+
+
+  # Saving throw results template
   - copy: save
     params:
       critical_success: ""
