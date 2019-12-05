@@ -11,9 +11,11 @@ export let layout = {
     columns: 0,
     gutter: 'medium',
     contents: [],
+    blk: false,
+    unblk: true,
   },
   render(args, reg, doc) {
-    const cls = elementClass('layout', null, args, ['no-flex'], { 'layout': '', 'gutter': '', 'flex': false });
+    const cls = elementClass('layout', null, args, ['no-flex', 'blk', 'unblk'], { 'layout': '', 'gutter': '', 'flex': false });
 
     // pick a column number
     let columns = args.columns;

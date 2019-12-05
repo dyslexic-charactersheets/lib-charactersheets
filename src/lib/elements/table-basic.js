@@ -41,6 +41,6 @@ export function renderTableBasic(args, reg, doc, headings, rows) {
   });
 
   // put it all together
-  const cls = elementClass('table', null, args, ['zebra', 'collapse', 'fixed'], ['width', 'layout']);
+  const cls = elementClass('table', null, args, ['zebra', 'collapse', 'fixed', 'blk'], ['width', 'layout']);
   return `<table${cls}>${thead}<tbody>${trows.join("\n")}</tbody></table>`;
 }

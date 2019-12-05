@@ -5,9 +5,11 @@ import { __, _e } from '../i18n';
 export let ul = {
   name: 'ul',
   defaults: {
+    blk: true,
   },
   render(args, reg, doc) {
-    return `<ul>${reg.render(args.contents, doc)}</ul>`;
+    let cls = elementClass('ul', null, args, ['blk']);
+    return `<ul${cls}>${reg.render(args.contents, doc)}</ul>`;
   }
 }
 
@@ -17,6 +19,7 @@ export let li = {
   defaults: {
     content: '',
     contents: '',
+    blk: true,
   },
   render(args, reg, doc) {
     if (isEmpty(args.contents) && !isEmpty(args.content)) {
@@ -27,6 +30,7 @@ export let li = {
         }
       ]
     }
-    return `<li class='blk'>${reg.render(args.contents, doc)}</li>`;
+    let cls = elementClass('li', null, args, ['blk']);
+    return `<li${cls}>${reg.render(args.contents, doc)}</li>`;
   }
 }

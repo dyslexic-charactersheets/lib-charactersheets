@@ -6,6 +6,7 @@ export let list = {
   defaults: {
     contents: [],
     columns: 1,
+    blk: false,
     flowv: true,
     zebra: false,
     flex: false,
@@ -21,7 +22,9 @@ export let list = {
     if (args.zebra && args['avoid-shade']) {
       args['zebra-inverse'] = (args.contents.length % 2 == 0);
     }
-    const cls = elementClass('list', null, args, ["zebra", "zebra-inverse", "collapse", "vr", "hr", "light", "merge-bottom"], { "flex": false });
+    const cls = elementClass('list', null, args,
+      ["zebra", "zebra-inverse", "collapse", "vr", "hr", "light", "merge-bottom", "blk"],
+      { "flex": false });
     return `<div${cls}>${reg.render(args.contents, doc)}</div>`;
   },
   transform(args) {
@@ -55,6 +58,7 @@ export let list = {
         layout: args.columns + "e",
         flex: args.flex,
         gutter: args.gutter,
+        blk: args.blk,
         'merge-bottom': args['merge-bottom'],
         contents: cols.map(col => {
           return {

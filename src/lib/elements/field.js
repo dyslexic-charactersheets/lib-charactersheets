@@ -19,7 +19,7 @@ export let field = {
     label: false,
     indent: false,
     value: null,
-    blk: true,
+    blk: false,
   },
   expect: ['icon'],
   render(args, reg, doc) {

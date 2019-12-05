@@ -13,6 +13,7 @@ export let article = {
     content: '',
     shade: false,
     'merge-bottom': true,
+    blk: true,
 
     annotation: false,
     cat: false,
@@ -85,6 +86,7 @@ export let article = {
         header = [
           {
             type: 'row',
+            blk: false,
             contents: header
           }
         ];
@@ -157,6 +159,7 @@ export let article = {
         header: header,
         contents: contents,
         shade: false,
+        blk: args.blk,
         annotation: args.annotation,
         'merge-bottom': args['merge-bottom'],
       };
@@ -167,7 +170,7 @@ export let article = {
   },
   render(args, reg, doc) {
     const id = elementID('section', args.id);
-    const cls = elementClass('section', null, args, ['shade']);
+    const cls = elementClass('section', null, args, ['shade', 'blk']);
 
     const annotation = args.annotation ? `<div class='article__annotation'>${__(args.annotation, doc)}</div>` : '';
     const header = `<header>${reg.render(args.header, doc)}</header>`

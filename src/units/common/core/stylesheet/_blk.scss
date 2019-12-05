@@ -1,0 +1,33 @@
+// A block has flexible margin before and after
+.blk {
+  margin: 0;
+
+  &:before, &:after {
+    content: "";
+    overflow: hidden;
+    flex: 10 10 0.2rem;
+  }
+
+  // Collapse margin between two blocks
+  + .blk {
+    &:before {
+      display: none;
+    }
+  }
+
+  // The first and last blocks within a block don't need another margin
+  > .blk, .inner > .blk {
+    &:first-child:before, &:last-child:after {
+      display: none;
+    }
+  }
+}
+
+// An unblock element removes the margin from its direct children.
+.unblk {
+  > .blk, > .inner > .blk {
+    &:before, &:after {
+      display: none;
+    }
+  }
+}

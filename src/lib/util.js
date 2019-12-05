@@ -317,6 +317,8 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
       case 'shade':
       case 'lp':
       case 'optional':
+      case 'blk':
+      case 'unblk':
         cls.push(mod);
         break;
       default:

@@ -13,6 +13,7 @@ export let table = {
     flip: false,
     template: [],
     width: '',
+    blk: true,
   },
   render(args, reg, doc) {
     // get headings

@@ -7,7 +7,8 @@ export let dl = {
   defaults: {
     div: false,
     min: false,
-    defs: []
+    defs: [],
+    blk: true,
   },
   render(args, reg, doc) {
     let defs = Object.keys(args.defs).map(term => {
@@ -37,7 +38,7 @@ export let dl = {
       return `<div><dt>${icon}${_e(term, doc)}</dt><dd>${_e(termdef, doc)}</dd></div> `;
     });
 
-    const dlCls = elementClass('dl', null, args, ['div']);
+    const dlCls = elementClass('dl', null, args, ['div', 'blk']);
     return `<dl${dlCls}>${defs.join("")}</dl>`;
   }
 }
