@@ -36,22 +36,23 @@ export let action = {
   },
   transform(args) {
     let icon = 'action';
+    let layout = 'indent-l';
     switch (args.action) {
       case 1: icon = 'action'; break;
       case 2: icon = 'action2'; break;
-      case 3: icon = 'action3'; break;
-      case 13: icon = 'action13'; break;
+      case 3: icon = 'action3'; layout = 'indent-lw'; break;
+      case 13: icon = 'action13'; layout = 'indent-lw'; break;
       case '2nd': icon = 'action2nd'; break;
-      case '3rd': icon = 'action3rd'; break;
+      case '3rd': icon = 'action3rd'; layout = 'indent-lw'; break;
       case 'reaction': icon = 'reaction'; break;
       case 'free': icon = 'free-action'; break;
-      case 'template': icon = 'action-template'; break;
+      case 'template': icon = 'action-template'; layout = 'indent-lw'; break;
     }
 
     return [
       {
         type: "layout",
-        layout: "indent-l",
+        layout: layout,
         contents: [
           {
             type: "icon",

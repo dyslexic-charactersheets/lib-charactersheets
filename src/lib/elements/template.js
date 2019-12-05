@@ -44,12 +44,13 @@ export let copy = {
     contents: [],
   },
   transform(args, ctx) {
-    // log("template", "Copy template:", args.template);
+    log("template", "Copy template:", args.template);
     ctx.templates[args.template] = {
       params: args.params,
       contents: args.contents,
     }
     args.alias.forEach(alias => {
+      log("template", "Copy template alias:", args.template);
       ctx.templates[alias] = {
         params: args.params,
         contents: args.contents,
