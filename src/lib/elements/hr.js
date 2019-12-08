@@ -8,6 +8,12 @@ export let hr = {
   },
   render(args) {
     args.blk = true;
+
+    if (args.swash) {
+
+      return `<div class='hr--swash blk'><div class='inner'></div></div>`;
+    }
+
     const cls = elementClass('hr', null, args, ['swash', 'light', 'blk']);
     return `<hr${cls}>`;
   }

@@ -568,6 +568,8 @@ inc:
                           - zone: '@perception-misc'
                       - row: left
                         contents:
+                          - p: "_{Perception DC = 10 + Perception Bonus}"
+                          - spacer:
                           - field: perception-low-light
                             frame: right
                             control: checkbox
@@ -606,7 +608,7 @@ inc:
                                 contents:
                                   - item: yes
                             contents:
-                              - slots: [ 3, 7, 11, 15, 19 , '' ]
+                              - slots: [ 3, 7, 11, 15, 19 ]
                                 min: 1
                                 max: 1
                                 placeholder:
@@ -614,6 +616,11 @@ inc:
                                   lines: 1
                                 contents:
                                   - zone: '@general-feats'
+                          - zone: '@general-feat-bonus'
+                            contents:
+                              - article: general-feat-bonus
+                                lines: 1
+                                annotation: "_{Bonus}"
 
                   - tail:
 
@@ -750,12 +757,12 @@ inc:
                                     misc: true
                           # - p: "Maximum focus: 3"
                           - spacer:
-                          - field: refocus
-                            label: "_{Refocus}"
+                          - field: current-focus
+                            temp: true
+                            label: "_{Current Focus Points}"
+                            align: center
+                            width: huge
                             border: full
-                            width: large
-                            prefix: "+"
-                            underlay: "1"
                             suffix: "_{pts}"
 
                       - row:
@@ -774,12 +781,12 @@ inc:
                                   - span: "&divide; 2"
 
                           - spacer:
-                          - field: current-focus
-                            temp: true
-                            label: "_{Current Focus Points}"
-                            align: center
-                            width: huge
+                          - field: refocus
+                            label: "_{Refocus}"
                             border: full
+                            width: large
+                            prefix: "+"
+                            underlay: "1"
                             suffix: "_{pts}"
 
                   - zone: '@weapon-spec-section'
