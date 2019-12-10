@@ -17,13 +17,14 @@ export let list = {
     'merge-bottom': false,
     'avoid-shade': false,
     flatten: false,
+    unblk: true,
   },
   render(args, reg, doc) {
     if (args.zebra && args['avoid-shade']) {
       args['zebra-inverse'] = (args.contents.length % 2 == 0);
     }
     const cls = elementClass('list', null, args,
-      ["zebra", "zebra-inverse", "collapse", "vr", "hr", "light", "merge-bottom", "blk"],
+      ["zebra", "zebra-inverse", "collapse", "vr", "hr", "light", "merge-bottom", "blk", "unblk"],
       { "flex": false });
     return `<div${cls}>${reg.render(args.contents, doc)}</div>`;
   },
