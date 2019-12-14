@@ -20,10 +20,11 @@ inc:
     value: "_{Monk}"
   - set: hp-class
     value: 10
-  - set: class-dc-proficiency
+  - set: monk-class-dc-proficiency
     value: trained
   - set: perception-proficiency
     value: trained
+
   - set: fortitude-proficiency
     value: expert
   - set: reflex-proficiency
@@ -31,6 +32,15 @@ inc:
   - set: will-proficiency
     value: expert
   
+  - set: unarmoured-proficiency
+    value: trained
+  - set: light-armour-proficiency
+    value: trained
+  - set: medium-armour-proficiency
+    value: trained
+  - set: heavy-armour-proficiency
+    value: trained
+
   - at: '@advancement'
     add:
       - level: 1
@@ -46,14 +56,14 @@ inc:
       - level: 9
         advance: "_{Metal Strikes}"
       - level: 17
-        advance: "_{Adamantine Strikes"
+        advance: "_{Adamantine Strikes}"
 
       - level: 7
-        advance: "_{Path to Perfection}"
+        gain: "_{Path to Perfection}"
       - level: 11
-        advance: "_{Second path to Perfection}"
+        gain: "_{Second path to Perfection}"
       - level: 19
-        advance: "_{Third path to Perfection}"
+        gain: "_{Third path to Perfection}"
 
   - at: '@key-ability-field'
     replace:
@@ -104,12 +114,13 @@ inc:
               - g:
                 contents:
                   - class-icon: monk
-                  - h2: "_{Monk}"
+                  - class-name: "_{Monk}"
 
                   - section: "_{Class DC}"
                     contents:
                       - paste: class-dc
                         params:
+                          id: monk-class-dc
                           legend: "_{Monk\nClass DC}"
 
                   - section: "_{Ki Spells}"
@@ -346,6 +357,7 @@ inc:
                       id: monk-feats
                       title: "_{Monk Feats}"
                       slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                      lines: 1
 
                   - tail:
                   - spacer:

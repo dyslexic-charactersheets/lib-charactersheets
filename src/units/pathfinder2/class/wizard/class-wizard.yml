@@ -28,6 +28,9 @@ inc:
   - set: perception-proficiency
     value: trained
 
+  - set: unarmoured-proficiency
+    value: trained
+
   - set: fortitude-proficiency
     value: trained
   - set: reflex-proficiency
@@ -44,6 +47,15 @@ inc:
         label: "_{INT}"
         underlay: "_{INT}"
         ref: INT
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        gain: "_{Arcane Thesis}"
+      - level: 1
+        gain: "_{Arcane School}"
+      - levels: [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
+        spell-level: [ "_{1st}", "_{2nd}", "_{3rd}", "_{4th}", "_{5th}", "_{6th}", "_{7th}", "_{8th}", "_{9th}", "_{10th}" ]
 
   - at: '@saving-throws'
     add:
@@ -70,7 +82,7 @@ inc:
               - g:
                 contents:
                   - class-icon: wizard
-                  - h2: "_{Wizard}"
+                  - class-name: "_{Wizard}"
                   - section: "_{Thesis}"
                     primary: true
                     contents:

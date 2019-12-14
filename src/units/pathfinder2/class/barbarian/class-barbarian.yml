@@ -17,10 +17,17 @@ inc:
   - set: hp-class
     value: 12
 
-  - set: class-dc-proficiency
+  - set: barbarian-class-dc-proficiency
     value: trained
   - set: perception-proficiency
     value: expert
+
+  - set: unarmoured-proficiency
+    value: trained
+  - set: light-armour-proficiency
+    value: trained
+  - set: medium-armour-proficiency
+    value: trained
 
   - set: fortitude-proficiency
     value: expert
@@ -67,6 +74,34 @@ inc:
       - level: 15
         contents:
           - paste: indomitable-will
+
+  - at: '@actions'
+    add:
+      - action: 1
+        contents:
+          - article:
+            title: "_{Rage}"
+            contents:
+              - dl:
+                defs:
+                  duration: "_{1 minute}"
+              - row:
+                contents:
+                  - p: "_{Fly into a frenzy, gaining temporary hp and a bonus to damage but a penalty to AC.}"
+                  - field:
+                    label: "_{Rage\nDamage Bonus}"
+                    border: full
+                    prefix: "+"
+                    width: large
+
+  - at: '@temp-ac'
+    add:
+      - field:
+        label: "_{Rage Penalty}"
+        underlay: "_{-1}"
+        border: full
+        temp: true
+        width: large
 
   - at: '@pages'
     add:
