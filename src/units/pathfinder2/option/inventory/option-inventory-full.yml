@@ -75,11 +75,14 @@ inc:
                                               - field: inventory-#{i}-value
                                               - field: inventory-#{i}-weight
                                             control: checkbox
-                              - field: weight-total
-                                frame: left
-                                label: "Total weight"
-                                border: none
-                                control: weight
+                              - row:
+                                contents:
+                                  - p: "_{10 light = 1 bulk}"
+                                  - field: weight-total
+                                    frame: left
+                                    label: "Total weight"
+                                    border: full
+                                    control: weight
                             
                           - g:
                             contents:
@@ -99,12 +102,18 @@ inc:
                                           - field: inventory-#{i}-weight
                                           - field: inventory-#{i}-checked
                                             control: checkbox
-                              - g:
+                              - row:
                                 contents:
-                                  - field: weight-total
+                                  - field: weight-backpack-ignore
+                                    control: value
+                                    value: "-2"
+                                    frame: none
+                                    width: tiny
+                                  - p: "_{from weight of items in a backpack}"
+                                  - field: weight-backpack-total
                                     frame: left
-                                    label: "Total weight"
-                                    border: none
+                                    label: ""
+                                    border: full
                                     control: weight
 
                           - g:
@@ -171,6 +180,7 @@ inc:
               - g:
                 contents:
                   - layout: 2e
+                    flex: huge
                     contents:
                       - g:
                         contents:
@@ -271,6 +281,7 @@ inc:
                                         show-level: true
 
                   - layout: 2e
+                    flex: none
                     contents:
                       - section: "_{Scrolls}"
                         contents:
@@ -283,6 +294,7 @@ inc:
                                 reduce: 2
                                 contents:
                                   - row:
+                                    blk: false
                                     contents:
                                       - field: inventory-scrolls-#{i}
                                         frame: none
@@ -303,6 +315,7 @@ inc:
                                 reduce: 2
                                 contents:
                                   - row:
+                                    blk: false
                                     contents:
                                       - field: inventory-potion-#{i}
                                         width: stretch

@@ -18,6 +18,7 @@ export let dl = {
         return '';
       switch (term) {
         case 'trigger': term = "_{Trigger}"; break;
+        case 'frequency': term = "_{Frequency}"; break;
         case 'duration': term = "_{Duration}"; break;
         case 'range': term = "_{Range}"; break;
         case 'target': term = "_{Target}"; break;

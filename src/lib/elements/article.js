@@ -35,6 +35,7 @@ export let article = {
         if (args.title) {
           header.push({
             type: 'h6',
+            blk: false,
             title: args.title
           });
         } else {

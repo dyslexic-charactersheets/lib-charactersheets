@@ -21,108 +21,146 @@ inc:
                           - section: "_{Inventory}"
                             contents:
                               - list:
-                                zebra: true
                                 hr: true
                                 contents:
-                                  - repeat: 4
-                                    reduce: 2
+
+                                  - g:
                                     contents:
-                                      - article:
-                                        header:
-                                          - row:
-                                            contents:
-                                              - field: inventory-#{i}
-                                                width: stretch
-                                                frame: none
-                                              - field: inventory-#{i}-value
-                                                frame: none
-                                              - field: inventory-#{i}-weight
-                                                frame: none
-                                        lines: 1
-                                  - list:
-                                    zebra: true
-                                    collapse: true
-                                    field_frame: none
-                                    contents:
-                                      - repeat: 16
-                                        reduce: 2
+                                      - list:
+                                        zebra: true
+                                        hr: true
                                         contents:
-                                          - row:
+                                          - repeat: 2
+                                            reduce: 1
                                             contents:
-                                              - field: inventory-#{i}
-                                                width: stretch
-                                              - field: inventory-#{i}-value
-                                              - field: inventory-#{i}-weight
-                              - g:
-                                contents:
-                                  - field: weight-total
-                                    frame: left
-                                    label: "_{Total weight}"
-                                    border: none
-                                    control: weight
-                                    # width: huge
-                              - p: "_{10 light = 1 bulk}"
-                              - hr:
-                              - h5: "_{Expendables}"
-                              - list:
-                                zebra: true
-                                collapse: true
-                                field_frame: none
-                                merge-bottom: true
-                                contents:
-                                  - repeat: 2
-                                    contents:
+                                              - article:
+                                                header:
+                                                  - row:
+                                                    contents:
+                                                      - field: inventory-#{i}
+                                                        width: stretch
+                                                        frame: none
+                                                      - field: inventory-#{i}-value
+                                                        frame: none
+                                                      - field: inventory-#{i}-weight
+                                                        frame: none
+                                                lines: 1
+                                          - list:
+                                            zebra: true
+                                            collapse: true
+                                            field_frame: none
+                                            contents:
+                                              - repeat: 10
+                                                reduce: 3
+                                                contents:
+                                                  - row:
+                                                    contents:
+                                                      - field: inventory-#{i}
+                                                        width: stretch
+                                                      - field: inventory-#{i}-value
+                                                      - field: inventory-#{i}-weight
                                       - row:
                                         contents:
-                                          - field: expendable-#{i}
-                                            width: stretch
-                                          - field: expendable-#{i}-count
+                                          - p: "_{10 light = 1 bulk}"
+                                          - field: weight-total
+                                            frame: left
+                                            label: "_{Total weight}"
+                                            border: full
+                                            control: weight
+
+                                  - g:
+                                    contents:
+                                      - h5: "_{Backpack}"
+                                      - list:
+                                        zebra: true
+                                        collapse: true
+                                        field_frame: none
+                                        contents:
+                                          - repeat: 6
+                                            reduce: 2
+                                            contents:
+                                              - row:
+                                                contents:
+                                                  - field: inventory-#{i}
+                                                    width: stretch
+                                                  - field: inventory-#{i}-value
+                                                  - field: inventory-#{i}-weight
+                                      - row:
+                                        contents:
+                                          - field: weight-backpack-ignore
+                                            control: value
+                                            value: "-2"
                                             frame: none
-                                            control: checkgrid
-                                            max: 20
-                                            depth: 3
-                                            
-                          - g:
-                            contents:
-                              - hr:
-                              - h5: "_{Money}"
-                              - field: money-platinum
-                                frame: left
-                                control: money
-                                label: "_{Platinum}"
-                                denomination: platinum
-                                digits: 7
-                                shift: 3
-                              - field: money-gold
-                                frame: left
-                                control: money
-                                label: "_{Gold}"
-                                denomination: gold
-                                digits: 8
-                                shift: 2
-                              - field: money-silver
-                                frame: left
-                                control: money
-                                label: "_{Silver}"
-                                denomination: silver
-                                digits: 9
-                                shift: 1
-                              - field: money-copper
-                                frame: left
-                                control: money
-                                label: "_{Copper}"
-                                denomination: copper
-                                digits: 10
-                              - field: money-total
-                                frame: left
-                                output: 'true'
-                                control: money
-                                legend: "_{Total}"
-                                denomination: copper
-                                digits: 10
-                                decimal: 1
-                              - p: "_{1000 coins = 1 bulk}"
+                                            width: tiny
+                                          - p: "_{from weight of items in a backpack}"
+                                          - field: weight-backpack-total
+                                            frame: left
+                                            label: ""
+                                            border: full
+                                            control: weight
+
+                                  - g:
+                                    contents:
+                                      - h5: "_{Expendables}"
+                                      - list:
+                                        zebra: true
+                                        collapse: true
+                                        field_frame: none
+                                        merge-bottom: true
+                                        contents:
+                                          - repeat: 2
+                                            contents:
+                                              - row:
+                                                contents:
+                                                  - field: expendable-#{i}
+                                                    width: stretch
+                                                  - field: expendable-#{i}-count
+                                                    frame: none
+                                                    control: checkgrid
+                                                    max: 20
+                                                    depth: 3
+                                                
+                                  - g:
+                                    contents:
+                                      - h5: "_{Money}"
+                                      - field: money-platinum
+                                        frame: left
+                                        control: money
+                                        label: "_{Platinum}"
+                                        denomination: platinum
+                                        digits: 7
+                                        shift: 3
+                                      - field: money-gold
+                                        frame: left
+                                        control: money
+                                        label: "_{Gold}"
+                                        denomination: gold
+                                        digits: 8
+                                        shift: 2
+                                      - field: money-silver
+                                        frame: left
+                                        control: money
+                                        label: "_{Silver}"
+                                        denomination: silver
+                                        digits: 9
+                                        shift: 1
+                                      - field: money-copper
+                                        frame: left
+                                        control: money
+                                        label: "_{Copper}"
+                                        denomination: copper
+                                        digits: 10
+                                      - field: money-total
+                                        frame: left
+                                        output: 'true'
+                                        control: money
+                                        legend: "_{Total}"
+                                        denomination: copper
+                                        digits: 10
+                                        decimal: 1
+                                      - p: "_{1000 coins = 1 bulk}"
                           - tail:
+ 
                       - g:
                         contents:
                           - section: "_{Invested Items}"
