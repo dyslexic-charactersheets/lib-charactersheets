@@ -1,22 +1,24 @@
-unit: heritage/dwarf/forge-dwarf
+unit: heritage/dwarf/forge
 in: heritage/dwarf
 group: "_{Core Rulebook}"
 name: "_{Forge Dwarf}"
 
 inc:
   - set: heritage
-    value: "_{Force Dwarf}"
+    value: "_{Forge Dwarf}"
+    
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Forge Dwarf}"
+        contents:
+          - p: "_{Gain fire resistance equal to half your level.}"
+          - p: "_{Treat environmental heat as one step less extreme.}"
+
   - at: "@ac-conditional"
     add:
-      - calc:
-        output:
-          field: forge-dwarf-fire-resistance
-          frame: left
-          label: "_{Fire resistance}"
-        inputs:
-          - field:
-            ref: level
-            frame: h-label
-            label: "Level"
-          - span: "&divide; 2"
-      - p: "_{Treat environmental heat effects as if they were one step less extreme.}"
+      - paste: half-level
+        params:
+          id: dwarf/forge/fire-resistance
+          label: "_{Fire Resistance}"
+      - p: "_{Treat environmental heat as one step less extreme.}"

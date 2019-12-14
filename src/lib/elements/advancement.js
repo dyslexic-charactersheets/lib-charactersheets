@@ -202,6 +202,7 @@ export let advancement = {
       columns: columns,
       template: template,
       td_valign: 'middle',
+      blk: false,
     }
 
     // log("advancement", "Table", table);
