@@ -5,11 +5,12 @@ export let icon = {
   key: 'icon',
   defaults: {
     icon: "",
-    size: "medium"
+    size: "medium",
+    width: "",
   },
   render(args) {
     args.blk = true;
-    const cls = elementClass('icon', null, args, ["blk"], { "icon": "", "size": "medium" });
+    const cls = elementClass('icon', null, args, ["blk"], { "icon": "", "size": "medium", "width": "" });
     return `<i${cls}></i>`;
   }
 }

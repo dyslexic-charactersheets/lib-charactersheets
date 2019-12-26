@@ -18,6 +18,9 @@ form:
   - option: build
     name: "_{Build A Character}"
     unit: option/build
+  - option: cover
+    name: "_{Cover Page}"
+    unit: option/cover
   - option: minis
     name: "_{Map Minis}"
     unit: option/minis
@@ -32,18 +35,18 @@ inc:
   - at: '@pages'
     add:
 
-      - page: cover
-        name: "_{Cover}"
-        order: 4
+      - page: character
+        name: "_{Character}"
+        order: 5
         flex: true
         contents:
-          - layout: 2e
+          - layout: 2l
             contents:
               - g:
                 contents:
                   - logo:
+                  
                   - section:
-                    id: player
                     untitled: true
                     contents:
                       - row:
@@ -72,9 +75,11 @@ inc:
                       - zone: '@player-header'
                   - hr:
                     swash: true
+
                   - portrait: personal
-                  - section: "_{Character}"
-                    id: character
+
+                  - section:
+                    id: ident
                     untitled: true
                     contents:
                       - list:
@@ -175,80 +180,82 @@ inc:
                               - p: "_{Ability Modifier = (Ability Score - 10) &divide; 2}"
                                 align: left
 
-                          # - g:
-                          #   contents:
-                          #     - h5: "_{Proficiency}"
-                          #     - layout: 5e
-                          #       gutter: none
-                          #       valign: top
-                          #       contents:
-                          #         - g:
-                          #           valign: top
-                          #           contents:
-                          #             - field: proficiency-untrained
-                          #               label: "_{Untrained}"
-                          #               border: full
-                          #               control: proficiency
-                          #               value: 0
-                          #             - label: "_{None}\n"
-                          #               align: center
-                          #             - spacer:
-                          #         - g:
-                          #           valign: top
-                          #           contents:
-                          #             - field: proficiency-trained
-                          #               label: "_{Trained}"
-                          #               border: full
-                          #               control: proficiency
-                          #               value: trained
-                          #             - label: "_{Level}\n+2"
-                          #               align: center
-                          #         - g:
-                          #           valign: top
-                          #           contents:
-                          #             - field: proficiency-expert
-                          #               label: "_{Expert}"
-                          #               border: full
-                          #               control: proficiency
-                          #               value: expert
-                          #             - label: "_{Level}\n+4"
-                          #               align: center
-                          #         - g:
-                          #           valign: top
-                          #           contents:
-                          #             - field: proficiency-master
-                          #               label: "_{Master}"
-                          #               border: full
-                          #               control: proficiency
-                          #               value: master
-                          #             - label: "_{Level}\n+6"
-                          #               align: center
-                          #         - g:
-                          #           valign: top
-                          #           contents:
-                          #             - field: proficiency-legendary
-                          #               label: "_{Legendary}"
-                          #               border: full
-                          #               control: proficiency
-                          #               value: legendary
-                          #             - label: "_{Level}\n+8"
-                          #               align: center
+                          - g:
+                            contents:
+                              - h5: "_{Proficiency}"
+                              - layout: 5e
+                                gutter: none
+                                valign: top
+                                flex: none
+                                contents:
+                                  - g:
+                                    valign: top
+                                    contents:
+                                      - field: proficiency-untrained
+                                        label: "_{Untrained}"
+                                        border: full
+                                        control: proficiency
+                                        value: [ "untrained", 0 ]
+                                      - label: "_{None}\n"
+                                        align: center
+                                      - spacer:
+                                  - g:
+                                    valign: top
+                                    contents:
+                                      - field: proficiency-trained
+                                        label: "_{Trained}"
+                                        border: full
+                                        control: proficiency
+                                        value: trained
+                                      - label: "_{Level}\n+2"
+                                        align: center
+                                  - g:
+                                    valign: top
+                                    contents:
+                                      - field: proficiency-expert
+                                        label: "_{Expert}"
+                                        border: full
+                                        control: proficiency
+                                        value: expert
+                                      - label: "_{Level}\n+4"
+                                        align: center
+                                  - g:
+                                    valign: top
+                                    contents:
+                                      - field: proficiency-master
+                                        label: "_{Master}"
+                                        border: full
+                                        control: proficiency
+                                        value: master
+                                      - label: "_{Level}\n+6"
+                                        align: center
+                                  - g:
+                                    valign: top
+                                    contents:
+                                      - field: proficiency-legendary
+                                        label: "_{Legendary}"
+                                        border: full
+                                        control: proficiency
+                                        value: legendary
+                                      - label: "_{Level}\n+8"
+                                        align: center
                   - tail:
+
               - g:
                 contents:
                   - section: "_{Character}"
-                    id: ancestry
                     contents:
                       - list:
                         hr: true
                         zebra: true
                         avoid-shade: true
                         contents:
-                          - g:
+                          - row:
                             contents:
                               - field: ancestry
                                 legend: "_{Ancestry}"
                                 width: stretch
+                                merge-bottom: true
                               - field: heritage
                                 label: "_{Heritage}"
                                 width: stretch
@@ -262,22 +269,22 @@ inc:
                                 merge-bottom: true
                                 # value: '#{background}'
 
-                          - g:
+                          - row:
                             contents:
-                              - row:
-                                contents:
-                                  - field: class
-                                    width: stretch
-                                    legend: "_{Class}"
-                                  - field: level
-                                    label: "_{Level}"
-                                    border: full
+                              - field: class
+                                width: stretch
+                                legend: "_{Class}"
+                                merge-bottom: true
                               - field: class-specialisation
                                 label: "_{Subclass}"
                                 width: stretch
                                 merge-bottom: true
+                              - field: level
+                                label: "_{Level}"
+                                border: full
 
                           - g:
+                            flex: tiny
                             contents:
                               - h5: "_{Archetypes}"
                               - list:
@@ -303,157 +310,9 @@ inc:
                                               - control: checkbox
                               - p: "_{You must take three archetype feats before you can start another.}"
                                 optional: true
-                              # - p: "You cannot have more than one prestige archetype."
-
-                      - section: '_{Advancement}'
-                        contents:
-                          - list:
-                            hr: true
-                            contents:
-                              - advancement:
-                                advances:
-                                  - levels: [ 1, 5, 9, 13, 17 ]
-                                    ancestry-feat: true
-                                  - levels: [ 3, 7, 11, 15, 19 ]
-                                    general-feat: true
-                                  - levels: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
-                                    class-feat: true
-                                  - levels: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
-                                    skill-feat: true
-                                  - levels: [ 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
-                                    skill-increase: true
-                                  - levels: [ 5, 10, 15, 20 ]
-                                    gain: "_{Ability boost}"
-                                  - level: 7
-                                    advance: "_{Master in skills}"
-                                  - level: 15
-                                    advance: "_{Legendary in skills}"
-                                  - zone: '@advancement'
-                                fields:
-                                  - zone: '@advancement-fields'
-                                  - name: "_{Ancestry\nfeat}"
-                                    key: ancestry-feat
-                                  - name: "_{General\nfeat}"
-                                    key: general-feat
-                                  - name: "_{Class\nfeat}"
-                                    key: class-feat
-                                  - name: "_{Skill\nfeat}"
-                                    key: skill-feat
-                                  - name: "_{Skill\nincrease}"
-                                    key: skill-increase
-
-                              - g:
-                                contents:
-                                  - h5: "_{Proficiency}"
-                                  - layout: 5e
-                                    gutter: none
-                                    valign: top
-                                    contents:
-                                      - g:
-                                        valign: top
-                                        contents:
-                                          - field: proficiency-untrained
-                                            label: "_{Untrained}"
-                                            border: full
-                                            control: proficiency
-                                            value: 0
-                                          - label: "_{None}\n"
-                                            align: center
-                                          - spacer:
-                                      - g:
-                                        valign: top
-                                        contents:
-                                          - field: proficiency-trained
-                                            label: "_{Trained}"
-                                            border: full
-                                            control: proficiency
-                                            value: trained
-                                          - label: "_{Level}\n+2"
-                                            align: center
-                                      - g:
-                                        valign: top
-                                        contents:
-                                          - field: proficiency-expert
-                                            label: "_{Expert}"
-                                            border: full
-                                            control: proficiency
-                                            value: expert
-                                          - label: "_{Level}\n+4"
-                                            align: center
-                                      - g:
-                                        valign: top
-                                        contents:
-                                          - field: proficiency-master
-                                            label: "_{Master}"
-                                            border: full
-                                            control: proficiency
-                                            value: master
-                                          - label: "_{Level}\n+6"
-                                            align: center
-                                      - g:
-                                        valign: top
-                                        contents:
-                                          - field: proficiency-legendary
-                                            label: "_{Legendary}"
-                                            border: full
-                                            control: proficiency
-                                            value: legendary
-                                          - label: "_{Level}\n+8"
-                                            align: center
-                  - tail:
-                  - spacer:
-
-
-      - page: skills
-        name: "_{Skills}"
-        order: 5
-        flex: true
-        contents:
-          - layout: 2r
-            contents:
-
-              - g:
-                contents:
-                  - section: "_{Ancestry}"
-                    contents:
-                      - list:
-                        hr: true
-                        unblk: true
-                        contents:
-                          - field: ancestry
-                            size: huge
-                            width: stretch
-                            frame: none
-                            merge-bottom: true
-                            flex: tiny
-                          - list:
-                            hr: true
-                            zebra: true
-                            columns: 2
-                            contents:
-                              - zone: '@heritage'
-                                contents:
-                                  - article: heritage
-                                    lines: 1
-                                    annotation: "_{Heritage}"
-                              - each:
-                                template:
-                                  - level: '#{level}'
-                                    contents:
-                                      - item: yes
-                                contents:
-                                  - slots: [ 1, 5, 9, 13, 17 ]
-                                    min: 1
-                                    max: 1
-                                    contents:
-                                      - zone: '@ancestry-feats'
-                                    placeholder:
-                                      - article: 'ancestry-feat-#{i}'
-                                        lines: 1
-
+                  
                   - section: "_{Skills}"
                     id: skills
-                    flex: tiny
                     contents:
                       - table:
                         collapse: true
@@ -602,6 +461,30 @@ inc:
                             exists: "#{acp}"
                             prefix: "&ndash;"
 
+                      - hr:
+                      - list:
+                        merge-bottom: true
+                        contents:
+                          - repeat: 6
+                            contents:
+                              - row:
+                                contents:
+                                  - field: "skill-note-#{i}-value"
+                                    control: icon
+                                    icon: proficiency
+                                    frame: none
+                                  - field: "skill-note-#{i}-name"
+                                    frame: none
+                                    width: stretch
+                                  - field: "skill-note-#{i}-action"
+                                    control: icon
+                                    frame: none
+                                    icon: action-template
+                                    width: large
+                                  - field: "skill-note-#{i}-notes"
+                                    frame: none
+                                    width: stretch
+
                   - section: "_{Perception}"
                     flex: small
                     contents:
@@ -610,7 +493,6 @@ inc:
                           - calc:
                             output:
                               field: perception
-                              # frame: left
                               icon: bonus
                               legend: "_{Perception}"
                               width: large
@@ -654,85 +536,11 @@ inc:
                           - row:
                             contents:
                               - field: perception-other
-                                # label: "Conditional"
                                 frame: none
                                 align: left
                                 width: stretch
                                 merge-bottom: true
                                 optional: true
-                                # repeat: 2
-
-                  - section: "_{General Feats}"
-                    contents:
-                      - list:
-                        columns: 2
-                        zebra: true
-                        hr: true
-                        contents:
-                          - each:
-                            template:
-                              - level: "#{level}"
-                                contents:
-                                  - item: yes
-                            contents:
-                              - slots: [ 3, 7, 11, 15, 19 ]
-                                min: 1
-                                max: 1
-                                placeholder:
-                                  article: general-feat-level-#{level}
-                                  lines: 1
-                                contents:
-                                  - zone: '@general-feats'
-                          - zone: '@general-feat-bonus'
-                            contents:
-                              - article: general-feat-bonus
-                                lines: 1
-                                annotation: "_{Bonus}"
-
-                  - tail:
-
-              - g:
-                contents:
-
-                  - section: "_{Skill feats}"
-                    id: skill-feats
-                    contents:
-                      - zone: '@skill-feats-section'
-                        contents:
-                          - list:
-                            zebra: true
-                            flex: huge
-                            hr: true
-                            avoid-shade: true
-                            contents:
-                              - article: 'skill-feat-#{level}'
-                                lines: 2
-                                annotation: "_{Background}"
-                              - each:
-                                template:
-                                  - level: "#{level}"
-                                    contents:
-                                      - item: yes
-                                contents:
-                                  - slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
-                                    min: 1
-                                    max: 1
-                                    placeholder:
-                                      article: 'skill-feat-#{level}'
-                                      lines: 2
-                                    contents:
-                                      - zone: '@skill-feats'
-
-                              - g:
-                                contents:
-                                  - h5: "_{Skill Notes}"
-                                  - field: skill-notes
-                                    flex: small
-                                    width: stretch
-                                    frame: none
-                                    repeat: 8
-                                    reduce: 2
-                                    merge-bottom: true
                   - tail:
 
       - page: combat
@@ -764,12 +572,7 @@ inc:
                                 label: "_{Speed in Armour}"
                                 control: speed
                                 width: stretch
-                              # - field: speed-temp
-                              #   label: "_{Temp Speed}"
-                              #   control: speed
-                              #   border: full
-                              #   temp: true
-                      # - spacer:
+                      
                       - row:
                         contents:
                           - layout: 3e
@@ -787,62 +590,6 @@ inc:
                                 control: speed
                                 width: stretch
                       - zone: '@speed'
-                      # - spacer:
-
-                  - section: "_{Focus}"
-                    flex: small
-                    contents:
-                      - row:
-                        contents:
-                          - calc:
-                            output:
-                              field: focus
-                              suffix: "_{pts}"
-                              width: large
-                              legend: "_{Focus}"
-                            inputs:
-                              - join: '+'
-                                contents:
-                                  - zone: '@focus-points'
-                                    contents:
-                                      - field: focus-base
-                                        label: "_{Class}"
-                                  - field: focus-misc
-                                    label: "_{Misc}"
-                                    misc: true
-                          # - p: "Maximum focus: 3"
-                          - spacer:
-                          - field: current-focus
-                            temp: true
-                            label: "_{Current Focus Points}"
-                            align: center
-                            width: huge
-                            border: full
-                            suffix: "_{pts}"
-
-                      - row:
-                        contents:
-                          - calc:
-                            output:
-                              field: focus-level
-                              legend: "_{Focus\nLevel}"
-                              width: large
-                            inputs:
-                              - ruby-round-up:
-                                contents:
-                                  - field:
-                                    ref: level
-                                    label: "_{Level}"
-                                  - span: "&divide; 2"
-
-                          - spacer:
-                          - field: refocus
-                            label: "_{Refocus}"
-                            border: full
-                            width: large
-                            prefix: "+"
-                            underlay: "1"
-                            suffix: "_{pts}"
 
                   - zone: '@weapon-spec-section'
                   
@@ -856,8 +603,9 @@ inc:
                         hr: true
                         contents:
                           - slots:
-                            min: 3
-                            max: 3
+                            min: 5
+                            max: 5
+                            reduce: 1
                             placeholder:
                               action: template
                               contents:
@@ -1005,6 +753,40 @@ inc:
                                 size: small
                                 optional: true
 
+                      - hr:
+                      - h5: "_{Effects}"
+                      - layout: 2e
+                        contents:
+                          - repeat: 2
+                            contents:
+                              - g:
+                                contents:
+                                  - row:
+                                    contents:
+                                      - field: effect-#{i}
+                                        control: progression
+                                        frame: none
+                                        parts:
+                                          - id: effect-#{i}-1
+                                            control: checkbox
+                                          - id: effect-#{i}-2
+                                            control: checkbox
+                                          - id: effect-#{i}-3
+                                            control: checkbox
+                                      - field: effect-#{i}
+                                        width: stretch
+                                        frame: none
+                                      - field: effect-#{i}-duration
+                                        frame: none
+                                        underlay: "#"
+                                        affix: "_{rds}"
+                                        width: small
+                                      - field: 
+                                        control: checkgrid
+                                        frame: none
+                                        max: 6
+                                        depth: 2
+
                   - section: "_{Armour Class}"
                     id: armour
                     contents:
@@ -1094,7 +876,8 @@ inc:
 
                           - g:
                             contents:
-                              # - h5: "Shield"
+                              - hr:
+                              - h5: "Shield"
                               - layout: indent-l
                                 contents:
                                   - g:
@@ -1200,26 +983,251 @@ inc:
                             align: left
                             width: stretch
 
-                  - section: "_{Proficiencies}"
-                    flex: tiny
-                    # optional: true
+                  - section: "_{Focus}"
+                    flex: small
+                    contents:
+                      - row:
+                        contents:
+                          - calc:
+                            output:
+                              field: focus
+                              suffix: "_{pts}"
+                              width: large
+                              legend: "_{Focus}"
+                            inputs:
+                              - join: '+'
+                                contents:
+                                  - zone: '@focus-points'
+                                    contents:
+                                      - field: focus-base
+                                        label: "_{Class}"
+                                  - field: focus-misc
+                                    label: "_{Misc}"
+                                    misc: true
+                          # - p: "Maximum focus: 3"
+                          - spacer:
+                          - field: current-focus
+                            temp: true
+                            label: "_{Current Focus Points}"
+                            align: center
+                            width: huge
+                            border: full
+                            suffix: "_{pts}"
+
+                      - row:
+                        contents:
+                          - calc:
+                            output:
+                              field: focus-level
+                              legend: "_{Focus\nLevel}"
+                              width: large
+                            inputs:
+                              - ruby-round-up:
+                                contents:
+                                  - field:
+                                    ref: level
+                                    label: "_{Level}"
+                                  - span: "&divide; 2"
+
+                          - spacer:
+                          - field: refocus
+                            label: "_{Refocus}"
+                            border: full
+                            width: large
+                            prefix: "+"
+                            underlay: "1"
+                            suffix: "_{pts}"
+                  - tail:
+
+      - page: feats
+        order: 7
+        flex: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - section: "_{Ancestry}"
                     contents:
                       - list:
-                        zebra: true
-                        collapse: true
-                        merge-bottom: true
-                        field_frame: none
+                        hr: true
                         contents:
-                          - repeat: 5
-                            reduce: 2
+                          - g:
+                            flex: tiny
                             contents:
-                              - row:
+                              - field: ancestry
+                                size: huge
+                                width: stretch
+                                frame: none
+                                merge-bottom: true
+                                flex: tiny
+                          - g:
+                            contents:
+                              - list:
+                                hr: true
+                                zebra: true
+                                columns: 2
                                 contents:
-                                  - field: "proficiency-#{i}-value"
-                                    control: icon
-                                    icon: proficiency
-                                  - field: "proficiency-#{i}-name"
-                                    frame: none
-                                    width: stretch
-                                    align: left
+                                  - zone: '@heritage'
+                                    contents:
+                                      - article: heritage
+                                        lines: 2
+                                        annotation: "_{Heritage}"
+                                  - each:
+                                    template:
+                                      - level: '#{level}'
+                                        contents:
+                                          - item: yes
+                                    contents:
+                                      - slots: [ 1, 5, 9, 13, 17 ]
+                                        min: 1
+                                        max: 1
+                                        contents:
+                                          - zone: '@ancestry-feats'
+                                        placeholder:
+                                          - article: 'ancestry-feat-#{i}'
+                                            lines: 2
+
+                  - section: '_{Advancement}'
+                    flex: none
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - advancement:
+                            advances:
+                              - levels: [ 1, 5, 9, 13, 17 ]
+                                ancestry-feat: true
+                              - levels: [ 3, 7, 11, 15, 19 ]
+                                general-feat: true
+                              - levels: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                                class-feat: true
+                              - levels: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                                skill-feat: true
+                              - levels: [ 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
+                                skill-increase: true
+                              - levels: [ 5, 10, 15, 20 ]
+                                gain: "_{Ability boost}"
+                              - level: 7
+                                advance: "_{Master in skills}"
+                              - level: 15
+                                advance: "_{Legendary in skills}"
+                              - zone: '@advancement'
+                            fields:
+                              - zone: '@advancement-fields'
+                              - name: "_{Ancestry\nfeat}"
+                                key: ancestry-feat
+                              - name: "_{General\nfeat}"
+                                key: general-feat
+                              - name: "_{Class\nfeat}"
+                                key: class-feat
+                              - name: "_{Skill\nfeat}"
+                                key: skill-feat
+                              - name: "_{Skill\nincrease}"
+                                key: skill-increase
+                                
+                          - g:
+                            contents:
+                              - h5: "_{Proficiencies}"
+                              - list:
+                                zebra: true
+                                collapse: true
+                                merge-bottom: true
+                                columns: 2
+                                field_frame: none
+                                contents:
+                                  - repeat: 12
+                                    reduce: 2
+                                    contents:
+                                      - row:
+                                        contents:
+                                          - field: "proficiency-#{i}-value"
+                                            control: icon
+                                            icon: proficiency
+                                          - field: "proficiency-#{i}-name"
+                                            frame: none
+                                            width: stretch
+                                            align: left
                   - tail:
+                  - spacer:
+
+              - g:
+                contents:
+                  - section: "_{General Feats}"
+                    contents:
+                      - list:
+                        columns: 2
+                        zebra: true
+                        hr: true
+                        contents:
+                          - each:
+                            template:
+                              - level: "#{level}"
+                                contents:
+                                  - item: yes
+                            contents:
+                              - slots: [ 3, 7, 11, 15, 19 ]
+                                min: 1
+                                max: 1
+                                placeholder:
+                                  article: general-feat-level-#{level}
+                                  lines: 2
+                                contents:
+                                  - zone: '@general-feats'
+                          - zone: '@general-feat-bonus'
+                            contents:
+                              - article: general-feat-bonus
+                                lines: 2
+                                annotation: "_{Bonus}"
+                                
+                  - section: "_{Skill Feats}"
+                    contents:
+                      - zone: '@skill-feats-section'
+                        contents:
+                          - list:
+                            hr: true
+                            contents:
+                              - list:
+                                zebra: true
+                                columns: 2
+                                flex: huge
+                                hr: true
+                                contents:
+                                  - article: 'skill-feat-#{level}'
+                                    lines: 2
+                                    annotation: "_{Background}"
+                                  - each:
+                                    template:
+                                      - level: "#{level}"
+                                        contents:
+                                          - item: yes
+                                    contents:
+                                      - slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                                        min: 1
+                                        max: 1
+                                        placeholder:
+                                          article: 'skill-feat-#{level}'
+                                          lines: 2
+                                        contents:
+                                          - zone: '@skill-feats'
+                                  - article: skill-feat-bonus
+                                    lines: 2
+                                    annotation: "_{Bonus}"
+
+                              - g:
+                                contents:
+                                  - h5: "_{Notes}"
+                                  - layout: 2e
+                                    contents:
+                                      - repeat: 2
+                                        contents:
+                                          - field: skill-notes-#{i}
+                                            flex: small
+                                            width: stretch
+                                            frame: none
+                                            repeat: 14
+                                            reduce: 2
+                                            merge-bottom: true
+
+                  - tail:
+                  - spacer:

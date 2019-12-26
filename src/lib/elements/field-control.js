@@ -362,10 +362,11 @@ export let field_control_icon = {
     value: '',
     border: 'none',
     icon: '',
+    width: '',
   },
   render(args) {
-    const cls = elementClass("field", "control", args, [], ["control"]);
-    const iconcls = elementClass("icon", null, { icon: args.icon }, [], ["icon"]);
+    const cls = elementClass("field", "control", args, [], {"control": ""});
+    const iconcls = elementClass("icon", null, { icon: args.icon }, [], {"icon": "", "width": ""});
     return `<div${cls}><i${iconcls}></i></div>`;
   }
 }
