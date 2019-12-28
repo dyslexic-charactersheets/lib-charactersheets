@@ -497,6 +497,47 @@ export function adjustColour(c, documentColour, highContrast) {
   }
 }
 
+export function mergeBottom(element) {
+  if (isArray(element)) {
+    element[element.length - 1] = mergeBottom(element[element.length - 1]);
+  }
+
+  else if (typeof element == 'object') {
+    switch (element.type) {
+      // horizontal elements don't
+      case 'calc':
+        element.inputs.forEach(e => {
+          e['merge-bottom'] = true;
+        });
+        break;
+
+      case 'row':
+      case 'td':
+        element.contents.forEach(e => {
+          e['merge-bottom'] = true;
+        });
+        break;
+
+      case 'tr':
+        element.cells.forEach(e => {
+          e['merge-bottom'] = true;
+        });
+        break;
+        
+      case 'field':
+        element['merge-bottom'] = true;
+        break;
+
+      case 'list':
+      default:
+        element.contents = mergeBottom(element.contents);
+    }
+  }
+
+  return element;
+};
+
+
 export function getLabelHeight(args) {
   if (isNull(args)) {
     return 1;

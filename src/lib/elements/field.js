@@ -117,7 +117,8 @@ export function fieldInner(args, reg, doc) {
   const icon = (has(args, "icon") && !!args.icon && isString(args.icon) && args.control != "icon") ? `<i class='icon icon_${args.icon}'></i>` : '';
   const unit = (has(args, "unit") && !!args.unit) ? `<label class='field__unit'>${__(args.unit, doc)}</label>` : '';
 
-  let boxargs = _.pick(args, ['icon', 'border']);
+  let boxargs = { icon: args.icon, border: args.border };
+
   let inner;
   if (doc.largePrint && args.reduce > 0) {
     args.repeat -= args.reduce;

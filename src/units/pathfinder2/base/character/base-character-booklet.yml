@@ -1,0 +1,231 @@
+unit: base/character/booklet
+name: "_{Character}"
+
+form:
+  - select: ancestry
+    name: "_{Ancestry}"
+    max: 1
+  - select: background
+    name: "_{Background}"
+    max: 1
+  - select: class
+    name: "_{Class}"
+    max: 1
+  - select: archetype
+    name: "_{Archetype}"
+    max: 3
+
+  - option: build
+    name: "_{Build A Character}"
+    unit: option/build
+  - option: minis
+    name: "_{Map Minis}"
+    unit: option/minis
+
+  - select: inventory
+    name: "_{Inventory}"
+    max: 1
+    default: half
+
+inc:
+  - at: '@pages'
+    add:
+
+      - page: cover
+        size: small
+        order: 4
+        contents:
+
+          - logo:
+
+          - section:
+            id: player
+            untitled: true
+            contents:
+              - row:
+                contents:
+                  - field: player-name
+                    label: "_{Player}"
+                    width: stretch
+                    align: left
+                  - field: hero-points
+                    label: "_{Hero Points}"
+                    border: circle
+                    size: huge
+
+                  - field: campaign-name
+                    label: "_{Campaign}"
+                    width: stretch
+                    align: left
+                  - field: xp
+                    label: "_{XP}"
+                    underlay: "_{XP}"
+                    width: large
+                    border: full
+                  - hr:
+                    swash: true
+
+                  - portrait: personal
+
+                  - section: "_{Character}"
+                    id: character
+                    untitled: true
+                    contents:
+                      - layout: 2r
+                        contents:
+                          - g:
+                            contents:
+                              - field: character-name
+                                legend: "_{Character Name}"
+                                size: huge
+                                width: stretch
+                                align: left
+                              - layout: alignment
+                                contents:
+                                  - g:
+                                    contents:
+                                      - row:
+                                        contents:
+                                          - field: gender
+                                            label: "_{Gender}"
+                                            icon: gender
+                                            width: large
+                                          - spacer:
+                                          - field: age
+                                            label: "_{Age}"
+                                            width: large
+                                          - spacer:
+                                          - field: size
+                                            label: "_{Size}"
+                                            icon: size
+                                            width: large
+                                          - spacer:
+                                      - field: deity
+                                        label: "_{Deity}"
+                                        width: stretch
+                                        # merge-bottom: true
+                                  - field: alignment
+                                    frame: none
+                                    control: alignment
+                          - g:
+                            contents:
+                              - field: languages
+                                label: "Languages"
+                                width: stretch
+                                repeat: 2
+                                merge-bottom: true
+
+
+      - page: advancement
+        size: small
+        order: 4
+        contents:
+
+
+          - section: "_{Character}"
+          - layout: 2e
+            contents:
+
+              - g:
+                contents:
+                  - section: "_{Character}"
+
+              - g:
+                contents:
+                  - section: "_{}"
+
+          - section: '_{Advancement}'
+            contents:
+              - list:
+                hr: true
+                contents:
+                  - advancement:
+                    advances:
+                      - levels: [ 1, 5, 9, 13, 17 ]
+                        ancestry-feat: true
+                      - levels: [ 3, 7, 11, 15, 19 ]
+                        general-feat: true
+                      - levels: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                        class-feat: true
+                      - levels: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                        skill-feat: true
+                      - levels: [ 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
+                        skill-increase: true
+                      - levels: [ 5, 10, 15, 20 ]
+                        gain: "_{Ability boost}"
+                      - level: 7
+                        advance: "_{Master in skills}"
+                      - level: 15
+                        advance: "_{Legendary in skills}"
+                      - zone: '@advancement'
+                    fields:
+                      - zone: '@advancement-fields'
+                      - name: "_{Ancestry\nfeat}"
+                        key: ancestry-feat
+                      - name: "_{General\nfeat}"
+                        key: general-feat
+                      - name: "_{Class\nfeat}"
+                        key: class-feat
+                      - name: "_{Skill\nfeat}"
+                        key: skill-feat
+                      - name: "_{Skill\nincrease}"
+                        key: skill-increase
+                  - g:
+                    contents:
+                      - h5: "_{Proficiency}"
+                      - layout: 5e
+                        gutter: none
+                        valign: top
+                        contents:
+                          - g:
+                            valign: top
+                            contents:
+                              - field: proficiency-untrained
+                                label: "_{Untrained}"
+                                border: full
+                                control: proficiency
+                                value: 0
+                              - label: "_{None}\n"
+                                align: center
+                              - spacer:
+                          - g:
+                            valign: top
+                            contents:
+                              - field: proficiency-trained
+                                label: "_{Trained}"
+                                border: full
+                                control: proficiency
+                                value: trained
+                              - label: "_{Level}\n+2"
+                                align: center
+                          - g:
+                            valign: top
+                            contents:
+                              - field: proficiency-expert
+                                label: "_{Expert}"
+                                border: full
+                                control: proficiency
+                                value: expert
+                              - label: "_{Level}\n+4"
+                                align: center
+                          - g:
+                            valign: top
+                            contents:
+                              - field: proficiency-master
+                                label: "_{Master}"
+                                border: full
+                                control: proficiency
+                                value: master
+                              - label: "_{Level}\n+6"
+                                align: center
+                          - g:
+                            valign: top
+                            contents:
+                              - field: proficiency-legendary
+                                label: "_{Legendary}"
+                                border: full
+                                control: proficiency
+                                value: legendary
+                              - label: "_{Level}\n+8"
+                                align: center
+                  - tail:

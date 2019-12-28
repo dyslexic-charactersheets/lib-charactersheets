@@ -1,6 +1,6 @@
-import { has, isArray, isString, cloneDeep, interpolate } from '../util';
+import { has, isArray, isString, cloneDeep, interpolate, mergeBottom } from '../util';
 import { log, warn } from '../log';
-import { mergeBottom } from '../classes/Registry';
+// import { mergeBottom } from '../classes/Registry';
 
 export let slots = {
   name: 'slots',

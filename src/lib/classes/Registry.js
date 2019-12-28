@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 import { log, warn } from '../log';
-import { has, isArray, isString } from '../util';
+import { has, isArray, isString, mergeBottom } from '../util';
 
 // elements
 import { unit } from '../elements/unit';
@@ -14,12 +14,13 @@ import { class_icon } from '../elements/class-icon';
 // import { document } from '../elements/document';
 import { dl } from '../elements/dl';
 import { each } from '../elements/each';
+import { embed } from '../elements/embed';
 import { g } from '../elements/g';
 import { h1, h2, h3, h4, h5, h6, class_name } from '../elements/headings';
 import { hr, tail, vr } from '../elements/hr';
 import { icon } from '../elements/icon';
 import { label } from '../elements/label';
-import { layout, indent } from '../elements/layout';
+import { layout, place, indent } from '../elements/layout';
 import { level, level_marker } from '../elements/level';
 import { list, join } from '../elements/list';
 import { logelem } from '../elements/log';
@@ -91,12 +92,13 @@ export class Registry {
       class_name,
       class_icon,
       each,
+      embed,
       g,
       h1, h2, h3, h4, h5, h6,
       hr, tail, vr,
       icon,
       label,
-      layout, indent,
+      layout, place, indent,
       level, level_marker,
       list, join,
       logelem,
@@ -227,43 +229,3 @@ export class Registry {
     }
   }
 }
-
-export function mergeBottom(element) {
-  if (isArray(element)) {
-    element[element.length - 1] = mergeBottom(element[element.length - 1]);
-  }
-
-  else if (typeof element == 'object') {
-    switch (element.type) {
-      // horizontal elements don't
-      case 'calc':
-        element.inputs.forEach(e => {
-          e['merge-bottom'] = true;
-        });
-        break;
-
-      case 'row':
-      case 'td':
-        element.contents.forEach(e => {
-          e['merge-bottom'] = true;
-        });
-        break;
-
-      case 'tr':
-        element.cells.forEach(e => {
-          e['merge-bottom'] = true;
-        });
-        break;
-        
-      case 'field':
-        element['merge-bottom'] = true;
-        break;
-
-      case 'list':
-      default:
-        element.contents = mergeBottom(element.contents);
-    }
-  }
-
-  return element;
-};

@@ -1,5 +1,3 @@
-import * as _ from 'lodash';
-
 import { elementID, elementClass } from '../util';
 
 export let layout = {
@@ -45,16 +43,21 @@ export let layout = {
           break;
       }
     }
+    
+    return `<div${cls}>${reg.render(args.contents, doc)}</div>`;
+  }
+}
 
-    // chunk the contents
-    let parts = [];
-    if (columns == 0) {
-      parts.push(args.contents);
-    } else {
-      parts = _.chunk(args.contents, columns);
-    }
-
-    return parts.map(contents => `<div${cls}>${reg.render(contents, doc)}</div>`).join("");
+export let place = {
+  name: 'place',
+  key: 'loc',
+  defaults: {
+    loc: 'middle',
+    contents: []
+  },
+  render(args, reg, doc) {
+    const cls = elementClass('layout', 'place', args, [], { 'loc': '' });
+    return `<div${cls}>${reg.render(args.contents, doc)}</div>`;
   }
 }
 

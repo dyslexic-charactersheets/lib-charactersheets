@@ -1,6 +1,6 @@
-import { isNull, has, elementClass } from '../util';
+import { isNull, has, elementClass, mergeBottom } from '../util';
 import { log, warn } from '../log';
-import { mergeBottom } from '../classes/Registry';
+// import { mergeBottom } from '../classes/Registry';
 
 // Standard table
 export function renderTableBasic(args, reg, doc, headings, rows) {
