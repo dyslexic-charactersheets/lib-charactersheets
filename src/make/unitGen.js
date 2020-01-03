@@ -19,6 +19,48 @@ function toKebabCase(str) {
   return words.join('-');
 }
 
+const knownSkills = [
+  "Acrobatics",
+  "Athletics",
+  "Crafting",
+  "Deception",
+  "Diplomacy",
+  "Intimidation",
+  "Medicine",
+  "Nature",
+  "Occultism",
+  "Performance",
+  "Religion",
+  "Society",
+  "Stealth",
+  "Survival",
+  "Thievery",
+];
+
+const knownLore = [
+  "Alcohol",
+  "Art",
+  "Assurance",
+  "Circus",
+  "Engineering",
+  "Farming",
+  "Fortune-Telling",
+  "Games",
+  "Gladiatorial",
+  "Guild",
+  "Herbalism",
+  "Labor",
+  "Legal",
+  "Mercantile",
+  "Mining Lore",
+  "Sailing",
+  "Scribing",
+  "Tanning",
+  "Theater",
+  "Underworld",
+  "Warfare",
+];
+
 function generateUnits() {
   let filename = `${__dirname}/../data/pathfinder2/background.json`;
   try {
@@ -31,9 +73,11 @@ function generateUnits() {
         let id = 'background/'+toKebabCase(value.source)+"/"+toKebabCase(key);
         let name = value.title;
         let book = value.source;
-        let skill = toKebabCase(value.skill);
-        let lorename = value.lore;
-        let loreskill = toKebabCase(lorename)+"-lore";
+
+        let skill = knownSkills.includes(value.skill) ? toKebabCase(value.skill) : '';
+        let lorename = knownLore.includes(value.lore) ? `${value.lore} Lore` : '';
+        let loreskill = knownLore.includes(value.lore) ? `lore-${toKebabCase(value.lore)}` : '';
+
         let feat = "feat/"+toKebabCase(value.feat);
         // log("unitGen", `Unit: ${id} - ${name}`);
 
@@ -52,17 +96,21 @@ inc:
     value: "_{${name}}"
   - set: ${skill}-proficiency
     value: trained
-  - at: '@lore-skills'
-    replace:
+`;
+
+        if (lorename != '') {
+          unitdata += `  - at: '@lore-skills'
+    add:
       - skill: ${loreskill}
-        name: "_{${lorename} Lore}"
+        name: "_{${lorename}}"
         ability: "_{INT}"
         abilityref: INT
         acp: false
 `;
-        
+        }
+
         fs.mkdirSync(unitdir, { recursive: true });
-        
+
         fs.writeFile(unitfile, unitdata, 'utf-8', (err) => {
           if (err) {
             error("unitGen", "Error writing file", unitfile, err);

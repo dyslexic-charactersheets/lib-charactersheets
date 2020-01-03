@@ -45,7 +45,7 @@ inc:
               - g:
                 contents:
                   - logo:
-                  
+
                   - section:
                     untitled: true
                     contents:
@@ -271,14 +271,18 @@ inc:
 
                           - row:
                             contents:
+                              - class-icon:
+                                size: tiny
                               - field: class
                                 width: stretch
                                 legend: "_{Class}"
                                 merge-bottom: true
-                              - field: class-specialisation
-                                label: "_{Subclass}"
-                                width: stretch
-                                merge-bottom: true
+                              - zone: '@class-specialisation'
+                                contents:
+                                  - field: class-specialisation
+                                    label: "_{Subclass}"
+                                    width: stretch
+                                    merge-bottom: true
                               - field: level
                                 label: "_{Level}"
                                 border: full
@@ -310,7 +314,7 @@ inc:
                                               - control: checkbox
                               - p: "_{You must take three archetype feats before you can start another.}"
                                 optional: true
-                  
+
                   - section: "_{Skills}"
                     id: skills
                     contents:
@@ -332,7 +336,7 @@ inc:
                           - "_{Armour\nCheck\nPenalty}"
                         rows:
                           - slots:
-                            min: 22
+                            min: 21
                             reduce: 2
                             contents:
                               - sort: name
@@ -420,15 +424,19 @@ inc:
                                         abilityref: DEX
                                         acp: true
                                         fade: false
-                              - hr:
-                              - zone: '@lore-skills'
-                                contents:
-                                  - skill: lore
-                                    name: "_{Lore}"
-                                    ability: "_{INT}"
-                                    abilityref: INT
-                                    acp: false
-                                    fade: true
+                                  - slots:
+                                    min: 2
+                                    max: 2
+                                    placeholder:
+                                      - skill: lore
+                                        name: "_{Lore}"
+                                        ability: "_{INT}"
+                                        abilityref: INT
+                                        acp: false
+                                        fade: true
+                                    contents:
+                                      - zone: '@lore-skills'
+                                        contents:
                             placeholder:
                               skill: ''
                               name: ''
@@ -539,6 +547,7 @@ inc:
                                 frame: none
                                 align: left
                                 width: stretch
+                                repeat: 2
                                 merge-bottom: true
                                 optional: true
                   - tail:
@@ -552,7 +561,7 @@ inc:
             contents:
               - g:
                 contents:
-                
+
                   - section: "_{Speed}"
                     id: speed
                     contents:
@@ -572,7 +581,7 @@ inc:
                                 label: "_{Speed in Armour}"
                                 control: speed
                                 width: stretch
-                      
+
                       - row:
                         contents:
                           - layout: 3e
@@ -592,7 +601,7 @@ inc:
                       - zone: '@speed'
 
                   - zone: '@weapon-spec-section'
-                  
+
                   - section: "_{Actions}"
                     id: actions
                     flex: large
@@ -637,7 +646,7 @@ inc:
                                 label: "_{1st}"
                                 border: full
                                 width: large
-                                underlay: 0
+                                underlay: "0"
                               - icon: action2nd
                               - field: map-2
                                 frame: left
@@ -736,7 +745,8 @@ inc:
                             temp: true
                             suffix: "_{hp}"
                             width: huge
-                            
+                            blk: true
+
                           - field: dying
                             control: progression
                             label: "_{Dying}"
@@ -781,7 +791,7 @@ inc:
                                         underlay: "#"
                                         affix: "_{rds}"
                                         width: small
-                                      - field: 
+                                      - field:
                                         control: checkgrid
                                         frame: none
                                         max: 6
@@ -864,8 +874,14 @@ inc:
                           - g:
                             merge-bottom: true
                             contents:
+                              - hr:
+                              - field: armour
+                                legend: "_{Armour}"
+                                size: large
+                                width: stretch
+                                flex: none
                               - slots:
-                                min: 6
+                                min: 5
                                 reduce: 1
                                 contents:
                                   - zone: '@ac-conditional'
@@ -877,7 +893,11 @@ inc:
                           - g:
                             contents:
                               - hr:
-                              - h5: "Shield"
+                              - field: shield
+                                legend: "_{Shield}"
+                                size: large
+                                width: stretch
+                                flex: none
                               - layout: indent-l
                                 contents:
                                   - g:
@@ -907,12 +927,14 @@ inc:
                                         border: full
                                         suffix: "_{hp}"
                                         width: large
+                                        blk: true
                                       - field: shield-hp
                                         label: "_{Shield Health}"
                                         border: full
                                         temp: true
                                         suffix: "_{hp}"
                                         width: large
+                                        blk: true
                               - p: "_{Deduct hardness, then apply remaining damage to both shield and yourself.}"
                                 optional: true
 
@@ -920,7 +942,7 @@ inc:
 
               - g:
                 contents:
-                  
+
                   - section: "_{Saving Throws}"
                     id: saving-throws
                     contents:
@@ -1125,7 +1147,7 @@ inc:
                                 key: skill-feat
                               - name: "_{Skill\nincrease}"
                                 key: skill-increase
-                                
+
                           - g:
                             contents:
                               - h5: "_{Proficiencies}"
@@ -1154,6 +1176,7 @@ inc:
               - g:
                 contents:
                   - section: "_{General Feats}"
+                    flex: small
                     contents:
                       - list:
                         columns: 2
@@ -1179,8 +1202,9 @@ inc:
                               - article: general-feat-bonus
                                 lines: 2
                                 annotation: "_{Bonus}"
-                                
+
                   - section: "_{Skill Feats}"
+                    flex: large
                     contents:
                       - zone: '@skill-feats-section'
                         contents:
@@ -1230,4 +1254,4 @@ inc:
                                             merge-bottom: true
 
                   - tail:
-                  - spacer:
+                  # - spacer:
