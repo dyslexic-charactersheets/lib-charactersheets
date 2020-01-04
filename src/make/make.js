@@ -36,7 +36,7 @@ unitGen.generateUnits();
 systems.forEach(system => {
     log("make", "Building "+system.name);
 
-    units.loadSystem(system.code, systemUnits => {
+    units.loadSystem(system.code, system.name, systemUnits => {
         log("make", `Built ${system.name} (${systemUnits.length} units)`);
 
         system.units = systemUnits;

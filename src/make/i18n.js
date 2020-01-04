@@ -1,76 +1,139 @@
+const fs = require('fs');
+
+const _ = require('lodash');
+
 var promises = [];
-var entries = [];
+var entries = {};
 
-function walkString(str) {
-  var n = 0;
-  var match = str.match(/_\{(.*?)\}/gs);
-  if (match) {
-    // console.log("[i18n] Match:", str, match);
-    match.forEach(m => {
-      var m2 = m.match(/_\{(.*?)\}/);
-      // console.log("[i18n] Match part:", m2);
-      if (m2) {
-        var message = m2[1];
-        // log("i18n", "Message:", message);
-        entries.push({
-          message: message
-        });
-        n++;
-      }
-    });
+const transRegex = /_\{(.*?)\}/g;
+const commentRegex = /#\. (.*)$/g;
+
+function pushEntry(system, message, context, reference, comment) {
+  var id = context+"/"+message;
+  if (!_.has(entries, system)) {
+    entries[system] = {};
   }
-  return n;
+  if (!_.has(entries[system], id)) {
+    entries[system][id] = [];
+  }
+
+  entries[system][id].push({
+    message: message,
+    context: context,
+    reference: reference,
+    comment: comment
+  });
 }
 
-function walk(obj) {
-  if (obj === null || obj === undefined) {
-    return 0;
-  } else if (typeof obj === "string") {
-    return walkString(obj);
-  } else if (Array.isArray(obj)) {
-    var n = 0;
-    obj.forEach(item => {
-      n += walk(item)
-    });
-    return n;
-  } else if (typeof obj === 'object') {
-    var n = 0;
-    Object.keys(obj).forEach(key => {
-      n += walk(obj[key]);
-    });
-    return n;
-  } else {
-    return 0;
-  }
-}
+function scanString(data, source, system) {
+  var prevComment = '';
 
-function parseSystemUnits(system, units) {
-  promises.push(new Promise((resolve, reject) => {
-    try {
-      var n = walk(units);
-      log("i18n", `Template extracted: ${system.name} (${n} entries)`);
-      resolve();
-    } catch(e) {
-      error("i18n", "Error", e);
-      reject(e);
+  var linenum = 0;
+  data.split('\n').forEach(line => {
+    linenum++;
+
+    var match;
+    var context = '';
+    if ((match = transRegex.exec(line)) !== null) {
+      var message = match[1];
+      pushEntry(system, message, context, source+":"+linenum, prevComment);
     }
-  }));
+
+    if ((match = commentRegex.exec(line)) !== null) {
+      prevComment = match[1];
+    } else {
+      prevComment = "";
+    }
+  });
 }
 
-function writePot() {
+const LINE_LENGTH = 80;
+
+function embedPoString(str) {
+  if (str.match(/\n/) || str.length >= LINE_LENGTH) {
+    str = str.replace(/"/g, '\\"');
+    var lines = str.split(/\n/).map(l => l+"\\n");
+    lines = _.flatMap(lines, str => {
+      var parts = [];
+      while (str.length >= LINE_LENGTH) {
+        var i = str.lastIndexOf(" ", LINE_LENGTH) + 1;
+        parts.push(str.substring(0, i));
+        str = str.substring(i);
+      }
+      parts.push(str);
+      return parts;
+    });
+    return '""' + lines.map(l => '"'+l+'"').join("\n");
+  } else {
+    return '"'+str+'"';
+  }
+}
+
+function writePot(system, systemName) {
   setTimeout(() => {
     Promise.all(promises).then(() => {
-      log("i18n", `Writing pot: ${entries.length} entries`);
+      if (!_.has(entries, system)) {
+        return;
+      }
 
-      // entries.forEach(e => {}
-      // msgid "My name is %s.\n"
-      // msgstr ""
+      var systemEntries = entries[system];
+      log("i18n", `Writing translation template: ${systemName} (${_.size(systemEntries)} messages)`);
+
+      var headers = {
+        "Content-Type": "text/plain; charset=UTF-8",
+        "Content-Transfer-Encoding": "8bit",
+      };
+      headers = _.map(headers, (value, key) => key+": "+value).join("\n");
+
+      var headerBlock = `#. ${systemName}
+msgid ""
+msgstr ${embedPoString(headers)}
+
+`;
+
+      var blocks = [headerBlock];
+
+      _.each(systemEntries, (msgEntries, ident) => {
+        var msgEntries = entries[system][ident];
+        var message = msgEntries[0].message;
+        var context = msgEntries[0].context;
+        var references = msgEntries.map(e => e.reference);
+        var comments = msgEntries.map(e => e.comment);
+
+        var block = '';
+        comments.forEach(comment => {
+          if (comment !== undefined && comment !== "") {
+            block += "#. "+comment+"\n";
+          }
+        });
+        if (references.length > 0) {
+          block += "#: "+references.join(" ")+"\n";
+        }
+
+        block += "#, javascript-format\n";
+
+        if (context !== undefined && context !== "") {
+          block += "msgctxt "+embedPoString(context)+"\n";
+        }
+        block += "msgid "+embedPoString(message)+"\n";
+        block += 'msgstr ""\n';
+        
+        blocks.push(block);
+      });
+
+      var potFile = __dirname+"/../../lib/lib-"+system+".pot";
+      var potData = blocks.join("\n");
+      fs.writeFile(potFile, potData, err => {
+        if (err) error("make", "Error saving summary", system, err);
+      });
     });
-  }, 5000);
+
+  }, 1);
 }
 
 
 module.exports = {
-  parseSystemUnits: parseSystemUnits,
+  scan: scanString,
+  // parseSystemUnits: parseSystemUnits,
   writePot: writePot
 }

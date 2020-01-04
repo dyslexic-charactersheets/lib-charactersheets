@@ -7,9 +7,11 @@ const _ = require('lodash');
 const jsYaml = require('js-yaml');
 const sass = require('node-sass');
 const Handlebars = require('handlebars');
+const xgettext = require('xgettext-regex')
 
 const load = require('./loadQueue');
 const unitExpander = require('./unitExpander');
+const i18n = require('./i18n');
 
 const dataURLs = require('./dataURLs');
 
@@ -69,7 +71,7 @@ Handlebars.registerHelper('embed', function (filename, options) {
 });
 
 module.exports = {
-  loadSystem: function (system, callback) {
+  loadSystem: function (system, systemName, callback) {
     var unitsBase = __dirname + '/../units/' + system;
     var debugDir = __dirname + '/../../test/debug/' + system;
 
@@ -110,6 +112,9 @@ module.exports = {
 
         return;
       }
+
+      // scan the 
+      i18n.scan(data, unitfile, system);
 
       try {
         var unitid = unitdata.unit;
@@ -232,6 +237,10 @@ module.exports = {
     // delay this for 1 second so that the list of promises is fully populated
     setTimeout(() => {
       load.ready(() => {
+        // write the translation template
+        i18n.writePot(system, systemName);
+
+        // return the units
         callback(systemUnits);
       });
     }, 1000);
