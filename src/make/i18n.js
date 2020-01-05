@@ -4,7 +4,7 @@ const _ = require('lodash');
 
 var entries = {};
 
-const transRegex = /_\{([^{}]*?(\{.*\}[^{}]*?)?)\}/g;
+const transRegex = /_\{([^{}]*?(\{.*\}[^{}]*?)*?)\}/g;
 const commentRegex = /#\. (.*)$/g;
 
 function pushEntry(system, message, context, reference, comment, meta) {
