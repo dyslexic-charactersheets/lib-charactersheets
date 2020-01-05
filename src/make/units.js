@@ -114,7 +114,15 @@ module.exports = {
       }
 
       // scan the 
-      i18n.scan(data, unitfile, system);
+      var meta = {};
+      if (_.has(unitdata, "name")) {
+        meta['Unit'] = unitdata.name.replace(/_\{(.*?)\}/g, '$1');
+      }
+      if (_.has(unitdata, "group")) {
+        meta['Source'] = unitdata.group.replace(/_\{(.*?)\}/g, '$1');
+      }
+
+      i18n.scan(data, unitfile, system, meta);
 
       try {
         var unitid = unitdata.unit;
