@@ -21,7 +21,7 @@ export let sort = {
       if (!ka) return 1;
       if (!kb) return -1;
       // log("sort", `Compare: "${ka}" <> "${kb}"`);
-      return ka.localeCompare(kb, ctx.locale);
+      return ka.localeCompare(kb, ctx.locale, { sensitivity: 'base', ignorePunctuation: true });
     });
 
     if (args.order == 'DESC') {

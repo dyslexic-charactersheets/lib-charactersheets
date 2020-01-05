@@ -4,7 +4,7 @@ const _ = require('lodash');
 
 var entries = {};
 
-const transRegex = /_\{(.*?)\}/g;
+const transRegex = /_\{([^{}]*?(\{.*\}[^{}]*?)?)\}/g;
 const commentRegex = /#\. (.*)$/g;
 
 function pushEntry(system, message, context, reference, comment, meta) {
@@ -95,6 +95,7 @@ function writePot(system, systemName) {
     var headers = {
       "Content-Type": "text/plain; charset=UTF-8",
       "Content-Transfer-Encoding": "8bit",
+      // "POT-Creation-Date": "2008-09-01 09:37+0200",
     };
     headers = _.map(headers, (value, key) => key+": "+value).join("\n");
 
@@ -106,10 +107,13 @@ msgstr ${embedPoString(headers)}
 `;
 
     // turn each entry into a POT block
-    var blocks = [];
+    var blocks = {};
     _.each(systemEntries, (msgEntries, ident) => {
       var msgEntries = entries[system][ident];
       var message = msgEntries[0].message;
+      if (message == "") {
+        return;
+      }
       var context = msgEntries[0].context;
       var references = msgEntries.map(e => e.reference);
       var comments = msgEntries.map(e => e.comment);
@@ -139,7 +143,7 @@ msgstr ${embedPoString(headers)}
       // log("i18n", "Meta", metaByKey);
       _.each(metaByKey, (values, key) => {
         // log("18n", "Meta: values", values);
-        var v = _.uniq(_.keys(values));
+        var v = _.uniq(_.keys(values)).sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base', ignorePunctuation: true, numeric: true, caseFirst: "upper" }));
         block += "#. "+key+": "+v.join(", ")+"\n";
       });
 
@@ -158,10 +162,12 @@ msgstr ${embedPoString(headers)}
       block += "msgid "+embedPoString(message)+"\n";
       block += 'msgstr ""\n';
       
-      blocks.push({message, context, block});
+      blocks[ident] = block;
     });
     
-    blocks = _.sortBy(blocks, ['message', 'context']).map(b => b.block);
+    var sortedKeys = _.keys(blocks).sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base', ignorePunctuation: true, numeric: true, caseFirst: "upper" }));
+    blocks = sortedKeys.map(key => blocks[key]);
+    // blocks = _.sortBy(blocks, ['message', 'context']).map(b => b.block);
 
     // pull the list together in order
     var potData = headerBlock+blocks.join("\n");
