@@ -84,6 +84,15 @@ function embedPoString(str) {
 }
 
 function writePot(system, systemName) {
+  // gather header data
+  var packageJson = fs.readFileSync(__dirname+'/../../package.json', 'utf-8');
+  packageJson = JSON.parse(packageJson);
+  var libVersion = packageJson.version;
+
+  var now = new Date(Date.now());
+  var date = `${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()} ${now.getHours()}:${now.getMinutes()}+${("0000" + now.getTimezoneOffset()).slice(-4)}`;
+
+  // delay running so we can be sure the scanners are all complete
   setTimeout(() => {
     if (!_.has(entries, system)) {
       return;
@@ -95,12 +104,19 @@ function writePot(system, systemName) {
     var headers = {
       "Content-Type": "text/plain; charset=UTF-8",
       "Content-Transfer-Encoding": "8bit",
-      // "POT-Creation-Date": "2008-09-01 09:37+0200",
+      "Project-Id-Version": "dyslexic-charactersheets "+libVersion,
+      "POT-Creation-Date": date,
+      "PO-Revision-Date": "YEAR-MO-DA HO:MI+ZONE",
+      "Last-Translator": "",
+      "Language-Team": "",
+      "Language": "",
+      "MIME-Version": "1.0",
     };
     headers = _.map(headers, (value, key) => key+": "+value).join("\n");
 
     var headerBlock = `# Dyslexic Character Sheets
 #. Game: ${systemName}
+#, fuzzy
 msgid ""
 msgstr ${embedPoString(headers)}
 
