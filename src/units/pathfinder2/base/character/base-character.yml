@@ -59,6 +59,7 @@ inc:
                             label: "_{Hero Points}"
                             border: circle
                             size: huge
+                            suffix: "3"
 
                       - row:
                         contents:
@@ -175,7 +176,9 @@ inc:
                                             contents:
                                               - spacer:
                                               - field: "#{code}-score"
+                                                prefix: "+"
                                                 frame: none
+                                                underlay: "#{short}"
                                               - spacer:
                               - p: "_{Ability Modifier = (Ability Score - 10) &divide; 2}"
                                 align: left
@@ -336,7 +339,7 @@ inc:
                           - "_{Armour\nCheck\nPenalty}"
                         rows:
                           - slots:
-                            min: 21
+                            min: 20
                             reduce: 2
                             contents:
                               - sort: name
@@ -473,7 +476,7 @@ inc:
                       - list:
                         merge-bottom: true
                         contents:
-                          - repeat: 6
+                          - repeat: 5
                             contents:
                               - row:
                                 contents:
@@ -612,8 +615,8 @@ inc:
                         hr: true
                         contents:
                           - slots:
-                            min: 5
-                            max: 5
+                            min: 3
+                            max: 3
                             reduce: 1
                             placeholder:
                               action: template
@@ -635,32 +638,32 @@ inc:
                         flex: true
                         avoid-shade: true
                         contents:
-                          - row: split
-                            contents:
-                              - h5: "_{Multi-Attack}"
-                                optional: true
-                              - spacer:
-                              - icon: action
-                              - field: map-1
-                                frame: left
-                                label: "_{1st}"
-                                border: full
-                                width: large
-                                underlay: "0"
-                              - icon: action2nd
-                              - field: map-2
-                                frame: left
-                                label: "_{2nd}"
-                                border: full
-                                width: large
-                                underlay: -5
-                              - icon: action3rd
-                              - field: map-3
-                                frame: left
-                                label: "_{3rd}"
-                                border: full
-                                width: large
-                                underlay: -10
+                          # - row: split
+                          #   contents:
+                          #     - h5: "_{Multi-Attack}"
+                          #       optional: true
+                          #     - spacer:
+                          #     - icon: action
+                          #     - field: map-1
+                          #       frame: left
+                          #       label: "_{1st}"
+                          #       border: full
+                          #       width: large
+                          #       underlay: "0"
+                          #     - icon: action2nd
+                          #     - field: map-2
+                          #       frame: left
+                          #       label: "_{2nd}"
+                          #       border: full
+                          #       width: large
+                          #       underlay: -5
+                          #     - icon: action3rd
+                          #     - field: map-3
+                          #       frame: left
+                          #       label: "_{3rd}"
+                          #       border: full
+                          #       width: large
+                          #       underlay: -10
 
                           - repeat: 4
                             contents:
@@ -668,34 +671,40 @@ inc:
                                 params:
                                   i: '#{i}'
 
-                          - layout: 2e
+                          - g:
+                            merge-bottom: true
                             contents:
-                              - paste: ammo
-                                params:
-                                  i: 1
-                                  max: 20
-                                  legend: "_{Ammo}"
-                              - paste: ammo
-                                params:
-                                  i: 1
-                                  max: 10
-                                  label: "_{Special}"
-                          - layout: 2e
-                            contents:
-                              - paste: ammo
-                                params:
-                                  i: 1
-                                  max: 20
-                              - paste: ammo
-                                params:
-                                  i: 1
-                                  max: 10
+                              - layout: 2e
+                                contents:
+                                  - paste: ammo
+                                    params:
+                                      i: 1
+                                      max: 20
+                                      legend: "_{Ammo}"
+                                  - paste: ammo
+                                    params:
+                                      i: 1
+                                      max: 10
+                                      label: "_{Special}"
+                              - layout: 2e
+                                contents:
+                                  - paste: ammo
+                                    params:
+                                      i: 1
+                                      max: 20
+                                      merge-bottom: true
+                                  - paste: ammo
+                                    params:
+                                      i: 1
+                                      max: 10
+                                      merge-bottom: true
 
           - layout: 2r
             contents:
               - g:
                 contents:
                   - section: "_{Health}"
+                    # icon: hp
                     id: health
                     contents:
                       - row:
@@ -880,6 +889,7 @@ inc:
                                 size: large
                                 width: stretch
                                 flex: none
+                                icon: ac
                               - slots:
                                 min: 5
                                 reduce: 1
@@ -898,6 +908,7 @@ inc:
                                 size: large
                                 width: stretch
                                 flex: none
+                                icon: ac
                               - layout: indent-l
                                 contents:
                                   - g:

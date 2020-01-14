@@ -1,4 +1,4 @@
-import { interpolate, isEmpty } from '../util';
+import { interpolate, isEmpty, toBoolean } from '../util';
 
 export let repeat = {
   name: 'repeat',
@@ -8,6 +8,7 @@ export let repeat = {
     reduce: 0,
     contents: [],
     index: "i",
+    "merge-bottom": false,
     rows: []
   },
   transform(args, ctx) {
@@ -31,6 +32,10 @@ export let repeat = {
       vars[args.index] = i;
       const items = interpolate(args.contents, vars);
       contents = contents.concat(items);
+    }
+
+    if (toBoolean(args["merge-bottom"])) {
+      contents[contents.length - 1]["merge-bottom"] = true;
     }
 
     return contents;

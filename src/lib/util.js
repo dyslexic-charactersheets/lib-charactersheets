@@ -129,6 +129,10 @@ export function isNull(val) {
   return val === null || val === undefined;
 }
 
+export function isBoolean(val) {
+  return val === true || val === false;
+}
+
 export function isNumber(val) {
   return Number.isFinite(val);
 }
@@ -186,6 +190,23 @@ function pickMods(args, keys) {
 function pickAttribs(args, keys) {
   return _.pick(args, keys);
 };
+
+// coerce
+export function toBoolean(value) {
+  if (value === true || value === false) {
+    return value;
+  }
+  if (value === null || value === undefined) {
+    return false;
+  }
+  if (value == "yes" || value == "true") {
+    return true;
+  }
+  if (value == "no" || value == "false") {
+    return false;
+  }
+  return !!value;
+}
 
 // Convert string case
 function splitAnyCase(str) {

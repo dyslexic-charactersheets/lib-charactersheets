@@ -1366,7 +1366,8 @@
                           "id": "hero-points",
                           "label": "_{Hero Points}",
                           "border": "circle",
-                          "size": "huge"
+                          "size": "huge",
+                          "suffix": "3"
                         }
                       ]
                     },
@@ -1550,7 +1551,9 @@
                                         {
                                           "type": "field",
                                           "id": "STR-score",
-                                          "frame": "none"
+                                          "prefix": "+",
+                                          "frame": "none",
+                                          "underlay": "_{STR}"
                                         },
                                         {
                                           "type": "spacer"
@@ -1607,7 +1610,9 @@
                                         {
                                           "type": "field",
                                           "id": "DEX-score",
-                                          "frame": "none"
+                                          "prefix": "+",
+                                          "frame": "none",
+                                          "underlay": "_{DEX}"
                                         },
                                         {
                                           "type": "spacer"
@@ -1664,7 +1669,9 @@
                                         {
                                           "type": "field",
                                           "id": "CON-score",
-                                          "frame": "none"
+                                          "prefix": "+",
+                                          "frame": "none",
+                                          "underlay": "_{CON}"
                                         },
                                         {
                                           "type": "spacer"
@@ -1721,7 +1728,9 @@
                                         {
                                           "type": "field",
                                           "id": "INT-score",
-                                          "frame": "none"
+                                          "prefix": "+",
+                                          "frame": "none",
+                                          "underlay": "_{INT}"
                                         },
                                         {
                                           "type": "spacer"
@@ -1778,7 +1787,9 @@
                                         {
                                           "type": "field",
                                           "id": "WIS-score",
-                                          "frame": "none"
+                                          "prefix": "+",
+                                          "frame": "none",
+                                          "underlay": "_{WIS}"
                                         },
                                         {
                                           "type": "spacer"
@@ -1835,7 +1846,9 @@
                                         {
                                           "type": "field",
                                           "id": "CHA-score",
-                                          "frame": "none"
+                                          "prefix": "+",
+                                          "frame": "none",
+                                          "underlay": "_{CHA}"
                                         },
                                         {
                                           "type": "spacer"
@@ -2158,7 +2171,8 @@
                                         }
                                       ]
                                     }
-                                  ]
+                                  ],
+                                  "merge-bottom": true
                                 }
                               ]
                             },
@@ -2327,13 +2341,6 @@
                           "abilityref": "DEX",
                           "acp": true,
                           "fade": false
-                        },
-                        {
-                          "skill": "",
-                          "name": "",
-                          "ability": "",
-                          "acp": false,
-                          "optional": true
                         },
                         {
                           "skill": "",
@@ -2577,39 +2584,6 @@
                               "width": "stretch"
                             }
                           ]
-                        },
-                        {
-                          "type": "row",
-                          "layout": null,
-                          "contents": [
-                            {
-                              "type": "field",
-                              "id": "skill-note-6-value",
-                              "control": "icon",
-                              "icon": "proficiency",
-                              "frame": "none"
-                            },
-                            {
-                              "type": "field",
-                              "id": "skill-note-6-name",
-                              "frame": "none",
-                              "width": "stretch"
-                            },
-                            {
-                              "type": "field",
-                              "id": "skill-note-6-action",
-                              "control": "icon",
-                              "frame": "none",
-                              "icon": "action-template",
-                              "width": "large"
-                            },
-                            {
-                              "type": "field",
-                              "id": "skill-note-6-notes",
-                              "frame": "none",
-                              "width": "stretch"
-                            }
-                          ]
                         }
                       ]
                     }
@@ -2842,12 +2816,67 @@
                 },
                 {
                   "type": "section",
-                  "title": "_{Weapon Specialisation}",
+                  "title": "_{Weapon}",
                   "contents": [
                     {
                       "type": "list",
                       "hr": true,
                       "contents": [
+                        {
+                          "type": "g",
+                          "contents": [
+                            {
+                              "type": "h5",
+                              "title": "_{Multi-Attack Penalty}",
+                              "optional": true
+                            },
+                            {
+                              "type": "row",
+                              "layout": "split",
+                              "contents": [
+                                {
+                                  "type": "icon",
+                                  "icon": "action"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "map-1",
+                                  "frame": "left",
+                                  "label": "_{1st}",
+                                  "border": "full",
+                                  "width": "large",
+                                  "underlay": "0"
+                                },
+                                {
+                                  "type": "icon",
+                                  "icon": "action2nd"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "map-2",
+                                  "frame": "left",
+                                  "label": "_{2nd}",
+                                  "border": "full",
+                                  "width": "large",
+                                  "underlay": -5
+                                },
+                                {
+                                  "type": "icon",
+                                  "icon": "action3rd"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "map-3",
+                                  "frame": "left",
+                                  "label": "_{3rd}",
+                                  "border": "full",
+                                  "width": "large",
+                                  "underlay": -10
+                                }
+                              ]
+                            }
+                          ]
+                        },
                         {
                           "type": "layout",
                           "layout": "indent-l",
@@ -2868,7 +2897,7 @@
                               "contents": [
                                 {
                                   "type": "h5",
-                                  "title": "_{Damage Bonus}"
+                                  "title": "_{Weapon Specialisation}"
                                 },
                                 {
                                   "type": "layout",
@@ -3015,6 +3044,15 @@
                               ]
                             }
                           ]
+                        },
+                        {
+                          "type": "field",
+                          "id": "weapon-spec-misc",
+                          "width": "stretch",
+                          "repeat": 2,
+                          "reduce": 1,
+                          "frame": "none",
+                          "merge-bottom": true
                         }
                       ]
                     }
@@ -3032,104 +3070,6 @@
                       "flex": true,
                       "hr": true,
                       "contents": [
-                        {
-                          "type": "layout",
-                          "layout": "indent-lw",
-                          "contents": [
-                            {
-                              "type": "icon",
-                              "icon": "action-template"
-                            },
-                            {
-                              "type": "g",
-                              "contents": [
-                                {
-                                  "type": "article",
-                                  "id": null,
-                                  "header": [
-                                    {
-                                      "type": "row",
-                                      "blk": false,
-                                      "contents": [
-                                        {
-                                          "type": "field",
-                                          "id": null,
-                                          "frame": "none",
-                                          "align": "left",
-                                          "width": "stretch"
-                                        }
-                                      ]
-                                    }
-                                  ],
-                                  "contents": [
-                                    {
-                                      "type": "field",
-                                      "id": "null-details",
-                                      "frame": "none",
-                                      "align": "left",
-                                      "repeat": 2,
-                                      "width": "stretch",
-                                      "merge-bottom": true
-                                    }
-                                  ],
-                                  "shade": false,
-                                  "blk": true,
-                                  "annotation": false,
-                                  "merge-bottom": true
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "layout",
-                          "layout": "indent-lw",
-                          "contents": [
-                            {
-                              "type": "icon",
-                              "icon": "action-template"
-                            },
-                            {
-                              "type": "g",
-                              "contents": [
-                                {
-                                  "type": "article",
-                                  "id": null,
-                                  "header": [
-                                    {
-                                      "type": "row",
-                                      "blk": false,
-                                      "contents": [
-                                        {
-                                          "type": "field",
-                                          "id": null,
-                                          "frame": "none",
-                                          "align": "left",
-                                          "width": "stretch"
-                                        }
-                                      ]
-                                    }
-                                  ],
-                                  "contents": [
-                                    {
-                                      "type": "field",
-                                      "id": "null-details",
-                                      "frame": "none",
-                                      "align": "left",
-                                      "repeat": 2,
-                                      "width": "stretch",
-                                      "merge-bottom": true
-                                    }
-                                  ],
-                                  "shade": false,
-                                  "blk": true,
-                                  "annotation": false,
-                                  "merge-bottom": true
-                                }
-                              ]
-                            }
-                          ]
-                        },
                         {
                           "type": "layout",
                           "layout": "indent-lw",
@@ -3298,59 +3238,6 @@
                       "flex": true,
                       "avoid-shade": true,
                       "contents": [
-                        {
-                          "type": "row",
-                          "layout": "split",
-                          "contents": [
-                            {
-                              "type": "h5",
-                              "title": "_{Multi-Attack}",
-                              "optional": true
-                            },
-                            {
-                              "type": "spacer"
-                            },
-                            {
-                              "type": "icon",
-                              "icon": "action"
-                            },
-                            {
-                              "type": "field",
-                              "id": "map-1",
-                              "frame": "left",
-                              "label": "_{1st}",
-                              "border": "full",
-                              "width": "large",
-                              "underlay": "0"
-                            },
-                            {
-                              "type": "icon",
-                              "icon": "action2nd"
-                            },
-                            {
-                              "type": "field",
-                              "id": "map-2",
-                              "frame": "left",
-                              "label": "_{2nd}",
-                              "border": "full",
-                              "width": "large",
-                              "underlay": -5
-                            },
-                            {
-                              "type": "icon",
-                              "icon": "action3rd"
-                            },
-                            {
-                              "type": "field",
-                              "id": "map-3",
-                              "frame": "left",
-                              "label": "_{3rd}",
-                              "border": "full",
-                              "width": "large",
-                              "underlay": -10
-                            }
-                          ]
-                        },
                         {
                           "type": "g",
                           "contents": [
@@ -3888,144 +3775,162 @@
                           ]
                         },
                         {
-                          "type": "layout",
-                          "layout": "2e",
+                          "type": "g",
                           "contents": [
                             {
-                              "type": "row",
-                              "layout": null,
+                              "type": "layout",
+                              "layout": "2e",
                               "contents": [
                                 {
-                                  "type": "field",
-                                  "id": "ammo-1-type",
-                                  "legend": "_{Ammo}",
-                                  "label": "",
-                                  "width": "stretch",
-                                  "align": "left",
-                                  "unlined": true
+                                  "type": "row",
+                                  "layout": null,
+                                  "contents": [
+                                    {
+                                      "type": "field",
+                                      "id": "ammo-1-type",
+                                      "legend": "_{Ammo}",
+                                      "label": "",
+                                      "width": "stretch",
+                                      "align": "left",
+                                      "unlined": true,
+                                      "merge-bottom": "false"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "ammo-1",
+                                      "frame": "none",
+                                      "unlined": true,
+                                      "width": "small",
+                                      "size": "huge",
+                                      "underlay": "#",
+                                      "merge-bottom": "false"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "ammo-1-count",
+                                      "frame": "none",
+                                      "control": "checkgrid",
+                                      "max": "20",
+                                      "depth": 3,
+                                      "merge-bottom": "false"
+                                    }
+                                  ]
                                 },
                                 {
-                                  "type": "field",
-                                  "id": "ammo-1",
-                                  "frame": "none",
-                                  "unlined": true,
-                                  "width": "small",
-                                  "size": "huge",
-                                  "underlay": "#"
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "ammo-1-count",
-                                  "frame": "none",
-                                  "control": "checkgrid",
-                                  "max": "20",
-                                  "depth": 3
+                                  "type": "row",
+                                  "layout": null,
+                                  "contents": [
+                                    {
+                                      "type": "field",
+                                      "id": "ammo-1-type",
+                                      "legend": "",
+                                      "label": "_{Special}",
+                                      "width": "stretch",
+                                      "align": "left",
+                                      "unlined": true,
+                                      "merge-bottom": "false"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "ammo-1",
+                                      "frame": "none",
+                                      "unlined": true,
+                                      "width": "small",
+                                      "size": "huge",
+                                      "underlay": "#",
+                                      "merge-bottom": "false"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "ammo-1-count",
+                                      "frame": "none",
+                                      "control": "checkgrid",
+                                      "max": "10",
+                                      "depth": 3,
+                                      "merge-bottom": "false"
+                                    }
+                                  ]
                                 }
                               ]
                             },
                             {
-                              "type": "row",
-                              "layout": null,
+                              "type": "layout",
+                              "layout": "2e",
                               "contents": [
                                 {
-                                  "type": "field",
-                                  "id": "ammo-1-type",
-                                  "legend": "",
-                                  "label": "_{Special}",
-                                  "width": "stretch",
-                                  "align": "left",
-                                  "unlined": true
+                                  "type": "row",
+                                  "layout": null,
+                                  "contents": [
+                                    {
+                                      "type": "field",
+                                      "id": "ammo-1-type",
+                                      "legend": "",
+                                      "label": "",
+                                      "width": "stretch",
+                                      "align": "left",
+                                      "unlined": true,
+                                      "merge-bottom": "true"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "ammo-1",
+                                      "frame": "none",
+                                      "unlined": true,
+                                      "width": "small",
+                                      "size": "huge",
+                                      "underlay": "#",
+                                      "merge-bottom": "true"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "ammo-1-count",
+                                      "frame": "none",
+                                      "control": "checkgrid",
+                                      "max": "20",
+                                      "depth": 3,
+                                      "merge-bottom": "true"
+                                    }
+                                  ]
                                 },
                                 {
-                                  "type": "field",
-                                  "id": "ammo-1",
-                                  "frame": "none",
-                                  "unlined": true,
-                                  "width": "small",
-                                  "size": "huge",
-                                  "underlay": "#"
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "ammo-1-count",
-                                  "frame": "none",
-                                  "control": "checkgrid",
-                                  "max": "10",
-                                  "depth": 3
+                                  "type": "row",
+                                  "layout": null,
+                                  "contents": [
+                                    {
+                                      "type": "field",
+                                      "id": "ammo-1-type",
+                                      "legend": "",
+                                      "label": "",
+                                      "width": "stretch",
+                                      "align": "left",
+                                      "unlined": true,
+                                      "merge-bottom": "true"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "ammo-1",
+                                      "frame": "none",
+                                      "unlined": true,
+                                      "width": "small",
+                                      "size": "huge",
+                                      "underlay": "#",
+                                      "merge-bottom": "true"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "ammo-1-count",
+                                      "frame": "none",
+                                      "control": "checkgrid",
+                                      "max": "10",
+                                      "depth": 3,
+                                      "merge-bottom": "true"
+                                    }
+                                  ]
                                 }
                               ]
                             }
-                          ]
-                        },
-                        {
-                          "type": "layout",
-                          "layout": "2e",
-                          "contents": [
-                            {
-                              "type": "row",
-                              "layout": null,
-                              "contents": [
-                                {
-                                  "type": "field",
-                                  "id": "ammo-1-type",
-                                  "legend": "",
-                                  "label": "",
-                                  "width": "stretch",
-                                  "align": "left",
-                                  "unlined": true
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "ammo-1",
-                                  "frame": "none",
-                                  "unlined": true,
-                                  "width": "small",
-                                  "size": "huge",
-                                  "underlay": "#"
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "ammo-1-count",
-                                  "frame": "none",
-                                  "control": "checkgrid",
-                                  "max": "20",
-                                  "depth": 3
-                                }
-                              ]
-                            },
-                            {
-                              "type": "row",
-                              "layout": null,
-                              "contents": [
-                                {
-                                  "type": "field",
-                                  "id": "ammo-1-type",
-                                  "legend": "",
-                                  "label": "",
-                                  "width": "stretch",
-                                  "align": "left",
-                                  "unlined": true
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "ammo-1",
-                                  "frame": "none",
-                                  "unlined": true,
-                                  "width": "small",
-                                  "size": "huge",
-                                  "underlay": "#"
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "ammo-1-count",
-                                  "frame": "none",
-                                  "control": "checkgrid",
-                                  "max": "10",
-                                  "depth": 3
-                                }
-                              ]
-                            }
-                          ]
+                          ],
+                          "merge-bottom": true
                         }
                       ]
                     }
@@ -4438,7 +4343,8 @@
                               "legend": "_{Armour}",
                               "size": "large",
                               "width": "stretch",
-                              "flex": "none"
+                              "flex": "none",
+                              "icon": "ac"
                             },
                             {
                               "type": "field",
@@ -4485,7 +4391,8 @@
                               "legend": "_{Shield}",
                               "size": "large",
                               "width": "stretch",
-                              "flex": "none"
+                              "flex": "none",
+                              "icon": "ac"
                             },
                             {
                               "type": "layout",
@@ -9252,52 +9159,6 @@
                                         }
                                       ],
                                       "control": "checkbox"
-                                    },
-                                    {
-                                      "type": "row",
-                                      "layout": null,
-                                      "contents": [
-                                        {
-                                          "frame": "none",
-                                          "type": "field",
-                                          "id": "inventory-9",
-                                          "width": "stretch"
-                                        },
-                                        {
-                                          "frame": "none",
-                                          "type": "field",
-                                          "id": "inventory-9-value"
-                                        },
-                                        {
-                                          "frame": "none",
-                                          "type": "field",
-                                          "id": "inventory-9-weight"
-                                        }
-                                      ],
-                                      "control": "checkbox"
-                                    },
-                                    {
-                                      "type": "row",
-                                      "layout": null,
-                                      "contents": [
-                                        {
-                                          "frame": "none",
-                                          "type": "field",
-                                          "id": "inventory-10",
-                                          "width": "stretch"
-                                        },
-                                        {
-                                          "frame": "none",
-                                          "type": "field",
-                                          "id": "inventory-10-value"
-                                        },
-                                        {
-                                          "frame": "none",
-                                          "type": "field",
-                                          "id": "inventory-10-weight"
-                                        }
-                                      ],
-                                      "control": "checkbox"
                                     }
                                   ]
                                 }
@@ -10722,44 +10583,6 @@
                                   "frame": "none"
                                 }
                               ]
-                            },
-                            {
-                              "type": "row",
-                              "layout": null,
-                              "blk": false,
-                              "contents": [
-                                {
-                                  "type": "field",
-                                  "id": "inventory-scrolls-9",
-                                  "frame": "none",
-                                  "width": "stretch"
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "inventory-scrolls-9-use",
-                                  "control": "checkbox",
-                                  "frame": "none"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "row",
-                              "layout": null,
-                              "blk": false,
-                              "contents": [
-                                {
-                                  "type": "field",
-                                  "id": "inventory-scrolls-10",
-                                  "frame": "none",
-                                  "width": "stretch"
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "inventory-scrolls-10-use",
-                                  "control": "checkbox",
-                                  "frame": "none"
-                                }
-                              ]
                             }
                           ]
                         },
@@ -10994,60 +10817,6 @@
                                   "depth": 2
                                 }
                               ]
-                            },
-                            {
-                              "type": "row",
-                              "layout": null,
-                              "blk": false,
-                              "contents": [
-                                {
-                                  "type": "field",
-                                  "id": "inventory-potion-9",
-                                  "width": "stretch",
-                                  "frame": "none"
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "inventory-potion-9-count",
-                                  "underlay": "#",
-                                  "frame": "none"
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "inventory-potion-9-use",
-                                  "frame": "none",
-                                  "control": "checkgrid",
-                                  "max": 6,
-                                  "depth": 2
-                                }
-                              ]
-                            },
-                            {
-                              "type": "row",
-                              "layout": null,
-                              "blk": false,
-                              "contents": [
-                                {
-                                  "type": "field",
-                                  "id": "inventory-potion-10",
-                                  "width": "stretch",
-                                  "frame": "none"
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "inventory-potion-10-count",
-                                  "underlay": "#",
-                                  "frame": "none"
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "inventory-potion-10-use",
-                                  "frame": "none",
-                                  "control": "checkgrid",
-                                  "max": 6,
-                                  "depth": 2
-                                }
-                              ]
                             }
                           ]
                         },
@@ -11074,6 +10843,7 @@
         {
           "type": "row",
           "layout": null,
+          "blk": false,
           "valign": "top",
           "contents": [
             {
@@ -11105,7 +10875,8 @@
                           "type": "field",
                           "id": "character-name",
                           "width": "stretch",
-                          "label": "_{Name}"
+                          "label": "_{Name}",
+                          "misc": true
                         },
                         {
                           "type": "g",
@@ -11124,9 +10895,6 @@
                           "type": "portrait",
                           "char": "personal",
                           "copyright": false
-                        },
-                        {
-                          "type": "spacer"
                         },
                         {
                           "type": "field",
@@ -11184,18 +10952,27 @@
                           "contents": [
                             {
                               "type": "field",
-                              "id": "perception",
+                              "id": null,
+                              "frame": "right",
+                              "border": "full",
                               "label": "_{Perception}",
-                              "icon": "bonus"
-                            },
-                            {
-                              "type": "spacer"
-                            },
+                              "icon": "bonus",
+                              "width": "large"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "row",
+                          "layout": null,
+                          "contents": [
                             {
                               "type": "field",
-                              "id": "stealth",
+                              "id": null,
+                              "frame": "right",
+                              "border": "full",
                               "label": "_{Stealth}",
-                              "icon": "bonus"
+                              "icon": "bonus",
+                              "width": "large"
                             }
                           ]
                         },

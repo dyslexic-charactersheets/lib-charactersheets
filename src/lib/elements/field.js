@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-import { elementID, elementClass, getLabelHeight, has, interpolate, isArray, isString } from '../util';
+import { elementID, elementClass, getLabelHeight, has, interpolate, isArray, isString, toBoolean } from '../util';
 import { __ } from '../i18n';
 import { log } from '../log';
 // import { render, renderItem } from '../classes/Registry';
@@ -118,6 +118,7 @@ export function fieldInner(args, reg, doc) {
   const unit = (has(args, "unit") && !!args.unit) ? `<label class='field__unit'>${__(args.unit, doc)}</label>` : '';
 
   let boxargs = { icon: args.icon, border: args.border };
+  const merge_bottom = toBoolean(args['merge-bottom']);
 
   let inner;
   if (doc.largePrint && args.reduce > 0) {
@@ -131,7 +132,7 @@ export function fieldInner(args, reg, doc) {
       const value = i >= values.length ? null : values[i];
       const controlArgs = Object.assign({}, args, { value: value });
       const control = reg.renderItem(controlArgs, doc);
-      if (i == args.repeat - 1 && args['merge-bottom'] && boxargs['border'] == 'bottom')
+      if (i == args.repeat - 1 && merge_bottom && boxargs['border'] == 'bottom')
         boxargs['border'] = 'none';
       const boxcls = elementClass('field', 'box', boxargs, ["icon"], { "border": "bottom" });
       const box = `<div${boxcls}>${icon}${control}${unit}</div>`;
@@ -140,7 +141,7 @@ export function fieldInner(args, reg, doc) {
     inner = boxes.join("");
   } else {
     const control = reg.renderItem(args, doc);
-    if (args['merge-bottom'] && boxargs['border'] == 'bottom')
+    if (merge_bottom && boxargs['border'] == 'bottom')
       boxargs['border'] = 'none';
     const boxcls = elementClass('field', 'box', boxargs, ["icon"], { "border": "bottom" });
     inner = `<div${boxcls}>${icon}${control}${unit}</div>`;
