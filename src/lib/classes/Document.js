@@ -334,10 +334,6 @@ ${stylesheet}
 </head>
 
 <body>
-<nav id='nav-pages'>
-<a class="skip-link" href="#page-core">Go to character info</a>
-<a class="skip-link" href="#page-combat">Go to combat</a>
-</nav>
 
 <main>
 ${registry.render(this.doc.contents, this)}

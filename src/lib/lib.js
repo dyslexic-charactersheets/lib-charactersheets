@@ -4,6 +4,7 @@ import { loadSystemData } from './classes/System';
 import { Events } from './classes/Events';
 import { addAssetsDir as _addAssetsDir } from './data';
 import { getFormData as getFormDataF } from './formdata';
+import { addTranslator as addTranslatorF } from './i18n';
 
 // start this first, it's the slow bit
 loadSystemData([
@@ -22,6 +23,10 @@ export function create(chardesc) {
 
 export function addAssetsDir(dir) {
   _addAssetsDir(dir);
+}
+
+export function addTranslator(callback) {
+  addTranslatorF(callback);
 }
 
 export function onCreate(callback) {

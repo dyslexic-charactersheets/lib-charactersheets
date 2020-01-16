@@ -11,7 +11,7 @@ export let ruby = {
   },
   render(args, reg, doc) {
     const cls = elementClass('ruby', null, args, [], { 'align': 'center' });
-    return `<div${cls}><label class='ruby__text'>${_e(args.ruby)}</label>${reg.render(args.contents, doc)}</div>`;
+    return `<div${cls}><label class='ruby__text'>${_e(args.ruby, doc)}</label>${reg.render(args.contents, doc)}</div>`;
   }
 }
 

@@ -1,12 +1,25 @@
 import { log, error } from './log';
-import { isString, isNumber } from './util';
+import { isString, isNumber, isNull } from './util';
 import * as _ from 'lodash';
 
-// TODO i18n API calls to load files or connect to a PO API.
+let translatorCallbacks = [];
 
 export function translate(str, doc) {
-  // TODO i18n
+  const language = doc.language;
+
+  const meta = {};
+  for (const callback of translatorCallbacks) {
+    let translation = callback(str, language, meta);
+    if (!isNull(translation)) {
+      return translation;
+    }
+  }
+
   return str;
+}
+
+export function addTranslator(callback) {
+  translatorCallbacks.push(callback);
 }
 
 export function __(str, doc) {

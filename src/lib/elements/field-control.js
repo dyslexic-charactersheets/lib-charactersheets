@@ -14,8 +14,8 @@ function defaultControlRender (args, reg, doc) {
   }, args);
 
   const ident = fieldIdent(args.id);
-  const cls = elementClass("field", "control", args, [], { "align": "centre", "width": "medium" });
-  const value = (args.value == '') ? '' : ` value='${__(args.value)}'`;
+  const cls = elementClass("field", "control", args, [], { "align": "centre", "width": "" });
+  const value = (args.value == '') ? '' : ` value='${__(args.value, doc)}'`;
   const attr = (args.editable ? '' : 'readonly');
   const input = `<input${ident.ident}${value}${attr}>`;
 
@@ -77,7 +77,7 @@ export let field_control_value = {
     const suffix = args.suffix ? `<span class='field__overlay'>${__(args.suffix, doc)}</span>` : '';
     const underlay = args.underlay ? `<u>${__(args.underlay, doc)}</u>` : '';
 
-    const value = `<span>${_e(args.value)}</span>`;
+    const value = `<span>${_e(args.value, doc)}</span>`;
 
     return `${prefix}<div${cls}>${value}${underlay}</div>${suffix}`;
   }

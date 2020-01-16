@@ -89,7 +89,7 @@ characterSheet.render((data, err) => {
 });
 ```
 
-* `CharacterSheet.render()`
+* `CharacterSheet.render(callback)`
   * `callback` \<Function\>
     * `data` \<String\> - The rendered data (in HTML)
     * `err` \<Error\> - Optional error object
@@ -107,6 +107,22 @@ CharacterSheets.addAssetsDir('./assets');
 * `addAssetsDir()`
   * `dir` \<String\> - A directory
 
+### addTranslator(...)
+
+Add a callback that supplies translations. The callback accepts a `message`, a `language` and an object with metadata; it returns either a translation, or `null`.
+
+```javascript
+CharacterSheets.addTranslator(function (message, language, meta) {
+  // ...
+});
+```
+
+* `addTranslator(callback)`
+  * `callback` \<Function\> - A callback
+    * `message` \<String\> - A string to translate
+    * `language` \<String\> - A locale code, `en` or `en-GB`
+    * `context` \<Object\> - Metadata for that message
+
 ### getFormData(...)
 
 Load the data needed to render a selection form with all the options. Takes a callback that will process the data.
@@ -117,7 +133,7 @@ CharacterSheets.getFormData(system, function (data) {
 });
 ```
 
-* `getFormData()`
+* `getFormData(system, callback)`
   * `system` \<String\> - for example, `pathfinder2`
   * `callback` \<Function\>
     * `data` \<Object\> - The form data
@@ -182,7 +198,7 @@ CharacterSheets.onCreate(request => {
 });
 ```
 
-* `onCreate()`
+* `onCreate(callback)`
   * `callback` \<Function\>
     * `request` \<Object\> - The requested character.
 
@@ -198,7 +214,7 @@ CharacterSheets.onCreateElementTree((elements, title, request) => {
 });
 ```
 
-* `onCreateElementTree()`
+* `onCreateElementTree(callback)`
   * `callback` \<Function\>
     * `elements` \<Object\> - The element tree
     * `title` \<String\> - The character or party's name
@@ -216,7 +232,7 @@ CharacterSheets.onError((err, request) => {
 });
 ```
 
-* `onError()`
+* `onError(callback)`
   * `callback` \<Function\>
     * `err` \<Error\> - Error object
     * `request` \<Object\> - The requested character

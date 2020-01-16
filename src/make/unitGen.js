@@ -19,6 +19,10 @@ function toKebabCase(str) {
   return words.join('-');
 }
 
+const includedSources = [
+  "Core Rulebook"
+];
+
 const knownSkills = [
   "Acrobatics",
   "Athletics",
@@ -62,6 +66,8 @@ const knownLore = [
 ];
 
 function generateUnits() {
+  // Backgrounds supplied by Nibrodooh
+  // cf https://github.com/Nibrodooh/...
   let filename = `${__dirname}/../data/pathfinder2/background.json`;
   try {
     let data = fs.readFileSync(filename, 'utf-8');
@@ -73,6 +79,10 @@ function generateUnits() {
         let id = 'background/'+toKebabCase(value.source)+"/"+toKebabCase(key);
         let name = value.title;
         let book = value.source;
+
+        if (!includedSources.includes(book)) {
+          return;
+        }
 
         let skill = knownSkills.includes(value.skill) ? toKebabCase(value.skill) : '';
         let lorename = knownLore.includes(value.lore) ? `${value.lore} Lore` : '';
