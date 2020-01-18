@@ -9,6 +9,12 @@ import { Events } from './Events';
 import { locateAsset, toDataURL, inferMimeType } from '../data';
 import { toKebabCase, toCamelCase, toPathCase, toSpaceCase, toTitleCase, isString, isObject, isNull, isArray, has, isEmpty } from '../util';
 
+const knownVars = [
+  "inventoryStyle",
+  "language",
+  "miniSize",
+];
+
 function parseCharacter(primary, request) {
   // attributes
   let attr = {
@@ -26,6 +32,8 @@ function parseCharacter(primary, request) {
     printLarge: false,
     printHighContrast: false,
     printDyslexic: false,
+
+    miniSize: 'medium',
 
     printColour: '#707070',
     accentColour: '',
@@ -59,7 +67,7 @@ function parseCharacter(primary, request) {
       'spellbook': false
     },
     spellbookStyle: 'normal',
-    miniSize: 'medium',
+    miniSize: attr.miniSize,
 
     printLarge: attr.printLarge,
     printHighContrast: attr.printHighContrast,
@@ -93,8 +101,6 @@ function parseCharacter(primary, request) {
       }
     }
   });
-
-  if (attr)
 
   // accessibility options
   if (attr.printLarge) {
@@ -138,7 +144,7 @@ function parseCharacter(primary, request) {
           char.classFeats = parseFeats(attr[classFeatsKey]);
           char.classFeats.forEach(feat => {
             log("Character", "Class feat:", feat);
-            char.units.push('feat/'+className+'/'+feat);
+            char.units.push('feat/' + className + '/' + feat);
           });
         }
 
@@ -210,7 +216,7 @@ function parseCharacter(primary, request) {
     }
   });
 
-  // log("Character", "Parsed", char);
+  log("Character", "Parsed", char);
   return char;
 }
 
@@ -271,6 +277,9 @@ export class Character {
         // start with a document
         const documentUnit = system.getUnit("document");
         const document = new Document(documentUnit);
+
+        // language
+        document.language = this.data.language;
 
         // TODO get title parts from inside units
         // TODO translate title parts
@@ -345,6 +354,16 @@ export class Character {
         document.printColour = this.data.printColour;
         document.accentColour = this.data.accentColour;
         document.watermark = this.data.printWatermark;
+
+        // get known vars from the data
+        knownVars.forEach(varname => {
+          if (has(this.data, varname)) {
+            const key = toKebabCase(varname);
+            const value = this.data[varname];
+            log("Character", `Var: ${key} = ${JSON.stringify(value)}`);
+            document.setVar(key, value, "high");
+          }
+        });
 
         // load units
         let units = system.getUnits(this.data.units);

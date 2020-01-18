@@ -1,4 +1,5 @@
 import { log } from '../log';
+import { interpolate } from '../util';
 
 export let logelem = {
   name: 'log',
@@ -6,8 +7,9 @@ export let logelem = {
   defaults: {
     message: '',
   },
-  transform(args) {
-    log("-", args.message);
+  transform(args, doc) {
+    const message = interpolate(args.message, {}, doc);
+    log("-", message);
     return [];
   }
 };

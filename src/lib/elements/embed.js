@@ -1,4 +1,4 @@
-import { elementID, elementClass, isEmpty } from '../util';
+import { elementID, elementClass, isEmpty, interpolate } from '../util';
 
 export let embed = {
   name: 'embed',
@@ -15,6 +15,8 @@ export let embed = {
     let base = isEmpty(args.base) ? '' : `<div class='embed__base'>${reg.render(args.base, doc)}</div>`;
     let baseRev = isEmpty(args.base) ? '' : `<div class='embed__base-reverse'>${reg.render(args.base, doc)}</div>`;
 
+
+    args.src = interpolate(args.src, {}, doc);
     const cls = elementClass('embed', null, args, ['blk'], { 'src': '' });
     return `<div${cls}>${reverse}${contents}${base}${baseRev}</div>`;
   }

@@ -2,7 +2,7 @@ const Handlebars = require('handlebars');
 
 import { log, warn, error } from '../log';
 import { applyContext } from '../context';
-import { clone, replaceColours, has, isArray } from '../util';
+import { clone, replaceColours, has, isArray, isEmpty } from '../util';
 import { esc, _e } from '../i18n';
 
 export class Document {
@@ -65,20 +65,46 @@ export class Document {
     return has(this.vars, varname);
   }
 
+  setVar(varname, value, priority = "medium") {
+    if (!has(this.vars, varname)) {
+      this.vars[varname] = [];
+    }
+
+    this.vars[varname].push({
+      set: varname,
+      priority: priority,
+      value: value,
+    });
+  }
+
   getVar(varname, typeHint = null) {
     if (!has(this.vars, varname))
       return false;
 
+    // separate the stored vars by priority
+    const high = [], medium = [], low = [];
+    this.vars[varname].forEach(include => {
+      let priority = has(include, "priority") ? include.priority : 'medium';
+      switch (priority) {
+        case 'high': high.push(include.value); break;
+        case 'medium': medium.push(include.value); break;
+        case 'low': default: low.push(include.value); break;
+      }
+    });
+    const incs = isEmpty(high) ? (isEmpty(medium) ? low : medium) : high;
+
+    // TODO type hints
+
     // TODO combine multiple values somehow
     let is_array = false;
-    this.vars[varname].forEach(include => {
+    incs.forEach(include => {
       if (isArray(include.value))
         is_array = true;
     });
 
     if (is_array) {
       let values = [];
-      this.vars[varname].forEach(include => {
+      incs.forEach(include => {
         if (isArray(include.value)) {
           values = values.concat(include.value);
         } else {
@@ -112,6 +138,8 @@ export class Document {
             break;
 
           case 'set':
+            // const isOverride = _.has(include, "override") ? !!include.override : false;
+            // const isDefault = _.has(include, "default") ? !!include.default : false;
             if (!has(this.vars, include.set))
               this.vars[include.set] = [];
             this.vars[include.set].push(include);
@@ -160,8 +188,20 @@ export class Document {
     // log("compose", " - Templates:", templates);
     // log("compose", " - Registry", registry);
 
-    //const self = this;
-    const ctx = { zones: this.zones, templates: this.templates, largePrint: this.largePrint, locale: this.language };
+    const self = this;
+    const ctx = { 
+      zones: this.zones,
+      templates: this.templates,
+      largePrint: this.largePrint,
+      locale: this.language,
+    
+      hasVar(varname) {
+        return self.hasVar(varname);
+      },
+      getVar(varname) {
+        return self.getVar(varname);
+      }
+    };
 
     // the lesser form: only expand a few types, don't do full unit expansion
     function complete(element) {
@@ -184,7 +224,7 @@ export class Document {
             // log("compose", "Applying transformation to", element.type);
             // log("Document", "Large print?", self.largePrint);
             const args = Object.assign({}, reg.defaults, element);
-            //const ctx = { zones: self.zones, templates: self.templates, largePrint: self.largePrint, locale: self.language };
+            //const ctx = { zones: self.zones, templates: self.templates, largePrint: self.largePrint, language: self.language };
             let newelements = reg.transform(args, ctx);
             if (newelements === false)
               return element;
