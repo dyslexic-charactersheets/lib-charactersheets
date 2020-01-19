@@ -90,29 +90,17 @@ inc:
                 contents:
                   - layout: 2e
                     contents:
-                      - field: build-background
-                        label: "_{Background}"
-                        width: stretch
-                        align: left
                       - row:
                         contents:
-                          - icon: proficiency-trained
-                          - field: build-background-skill
-                            label: "_{Skill}"
+                          - field: build-background
+                            label: "_{Background}"
+                            width: stretch
                             align: left
-                  - layout: 2e
-                    contents:
                       - level: 1
                         contents:
                           - field: build-background-skill-feat
                             label: "_{Skill Feat}"
                             width: stretch
-                            align: left
-                      - row:
-                        contents:
-                          - icon: proficiency-trained
-                          - field: build-background-lore
-                            label: "_{Lore}"
                             align: left
 
           - layout: 2l
@@ -145,7 +133,7 @@ inc:
                             width: large
                           - field: build-class-key-ability
                             label: "_{Key Ability}"
-                            width: huge
+                            width: large
                           - spacer:
                           - field: build-class-level
                             label: "Level"
@@ -159,47 +147,65 @@ inc:
                       - field: build-deity
                         label: "_{Deity}"
                         width: stretch
-                  - layout: 3e
+                  - layout: 4e
                     contents:
-                      - g:
-                        contents:
-                          - proficiency:
-                            content: "_{Fortitude}"
-                          - proficiency:
-                            content: "_{Reflex}"
-                          - proficiency:
-                            content: "_{Will}"
-                      - g:
-                        contents:
-                          - proficiency:
-                            content: "_{Perception}"
-                          - proficiency:
-                            content: "_{Class DC}"
-                          - proficiency:
-                            content: "_{Spell DC}"
-                      - g:
-                        contents:
-                          - row:
-                            valign: middle
-                            contents:
-                              - icon: proficiency
-                              - field: proficiency-skill-1
-                                frame: none
-                                width: stretch
-                          - row:
-                            valign: middle
-                            contents:
-                              - icon: proficiency
-                              - field: proficiency-skill-1
-                                frame: none
-                                width: stretch
-                          - row:
-                            valign: middle
-                            contents:
-                              - icon: proficiency
-                              - field: proficiency-skill-1
-                                frame: none
-                                width: stretch
+                      - h6: "_{Saving Throws}:"
+                      - proficiency:
+                        content: "_{Fortitude}"
+                      - proficiency:
+                        content: "_{Reflex}"
+                      - proficiency:
+                        content: "_{Will}"
+                  - layout: 4e
+                    contents:
+                      - h6: "_{Proficiencies}:"
+                      - proficiency:
+                        content: "_{Perception}"
+                      - proficiency:
+                        content: "_{Class DC}"
+                      - proficiency:
+                        content: "_{Spell Attack/DC}"
+                  # - layout: 3e
+                  #   contents:
+                  #     - g:
+                  #       contents:
+                  #         - proficiency:
+                  #           content: "_{Fortitude}"
+                  #         - proficiency:
+                  #           content: "_{Reflex}"
+                  #         - proficiency:
+                  #           content: "_{Will}"
+                  #     - g:
+                  #       contents:
+                  #         - proficiency:
+                  #           content: "_{Perception}"
+                  #         - proficiency:
+                  #           content: "_{Class DC}"
+                  #         - proficiency:
+                  #           content: "_{Spell Attack / DC}"
+                  #     - g:
+                  #       contents:
+                  #         - row:
+                  #           valign: middle
+                  #           contents:
+                  #             - icon: proficiency
+                  #             - field: proficiency-skill-1
+                  #               frame: none
+                  #               width: stretch
+                  #         - row:
+                  #           valign: middle
+                  #           contents:
+                  #             - icon: proficiency
+                  #             - field: proficiency-skill-1
+                  #               frame: none
+                  #               width: stretch
+                  #         - row:
+                  #           valign: middle
+                  #           contents:
+                  #             - icon: proficiency
+                  #             - field: proficiency-skill-1
+                  #               frame: none
+                  #               width: stretch
 
           - layout: 2l
             contents:
@@ -215,6 +221,16 @@ inc:
                       - li: "_{Two +2 from your background, one a free choice.}"
                       - li: "_{Several +2 from your class.}"
                       - li: "_{Free +2 to any FOUR abilities.}"
+                  - spacer:
+                  - calc:
+                    inline: true
+                    output:
+                      label: "_{Ability\nModifier}"
+                    inputs:
+                      - span: "("
+                      - label: "_{Ability\nScore}"
+                      - span: "- 10 ) &divide; 2"
+                  - spacer:
               - section: "_{Details}"
                 contents:
                   - table:
@@ -277,23 +293,6 @@ inc:
                       - field: build__key-ability
                         control: radio
                         value: "#{code}"
-                  - row:
-                    contents:
-                      - level: 1
-                        contents:
-                          - field: max-ability-score
-                            frame: right
-                            border: full
-                            label: "_{Max ability score}"
-                            value: 18
-                      - calc:
-                        inline: true
-                        output:
-                          label: "_{Ability\nModifier}"
-                        inputs:
-                          - span: "("
-                          - label: "_{Ability\nScore}"
-                          - span: "- 10 ) &divide; 2"
           - layout: 2l
             contents:
               - g:
@@ -396,6 +395,97 @@ inc:
                           - label: "_{Level}\n+8"
                             align: center
                       - spacer:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - p: "_{Gain skill proficiencies from your background and class.}"
+                  - spacer:
+                  - calc:
+                    inline: true
+                    output:
+                      label: "_{Extra\nSkills}"
+                    inputs:
+                      - field:
+                        label: "_{Class}"
+                      - span: "+"
+                      - field:
+                        ref: INT
+                        label: "_{INT}"
+                        underlay: "_{INT}"
+                  - spacer:
+              - g:
+                contents:
+                  - hr:
+                  - layout: 3e
+                    contents:
+                      - g:
+                        contents:
+                          - h5: "_{Background Skill}"
+                          - row:
+                            valign: middle
+                            contents:
+                              - icon: proficiency
+                              - field: proficiency-skill-1
+                                frame: none
+                                width: stretch
+                          - h5: "_{Lore Skill}"
+                          - row:
+                            valign: middle
+                            contents:
+                              - icon: proficiency
+                              - field: proficiency-skill-1
+                                frame: none
+                                width: stretch
+
+                      - g:
+                        contents:
+                          - row:
+                            valign: middle
+                            contents:
+                              - icon: proficiency
+                              - field: proficiency-skill-1
+                                frame: none
+                                width: stretch
+                          - row:
+                            valign: middle
+                            contents:
+                              - icon: proficiency
+                              - field: proficiency-skill-2
+                                frame: none
+                                width: stretch
+                          - row:
+                            valign: middle
+                            contents:
+                              - icon: proficiency
+                              - field: proficiency-skill-3
+                                frame: none
+                                width: stretch
+                      - g:
+                        contents:
+                          - row:
+                            valign: middle
+                            contents:
+                              - icon: proficiency
+                              - field: proficiency-skill-1
+                                frame: none
+                                width: stretch
+                          - row:
+                            valign: middle
+                            contents:
+                              - icon: proficiency
+                              - field: proficiency-skill-2
+                                frame: none
+                                width: stretch
+                          - row:
+                            valign: middle
+                            contents:
+                              - icon: proficiency
+                              - field: proficiency-skill-3
+                                frame: none
+                                width: stretch
+              - g:
+                contents:
           - layout: 2l
             contents:
               - g:

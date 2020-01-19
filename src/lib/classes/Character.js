@@ -216,7 +216,7 @@ function parseCharacter(primary, request) {
     }
   });
 
-  log("Character", "Parsed", char);
+  // log("Character", "Parsed", char);
   return char;
 }
 
@@ -360,7 +360,7 @@ export class Character {
           if (has(this.data, varname)) {
             const key = toKebabCase(varname);
             const value = this.data[varname];
-            log("Character", `Var: ${key} = ${JSON.stringify(value)}`);
+            // log("Character", `Var: ${key} = ${JSON.stringify(value)}`);
             document.setVar(key, value, "high");
           }
         });
