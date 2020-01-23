@@ -18,7 +18,9 @@ inc:
                       - list:
                         hr: true
                         contents:
-                          - g:
+                          - list:
+                            flex: small
+                            zebra: true
                             contents:
                               - row:
                                 contents:
@@ -32,12 +34,13 @@ inc:
                                   # - field: inventory-kit-checked
                                   #   control: checkbox
                                   #   label: "_{Ready}"
-                              - field: inventory-kit-contents
-                                frame: none
-                                width: stretch
-                                repeat: 4
+                              - repeat: 4
                                 reduce: 2
                                 merge-bottom: true
+                                contents:
+                                  - field: inventory-kit-contents-#{i}
+                                    frame: none
+                                    width: stretch
                           - g:
                             contents:
                               - h5: "_{Items}"
@@ -59,6 +62,9 @@ inc:
                                                 frame: none
                                               - field: inventory-#{i}-weight
                                                 frame: none
+                                              - field: inventory-#{i}-checked
+                                                frame: none
+                                                control: checkbox
                                         lines: 1
                                   - list:
                                     zebra: true
@@ -74,7 +80,9 @@ inc:
                                                 width: stretch
                                               - field: inventory-#{i}-value
                                               - field: inventory-#{i}-weight
-                                            control: checkbox
+                                              - field: inventory-#{i}-checked
+                                                frame: none
+                                                control: checkbox
                               - row:
                                 contents:
                                   - p: "_{10 light = 1 bulk}"
@@ -93,6 +101,7 @@ inc:
                                 field_frame: none
                                 contents:
                                   - repeat: 8
+                                    reduce: 1
                                     contents:
                                       - row:
                                         contents:
@@ -101,6 +110,7 @@ inc:
                                           - field: inventory-#{i}-value
                                           - field: inventory-#{i}-weight
                                           - field: inventory-#{i}-checked
+                                            frame: none
                                             control: checkbox
                               - row:
                                 contents:
@@ -118,6 +128,7 @@ inc:
                                     control: weight
 
                           - g:
+                            flex: tiny
                             contents:
                               - h5: "_{Expendables}"
                               - list:
@@ -137,6 +148,37 @@ inc:
                                             control: checkgrid
                                             max: 20
                                             depth: 3
+                                          
+                          - g:
+                            contents:
+                              - row:
+                                contents:
+                                  - calc:
+                                    output:
+                                      field: encumberance
+                                      label: "_{Encumberance}"
+                                      suffix: "_{B}"
+                                      width: large
+                                    inputs:
+                                      - span: "5 +"
+                                      - field:
+                                        ref: STR
+                                        label: "_{STR}"
+                                        underlay: "_{STR}"
+                                  - calc:
+                                    output:
+                                      field: encumberance-max
+                                      label: "_{Carry Limit}"
+                                      suffix: "_{B}"
+                                      width: large
+                                    inputs:
+                                      - span: "10 +"
+                                      - field:
+                                        ref: STR
+                                        label: "_{STR}"
+                                        underlay: "_{STR}"
+
+
                                     
                   - section: "_{Money}"
                     flex: none
