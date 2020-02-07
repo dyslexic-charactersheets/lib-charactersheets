@@ -377,6 +377,9 @@ export class Character {
           let unitIds = units.map(unit => unit.id);
           // log("Character", "Unit IDs:", unitIds);
           units.forEach(unit => {
+            if (has(unit, "require") && !isArray(unit.require)) {
+              error("Character", `Require not an array in ${unit.id}`, unit.require);
+            }
             if (has(unit, "require")) {
               unit.require.forEach(req => {
                 // log("Character", `Unit ${unit.id} requires`, req);

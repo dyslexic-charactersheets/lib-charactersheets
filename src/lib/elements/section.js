@@ -12,15 +12,17 @@ export let section = {
     untitled: false,
     contents: [],
     icon: false,
+    mark: false,
   },
   render(args, reg, doc) {
     const id = elementID('section', args.id);
-    const cls = elementClass('section', null, args, ['primary', 'fill', 'untitled'], { flex: 'medium' });
+    const cls = elementClass('section', null, args, ['primary', 'fill', 'untitled', 'mark'], { flex: 'medium' });
 
     const icon = args.icon ? `<i class='icon icon_${args.icon}'></i>` : '';
 
     const title = args.untitled ? '' : `<h3>${icon}${_e(args.title, doc)}</h3>`;
-    const content = `<div class='section__inner'>${reg.render(args.contents, doc)}</div>`;
+    const mark = args.mark ? `<i class='mark icon_${args.mark}'></i>` : '';
+    const content = `<div class='section__inner'>${mark}${reg.render(args.contents, doc)}</div>`;
 
     return `<section${id}${cls}>${title}
             ${content}
