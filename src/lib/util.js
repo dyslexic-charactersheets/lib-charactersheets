@@ -631,7 +631,11 @@ export function getRubyHeight(args) {
     }
 
     case 'field': {
-      return 0;
+      if (!args.ruby) {
+        return 0;
+      }
+      const rubyHeight = args.ruby.split(/\n/).length;
+      return rubyHeight;
     }
 
     case 'calc': {

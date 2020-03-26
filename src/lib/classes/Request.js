@@ -2,6 +2,7 @@ import { log } from '../log';
 
 import { Character } from './Character';
 import { Party } from './Party';
+import { Build } from './Build';
 import { Events } from './Events';
 import { has, isArray } from '../util';
 
@@ -82,6 +83,12 @@ export class Request {
 
         case 'party':
           return new Party(primary, this, registry);
+
+        case 'quick':
+          switch(primary.attributes['quick']) {
+            case 'build':
+              return new Build(primary, this, registry);
+          }
 
         default:
           return null;

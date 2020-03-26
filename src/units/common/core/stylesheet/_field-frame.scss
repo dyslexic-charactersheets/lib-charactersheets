@@ -1,40 +1,22 @@
 .field {
-  legend {
-    position: absolute;
-    top: 0.06rem;
-    left: 0;
-    line-height: 0.95rem;
-    text-align: left;
-    padding: 0;
-  }
 
-  > label {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-  }
+  // $lp: 0.95rem;
 
-  $lp: 0.95rem;
+  // &.lp_0 {
+  //   padding-top: 0;
+  // }
 
-  &.lp_0 {
-    padding-top: 0;
-  }
+  // &.lp_1 {
+  //   padding-top: $lp;
+  // }
 
-  &.lp_1 {
-    padding-top: $lp;
-  }
+  // &.lp_2 {
+  //   padding-top: 2 * $lp;
+  // }
 
-  &.lp_2 {
-    padding-top: 2 * $lp;
-  }
-
-  &.lp_3 {
-    padding-top: 3 * $lp;
-  }
+  // &.lp_3 {
+  //   padding-top: 3 * $lp;
+  // }
 
   /* frame= */
 
@@ -59,22 +41,29 @@
   &.field--frame_right {
     padding-top: 0;
     width: auto;
-    align-items: flex-end;
+    // align-items: flex-end;
 
     .field__frame {
+      // flex: 1 0 auto;
+      flex-direction: row;
+      justify-content: flex-end;
+
+      legend,
+      > label {
+        // position: static;
+        flex: 10 1 auto;
+        min-height: 1.5rem;
+        line-height: 1.1rem;
+        padding: 0 0.3rem;
+      }
+
+      > label {
+        font-size: 0.9rem;
+      }
+    }
+
+    .field__box {
       flex: 0 0 auto;
-    }
-
-    legend,
-    > label {
-      position: static;
-      flex: 10 1 auto;
-      height: 1.5rem;
-      line-height: 1.5rem;
-    }
-
-    > label {
-      font-size: 0.9rem;
     }
   }
 
@@ -103,6 +92,7 @@
     }
 
     label {
+      position: absolute;
       left: 2 * $pt;
       top: 0;
       width: 2rem;
@@ -113,6 +103,17 @@
 }
 
 .field__frame {
+  > legend {
+    line-height: 0.95rem;
+    text-align: left;
+    padding: 0 0 0.2rem 0;
+  }
+
+  > label {
+    margin: 0;
+    padding: 0 0 0.2rem 0;
+    text-align: center;
+  }
   .field.field--indent & {
     padding-left: 1rem;
   }

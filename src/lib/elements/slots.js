@@ -34,7 +34,8 @@ export let slots = {
         const n = args.min - items.length;
         for (let i = 0; i < n; i++) {
           // log("slots","Placeholder", args.placeholder);
-          items = items.concat(cloneDeep(args.placeholder));
+          let placeholder = interpolate(cloneDeep(args.placeholder), {i: i + 1});
+          items = items.concat(placeholder);
         }
       }
       if (args.max && items.length > args.max) {

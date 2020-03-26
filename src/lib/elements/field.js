@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
-import { elementID, elementClass, getLabelHeight, has, interpolate, isArray, isString, toBoolean } from '../util';
-import { __ } from '../i18n';
+import { elementID, elementClass, getLabelHeight, getRubyHeight, has, interpolate, isArray, isString, toBoolean } from '../util';
+import { __, _e } from '../i18n';
 import { log } from '../log';
 // import { render, renderItem } from '../classes/Registry';
 
@@ -20,6 +20,7 @@ export let field = {
     indent: false,
     value: null,
     blk: false,
+    ruby: false,
   },
   expect: ['icon'],
   render(args, reg, doc) {
@@ -29,15 +30,19 @@ export let field = {
       args.value = doc.getVar(args.id);
       // if (args.value) log("field", "Value:", args.id, "=", args.value);
     }
+    if (args.ruby) {
+      args.rb = getRubyHeight(args);
+    }
 
     const id = elementID('field', args.id);
     const cls = elementClass('field', null, args,
       ["icon", "ref", "misc", "temp", "indent", "blk"],
-      { "frame": "normal", "width": "", "align": "centre", "size": "medium", "control": "input", "shift": 0, "lp": 0, "border": "bottom", "flex": false });
+      { "frame": "normal", "width": "", "align": "centre", "size": "medium", "control": "input", "shift": 0, "rb": 0, "border": "bottom", "flex": false });
 
     const frameArgs = Object.assign({}, args, { type: 'frame:' + args.frame });
     const frame = reg.renderItem(frameArgs, doc);
-    return `<div${id}${cls}>${frame}</div>`;
+    const ruby = args.ruby ? `<label class='field__ruby-text'>${_e(args.ruby, doc)}</label>` : '';
+    return `<div${id}${cls}>${frame}${ruby}</div>`;
   }
 }
 
@@ -67,13 +72,13 @@ export function fieldDefaults(args, reg, doc) {
     icon: false,
   }, control.defaults, frame.defaults, args);
 
-  if (args.frame == "none" || args.frame == "annotation") {
-    args.lp = 0;
-    // log("field", "Frameless, no label padding");
-  } else {
-    args.lp = getLabelHeight(args);
-    // log("field", `Frame ${args.frame}, label padding ${args.lp}`);
-  }
+  // if (args.frame == "none" || args.frame == "annotation") {
+  //   args.lp = 0;
+  //   // log("field", "Frameless, no label padding");
+  // } else {
+  //   args.lp = getLabelHeight(args);
+  //   // log("field", `Frame ${args.frame}, label padding ${args.lp}`);
+  // }
 
   args = interpolate(args, {}, doc);
   return args;
@@ -112,7 +117,7 @@ export function fieldRadioIdent(fieldid = '', value = '') {
   return { id: id, name: fieldid, for: forid, ident: ident };
 };
 
-export function fieldInner(args, reg, doc) {
+export function fieldInner(args, reg, doc, decoration) {
   args = Object.assign({}, args, { type: 'control:' + args.control });
   const icon = (has(args, "icon") && !!args.icon && isString(args.icon) && args.control != "icon") ? `<i class='icon icon_${args.icon}'></i>` : '';
   const unit = (has(args, "unit") && !!args.unit) ? `<label class='field__unit'>${__(args.unit, doc)}</label>` : '';
@@ -146,6 +151,5 @@ export function fieldInner(args, reg, doc) {
     const boxcls = elementClass('field', 'box', boxargs, ["icon"], { "border": "bottom" });
     inner = `<div${boxcls}>${icon}${control}${unit}</div>`;
   }
-  const framecls = elementClass('field', 'frame', args, ["merge-bottom"], {});
-  return `<div${framecls}>${inner}</div>`;
+  return inner;
 };

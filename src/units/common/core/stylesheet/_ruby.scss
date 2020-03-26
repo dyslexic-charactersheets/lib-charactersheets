@@ -1,8 +1,8 @@
+$rb: 0.8rem;
+$rbsp: 0.1rem;
+  
 .ruby {
-  $rb: 0.8rem;
-  $rbsp: 0.1rem;
   position: relative;
-
   display: flex;
 	flex-direction: row;
   align-items: flex-end;
@@ -26,19 +26,49 @@
   }
 }
 
+.field {
+  &.rb_1 {
+    padding-bottom: $rbsp + $rb;
+  }
+  &.rb_2 {
+    padding-bottom: $rbsp + $rb * 2;
+  }
+  &.rb_3 {
+    padding-bottom: $rbsp + $rb * 3;
+  }
+}
+
+.field__ruby-text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  
+  // .rb_1 & {
+  //   bottom: -($rbsp + $rb);
+  // }
+  // .rb_2 & {
+  //   bottom: -($rbsp + $rb * 2);
+  // }
+  // .rb_3 & {
+  //   bottom: -($rbsp + $rb * 3);
+  // }
+}
+
 .row {
-  $rb: 0.8rem;
-  $rbsp: 0; //0.15rem;
   &.rb_1 {
     padding-bottom: $rbsp + $rb;
     .rb_1, .rb_2, .rb_3 { padding-bottom: 0; }
+    .field__ruby-text { bottom: -($rbsp + $rb); }
   }
   &.rb_2 {
     padding-bottom: $rbsp + $rb * 2;
     .rb_1, .rb_2, .rb_3 { padding-bottom: 0; }
+    .field__ruby-text { bottom: -($rbsp + $rb * 2); }
   }
   &.rb_3 {
     padding-bottom: $rbsp + $rb * 3;
     .rb_1, .rb_2, .rb_3 { padding-bottom: 0; }
+    .field__ruby-text { bottom: -($rbsp + $rb * 3); }
   }
 }

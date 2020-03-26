@@ -189,60 +189,39 @@ inc:
                               - h5: "_{Proficiency}"
                               - layout: 5e
                                 gutter: none
-                                valign: top
+                                # valign: top
                                 flex: none
                                 contents:
-                                  - g:
-                                    valign: top
-                                    contents:
-                                      - field: proficiency-untrained
-                                        label: "_{Untrained}"
-                                        border: full
-                                        control: proficiency
-                                        value: [ "untrained", 0 ]
-                                      - label: "_{None}\n"
-                                        align: center
-                                      - spacer:
-                                  - g:
-                                    valign: top
-                                    contents:
-                                      - field: proficiency-trained
-                                        label: "_{Trained}"
-                                        border: full
-                                        control: proficiency
-                                        value: trained
-                                      - label: "_{Level}\n+2"
-                                        align: center
-                                  - g:
-                                    valign: top
-                                    contents:
-                                      - field: proficiency-expert
-                                        label: "_{Expert}"
-                                        border: full
-                                        control: proficiency
-                                        value: expert
-                                      - label: "_{Level}\n+4"
-                                        align: center
-                                  - g:
-                                    valign: top
-                                    contents:
-                                      - field: proficiency-master
-                                        label: "_{Master}"
-                                        border: full
-                                        control: proficiency
-                                        value: master
-                                      - label: "_{Level}\n+6"
-                                        align: center
-                                  - g:
-                                    valign: top
-                                    contents:
-                                      - field: proficiency-legendary
-                                        label: "_{Legendary}"
-                                        border: full
-                                        control: proficiency
-                                        value: legendary
-                                      - label: "_{Level}\n+8"
-                                        align: center
+                                  - field: proficiency-untrained
+                                    label: "_{Untrained}"
+                                    border: full
+                                    control: proficiency
+                                    value: [ "untrained", 0 ]
+                                    ruby: "_{None}\n"
+                                  - field: proficiency-trained
+                                    label: "_{Trained}"
+                                    border: full
+                                    control: proficiency
+                                    value: trained
+                                    ruby: "_{Level}\n+2"
+                                  - field: proficiency-expert
+                                    label: "_{Expert}"
+                                    border: full
+                                    control: proficiency
+                                    value: expert
+                                    ruby: "_{Level}\n+4"
+                                  - field: proficiency-master
+                                    label: "_{Master}"
+                                    border: full
+                                    control: proficiency
+                                    value: master
+                                    ruby: "_{Level}\n+6"
+                                  - field: proficiency-legendary
+                                    label: "_{Legendary}"
+                                    border: full
+                                    control: proficiency
+                                    value: legendary
+                                    ruby: "_{Level}\n+8"
                   - tail:
 
               - g:
@@ -432,7 +411,7 @@ inc:
                                     min: 2
                                     max: 2
                                     placeholder:
-                                      - skill: lore
+                                      - skill: lore-#{i}
                                         name: "_{Lore}"
                                         ability: "_{INT}"
                                         abilityref: INT
@@ -743,8 +722,9 @@ inc:
                                 control: checkbox
                               - id: dying-3
                                 control: checkbox
-                              - id: dying-4
-                                control: checkbox
+                              - zone: '@dying'
+                                contents:
+                                  - nothing:
                               - icon: evil
                                 size: small
                                 optional: true
@@ -1050,7 +1030,7 @@ inc:
                           - field: refocus
                             label: "_{Refocus}"
                             border: full
-                            width: large
+                            width: huge
                             prefix: "+"
                             underlay: "1"
                             suffix: "_{pts}"

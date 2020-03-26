@@ -1,4 +1,5 @@
 import { __, _e } from '../i18n';
+import { elementClass } from '../util';
 import { fieldIdent, fieldRadioIdent, fieldInner } from './field';
 
 function defaultFrameRender(args, reg, doc) {
@@ -6,7 +7,8 @@ function defaultFrameRender(args, reg, doc) {
   const label = args.label ? `<label${ident.for}>${_e(args.label, doc)}</label>` : '';
   const legend = args.legend ? `<legend>${_e(args.legend, doc)}</legend>` : '';
 
-  return `${legend}${label}${fieldInner(args, reg, doc)}`;
+  const framecls = elementClass('field', 'frame', args, ["merge-bottom"], {});
+  return `<div${framecls}>${legend}${label}${fieldInner(args, reg, doc)}</div>`;
 };
 
 // Register the faux-elements
@@ -40,7 +42,8 @@ export let field_frame_right = {
     const label = args.label ? `<label${ident.for}>${_e(args.label, doc)}</label>` : '';
     const legend = args.legend ? `<legend>${_e(args.legend, doc)}</legend>` : '';
 
-    return `${fieldInner(args, reg, doc)}${legend}${label}`;
+    const framecls = elementClass('field', 'frame', args, ["merge-bottom"], {});
+    return `<div${framecls}>${fieldInner(args, reg, doc)}${legend}${label}</div>`;
   }
 }
 
@@ -53,14 +56,16 @@ export let field_frame_h_label = {
     const ident = fieldIdent(args.id);
     const label = args.label ? `<label class='field__h-label'${ident.for}>${_e(args.label, doc)}</label>` : '';
     // WRONG! The h-label is supposed to go inside the box!
-    return `${label}${fieldInner(args, reg, doc)}`;
+    const framecls = elementClass('field', 'frame', args, ["merge-bottom"], {});
+    return `<div${framecls}>${label}${fieldInner(args, reg, doc)}</div>`;
   }
 }
 
 export let field_frame_none = {
   name: 'frame:none',
   render(args, reg, doc) {
-    return fieldInner(args, reg, doc);
+    const framecls = elementClass('field', 'frame', args, ["merge-bottom"], {});
+    return `<div${framecls}>${fieldInner(args, reg, doc)}</div>`;
   }
 }
 
@@ -69,7 +74,8 @@ export let field_frame_annotation = {
   render(args, reg, doc) {
     const ident = fieldIdent(args.id);
     const label = args.label ? `<label class='field__annotation'${ident.for}>${_e(args.label, doc)}</label>` : '';
-    return `${label}${fieldInner(args, reg, doc)}`;
+    const framecls = elementClass('field', 'frame', args, ["merge-bottom"], {});
+    return `<div${framecls}>${label}${fieldInner(args, reg, doc)}</div>`;
   }
 }
 
