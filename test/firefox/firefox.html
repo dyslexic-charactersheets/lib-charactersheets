@@ -6,18 +6,166 @@
 </head>
 <body>
 
+  <form>
+    <table>
+      <tr>
+        <th>Hue</th>
+        <td><input type="range" id="hue" min="0" max="255" value="0" onchange="update()"></td>
+        <td><output id='out_hue'>0</output></td>
+        <td rowspan='2'><span id='preview' class='preview'></span></td>
+
+        <td rowspan='4'>
+          <button onclick="apply(); return false;">
+            Apply
+          </button>
+        </td>
+      </tr>
+
+      <tr>
+        <th>Saturation</th>
+        <td><input type="range" id="sat" min="0" max="255" value="0" onchange="update()"></td>
+        <td><output id='out_sat'>0</output></td>
+      </tr>
+
+      <tr>
+        <th>Increment</th>
+        <td><input type="range" id="inc" min="2" max="128" value="32" onchange="update()"></td>
+        <td><output id='out_inc'>32</output></td>
+      </tr>
+
+      <tr>
+        <th>Colour model</th>
+        <td>
+          <label for='hsv'><input type='radio' id='hsv' name='model' value='hsv' checked> HSV</label> &nbsp; 
+          <label for='hsl'><input type='radio' id='hsl' name='model' value='hsl'> HSL</label> &nbsp; 
+        </td>
+      </tr>
+
+      <tr>
+        <th>Threshold</th>
+        <td><input type="range" id="threshold" min="1" max="255" value="128" onchange="update()"></td>
+        <td><output id='out_threshold'>128</output></td>
+      </tr>
+    </table>
+  </form>
+
 <div id='boxes'>
-  <div class='box' id='box-1'>Box 1</div>
 </div>
 
 <script type="text/javascript">
 
-  var iota = 32;
-  for (var i = 0; i < 256; i += iota) {
-    for (var j = 0; j < 256; j += iota) {
-      
-    }
+function update() {
+  var hue = parseInt(document.getElementById('hue').value);
+  document.getElementById('out_hue').innerHTML = hue;
+  
+  var sat = parseInt(document.getElementById('sat').value);
+  document.getElementById('out_sat').innerHTML = sat;
+  
+  var inc = parseInt(document.getElementById('inc').value);
+  document.getElementById('out_inc').innerHTML = inc;
+  
+  var threshold = parseInt(document.getElementById('threshold').value);
+  document.getElementById('out_threshold').innerHTML = threshold;
+
+  var isHSL = document.getElementById('hsl').checked;
+
+  var rgb = isHSL ? hslToRgb(down(hue), down(sat), 0.5) : hsvToRgb(down(hue), down(sat), 0.5);
+  var col = rgbToHex(rgb);
+  document.getElementById('preview').style.backgroundColor = col;
+}
+
+document.onload = update;
+
+function apply() {
+  var hue = parseInt(document.getElementById('hue').value);
+  var sat = parseInt(document.getElementById('sat').value);
+  var inc = parseInt(document.getElementById('inc').value);
+  var threshold = parseInt(document.getElementById('threshold').value);
+  var isHSL = document.getElementById('hsl').checked;
+
+  var darkbg = rgbToHex(hslToRgb(down(hue), down(sat), 0.1));
+  var lightbg = rgbToHex(hslToRgb(down(hue), down(sat), 0.9));
+
+  var html = "";
+
+  var num = 1;
+  for (var value = 0; value <= 256; value += inc) {
+    var boxName = 'Box '+(num++);
+    var rgb = isHSL ? hslToRgb(down(hue), down(sat), down(value)) : hsvToRgb(down(hue), down(sat), down(value));
+    var col = rgbToHex(rgb);
+
+    var bg = value >= 128 ? darkbg : lightbg;
+    var textStyle = value >= threshold ? "color: transparent; text-shadow: 0 0 0 "+col+";" : "color: "+col+";";
+    html = html+"<div class='box' style='"+textStyle+" background: "+bg+";'><span style='background: "+col+";'>A</span><h2>"+boxName+"</h2><p>"+(isHSL ? "L: " : "V: ")+value+"</p><p>"+col+"</p></div>";
   }
+
+  document.getElementById("boxes").innerHTML = html;
+}
+
+// convert from 0~256 range to 0~1 range
+function down(num) {
+  return num / 256.0;
+}
+
+function hslToRgb(h, s, l){
+    var r, g, b;
+
+    if(s == 0){
+        r = g = b = l; // achromatic
+    }else{
+        function hue2rgb(p, q, t){
+            if(t < 0) t += 1;
+            if(t > 1) t -= 1;
+            if(t < 1/6) return p + (q - p) * 6 * t;
+            if(t < 1/2) return q;
+            if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+            return p;
+        }
+
+        var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        var p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1/3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1/3);
+    }
+
+    return [r * 255, g * 255, b * 255];
+}
+
+function hsvToRgb(h, s, v){
+    var r, g, b;
+
+    var i = Math.floor(h * 6);
+    var f = h * 6 - i;
+    var p = v * (1 - s);
+    var q = v * (1 - f * s);
+    var t = v * (1 - (1 - f) * s);
+
+    switch(i % 6){
+        case 0: r = v, g = t, b = p; break;
+        case 1: r = q, g = v, b = p; break;
+        case 2: r = p, g = v, b = t; break;
+        case 3: r = p, g = q, b = v; break;
+        case 4: r = t, g = p, b = v; break;
+        case 5: r = v, g = p, b = q; break;
+    }
+
+    return [r * 255, g * 255, b * 255];
+}
+
+function hex(num) {
+  var hex = num.toString(16).replace(/\..*$/, '');
+  hex = '00'+hex;
+  hex = hex.substring(hex.length - 2);
+  return hex;
+}
+
+function rgbToHex(rgb) {
+  var r = hex(rgb[0]);
+  var g = hex(rgb[1]);
+  var b = hex(rgb[2]);
+  return '#'+r+g+b;
+}
 
 </script>
 </body>
