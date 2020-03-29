@@ -469,9 +469,17 @@ export function adjustColour(c, documentColour, intensity, highContrast) {
     let col = color(documentColour);
 
     const lmin = 16;
+    const lmax = 100;
     let lightness = base.lightness();
     // adjust the lightness based on the selected intensity
     if (lightness < 98) {
+      switch (intensity) {
+        case 'lightest': intensity = 2; break;
+        case 'lighter': intensity = 1; break;
+        case 'darker': intensity = -1; break;
+        case 'darkest': intensity = -2; break;
+      }
+      // log("util", `Adjusting intensity: lightness = ${lightness}, intensity = ${intensity}`);
       lightness += intensity * 7;
     }
       
@@ -482,6 +490,7 @@ export function adjustColour(c, documentColour, intensity, highContrast) {
       }
     }
     if (lightness < lmin) lightness = lmin;
+    if (lightness > lmax) lightness = lmax;
     col = col.lightness(lightness);
 
     // reduce the saturation of mid-lightness colours so they don't look too odd

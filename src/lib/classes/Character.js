@@ -37,7 +37,7 @@ function parseCharacter(primary, request) {
 
     printColour: '#707070',
     accentColour: '',
-    printIntensity: 'normal',
+    printIntensity: 0,
     printWatermark: '',
     printLogo: false,
     printPortrait: false,
@@ -357,7 +357,6 @@ export class Character {
         document.printColour = this.data.printColour;
         document.printIntensity = this.data.printIntensity;
         document.accentColour = this.data.accentColour;
-        document.printIntensity = this.data.printIntensity;
         document.watermark = this.data.printWatermark;
 
         // get known vars from the data
