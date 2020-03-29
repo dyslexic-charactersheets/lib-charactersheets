@@ -479,6 +479,9 @@ export function adjustColour(c, documentColour, intensity, highContrast) {
         case 'darker': intensity = -1; break;
         case 'darkest': intensity = -2; break;
       }
+      if (!isNumber(intensity)) intensity = 0;
+      if (intensity > 2) intensity = 2;
+      if (intensity < -2) intensity = -2;
       // log("util", `Adjusting intensity: lightness = ${lightness}, intensity = ${intensity}`);
       lightness += intensity * 7;
     }
