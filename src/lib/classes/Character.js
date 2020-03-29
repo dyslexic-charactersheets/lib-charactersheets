@@ -28,6 +28,7 @@ function parseCharacter(primary, request) {
     background: false,
     class: false,
     archetypes: false,
+    description: '',
 
     printLarge: false,
     printHighContrast: false,
@@ -52,7 +53,8 @@ function parseCharacter(primary, request) {
     game: attr.game,
     units: ['core', 'base', 'base/character', 'theme/' + attr.theme],
     language: attr.language,
-    race: false,
+    description: attr.description,
+    
     ancestry: false,
     heritage: false,
     background: false,
@@ -283,6 +285,7 @@ export class Character {
 
         // language
         document.language = this.data.language;
+        document.setVar('description', this.data.description);
 
         // TODO get title parts from inside units
         // TODO translate title parts
