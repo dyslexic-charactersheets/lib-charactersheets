@@ -70,6 +70,10 @@ Handlebars.registerHelper('embed', function (filename, options) {
   return data;
 });
 
+Handlebars.registerHelper('color', function (colour, options) {
+  return 'text-shadow: 0 0 0 '+colour+'; color: transparent;';
+});
+
 module.exports = {
   loadSystem: function (system, systemName, callback) {
     var unitsBase = __dirname + '/../units/' + system;
@@ -175,6 +179,16 @@ module.exports = {
                 var template = Handlebars.compile(css);
                 var rendered = `/* ${unitid} */\n` + template({
                   unit: unitid
+                });
+
+                // Firefox doesn't obey `color-adjust: exact`, so we cheat by replacing all the text colours
+                // with zero-blur text shadows in the right colour underneath transparent text
+                rendered = rendered.replace(/(?<!-)color: *(.*?);/g, function (match, colour) {
+                  if (colour == "transparent") {
+                    return match;
+                  }
+
+                  return `text-shadow: 0 0 0 ${colour}; color: transparent;`;
                 });
 
                 fs.writeFile(`${debugDir}/${unitid.replace(/\//g, '-')}.css`, rendered, err => {

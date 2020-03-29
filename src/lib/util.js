@@ -443,33 +443,39 @@ export function interpolate(template, values, document = null) {
 };
 
 
-export function replaceColours(str, documentColour, accentColour, highContrast) {
-  str = str.replace(/#[0-9a-fA-F]{6}/g, (c) => adjustColour(c, documentColour, highContrast));
+export function replaceColours(str, documentColour, accentColour, intensity, highContrast) {
+  str = str.replace(/#[0-9a-fA-F]{6}/g, (c) => adjustColour(c, documentColour, intensity, highContrast));
   str = str.replace(/%23[0-9a-fA-F]{6}/g, (c) => {
     c = c.replace('%23', '#');
-    c = adjustColour(c, documentColour, highContrast);
+    c = adjustColour(c, documentColour, intensity, highContrast);
     c = c.replace('#', '%23');
     return c;
   });
-  str = str.replace(/rgba\(.*?,.*?,.*?,(.*?)\)/g, (c) => adjustColour(c, documentColour, highContrast));
+  str = str.replace(/rgba\(.*?,.*?,.*?,(.*?)\)/g, (c) => adjustColour(c, documentColour, intensity, highContrast));
   str = str.replace(/--c-accent/g, accentColour);
   str = str.replace(/="#([0-9a-fA-F]{6})"/g, '="%23$1"');
   return str;
 }
 
-export function adjustColourRGBA(c, opacity, highContrast) {
-  let col2 = color(this.adjustColour(c, highContrast));
+export function adjustColourRGBA(c, opacity, intensity, highContrast) {
+  let col2 = color(this.adjustColour(c, intensity, highContrast));
   col2.fade(opacity);
   return col2.rgba();
 }
 
-export function adjustColour(c, documentColour, highContrast) {
+export function adjustColour(c, documentColour, intensity, highContrast) {
   try {
     const base = color(c);
     let col = color(documentColour);
 
     const lmin = 16;
     let lightness = base.lightness();
+    // adjust the lightness based on the selected intensity
+    if (lightness < 98) {
+      lightness += intensity * 7;
+    }
+      
+    // adjust the lightness if the "high contrast" option is selected
     if (highContrast) {
       if (lightness < 50) {
         lightness = lightness * 0.8;

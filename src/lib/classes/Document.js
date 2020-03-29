@@ -313,7 +313,7 @@ export class Document {
       const template = Handlebars.compile(css);
       let rendered = template({});
       if (unit.id != "document")
-        rendered = replaceColours(rendered, this.printColour, this.accentColour, this.highContrast);
+        rendered = replaceColours(rendered, this.printColour, this.accentColour, this.printIntensity, this.highContrast);
       cssParts.push(rendered);
     });
 

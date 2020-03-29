@@ -37,6 +37,7 @@ function parseCharacter(primary, request) {
 
     printColour: '#707070',
     accentColour: '',
+    printIntensity: 'normal',
     printWatermark: '',
     printLogo: false,
     printPortrait: false,
@@ -75,6 +76,7 @@ function parseCharacter(primary, request) {
 
     printColour: attr.printColour,
     accentColour: attr.accentColour,
+    printIntensity: attr.printIntensity,
     printLogo: attr.printLogo,
     favicon: 'favicon16.png',
     printPortrait: attr.printPortrait,
@@ -84,8 +86,9 @@ function parseCharacter(primary, request) {
     instances: {},
   };
 
+  log("Character", "Print intensity", char.printIntensity);
   if (isEmpty(char.accentColour)) {
-    char.accentColour = adjustColour('#707070', char.printColour);
+    char.accentColour = adjustColour('#707070', char.printColour, char.printIntensity);
   }
 
   // get all the flags
@@ -352,7 +355,9 @@ export class Character {
 
         // TODO set character parameters
         document.printColour = this.data.printColour;
+        document.printIntensity = this.data.printIntensity;
         document.accentColour = this.data.accentColour;
+        document.printIntensity = this.data.printIntensity;
         document.watermark = this.data.printWatermark;
 
         // get known vars from the data
