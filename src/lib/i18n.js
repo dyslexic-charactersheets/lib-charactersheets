@@ -30,7 +30,7 @@ export function __(str, doc) {
     error("i18n", "Not a string", str);
     throw "Not a string";
   }
-  return str.replace(/_\{(.*?)\}/gs, (m, p) => translate(p, doc));
+  return str.replace(/_\{(.*?(#\{.*?\}.*?)*)\}/gs, (m, p) => translate(p, doc));
 }
 
 export function _e(str, doc) {

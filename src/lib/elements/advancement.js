@@ -64,12 +64,14 @@ export let advancement = {
     // log("advancement", "Items by level", itemsByLevel);
 
     // build the row data
+    let has_icons = false;
     let has_labels = false;
     let rows = [];
     for (let lv = 1; lv <= 20; lv++) {
       let flags = {};
       let advances = [];
       let gains = [];
+      let icons = [];
 
       itemsByLevel[lv].forEach(item => {
         Object.assign(flags, item);
@@ -79,6 +81,10 @@ export let advancement = {
         } else if (has(item, "gain")) {
           gains.push(item.gain);
           has_labels = true;
+        }
+        if (has(item, "icon")) {
+          icons.push(item.icon);
+          has_icons = true;
         }
       });
       delete flags.level;
@@ -109,6 +115,7 @@ export let advancement = {
       rows.push({
         ...flags,
         level: lv,
+        icon: icons.join(","),
         item: {
           type: "g",
           contents: items
@@ -120,13 +127,25 @@ export let advancement = {
     let columns = [{
       type: "label",
       label: args.index,
-      valign: "bottom"
+      valign: "middle"
     }];
     let template = [{
       type: "level-marker",
       marker: '',
       level: '#{level}'
     }];
+    if (has_icons) {
+      columns.push({
+        type: "label",
+        label: "",
+        valign: "middle"
+      });
+      template.push({
+        type: "icon",
+        icon: "#{icon}",
+        blk: false
+      });
+    }
     if (has_labels) {
       columns.push({
         type: "label",

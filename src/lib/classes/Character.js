@@ -1,5 +1,6 @@
 import { log, error } from '../log';
-import { adjustColour } from '../util';
+import { adjustColour, interpolate } from '../util';
+import { __ } from '../i18n';
 import { ready as systemsReady, getSystem } from './System';
 import { Document } from './Document';
 import { LoadQueue } from './LoadQueue';
@@ -287,26 +288,6 @@ export class Character {
         document.language = this.data.language;
         document.setVar('description', this.data.description);
 
-        // TODO get title parts from inside units
-        // TODO translate title parts
-        let titleParts = [];
-        if (this.data.ancestry) {
-          titleParts.push(toTitleCase(this.data.ancestry));
-        }
-        this.data.classes.forEach(cls => {
-          titleParts.push(toTitleCase(cls));
-        });
-        this.data.archetypes.forEach(archetype => {
-          titleParts.push(toTitleCase(archetype))
-        });
-
-        let title = titleParts.join(" ");
-        if (this.data.name) {
-          title = `${this.data.name}, ${title}`;
-        }
-        if (isEmpty(title)) title = "Character";
-        document.title = title;
-
         if (this.data.printLarge) {
           document.largePrint = true;
         }
@@ -377,6 +358,15 @@ export class Character {
         units = system.inferUnits(units);
         log("Character", "Units:", units.map(unit => unit.id));
 
+        // infer the title from the units
+        let title = __("Character");
+        switch (system.code) {
+          case 'pathfinder2':
+            title = this.pathfinder2Title(units, document);
+            break;
+        }
+        document.title = title;
+
         // make the element tree
         units.forEach(unit => document.addUnit(unit));
         document.composeDocument(this.registry);
@@ -404,6 +394,48 @@ export class Character {
           error: err
         });
       }
-    })
+    });
+  }
+
+  pathfinder2Title(units, doc) {
+    let parts = {
+      name: this.data.name,
+      ancestry: '',
+      class: '',
+      archetypes: '',
+    };
+
+    function getUnits(group) {
+      return units.filter(unit => unit.in == group);
+    }
+
+    let ancestry = getUnits("ancestry");
+    if (!isEmpty(ancestry)) {
+      ancestry = ancestry[0];
+      parts["ancestry"] = __(ancestry.name, doc);
+      let heritage = getUnits("heritage/");
+      if (!isEmpty(heritage)) {
+        heritage = heritage[0];
+        parts["ancestry"] = __(heritage.name, doc);
+      }
+    }
+
+    let cls = getUnits("class");
+    if (cls) {
+      cls = cls[0];
+      parts["class"] = __(cls.name, doc);
+    }
+
+    let archetypes = getUnits("archetype");
+    if (!isEmpty(archetypes)) {
+      parts["archetypes"] = archetypes.map(arch => __(arch.name, doc)).join(" ");
+    }
+
+    let template = isEmpty(parts.name) ? "_{#{ancestry} #{class} #{archetypes}}" : "_{#{name}, #{ancestry} #{class} #{archetypes}}";
+    let title = interpolate(__(template, doc), parts);
+    title = title.replace(/  +/g, ' ');
+    title = title.replace(/^ +/, '');
+    title = title.replace(/ +$/, '');
+    return title;
   }
 }
