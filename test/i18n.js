@@ -9,6 +9,8 @@ CharacterSheets.onError(err => {
 
 var translationsPromise = CharacterSheets.loadDefaultTranslations();
 
+// Util functions
+
 function uniq(array) {
   return Array.from(new Set(array));
 }
@@ -54,8 +56,19 @@ function cloneDeep(original) {
   return original;
 }
 
-// var languages = ["it", "es", "pl", "de", "fr", "pt", "pt-BR", "ru"];
-var languages = ["it"];
+// Character creation
+var systems = ["pathfinder2"];
+var languages = ["it", "es", "pl", "de", "fr", "pt", "pt-BR", "ru"];
+// var languages = ["it"];
+
+systems.forEach(system => {
+  languages.forEach(lang => {
+    var outdir = __dirname + '/out/i18n/' + system + "/" + lang;
+    fs.mkdir(outdir, { recursive: true }, (err) => {
+      console.log("ERROR making dir:", err);
+    });
+  })
+});
 
 function makeCharacter(system, data, name) {
   var base = {
@@ -73,11 +86,12 @@ function makeCharacter(system, data, name) {
 
   translationsPromise.then(() => {
     languages.forEach(lang => {
+      var outfile = __dirname + '/out/i18n/' + system + "/" + lang + "/" + name + ".html";
+
       var char = cloneDeep(base);
       char.data.attributes.language = lang;
       var characterSheet = CharacterSheets.create(char);
       characterSheet.render(result => {
-        var outfile = __dirname + '/out/i18n/' + system + "/" + lang + "/" + name + ".html";
         log("test", "Writing:", system, lang, name, data);
         fs.writeFile(outfile, result.data, (err) => {
           if (!!err)
@@ -88,7 +102,6 @@ function makeCharacter(system, data, name) {
   });
 }
 
-var systems = ["pathfinder2"];
 systems.forEach(system => {
   CharacterSheets.getFormData(system, formdata => {
     var numTests = 0;
