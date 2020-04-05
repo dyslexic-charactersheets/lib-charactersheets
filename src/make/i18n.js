@@ -188,7 +188,7 @@ msgstr ${embedPoString(headers)}
     // pull the list together in order
     var potData = headerBlock+blocks.join("\n");
 
-    var potFile = __dirname+"/../../lib/lang/"+system+".pot";
+    var potFile = __dirname+"/../../lib/i18n/"+system+".pot";
     fs.writeFile(potFile, potData, err => {
       if (err) error("make", "Error saving summary", system, err);
     });

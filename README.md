@@ -313,6 +313,15 @@ This will:
  - Build character sheets from the JSON files in `test/in`
  - Save them into `test/out`
 
+## Translation testing
+
+To properly test translations, enough character sheets need to be created to expose every single unit.
+
+```bash
+$ npm run test:i18n
+```
+
+The files will be placed in `test/out/i18n`.
 
 # Contributing
 

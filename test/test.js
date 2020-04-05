@@ -5,6 +5,7 @@ require('../src/make/log.js');
 
 let assetsDir = __dirname+'/in/assets';
 CharacterSheets.addAssetsDir(assetsDir);
+let translationsPromise = CharacterSheets.loadDefaultTranslations();
 
 // listen to events for debugging
 CharacterSheets.onCreateElementTree((elementTree, title, request) => {
@@ -67,12 +68,14 @@ fs.readdir(indir, 'utf-8', (err, files) => {
       // console.log("FILE:", fileData);
       let data = JSON.parse(fileData);
       
-      var characterSheet = CharacterSheets.create(data);
-      if (characterSheet === null) {
-        warn("test", "Skipping character");
-        return;
-      }
-      characterSheet.render(saveResult);
+      translationsPromise.then(() => {
+        var characterSheet = CharacterSheets.create(data);
+        if (characterSheet === null) {
+          warn("test", "Skipping character");
+          return;
+        }
+        characterSheet.render(saveResult);
+      });
     });
   });
 });

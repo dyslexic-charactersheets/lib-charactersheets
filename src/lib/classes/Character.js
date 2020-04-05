@@ -89,7 +89,7 @@ function parseCharacter(primary, request) {
     instances: {},
   };
 
-  log("Character", "Print intensity", char.printIntensity);
+  // log("Character", "Print intensity", char.printIntensity);
   if (isEmpty(char.accentColour)) {
     char.accentColour = adjustColour('#707070', char.printColour, char.printIntensity);
   }
@@ -356,7 +356,7 @@ export class Character {
         // load units
         let units = system.getUnits(this.data.units);
         units = system.inferUnits(units);
-        log("Character", "Units:", units.map(unit => unit.id));
+        // log("Character", "Units:", units.map(unit => unit.id));
 
         // infer the title from the units
         let title = __("Character");
@@ -372,7 +372,7 @@ export class Character {
         document.composeDocument(this.registry);
 
         this.loadQueue.ready(() => {
-          log("Character", "Ready");
+          // log("Character", "Ready");
           Events.createElementTreeEvt.call(document.doc, document.title, this.request);
           // fs.writeFile(__dirname + '/../test/out/test.json', JSON.stringify(document.doc, null, 2), (err) => {
           //   if (err)
@@ -421,7 +421,7 @@ export class Character {
     }
 
     let cls = getUnits("class");
-    if (cls) {
+    if (!isEmpty(cls)) {
       cls = cls[0];
       parts["class"] = __(cls.name, doc);
     }
@@ -436,6 +436,8 @@ export class Character {
     title = title.replace(/  +/g, ' ');
     title = title.replace(/^ +/, '');
     title = title.replace(/ +$/, '');
+    if (title == "")
+      title = "Character";
     return title;
   }
 }

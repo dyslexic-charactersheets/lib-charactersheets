@@ -1,3 +1,4 @@
+import { existsSync, readdir, readFile } from 'fs';
 import { log, error } from './log';
 import { isString, isNumber, isNull } from './util';
 import * as _ from 'lodash';
@@ -60,4 +61,122 @@ export function format_string(content) {
   content = content.replace(/\[b\](.*?)\[\/b\]/, '<b>$1</b>');
   content = content.replace(/\[i\](.*?)\[\/i\]/, '<i>$1</i>');
   return content;
+}
+
+export function parsePO(data) {
+  if (isNull(data)) {
+    warn("i18n", );
+    return {};
+  }
+
+  var trans = {};
+
+  var lines = data.split(/\n/);
+  var current_msgid = "";
+  var current_msgstr = "";
+  var current_msgctxt = "";
+  var lastLine = "";
+
+  function submit() {
+    if (current_msgstr != "") {
+      trans[current_msgid] = current_msgstr;
+    }
+    // reset for the next message
+    current_msgid = "";
+    current_msgstr = "";
+    current_msgctxt = "";
+    lastLine = "";
+  }
+
+  lines.forEach(line => {
+    if (line.match(/^#/))
+      return;
+
+    var msgid = line.match(/^msgid \"(.*)\"/);
+    if (msgid) {
+      submit();
+      lastLine = "msgid";
+      current_msgid = msgid[1];
+    }
+    var msgstr = line.match(/^msgstr \"(.*)\"/);
+    if (msgstr) {
+      lastLine = "msgstr";
+      current_msgstr = msgstr[1];
+    }
+    var msgctx = line.match(/^msgctxt \"(.*)\"/);
+    if (msgctx) {
+      lastLine = "msgctxt";
+      current_msgctxt = msgctxt[1];
+    }
+    var contstr = line.match(/^\"(.*)\"/);
+    if (contstr) {
+      switch (lastLine) {
+        case "msgid": current_msgid = current_msgid + "\n" + contstr[1]; break;
+        case "msgstr": current_msgstr = current_msgstr + "\n" + contstr[1]; break;
+        case "msgctxt": current_msgctxt = current_msgctxt + "\n" + contstr[1]; break;
+      }
+    }
+  });
+
+  submit();
+  return trans;
+}
+
+export function addTranslationData(lang, data) {
+  let translations = parsePO(data);
+  addTranslator((str, language, meta) => {
+    if (language != lang) {
+      return null;
+    }
+
+    if (_.has(translations, str)) {
+      return translations[str];
+    }
+    return null;
+  });
+  return Object.keys(translations).length;
+}
+
+export function loadTranslations(lang, filename = null) {
+  let isDefault = true;
+  if (isNull(filename)) {
+    filename = __dirname + '/i18n/' + lang + '.po';
+    isDefault = false;
+  }
+  return new Promise((resolve, reject) => {
+    if (existsSync(filename)) {
+      readFile(filename, 'utf-8', (err, data) => {
+        let num = addTranslationData(lang, data);
+        if (isDefault) {
+          log("i18n", `Loaded ${num} translations for ${lang}`);
+        } else {
+          log("i18n", `Loaded ${num} translations for ${lang}`, filename);
+        }
+        resolve();
+      });
+    } else {
+      warn("i18n", "File not found:", filename);
+      resolve();
+    }
+  });
+}
+
+export function loadDefaultTranslations() {
+  return new Promise((resolve, reject) => {
+    readdir(__dirname + "/i18n", (err, files) => {
+      if (err) {
+        reject();
+        return;
+      }
+      let promises = [];
+      files.forEach(file => {
+        if (file.match(/\.po$/)) {
+          let lang = file.replace(/\.po$/, '');
+          let promise = loadTranslations(lang, __dirname + "/i18n/" + file);
+          promises.push(promise);
+        }
+      });
+      Promise.all(promises).then(resolve);
+    });
+  });
 }
