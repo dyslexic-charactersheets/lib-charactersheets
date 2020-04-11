@@ -6,11 +6,15 @@ export let advancement = {
   key: 'id',
   defaults: {
     id: "advancement",
-    title: "Advancement",
+    title: "_{Advancement}",
     start: 1,
     end: 20,
+    zebra: true,
+    shade: true,
+    elide: false,
+    flip: false,
     advances: [],
-    index: "Level",
+    index: "_{Level}",
     labels: [],
     fields: []
   },
@@ -112,6 +116,10 @@ export let advancement = {
         });
       }
 
+      if (args.elide && isEmpty(icons) && isEmpty(items) && isEmpty(flags)) {
+        continue;
+      }
+
       rows.push({
         ...flags,
         level: lv,
@@ -127,6 +135,7 @@ export let advancement = {
     let columns = [{
       type: "label",
       label: args.index,
+      rotate: args.flip,
       valign: "middle"
     }];
     let template = [{
@@ -138,6 +147,7 @@ export let advancement = {
       columns.push({
         type: "label",
         label: "",
+        rotate: args.flip,
         valign: "middle"
       });
       template.push({
@@ -150,6 +160,7 @@ export let advancement = {
       columns.push({
         type: "label",
         label: args.title,
+        rotate: args.flip,
         align: "left",
         valign: "bottom"
       });
@@ -170,12 +181,13 @@ export let advancement = {
       if (!has(field, "name"))
         return;
 
-      field.shade = sh;
+      field.shade = args.shade && sh;
       sh = !sh;
 
       columns.push({
         type: "label",
         label: field.name,
+        rotate: args.flip,
         align: "center",
         valign: "bottom",
         shade: field.shade
@@ -211,10 +223,14 @@ export let advancement = {
       }
     });
 
+    // log("advancement", "Column", columns);
     // log("advancement", "Rows", rows);
+    // log("advancement", "Template", template);
+
     const table = {
       type: 'table',
-      zebra: true,
+      zebra: args.zebra,
+      flip: args.flip,
       collapse: true,
       narrow: true,
       rows: rows,

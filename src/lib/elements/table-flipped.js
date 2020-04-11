@@ -64,6 +64,6 @@ export function renderTableFlipped(args, reg, doc, headings, cols) {
   });
 
   // put it all together
-  const cls = elementClass('table', null, args, ['zebra', 'collapse', 'fixed', 'blk'], ['width', 'layout']);
+  const cls = elementClass('table', null, args, ['zebra', 'collapse', 'fixed', 'blk', 'flip'], ['width', 'layout']);
   return `<table${cls}><tbody>${trows.join("\n")}</tbody></table>`;
 }

@@ -1,0 +1,71 @@
+unit: monk/stance/ironblood
+in: monk/stance
+level: 8
+name: "_{Ironblood Stance}"
+
+inc:
+  - at: '@monk/stance'
+    add:
+      - list:
+        zebra: true
+        hr: true
+        light: true
+        contents:
+          - action:
+            contents:
+              - article:
+                title: "_{Ironblood Stance}"
+                contents:
+                  - advancement:
+                    zebra: false
+                    shade: false
+                    elide: true
+                    flip: true
+                    fields:
+                      - name: "_{Damage\nResistance}"
+                        key: resistance
+                        format: string
+                    advances:
+                      - level: 8
+                        resistance: 2
+                      - level: 12
+                        resistance: 3
+                      - level: 16
+                        resistance: 4
+                      - level: 20
+                        resistance: 5
+          
+          - action:
+            contents:
+              - article:
+                title: "_{Iron Sweep Attack}"
+                contents:
+                  - field: dragon-tail-damage
+                    label: "_{Bludgeoning}"
+                    frame: right
+                    control: value
+                    value: "d8"
+                  - flags:
+                      - "_{Non-lethal}"
+                      - "_{Parry}"
+                      - "_{Sweep}"
+                      - "_{Unarmed}"
+
+          - selectable: monk/stance/ironblood/surge
+            contents:
+              - action:
+                contents:
+                  - article:
+                    title: "_{Ironblood Surge}"
+                    contents:
+                      - p: "_{Prepare for an attack this round.}"
+                      - field: 
+                        label: "_{AC bonus (parry)}"
+                        frame: right
+                        control: value
+                        value: "_{+1}"
+                      - field: 
+                        label: "_{Damage resistance}"
+                        frame: right
+                        ref: STR
+                        underlay: "_{STR}"

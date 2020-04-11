@@ -33,13 +33,20 @@ module.exports = {
         if (!_.has(slotValues, unit.in))
           slotValues[unit.in] = {};
 
-        slotValues[unit.in][unit.code] = {
+        let item = {
           id: unit.id,
           code: unit.code,
           group: unit.group,
           name: unit.name,
           selects: unlocks
         };
+
+        if (_.has(unit, "level"))
+          item.level = unit.level;
+        if (_.has(unit, "order"))
+          item.order = unit.order;
+
+        slotValues[unit.in][unit.code] = item;
 
         if (_.has(unit, "group")) {
           if (!_.has(slotGroups, unit.in))
