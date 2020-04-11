@@ -15,6 +15,7 @@ const expansion = {
     each: '',
     embed: 'src',
     field: 'id',
+    flags: 'flags',
     g: 'contents',
     h1: 'title',
     h2: 'title',

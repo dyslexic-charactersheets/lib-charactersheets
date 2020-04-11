@@ -6,7 +6,7 @@ name: "_{Monk}"
 form:
   - select: monk/stance
     name: "_{Monk Stance}"
-    max: 1
+    max: 2
   - select: feat/monk
     name: "_{Monk Feats}"
     max: 8
@@ -69,30 +69,13 @@ inc:
         underlay: "_{WIS}"
         ref: WIS
 
-  # - at: '@saving-throws'
-  #   add:
-  #     - level: 7
-  #       contents:
-  #         - p: "_{Upgraded success at one save.}"
-  #           icon: save-crit-succeed
-
-  - at: '@cover-class'
-    replace:
-      - h6: "_{Monk}"
-      - field: monk-stance
-        label: "_{Stance}"
-        width: stretch
-        align: left
-
   - at: '@actions'
     add:
       - action: 1
         contents:
           - article:
-            header:
-              - h5: "_{Flurry of Blows}"
-            contents:
-              - p: "_{Make two unarmed Strikes. If both hit the same creature, combine their damage and enhancements.}"
+            title: "_{Flurry of Blows}"
+            content: "_{Make two unarmed Strikes. If both hit the same creature, combine their damage and enhancements.}"
 
   - at: '@focus-points'
     replace:
@@ -240,45 +223,54 @@ inc:
                 contents:
                   - zone: '@monk-stance'
                     contents:
-                      - section: "_{Stance}"
-                        primary: true
+                      - section: "_{Stances}"
+                        # primary: true
                         contents:
                           - list:
-                            zebra: true
                             hr: true
+                            collapse: true
                             contents:
-                              - selectable:
+                              - layout: 2e
                                 contents:
-                                  - action:
+                                  - slots:
+                                    min: 2
+                                    max: 2
                                     contents:
-                                      - article:
-                                        header:
-                                          - field: stance
-                                            size: large
-                                            width: stretch
-                                            align: left
-                                            frame: none
+                                      - zone: '@monk/stance'
+                                    placeholder:
+                                      - list:
+                                        zebra: true
+                                        hr: true
+                                        light: true
                                         contents:
-                                          - field: stance-details
-                                            frame: none
-                                            width: stretch
-                                            align: left
-                                            repeat: 3
-                              - selectable:
+                                          - action:
+                                            contents:
+                                              - h5: "_{Stance}"
+                                              - article: stance-#{i}
+                                                lines: 3
+                                          - action:
+                                            contents:
+                                              - h5: "_{Attack}"
+                                              - article: stance-#{i}-pt2
+                                                lines: 3
+                                          - selectable:
+                                            contents:
+                                              - article: stance-#{i}-pt3
+                                                lines: 3
+                              - layout: 2e
                                 contents:
-                                  - article:
-                                    header:
-                                      - field: stance-2
-                                        size: large
-                                        width: stretch
-                                        align: left
-                                        frame: none
+                                  - selectable:
                                     contents:
-                                      - field: stance-2
-                                        frame: none
-                                        width: stretch
-                                        align: left
-                                        repeat: 3
+                                      - action: reaction
+                                        contents:
+                                          - h5: "_{Stance Savant}"
+                                          - p: "_{Enter a stance as a reaction}"
+                                  - selectable:
+                                    contents:
+                                      - action: free
+                                        contents:
+                                          - h5: "_{Master of Many Styles}"
+                                          - p: "_{At the start of your turn, enter a stance as a free action}"
 
                   - section: "_{Unarmed}"
                     contents:
@@ -358,4 +350,4 @@ inc:
                       lines: 1
 
                   - tail:
-                  - spacer:
+                  # - spacer:

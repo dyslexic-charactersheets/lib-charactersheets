@@ -38,7 +38,7 @@ export class System {
     });
   }
   
-  inferUnits(units, system) {
+  inferUnits(units) {
     // infer required units (to a finite depth)
     let more = true;
     for (let i = 0; more && i < 10; i++) {

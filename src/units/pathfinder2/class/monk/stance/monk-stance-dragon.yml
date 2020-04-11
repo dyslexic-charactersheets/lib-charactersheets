@@ -1,56 +1,60 @@
 unit: monk/stance/dragon
 in: monk/stance
-name: "Dragon Stance"
+level: 1
+name: "_{Dragon Stance}"
 
 inc:
-  - at: '@monk-stance'
-    replace:
-      - section: "Stance"
-        primary: true
+  - at: '@monk/stance'
+    add:
+      - list:
+        zebra: true
+        hr: true
+        light: true
         contents:
-          - list:
-            zebra: true
-            hr: true
+          - action:
             contents:
-              - h4: "_{Dragon Stance}"
-              - zone: '@monk-dragon-stance'
+              - article:
+                title: "_{Dragon Stance}"
                 contents:
-                  - action:
-                    contents:
-                      - h5: "Enter Dragon Stance"
-                      - p: "While in dragon stance, ignore the first square of difficult terrain."
-                  - action:
-                    contents:
-                      - h5: "Dragon Tail Attack"
-                      - row:
-                        contents:
-                          - field: dragon-tail-damage
-                            label: "Damage"
-                            frame: right
-                            value: "d10"
-                            border: full
-                            width: large
-                          - spacer:
-                      - p: "Leg strike that deals non-lethal bludgeoning damage."
+                  - p: "_{While in dragon stance, ignore the first square of difficult terrain.}"
+          
+          - action:
+            contents:
+              - article:
+                title: "_{Dragon Tail Attack}"
+                contents:
+                  - field: dragon-tail-damage
+                    label: "_{Bludgeoning}"
+                    frame: right
+                    control: value
+                    value: "d10"
+                  - flags:
+                      - "_{Backswing}"
+                      - "_{Non-lethal}"
+                      - "_{Unarmed}"
 
-                  - selectable: monk-dragon-stance-dragon-roar
+          - selectable: monk/dragon-stance/dragon-roar
+            contents:
+              - action:
+                contents:
+                  - article:
+                    title: "_{Dragon Roar}"
                     contents:
-                      - action:
-                        contents:
-                          - h5: "Dragon Roar"
-                          - p: "Enemies must succeed at a Will save against your Intimidation DC or be frightened 1 (frightened 2 on a critical failure)."
-                          - row:
-                            contents:
-                              - field: dragon-roar-range
-                                label: "Range"
-                                value: "15ft"
-                                border: full
-                                frame: right
-                                width: large
-                              - field: dragon-roar-damage
-                                frame: right
-                                label: "Damage bonus."
-                                value: "+4"
-                                border: full
-                                width: large
-                          - p: "Applies to your first attack against a frightened creature before the end of your next turn."
+                      - field: dragon-roar-range
+                        label: "_{Range}"
+                        frame: right
+                        control: value
+                        value: "_{15ft}"
+                      - p: "_{Will vs your Intimidation DC}"
+                      - paste: save
+                        params:
+                          failure: "_{Frightened 1}"
+                          critical_failure: "2"
+                      - hr:
+                        light: yes
+                      - field: dragon-roar-damage
+                        label: "_{Damage bonus}"
+                        control: value
+                        value: "_{+4}"
+                        frame: right
+                      - p: "_{To your first attack against a frightened creature the same turn.}"

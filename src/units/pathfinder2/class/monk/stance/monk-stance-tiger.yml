@@ -1,0 +1,68 @@
+unit: monk/stance/tiger
+in: monk/stance
+level: 1
+name: "_{Tiger Stance}"
+
+inc:
+  - at: '@monk/stance'
+    add:
+      - list:
+        zebra: true
+        hr: true
+        light: true
+        contents:
+          - action:
+            contents:
+              - article:
+                title: "_{Tiger Stance}"
+                contents:
+                  - field: monk/stance/tiger/step
+                    label: "_{Step}"
+                    frame: right
+                    control: value
+                    value: "10ft"
+          
+          - action:
+            contents:
+              - article:
+                title: "_{Tiger Claw Attack}"
+                contents:
+                  - field: tiger-claw-damage
+                    label: "_{Slashing}"
+                    frame: right
+                    control: value
+                    value: "d8"
+                  - flags:
+                      - "_{Agile}"
+                      - "_{Finesse}"
+                      - "_{Non-lethal}"
+                      - "_{Unarmed}"
+                  - field: tiger-claw-damage
+                    label: "_{Bleed on a critical hit}"
+                    frame: right
+                    control: value
+                    value: "d4"
+
+          - selectable: monk/tiger-stance/tiger-slash
+            contents:
+              - action: 2
+                contents:
+                  - article:
+                    title: "_{Tiger Slash}"
+                    contents:
+                      - p: "_{Make a Tiger Claw attack. If it hits, push the target away 5ft.}"
+                      - p: "_{On a critical hit, add your strength to the bleed damage.}"
+                      - indent:
+                        contents:
+                          - field: tiger-claw-damage
+                            label: "_{Slashing}"
+                            frame: right
+                            control: value
+                            value: "3d8"
+                      - level: 14
+                        contents:
+                          - field: tiger-claw-damage
+                            label: "_{Slashing}"
+                            frame: right
+                            control: value
+                            value: "4d8"

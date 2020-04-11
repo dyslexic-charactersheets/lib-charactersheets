@@ -71,7 +71,7 @@ export let field_control_value = {
     border: 'none',
   },
   render(args, reg, doc) {
-    const cls = elementClass("field", "control", args, [], { "control": "", "align": "centre" });
+    const cls = elementClass("field", "control", args, [], { "control": "", "align": "centre", "width": "" });
 
     const prefix = args.prefix ? `<span class='field__overlay'>${__(args.prefix, doc)}</span>` : '';
     const suffix = args.suffix ? `<span class='field__overlay'>${__(args.suffix, doc)}</span>` : '';

@@ -210,6 +210,10 @@ export function toBoolean(value) {
 
 // Convert string case
 function splitAnyCase(str) {
+  if (!isString(str)) {
+    warn("util", "Not a string", str);
+    return [];
+  }
   let words = str.split(/[ _/-]+/);
   words = words.flatMap(word => word.split(/([A-Z][a-z]+)/));
   words = words.map(word => word.toLowerCase());

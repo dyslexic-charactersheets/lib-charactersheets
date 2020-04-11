@@ -160,11 +160,20 @@ function parseCharacter(primary, request) {
 
           if (key.startsWith(classPrefix) && !key.endsWith('Feats')) {
             let selname = toKebabCase(key.replace(classPrefix, ''));
-            let selvalue = toKebabCase(attr[key]);
-            log("Character", "Class option", key, selname, "=", selvalue);
-            const unitname = className + '/' + selname + '/' + selvalue;
-            // log("Character", "Class option unit", unitname);
-            char.units.push(unitname);
+            if (isArray(attr[key])) {
+              attr[key].forEach(selvalue => {
+                selvalue = toKebabCase(selvalue);
+                log("Character", "Class option", key, selname, "=", selvalue);
+                const unitname = className + '/' + selname + '/' + selvalue;
+                char.units.push(unitname);
+              })
+            } else if (isString(attr[key])) {
+              let selvalue = toKebabCase(attr[key]);
+              log("Character", "Class option", key, selname, "=", selvalue);
+              const unitname = className + '/' + selname + '/' + selvalue;
+              // log("Character", "Class option unit", unitname);
+              char.units.push(unitname);
+            }
           }
         });
 
@@ -356,7 +365,7 @@ export class Character {
         // load units
         let units = system.getUnits(this.data.units);
         units = system.inferUnits(units);
-        // log("Character", "Units:", units.map(unit => unit.id));
+        log("Character", "Units:", units.map(unit => unit.id).sort());
 
         // infer the title from the units
         let title = __("Character");
@@ -372,12 +381,7 @@ export class Character {
         document.composeDocument(this.registry);
 
         this.loadQueue.ready(() => {
-          // log("Character", "Ready");
           Events.createElementTreeEvt.call(document.doc, document.title, this.request);
-          // fs.writeFile(__dirname + '/../test/out/test.json', JSON.stringify(document.doc, null, 2), (err) => {
-          //   if (err)
-          //     error("Character", "Could not write JSON file:", err);
-          // });
 
           // render the document
           const data = document.renderDocument(this.registry);

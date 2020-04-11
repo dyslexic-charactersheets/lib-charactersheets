@@ -6,9 +6,10 @@ export let ul = {
   name: 'ul',
   defaults: {
     blk: true,
+    flags: false,
   },
   render(args, reg, doc) {
-    let cls = elementClass('ul', null, args, ['blk']);
+    let cls = elementClass('ul', null, args, ['blk', 'flags']);
     return `<ul${cls}>${reg.render(args.contents, doc)}</ul>`;
   }
 }

@@ -143,7 +143,13 @@ module.exports = {
         if (_.has(unitdata, "inc"))
           unitdata.inc = unitdata.inc.map(unitExpander.expandZone);
 
-        var data = jsYaml.safeDump(unitdata);
+        var data;
+        try {
+          data = jsYaml.safeDump(unitdata);
+        } catch (exception) {
+          error("units", "Error writing", shortfile, exception);
+          warn("units", JSON.stringify(unitdata, null, 2));
+        }
         fs.mkdir(debugDir, { recursive: true }, () => {
           fs.writeFile(`${debugDir}/${unitid.replace(/\//g, '-')}.yml`, data, err => {
             if (err) error("units", "Error saving unit", unitid, err);

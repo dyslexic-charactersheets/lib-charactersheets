@@ -6,6 +6,7 @@ import { has, isArray, isString, mergeBottom } from '../util';
 // elements
 import { unit } from '../elements/unit';
 
+import { action, selectable } from '../elements/action';
 import { advancement } from '../elements/advancement';
 import { article } from '../elements/article';
 import { blockquote } from '../elements/blockquote';
@@ -15,6 +16,7 @@ import { class_icon } from '../elements/class-icon';
 import { dl } from '../elements/dl';
 import { each } from '../elements/each';
 import { embed } from '../elements/embed';
+import { flags } from '../elements/flags';
 import { g } from '../elements/g';
 import { h1, h2, h3, h4, h5, h6, class_name } from '../elements/headings';
 import { hr, tail, vr } from '../elements/hr';
@@ -29,7 +31,7 @@ import { nothing } from '../elements/nothing';
 import { page } from '../elements/page';
 import { p } from '../elements/p';
 import { portrait } from '../elements/portrait';
-import { proficiency, action, selectable } from '../elements/proficiency';
+import { proficiency } from '../elements/proficiency';
 import { repeat } from '../elements/repeat';
 import { row } from '../elements/row';
 import { ruby, ruby_round_down, ruby_round_up } from '../elements/ruby';
@@ -93,6 +95,7 @@ export class Registry {
       class_icon,
       each,
       embed,
+      flags,
       g,
       h1, h2, h3, h4, h5, h6,
       hr, tail, vr,

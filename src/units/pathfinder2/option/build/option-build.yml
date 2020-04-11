@@ -11,6 +11,7 @@ inc:
         numbered: false
         contents:
           - layout: 2l
+            flex: large
             contents:
               - g:
                 contents:
@@ -29,14 +30,18 @@ inc:
                         control: alignment
 
           - layout: 2l
+            flex: small
             contents:
               - g:
                 valign: top
                 contents:
                   - h4: "_{Step One}"
-                  - p: "_{Pick your race and heritage.}"
-                  - p: "_{CRB p33}"
-                    icon: book
+                  - row:
+                    contents:
+                      - p: "_{Pick your race and heritage.}"
+                      - spacer:
+                      - p: "_{CRB p33}"
+                        icon: book
               - section: "_{Ancestry}"
                 contents:
                   - g:
@@ -71,21 +76,27 @@ inc:
                                 width: stretch
                                 align: left
                                 label: "_{Heritage}"
+                                merge-bottom: true
                           - level: 1
                             contents:
                               - field: build-ancestry-feat
                                 width: stretch
                                 align: left
                                 label: "_{Ancestry feat}"
+                                merge-bottom: true
           - layout: 2l
+            flex: tiny
             contents:
               - g:
                 valign: top
                 contents:
                   - h4: "_{Step Two}"
-                  - p: "_{Decide how your character grew up.}"
-                  - p: "_{CRB p60}"
-                    icon: book
+                  - row:
+                    contents:
+                      - p: "_{Decide how your character grew up.}"
+                      - spacer:
+                      - p: "_{CRB p60}"
+                        icon: book
               - section: "_{Background}"
                 contents:
                   - layout: 2e
@@ -96,24 +107,29 @@ inc:
                             label: "_{Background}"
                             width: stretch
                             align: left
+                            merge-bottom: true
                       - level: 1
                         contents:
                           - field: build-background-skill-feat
                             label: "_{Skill Feat}"
                             width: stretch
                             align: left
+                            merge-bottom: true
 
           - layout: 2l
+            flex: small
             contents:
               - g:
                 valign: top
                 contents:
                   - h4: "_{Step Three}"
-                  - p: "_{Pick from one of the available classes.}"
-                  - p: "_{You may need to pick a subclass, such as a Sorcerer's bloodline or Cleric's doctrine.}"
-                  - p: "_{CRB p67}"
-                    icon: book
-                  - p: "_{If two sources give you training in the same skill, they don't add up. You may be able to spend the training elsewhere.}"
+                  - row:
+                    contents:
+                      - p: "_{Pick one of the available classes.}"
+                      - spacer:
+                      - p: "_{CRB p67}"
+                        icon: book
+                  - p: "_{You may need to pick a subclass (bloodline, doctrine etc).}"
                   - spacer:
               - section: "_{Class}"
                 contents:
@@ -144,41 +160,31 @@ inc:
                       - field: build-class-specialisation
                         label: "_{Subclass}"
                         width: stretch
+                        merge-bottom: true
                       - field: build-deity
                         label: "_{Deity}"
                         width: stretch
-                  - layout: 4e
-                    contents:
-                      - h6: "_{Saving Throws}:"
-                      - proficiency:
-                        content: "_{Fortitude}"
-                      - proficiency:
-                        content: "_{Reflex}"
-                      - proficiency:
-                        content: "_{Will}"
-                  - layout: 4e
-                    contents:
-                      - h6: "_{Proficiencies}:"
-                      - proficiency:
-                        content: "_{Perception}"
-                      - proficiency:
-                        content: "_{Class DC}"
-                      - proficiency:
-                        content: "_{Spell Attack/DC}"
+                        merge-bottom: true
 
           - layout: 2l
+            flex: tiny
             contents:
               - g:
                 valign: top
                 contents:
                   - h4: "_{Step Four}"
-                  - p: "_{Add up the ability score bonuses you get:}"
+                  - row:
+                    contents:
+                      - p: "_{Add up your ability scores:}"
+                      - spacer:
+                      - p: "_{CRB p20}"
+                        icon: book
                   - ul:
                     contents:
-                      - li: "_{Several +2 or -2 from your ancestry.}"
-                      - li: "_{Optionally, take a -2 in two abilities to gain +2 in one other.}"
+                      - li: "_{Several +2 and -2 from your ancestry.}"
+                      - li: "_{Optionally, -2 in two abilities and +2 in one other.}"
                       - li: "_{Two +2 from your background, one a free choice.}"
-                      - li: "_{Several +2 from your class.}"
+                      - li: "_{One +2 from your class.}"
                       - li: "_{Free +2 to any FOUR abilities.}"
                   - spacer:
                   - calc:
@@ -190,7 +196,7 @@ inc:
                       - label: "_{Ability\nScore}"
                       - span: "- 10 ) &divide; 2"
                   - spacer:
-              - section: "_{Details}"
+              - section: "_{Ability Scores}"
                 contents:
                   - table:
                     field_frame: none
@@ -253,11 +259,18 @@ inc:
                         control: radio
                         value: "#{code}"
           - layout: 2l
+            flex: large
             contents:
               - g:
                 valign: top
                 contents:
-                  - p: "_{Calculate your hit points. Some of these come from your ancestry, and some each level from your class and constitution modifier.}"
+                  - row:
+                    contents:
+                      - p: "_{Calculate your hit points.}"
+                      - spacer:
+                      - p: "_{CRB p67}"
+                        icon: book
+                        nowrap: true
               - g:
                 valign: top
                 contents:
@@ -286,60 +299,24 @@ inc:
                         ref: level
                         label: "_{Level}"
                         underlay: "1"
-                      - span: "+"
-                      - field:
-                        label: "_{Misc}"
-                        misc: true
+
           - layout: 2l
+            flex: large
             contents:
               - g:
                 valign: top
                 contents:
-                  - p: "_{Your proficiencies at level 1 are: 0, 3, 5, 7 and 9. They increase as you level up.}"
-              - g:
-                valign: top
-                contents:
-                  - hr:
+                  - h4: "_{Step Five}"
                   - row:
-                    # valign: top
                     contents:
-                      - field: proficiency-untrained
-                        label: "_{Untrained}"
-                        output: true
-                        control: proficiency
-                        value: 0
-                        ruby: "_{None}\n"
-                      - field: proficiency-trained
-                        label: "_{Trained}"
-                        output: true
-                        control: proficiency
-                        value: trained
-                        ruby: "_{Level}\n+2"
-                      - field: proficiency-expert
-                        label: "_{Expert}"
-                        output: true
-                        control: proficiency
-                        value: expert
-                        ruby: "_{Level}\n+4"
-                      - field: proficiency-master
-                        label: "_{Master}"
-                        output: true
-                        control: proficiency
-                        value: master
-                        ruby: "_{Level}\n+6"
-                      - field: proficiency-legendary
-                        label: "_{Legendary}"
-                        output: true
-                        control: proficiency
-                        value: legendary
-                        ruby: "_{Level}\n+8"
+                      - p: "_{Gain proficiencies from your background and class.}"
                       - spacer:
-          - layout: 2l
-            contents:
-              - g:
-                contents:
-                  - p: "_{Gain skill proficiencies from your background and class.}"
-                  - spacer:
+                      - p: "_{CRB p68}"
+                        icon: book
+                        nowrap: true
+                  - p: "_{Your proficiency bonuses at level 1 are: 0, 3, 5, 7 and 9. They increase as you level up.}"
+                  - p: "_{If two sources give you training in the same skill, they don't add up. You may be able to spend the training elsewhere.}"
+                  - p: "_{Become trained in a number of skills based on your class.}"
                   - calc:
                     inline: true
                     output:
@@ -354,8 +331,63 @@ inc:
                         underlay: "_{INT}"
                   - spacer:
               - g:
+                valign: top
                 contents:
+                  - section: "_{Proficiency}"
+                    contents:
+                      - row:
+                        # valign: top
+                        contents:
+                          - field: proficiency-untrained
+                            label: "_{Untrained}"
+                            output: true
+                            control: proficiency
+                            value: 0
+                            ruby: "_{None}\n"
+                          - field: proficiency-trained
+                            label: "_{Trained}"
+                            output: true
+                            control: proficiency
+                            value: trained
+                            ruby: "_{Level}\n+2"
+                          - field: proficiency-expert
+                            label: "_{Expert}"
+                            output: true
+                            control: proficiency
+                            value: expert
+                            ruby: "_{Level}\n+4"
+                          - field: proficiency-master
+                            label: "_{Master}"
+                            output: true
+                            control: proficiency
+                            value: master
+                            ruby: "_{Level}\n+6"
+                          - field: proficiency-legendary
+                            label: "_{Legendary}"
+                            output: true
+                            control: proficiency
+                            value: legendary
+                            ruby: "_{Level}\n+8"
+                          - spacer:
                   - hr:
+                  - layout: 4e
+                    contents:
+                      - h6: "_{Saving Throws}:"
+                      - proficiency:
+                        content: "_{Fortitude}"
+                      - proficiency:
+                        content: "_{Reflex}"
+                      - proficiency:
+                        content: "_{Will}"
+                  - layout: 4e
+                    contents:
+                      - h6: "_{Proficiencies}:"
+                      - proficiency:
+                        content: "_{Perception}"
+                      - proficiency:
+                        content: "_{Class DC}"
+                      - proficiency:
+                        content: "_{Spell Attack/DC}"
                   - layout: 3e
                     contents:
                       - g:
@@ -426,14 +458,18 @@ inc:
               - g:
                 contents:
           - layout: 2l
+            flex: large
             contents:
               - g:
                 valign: top
                 contents:
-                  - h4: "_{Step Five}"
-                  - p: "_{Work out what your character owns.}"
-                  - p: "_{CRB p271}"
-                    icon: book
+                  - h4: "_{Step Six}"
+                  - row:
+                    contents:
+                      - p: "_{Work out what your character owns.}"
+                      - spacer:
+                      - p: "_{CRB p271}"
+                        icon: book
                   - row:
                     layout: split
                     contents:
@@ -464,6 +500,8 @@ inc:
                         name: "_{Kit}"
                       - id: weapons
                         name: "_{Weapons}"
+                      - id: ammo
+                        name: "_{Ammunition}"
                       - id: armour
                         name: "_{Armour & Clothes}"
                       - id: gear
