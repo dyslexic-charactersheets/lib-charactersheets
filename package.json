@@ -28,7 +28,8 @@
   ],
   "directories": {
     "lib": "lib",
-    "doc": "doc"
+    "doc": "src/docs",
+    "test": "test"
   },
   "scripts": {
     "build": "npm run build:units && npm run build:assets && npm run build:bundle && npm run build:compile",
@@ -36,6 +37,9 @@
     "build:assets": "src/make/assets.sh",
     "build:bundle": "rollup src/lib/lib.js --file src/lib-charactersheets.js --format cjs",
     "build:compile": "babel src/lib-charactersheets.js -d lib",
+    "docs": "npm run docs:jsdoc && npm run docs:contrib",
+    "docs:jsdoc": "npx jsdoc -d docs/jsdoc src/lib",
+    "docs:contrib": "npx gitbook build src/docs docs/contrib",
     "test:lint": "npx eslint src/lib; npx eslint src/make",
     "test:i18n": "nodejs test/i18n.js",
     "test:i18n:clean": "rm -r test/out/i18n",
@@ -54,11 +58,12 @@
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.19.1",
-    "handlebars": "^4.5.3",
+    "gitbook-cli": "^2.3.2",
+    "handlebars": "^4.7.6",
     "js-yaml": "^3.13.1",
-    "node-sass": "^4.13.0",
+    "jsdoc": "^3.6.4",
+    "node-sass": "^4.13.1",
     "rollup": "^1.27.14",
-    "ua-parser-js": "^0.7.21",
     "xgettext-regex": "^0.3.0"
   }
 }

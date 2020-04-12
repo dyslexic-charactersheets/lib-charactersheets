@@ -1,6 +1,6 @@
 import { existsSync, readdir, readFile } from 'fs';
 import { log, error } from './log';
-import { isString, isNumber, isNull } from './util';
+import { has, isString, isNumber, isNull } from './util';
 import * as _ from 'lodash';
 
 let translatorCallbacks = [];
@@ -129,7 +129,7 @@ export function addTranslationData(lang, data) {
       return null;
     }
 
-    if (_.has(translations, str)) {
+    if (has(translations, str)) {
       return translations[str];
     }
     return null;

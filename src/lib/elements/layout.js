@@ -1,4 +1,5 @@
 import { elementID, elementClass } from '../util';
+import { log } from '../log';
 
 export let layout = {
   name: 'layout',
@@ -13,8 +14,6 @@ export let layout = {
     unblk: true,
   },
   render(args, reg, doc) {
-    const cls = elementClass('layout', null, args, ['no-flex', 'blk', 'unblk'], { 'layout': '', 'gutter': '', 'flex': false });
-
     // pick a column number
     let columns = args.columns;
     if (columns == 0) {
@@ -43,7 +42,22 @@ export let layout = {
           break;
       }
     }
+
+    if (columns > 0 && args.contents.length > columns) {
+      log("layout", `Split: ${args.contents.length} items into ${columns} columns`);
+      let items = [];
+      for (let n = 0; n < args.contents.length; n += columns) {
+        let chunk = args.contents.slice(n, n+columns);
+        items.push({
+          ...args,
+          contents: chunk
+        });
+      }
+      log("layout", "Split render", items);
+      return reg.render(items, doc);
+    }
     
+    const cls = elementClass('layout', null, args, ['no-flex', 'blk', 'unblk'], { 'layout': '', 'gutter': '', 'flex': false });
     return `<div${cls}>${reg.render(args.contents, doc)}</div>`;
   }
 }
