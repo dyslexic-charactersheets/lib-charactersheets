@@ -36,9 +36,9 @@ $ npm link dyslexic-charactersheets  # import the library into your project
 ```
 
 
-# Usage
+# Use
 
-The library expects to be given a character's details in the form of a plain JavaScript object (details below)
+The library expects to be given a character's details in the form of a plain JavaScript object (details in the documentation)
 
 ```javascript
 let request = {
@@ -57,10 +57,17 @@ let request = {
 const CharacterSheets = require('dyslexic-charactersheets');
 let characterSheet = CharacterSheets.create(request);
 
-characterSheet.render(html => {
+characterSheet.render().then(html => {
   fs.writeFile('file.html', data, err => {});
 });
 ```
+
+# Documentation
+
+Full documentation can be found here:
+
+- [API documentation](https://www.dyslexic-charactersheets.com/docs/jsdoc), for those using the library from outside
+- [Contributors documentation](https://www.dyslexic-charactersheets.com/docs/contrib), for those looking to add to the library
 
 # API
 
@@ -323,13 +330,8 @@ $ npm run test:i18n
 
 The files will be placed in `test/out/i18n`.
 
-# Contributing
 
-## Adding content
-
-The most likely form of contributions will be adding classes, ancestries, feats etc. This should be done by adding units to `src/units`. Units are written in YAML, and may also contain a stylesheet and asset files.
-
-## Bugs
+# Bugs
 
 Please raise issues or pull requests on this project.
 
