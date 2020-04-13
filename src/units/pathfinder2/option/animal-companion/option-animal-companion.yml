@@ -16,7 +16,10 @@ inc:
                 contents:
                   - g:
                     contents:
-                      - class-name: "_{Animal Companion}"
+                      - zone: '@animal-companion/title'
+                        contents:
+                          - class-name: "_{Animal Companion}"
+
                       - section: "_{Attributes}"
                         id: animal-companion-attributes
                         contents:
@@ -50,54 +53,79 @@ inc:
                                       - row: center
                                         contents:
                                           - spacer:
-                                          - field: "#{code}"
+                                          - field: "animal-#{code}"
                                             label: "#{name}"
                                             border: circle
                                             size: huge
                                             underlay: "#{short}"
                                             eq: "(%{#{code}-score}-10)/2"
                                           - spacer:
-                                      - row: center
-                                        contents:
-                                          - spacer:
-                                          - field: "#{code}-score"
-                                            # width: small
-                                            frame: none
-                                          - spacer:
-                              
+
                       - section: "_{Abilities}"
                         contents:
-                          - zone: '@animal-companion-abilities'
+                          - list:
+                            hr:
                             contents:
-                              - h5: "_{Work Together}"
                               - g:
                                 contents:
-                                  - field: animal-companion-work-together
-                                    width: stretch
-                                    frame: none
-                                    align: left
-                                    merge-bottom: true
-                                    repeat: 6
-                              - hr:
-                              - h5: "_{Advanced Manoeuvre}"
+                                  - h5: "_{Animal Age}"
+                                  - row:
+                                    contents:
+                                      - field: animal-companion-age
+                                        control: radio
+                                        value: young
+                                        frame: right
+                                        label: "_{Young}"
+                                      - field: animal-companion-age
+                                        control: radio
+                                        value: mature
+                                        frame: right
+                                        label: "_{Mature}"
+                                  # - p: "_{Mature animals gain:}"
+                                  # - ul:
+                                  #   contents:
+                                  #     - li: "_{+1 to Str, Dex, Con, Wis}"
+                                  #     - li: "_{Second damage die}"
+                                  #     - li: "_{Expert in Perception}"
+                                  #     - li: "_{Increased training in Intimidation, Stealth and Survival}"
                               - g:
                                 contents:
-                                  - field: animal-companion-manoeuvre
-                                    width: stretch
-                                    frame: none
-                                    align: left
-                                    merge-bottom: true
-                                    repeat: 6
-                              - hr:
-                              - h5: "_{Specialisation}"
+                                  - h5: "_{Nimble}"
                               - g:
                                 contents:
-                                  - field: animal-companion-specialisation
-                                    width: stretch
-                                    frame: none
-                                    align: left
-                                    merge-bottom: true
-                                    repeat: 6
+                                  - h5: "_{Savage}"
+                              - zone: '@animal-companion-abilities'
+                                contents:
+                                  - g:
+                                    contents:
+                                      - h5: "_{Work Together}"
+                                      - field: animal-companion-work-together
+                                        width: stretch
+                                        frame: none
+                                        align: left
+                                        merge-bottom: true
+                                        repeat: 5
+                                        reduce: 1
+                                  - g:
+                                    contents:
+                                      - h5: "_{Advanced Manoeuvre}"
+                                      - field: animal-companion-manoeuvre
+                                        width: stretch
+                                        frame: none
+                                        align: left
+                                        merge-bottom: true
+                                        repeat: 5
+                                        reduce: 1
+                                  - g:
+                                    contents:
+                                      - h5: "_{Specialisation}"
+                                      - field: animal-companion-specialisation
+                                        width: stretch
+                                        frame: none
+                                        align: left
+                                        merge-bottom: true
+                                        repeat: 5
+                                        reduce: 1
                       - tail:
 
                   - g:
@@ -129,6 +157,8 @@ inc:
                           - table:
                             collapse: true
                             zebra: true
+                            sort_by: name
+                            width: stretch
                             field_frame: none
                             columns:
                               - label: ""
@@ -137,17 +167,18 @@ inc:
                               - 
                               - "_{Ability\nModifier}"
                               - "_{Proficiency}"
-                              - "_{Feats\nMisc}"
                               - "_{Barding\nCheck\nPenalty}"
                             rows:
                               - skill: "_{Acrobatics}"
                                 ability: "_{DEX}"
                                 abilityref: DEX
                                 acp: true
+                                training: trained
                               - skill: "_{Athletics}"
                                 ability: "_{STR}"
                                 abilityref: STR
                                 acp: true
+                                training: trained
                               - skill: "_{Deception}"
                                 ability: "_{CHA}"
                                 abilityref: CHA
@@ -181,8 +212,10 @@ inc:
                                 acp: false
                             template:
                               - h6: "#{skill}"
+                                fade: "#{fade}"
+                                blk: false
                               - field: "animal-companion-#{skill}-bonus"
-                                output: true
+                                border: full
                                 icon: bonus
                               - span: "="
                               - field:
@@ -192,13 +225,13 @@ inc:
                                 label: "#{ability}"
                               - field: "animal-companion-#{skill}-proficiency"
                                 control: proficiency
-                              - field: "animal-companion-#{skill}-misc"
-                                misc: true
+                                value: "#{training}"
                               - field: "animal-companion-#{skill}-acp"
                                 ref: acp
-                                output: true
+                                border: full
                                 exists: "#{acp}"
-                                
+                                prefix: "&ndash;"
+                          - hr:
                           - calc:
                             output:
                               field: animal-companion-perception
@@ -207,17 +240,15 @@ inc:
                               width: large
                             inputs:
                               - field:
-                                ref: WIS
+                                ref: animal-companion-WIS
                                 underlay: "_{WIS}"
                                 label: "_{WIS}"
-                              - span: "+"
-                              - field:
+                              - field: animal-companion-perception-proficiency
                                 label: "_{Proficiency}"
-                                icon: proficiency
-                              - span: "+"
+                                control: proficiency
+                                value: trained
                               - field:
                                 label: "_{Item}"
-                              - span: "+"
                               - field:
                                 misc: true
                                 label: "_{Misc}"
@@ -245,6 +276,37 @@ inc:
                     contents:
                       - g:
                         contents:
+                          - section: "_{Actions}"
+                            mark: action
+                            contents:
+                              - list:
+                                zebra: true
+                                flex: true
+                                hr: true
+                                contents:
+                                  - g:
+                                    contents:
+                                      - action:
+                                        contents:
+                                          - p: "_{Spend an action to command your animal companion.}"
+                                          - p: "_{Otherwise they will act as they please.}"
+                                      - layout: indent-r
+                                        contents:
+                                          - p: "_{Animals get two actions which they take on your turn, and no reactions.}"
+                                          - icon: action2
+                                  - action:
+                                    contents:
+                                      - article:
+                                        title: "Support"
+                                        lines: 2
+                                        reduce: 1
+                                  - action: template
+                                    contents:
+                                      - article:
+                                        lines: 2
+                                        reduce: 1
+
+
                           - section: "_{Speed}"
                             contents:
                               - row: split
@@ -252,7 +314,7 @@ inc:
                                   - field: animal-companion-speed
                                     legend: "_{Speed}"
                                     control: speed
-                                    output: true
+                                    border: full
                                   - field: animal-companion-speed-alt
                                     label: "_{Speed in Barding}"
                                     control: speed
@@ -264,60 +326,11 @@ inc:
                                     control: checkbox
                                     label: "_{Mount}"
                                     
-                          - section: "_{Saving Throws}"
-                            id: saving-throws
-                            contents:
-                              - table:
-                                columns:
-                                  - 
-                                  - 
-                                  - "_{Ability\nModifier}"
-                                  - "_{Proficiency}"
-                                  - "_{Misc}"
-                                rows:
-                                  - save: fortitude
-                                    legend: "_{Fortitude}"
-                                    short: "_{FORT}"
-                                    ability: "_{CON}"
-                                    abilityref: CON
-                                  - save: reflex
-                                    legend: "_{Reflex}"
-                                    short: "_{REF}"
-                                    ability: "_{DEX}"
-                                    abilityref: DEX
-                                  - save: will
-                                    legend: "_{Will}"
-                                    short: "_{WILL}"
-                                    ability: "_{WIS}"
-                                template:
-                                  - calc:
-                                    output:
-                                      field: "animal-companion-#{save}"
-                                      legend: "#{legend}"
-                                      icon: bonus
-                                      border: full
-                                      width: large
-                                      underlay: "#{short}"
-                                    inputs:
-                                      - field:
-                                        label: "#{ability}"
-                                        underlay: "#{ability}"
-                                        ref: "#{abilityref}"
-                                      - field:
-                                        id: "#{save}-proficiency"
-                                        control: proficiency
-                                      # - field:
-                                      #   id: "#{save}-misc-bonus"
-                                      #   misc: true
-                              - field: animal-companion-saving-throws-conditional
-                                label: "_{Conditional}"
-                                align: left
-                                # repeat: 2
-                                merge-bottom: true
-                                width: stretch
+
                       - g:
                         contents:
                           - section: "_{Attacks}"
+                            mark: sword
                             contents:
                               - list:
                                 zebra: true
@@ -335,6 +348,7 @@ inc:
                                                 frame: none
                                                 align: left
                                                 size: large
+                                                # icon: sword
                                           - row:
                                             contents:
                                               - calc:
@@ -382,30 +396,33 @@ inc:
                         contents:
                         
                           - section: "_{Health}"
+                            mark: hp
                             contents:
-                              - calc:
-                                output:
-                                  field: animal-companion-hp
-                                  legend: "_{Hit Points}"
-                                  icon: hp
-                                  suffix: "_{hp}"
-                                  width: large
-                                inputs:
-                                  - field:
-                                    label: "_{Ancestry}"
-                                  - span: "+ ("
-                                  - field:
-                                    ref: CON
-                                    label: "_{CON}"
-                                    underlay: "_{CON}"
-                                  - span: "+"
-                                  - field: animal-companion-hp-per-level
-                                    underlay: "6"
-                                    width: tiny
-                                  - span: ") &times;"
-                                  - field:
-                                    ref: level
-                                    label: "_{Level}"
+                              - row:
+                                contents:
+                                  - calc:
+                                    output:
+                                      field: animal-companion-hp
+                                      legend: "_{Hit Points}"
+                                      icon: hp
+                                      suffix: "_{hp}"
+                                      width: large
+                                    inputs:
+                                      - zone: '@animal-companion/hp'
+                                        contents:
+                                          - field:
+                                            label: "_{Animal\nType}"
+                                          - span: "+ ("
+                                          - field:
+                                            label: "_{CON}"
+                                            underlay: "_{CON}"
+                                            ref: CON
+                                          - span: "&times;"
+                                          - field:
+                                            ref: level
+                                            label: "_{Level}"
+                                          - span: ")"
+
                               - row:
                                 contents:
                                   - field: animal-companion-current-hp
@@ -415,22 +432,59 @@ inc:
                                     icon: hp
                                     suffix: "_{hp}"
                                     width: stretch
-                                  - field: animal-companion-temp-hp
-                                    label: "_{Temp Hit Points}"
-                                    border: full
-                                    temp: true
-                                    suffix: "_{hp}"
-                                    width: large
+                                    
+                                  - field: animal-companion-dying
+                                    control: progression
+                                    label: "_{Dying}"
+                                    parts:
+                                      - id: dying-1
+                                        control: checkbox
+                                      - id: dying-2
+                                        control: checkbox
+                                      - id: dying-3
+                                        control: checkbox
+                                      - icon: evil
+                                        size: small
+                                        optional: true
+
+                              - hr:
+                              - h5: "_{Effects}"
+                              - row:
+                                contents:
+                                  - field: effect-#{i}
+                                    control: progression
+                                    frame: none
+                                    parts:
+                                      - id: effect-#{i}-1
+                                        control: checkbox
+                                      - id: effect-#{i}-2
+                                        control: checkbox
+                                      - id: effect-#{i}-3
+                                        control: checkbox
+                                  - field: effect-#{i}
+                                    width: stretch
+                                    frame: none
+                                  - field: effect-#{i}-duration
+                                    frame: none
+                                    underlay: "#"
+                                    affix: "_{rds}"
+                                    width: small
+                                  - field:
+                                    control: checkgrid
+                                    frame: none
+                                    max: 6
+                                    depth: 2
                                 
-                          - section: "_{Defence}"
+                          - section: "_{Armour Class}"
+                            mark: shield
                             contents:
                               - calc:
                                 output:
                                   field: "animal-companion-ac"
                                   legend: "_{Armour Class}"
-                                  icon: armour
+                                  icon: shield
                                   border: full
-                                  width: large
+                                  # width: large
                                   underlay: "_{AC}"
                                 inputs:
                                   - span: "10 +"
@@ -447,75 +501,134 @@ inc:
                                   - field:
                                     misc: true
                                     label: "_{Misc}"
+                                      
+                              - row:
+                                contents:
+                                  # - field: temp-ac
+                                  #   temp: true
+                                  #   label: "_{Temp AC}"
+                                  #   border: full
+                                  #   underlay: "_{AC}"
+                                  #   width: large
+                                  #   icon: shield
+                                  - spacer:
+
+                                  - field: anima-unarmoured-proficiency
+                                    control: proficiency
+                                    frame: right
+                                    has-bonus: false
+                                    border: none
+                                    label: "_{Unarmoured}"
+                                  - field: animal-light-barding-proficiency
+                                    control: proficiency
+                                    frame: right
+                                    has-bonus: false
+                                    border: none
+                                    label: "_{Light}"
+                                  - field: animal-heavy-barding-proficiency
+                                    control: proficiency
+                                    frame: right
+                                    has-bonus: false
+                                    border: none
+                                    label: "_{Heavy}"
+
                               - field: animal-companion-ac-conditional
-                                label: "_{Conditional}"
+                                # label: "_{Conditional}"
+                                frame: none
                                 width: stretch
                                 align: left
-                                repeat: 3
+                                repeat: 2
                                 merge-bottom: true
-                                
-                              - h5: "_{Effects}"
-                              - list:
-                                columns: 2
-                                collapse: true
-                                merge-bottom: true
-                                contents:
-                                  - repeat: 4
-                                    contents:
-                                      - row:
-                                        unlabelled: true
-                                        contents:
-                                          - field: animal-companion-effect-#{i}
-                                            width: stretch
-                                            frame: none
-                                            temp: true
-                                            align: left
-                                          - field: animal-companion-effect-#{i}-progress
-                                            control: progression
-                                            parts:
-                                              - control: checkbox
-                                              - control: checkbox
-                                              - control: checkbox
-                          - tail:
-                      - g:
-                        contents:
-                          - section: "_{Barding}"
-                            contents:
+
+                              - hr:
+
                               - row:
                                 contents:
                                   - field: animal-companion-barding
-                                    frame: none
                                     size: large
                                     width: stretch
+                                    legend: "_{Barding}"
                                   - field: animal-companion-barding-ac
                                     label: "_{AC Bonus}"
                                     border: full
-                                    icon: armour
-                              # - row:
-                              #   layout: split
-                              #   contents:
-                              #     - field: animal-companion-barding-bulk
-                              #       label: "Bulk"
+                                    icon: shield
                               - row:
                                 layout: split
                                 contents:
+                                  - field: animal-companion-barding-acp
+                                    label: "_{Barding\nCheck\nPenalty}"
                                   - field: animal-companion-barding-max-dex
-                                    label: "_{Max DEX\nto AC}"
+                                    label: "_{DEX\nCap}"
                                   - field: animal-companion-barding-speed-penalty
                                     label: "_{Speed\nPenalty}"
                                     control: speed
-                                  - field: animal-companion-barding-acp
-                                    label: "_{Barding\nCheck\nPenalty}"
+                                  - field: animal-companion-barding-bulk
+                                    label: "Bulk"
+                          - tail:
+
+                      - g:
+                        contents:
+                        
+                          - section: "_{Saving Throws}"
+                            id: saving-throws
+                            contents:
+                              - table:
+                                columns:
+                                  - 
+                                  - 
+                                  - "_{Ability\nModifier}"
+                                  - "_{Proficiency}"
+                                  - "_{Misc}"
+                                rows:
+                                  - save: fortitude
+                                    legend: "_{Fortitude}"
+                                    short: "_{FORT}"
+                                    ability: "_{CON}"
+                                    abilityref: CON
+                                  - save: reflex
+                                    legend: "_{Reflex}"
+                                    short: "_{REF}"
+                                    ability: "_{DEX}"
+                                    abilityref: DEX
+                                  - save: will
+                                    legend: "_{Will}"
+                                    short: "_{WILL}"
+                                    ability: "_{WIS}"
+                                template:
+                                  - calc:
+                                    output:
+                                      field: "animal-companion-#{save}"
+                                      legend: "#{legend}"
+                                      icon: bonus
+                                      border: full
+                                      width: large
+                                      underlay: "#{short}"
+                                    inputs:
+                                      - field:
+                                        label: "#{ability}"
+                                        underlay: "#{ability}"
+                                        ref: "#{abilityref}"
+                                      - field: "animal-companion-#{save}-proficiency"
+                                        control: proficiency
+                                        value: trained
+                                      - field: "animal-companion-#{save}-misc-bonus"
+                                        misc: true
+                                        width: small
+                              - field: animal-companion-saving-throws-conditional
+                                label: "_{Conditional}"
+                                align: left
+                                repeat: 2
+                                merge-bottom: true
+                                width: stretch
+
                           - section: "_{Inventory}"
                             contents:
                               - list:
                                 zebra: true
                                 collapse: true
-                                merge-bottom: true
                                 field_frame: none
                                 contents:
-                                  - repeat: 12
-                                    merge-bottom: true
+                                  - repeat: 6
                                     contents:
                                       - row:
                                         contents:

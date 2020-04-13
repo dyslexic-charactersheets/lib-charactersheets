@@ -26,6 +26,8 @@ export let layout = {
         case '2l':
         case '2r':
         case 'alignment':
+        case 'indent-l':
+        case 'indent-lw':
           columns = 2;
           break;
 
@@ -44,7 +46,7 @@ export let layout = {
     }
 
     if (columns > 0 && args.contents.length > columns) {
-      log("layout", `Split: ${args.contents.length} items into ${columns} columns`);
+      // log("layout", `Split: ${args.contents.length} items into ${columns} columns`);
       let items = [];
       for (let n = 0; n < args.contents.length; n += columns) {
         let chunk = args.contents.slice(n, n+columns);
@@ -53,7 +55,7 @@ export let layout = {
           contents: chunk
         });
       }
-      log("layout", "Split render", items);
+      // log("layout", "Split render", items);
       return reg.render(items, doc);
     }
     
