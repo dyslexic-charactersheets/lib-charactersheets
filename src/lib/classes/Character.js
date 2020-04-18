@@ -2,6 +2,7 @@ import { log, error } from '../log';
 import { adjustColour, interpolate } from '../util';
 import { __ } from '../i18n';
 import { ready as systemsReady, getSystem } from './System';
+import { Instance } from './Instance';
 import { Document } from './Document';
 import { LoadQueue } from './LoadQueue';
 import { Events } from './Events';
@@ -239,9 +240,12 @@ function parseFeats(feats) {
   return feats;
 }
 
-
-export class Character {
+/**
+ * Class representing a character sheet for one character.
+ */
+export class Character extends Instance {
   constructor(primary, request, registry) {
+    super();
     this.registry = registry;
     this.request = request;
     this.data = parseCharacter(primary, request);
@@ -275,173 +279,180 @@ export class Character {
     }
   }
 
-  render(callback) {
-    //const self = this;
-    // log("Character", "Render character");
-    // log("Character", `Name: ${this.data.name}, game: ${this.data.game}`);
-    // log("Character", `Units: ${this.data.units}`);
+  /**
+   * Turn this request into a real character sheet.
+   * @returns {Promise} Promise representing the resulting character sheet.
+   */
+  render() {
+    const self = this;
+    const data = this.data;
+    return new Promise((resolve, reject) => {
+      // log("Character", "Render character");
+      // log("Character", `Name: ${this.data.name}, game: ${this.data.game}`);
+      // log("Character", `Units: ${this.data.units}`);
 
-    systemsReady(() => {
-      try {
-        const system = getSystem(this.data.game);
-        if (system === null) {
-          error("Character", "System not found:", this.data.game);
-          return;
-        }
+      systemsReady(() => {
+        try {
+          const system = getSystem(data.game);
+          if (system === null) {
+            error("Character", "System not found:", data.game);
+            return;
+          }
 
-        // start with a document
-        const documentUnit = system.getUnit("document");
-        const document = new Document(documentUnit);
+          // start with a document
+          const documentUnit = system.getUnit("document");
+          const document = new Document(documentUnit);
 
-        // language
-        document.language = this.data.language;
-        document.setVar('description', this.data.description);
+          // language
+          document.language = data.language;
+          document.setVar('description', data.description);
 
-        if (this.data.printLarge) {
-          document.largePrint = true;
-        }
-        if (this.data.printHighContrast) {
-          document.highContrast = true;
-        }
+          if (data.printLarge) {
+            document.largePrint = true;
+          }
+          if (data.printHighContrast) {
+            document.highContrast = true;
+          }
 
-        // Load assets
-        if (this.data.favicon) {
-          this.getAsset(this.data.favicon, dataURL => {
-            document.faviconURL = dataURL;
-          });
-        }
-
-        if (this.data.printLogo) {
-          this.getAsset(this.data.printLogo, dataURL => {
-            document.logoURL = dataURL;
-          });
-        }
-
-        if (this.data.printPortrait) {
-          this.getAsset(this.data.printPortrait, dataURL => {
-            document.portraitURL = dataURL;
-          });
-        }
-
-        if (this.data.animalPortrait) {
-          this.getAsset(this.data.animalPortrait, dataURL => {
-            document.animalURL = dataURL;
-          });
-        }
-
-        if (this.data.printBackground) {
-          const printBackground = this.data.printBackground;
-          // log("Character", "Background:", printBackground);
-          const bgColours = {
-            magnolia: '#F4E9D8',
-          };
-          if (has(bgColours, printBackground)) {
-            document.backgroundColour = bgColours[printBackground];
-          } else if (printBackground.match(/(#[A-Za-z0-9]{6}|rgb\([0-9]+,[0-9]+,[0-9]+\))/)) {
-            document.backgroundColour = printBackground;
-          } else {
-            this.getAsset(printBackground, dataURL => {
-              document.backgroundURL = dataURL;
+          // Load assets
+          if (data.favicon) {
+            self.getAsset(data.favicon, dataURL => {
+              document.faviconURL = dataURL;
             });
           }
-        }
 
-        // TODO set character parameters
-        document.printColour = this.data.printColour;
-        document.printIntensity = this.data.printIntensity;
-        document.accentColour = this.data.accentColour;
-        document.watermark = this.data.printWatermark;
-
-        // get known vars from the data
-        knownVars.forEach(varname => {
-          if (has(this.data, varname)) {
-            const key = toKebabCase(varname);
-            const value = this.data[varname];
-            // log("Character", `Var: ${key} = ${JSON.stringify(value)}`);
-            document.setVar(key, value, "high");
+          if (data.printLogo) {
+            self.getAsset(data.printLogo, dataURL => {
+              document.logoURL = dataURL;
+            });
           }
-        });
 
-        // load units
-        let units = system.getUnits(this.data.units);
-        units = system.inferUnits(units);
-        log("Character", "Units:", units.map(unit => unit.id).sort());
+          if (data.printPortrait) {
+            self.getAsset(data.printPortrait, dataURL => {
+              document.portraitURL = dataURL;
+            });
+          }
 
-        // infer the title from the units
-        let title = __("Character");
-        switch (system.code) {
-          case 'pathfinder2':
-            title = this.pathfinder2Title(units, document);
-            break;
-        }
-        document.title = title;
+          if (data.animalPortrait) {
+            self.getAsset(self.data.animalPortrait, dataURL => {
+              document.animalURL = dataURL;
+            });
+          }
 
-        // make the element tree
-        units.forEach(unit => document.addUnit(unit));
-        document.composeDocument(this.registry);
+          if (data.printBackground) {
+            const printBackground = data.printBackground;
+            // log("Character", "Background:", printBackground);
+            const bgColours = {
+              magnolia: '#F4E9D8',
+            };
+            if (has(bgColours, printBackground)) {
+              document.backgroundColour = bgColours[printBackground];
+            } else if (printBackground.match(/(#[A-Za-z0-9]{6}|rgb\([0-9]+,[0-9]+,[0-9]+\))/)) {
+              document.backgroundColour = printBackground;
+            } else {
+              self.getAsset(printBackground, dataURL => {
+                document.backgroundURL = dataURL;
+              });
+            }
+          }
 
-        this.loadQueue.ready(() => {
-          Events.createElementTreeEvt.call(document.doc, document.title, this.request);
+          // TODO set character parameters
+          document.printColour = data.printColour;
+          document.printIntensity = data.printIntensity;
+          document.accentColour = data.accentColour;
+          document.watermark = data.printWatermark;
 
-          // render the document
-          const data = document.renderDocument(this.registry);
-
-          callback({
-            data: data,
-            filename: title + ".html",
-            mimeType: "text/html"
+          // get known vars from the data
+          knownVars.forEach(varname => {
+            if (has(data, varname)) {
+              const key = toKebabCase(varname);
+              const value = data[varname];
+              // log("Character", `Var: ${key} = ${JSON.stringify(value)}`);
+              document.setVar(key, value, "high");
+            }
           });
-        });
-      } catch (err) {
-        error("Character", "Error:", err);
-        callback({
-          error: err
-        });
-      }
+
+          // load units
+          let units = system.getUnits(data.units);
+          units = system.inferUnits(units);
+          log("Character", "Units:", units.map(unit => unit.id).sort());
+
+          // infer the title from the units
+          let title = __("Character");
+          switch (system.code) {
+            case 'pathfinder2':
+              title = pathfinder2Title(units, document, data);
+              break;
+          }
+          document.title = title;
+
+          // make the element tree
+          units.forEach(unit => document.addUnit(unit));
+          document.composeDocument(self.registry);
+
+          self.loadQueue.ready(() => {
+            Events.createElementTreeEvt.call(document.doc, document.title, self.request);
+
+            // render the document
+            const data = document.renderDocument(self.registry);
+
+            resolve({
+              data: data,
+              filename: title + ".html",
+              mimeType: "text/html"
+            });
+          });
+        } catch (err) {
+          error("Character", "Error:", err);
+          reject({
+            error: err
+          });
+        }
+      });
     });
   }
+}
 
-  pathfinder2Title(units, doc) {
-    let parts = {
-      name: this.data.name,
-      ancestry: '',
-      class: '',
-      archetypes: '',
-    };
+function pathfinder2Title(units, doc, data) {
+  let parts = {
+    name: data.name,
+    ancestry: '',
+    class: '',
+    archetypes: '',
+  };
 
-    function getUnits(group) {
-      return units.filter(unit => unit.in == group);
-    }
-
-    let ancestry = getUnits("ancestry");
-    if (!isEmpty(ancestry)) {
-      ancestry = ancestry[0];
-      parts["ancestry"] = __(ancestry.name, doc);
-      let heritage = getUnits("heritage/");
-      if (!isEmpty(heritage)) {
-        heritage = heritage[0];
-        parts["ancestry"] = __(heritage.name, doc);
-      }
-    }
-
-    let cls = getUnits("class");
-    if (!isEmpty(cls)) {
-      cls = cls[0];
-      parts["class"] = __(cls.name, doc);
-    }
-
-    let archetypes = getUnits("archetype");
-    if (!isEmpty(archetypes)) {
-      parts["archetypes"] = archetypes.map(arch => __(arch.name, doc)).join(" ");
-    }
-
-    let template = isEmpty(parts.name) ? "_{#{ancestry} #{class} #{archetypes}}" : "_{#{name}, #{ancestry} #{class} #{archetypes}}";
-    let title = interpolate(__(template, doc), parts);
-    title = title.replace(/  +/g, ' ');
-    title = title.replace(/^ +/, '');
-    title = title.replace(/ +$/, '');
-    if (title == "")
-      title = "Character";
-    return title;
+  function getUnits(group) {
+    return units.filter(unit => unit.in == group);
   }
+
+  let ancestry = getUnits("ancestry");
+  if (!isEmpty(ancestry)) {
+    ancestry = ancestry[0];
+    parts["ancestry"] = __(ancestry.name, doc);
+    let heritage = getUnits("heritage/");
+    if (!isEmpty(heritage)) {
+      heritage = heritage[0];
+      parts["ancestry"] = __(heritage.name, doc);
+    }
+  }
+
+  let cls = getUnits("class");
+  if (!isEmpty(cls)) {
+    cls = cls[0];
+    parts["class"] = __(cls.name, doc);
+  }
+
+  let archetypes = getUnits("archetype");
+  if (!isEmpty(archetypes)) {
+    parts["archetypes"] = archetypes.map(arch => __(arch.name, doc)).join(" ");
+  }
+
+  let template = isEmpty(parts.name) ? "_{#{ancestry} #{class} #{archetypes}}" : "_{#{name}, #{ancestry} #{class} #{archetypes}}";
+  let title = interpolate(__(template, doc), parts);
+  title = title.replace(/  +/g, ' ');
+  title = title.replace(/^ +/, '');
+  title = title.replace(/ +$/, '');
+  if (title == "")
+    title = "Character";
+  return title;
 }

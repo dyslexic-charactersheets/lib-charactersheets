@@ -1,5 +1,6 @@
 
 import { log } from '../log';
+import { Instance } from './Instance';
 import { Character } from './Character';
 
 function parseParty(primary, request) {
@@ -12,8 +13,12 @@ function parseParty(primary, request) {
   return attr;
 }
 
-export class Party {
+/**
+ * Class representing character sheets for a whole party.
+ */
+export class Party extends Instance {
   constructor(primary, request, registry) {
+    super();
     this.registry = registry;
     this.data = parseParty(primary, request);
 
@@ -29,29 +34,29 @@ export class Party {
     // log("Party", "Members:", this.members);
   }
 
-  render(callback) {
-    log("Party", "Render");
-    let files = [];
-    let promises = [];
+  /**
+   * Turn this party request into an array of character sheets.
+   * @returns {Promise} Promise representing the resulting character sheets.
+   */
+  render() {
+    return new Promise((resolve, reject) => {
+      log("Party", "Render");
+      let files = [];
+      let promises = [];
 
-    this.members.forEach(member => {
-      let promise = new Promise((resolve, reject) => {
-        member.render(response => {
-          if (response.err) {
-            reject(response.err);
-          } else {
-            files.push(response);
-            resolve();
-          }
+      // collect the character sheets
+      this.members.forEach(member => {
+        let promise = member.render().then(response => {
+          files.push(response);
         });
+        promises.push(promise);
       });
-      promises.push(promise);
-    });
 
-    Promise.all(promises).then(() => {
-      log("Party", `Rendered ${files.length} members`);
-
-      callback(files);
+      // 
+      Promise.all(promises).then(() => {
+        log("Party", `Rendered ${files.length} members`);
+        resolve(files);
+      });
     });
   }
 }

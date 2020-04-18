@@ -25,16 +25,29 @@ const registry = new Registry();
 /**
  * Create a character sheet object.
  * @param {Object} chardesc - A character description object.
- * @returns A character, party or GM object.
+ * @returns {Promise} A promise A character, party or GM object.
  */
 export function create(chardesc) {
-  if (isNull(chardesc)) {
-    warn("lib", "Null data");
-    return null;
-  }
-  const request = new Request(chardesc);
-  const primary = request.getPrimaries(registry);
-  return primary[0];
+  return new Promise((resolve, reject) => {
+    try {
+      if (isNull(chardesc)) {
+        warn("lib", "Null data");
+        return null;
+      }
+      const request = new Request(chardesc);
+      const primaries = request.getPrimaries(registry);
+      const promises = primaries.map(p => p.render());
+
+      Promise.all(promises).then(() => {
+        promises[0].then(result => {
+          resolve(result);
+        });
+      });
+    } catch (err) {
+      error("lib", "Error", err);
+      reject(err);
+    }
+  })
 }
 
 /**
@@ -96,15 +109,9 @@ export function onError(callback) {
 }
 
 /**
- * This callback is 
- * @callback formdataCallback
- * @param {Object} data - Form data, containing selects and options
- */
-
-/**
  * Get a description of all the available options. Used for building a form.
  * @function getFormData
  * @param {string} system - The ID of the game system, eg "pathfinder2".
- * @param {formdataCallback} callback - The callback that will be given the form data
+ * @returns {Promise} Promise object representing the form data.
  */
 export const getFormData = getFormDataF;

@@ -55,10 +55,8 @@ let request = {
 };
 
 const CharacterSheets = require('dyslexic-charactersheets');
-let characterSheet = CharacterSheets.create(request);
-
-characterSheet.render().then(html => {
-  fs.writeFile('file.html', data, err => {});
+CharacterSheets.create(request).then(characterSheet => {
+  fs.writeFile(characterSheet.filename, characterSheet.data, (err) => {});
 });
 ```
 
@@ -75,31 +73,24 @@ Full documentation can be found here:
 
 ### create(...)
 
-Calling the constructor creates an instance of CharacterSheet.
+Creates a character sheet.
+
+This function returns a Promise representing the data. The result is either an array of objects or a single object, each containing:
+
+- `data` - the result, generally as HTML
+- `filename` - the preferred name of the file
+- `mimeType` - the MIME type of the result, typically `text/html`
 
 ```javascript
 const CharacterSheets = require('dyslexic-charactersheets');
-let characterSheet = CharacterSheets.create(request);
+CharacterSheets.create(request).then(function (characterSheet) {
+  ...
+});
 ```
 
 * `create()`
    * `request` \<Object\> - The request object (see below).
-   * Returns: \<CharacterSheet\>, a character sheet object.
-
-### render(...)
-
-The `render` method produces a file for the request. It takes a callback which gives you either data to save, or an error.
-
-```javascript
-characterSheet.render((data, err) => {
-  // ... your code ...
-});
-```
-
-* `CharacterSheet.render(callback)`
-  * `callback` \<Function\>
-    * `data` \<String\> - The rendered data (in HTML)
-    * `err` \<Error\> - Optional error object
+   * returns \<Promise\>, a promise representing the rendered character sheet.
 
 ## Global functions
 
@@ -135,14 +126,14 @@ CharacterSheets.addTranslator(function (message, language, meta) {
 Load the data needed to render a selection form with all the options. Takes a callback that will process the data.
 
 ```javascript
-CharacterSheets.getFormData(system, function (data) {
+CharacterSheets.getFormData(system).then(function (data) {
   // ...
 });
 ```
 
 * `getFormData(system, callback)`
   * `system` \<String\> - for example, `pathfinder2`
-  * `callback` \<Function\>
+  * returns \<Promise\>
     * `data` \<Object\> - The form data
 
 The form data is in the format:

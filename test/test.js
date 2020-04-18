@@ -69,12 +69,13 @@ fs.readdir(indir, 'utf-8', (err, files) => {
       let data = JSON.parse(fileData);
       
       translationsPromise.then(() => {
-        var characterSheet = CharacterSheets.create(data);
-        if (characterSheet === null) {
-          warn("test", "Skipping character");
-          return;
-        }
-        characterSheet.render(saveResult);
+        CharacterSheets.create(data).then(characterSheet => {
+          if (characterSheet === null) {
+            warn("test", "Skipping character");
+            return;
+          }
+          saveResult(characterSheet);
+        })
       });
     });
   });
