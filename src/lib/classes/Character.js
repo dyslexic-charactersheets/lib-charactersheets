@@ -87,6 +87,8 @@ function parseCharacter(primary, request) {
     animalPortrait: attr.animalPortrait,
     printBackground: attr.printBackground,
     printWatermark: attr.printWatermark,
+
+    debug: primary.debug,
     instances: {},
   };
 
@@ -214,6 +216,10 @@ function parseCharacter(primary, request) {
 
       if (attr.skillFeats) {
         char.skillFeats = parseFeats(attr.skillFeats);
+      }
+
+      if (char.debug) {
+        char.units.push('option/debug');
       }
 
       break;
