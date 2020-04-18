@@ -186,51 +186,74 @@ The form data is in the format:
 
 ## Events
 
-### onCreate(...)
+### on('request')
 
-A hook that is called when a character is created, before any other actions.
+An event emitted when a character is created, before any other actions.
 
 ```javascript
-CharacterSheets.onCreate(request => {
+CharacterSheets.on('request', (request => {
   // ...
 });
 ```
 
-* `onCreate(callback)`
+* `on`
+  * `'request'`
   * `callback` \<Function\>
     * `request` \<Object\> - The requested character.
 
 Note that you may not modify the request during the callback.
 
-### onCreateElementTree(...)
+### on('createElementTree')
 
-A hook that is called after the element tree has been processed, but before it's rendered into HTML. Used for debugging the resulting element tree.
+An event emitted after the element tree has been processed, but before it's rendered into HTML. Used for debugging the resulting element tree.
 
 ```javascript
-CharacterSheets.onCreateElementTree((elements, title, request) => {
+CharacterSheets.on('createElementTree', ({elementTree, title, request}) => {
   // ...
 });
 ```
 
-* `onCreateElementTree(callback)`
+* `on`
+  * `'createElementTree'`
   * `callback` \<Function\>
-    * `elements` \<Object\> - The element tree
-    * `title` \<String\> - The character or party's name
-    * `request` \<Object\> - The requested character
+    * `params` \<Object\>
+      * `elementTree` \<Object\> - The element tree
+      * `title` \<String\> - The character or party's name
+      * `request` \<Object\> - The requested character
 
 Note that you may not modify the element tree during the callback.
 
-### onError(...)
+### on('render')
+
+An event emitted after a character sheet has been rendered into HTML.
+
+```javascript
+CharacterSheets.on('render', ({data, title, mimeType, request}) => {
+  // ...
+});
+```
+
+* `on`
+  * `'render'`
+  * `callback` \<Function\>
+    * `params` \<Object\>
+      * `data` \<String\> - The rendered output
+      * `title` \<String\> - The character or party's name
+      * `mimeType` \<String\> - The MIME type of the result
+      * `request` \<Object\> - The requested character
+
+### on('error')
 
 A hook that is called when an error occurs.
 
 ```javascript
-CharacterSheets.onError((err, request) => {
+CharacterSheets.on('error', (err, request) => {
   // ...
 });
 ```
 
-* `onError(callback)`
+* `on`
+  * `'error'`
   * `callback` \<Function\>
     * `err` \<Error\> - Error object
     * `request` \<Object\> - The requested character

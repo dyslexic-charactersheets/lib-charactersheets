@@ -3,7 +3,7 @@ import { log } from '../log';
 import { Character } from './Character';
 import { Party } from './Party';
 import { Build } from './Build';
-import { Events } from './Events';
+import { events } from './Events';
 import { has, isArray } from '../util';
 
 function randomID() {
@@ -15,7 +15,9 @@ export class Request {
     this.instances = {};
     this.primary = [];
 
-    Events.createEvt.call(chardesc);
+    events.emit('request', {
+      request: chardesc
+    });
     this.parse(chardesc);
   }
 

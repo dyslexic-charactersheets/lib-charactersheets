@@ -3,7 +3,7 @@ var fs = require('fs');
 var CharacterSheets = require('../lib/lib-charactersheets.js');
 require('../src/make/log.js');
 
-CharacterSheets.onError(err => {
+CharacterSheets.events.on('error', err => {
   error("test", "onError", err);
 });
 

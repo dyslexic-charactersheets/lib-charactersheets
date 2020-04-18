@@ -1,3 +1,8 @@
+const EventEmitter = require('events');
+
+export const events = new EventEmitter();
+
+/*
 class EventQueue {
   constructor() {
     this.callbacks = [];
@@ -33,3 +38,4 @@ export class Events {
     return errorEvt;
   }
 }
+*/

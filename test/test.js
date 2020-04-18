@@ -8,7 +8,7 @@ CharacterSheets.addAssetsDir(assetsDir);
 let translationsPromise = CharacterSheets.loadDefaultTranslations();
 
 // listen to events for debugging
-CharacterSheets.onCreateElementTree((elementTree, title, request) => {
+CharacterSheets.on('createElementTree', ({elementTree, title, request}) => {
   let filename = __dirname + '/out/'+title+'.json';
   fs.writeFile(filename, JSON.stringify(elementTree, null, 2), (err) => {
     if (err)
@@ -16,11 +16,7 @@ CharacterSheets.onCreateElementTree((elementTree, title, request) => {
   });
 });
 
-CharacterSheets.onCreate((request) => {
-  // log("test", "onCreate");
-})
-
-CharacterSheets.onError(err => {
+CharacterSheets.on('error', err => {
   error("test", "onError", err);
 });
 

@@ -3,14 +3,14 @@
  * @module dyslexic-charactersheets
  */
 
- import { Registry } from './classes/Registry';
+import { Registry } from './classes/Registry';
 import { Request } from './classes/Request';
 import { loadSystemData } from './classes/System';
-import { Events } from './classes/Events';
-import { addAssetsDir as addAssetsDirF } from './data';
-import { getFormData as getFormDataF } from './formdata';
-import { addTranslator as addTranslatorF, addTranslationData as addTranslationDataF, loadTranslations as loadTranslationsF, loadDefaultTranslations as loadDefaultTranslationsF } from './i18n';
-import { isNull } from 'util';
+import { events } from './classes/Events';
+import { addAssetsDir } from './data';
+import { getFormData } from './formdata';
+import { addTranslator, addTranslationData, loadTranslations, loadDefaultTranslations } from './i18n';
+import { isNull } from './util';
 
 
 // start this first, it's the slow bit
@@ -23,9 +23,60 @@ loadSystemData([
 const registry = new Registry();
 
 /**
+ * Register for events emitted by the character sheet builder. Known events include 'request', 'createElementsTree', 'render' and 'error'.
+ * 
+ * @param {string} evt - The event code
+ * @param  {...any} params - A list of parameters
+ */
+export function on(evt, ...params) {
+  events.on(evt, ...params);
+}
+
+/**
+ * Event emitted when a client has requested a character sheet.
+ * 
+ * @error CharacterSheets#request
+ * @type {object}
+ * @property {Object} request - The request object.
+ */
+
+/**
+ * Event emitted when a character sheet request has been compiled into an element tree.
+ * 
+ * @error CharacterSheets#createElementTree
+ * @type {object}
+ * @property {Object} elementTree - The compiled element tree.
+ * @property {string} title - The title of the character sheet.
+ * @property {Object} request - The request object.
+ */
+
+/**
+ * Event emitted when a character sheet request has been rendered into an HTML document.
+ * 
+ * @error CharacterSheets#render
+ * @type {object}
+ * @property {string} data - The rendered document.
+ * @property {string} title - The title of the character sheet.
+ * @property {string} mimeType - the MIME type of the character sheet.
+ * @property {Object} request - The request object.
+ */
+
+/**
+ * Event emitted when an error occurs while creating a character sheet.
+ * 
+ * @error CharacterSheets#error
+ * @type {Error}
+ */
+
+/**
  * Create a character sheet object.
+ * 
  * @param {Object} chardesc - A character description object.
- * @returns {Promise} A promise A character, party or GM object.
+ * @returns {Promise} A promise representing a character, party or GM object.
+ * @fires CharacterSheets#request
+ * @fires CharacterSheets#createElementTree
+ * @fires CharacterSheets#render
+ * @fires CharacterSheets#error
  */
 export function create(chardesc) {
   return new Promise((resolve, reject) => {
@@ -53,16 +104,16 @@ export function create(chardesc) {
 /**
  * Add a directory where assets (images, fonts etc) may be found.
  * @function addAssetsDir
- * @param {string} dir 
+ * @param {string} dir - A directory containing asset files
  */
-export const addAssetsDir = addAssetsDirF;
+export { addAssetsDir };
 
 /**
  * Add a dynamic translator function
  * @function addTranslator
- * @param {translatorCallback} callback
+ * @param {translatorCallback} callback - A function that can contribute translations
  */
-export const addTranslator = addTranslatorF;
+export { addTranslator };
 
 /**
  * @callback translatorCallback
@@ -78,7 +129,7 @@ export const addTranslator = addTranslatorF;
  * @param {string} data - PO-formatted translation data file
  * @returns {number} The number of translations extracted from the data.
  */
-export const addTranslationData = addTranslationDataF;
+export { addTranslationData };
 
 /**
  * Load translations, either one the library's built-in translations or a PO-formatted file.
@@ -87,26 +138,14 @@ export const addTranslationData = addTranslationDataF;
  * @param {string} [filename=] - Optional filename for the PO file.
  * @returns {Promise} Promise for when the file has been loaded.
  */
-export const loadTranslations = loadTranslationsF;
+export { loadTranslations };
 
 /**
  * Load all the built-in translations.
  * @function loadDefaultTranslations
  * @returns {Promise} Promise for when all the default translations have been loaded.
  */
-export const loadDefaultTranslations = loadDefaultTranslationsF;
-
-export function onCreate(callback) {
-  Events.createEvt.on(callback);
-}
-
-export function onCreateElementTree(callback) {
-  Events.createElementTreeEvt.on(callback);
-}
-
-export function onError(callback) {
-  Events.errorEvt.on(callback);
-}
+export { loadDefaultTranslations };
 
 /**
  * Get a description of all the available options. Used for building a form.
@@ -114,4 +153,4 @@ export function onError(callback) {
  * @param {string} system - The ID of the game system, eg "pathfinder2".
  * @returns {Promise} Promise object representing the form data.
  */
-export const getFormData = getFormDataF;
+export { getFormData };

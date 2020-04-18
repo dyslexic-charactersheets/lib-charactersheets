@@ -3,7 +3,6 @@ import { adjustColour } from '../util';
 import { ready as systemsReady, getSystem } from './System';
 import { Document } from './Document';
 import { LoadQueue } from './LoadQueue';
-import { Events } from './Events';
 
 
 export class Build {

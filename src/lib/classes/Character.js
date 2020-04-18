@@ -5,7 +5,7 @@ import { ready as systemsReady, getSystem } from './System';
 import { Instance } from './Instance';
 import { Document } from './Document';
 import { LoadQueue } from './LoadQueue';
-import { Events } from './Events';
+import { events } from './Events';
 
 // import { applyContext } from '../context';
 import { locateAsset, toDataURL, inferMimeType } from '../data';
@@ -391,10 +391,21 @@ export class Character extends Instance {
           document.composeDocument(self.registry);
 
           self.loadQueue.ready(() => {
-            Events.createElementTreeEvt.call(document.doc, document.title, self.request);
+            events.emit('createElementTree', {
+              elementTree: document.doc,
+              title: document.title,
+              request: self.request
+            });
 
             // render the document
             const data = document.renderDocument(self.registry);
+
+            events.emit('render', {
+              data: data,
+              title: document.title,
+              mimeType: "text/html",
+              request: self.request
+            });
 
             resolve({
               data: data,
