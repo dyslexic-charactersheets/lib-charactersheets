@@ -31,13 +31,9 @@ inc:
     add:
       - section: "_{Familiar}"
         contents:
-          - list:
-            hr: true
-            contents:
-              - g:
-                contents:
-                  - paste: animal
-                    params:
+          - paste: animal
+            params:
+              merge-bottom: true
 
   - at: '@familiar/abilities'
     replace:
@@ -81,3 +77,26 @@ inc:
             merge-bottom: true
             repeat: 4
             reduce: 2
+
+
+  - at: '@wizard/drain-bonded-item'
+    replace:
+      - action: free
+        contents:
+          - article:
+            title: "_{Drain Familiar}"
+            contents:
+              - layout: indent-r
+                contents:
+                  - p: "_{Expend the power stored in your arcane bond to cast one spell you prepared and cast today, without spending a spell slot.}"
+                  - field: wizard-drain-bonded-item-today
+                    control: checkbox
+                    label: "_{Used\ntoday}"
+
+  - at: '@wizard/action-drain-bonded-item'
+    replace:
+      - action: free
+        contents:
+          - article:
+            title: "_{Drain Familiar}"
+            content: "_{Cast one spell you prepared and cast today, without spending a spell slot.}"
