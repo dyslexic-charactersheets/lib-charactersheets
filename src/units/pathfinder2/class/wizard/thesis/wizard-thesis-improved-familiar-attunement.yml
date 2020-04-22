@@ -4,7 +4,7 @@ group: "_{Core Rulebook}"
 name: "_{Improved Familiar Attunement}"
 
 require:
-  - unit: option/animal-companion
+  - unit: option/familiar
 
 inc:
   - at: '@advancement'
@@ -38,31 +38,46 @@ inc:
                 contents:
                   - paste: animal
                     params:
-                      id: wizard-familiar
-                      name: "_{Familiar}"
-                      
-                  - level: 1
-                    contents:
-                      - field: wizard-familiar-level1-ability
-                        label: "_{Familiar Ability}"
-                        width: stretch
-                        merge-bottom: true
 
-              - level: 6
-                contents:
-                  - field: wizard-familiar-level6-ability
-                    label: "_{Familiar Ability}"
-                    width: stretch
-                    merge-bottom: true
-              - level: 12
-                contents:
-                  - field: wizard-familiar-level12-ability
-                    label: "_{Familiar Ability}"
-                    width: stretch
-                    merge-bottom: true
-              - level: 18
-                contents:
-                  - field: wizard-familiar-level18-ability
-                    label: "_{Familiar Ability}"
-                    width: stretch
-                    merge-bottom: true
+  - at: '@familiar/abilities'
+    replace:
+      - level: 1
+        contents:
+          - article:
+            lines: 3
+            reduce: 1
+      - level: 6
+        contents:
+          - article:
+            lines: 3
+            reduce: 1
+      - level: 12
+        contents:
+          - article:
+            lines: 3
+            reduce: 1
+      - level: 18
+        contents:
+          - article:
+            lines: 3
+            reduce: 1
+      - g:
+        contents:
+          - h5: "_{Familiar Abilities}"
+          - field: familiar-abilities
+            width: stretch
+            frame: none
+            align: left
+            merge-bottom: true
+            repeat: 4
+            reduce: 2
+      - g:
+        contents:
+          - h5: "_{Master Abilities}"
+          - field: familiar-master-abilities
+            width: stretch
+            frame: none
+            align: left
+            merge-bottom: true
+            repeat: 4
+            reduce: 2
