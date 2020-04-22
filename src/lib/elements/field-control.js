@@ -248,7 +248,7 @@ export let field_control_checkbox = {
   render(args) {
     const ident = fieldIdent(args.id);
     const cls = elementClass("field", "control", args, [], ["control"]);
-    
+
     if (args.value == "false") {
       args.value = false;
     }
@@ -472,6 +472,7 @@ export let field_control_money = {
 export let field_control_compound = {
   name: 'control:compound',
   defaults: {
+    multibox: false,
     parts: [],
   },
   render: renderCompoundControl

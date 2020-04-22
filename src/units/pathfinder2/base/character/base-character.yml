@@ -319,7 +319,7 @@ inc:
                           - "_{Armour\nCheck\nPenalty}"
                         rows:
                           - slots:
-                            min: 21
+                            min: 20
                             reduce: 2
                             contents:
                               - sort: name
@@ -453,28 +453,29 @@ inc:
                             prefix: "&ndash;"
 
                       - hr:
+                      - h5: "_{Skill Actions}"
                       - list:
                         merge-bottom: true
                         contents:
-                          - repeat: 5
+                          - slots:
+                            min: 6
+                            max: 6
+                            reduce: 2
                             contents:
-                              - row:
-                                contents:
-                                  - field: "skill-note-#{i}-value"
-                                    control: icon
-                                    icon: proficiency
-                                    frame: none
-                                  - field: "skill-note-#{i}-name"
-                                    frame: none
-                                    width: stretch
-                                  - field: "skill-note-#{i}-action"
-                                    control: icon
-                                    frame: none
-                                    icon: action-template
-                                    width: large
-                                  - field: "skill-note-#{i}-notes"
-                                    frame: none
-                                    width: stretch
+                              - if: '#{skill-actions}'
+                                then:
+                                  - zone: '@skill-actions'
+                            placeholder:
+                              action: template
+                              contents:
+                                - row:
+                                  contents:
+                                    - field: "skill-note-#{i}-name"
+                                      frame: none
+                                      width: stretch
+                                    - field: "skill-note-#{i}-notes"
+                                      frame: none
+                                      width: stretch
 
                   - section: "_{Perception}"
                     flex: small
@@ -554,7 +555,8 @@ inc:
                             contents:
                               - action: 1
                                 contents:
-                                  - p: "_{Stride}"
+                                  - p:
+                                    title: "_{Stride}"
                               - field: speed
                                 legend: "_{Speed}"
                                 control: speed
@@ -866,51 +868,65 @@ inc:
                             mark: shield
                             contents:
                               - hr:
-                              - field: shield
-                                legend: "_{Shield}"
-                                size: large
-                                width: stretch
-                                flex: none
-                                icon: shield
-                              - layout: indent-l
+                              - list:
+                                hr: true
+                                light: true
                                 contents:
                                   - g:
-                                  - row:
                                     contents:
-                                      - action:
+                                      - field: shield
+                                        legend: "_{Shield}"
+                                        size: large
+                                        width: stretch
+                                        flex: none
+                                        icon: shield
+                                      - row:
                                         contents:
-                                          - p: "_{Raise shield}"
-                                      - field: shield-ac
-                                        label: "_{Shield Bonus}"
-                                        # icon: shield
-                                        border: full
-                                        underlay: "_{AC}"
-                                        prefix: "+"
-                                        width: large
-                              - selectable: 'raise-shield'
-                                contents:
-                                  - row:
-                                    contents:
-                                      - action: reaction
-                                        contents:
-                                          - row:
+                                          - action:
                                             contents:
-                                              - p: "_{Shield block}"
-                                      - field: shield-hardness
-                                        label: "_{Hardness}"
-                                        border: full
-                                        suffix: "_{hp}"
-                                        width: large
-                                        blk: true
-                                      - field: shield-hp
-                                        label: "_{Shield Health}"
-                                        border: full
-                                        temp: true
-                                        suffix: "_{hp}"
-                                        width: large
-                                        blk: true
-                              - p: "_{Deduct hardness, then apply remaining damage to both shield and yourself.}"
-                                optional: true
+                                              - p:
+                                                title: "_{Raise shield}"
+                                          - spacer:
+                                          - field: shield-ac
+                                            frame: none
+                                            icon: shield
+                                            border: full
+                                            underlay: "_{AC}"
+                                            prefix: "+"
+                                            width: large
+                                  - g:
+                                    contents:
+                                      - selectable: 'shield-block'
+                                        contents:
+                                          - action: reaction
+                                            contents:
+                                              - p:
+                                                title: "_{Shield Block}"
+                                                content: "_{Deduct hardness, then apply remaining damage to both shield and yourself.}"
+                                      - row:
+                                        contents:
+                                          - spacer:
+                                          - field: shield-hardness
+                                            label: "_{Hardness}"
+                                            border: full
+                                            blk: true
+                                            width: large
+                                          - field: shield-hp
+                                            label: "_{Shield Hit Points}"
+                                            control: compound
+                                            border: multi
+                                            blk: true
+                                            width: huge
+                                            parts:
+                                              - field: shield-hp-total
+                                                ruby: "_{Total}"
+                                                border: full
+                                                suffix: "_{hp}"
+                                              - field: shield-hp-current
+                                                ruby: "_{Current}"
+                                                border: full
+                                                temp: true
+                                                suffix: "_{hp}"
 
                   - tail:
 

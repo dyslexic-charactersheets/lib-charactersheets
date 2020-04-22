@@ -139,16 +139,35 @@ export function fieldInner(args, reg, doc, decoration) {
       const control = reg.renderItem(controlArgs, doc);
       if (i == args.repeat - 1 && merge_bottom && boxargs['border'] == 'bottom')
         boxargs['border'] = 'none';
-      const boxcls = elementClass('field', 'box', boxargs, ["icon"], { "border": "bottom" });
+
+      const boxcls = elementClass('field', 'box', boxargs, ["icon", "temp"], { "border": "bottom" });
       const box = `<div${boxcls}>${icon}${control}${unit}</div>`;
       boxes.push(box);
     }
     inner = boxes.join("");
+  } else if (args.border == 'multi') {
+    let boxes = [];
+    const values = isArray(args.value) ? args.value : [args.value];
+    
+    for (let i = 0; i < args.parts.length; i++) {
+      const value = i >= values.length ? null : values[i];
+      const partArgs = {...args, label: '', control: 'input', border: 'full', width: 'medium', ...args.parts[i], value};
+      partArgs = {...partArgs, type: 'control:' + partArgs.control};
+      const control = reg.renderItem(partArgs, doc);
+      
+      const boxcls = elementClass('field', 'box', partArgs, ["temp"], { "border": "bottom" });
+      const partUnit = (has(partArgs, "unit") && !!args.unit) ? `<label class='field__unit'>${__(args.unit, doc)}</label>` : '';
+      
+      const ruby = partArgs.ruby ? `<label class='field__ruby-text'>${_e(partArgs.ruby, doc)}</label>` : '';
+      const box = `<div class='field__boxes__inner'><div${boxcls}>${i == 0 ? icon : ''}${control}${partUnit}</div>${ruby}</div>`;
+      boxes.push(box);
+    }
+    inner = `<div class='field__boxes'>${boxes.join("")}</div>`;
   } else {
     const control = reg.renderItem(args, doc);
     if (merge_bottom && boxargs['border'] == 'bottom')
       boxargs['border'] = 'none';
-    const boxcls = elementClass('field', 'box', boxargs, ["icon"], { "border": "bottom" });
+    const boxcls = elementClass('field', 'box', boxargs, ["icon", "temp"], { "border": "bottom" });
     inner = `<div${boxcls}>${icon}${control}${unit}</div>`;
   }
   return inner;

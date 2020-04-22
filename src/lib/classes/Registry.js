@@ -12,6 +12,7 @@ import { article } from '../elements/article';
 import { blockquote } from '../elements/blockquote';
 import { calc } from '../elements/calc';
 import { class_icon } from '../elements/class-icon';
+import { ifelem } from '../elements/control';
 // import { document } from '../elements/document';
 import { dl } from '../elements/dl';
 import { each } from '../elements/each';
@@ -100,6 +101,7 @@ export class Registry {
       h1, h2, h3, h4, h5, h6,
       hr, tail, vr,
       icon,
+      ifelem,
       label,
       layout, place, indent,
       level, level_marker,

@@ -15,6 +15,7 @@ const knownVars = [
   "inventoryStyle",
   "language",
   "miniSize",
+  "skillActions",
 ];
 
 function parseCharacter(primary, request) {
@@ -72,6 +73,7 @@ function parseCharacter(primary, request) {
       'spellbook': false
     },
     spellbookStyle: 'normal',
+    skillActions: attr.skillActions,
     miniSize: attr.miniSize,
 
     printLarge: attr.printLarge,
@@ -369,6 +371,7 @@ export class Character extends Instance {
           document.watermark = data.printWatermark;
 
           // get known vars from the data
+          // log("Character", "data", data);
           knownVars.forEach(varname => {
             if (has(data, varname)) {
               const key = toKebabCase(varname);
@@ -377,6 +380,7 @@ export class Character extends Instance {
               document.setVar(key, value, "high");
             }
           });
+          // log("Character", "Document vars", document.vars);
 
           // load units
           let units = system.getUnits(data.units);

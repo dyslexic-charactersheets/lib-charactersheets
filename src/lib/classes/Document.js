@@ -83,34 +83,34 @@ export class Document {
 
     // separate the stored vars by priority
     const high = [], medium = [], low = [];
-    this.vars[varname].forEach(include => {
+    for (const include of this.vars[varname]) {
       let priority = has(include, "priority") ? include.priority : 'medium';
       switch (priority) {
         case 'high': high.push(include.value); break;
         case 'medium': medium.push(include.value); break;
         case 'low': default: low.push(include.value); break;
       }
-    });
+    }
     const incs = isEmpty(high) ? (isEmpty(medium) ? low : medium) : high;
 
     // TODO type hints
 
     // TODO combine multiple values somehow
     let is_array = false;
-    incs.forEach(include => {
+    for (const include of incs) {
       if (isArray(include.value))
         is_array = true;
-    });
+    }
 
     if (is_array) {
       let values = [];
-      incs.forEach(include => {
+      for (const include of incs) {
         if (isArray(include.value)) {
           values = values.concat(include.value);
         } else {
           values.push(include.value);
         }
-      });
+      }
       return values;
     }
 
@@ -125,7 +125,7 @@ export class Document {
     this.units.push(unit);
 
     if (has(unit, "inc")) {
-      unit.inc.forEach(include => {
+      for (const include of unit.inc) {
         let directive = Object.keys(include)[0];
         // log("Document", "Incorporating directive:", directive);
 
@@ -153,7 +153,7 @@ export class Document {
             };
             break;
         }
-      });
+    }
     }
   }
 
@@ -165,11 +165,11 @@ export class Document {
     // log("Document", "Adding to zone:", zoneId);
     if (!has(this.zones, zoneId))
       this.zones[zoneId] = [];
-    elements.forEach(element => {
+    for (const element of elements) {
       if (replace)
         element.replace = true;
       this.zones[zoneId].push(element);
-    });
+    }
     // log("compose", "Zone", zoneId, "contents:", zones[zoneId]);
   }
 
@@ -265,7 +265,7 @@ export class Document {
           break;
       }
 
-      ["contents", "placeholder", "header", "inputs"].forEach(item_key => {
+      for (const item_key of ["contents", "placeholder", "header", "inputs"]) {
         // log("compose", "Checking for", item_key);
         if (has(element, item_key)) {
           // log("compose", "Preparing item", item_key, element[item_key]);
@@ -274,7 +274,7 @@ export class Document {
           else
             element[item_key] = compose(element[item_key]);
         }
-      });
+      }
 
       // transform the element
       const reg = registry.get(element.type);
@@ -287,6 +287,7 @@ export class Document {
         if (newelements === false)
           return element;
 
+        // log("compose", "Transformed", element.type, (element.type == "zone" ? element.zone : ''), "into", newelements.length, "elements");
         newelements = newelements.flatMap(compose);
         return newelements;
       }

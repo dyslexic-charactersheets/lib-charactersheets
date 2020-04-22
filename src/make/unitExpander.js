@@ -24,6 +24,7 @@ const expansion = {
     h5: 'title',
     h6: 'title',
     hr: '',
+    if: 'condition',
     icon: 'icon',
     indent: 'layout',
     label: 'label',

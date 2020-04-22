@@ -7,6 +7,7 @@ export let p = {
   key: 'content',
   defaults: {
     prose: false,
+    title: '',
     content: '',
     align: 'left',
     icon: false,
@@ -43,7 +44,9 @@ export let p = {
       return `<div${prosecls}><div class='prose__inner'>${paras.join("")}</div></div>`;
     }
     
+    let title = (args.title != '') ? `<span class='p__title'>${_e(args.title, doc)}</span>` : '';
+
     // log("p", "Content", content);
-    return `<p${cls}>${icon}${_e(content, doc)}</p>`;
+    return `<p${cls}>${icon}${title}${_e(content, doc)}</p>`;
   }
 }

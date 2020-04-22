@@ -288,14 +288,18 @@ export function cloneDeep(original) {
   }
 
   if (isArray(original)) {
-    return original.map(o => cloneDeep(o));
+    let product = [];
+    for (let i = 0; i < original.length; ++i) {
+      product.push(cloneDeep(original[i]));
+    }
+    return product;
   }
 
   if (isObject(original)) {
     let product = {};
-    Object.keys(original).forEach(key => {
+    for (const key in original) {
       product[cloneDeep(key)] = cloneDeep(original[key]);
-    });
+    }
     return product;
   }
 
@@ -653,11 +657,21 @@ export function getRubyHeight(args) {
     }
 
     case 'field': {
-      if (!args.ruby) {
-        return 0;
+      let ruby = 0;
+      if (args.border == "multi") {
+        args.parts.forEach(part => {
+          if (part.ruby) {
+            const rubyHeight = part.ruby.split(/\n/).length;
+            if (rubyHeight > ruby) ruby = rubyHeight;
+          }
+        });
       }
-      const rubyHeight = args.ruby.split(/\n/).length;
-      return rubyHeight;
+
+      if (args.ruby) {
+        const rubyHeight = args.ruby.split(/\n/).length;
+        if (rubyHeight > ruby) ruby = rubyHeight;
+      }
+      return ruby;
     }
 
     case 'calc': {
