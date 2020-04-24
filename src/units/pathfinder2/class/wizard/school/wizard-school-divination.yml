@@ -3,29 +3,36 @@ in: wizard/school
 group: "_{Core Rulebook}"
 name: "_{Divination}"
 
+require:
+  - unit: option/spellbook/custom
+
 inc:
   - set: wizard-school
     value: "_{Divination}"
 
+  - set: wizard-school-spell
+    value: "_{Diviner's Sight}"
+
   - at: '@wizard/school'
     replace:
-      - level: "_{1st}"
-        marker: ""
+      - field: wizard-school-bonus-spell
+        label: "_{Divination Spell}"
+        width: stretch
+        align: left
+                    
+  - at: '@spellbook/left/first'
+    add:
+      - article:
+        title: "_{Diviner's Sight}"
         contents:
-          - field: wizard-school-bonus-spell
-            label: "_{Divination Spell}"
-            width: stretch
-            align: left
-            merge-bottom: true
-      - hr:
-      - h5: "_{School Spell}"
-      - paste: focus
-        contents:
-          - article:
-            title: "_{Diviner's Sight}"
+          - paste: focus
             contents:
+              - dl:
+                defs:
+                  range: "_{30 ft}"
+                  target: "_{1 willing creature}"
+                  duration: "_{Until the end of your next turn}"
               - action:
                 contents:
                   - p: "_{Pick one willing target, and roll a d20; when they next attempt a check, they can use your die result instead of rolling.}"
                   - p: "_{Alternatively, you can reveal the result of a secret die roll in the next round.}"
-                    

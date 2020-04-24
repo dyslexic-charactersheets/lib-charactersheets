@@ -1,5 +1,9 @@
 unit: option/spellbook/custom
 name: "_{Spellbook}"
+
+require:
+  - unit: option/spellbook
+  
 inc:
   - at: '@pages'
     add:
@@ -24,9 +28,21 @@ inc:
                 contents:
                   - zone: '@spellbook/left'
                     contents:
-                      - paste: spellbook/items
-                        params:
-                          i: 0
+                      - list:
+                        zebra: true
+                        hr: true
+                        flex: true
+                        contents:
+                          - slots:
+                            min: 7
+                            max: 7
+                            reduce: 1
+                            contents:
+                              - zone: '@spellbook/left/first'
+                            placeholder:
+                              paste: spellbook/spell
+                              params:
+                                id: spellbook-col-0-spell-#{j}
                       - tail:
               - repeat: 2
                 contents:

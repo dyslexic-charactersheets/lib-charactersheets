@@ -3,39 +3,50 @@ in: wizard/school
 group: "_{Core Rulebook}"
 name: "_{Illusion}"
 
+require:
+  - unit: option/spellbook/custom
+
 inc:
   - set: wizard-school
     value: "_{Illusion}"
 
+  - set: wizard-school-spell
+    value: "_{Warped Terrain}"
+
   - at: '@wizard/school'
     replace:
-      - level: "_{1st}"
-        marker: ""
+      - field: wizard-school-bonus-spell
+        label: "_{Illusion Spell}"
+        width: stretch
+        align: left
+            
+  - at: '@spellbook/left/first'
+    add:
+      - article:
+        title: "_{Warped Terrain}"
         contents:
-          - field: wizard-school-bonus-spell
-            label: "_{Illusion Spell}"
-            width: stretch
-            align: left
-            merge-bottom: true
-      - hr:
-      - h5: "_{School Spell}"
-      - paste: focus
-        contents:
-          - article:
-            title: "_{Warped Terrain}"
+          - paste: focus
             contents:
-              - action:
+              - dl:
+                defs:
+                  range: "_{60 ft}"
+                  area: "_{5 ft burst}"
+                  duration: "_{1 minute}"
+              - list:
+                hr: true
+                light: true
                 contents:
-                  - p: "_{Create illusory hazards on surfaces within 5ft. Creatures moving through treat it as difficult terrain.}"
-                  - row:
+                  - action:
                     contents:
-                      - icon: action2nd
-                      - icon: action3rd
-                      - field:
-                        control: value
-                        value: "+ 5ft"
-                      - spacer:
-              - hr:
-              - level: 4
-                contents:
-                  - p: "_{Create illusory hazards in the air.}"
+                      - p: "_{Create illusory hazards on surfaces within 5ft. Creatures moving through treat it as difficult terrain.}"
+                      - row:
+                        contents:
+                          - icon: action2nd
+                          - icon: action3rd
+                          - field:
+                            control: value
+                            value: "+ 5ft"
+                          - spacer:
+                  - level: 4
+                    contents:
+                      - p: "_{Create illusory hazards in the air.}"

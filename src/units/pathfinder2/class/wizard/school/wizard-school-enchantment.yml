@@ -3,27 +3,34 @@ in: wizard/school
 group: "_{Core Rulebook}"
 name: "_{Enchantment}"
 
+require:
+  - unit: option/spellbook/custom
+
 inc:
   - set: wizard-school
     value: "_{Enchantment}"
 
+  - set: wizard-school-spell
+    value: "_{Charming Words}"
+
   - at: '@wizard/school'
     replace:
-      - level: "_{1st}"
-        marker: ""
+      - field: wizard-school-bonus-spell
+        label: "_{Enchantment Spell}"
+        width: stretch
+        align: left
+            
+  - at: '@spellbook/left/first'
+    add:
+      - article:
+        title: "_{Charming Words}"
         contents:
-          - field: wizard-school-bonus-spell
-            label: "_{Enchantment Spell}"
-            width: stretch
-            align: left
-            merge-bottom: true
-      - hr:
-      - h5: "_{School Spell}"
-      - paste: focus
-        contents:
-          - article:
-            title: "_{Charming Words}"
+          - paste: focus
             contents:
+              - dl:
+                defs:
+                  range: "_{30 ft}"
+                  target: "_{1 creature}"
               - action:
                 contents:
                   - p: "_{Target must make a will save}"

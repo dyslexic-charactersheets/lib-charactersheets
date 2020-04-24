@@ -3,30 +3,38 @@ in: wizard/school
 group: "_{Core Rulebook}"
 name: "_{Abjuration}"
 
+require:
+  - unit: option/spellbook/custom
+
 inc:
   - set: wizard-school
     value: "_{Abjuration}"
 
+  - set: wizard-school-spell
+    value: "_{Protective Ward}"
+
   - at: '@wizard/school'
     replace:
-      - level: "_{1st}"
-        marker: ""
+      - field: wizard-school-bonus-spell
+        label: "_{Abjuration Spell}"
+        width: stretch
+        align: left
+
+  - at: '@spellbook/left/first'
+    add:
+      - article:
+        title: "_{Protective Ward}"
         contents:
-          - field: wizard-school-bonus-spell
-            label: "_{Abjuration Spell}"
-            width: stretch
-            align: left
-            merge-bottom: true
-      - hr:
-      - h5: "_{School Spell}"
-      - paste: focus
-        contents:
-          - article:
-            title: "_{Protective Ward}"
+          - paste: focus
             contents:
+              - dl:
+                defs:
+                  area: "_{5ft radius}"
+                  duration: "_{Sustained up to 1 minute}"
+                  
               - action:
                 contents:
-                  - p: "_{+1 AC to you and allies within 5ft.}"
+                  - p: "_{+1 AC to you and allies.}"
                     
               - action:
                 contents:

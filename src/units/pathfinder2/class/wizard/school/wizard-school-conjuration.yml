@@ -3,27 +3,35 @@ in: wizard/school
 group: "_{Core Rulebook}"
 name: "_{Conjuration}"
 
+require:
+  - unit: option/spellbook/custom
+
 inc:
   - set: wizard-school
     value: "_{Conjuration}"
 
+  - set: wizard-school-spell
+    value: "_{Augment Summoning}"
+
   - at: '@wizard/school'
     replace:
-      - level: "_{1st}"
-        marker: ""
+      - field: wizard-school-bonus-spell
+        label: "_{Conjuration Spell}"
+        width: stretch
+        align: left
+
+  - at: '@spellbook/left/first'
+    add:
+      - article:
+        title: "_{Augment Summoning}"
         contents:
-          - field: wizard-school-bonus-spell
-            label: "_{Conjuration Spell}"
-            width: stretch
-            align: left
-            merge-bottom: true
-      - hr:
-      - h5: "_{School Spell}"
-      - paste: focus
-        contents:
-          - article:
-            title: "_{Augment Summoning}"
+          - paste: focus
             contents:
+              - dl:
+                defs:
+                  range: "_{30ft}"
+                  target: "_{1 creature you summoned}"
+
               - action:
                 contents:
                   - p: "_{Grant a summoned creature +1 status bonus to all checks, DCs and AC.}"

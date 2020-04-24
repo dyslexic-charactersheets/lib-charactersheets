@@ -3,32 +3,40 @@ in: wizard/school
 group: "_{Core Rulebook}"
 name: "_{Evocation}"
 
+require:
+  - unit: option/spellbook/custom
+
 inc:
   - set: wizard-school
     value: "_{Evocation}"
 
+  - set: wizard-school-spell
+    value: "_{Force Bolt}"
+
   - at: '@wizard/school'
     replace:
-      - level: "_{1st}"
-        marker: ""
+      - field: wizard-school-bonus-spell
+        label: "_{Evocation Spell}"
+        width: stretch
+        align: left
+
+  - at: '@spellbook/left/first'
+    add:
+      - article:
+        title: "_{Force Bolt}"
         contents:
-          - field: wizard-school-bonus-spell
-            label: "_{Evocation Spell}"
-            width: stretch
-            align: left
-            merge-bottom: true
-      - hr:
-      - h5: "_{School Spell}"
-      - paste: focus
-        contents:
-          - article:
-            title: "_{Force Bolt}"
+          - paste: focus
             contents:
+              - dl:
+                defs:
+                  range: "_{30 ft}"
+                  target: "_{1 creature or object}"
               - action:
                 contents:
                   - p: "_{Target one creature or object within 30ft.}"
                   - calc:
                     output:
+                      field: force-bolt-damage
                       legend: "_{Damage}"
                       width: huge
                       suffix: "d4 + 1"

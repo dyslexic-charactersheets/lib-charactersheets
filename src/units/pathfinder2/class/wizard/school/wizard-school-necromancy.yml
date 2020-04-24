@@ -3,27 +3,34 @@ in: wizard/school
 group: "_{Core Rulebook}"
 name: "_{Necromancy}"
 
+require:
+  - unit: option/spellbook/custom
+
 inc:
   - set: wizard-school
     value: "_{Necromancy}"
 
+  - set: wizard-school-spell
+    value: "_{Call of the Grave}"
+
   - at: '@wizard/school'
     replace:
-      - level: "_{1st}"
-        marker: ""
+      - field: wizard-school-bonus-spell
+        label: "_{Necromancy Spell}"
+        width: stretch
+        align: left
+            
+  - at: '@spellbook/left/first'
+    add:
+      - article:
+        title: "_{Call of the Grave}"
         contents:
-          - field: wizard-school-bonus-spell
-            label: "_{Necromancy Spell}"
-            width: stretch
-            align: left
-            merge-bottom: true
-      - hr:
-      - h5: "_{School Spell}"
-      - paste: focus
-        contents:
-          - article:
-            title: "_{Call of the Grave}"
+          - paste: focus
             contents:
+              - dl:
+                defs:
+                  range: "_{30 ft}"
+                  target: "_{1 creature}"
               - action: 2
                 contents:
                   - p: "_{Spell attack on one target.}"

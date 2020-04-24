@@ -15,7 +15,7 @@ function defaultControlRender (args, reg, doc) {
 
   const ident = fieldIdent(args.id);
   const cls = elementClass("field", "control", args, [], { "align": "centre", "width": "" });
-  const value = (args.value == '') ? '' : ` value='${__(args.value, doc)}'`;
+  const value = (args.value == '') ? '' : ` value='${_e(args.value, doc)}'`;
   const attr = (args.editable ? '' : 'readonly');
   const input = `<input${ident.ident}${value}${attr}>`;
 
@@ -244,6 +244,7 @@ export let field_control_checkbox = {
   defaults: {
     value: false,
     border: 'none',
+    width: 'tiny',
   },
   render(args) {
     const ident = fieldIdent(args.id);
