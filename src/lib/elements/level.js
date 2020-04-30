@@ -65,3 +65,26 @@ export let level_marker = {
     return `<div${cls}>${marker}<div class='level-marker__level'>${_e(level, doc)}</div></div>`;
   }
 }
+
+export let cost = {
+  name: 'cost',
+  key: 'cost',
+  defaults: {
+    cost: 1,
+    unit: '',
+    inline: false,
+    blk: false,
+  },
+  render(args, reg, doc) {
+    let cost = ("" + args.cost).replace(/^\s*/, '').replace(/\s*$/, '');
+    if (cost == "") {
+      return `<div class='level-marker'></div>`;
+    }
+    if (cost == "_") {
+      cost = "&nbsp;";
+    }
+    const cls = elementClass("level-marker", null, args, ['inline', 'blk', 'cost']);
+    const unit = args.unit ? `<label>${_e(args.unit, doc)}</label>` : '';
+    return `<div${cls}><div class='level-marker__level'>${_e(cost, doc)}</div>${unit}</div>`;
+  }
+}

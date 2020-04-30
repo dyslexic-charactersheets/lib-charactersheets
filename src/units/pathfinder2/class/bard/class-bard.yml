@@ -52,6 +52,47 @@ inc:
   - set: light-armour-proficiency
     value: trained
 
+  - at: '@skill-actions'
+    add:
+      - indent: left
+        contents:
+          - p:
+            title: "_{Identify Magic (Occultism/other)}"
+            content: "_{Take 10 minutes to identify a magical item, location or effect.}"
+      - indent: left
+        contents:
+          - p:
+            title: "_{Earn Income (Performance)}"
+            content: "_{GM sets the hidden DC of the check.}"
+      - action:
+        contents:
+          - p:
+            title: "_{Perform (Performance)}"
+            content: "_{Pre-requisite for casting most Composition spells.}"
+
+  - at: '@actions'
+    add:
+      - action:
+        contents:
+          - article:
+            title: "_{Inspire Courage}"
+            contents:
+              - row:
+                contents:
+                  - field: bard-inspire-courage-bonus
+                    frame: none
+                    control: value
+                    width: large
+                    value: "+1"
+                  - p: "_{To attack, damage and saves against fear for allies within 60ft.}"
+              
+      - action: reaction
+        contents:
+          - article:
+            title: "_{Counter Performance}"
+            contents:
+              - p: "_{Roll a performance check to counter an auditory or visual effect. You and allies within 30ft can take that result in place of a saving throw.}"
+
   - at: '@advancement'
     add:
       - level: 1
@@ -138,7 +179,10 @@ inc:
                         contents:
                           - article:
                             title: "_{Counter Performance}"
-                            content: "_{Roll a performance check to counter an auditory or visual effect. You and allies within 30ft can take that result in place of a saving throw.}"
+                            contents:
+                              - action: reaction
+                                contents:
+                                  - p: "_{Roll a performance check to counter an auditory or visual effect. You and allies within 30ft can take that result in place of a saving throw.}"
                     placeholder:
                       paste: spellbook/spell
       - tail:
@@ -183,7 +227,6 @@ inc:
                     id: spellcasting
                     contents:
                       - spells-table:
-                        # spells-today: true
                         expanded: "_{Signature Spell}"
 
                       - paste: spell-attack
@@ -227,9 +270,8 @@ inc:
                               - layout: indent-r
                                 contents:
                                   - p: "_{Spells cast using Performance.}"
-                                  - level-marker:
-                                    level: "1"
-                                    marker: "Focus"
+                                  - cost: "_{1pt}"
+                                    unit: "_{Focus}"
                               - list:
                                 contents:
                                   - field: composition-spell-counter-performance
@@ -242,77 +284,21 @@ inc:
                                       - field: "composition-spell-#{i}"
                                         width: stretch
 
-
-                      # - list:
-                      #   hr: true
-                      #   zebra: true
-                      #   contents:
-                      #     - layout: indent-r
-                      #       contents:
-                      #         - p: "_{Spells cast using Performance.}"
-                      #         - level-marker:
-                      #           level: "1"
-                      #           marker: "Focus"
-                      #     - slots:
-                      #       min: 3
-                      #       max: 3
-                      #       reduce: 1
-                      #       contents:
-                      #         - zone: '@bard/compositions'
-                      #           contents:
-                      #             - article:
-                      #               title: "_{Counter Performance}"
-                      #               content: "_{Roll a performance check to counter an auditory or visual effect. You and allies within 30ft can take that in place of a saving throw.}"
-                      #       placeholder:
-                      #         article:
-                      #         lines: 2
-                      #         show-level: true
-
                   - tail:
-                  # - spacer:
 
               - g:
                 contents:
 
                   - section: "_{Cantrips}"
-                    flex: small
+                    flex: tiny
                     contents:
                       - spells-list:
                         min: 0
                         max: 0
                         spells: 5
                         style: spontaneous
-                      # - hr:
-                      # - h5: "_{Composition Cantrips}"
-                      # - list:
-                      #   hr: true
-                      #   columns: 2
-                      #   contents:
-                      #     - slots:
-                      #       min: 2
-                      #       max: 2
-                      #       contents:
-                      #         - zone: '@bard/composition-cantrips'
-                      #           contents:
-                      #             - article:
-                      #               title: "_{Inspire Courage}"
-                      #               contents:
-                      #                 - row:
-                      #                   contents:
-                      #                     - field: bard-inspire-courage-bonus
-                      #                       frame: none
-                      #                       border: full
-                      #                       control: value
-                      #                       # width: large
-                      #                       value: "+1"
-                      #                     - p: "_{To attack, damage and saves against fear for allies within 60ft.}"
-                      #       placeholder:
-                      #         article:
-                      #         lines: 2
-
                       
                   - section: "_{Spells}"
-                    flex: large
                     contents:
                       - list:
                         hr: true
@@ -339,4 +325,3 @@ inc:
                       lines: 1
 
                   - tail:
-                  # - spacer:

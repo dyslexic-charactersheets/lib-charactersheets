@@ -11,6 +11,7 @@ const expansion = {
     calc: '',
     'class-name': 'title',
     'class-icon': 'icon',
+    cost: 'cost',
     document: 'title',
     each: '',
     embed: 'src',

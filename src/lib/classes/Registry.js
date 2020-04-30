@@ -24,7 +24,7 @@ import { hr, tail, vr } from '../elements/hr';
 import { icon } from '../elements/icon';
 import { label } from '../elements/label';
 import { layout, place, indent } from '../elements/layout';
-import { level, level_marker } from '../elements/level';
+import { level, level_marker, cost } from '../elements/level';
 import { list, join } from '../elements/list';
 import { logelem } from '../elements/log';
 import { logo } from '../elements/logo';
@@ -104,7 +104,7 @@ export class Registry {
       ifelem,
       label,
       layout, place, indent,
-      level, level_marker,
+      level, level_marker, cost,
       list, join,
       logelem,
       logo,
