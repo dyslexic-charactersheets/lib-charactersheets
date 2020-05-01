@@ -6,9 +6,9 @@ import { ready } from './classes/System';
 
 const promises = {};
 
-export function getFormData(system, callback) {
+export function getFormData(system) {
   if (!has(promises, system)) {
-    promises[system] = new Promise((resolve, reject) => {
+    let promise = new Promise((resolve, reject) => {
       ready(() => {
         const formDataFile = `${__dirname}/data-${system}.json`;
         log('formdata', 'Loading file', formDataFile);
@@ -24,6 +24,8 @@ export function getFormData(system, callback) {
         });
       });
     });
+    promises[system] = promise;
+    return promise;
   }
   return promises[system];
 }
