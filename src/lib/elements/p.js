@@ -13,6 +13,7 @@ export let p = {
     icon: false,
     blk: true,
     nowrap: false,
+    size: 'medium',
     columns: 1
   },
   render(args, reg, doc) {

@@ -1,4 +1,4 @@
-import { elementClass, has, isObject } from '../util';
+import { elementClass, has, isObject, isEmpty } from '../util';
 import { log } from '../log';
 
 export let list = {
@@ -18,6 +18,8 @@ export let list = {
     'avoid-shade': false,
     flatten: false,
     unblk: true,
+    header: [],
+    footer: [],
   },
   render(args, reg, doc) {
     if (args.zebra && args['avoid-shade']) {
@@ -26,11 +28,16 @@ export let list = {
     const cls = elementClass('list', null, args,
       ["zebra", "zebra-inverse", "collapse", "vr", "hr", "light", "merge-bottom", "blk", "unblk"],
       { "flex": false });
-    return `<div${cls}>${reg.render(args.contents, doc)}</div>`;
+    const header = isEmpty(args.contents) ? '' : reg.render(args.header, doc);
+    const footer = isEmpty(args.contents) ? '' : reg.render(args.footer, doc);
+    return `<div${cls}>${header}${reg.render(args.contents, doc)}${footer}</div>`;
   },
   transform(args) {
     // transform columns into a grid of lists
     if (args.columns > 1) {
+      const header = isEmpty(args.contents) ? [] : args.header;
+      const footer = isEmpty(args.contents) ? [] : args.footer;
+
       // log("-",`[zone] Split into ${element.columns} columns`);
       // log("-",`[zone] Contents:`, element.contents);
       let cols = [];
@@ -54,7 +61,7 @@ export let list = {
         }
       }
 
-      return [{
+      return [...header, {
         type: "layout",
         layout: args.columns + "e",
         flex: args.flex,
@@ -64,11 +71,12 @@ export let list = {
         contents: cols.map(col => {
           return {
             ...args,
+            header: [],
             columns: 1,
             contents: col
           };
         })
-      }];
+      }, ...footer];
     }
 
     // flatten lists

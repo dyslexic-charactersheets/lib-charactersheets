@@ -1,5 +1,6 @@
-import { interpolate, isObject, cloneDeep } from '../util';
+import { interpolate, isObject, cloneDeep, has } from '../util';
 import { log } from '../log';
+import { isString } from 'util';
 
 export let each = {
   name: 'each',
@@ -9,6 +10,7 @@ export let each = {
     index: 'i',
     rows: [],
     params: {},
+    map: {},
     contents: [],
   },
   transform(args) {
@@ -21,7 +23,11 @@ export let each = {
       if (i < args.rows.length && isObject(args.rows[i]))
         values = { ...args.rows[i], ...values };
 
-      values = { ...item, ...values, item: cloneDeep(item) };
+      if (isString(item) && has(args.map, item)) {
+        values = { ...args.map[item], ...values, item: item };
+      } else {
+        values = { ...item, ...values, item: cloneDeep(item) };
+      }
       values[args.index] = i;
 
       // log("each", "Template", args.template);

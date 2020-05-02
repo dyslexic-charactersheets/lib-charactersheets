@@ -10,6 +10,7 @@ export let flags = {
     flags: [],
     sort: true,
     blk: true,
+    content: '',
   },
   render(args, reg, doc) {
     const cls = elementClass('p', null, args, ['blk', 'flags'], { });
@@ -30,6 +31,6 @@ export let flags = {
     });
     
     // log("p", "Content", content);
-    return `<p${cls}>${_e(label, doc)}${reg.render(flags, doc)}</p>`;
+    return `<p${cls}>${_e(label, doc)}${reg.render(flags, doc)}${_e(args.content, doc)}</p>`;
   }
 }
