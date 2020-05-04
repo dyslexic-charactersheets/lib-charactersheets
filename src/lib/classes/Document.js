@@ -2,7 +2,7 @@ const Handlebars = require('handlebars');
 
 import { log, warn, error } from '../log';
 import { applyContext } from '../context';
-import { clone, replaceColours, has, isArray, isEmpty } from '../util';
+import { clone, replaceColours, has, isArray, isEmpty, isString } from '../util';
 import { esc, _e } from '../i18n';
 
 export class Document {
@@ -92,6 +92,8 @@ export class Document {
       }
     }
     const incs = isEmpty(high) ? (isEmpty(medium) ? low : medium) : high;
+    // log("Document", `get var '${varname}': ${JSON.stringify(incs)}`);
+    if (isEmpty(incs)) return false;
 
     // TODO type hints
 
@@ -114,7 +116,7 @@ export class Document {
       return values;
     }
 
-    return this.vars[varname][0].value;
+    return incs[0];
   }
 
   addUnit(unit) {
@@ -245,6 +247,9 @@ export class Document {
       }
       if (isArray(element)) {
         return element.map(e => compose(e));
+      }
+      if (isString(element)) {
+        return [element];
       }
       if (!has(element, "type")) {
         warn("Document", "Untyped element", element);

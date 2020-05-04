@@ -2221,11 +2221,12 @@
                           "contents": [
                             {
                               "type": "field",
-                              "id": "character-name",
+                              "id": "name",
                               "legend": "_{Character Name}",
                               "size": "huge",
                               "width": "stretch",
-                              "align": "left"
+                              "align": "left",
+                              "value": "#{characterName}"
                             },
                             {
                               "type": "layout",
@@ -2663,8 +2664,22 @@
                           "type": "g",
                           "contents": [
                             {
-                              "type": "h5",
-                              "title": "_{Proficiency}"
+                              "type": "row",
+                              "layout": null,
+                              "contents": [
+                                {
+                                  "type": "h5",
+                                  "title": "_{Proficiency}"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "level",
+                                  "label": "_{Level}",
+                                  "border": "full",
+                                  "frame": "left",
+                                  "width": "large"
+                                }
+                              ]
                             },
                             {
                               "type": "layout",
@@ -2677,12 +2692,10 @@
                                   "id": "proficiency-untrained",
                                   "label": "_{Untrained}",
                                   "border": "full",
-                                  "control": "proficiency",
-                                  "value": [
-                                    "untrained",
-                                    0
-                                  ],
-                                  "ruby": "_{None}\n"
+                                  "control": "value",
+                                  "value": 0,
+                                  "icon": "proficiency",
+                                  "ruby": "_{Zero}\n"
                                 },
                                 {
                                   "type": "field",
@@ -2691,7 +2704,8 @@
                                   "border": "full",
                                   "control": "proficiency",
                                   "value": "trained",
-                                  "ruby": "_{Level}\n+2"
+                                  "ruby": "_{Level}\n+2",
+                                  "eq": "%{level}+2"
                                 },
                                 {
                                   "type": "field",
@@ -2700,7 +2714,8 @@
                                   "border": "full",
                                   "control": "proficiency",
                                   "value": "expert",
-                                  "ruby": "_{Level}\n+4"
+                                  "ruby": "_{Level}\n+4",
+                                  "eq": "%{level}+4"
                                 },
                                 {
                                   "type": "field",
@@ -2709,7 +2724,8 @@
                                   "border": "full",
                                   "control": "proficiency",
                                   "value": "master",
-                                  "ruby": "_{Level}\n+6"
+                                  "ruby": "_{Level}\n+6",
+                                  "eq": "%{level}+6"
                                 },
                                 {
                                   "type": "field",
@@ -2718,7 +2734,8 @@
                                   "border": "full",
                                   "control": "proficiency",
                                   "value": "legendary",
-                                  "ruby": "_{Level}\n+8"
+                                  "ruby": "_{Level}\n+8",
+                                  "eq": "%{level}+8"
                                 }
                               ]
                             }
@@ -2747,8 +2764,8 @@
                       "avoid-shade": true,
                       "contents": [
                         {
-                          "type": "row",
-                          "layout": null,
+                          "type": "layout",
+                          "layout": "2e",
                           "contents": [
                             {
                               "type": "field",
@@ -2779,33 +2796,33 @@
                           ]
                         },
                         {
-                          "type": "row",
-                          "layout": null,
+                          "type": "layout",
+                          "layout": "2e",
                           "contents": [
                             {
-                              "type": "class-icon",
-                              "icon": null,
-                              "size": "tiny"
+                              "type": "row",
+                              "layout": null,
+                              "contents": [
+                                {
+                                  "type": "class-icon",
+                                  "icon": null,
+                                  "size": "tiny"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "class",
+                                  "width": "stretch",
+                                  "legend": "_{Class}",
+                                  "merge-bottom": true
+                                }
+                              ]
                             },
                             {
                               "type": "field",
-                              "id": "class",
+                              "id": "subclass",
+                              "label": "#{subclass-label}",
                               "width": "stretch",
-                              "legend": "_{Class}",
                               "merge-bottom": true
-                            },
-                            {
-                              "type": "field",
-                              "id": "class-specialisation",
-                              "label": "_{Subclass}",
-                              "width": "stretch",
-                              "merge-bottom": true
-                            },
-                            {
-                              "type": "field",
-                              "id": "level",
-                              "label": "_{Level}",
-                              "border": "full"
                             }
                           ]
                         },
@@ -3009,14 +3026,6 @@
                           "fade": true
                         },
                         {
-                          "skill": "lore-2",
-                          "name": "_{Lore}",
-                          "ability": "_{INT}",
-                          "abilityref": "INT",
-                          "acp": false,
-                          "fade": true
-                        },
-                        {
                           "skill": "medicine",
                           "name": "_{Medicine}",
                           "ability": "_{WIS}",
@@ -3086,13 +3095,6 @@
                           "ability": "",
                           "acp": false,
                           "optional": true
-                        },
-                        {
-                          "skill": "",
-                          "name": "",
-                          "ability": "",
-                          "acp": false,
-                          "optional": true
                         }
                       ],
                       "template": [
@@ -3150,6 +3152,10 @@
                           "prefix": "&ndash;"
                         }
                       ]
+                    },
+                    {
+                      "type": "p",
+                      "content": "_{Assurance: May choose to take 10 rather than roll.}"
                     },
                     {
                       "type": "hr"
@@ -3279,6 +3285,51 @@
                                 {
                                   "type": "field",
                                   "id": "skill-note-1-notes-2",
+                                  "frame": "none",
+                                  "width": "stretch",
+                                  "merge-bottom": true
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "layout",
+                          "layout": "indent-lw",
+                          "contents": [
+                            {
+                              "type": "g",
+                              "contents": [
+                                {
+                                  "type": "icon",
+                                  "icon": "action-template"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "g",
+                              "contents": [
+                                {
+                                  "type": "row",
+                                  "layout": null,
+                                  "contents": [
+                                    {
+                                      "type": "field",
+                                      "id": "skill-note-2-name",
+                                      "frame": "none",
+                                      "width": "stretch"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "skill-note-2-notes",
+                                      "frame": "none",
+                                      "width": "stretch"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "skill-note-2-notes-2",
                                   "frame": "none",
                                   "width": "stretch",
                                   "merge-bottom": true
@@ -4239,6 +4290,318 @@
                           "contents": [
                             {
                               "type": "field",
+                              "id": "attack-1",
+                              "width": "stretch",
+                              "frame": "none",
+                              "align": "left",
+                              "size": "large",
+                              "icon": "sword"
+                            },
+                            {
+                              "type": "row",
+                              "layout": null,
+                              "contents": [
+                                {
+                                  "type": "calc",
+                                  "output": {
+                                    "type": "field",
+                                    "id": "attack-1-bonus",
+                                    "label": "_{Attack Bonus}",
+                                    "width": "huge",
+                                    "attack": true,
+                                    "icon": "bonus"
+                                  },
+                                  "inputs": [
+                                    {
+                                      "type": "field",
+                                      "id": null,
+                                      "ref": true,
+                                      "misc": true,
+                                      "label": "_{Ability}"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "attack-1-proficiency",
+                                      "control": "proficiency",
+                                      "label": "_{Proficiency}"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "attack-1-potency",
+                                      "control": "icon",
+                                      "label": "_{Potency}",
+                                      "icon": "runes"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-1-damage",
+                                  "border": "full",
+                                  "label": "_{Damage}",
+                                  "width": "huge",
+                                  "icon": "damage",
+                                  "control": "compound",
+                                  "parts": [
+                                    {
+                                      "subid": "ndice",
+                                      "width": "tiny",
+                                      "align": "right"
+                                    },
+                                    {
+                                      "type": "label",
+                                      "label": "_{d}"
+                                    },
+                                    {
+                                      "subid": "die",
+                                      "width": "tiny",
+                                      "align": "left"
+                                    },
+                                    {
+                                      "type": "label",
+                                      "label": "+"
+                                    },
+                                    {
+                                      "subid": "extra",
+                                      "width": "tiny"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-1-damage-type",
+                                  "label": "_{Type}",
+                                  "width": "tiny"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-1-striking",
+                                  "label": "_{Striking}",
+                                  "control": "icon",
+                                  "icon": "runes"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-1-type",
+                                  "label": "_{Misc}",
+                                  "misc": true,
+                                  "optional": true
+                                }
+                              ]
+                            },
+                            {
+                              "type": "row",
+                              "layout": null,
+                              "flex": "huge",
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": "ammo-1",
+                                  "frame": "none",
+                                  "unlined": true,
+                                  "width": "small",
+                                  "size": "huge",
+                                  "underlay": "#",
+                                  "merge-bottom": true
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "ammo-1-count",
+                                  "frame": "none",
+                                  "control": "checkgrid",
+                                  "max": 30,
+                                  "depth": 3
+                                },
+                                {
+                                  "type": "vr"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-1-details",
+                                  "label": "Weapon Traits",
+                                  "width": "stretch",
+                                  "align": "left",
+                                  "merge-bottom": true
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-1-critical",
+                                  "label": "Critical",
+                                  "width": "stretch",
+                                  "align": "right",
+                                  "merge-bottom": true
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-1-critical-unlocked",
+                                  "frame": "none",
+                                  "control": "checkbox"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "g",
+                          "contents": [
+                            {
+                              "type": "field",
+                              "id": "attack-2",
+                              "width": "stretch",
+                              "frame": "none",
+                              "align": "left",
+                              "size": "large",
+                              "icon": "sword"
+                            },
+                            {
+                              "type": "row",
+                              "layout": null,
+                              "contents": [
+                                {
+                                  "type": "calc",
+                                  "output": {
+                                    "type": "field",
+                                    "id": "attack-2-bonus",
+                                    "label": "_{Attack Bonus}",
+                                    "width": "huge",
+                                    "attack": true,
+                                    "icon": "bonus"
+                                  },
+                                  "inputs": [
+                                    {
+                                      "type": "field",
+                                      "id": null,
+                                      "ref": true,
+                                      "misc": true,
+                                      "label": "_{Ability}"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "attack-2-proficiency",
+                                      "control": "proficiency",
+                                      "label": "_{Proficiency}"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "attack-2-potency",
+                                      "control": "icon",
+                                      "label": "_{Potency}",
+                                      "icon": "runes"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-2-damage",
+                                  "border": "full",
+                                  "label": "_{Damage}",
+                                  "width": "huge",
+                                  "icon": "damage",
+                                  "control": "compound",
+                                  "parts": [
+                                    {
+                                      "subid": "ndice",
+                                      "width": "tiny",
+                                      "align": "right"
+                                    },
+                                    {
+                                      "type": "label",
+                                      "label": "_{d}"
+                                    },
+                                    {
+                                      "subid": "die",
+                                      "width": "tiny",
+                                      "align": "left"
+                                    },
+                                    {
+                                      "type": "label",
+                                      "label": "+"
+                                    },
+                                    {
+                                      "subid": "extra",
+                                      "width": "tiny"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-2-damage-type",
+                                  "label": "_{Type}",
+                                  "width": "tiny"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-2-striking",
+                                  "label": "_{Striking}",
+                                  "control": "icon",
+                                  "icon": "runes"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-2-type",
+                                  "label": "_{Misc}",
+                                  "misc": true,
+                                  "optional": true
+                                }
+                              ]
+                            },
+                            {
+                              "type": "row",
+                              "layout": null,
+                              "flex": "huge",
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": "ammo-2",
+                                  "frame": "none",
+                                  "unlined": true,
+                                  "width": "small",
+                                  "size": "huge",
+                                  "underlay": "#",
+                                  "merge-bottom": true
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "ammo-2-count",
+                                  "frame": "none",
+                                  "control": "checkgrid",
+                                  "max": 30,
+                                  "depth": 3
+                                },
+                                {
+                                  "type": "vr"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-2-details",
+                                  "label": "Weapon Traits",
+                                  "width": "stretch",
+                                  "align": "left",
+                                  "merge-bottom": true
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-2-critical",
+                                  "label": "Critical",
+                                  "width": "stretch",
+                                  "align": "right",
+                                  "merge-bottom": true
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-2-critical-unlocked",
+                                  "frame": "none",
+                                  "control": "checkbox"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "g",
+                          "contents": [
+                            {
+                              "type": "field",
                               "id": "attack-3",
                               "width": "stretch",
                               "frame": "none",
@@ -4345,6 +4708,27 @@
                               "contents": [
                                 {
                                   "type": "field",
+                                  "id": "ammo-3",
+                                  "frame": "none",
+                                  "unlined": true,
+                                  "width": "small",
+                                  "size": "huge",
+                                  "underlay": "#",
+                                  "merge-bottom": true
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "ammo-3-count",
+                                  "frame": "none",
+                                  "control": "checkgrid",
+                                  "max": 30,
+                                  "depth": 3
+                                },
+                                {
+                                  "type": "vr"
+                                },
+                                {
+                                  "type": "field",
                                   "id": "attack-3-details",
                                   "label": "Weapon Traits",
                                   "width": "stretch",
@@ -4368,302 +4752,6 @@
                               ]
                             }
                           ]
-                        },
-                        {
-                          "type": "g",
-                          "contents": [
-                            {
-                              "type": "field",
-                              "id": "attack-4",
-                              "width": "stretch",
-                              "frame": "none",
-                              "align": "left",
-                              "size": "large",
-                              "icon": "sword"
-                            },
-                            {
-                              "type": "row",
-                              "layout": null,
-                              "contents": [
-                                {
-                                  "type": "calc",
-                                  "output": {
-                                    "type": "field",
-                                    "id": "attack-4-bonus",
-                                    "label": "_{Attack Bonus}",
-                                    "width": "huge",
-                                    "attack": true,
-                                    "icon": "bonus"
-                                  },
-                                  "inputs": [
-                                    {
-                                      "type": "field",
-                                      "id": null,
-                                      "ref": true,
-                                      "misc": true,
-                                      "label": "_{Ability}"
-                                    },
-                                    {
-                                      "type": "field",
-                                      "id": "attack-4-proficiency",
-                                      "control": "proficiency",
-                                      "label": "_{Proficiency}"
-                                    },
-                                    {
-                                      "type": "field",
-                                      "id": "attack-4-potency",
-                                      "control": "icon",
-                                      "label": "_{Potency}",
-                                      "icon": "runes"
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "attack-4-damage",
-                                  "border": "full",
-                                  "label": "_{Damage}",
-                                  "width": "huge",
-                                  "icon": "damage",
-                                  "control": "compound",
-                                  "parts": [
-                                    {
-                                      "subid": "ndice",
-                                      "width": "tiny",
-                                      "align": "right"
-                                    },
-                                    {
-                                      "type": "label",
-                                      "label": "_{d}"
-                                    },
-                                    {
-                                      "subid": "die",
-                                      "width": "tiny",
-                                      "align": "left"
-                                    },
-                                    {
-                                      "type": "label",
-                                      "label": "+"
-                                    },
-                                    {
-                                      "subid": "extra",
-                                      "width": "tiny"
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "attack-4-damage-type",
-                                  "label": "_{Type}",
-                                  "width": "tiny"
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "attack-4-striking",
-                                  "label": "_{Striking}",
-                                  "control": "icon",
-                                  "icon": "runes"
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "attack-4-type",
-                                  "label": "_{Misc}",
-                                  "misc": true,
-                                  "optional": true
-                                }
-                              ]
-                            },
-                            {
-                              "type": "row",
-                              "layout": null,
-                              "flex": "huge",
-                              "contents": [
-                                {
-                                  "type": "field",
-                                  "id": "attack-4-details",
-                                  "label": "Weapon Traits",
-                                  "width": "stretch",
-                                  "align": "left",
-                                  "merge-bottom": true
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "attack-4-critical",
-                                  "label": "Critical",
-                                  "width": "stretch",
-                                  "align": "right",
-                                  "merge-bottom": true
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "attack-4-critical-unlocked",
-                                  "frame": "none",
-                                  "control": "checkbox"
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "g",
-                          "contents": [
-                            {
-                              "type": "layout",
-                              "layout": "2e",
-                              "contents": [
-                                {
-                                  "type": "row",
-                                  "layout": null,
-                                  "contents": [
-                                    {
-                                      "type": "field",
-                                      "id": "ammo-1-type",
-                                      "legend": "_{Ammo}",
-                                      "label": "",
-                                      "width": "stretch",
-                                      "align": "left",
-                                      "unlined": true,
-                                      "merge-bottom": "false"
-                                    },
-                                    {
-                                      "type": "field",
-                                      "id": "ammo-1",
-                                      "frame": "none",
-                                      "unlined": true,
-                                      "width": "small",
-                                      "size": "huge",
-                                      "underlay": "#",
-                                      "merge-bottom": "false"
-                                    },
-                                    {
-                                      "type": "field",
-                                      "id": "ammo-1-count",
-                                      "frame": "none",
-                                      "control": "checkgrid",
-                                      "max": "20",
-                                      "depth": 3,
-                                      "merge-bottom": "false"
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "row",
-                                  "layout": null,
-                                  "contents": [
-                                    {
-                                      "type": "field",
-                                      "id": "ammo-1-type",
-                                      "legend": "",
-                                      "label": "_{Special}",
-                                      "width": "stretch",
-                                      "align": "left",
-                                      "unlined": true,
-                                      "merge-bottom": "false"
-                                    },
-                                    {
-                                      "type": "field",
-                                      "id": "ammo-1",
-                                      "frame": "none",
-                                      "unlined": true,
-                                      "width": "small",
-                                      "size": "huge",
-                                      "underlay": "#",
-                                      "merge-bottom": "false"
-                                    },
-                                    {
-                                      "type": "field",
-                                      "id": "ammo-1-count",
-                                      "frame": "none",
-                                      "control": "checkgrid",
-                                      "max": "10",
-                                      "depth": 3,
-                                      "merge-bottom": "false"
-                                    }
-                                  ]
-                                }
-                              ]
-                            },
-                            {
-                              "type": "hr"
-                            },
-                            {
-                              "type": "layout",
-                              "layout": "2e",
-                              "contents": [
-                                {
-                                  "type": "row",
-                                  "layout": null,
-                                  "contents": [
-                                    {
-                                      "type": "field",
-                                      "id": "ammo-1-type",
-                                      "legend": "",
-                                      "label": "",
-                                      "width": "stretch",
-                                      "align": "left",
-                                      "unlined": true,
-                                      "merge-bottom": "true"
-                                    },
-                                    {
-                                      "type": "field",
-                                      "id": "ammo-1",
-                                      "frame": "none",
-                                      "unlined": true,
-                                      "width": "small",
-                                      "size": "huge",
-                                      "underlay": "#",
-                                      "merge-bottom": "true"
-                                    },
-                                    {
-                                      "type": "field",
-                                      "id": "ammo-1-count",
-                                      "frame": "none",
-                                      "control": "checkgrid",
-                                      "max": "20",
-                                      "depth": 3,
-                                      "merge-bottom": "true"
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "row",
-                                  "layout": null,
-                                  "contents": [
-                                    {
-                                      "type": "field",
-                                      "id": "ammo-1-type",
-                                      "legend": "",
-                                      "label": "",
-                                      "width": "stretch",
-                                      "align": "left",
-                                      "unlined": true,
-                                      "merge-bottom": "true"
-                                    },
-                                    {
-                                      "type": "field",
-                                      "id": "ammo-1",
-                                      "frame": "none",
-                                      "unlined": true,
-                                      "width": "small",
-                                      "size": "huge",
-                                      "underlay": "#",
-                                      "merge-bottom": "true"
-                                    },
-                                    {
-                                      "type": "field",
-                                      "id": "ammo-1-count",
-                                      "frame": "none",
-                                      "control": "checkgrid",
-                                      "max": "10",
-                                      "depth": 3,
-                                      "merge-bottom": "true"
-                                    }
-                                  ]
-                                }
-                              ]
-                            }
-                          ],
-                          "merge-bottom": true
                         }
                       ]
                     }
@@ -6561,46 +6649,6 @@
                                           "align": "left"
                                         }
                                       ]
-                                    },
-                                    {
-                                      "type": "row",
-                                      "layout": null,
-                                      "contents": [
-                                        {
-                                          "frame": "none",
-                                          "type": "field",
-                                          "id": "proficiency-9-value",
-                                          "control": "icon",
-                                          "icon": "proficiency"
-                                        },
-                                        {
-                                          "frame": "none",
-                                          "type": "field",
-                                          "id": "proficiency-9-name",
-                                          "width": "stretch",
-                                          "align": "left"
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "type": "row",
-                                      "layout": null,
-                                      "contents": [
-                                        {
-                                          "frame": "none",
-                                          "type": "field",
-                                          "id": "proficiency-11-value",
-                                          "control": "icon",
-                                          "icon": "proficiency"
-                                        },
-                                        {
-                                          "frame": "none",
-                                          "type": "field",
-                                          "id": "proficiency-11-name",
-                                          "width": "stretch",
-                                          "align": "left"
-                                        }
-                                      ]
                                     }
                                   ],
                                   "columns": 1,
@@ -6702,46 +6750,6 @@
                                           "align": "left"
                                         }
                                       ]
-                                    },
-                                    {
-                                      "type": "row",
-                                      "layout": null,
-                                      "contents": [
-                                        {
-                                          "frame": "none",
-                                          "type": "field",
-                                          "id": "proficiency-10-value",
-                                          "control": "icon",
-                                          "icon": "proficiency"
-                                        },
-                                        {
-                                          "frame": "none",
-                                          "type": "field",
-                                          "id": "proficiency-10-name",
-                                          "width": "stretch",
-                                          "align": "left"
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "type": "row",
-                                      "layout": null,
-                                      "contents": [
-                                        {
-                                          "frame": "none",
-                                          "type": "field",
-                                          "id": "proficiency-12-value",
-                                          "control": "icon",
-                                          "icon": "proficiency"
-                                        },
-                                        {
-                                          "frame": "none",
-                                          "type": "field",
-                                          "id": "proficiency-12-name",
-                                          "width": "stretch",
-                                          "align": "left"
-                                        }
-                                      ]
                                     }
                                   ],
                                   "columns": 1,
@@ -6784,7 +6792,6 @@
                 {
                   "type": "section",
                   "title": "_{General Feats}",
-                  "flex": "small",
                   "contents": [
                     {
                       "type": "layout",
@@ -8479,7 +8486,8 @@
                           "type": "field",
                           "id": null,
                           "label": "_{Key\nAbility}",
-                          "ref": "key-ability"
+                          "ref": "key-ability",
+                          "misc": true
                         },
                         {
                           "type": "span",

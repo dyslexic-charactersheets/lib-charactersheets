@@ -28,6 +28,7 @@ inc:
             border: full
             width: medium
             underlay: -10
+
   - copy: weapon
     params:
       i: 0
@@ -94,6 +95,102 @@ inc:
           - row:
             flex: huge
             contents:
+              - field: attack-#{i}-details
+                # frame: annotation
+                label: "Weapon Traits"
+                width: stretch
+                align: left
+                merge-bottom: true
+              - field: attack-#{i}-critical
+                # frame: annotation
+                label: "Critical"
+                width: stretch
+                align: right
+                merge-bottom: true
+              - field: attack-#{i}-critical-unlocked
+                frame: none
+                control: checkbox
+
+  - copy: weapon-with-ammo
+    params:
+      i: 0
+    contents:
+      - g:
+        contents:
+          - field: attack-#{i}
+            width: stretch
+            frame: none
+            align: left
+            size: large
+            icon: sword
+          - row:
+            contents:
+              - calc:
+                output:
+                  field: attack-#{i}-bonus
+                  label: "_{Attack Bonus}"
+                  width: huge
+                  attack: true
+                  icon: bonus
+                inputs:
+                  - field:
+                    ref: true
+                    misc: true
+                    label: "_{Ability}"
+                  - field: attack-#{i}-proficiency
+                    control: proficiency
+                    label: "_{Proficiency}"
+                  - field: attack-#{i}-potency
+                    control: icon
+                    label: "_{Potency}"
+                    icon: runes
+              - field: attack-#{i}-damage
+                border: full
+                label: "_{Damage}"
+                width: huge
+                icon: damage
+                control: compound
+                parts:
+                  - subid: ndice
+                    width: tiny
+                    align: right
+                  - label: "_{d}"
+                  - subid: die
+                    width: tiny
+                    align: left
+                  - label: "+"
+                  - subid: extra
+                    width: tiny
+              #- field: attack-#{i}-weapon-spec
+              #  label: "_{Weap Spec}"
+              - field: attack-#{i}-damage-type
+                label: "_{Type}"
+                width: tiny
+              - field: attack-#{i}-striking
+                label: "_{Striking}"
+                control: icon
+                icon: runes
+              - field: attack-#{i}-type
+                label: "_{Misc}"
+                misc: true
+                optional: true
+          - row:
+            flex: huge
+            contents:
+              - field: ammo-#{i}
+                # frame: h-label
+                frame: none
+                unlined: true
+                width: small
+                size: huge
+                underlay: "#"
+                merge-bottom: true
+              - field: ammo-#{i}-count
+                frame: none
+                control: checkgrid
+                max: 30
+                depth: 3
+              - vr:
               - field: attack-#{i}-details
                 # frame: annotation
                 label: "Weapon Traits"

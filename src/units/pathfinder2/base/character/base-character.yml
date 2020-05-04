@@ -32,6 +32,10 @@ form:
 
 inc:
 
+  - set: subclass-label
+    value: "_{Subclass}"
+    priority: low
+
   - at: '@pages'
     add:
 
@@ -89,11 +93,12 @@ inc:
                         contents:
                           - g:
                             contents:
-                              - field: character-name
+                              - field: name
                                 legend: "_{Character Name}"
                                 size: huge
                                 width: stretch
                                 align: left
+                                value: "#{characterName}"
                               - layout: alignment
                                 gutter: none
                                 contents:
@@ -186,7 +191,15 @@ inc:
 
                           - g:
                             contents:
-                              - h5: "_{Proficiency}"
+                              - row:
+                                contents:
+                                  - h5: "_{Proficiency}"
+                                  - field: level
+                                    label: "_{Level}"
+                                    border: full
+                                    frame: left
+                                    width: large
+
                               - layout: 5e
                                 gutter: none
                                 # valign: top
@@ -195,33 +208,44 @@ inc:
                                   - field: proficiency-untrained
                                     label: "_{Untrained}"
                                     border: full
-                                    control: proficiency
-                                    value: [ "untrained", 0 ]
-                                    ruby: "_{None}\n"
+                                    control: value
+                                    value: 0
+                                    icon: proficiency
+                                    ruby: "_{Zero}\n"
+                                  # - field: proficiency-untrained
+                                  #   label: "_{Untrained}"
+                                  #   border: full
+                                  #   control: proficiency
+                                  #   value: [ "untrained", 0 ]
+                                  #   ruby: "_{None}\n"
                                   - field: proficiency-trained
                                     label: "_{Trained}"
                                     border: full
                                     control: proficiency
                                     value: trained
                                     ruby: "_{Level}\n+2"
+                                    eq: "%{level}+2"
                                   - field: proficiency-expert
                                     label: "_{Expert}"
                                     border: full
                                     control: proficiency
                                     value: expert
                                     ruby: "_{Level}\n+4"
+                                    eq: "%{level}+4"
                                   - field: proficiency-master
                                     label: "_{Master}"
                                     border: full
                                     control: proficiency
                                     value: master
                                     ruby: "_{Level}\n+6"
+                                    eq: "%{level}+6"
                                   - field: proficiency-legendary
                                     label: "_{Legendary}"
                                     border: full
                                     control: proficiency
                                     value: legendary
                                     ruby: "_{Level}\n+8"
+                                    eq: "%{level}+8"
                   - tail:
 
               - g:
@@ -233,7 +257,7 @@ inc:
                         zebra: true
                         avoid-shade: true
                         contents:
-                          - row:
+                          - layout: 2e
                             contents:
                               - field: ancestry
                                 legend: "_{Ancestry}"
@@ -252,23 +276,22 @@ inc:
                                 merge-bottom: true
                                 # value: '#{background}'
 
-                          - row:
+                          - layout: 2e
                             contents:
-                              - class-icon:
-                                size: tiny
-                              - field: class
-                                width: stretch
-                                legend: "_{Class}"
-                                merge-bottom: true
+                              - row:
+                                contents:
+                                  - class-icon:
+                                    size: tiny
+                                  - field: class
+                                    width: stretch
+                                    legend: "_{Class}"
+                                    merge-bottom: true
                               - zone: '@class-specialisation'
                                 contents:
-                                  - field: class-specialisation
-                                    label: "_{Subclass}"
+                                  - field: subclass
+                                    label: "#{subclass-label}"
                                     width: stretch
                                     merge-bottom: true
-                              - field: level
-                                label: "_{Level}"
-                                border: full
 
                           - g:
                             flex: tiny
@@ -319,7 +342,7 @@ inc:
                           - "_{Armour\nCheck\nPenalty}"
                         rows:
                           - slots:
-                            min: 20
+                            min: 18
                             reduce: 2
                             contents:
                               - sort: name
@@ -408,7 +431,7 @@ inc:
                                         acp: true
                                         fade: false
                                   - slots:
-                                    min: 2
+                                    min: 1
                                     max: 2
                                     placeholder:
                                       - skill: lore-#{i}
@@ -452,6 +475,8 @@ inc:
                             exists: "#{acp}"
                             prefix: "&ndash;"
 
+                      - p: "_{Assurance: May choose to take 10 rather than roll.}"
+
                       - hr:
                       - h5: "_{Skill Actions}"
                       - list:
@@ -460,8 +485,8 @@ inc:
                         light: true
                         contents:
                           - slots:
-                            min: 4
-                            max: 5
+                            min: 5
+                            max: 6
                             reduce: 1
                             contents:
                               - if: '#{skill-actions}'
@@ -629,40 +654,46 @@ inc:
                         avoid-shade: true
                         contents:
 
-                          - repeat: 4
+                          - repeat: 2
                             contents:
                               - paste: weapon
                                 params:
                                   i: '#{i}'
 
-                          - g:
-                            merge-bottom: true
+                          - repeat: 3
                             contents:
-                              - layout: 2e
-                                contents:
-                                  - paste: ammo
-                                    params:
-                                      i: 1
-                                      max: 20
-                                      legend: "_{Ammo}"
-                                  - paste: ammo
-                                    params:
-                                      i: 1
-                                      max: 10
-                                      label: "_{Special}"
-                              - hr:
-                              - layout: 2e
-                                contents:
-                                  - paste: ammo
-                                    params:
-                                      i: 1
-                                      max: 20
-                                      merge-bottom: true
-                                  - paste: ammo
-                                    params:
-                                      i: 1
-                                      max: 10
-                                      merge-bottom: true
+                              - paste: weapon-with-ammo
+                                params:
+                                  i: '#{i}'
+
+                          # - g:
+                          #   merge-bottom: true
+                          #   contents:
+                          #     - layout: 2e
+                          #       contents:
+                          #         - paste: ammo
+                          #           params:
+                          #             i: 1
+                          #             max: 20
+                          #             legend: "_{Ammo}"
+                          #         - paste: ammo
+                          #           params:
+                          #             i: 1
+                          #             max: 10
+                          #             label: "_{Special}"
+                          #     - hr:
+                          #     - layout: 2e
+                          #       contents:
+                          #         - paste: ammo
+                          #           params:
+                          #             i: 1
+                          #             max: 20
+                          #             merge-bottom: true
+                          #         - paste: ammo
+                          #           params:
+                          #             i: 1
+                          #             max: 10
+                          #             merge-bottom: true
 
           - layout: 2r
             contents:
@@ -1159,7 +1190,7 @@ inc:
                                 columns: 2
                                 field_frame: none
                                 contents:
-                                  - repeat: 12
+                                  - repeat: 8
                                     reduce: 2
                                     contents:
                                       - row:
@@ -1177,7 +1208,6 @@ inc:
               - g:
                 contents:
                   - section: "_{General Feats}"
-                    flex: small
                     contents:
                       - list:
                         columns: 2
@@ -1250,8 +1280,8 @@ inc:
                                             flex: small
                                             width: stretch
                                             frame: none
-                                            repeat: 14
-                                            reduce: 2
+                                            repeat: 15
+                                            reduce: 4
                                             merge-bottom: true
 
                   - tail:
