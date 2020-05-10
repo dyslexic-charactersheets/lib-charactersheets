@@ -37,7 +37,7 @@ function scanString(data, source, system, meta) {
 
     var match;
     var context = '';
-    if ((match = transRegex.exec(line)) !== null) {
+    while ((match = transRegex.exec(line)) !== null) {
       var message = match[1];
       pushEntry(system, message, context, source+":"+linenum, prevComment, meta);
     }

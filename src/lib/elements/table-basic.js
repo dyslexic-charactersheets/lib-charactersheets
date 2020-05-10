@@ -8,10 +8,11 @@ export function renderTableBasic(args, reg, doc, headings, rows) {
   let thead = '';
   if (!isNull(headings)) {
     const tcols = headings.map(col => {
+      const colCls = elementClass('th', null, col, ['vr'], { 'width': '' });
       const elem = reg.renderItem(col, doc);
       const cs = has(col, 'colspan') ? col.colspan : 1;
       const colspan = (cs > 1) ? ` colspan='${col.colspan}'` : '';
-      return `<th${colspan}>${elem}</th>`;
+      return `<th${colCls}${colspan}>${elem}</th>`;
     });
     thead = `<thead>${tcols.join("\n")}</thead>\n`;
   }
@@ -28,10 +29,13 @@ export function renderTableBasic(args, reg, doc, headings, rows) {
   const trows = rows.map(row => {
     const cells = row.cells.map((cell, h) => {
       if (h < headings.length) {
-        if (has(headings[h], "shade") && headings[h].shade)
-          cell.shade = true;
+        // if (has(headings[h], "shade") && headings[h].shade)
+        //   cell.shade = true;
+        // use object destructuring to extract fields from the heading
+        let colFields = (({shade, vr}) => ({shade, vr}))(headings[h]);
+        cell = {...colFields, ...cell};
       }
-      const cellCls = elementClass('td', null, cell, ['shade'], { 'align': '', 'valign': 'bottom' });
+      const cellCls = elementClass('td', null, cell, ['shade', 'vr'], { 'width': '', 'align': '', 'valign': 'bottom' });
       return `<td${cellCls}>${reg.renderItem(cell, doc)}</td>`;
     });
 

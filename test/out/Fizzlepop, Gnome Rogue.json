@@ -465,15 +465,12 @@
                           "type": "field",
                           "id": "build-class-key-ability",
                           "label": "_{Key Ability}",
-                          "width": "large"
-                        },
-                        {
-                          "type": "spacer"
+                          "width": "stretch"
                         },
                         {
                           "type": "field",
                           "id": "build-class-level",
-                          "label": "Level",
+                          "label": "_{Level}",
                           "underlay": 1,
                           "border": "full"
                         }
@@ -568,7 +565,7 @@
                   "inline": true,
                   "output": {
                     "type": "label",
-                    "label": "_{Ability\nModifier}"
+                    "label": "_{Ability Modifier}"
                   },
                   "inputs": [
                     {
@@ -577,7 +574,7 @@
                     },
                     {
                       "type": "label",
-                      "label": "_{Ability\nScore}"
+                      "label": "_{Ability Score}"
                     },
                     {
                       "type": "span",
@@ -608,10 +605,10 @@
                     "_{Class}\n+2",
                     "_{4 Free}\n+2",
                     "",
-                    "_{Ability\nScore}",
+                    "_{Ability Score}",
                     "",
-                    "_{Ability\nModifier}",
-                    "_{Key\nAbility}"
+                    "_{Ability Modifier}",
+                    "_{Key Ability}"
                   ],
                   "rows": [
                     {
@@ -843,10 +840,6 @@
                 },
                 {
                   "type": "p",
-                  "content": "_{If two sources give you training in the same skill, they don't add up. You may be able to spend the training elsewhere.}"
-                },
-                {
-                  "type": "p",
                   "content": "_{Become trained in a number of skills based on your class.}"
                 },
                 {
@@ -854,7 +847,7 @@
                   "inline": true,
                   "output": {
                     "type": "label",
-                    "label": "_{Additional\nSkills}"
+                    "label": "_{Additional Skills}"
                   },
                   "inputs": [
                     {
@@ -874,6 +867,10 @@
                       "underlay": "_{INT}"
                     }
                   ]
+                },
+                {
+                  "type": "p",
+                  "content": "_{If two sources give you training in the same skill, they don't add up. You may be able to spend the training elsewhere.}"
                 },
                 {
                   "type": "spacer"
@@ -897,7 +894,9 @@
                           "id": "proficiency-untrained",
                           "label": "_{Untrained}",
                           "output": true,
-                          "control": "proficiency",
+                          "control": "value",
+                          "icon": "proficiency",
+                          "border": "full",
                           "value": 0,
                           "ruby": "_{None}\n"
                         },
@@ -1262,7 +1261,7 @@
                     {
                       "type": "field",
                       "id": "build-starting-money",
-                      "legend": "_{Starting\nMoney}",
+                      "legend": "_{Starting Money}",
                       "suffix": "_{sp}",
                       "value": "150",
                       "border": "full",
@@ -1277,7 +1276,7 @@
                     {
                       "type": "field",
                       "id": "build-remaining-money",
-                      "label": "_{Remaining\nMoney}",
+                      "label": "_{Remaining Money}",
                       "control": "money",
                       "denomination": "silver",
                       "digits": 4
@@ -1369,6 +1368,615 @@
     {
       "level": 1,
       "order": 3,
+      "type": "page",
+      "id": "build",
+      "name": "_{Build A Character for Pathfinder Society}",
+      "no-bg": true,
+      "flex": true,
+      "numbered": false,
+      "contents": [
+        {
+          "type": "layout",
+          "layout": "2l",
+          "flex": "large",
+          "contents": [
+            {
+              "type": "g",
+              "contents": [
+                {
+                  "type": "h2",
+                  "title": "_{Pathfinder Society}"
+                },
+                {
+                  "type": "p",
+                  "content": "_{These extra steps will let you play a character that's legal for Pathfinder Society organised play games.}"
+                },
+                {
+                  "type": "p",
+                  "content": "https://paizo.com/pathfinderSociety"
+                },
+                {
+                  "type": "spacer"
+                }
+              ]
+            },
+            {
+              "type": "g",
+              "contents": [
+                {
+                  "type": "h5",
+                  "title": "_{Available Options}"
+                },
+                {
+                  "type": "p",
+                  "content": "_{PFS characters have access to all common options in the CRB, except:}"
+                },
+                {
+                  "type": "list",
+                  "contents": [
+                    {
+                      "type": "li",
+                      "content": "_{Connections skill feat}"
+                    }
+                  ]
+                },
+                {
+                  "type": "p",
+                  "content": "_{Pathfinders all posess a Wayfinder compass.}"
+                },
+                {
+                  "type": "p",
+                  "content": "_{Pathfinder Society characters must be at least young adults, and may not be evil.}"
+                },
+                {
+                  "type": "p",
+                  "content": "_{You may spend achievement points to unlock some ancestries, backgrounds and classes in other books.}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "layout",
+          "layout": "2l",
+          "flex": "small",
+          "contents": [
+            {
+              "type": "g",
+              "contents": [
+                {
+                  "type": "h4",
+                  "title": "_{Step Seven}"
+                },
+                {
+                  "type": "p",
+                  "content": "_{Register your character with Paizo.}"
+                }
+              ],
+              "valign": "top"
+            },
+            {
+              "type": "section",
+              "title": "_{Pathfinder Society}",
+              "contents": [
+                {
+                  "type": "row",
+                  "layout": null,
+                  "contents": [
+                    {
+                      "type": "field",
+                      "id": "pfs-number",
+                      "label": "Pathfinder Society #",
+                      "control": "compound",
+                      "border": "full",
+                      "size": "large",
+                      "width": "gargantuan",
+                      "parts": [
+                        {
+                          "type": "field",
+                          "id": "pfs-number-acct",
+                          "width": "huge",
+                          "align": "right"
+                        },
+                        {
+                          "type": "span",
+                          "content": "-"
+                        },
+                        {
+                          "type": "field",
+                          "id": "pfs-number-iter",
+                          "width": "small",
+                          "align": "left"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "spacer"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "layout",
+          "layout": "2l",
+          "flex": "small",
+          "contents": [
+            {
+              "type": "g",
+              "contents": [
+                {
+                  "type": "h4",
+                  "title": "_{Step Eight}"
+                },
+                {
+                  "type": "p",
+                  "content": "_{Gain networking points to represent your training with the Pathfinder Society.}"
+                }
+              ],
+              "valign": "top"
+            },
+            {
+              "type": "section",
+              "title": "_{Pathfinder Training}",
+              "contents": [
+                {
+                  "type": "layout",
+                  "layout": "2e",
+                  "contents": [
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "field",
+                          "id": "pfs-training",
+                          "value": "agent",
+                          "control": "radio",
+                          "frame": "right",
+                          "label": "_{Trained Agent}"
+                        },
+                        {
+                          "type": "field",
+                          "id": "pfs-networking",
+                          "control": "value",
+                          "value": 3,
+                          "frame": "right",
+                          "label": "_{Networking points}"
+                        },
+                        {
+                          "type": "spacer"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "field",
+                          "id": "pfs-training",
+                          "value": "field-commission",
+                          "control": "radio",
+                          "frame": "right",
+                          "label": "_{Field-Commissioned Agent}"
+                        },
+                        {
+                          "type": "p",
+                          "content": "_{Field-commissioned agents do not gain the networking points bonus.}"
+                        },
+                        {
+                          "type": "p",
+                          "content": "_{Instead they get 50% extra downtime between missions (12 days rather than 8).}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "layout",
+          "layout": "2l",
+          "flex": "small",
+          "contents": [
+            {
+              "type": "g",
+              "contents": [
+                {
+                  "type": "h4",
+                  "title": "_{Step Nine}"
+                },
+                {
+                  "type": "p",
+                  "content": "_{Pick a faction.}"
+                }
+              ],
+              "valign": "top"
+            },
+            {
+              "type": "section",
+              "title": "_{Faction}",
+              "contents": [
+                {
+                  "type": "row",
+                  "layout": null,
+                  "contents": [
+                    {
+                      "type": "field",
+                      "id": "pfs-faction",
+                      "width": "huge",
+                      "flex": "small",
+                      "label": "_{Faction}"
+                    },
+                    {
+                      "type": "p",
+                      "content": "_{Your faction gives you a faction boon.}"
+                    }
+                  ]
+                },
+                {
+                  "type": "g",
+                  "contents": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "layout",
+          "layout": "2l",
+          "flex": "small",
+          "contents": [
+            {
+              "type": "g",
+              "contents": [
+                {
+                  "type": "h4",
+                  "title": "_{Step Nine}"
+                },
+                {
+                  "type": "p",
+                  "content": "_{Your character earns bonuses by playing.}"
+                },
+                {
+                  "type": "p",
+                  "content": "_{A new PFS character will have no fame or reputation. You may carry achievement points between your characters.}"
+                }
+              ],
+              "valign": "top"
+            },
+            {
+              "type": "section",
+              "title": "_{Bonuses}",
+              "contents": [
+                {
+                  "type": "row",
+                  "layout": null,
+                  "contents": [
+                    {
+                      "type": "field",
+                      "id": "pfs-fame",
+                      "label": "_{Fame}",
+                      "underlay": "0",
+                      "border": "full",
+                      "width": "large"
+                    },
+                    {
+                      "type": "p",
+                      "content": "_{Fame represents your standing within the Pathfinder Society. Fame can be use to purchase faction boons.}"
+                    }
+                  ]
+                },
+                {
+                  "type": "row",
+                  "layout": null,
+                  "contents": [
+                    {
+                      "type": "field",
+                      "id": "pfs-reputation",
+                      "label": "_{Reputation}",
+                      "underlay": "0",
+                      "border": "full",
+                      "width": "large"
+                    },
+                    {
+                      "type": "p",
+                      "content": "_{Reputation represents your standing within your faction. A higher reputation unlocks faction boons you can purchase.}"
+                    }
+                  ]
+                },
+                {
+                  "type": "row",
+                  "layout": null,
+                  "contents": [
+                    {
+                      "type": "field",
+                      "id": "pfs-achievement",
+                      "label": "_{Achievement Points}",
+                      "border": "full",
+                      "width": "large",
+                      "suffix": "_{pts}"
+                    },
+                    {
+                      "type": "p",
+                      "content": "_{Achievement points can be used to purchase boons, or access ancestries or classes.}"
+                    }
+                  ]
+                },
+                {
+                  "type": "hr"
+                },
+                {
+                  "type": "h5",
+                  "title": "_{Boons}"
+                },
+                {
+                  "type": "layout",
+                  "layout": "2e",
+                  "contents": [
+                    {
+                      "type": "list",
+                      "hr": true,
+                      "light": true,
+                      "zebra": true,
+                      "contents": [
+                        {
+                          "type": "article",
+                          "id": "pfs-boon-1",
+                          "header": [
+                            {
+                              "type": "row",
+                              "blk": false,
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": "pfs-boon-1",
+                                  "frame": "none",
+                                  "align": "left",
+                                  "width": "stretch"
+                                }
+                              ]
+                            }
+                          ],
+                          "contents": [
+                            {
+                              "type": "field",
+                              "id": "pfs-boon-1-details",
+                              "frame": "none",
+                              "align": "left",
+                              "repeat": 3,
+                              "width": "stretch",
+                              "merge-bottom": true
+                            }
+                          ],
+                          "shade": false,
+                          "blk": true,
+                          "annotation": false,
+                          "merge-bottom": true
+                        },
+                        {
+                          "type": "article",
+                          "id": "pfs-boon-2",
+                          "header": [
+                            {
+                              "type": "row",
+                              "blk": false,
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": "pfs-boon-2",
+                                  "frame": "none",
+                                  "align": "left",
+                                  "width": "stretch"
+                                }
+                              ]
+                            }
+                          ],
+                          "contents": [
+                            {
+                              "type": "field",
+                              "id": "pfs-boon-2-details",
+                              "frame": "none",
+                              "align": "left",
+                              "repeat": 3,
+                              "width": "stretch",
+                              "merge-bottom": true
+                            }
+                          ],
+                          "shade": false,
+                          "blk": true,
+                          "annotation": false,
+                          "merge-bottom": true
+                        },
+                        {
+                          "type": "article",
+                          "id": "pfs-boon-3",
+                          "header": [
+                            {
+                              "type": "row",
+                              "blk": false,
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": "pfs-boon-3",
+                                  "frame": "none",
+                                  "align": "left",
+                                  "width": "stretch"
+                                }
+                              ]
+                            }
+                          ],
+                          "contents": [
+                            {
+                              "type": "field",
+                              "id": "pfs-boon-3-details",
+                              "frame": "none",
+                              "align": "left",
+                              "repeat": 3,
+                              "width": "stretch",
+                              "merge-bottom": true
+                            }
+                          ],
+                          "shade": false,
+                          "blk": true,
+                          "annotation": false,
+                          "merge-bottom": true
+                        }
+                      ]
+                    },
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "h6",
+                          "title": "_{Faction Boon}"
+                        },
+                        {
+                          "type": "article",
+                          "id": "pfs-boon-#{i}",
+                          "header": [
+                            {
+                              "type": "row",
+                              "blk": false,
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": "pfs-boon-#{i}",
+                                  "frame": "none",
+                                  "align": "left",
+                                  "width": "stretch"
+                                }
+                              ]
+                            }
+                          ],
+                          "contents": [
+                            {
+                              "type": "field",
+                              "id": "pfs-boon-#{i}-details",
+                              "frame": "none",
+                              "align": "left",
+                              "repeat": 3,
+                              "width": "stretch",
+                              "merge-bottom": true
+                            }
+                          ],
+                          "shade": false,
+                          "blk": true,
+                          "annotation": false,
+                          "merge-bottom": true
+                        },
+                        {
+                          "type": "hr"
+                        },
+                        {
+                          "type": "h6",
+                          "title": "_{Advanced Boon}"
+                        },
+                        {
+                          "type": "article",
+                          "id": "pfs-boon-#{i}",
+                          "header": [
+                            {
+                              "type": "row",
+                              "blk": false,
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": "pfs-boon-#{i}",
+                                  "frame": "none",
+                                  "align": "left",
+                                  "width": "stretch"
+                                }
+                              ]
+                            }
+                          ],
+                          "contents": [
+                            {
+                              "type": "field",
+                              "id": "pfs-boon-#{i}-details",
+                              "frame": "none",
+                              "align": "left",
+                              "repeat": 3,
+                              "width": "stretch",
+                              "merge-bottom": true
+                            }
+                          ],
+                          "shade": false,
+                          "blk": true,
+                          "annotation": false,
+                          "merge-bottom": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "layout",
+          "layout": "2l",
+          "flex": "small",
+          "contents": [
+            {
+              "type": "g",
+              "contents": [
+                {
+                  "type": "h4",
+                  "title": "_{Step Ten}"
+                },
+                {
+                  "type": "p",
+                  "content": "_{Play the game.}"
+                }
+              ],
+              "valign": "top"
+            },
+            {
+              "type": "section",
+              "title": "_{Play}",
+              "contents": [
+                {
+                  "type": "p",
+                  "content": "_{Find a game through your local Venture-Captain or online.}"
+                },
+                {
+                  "type": "row",
+                  "layout": null,
+                  "contents": [
+                    {
+                      "type": "field",
+                      "id": null,
+                      "border": "circle",
+                      "size": "huge",
+                      "contro": "value",
+                      "value": 1
+                    },
+                    {
+                      "type": "p",
+                      "content": "_{Start each game with one hero point and a free comsumable.}"
+                    }
+                  ]
+                },
+                {
+                  "type": "tail"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "spacer"
+        }
+      ]
+    },
+    {
+      "level": 1,
+      "order": 4,
       "type": "page",
       "id": "reference",
       "flex": true,
@@ -1740,7 +2348,6 @@
                             {
                               "type": "p",
                               "content": "_{Move at half speed. The GM rolls your stealth check in secret. Gain +2 from cover or +4 from greater cover. You cannot sneak without concealment.}",
-                              "blk": false,
                               "title": "_{Sneak (Stealth)}"
                             }
                           ]
@@ -1766,7 +2373,6 @@
                             {
                               "type": "p",
                               "content": "_{Achieve 1 success (2 on a critical) towards disabling a device. Thieves' tools may be required.}",
-                              "blk": false,
                               "title": "_{Disable a Device (Thievery)}"
                             }
                           ]
@@ -1792,7 +2398,6 @@
                             {
                               "type": "p",
                               "content": "_{Achieve 1 success (2 on a critical) towards opening a lock. Thieves' tools may be required.}",
-                              "blk": false,
                               "title": "_{Pick a Lock (Thievery)}"
                             }
                           ]
@@ -1824,6 +2429,99 @@
             {
               "type": "g",
               "contents": [
+                {
+                  "type": "h5",
+                  "title": "_{Proficiency}"
+                },
+                {
+                  "type": "layout",
+                  "layout": "5e",
+                  "contents": [
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "icon",
+                          "icon": "proficiency-untrained",
+                          "size": "large"
+                        },
+                        {
+                          "type": "h6",
+                          "title": "_{Untrained}"
+                        }
+                      ],
+                      "align": "center",
+                      "valign": "top"
+                    },
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "icon",
+                          "icon": "proficiency-trained",
+                          "size": "large"
+                        },
+                        {
+                          "type": "h6",
+                          "title": "_{Trained}"
+                        }
+                      ],
+                      "align": "center",
+                      "valign": "top"
+                    },
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "icon",
+                          "icon": "proficiency-expert",
+                          "size": "large"
+                        },
+                        {
+                          "type": "h6",
+                          "title": "_{Expert}"
+                        }
+                      ],
+                      "align": "center",
+                      "valign": "top"
+                    },
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "icon",
+                          "icon": "proficiency-master",
+                          "size": "large"
+                        },
+                        {
+                          "type": "h6",
+                          "title": "_{Master}"
+                        }
+                      ],
+                      "align": "center",
+                      "valign": "top"
+                    },
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "icon",
+                          "icon": "proficiency-legendary",
+                          "size": "large"
+                        },
+                        {
+                          "type": "h6",
+                          "title": "_{Legendary}"
+                        }
+                      ],
+                      "align": "center",
+                      "valign": "top"
+                    }
+                  ]
+                },
+                {
+                  "type": "hr"
+                },
                 {
                   "type": "h5",
                   "title": "_{Checks}"
@@ -1866,14 +2564,118 @@
                   ]
                 },
                 {
-                  "type": "dl",
-                  "div": true,
-                  "defs": {
-                    "Critical success:": "&ge; AC/DC + 10",
-                    "Success:": "&ge; AC/DC",
-                    "Failure:": "< AC/DC",
-                    "Critical failure": "< AC/DC - 10"
-                  }
+                  "type": "layout",
+                  "layout": "4e",
+                  "contents": [
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "h6",
+                          "title": "&ge; _{AC/DC} + 10"
+                        }
+                      ],
+                      "align": "center",
+                      "valign": "top"
+                    },
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "h6",
+                          "title": "&ge; _{AC/DC}"
+                        }
+                      ],
+                      "align": "center",
+                      "valign": "top"
+                    },
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "h6",
+                          "title": "&lt; _{AC/DC}"
+                        }
+                      ],
+                      "align": "center",
+                      "valign": "top"
+                    },
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "h6",
+                          "title": "&lt; _{AC/DC} - 10"
+                        }
+                      ],
+                      "align": "center",
+                      "valign": "top"
+                    },
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "icon",
+                          "icon": "save-crit-succeed",
+                          "size": "large"
+                        },
+                        {
+                          "type": "h6",
+                          "title": "_{Critical\nSuccess}"
+                        }
+                      ],
+                      "align": "center",
+                      "valign": "top"
+                    },
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "icon",
+                          "icon": "save-succeed",
+                          "size": "large"
+                        },
+                        {
+                          "type": "h6",
+                          "title": "_{Success}"
+                        }
+                      ],
+                      "align": "center",
+                      "valign": "top"
+                    },
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "icon",
+                          "icon": "save-fail",
+                          "size": "large"
+                        },
+                        {
+                          "type": "h6",
+                          "title": "_{Failure}"
+                        }
+                      ],
+                      "align": "center",
+                      "valign": "top"
+                    },
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "icon",
+                          "icon": "save-crit-fail",
+                          "size": "large"
+                        },
+                        {
+                          "type": "h6",
+                          "title": "_{Critical\nFailure}"
+                        }
+                      ],
+                      "align": "center",
+                      "valign": "top"
+                    }
+                  ]
                 },
                 {
                   "type": "row",
@@ -1889,6 +2691,82 @@
                       "nowrap": true
                     }
                   ]
+                },
+                {
+                  "type": "hr"
+                },
+                {
+                  "type": "h5",
+                  "title": "_{Basic Saving Throw}"
+                },
+                {
+                  "type": "layout",
+                  "layout": "4e",
+                  "contents": [
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "h5",
+                          "title": "0"
+                        }
+                      ],
+                      "align": "center",
+                      "valign": "top"
+                    },
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "h5",
+                          "title": "&frac12;"
+                        }
+                      ],
+                      "align": "center",
+                      "valign": "top"
+                    },
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "h5",
+                          "title": "1 &times;"
+                        }
+                      ],
+                      "align": "center",
+                      "valign": "top"
+                    },
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "h5",
+                          "title": "2 &times;"
+                        }
+                      ],
+                      "align": "center",
+                      "valign": "top"
+                    }
+                  ]
+                },
+                {
+                  "type": "row",
+                  "layout": null,
+                  "contents": [
+                    {
+                      "type": "spacer"
+                    },
+                    {
+                      "type": "p",
+                      "content": "_{CRB p449}",
+                      "icon": "book",
+                      "nowrap": true
+                    }
+                  ]
+                },
+                {
+                  "type": "hr",
+                  "swash": true
                 },
                 {
                   "type": "list",
@@ -1953,7 +2831,7 @@
                       "flags": [
                         "_{Disarm}"
                       ],
-                      "content": "_{Can use this weapon to disarm. Add the weapon's attack bonus to an Acrobatics check to disarm.}"
+                      "content": "_{Can use this weapon to disarm. Add the weapon's attack bonus to an Athletics check to disarm.}"
                     },
                     {
                       "type": "flags",
@@ -1983,7 +2861,7 @@
                   "header": [
                     {
                       "type": "h5",
-                      "title": "_{Armour traits}"
+                      "title": "_{Armour Traits}"
                     }
                   ],
                   "footer": [
@@ -2006,10 +2884,6 @@
                   "contents": []
                 },
                 {
-                  "type": "hr",
-                  "swash": true
-                },
-                {
                   "type": "spacer"
                 },
                 {
@@ -2024,7 +2898,7 @@
     },
     {
       "level": 1,
-      "order": 4,
+      "order": 5,
       "type": "page",
       "id": "cover",
       "name": "_{Cover}",
@@ -2066,11 +2940,38 @@
                           "contents": [
                             {
                               "type": "field",
-                              "id": "cover/campaign-name",
-                              "label": "_{Campaign}",
+                              "id": "pfs-number",
+                              "label": "Pathfinder Society #",
+                              "control": "compound",
+                              "border": "full",
+                              "width": "gargantuan",
+                              "parts": [
+                                {
+                                  "type": "field",
+                                  "id": "pfs-number-acct",
+                                  "width": "large",
+                                  "align": "right"
+                                },
+                                {
+                                  "type": "span",
+                                  "content": "-"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "pfs-number-iter",
+                                  "width": "small",
+                                  "align": "left"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "field",
+                              "id": "pfs-faction",
+                              "label": "Faction",
                               "width": "stretch"
                             }
-                          ]
+                          ],
+                          "replace": true
                         }
                       ]
                     },
@@ -2131,7 +3032,7 @@
     },
     {
       "level": 1,
-      "order": 5,
+      "order": 6,
       "type": "page",
       "id": "character",
       "name": "_{Character}",
@@ -2192,6 +3093,44 @@
                           "underlay": "_{XP}",
                           "width": "large",
                           "border": "full"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "row",
+                      "layout": null,
+                      "contents": [
+                        {
+                          "type": "field",
+                          "id": "pfs-number",
+                          "label": "Pathfinder Society #",
+                          "control": "compound",
+                          "border": "full",
+                          "width": "gargantuan",
+                          "parts": [
+                            {
+                              "type": "field",
+                              "id": "pfs-number-acct",
+                              "width": "large",
+                              "align": "right"
+                            },
+                            {
+                              "type": "span",
+                              "content": "-"
+                            },
+                            {
+                              "type": "field",
+                              "id": "pfs-number-iter",
+                              "width": "small",
+                              "align": "left"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "field",
+                          "id": "pfs-faction",
+                          "label": "Faction",
+                          "width": "stretch"
                         }
                       ]
                     }
@@ -2290,7 +3229,7 @@
                             {
                               "type": "field",
                               "id": "languages",
-                              "label": "Languages",
+                              "label": "_{Languages}",
                               "width": "stretch",
                               "repeat": 2,
                               "merge-bottom": true
@@ -2695,7 +3634,7 @@
                                   "control": "value",
                                   "value": 0,
                                   "icon": "proficiency",
-                                  "ruby": "_{Zero}\n"
+                                  "ruby": "&nbsp;\n"
                                 },
                                 {
                                   "type": "field",
@@ -2960,12 +3899,32 @@
                           "label": "_{Assurance}",
                           "align": "right"
                         },
-                        "_{Skill\nBonus}",
+                        {
+                          "type": "label",
+                          "label": "_{Skill Bonus}",
+                          "width": "medium"
+                        },
                         null,
-                        "_{Ability\nModifier}",
-                        "_{Proficiency}",
-                        "_{Feats\nMisc}",
-                        "_{Armour\nCheck\nPenalty}"
+                        {
+                          "type": "label",
+                          "label": "_{Ability Modifier}",
+                          "width": "medium"
+                        },
+                        {
+                          "type": "label",
+                          "label": "_{Proficiency}",
+                          "width": "medium"
+                        },
+                        {
+                          "type": "label",
+                          "label": "_{Feats Misc}",
+                          "width": "small"
+                        },
+                        {
+                          "type": "label",
+                          "label": "_{Armour Check Penalty}",
+                          "width": "medium"
+                        }
                       ],
                       "rows": [
                         {
@@ -3116,7 +4075,8 @@
                           "type": "field",
                           "id": "#{skill}-bonus",
                           "border": "full",
-                          "icon": "bonus"
+                          "icon": "bonus",
+                          "width": "medium"
                         },
                         {
                           "type": "span",
@@ -3128,19 +4088,22 @@
                           "id": null,
                           "ref": "#{abilityref}",
                           "underlay": "#{ability}",
-                          "label": "#{ability}"
+                          "label": "#{ability}",
+                          "width": "medium"
                         },
                         {
                           "frame": "none",
                           "type": "field",
                           "id": "#{skill}-proficiency",
-                          "control": "proficiency"
+                          "control": "proficiency",
+                          "width": "medium"
                         },
                         {
                           "frame": "none",
                           "type": "field",
                           "id": "#{skill}-misc",
-                          "misc": true
+                          "misc": true,
+                          "width": "medium"
                         },
                         {
                           "frame": "none",
@@ -3189,7 +4152,6 @@
                                 {
                                   "type": "p",
                                   "content": "_{Move at half speed. The GM rolls your stealth check in secret. Gain +2 from cover or +4 from greater cover. You cannot sneak without concealment.}",
-                                  "blk": false,
                                   "title": "_{Sneak (Stealth)}"
                                 }
                               ]
@@ -3215,7 +4177,6 @@
                                 {
                                   "type": "p",
                                   "content": "_{Achieve 1 success (2 on a critical) towards disabling a device. Thieves' tools may be required.}",
-                                  "blk": false,
                                   "title": "_{Disable a Device (Thievery)}"
                                 }
                               ]
@@ -3241,7 +4202,6 @@
                                 {
                                   "type": "p",
                                   "content": "_{Achieve 1 success (2 on a critical) towards opening a lock. Thieves' tools may be required.}",
-                                  "blk": false,
                                   "title": "_{Pick a Lock (Thievery)}"
                                 }
                               ]
@@ -3468,7 +4428,7 @@
     },
     {
       "level": 1,
-      "order": 6,
+      "order": 7,
       "type": "page",
       "id": "combat",
       "name": "_{Combat}",
@@ -4127,7 +5087,7 @@
                                 {
                                   "type": "field",
                                   "id": "attack-1-details",
-                                  "label": "Weapon Traits",
+                                  "label": "_{Weapon Traits}",
                                   "width": "stretch",
                                   "align": "left",
                                   "merge-bottom": true
@@ -4135,7 +5095,7 @@
                                 {
                                   "type": "field",
                                   "id": "attack-1-critical",
-                                  "label": "Critical",
+                                  "label": "_{Critical}",
                                   "width": "stretch",
                                   "align": "right",
                                   "merge-bottom": true
@@ -4262,7 +5222,7 @@
                                 {
                                   "type": "field",
                                   "id": "attack-2-details",
-                                  "label": "Weapon Traits",
+                                  "label": "_{Weapon Traits}",
                                   "width": "stretch",
                                   "align": "left",
                                   "merge-bottom": true
@@ -4270,7 +5230,7 @@
                                 {
                                   "type": "field",
                                   "id": "attack-2-critical",
-                                  "label": "Critical",
+                                  "label": "_{Critical}",
                                   "width": "stretch",
                                   "align": "right",
                                   "merge-bottom": true
@@ -4418,7 +5378,7 @@
                                 {
                                   "type": "field",
                                   "id": "attack-1-details",
-                                  "label": "Weapon Traits",
+                                  "label": "_{Weapon Traits}",
                                   "width": "stretch",
                                   "align": "left",
                                   "merge-bottom": true
@@ -4426,7 +5386,7 @@
                                 {
                                   "type": "field",
                                   "id": "attack-1-critical",
-                                  "label": "Critical",
+                                  "label": "_{Critical}",
                                   "width": "stretch",
                                   "align": "right",
                                   "merge-bottom": true
@@ -4574,7 +5534,7 @@
                                 {
                                   "type": "field",
                                   "id": "attack-2-details",
-                                  "label": "Weapon Traits",
+                                  "label": "_{Weapon Traits}",
                                   "width": "stretch",
                                   "align": "left",
                                   "merge-bottom": true
@@ -4582,7 +5542,7 @@
                                 {
                                   "type": "field",
                                   "id": "attack-2-critical",
-                                  "label": "Critical",
+                                  "label": "_{Critical}",
                                   "width": "stretch",
                                   "align": "right",
                                   "merge-bottom": true
@@ -4730,7 +5690,7 @@
                                 {
                                   "type": "field",
                                   "id": "attack-3-details",
-                                  "label": "Weapon Traits",
+                                  "label": "_{Weapon Traits}",
                                   "width": "stretch",
                                   "align": "left",
                                   "merge-bottom": true
@@ -4738,7 +5698,7 @@
                                 {
                                   "type": "field",
                                   "id": "attack-3-critical",
-                                  "label": "Critical",
+                                  "label": "_{Critical}",
                                   "width": "stretch",
                                   "align": "right",
                                   "merge-bottom": true
@@ -5404,7 +6364,7 @@
                       "columns": [
                         null,
                         null,
-                        "_{Ability\nModifier}",
+                        "_{Ability Modifier}",
                         "_{Proficiency}",
                         "_{Item}",
                         "_{Misc}"
@@ -5573,13 +6533,6 @@
                       "id": "saving-throws-conditional-1",
                       "frame": "none",
                       "align": "left",
-                      "width": "stretch"
-                    },
-                    {
-                      "type": "field",
-                      "id": "saving-throws-conditional-2",
-                      "frame": "none",
-                      "align": "left",
                       "width": "stretch",
                       "merge-bottom": true
                     }
@@ -5591,48 +6544,61 @@
                   "flex": "small",
                   "contents": [
                     {
-                      "type": "row",
-                      "layout": null,
-                      "contents": [
+                      "type": "table",
+                      "rows": [
                         {
-                          "type": "calc",
-                          "output": {
-                            "type": "field",
-                            "id": "focus",
-                            "suffix": "_{pts}",
-                            "width": "large",
-                            "legend": "_{Focus}"
-                          },
-                          "inputs": [
+                          "i": "1"
+                        },
+                        {
+                          "i": "2"
+                        },
+                        {
+                          "i": "3"
+                        }
+                      ],
+                      "columns": [
+                        {
+                          "type": "h5",
+                          "title": "_{Focus Spells}"
+                        },
+                        {
+                          "type": "label",
+                          "label": "_{Focus\nPoints}",
+                          "width": "small"
+                        },
+                        {
+                          "type": "label",
+                          "label": "_{Spent}",
+                          "vr": true,
+                          "width": "small"
+                        }
+                      ],
+                      "template": [
+                        {
+                          "type": "row",
+                          "layout": null,
+                          "contents": [
                             {
-                              "type": "field",
-                              "id": "focus-base",
-                              "label": "_{Class}"
+                              "type": "h5",
+                              "title": "#{i}"
                             },
                             {
-                              "type": "span",
-                              "content": "+"
-                            },
-                            {
                               "type": "field",
-                              "id": "focus-misc",
-                              "label": "_{Misc}",
-                              "misc": true
+                              "id": "focus-spell-#{i}",
+                              "width": "stretch",
+                              "align": "left"
                             }
                           ]
                         },
                         {
-                          "type": "spacer"
+                          "type": "field",
+                          "id": "focus-spell-point-#{i}",
+                          "control": "checkbox"
                         },
                         {
                           "type": "field",
-                          "id": "current-focus",
-                          "temp": true,
-                          "label": "_{Current Focus Points}",
-                          "align": "center",
-                          "width": "huge",
-                          "border": "full",
-                          "suffix": "_{pts}"
+                          "id": "focus-spell-point-today-#{i}",
+                          "control": "checkbox"
                         }
                       ]
                     },
@@ -5645,7 +6611,7 @@
                           "output": {
                             "type": "field",
                             "id": "focus-level",
-                            "legend": "_{Focus\nLevel}",
+                            "legend": "_{Focus Level}",
                             "width": "large"
                           },
                           "inputs": [
@@ -5695,7 +6661,7 @@
     },
     {
       "level": 1,
-      "order": 7,
+      "order": 8,
       "type": "page",
       "id": "feats",
       "flex": true,
@@ -6445,7 +7411,7 @@
                             },
                             {
                               "type": "label",
-                              "label": "_{Sneak\nAttack}",
+                              "label": "_{Sneak Attack}",
                               "rotate": false,
                               "align": "center",
                               "valign": "bottom",
@@ -6453,7 +7419,7 @@
                             },
                             {
                               "type": "label",
-                              "label": "_{Ancestry\nfeat}",
+                              "label": "_{Ancestry feat}",
                               "rotate": false,
                               "align": "center",
                               "valign": "bottom",
@@ -6461,7 +7427,7 @@
                             },
                             {
                               "type": "label",
-                              "label": "_{General\nfeat}",
+                              "label": "_{General feat}",
                               "rotate": false,
                               "align": "center",
                               "valign": "bottom",
@@ -6469,7 +7435,7 @@
                             },
                             {
                               "type": "label",
-                              "label": "_{Class\nfeat}",
+                              "label": "_{Class feat}",
                               "rotate": false,
                               "align": "center",
                               "valign": "bottom",
@@ -6477,7 +7443,7 @@
                             },
                             {
                               "type": "label",
-                              "label": "_{Skill\nfeat}",
+                              "label": "_{Skill feat}",
                               "rotate": false,
                               "align": "center",
                               "valign": "bottom",
@@ -6485,7 +7451,7 @@
                             },
                             {
                               "type": "label",
-                              "label": "_{Skill\nincrease}",
+                              "label": "_{Skill increase}",
                               "rotate": false,
                               "align": "center",
                               "valign": "bottom",
@@ -8485,7 +9451,7 @@
                         {
                           "type": "field",
                           "id": null,
-                          "label": "_{Key\nAbility}",
+                          "label": "_{Key Ability}",
                           "ref": "key-ability",
                           "misc": true
                         },
@@ -8553,7 +9519,7 @@
                             },
                             {
                               "type": "p",
-                              "content": "_{On the first round of combat, if you roll Decpetion or Stealth for initiative, creatures that haven't acted yet are flat-footed.}"
+                              "content": "_{On the first round of combat, if you roll Deception or Stealth for initiative, creatures that haven't acted yet are flat-footed.}"
                             }
                           ]
                         }
@@ -8825,7 +9791,7 @@
                               "contents": [
                                 {
                                   "type": "li",
-                                  "content": "_{May choose strenth as your key ability}"
+                                  "content": "_{May choose strength as your key ability}"
                                 }
                               ]
                             }

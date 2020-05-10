@@ -41,7 +41,7 @@ inc:
 
       - page: character
         name: "_{Character}"
-        order: 5
+        order: 6
         flex: true
         contents:
           - layout: 2l
@@ -128,7 +128,7 @@ inc:
                                     frame: none
                                     control: alignment
                               - field: languages
-                                label: "Languages"
+                                label: "_{Languages}"
                                 width: stretch
                                 repeat: 2
                                 merge-bottom: true
@@ -211,7 +211,7 @@ inc:
                                     control: value
                                     value: 0
                                     icon: proficiency
-                                    ruby: "_{Zero}\n"
+                                    ruby: "&nbsp;\n"
                                   # - field: proficiency-untrained
                                   #   label: "_{Untrained}"
                                   #   border: full
@@ -334,12 +334,17 @@ inc:
                           -
                           - label: "_{Assurance}"
                             align: right
-                          - "_{Skill\nBonus}"
+                          - label: "_{Skill Bonus}"
+                            width: medium
                           -
-                          - "_{Ability\nModifier}"
-                          - "_{Proficiency}"
-                          - "_{Feats\nMisc}"
-                          - "_{Armour\nCheck\nPenalty}"
+                          - label: "_{Ability Modifier}"
+                            width: medium
+                          - label: "_{Proficiency}"
+                            width: medium
+                          - label: "_{Feats Misc}"
+                            width: small
+                          - label: "_{Armour Check Penalty}"
+                            width: medium
                         rows:
                           - slots:
                             min: 18
@@ -459,16 +464,20 @@ inc:
                           - field: "#{skill}-bonus"
                             border: full
                             icon: bonus
+                            width: medium
                           - span: "="
                           - field:
                             ref: "#{abilityref}"
                             underlay: "#{ability}"
                             frame: h-label
                             label: "#{ability}"
+                            width: medium
                           - field: "#{skill}-proficiency"
                             control: proficiency
+                            width: medium
                           - field: "#{skill}-misc"
                             misc: true
+                            width: medium
                           - field: "#{skill}-acp"
                             ref: acp
                             border: full
@@ -569,7 +578,7 @@ inc:
 
       - page: combat
         name: "_{Combat}"
-        order: 6
+        order: 7
         flex: true
         contents:
           - layout: 2l
@@ -978,7 +987,7 @@ inc:
                         columns:
                           -
                           -
-                          - "_{Ability\nModifier}"
+                          - "_{Ability Modifier}"
                           - "_{Proficiency}"
                           - "_{Item}"
                           - "_{Misc}"
@@ -1024,7 +1033,7 @@ inc:
                         contents:
                           - p: "_{Save DC = 10 + Save Bonus}"
                       - slots:
-                        min: 5
+                        min: 4
                         reduce: 1
                         merge-bottom: true
                         contents:
@@ -1038,40 +1047,70 @@ inc:
                   - section: "_{Focus}"
                     flex: small
                     contents:
-                      - row:
-                        contents:
-                          - calc:
-                            output:
-                              field: focus
-                              suffix: "_{pts}"
-                              width: large
-                              legend: "_{Focus}"
-                            inputs:
-                              - join: '+'
-                                contents:
-                                  - zone: '@focus-points'
-                                    contents:
-                                      - field: focus-base
-                                        label: "_{Class}"
-                                  - field: focus-misc
-                                    label: "_{Misc}"
-                                    misc: true
-                          # - p: "Maximum focus: 3"
-                          - spacer:
-                          - field: current-focus
-                            temp: true
-                            label: "_{Current Focus Points}"
-                            align: center
-                            width: huge
-                            border: full
-                            suffix: "_{pts}"
+                      - table:
+                        rows:
+                          - slots:
+                            min: 3
+                            max: 3
+                            placeholder:
+                              - i: "#{i}"
+                            contents:
+                              - zone: '@focus-spells'
+                        columns:
+                          - h5: "_{Focus Spells}"
+                          - label: "_{Focus\nPoints}"
+                            # vr: true
+                            width: small
+                          - label: "_{Spent}"
+                            vr: true
+                            width: small
+                        template:
+                          - row:
+                            contents:
+                              - h5: "#{i}"
+                              # - icon: action-template
+                              - field: "focus-spell-#{i}"
+                                width: stretch
+                                align: left
+                          - field: "focus-spell-point-#{i}"
+                            control: checkbox
+                          - field: "focus-spell-point-today-#{i}"
+                            control: checkbox
+
+                      # - row:
+                      #   contents:
+                      #     - calc:
+                      #       output:
+                      #         field: focus
+                      #         suffix: "_{pts}"
+                      #         width: large
+                      #         legend: "_{Focus}"
+                      #       inputs:
+                      #         - join: '+'
+                      #           contents:
+                      #             - zone: '@focus-points'
+                      #               contents:
+                      #                 - field: focus-base
+                      #                   label: "_{Class}"
+                      #             - field: focus-misc
+                      #               label: "_{Misc}"
+                      #               misc: true
+                      #     # - p: "Maximum focus: 3"
+                      #     - spacer:
+                      #     - field: current-focus
+                      #       temp: true
+                      #       label: "_{Current Focus Points}"
+                      #       align: center
+                      #       width: huge
+                      #       border: full
+                      #       suffix: "_{pts}"
 
                       - row:
                         contents:
                           - calc:
                             output:
                               field: focus-level
-                              legend: "_{Focus\nLevel}"
+                              legend: "_{Focus Level}"
                               width: large
                             inputs:
                               - ruby-round-up:
@@ -1092,7 +1131,7 @@ inc:
                   - tail:
 
       - page: feats
-        order: 7
+        order: 8
         flex: true
         contents:
           - layout: 2e
@@ -1169,15 +1208,15 @@ inc:
                               - zone: '@advancement'
                             fields:
                               - zone: '@advancement-fields'
-                              - name: "_{Ancestry\nfeat}"
+                              - name: "_{Ancestry feat}"
                                 key: ancestry-feat
-                              - name: "_{General\nfeat}"
+                              - name: "_{General feat}"
                                 key: general-feat
-                              - name: "_{Class\nfeat}"
+                              - name: "_{Class feat}"
                                 key: class-feat
-                              - name: "_{Skill\nfeat}"
+                              - name: "_{Skill feat}"
                                 key: skill-feat
-                              - name: "_{Skill\nincrease}"
+                              - name: "_{Skill increase}"
                                 key: skill-increase
 
                           - g:

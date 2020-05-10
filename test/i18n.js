@@ -3,7 +3,7 @@ var fs = require('fs');
 var CharacterSheets = require('../lib/lib-charactersheets.js');
 require('../src/make/log.js');
 
-CharacterSheets.events.on('error', err => {
+CharacterSheets.on('error', err => {
   error("test", "onError", err);
 });
 
@@ -65,45 +65,59 @@ systems.forEach(system => {
   languages.forEach(lang => {
     var outdir = __dirname + '/out/i18n/' + system + "/" + lang;
     fs.mkdir(outdir, { recursive: true }, (err) => {
-      console.log("ERROR making dir:", err);
+      if (err) {
+        console.log("ERROR making dir:", err);
+      }
     });
   })
 });
 
+let queue = [];
+
 function makeCharacter(system, data, name) {
-  var base = {
-    version: 0,
-    data: {
-      type: "character",
-      attributes: {
-        game: system,
-        name: "",
+  Promise.all(queue).then(() => {
+    var base = {
+      version: 0,
+      data: {
+        type: "character",
+        attributes: {
+          game: system,
+          name: "",
+        }
       }
-    }
-  };
+    };
 
-  base.data.attributes = { ...base.data.attributes, ...data };
+    base.data.attributes = { ...base.data.attributes, ...data };
 
-  translationsPromise.then(() => {
-    languages.forEach(lang => {
-      var outfile = __dirname + '/out/i18n/' + system + "/" + lang + "/" + name + ".html";
+    translationsPromise.then(() => {
+      languages.forEach(lang => {
+        let promise = new Promise((resolve, reject) => {
+          var outfile = __dirname + '/out/i18n/' + system + "/" + lang + "/" + name + ".html";
 
-      var char = cloneDeep(base);
-      char.data.attributes.language = lang;
-      var characterSheet = CharacterSheets.create(char);
-      characterSheet.render(result => {
-        log("test", "Writing:", system, lang, name, data);
-        fs.writeFile(outfile, result.data, (err) => {
-          if (!!err)
-            error("test", err);
+          var char = cloneDeep(base);
+          char.data.attributes.language = lang;
+          CharacterSheets.create(char).then(characterSheet => {
+            if (characterSheet.err) {
+              console.log("Error creating character:", characterSheet.err);
+              return;
+            }
+            log("test", "Writing:", system, lang, name, data, `${characterSheet.data.length} bytes`);
+            fs.writeFile(outfile, characterSheet.data, (err) => {
+              if (!!err)
+                console.log("Error writing:", err);
+              resolve();
+            });
+          });
         });
+
+        queue.push(promise);
       });
     });
   });
 }
 
 systems.forEach(system => {
-  CharacterSheets.getFormData(system, formdata => {
+  CharacterSheets.getFormData(system).then(formdata => {
     var numTests = 0;
     log("i18n", "Form data", system, uniq(formdata.selects.map(s => s.select)).sort());
 

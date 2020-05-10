@@ -35,6 +35,10 @@ export let layout = {
           columns = 3;
           break;
 
+        case '4e':
+          columns = 4;
+          break;
+
         case '5e':
           columns = 5;
           break;

@@ -70,6 +70,10 @@ fs.readdir(indir, 'utf-8', (err, files) => {
             warn("test", "Skipping character");
             return;
           }
+          if (characterSheet === null) {
+            warn("test", "Skipping character");
+            return;
+          }
           saveResult(characterSheet);
         })
       });

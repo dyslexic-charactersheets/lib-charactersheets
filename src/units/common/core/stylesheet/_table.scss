@@ -78,12 +78,32 @@ table {
     }
   }
 
+  // .th--vr,
+  .td--vr {
+    border-left: $pt solid #808080;
+  }
+
   tr.tr--hr {
     td,
     th {
       border-top: $pt solid #808080;
     }
   }
+
+  $cell_width: 4rem;
+
+  @mixin cell_width($name, $width) {
+    th.th--width_#{$name}, td.td--width_#{$name} {
+      width: $width;
+    }
+  }
+  
+  @include cell_width("tiny", 0.6 * $cell-width);
+  @include cell_width("small", 0.85 * $cell-width);
+  @include cell_width("medium", $cell-width);
+  @include cell_width("large", 1.25 * $cell-width);
+  @include cell_width("huge", 1.5 * $cell-width);
+  // @include field_width("gargantuan", 3 * $cell-width);
 
   &.table--collapse {
     border-collapse: collapse;

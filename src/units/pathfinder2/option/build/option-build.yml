@@ -149,10 +149,9 @@ inc:
                             width: large
                           - field: build-class-key-ability
                             label: "_{Key Ability}"
-                            width: large
-                          - spacer:
+                            width: stretch
                           - field: build-class-level
-                            label: "Level"
+                            label: "_{Level}"
                             underlay: 1
                             border: full
                   - layout: 2e
@@ -190,10 +189,10 @@ inc:
                   - calc:
                     inline: true
                     output:
-                      label: "_{Ability\nModifier}"
+                      label: "_{Ability Modifier}"
                     inputs:
                       - span: "("
-                      - label: "_{Ability\nScore}"
+                      - label: "_{Ability Score}"
                       - span: "- 10 ) &divide; 2"
                   - spacer:
               - section: "_{Ability Scores}"
@@ -211,10 +210,10 @@ inc:
                       - "_{Class}\n+2"
                       - "_{4 Free}\n+2"
                       - ""
-                      - "_{Ability\nScore}"
+                      - "_{Ability Score}"
                       - ""
-                      - "_{Ability\nModifier}"
-                      - "_{Key\nAbility}"
+                      - "_{Ability Modifier}"
+                      - "_{Key Ability}"
                     rows:
                       - ability: "_{Strength}"
                         short: "_{STR}"
@@ -315,12 +314,11 @@ inc:
                         icon: book
                         nowrap: true
                   - p: "_{Your proficiency bonuses at level 1 are: 0, 3, 5, 7 and 9. They increase as you level up.}"
-                  - p: "_{If two sources give you training in the same skill, they don't add up. You may be able to spend the training elsewhere.}"
                   - p: "_{Become trained in a number of skills based on your class.}"
                   - calc:
                     inline: true
                     output:
-                      label: "_{Additional\nSkills}"
+                      label: "_{Additional Skills}"
                     inputs:
                       - field:
                         label: "_{Class}"
@@ -329,6 +327,7 @@ inc:
                         ref: INT
                         label: "_{INT}"
                         underlay: "_{INT}"
+                  - p: "_{If two sources give you training in the same skill, they don't add up. You may be able to spend the training elsewhere.}"
                   - spacer:
               - g:
                 valign: top
@@ -341,7 +340,9 @@ inc:
                           - field: proficiency-untrained
                             label: "_{Untrained}"
                             output: true
-                            control: proficiency
+                            control: value
+                            icon: proficiency
+                            border: full
                             value: 0
                             ruby: "_{None}\n"
                           - field: proficiency-trained
@@ -474,7 +475,7 @@ inc:
                     layout: split
                     contents:
                       - field: build-starting-money
-                        legend: "_{Starting\nMoney}"
+                        legend: "_{Starting Money}"
                         suffix: "_{sp}"
                         value: '150'
                         border: full
@@ -484,7 +485,7 @@ inc:
                         editable: false
                       - spacer:
                       - field: build-remaining-money
-                        label: "_{Remaining\nMoney}"
+                        label: "_{Remaining Money}"
                         control: money
                         denomination: silver
                         digits: 4
