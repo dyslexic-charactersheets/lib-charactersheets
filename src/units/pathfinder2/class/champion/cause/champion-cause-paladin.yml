@@ -50,10 +50,9 @@ inc:
                       - li: "_{Act with honour, never taking advantage of others, lying, or cheating.}"
                       - li: "_{Respect the lawful authority of legitimate leadership, and follow its laws.}"
                   - h5: "_{Anathema}"
-                  - field: anathema
-                    width: stretch
-                    frame: none
-                    repeat: 3
+                  - paste: anathema
+                    params:
+                      merge-bottom: false
                   - p: "_{If you violate your code of conduct, you lose your focus pool and divine ally until you demonstrate repentance.}"
 
   - at: '@advancement'
@@ -86,34 +85,45 @@ inc:
             contents:
               - action: reaction
                 contents:
-                  - p: "_{When an enemy damages your ally within 15 feet of you, the ally gains resistance. If the enemy is within reach, make a melee strike.}"
-                  - calc:
-                    output:
-                      field: paladin-retributive-strike-damage
-                      legend: "_{Resistance}"
-                      width: large
-                      prefix: "+"
-                    inputs:
-                      - span: "2 +"
-                      - field:
-                        ref: level
-                        label: "_{Level}"
+                  - g:
+                    pad: true
+                    contents:
+                      - p: "_{When an enemy damages your ally within 15 feet of you, the ally gains resistance. If the enemy is within reach, make a melee strike.}"
+                      - calc:
+                        output:
+                          field: paladin-retributive-strike-damage
+                          legend: "_{Resistance}"
+                          width: large
+                          prefix: "+"
+                        inputs:
+                          - span: "2 +"
+                          - field:
+                            ref: level
+                            label: "_{Level}"
+
               - level: 9
                 contents:
-                  - h5: "_{Divine Smite}"
-                  - p: "_{If you hit, target takes persistent good damage:}"
-                  - calc:
-                    output:
-                      field: champion-divine-smite-retributive-strike-damage
-                      legend: "_{Divine Smite\nDamage}"
-                      suffix: "_{pts}"
-                      width: large
-                    inputs:
-                      - field:
-                        ref: CHA
-                        label: "_{CHA}"
-                        underlay: "_{CHA}"
+                  - g:
+                    pad: true
+                    contents:
+                      - h5: "_{Divine Smite}"
+                      - p: "_{If you hit, target takes persistent good damage:}"
+                      - calc:
+                        output:
+                          field: champion-divine-smite-retributive-strike-damage
+                          legend: "_{Divine Smite\nDamage}"
+                          suffix: "_{pts}"
+                          width: large
+                        inputs:
+                          - field:
+                            ref: CHA
+                            label: "_{CHA}"
+                            underlay: "_{CHA}"
+
               - level: 11
                 contents:
-                  - h5: "_{Exalt}"
-                  - p: "_{When you use Retributive Strike, allies in range can spend a reaction to strike the target with a -5 penalty.}"
+                  - g:
+                    pad: true
+                    contents:
+                      - h5: "_{Exalt}"
+                      - p: "_{When you use Retributive Strike, allies in range can spend a reaction to strike the target with a -5 penalty.}"

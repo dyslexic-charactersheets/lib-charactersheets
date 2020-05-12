@@ -12,6 +12,7 @@ export let layout = {
     contents: [],
     blk: false,
     unblk: true,
+    vr: false,
   },
   render(args, reg, doc) {
     // pick a column number
@@ -24,7 +25,9 @@ export let layout = {
 
         case '2e':
         case '2l':
+        case '2ll':
         case '2r':
+        case '2rr':
         case 'alignment':
         case 'indent-l':
         case 'indent-lw':
@@ -63,7 +66,7 @@ export let layout = {
       return reg.render(items, doc);
     }
     
-    const cls = elementClass('layout', null, args, ['no-flex', 'blk', 'unblk'], { 'layout': '', 'gutter': '', 'flex': false });
+    const cls = elementClass('layout', null, args, ['no-flex', 'blk', 'unblk', 'vr'], { 'layout': '', 'gutter': '', 'flex': false });
     return `<div${cls}>${reg.render(args.contents, doc)}</div>`;
   }
 }

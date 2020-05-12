@@ -159,6 +159,7 @@ inc:
                                 light: true
                                 contents:
                                   - selectable: champion-blade-ally
+                                    pad: true
                                     contents:
                                       - h5: "_{Blade Ally}"
                                       - row:
@@ -170,6 +171,7 @@ inc:
                                             label: "Rune"
                                             width: stretch
                                   - selectable: champion-shield-ally
+                                    pad: true
                                     contents:
                                       - h5: "_{Shield Ally}"
                                       - row:
@@ -185,6 +187,7 @@ inc:
                                             label: "_{Broken\nThreshold}"
                                             suffix: "hp"
                                   - selectable: champion-steed-ally
+                                    pad: true
                                     contents:
                                       - h5: "_{Steed}"
                                       - field: champion-steed-ally-mount
@@ -226,51 +229,24 @@ inc:
                                     repeat: 5
                                   - h5: "_{Anathema}"
                                   - paste: anathema
-                                  # - field: anathema
-                                  #   width: stretch
-                                  #   repeat: 3
+                                    params:
+                                      merge-bottom: false
                                   - p: "_{If you violate your code of conduct, you lose your focus pool and divine ally until you demonstrate repentance.}"
 
                   - section: "_{Devotion Spells}"
                     flex: small
                     contents:
-                      - list:
-                        hr: true
-                        zebra: true
-                        avoid-shade: true
+                      - row:
                         contents:
-                          - row:
-                            contents:
-                              - calc:
-                                output:
-                                  field: divine-spell-attack
-                                  label: "_{Divine Spell\nAttack}"
-                                  width: large
-                                  icon: bonus
-                                inputs:
-                                  - field: key-ability
-                                    label: "Key Ability"
-                                    misc: true
-                                    ref: true
-                                  - field: divine-spell-proficiency
-                                    control: proficiency
-                                    label: "Proficiency"
-                              - calc:
-                                output:
-                                  field: divine-spell-dc
-                                  label: "_{Divine Spell\nSave DC}"
-                                  underlay: "_{DC}"
-                                  width: large
-                                  icon: dc
-                                inputs:
-                                  - span: "10 +"
-                                  - field: key-ability
-                                    label: "Key Ability"
-                                    misc: true
-                                    ref: true
-                                  - field: divine-spell-proficiency
-                                    control: proficiency
-                                    label: "Proficiency"
+                          - paste: spell-attack
+                            params:
+                              id: divine-spell-attack
+                              legend: "_{Divine Spell\nAttack}"
+
+                          - paste: spell-dc
+                            params:
+                              id: divine-spell-dc
+                              legend: "_{Divine Spell\nSave DC}"
 
                       - slots:
                         min: 1

@@ -10,6 +10,7 @@ export let g = {
     align: '',
     flex: 'medium',
     blk: false,
+    pad: false,
   },
   render(args, reg, doc) {
     const cls = elementClass('g', null, args, ['pad', 'blk'], { 'galign': 'justify', 'valign': 'center', 'align': '', 'flex': 'medium' });

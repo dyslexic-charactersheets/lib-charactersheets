@@ -7,6 +7,7 @@ export let level = {
   defaults: {
     level: 1,
     narrow: true,
+    blk: false,
     marker: "Level",
     contents: [],
     inline: false,
@@ -21,6 +22,7 @@ export let level = {
       {
         type: "layout",
         layout: layout,
+        blk: args.blk,
         contents: [
           {
             type: "g",

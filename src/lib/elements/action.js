@@ -3,6 +3,7 @@ export let action = {
   key: 'action',
   defaults: {
     action: 1,
+    blk: false,
     contents: [],
   },
   transform(args) {
@@ -24,6 +25,7 @@ export let action = {
       {
         type: "layout",
         layout: layout,
+        blk: args.blk,
         contents: [
           {
             type: "g",
@@ -49,6 +51,8 @@ export let selectable = {
   key: 'id',
   defaults: {
     id: '',
+    blk: false,
+    pad: false,
     selected: false,
     contents: []
   },
@@ -57,6 +61,7 @@ export let selectable = {
       {
         type: "layout",
         layout: "indent-l",
+        blk: args.blk,
         contents: [
           {
             type: "g",
@@ -72,6 +77,7 @@ export let selectable = {
           },
           {
             type: "g",
+            pad: args.pad,
             contents: args.contents
           }
         ]

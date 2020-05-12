@@ -333,6 +333,8 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
     case 'span':
     case 'b':
     case 'i':
+    case 'ul':
+    case 'li':
       break;
     default:
       cls.push(prefix);

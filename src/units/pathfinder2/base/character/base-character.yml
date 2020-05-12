@@ -1047,35 +1047,74 @@ inc:
                   - section: "_{Focus}"
                     flex: small
                     contents:
-                      - table:
-                        rows:
-                          - slots:
-                            min: 3
-                            max: 3
-                            placeholder:
-                              - i: "#{i}"
+                      - layout: 2rr
+                        vr: true
+                        contents:
+                          - g:
                             contents:
-                              - zone: '@focus-spells'
-                        columns:
-                          - h5: "_{Focus Spells}"
-                          - label: "_{Focus\nPoints}"
-                            # vr: true
-                            width: small
-                          - label: "_{Spent}"
-                            vr: true
-                            width: small
-                        template:
-                          - row:
+                              - h5: "_{Focus Spells}"
+                              - each:
+                                template:
+                                  - row:
+                                    contents:
+                                      - h5: "#{i}"
+                                      - item:
+                                contents:
+                                  - slots:
+                                    min: 3
+                                    max: 3
+                                    placeholder:
+                                      - field: "focus-spell-#{i}"
+                                        width: stretch
+                                        align: left
+                                    contents:
+                                      - zone: '@focus-spells'
+
+                          - g:
                             contents:
-                              - h5: "#{i}"
-                              # - icon: action-template
-                              - field: "focus-spell-#{i}"
-                                width: stretch
-                                align: left
-                          - field: "focus-spell-point-#{i}"
-                            control: checkbox
-                          - field: "focus-spell-point-today-#{i}"
-                            control: checkbox
+                              - field: focus-spells
+                                label: "_{Focus Points}"
+                                control: checkgrid
+                                depth: 1
+                                max: 3
+                                
+                              - field: focus-spells-spent
+                                label: "_{Focus Points Spent}"
+                                control: checkgrid
+                                depth: 1
+                                max: 3
+
+
+                      # - table:
+                      #   rows:
+                      #     - slots:
+                      #       min: 3
+                      #       max: 3
+                      #       placeholder:
+                      #         - i: "#{i}"
+                      #       contents:
+                      #         - zone: '@focus-spells'
+                      #   columns:
+                      #     - h5: "_{Focus Spells}"
+                      #     - label: "_{Focus\nPoints}"
+                      #       # vr: true
+                      #       width: small
+                      #     - label: "_{Spent}"
+                      #       vr: true
+                      #       width: small
+                      #   template:
+                      #     - row:
+                      #       contents:
+                      #         - h5: "#{i}"
+                      #         # - icon: action-template
+                      #         - field: "focus-spell-#{i}"
+                      #           width: stretch
+                      #           align: left
+                      #     - field: "focus-spell-point-#{i}"
+                      #       control: checkbox
+                      #     - field: "focus-spell-point-today-#{i}"
+                      #       control: checkbox
+
 
                       # - row:
                       #   contents:
