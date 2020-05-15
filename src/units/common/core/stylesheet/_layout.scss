@@ -11,11 +11,15 @@
   }
 
   &--gutter_small {
-    grid-gap: 0 0.3cm;
+    grid-gap: 0 0.3cm !important;
+  }
+
+  &--gutter_tiny {
+    grid-gap: 0 0.1cm !important;
   }
 
   &--gutter_none {
-    grid-gap: 0 0;
+    grid-gap: 0 0 !important;
   }
 
   &--layout_1n {
@@ -34,7 +38,7 @@
   }
 
   &--layout_2ll {
-    grid-template-columns: 1fr 4fr;
+    grid-template-columns: 2fr 9fr;
     grid-template-areas: "left right";
   }
 
@@ -44,7 +48,7 @@
   }
 
   &--layout_2rr {
-    grid-template-columns: 4fr 1fr;
+    grid-template-columns: 9fr 2fr;
     grid-template-areas: "left right";
   }
 
@@ -114,116 +118,93 @@
     grid-template-areas: "a b c d e f";
   }
 
-  // &--layout_landscape {
-  //     -webkit-transform: rotate(-90deg);
-  //     -moz-transform:rotate(-90deg);
-  //     transform: rotate(-90deg);
-  //     filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-  // }
 
-  // &.layout_inventory {
-  //     grid-template-columns: 5fr 4fr 4fr;
-  //     grid-template-rows: auto auto auto;
-  //     grid-template-areas:
-  //         "a b c"
-  //         "a d d"
-  //         "a e f";
-  // }
+  // === Indent layouts === 
 
   $indent: 1.75rem;
   $indent_wide: 3rem;
+  $indent_narrow: 1rem;
+
+  @mixin indent-item {
+    text-align: center;
+    .field--control_checkbox,
+    .level-marker {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  &--layout_indent-l,
+  &--layout_indent-r,
+  &--layout_indent-lr,
+  &--layout_indent-lw,
+  &--layout_indent-rw,
+  &--layout_indent-lrw,
+  &--layout_indent-ln,
+  &--layout_indent-rn,
+  &--layout_indent-lrn {
+    grid-gap: 3 * $pt;
+    align-items: center;
+  }
+
+  &--layout_indent-l,
+  &--layout_indent-lr,
+  &--layout_indent-lw,
+  &--layout_indent-lrw,
+  &--layout_indent-ln,
+  &--layout_indent-lrn {
+    > .g:first-child {
+      @include indent-item;
+    }
+  }
+
+  &--layout_indent-r,
+  &--layout_indent-lr,
+  &--layout_indent-rw,
+  &--layout_indent-lrw,
+  &--layout_indent-rn,
+  &--layout_indent-lrn {
+    > .g:last-child {
+      @include indent-item;
+    }
+  }
 
   &--layout_indent-l {
     grid-template-columns: $indent 1fr;
-    grid-gap: 3 * $pt;
-    align-items: center;
-
-    > .g:first-child {
-      text-align: center;
-      .field--control_checkbox,
-      .level-marker {
-        margin-left: auto;
-        margin-right: auto;
-      }
-    }
   }
 
   &--layout_indent-r {
     grid-template-columns: 1fr $indent;
-    grid-gap: 3 * $pt;
-    align-items: center;
-
-    > .g:last-child {
-      text-align: center;
-      .field--control_checkbox,
-      .level-marker {
-        margin-left: auto;
-        margin-right: auto;
-      }
-    }
   }
 
   &--layout_indent-lr {
     grid-template-columns: $indent 1fr $indent;
-    grid-gap: 3 * $pt;
-    align-items: center;
-
-    > .g:first-child,
-    > .g:last-child {
-      text-align: center;
-      .field--control_checkbox,
-      .level-marker {
-        margin-left: auto;
-        margin-right: auto;
-      }
-    }
   }
 
   &--layout_indent-lw {
     grid-template-columns: $indent_wide 1fr;
-    grid-gap: 3 * $pt;
-    align-items: center;
-
-    > .g:first-child {
-      text-align: center;
-      .field--control_checkbox,
-      .level-marker {
-        margin-left: auto;
-        margin-right: auto;
-      }
-    }
   }
 
   &--layout_indent-rw {
     grid-template-columns: 1fr $indent_wide;
-    grid-gap: 3 * $pt;
-    align-items: center;
-
-    > .g:last-child {
-      text-align: center;
-      .field--control_checkbox,
-      .level-marker {
-        margin-left: auto;
-        margin-right: auto;
-      }
-    }
   }
 
   &--layout_indent-lrw {
     grid-template-columns: $indent_wide 1fr $indent_wide;
-    grid-gap: 3 * $pt;
-    align-items: center;
-
-    > .g:first-child,
-    > .g:last-child {
-      text-align: center;
-      .field--control_checkbox,
-      .level-marker {
-        margin-left: auto;
-        margin-right: auto;
-      }
-    }
   }
+
+  &--layout_indent-ln {
+    grid-template-columns: $indent_narrow 1fr;
+  }
+
+  &--layout_indent-rn {
+    grid-template-columns: 1fr $indent_narrow;
+  }
+
+  &--layout_indent-lrn {
+    grid-template-columns: $indent_narrow 1fr $indent_narrow;
+  }
+
 
   &--layout_spells-list {
     grid-template-columns: 1fr 2rem 1fr;

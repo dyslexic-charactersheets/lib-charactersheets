@@ -625,8 +625,6 @@ inc:
                                 width: stretch
                       - zone: '@speed'
 
-                  - zone: '@weapon-spec-section'
-
                   - section: "_{Actions}"
                     id: actions
                     flex: large
@@ -645,10 +643,87 @@ inc:
                               action: template
                               contents:
                                 - article:
-                                  lines: 2
-                                  reduce: 1
+                                  lines: 1
                             contents:
-                              - zone: '@actions'
+                              - sort: order
+                                contents:
+                                  - zone: '@actions'
+
+                  - section: "_{Focus}"
+                    flex: small
+                    contents:
+                      - layout: 2rr
+                        vr: true
+                        contents:
+                          - g:
+                            contents:
+                              - h5: "_{Focus Spells}"
+                              - list:
+                                hr: true
+                                zebra: true
+                                contents:
+                                  - each:
+                                    template:
+                                      - layout: indent-ln
+                                        gutter: tiny
+                                        contents:
+                                          - h5: "#{i}"
+                                          - item:
+                                    contents:
+                                      - slots:
+                                        min: 3
+                                        max: 3
+                                        reduce: 1
+                                        placeholder:
+                                          - field: "focus-spell-#{i}"
+                                            width: stretch
+                                            align: left
+                                            merge-bottom: true
+                                            repeat: 2
+                                        contents:
+                                          - sort: order
+                                            contents:
+                                              - zone: '@focus-spells'
+
+                          - g:
+                            contents:
+                              - field: focus-spells
+                                label: "_{Focus Points}"
+                                control: checkgrid
+                                depth: 1
+                                max: 3
+                                
+                              - field: focus-spells-spent
+                                label: "_{Focus Points Spent}"
+                                control: checkgrid
+                                depth: 1
+                                max: 3
+
+                      - row:
+                        contents:
+                          - calc:
+                            output:
+                              field: focus-level
+                              legend: "_{Focus Level}"
+                              width: large
+                            inputs:
+                              - ruby-round-up:
+                                contents:
+                                  - field:
+                                    ref: level
+                                    label: "_{Level}"
+                                  - span: "&divide; 2"
+
+                          - spacer:
+                          - field: refocus
+                            label: "_{Refocus}"
+                            border: full
+                            width: huge
+                            prefix: "+"
+                            underlay: "1"
+                            suffix: "_{pts}"
+
+                  - zone: '@weapon-spec-section'
 
               - g:
                 contents:
@@ -663,6 +738,10 @@ inc:
                         avoid-shade: true
                         contents:
 
+                          - g:
+                            contents:
+                              - paste: multi-attack-penalty
+
                           - repeat: 2
                             contents:
                               - paste: weapon
@@ -674,35 +753,6 @@ inc:
                               - paste: weapon-with-ammo
                                 params:
                                   i: '#{i}'
-
-                          # - g:
-                          #   merge-bottom: true
-                          #   contents:
-                          #     - layout: 2e
-                          #       contents:
-                          #         - paste: ammo
-                          #           params:
-                          #             i: 1
-                          #             max: 20
-                          #             legend: "_{Ammo}"
-                          #         - paste: ammo
-                          #           params:
-                          #             i: 1
-                          #             max: 10
-                          #             label: "_{Special}"
-                          #     - hr:
-                          #     - layout: 2e
-                          #       contents:
-                          #         - paste: ammo
-                          #           params:
-                          #             i: 1
-                          #             max: 20
-                          #             merge-bottom: true
-                          #         - paste: ammo
-                          #           params:
-                          #             i: 1
-                          #             max: 10
-                          #             merge-bottom: true
 
           - layout: 2r
             contents:
@@ -778,40 +828,6 @@ inc:
                               - icon: evil
                                 size: small
                                 optional: true
-
-                      - hr:
-                      - h5: "_{Effects}"
-                      - layout: 2e
-                        contents:
-                          - repeat: 2
-                            contents:
-                              - g:
-                                contents:
-                                  - row:
-                                    contents:
-                                      - field: effect-#{i}
-                                        control: progression
-                                        frame: none
-                                        parts:
-                                          - id: effect-#{i}-1
-                                            control: checkbox
-                                          - id: effect-#{i}-2
-                                            control: checkbox
-                                          - id: effect-#{i}-3
-                                            control: checkbox
-                                      - field: effect-#{i}
-                                        width: stretch
-                                        frame: none
-                                      - field: effect-#{i}-duration
-                                        frame: none
-                                        underlay: "#"
-                                        affix: "_{rds}"
-                                        width: small
-                                      - field:
-                                        control: checkgrid
-                                        frame: none
-                                        max: 6
-                                        depth: 2
 
                   - section: "_{Armour Class}"
                     id: armour
@@ -889,28 +905,6 @@ inc:
                         contents:
                           - section:
                             untitled: true
-                            mark: armour
-                            merge-bottom: true
-                            contents:
-                              - hr:
-                              - field: armour
-                                legend: "_{Armour}"
-                                size: large
-                                width: stretch
-                                flex: none
-                                icon: armour
-                              - slots:
-                                min: 5
-                                reduce: 1
-                                contents:
-                                  - zone: '@ac-conditional'
-                                placeholder:
-                                  - field: "ac-conditional-#{i}"
-                                    frame: none
-                                    width: stretch
-
-                          - section:
-                            untitled: true
                             mark: shield
                             contents:
                               - hr:
@@ -931,7 +925,7 @@ inc:
                                           - action:
                                             contents:
                                               - p:
-                                                title: "_{Raise shield}"
+                                                title: "_{Raise Shield}"
                                           - spacer:
                                           - field: shield-ac
                                             frame: none
@@ -942,13 +936,16 @@ inc:
                                             width: large
                                   - g:
                                     contents:
-                                      - selectable: 'shield-block'
+                                      - action: reaction
                                         contents:
-                                          - action: reaction
+                                          - p:
+                                            title: "_{Shield Block}"
+                                            content: "_{Deduct hardness, then apply remaining damage to both shield and yourself.}"
+
+                                          - selectable: 'shield-block'
                                             contents:
-                                              - p:
-                                                title: "_{Shield Block}"
-                                                content: "_{Deduct hardness, then apply remaining damage to both shield and yourself.}"
+                                              - p: "_{Shield Block}"
+                                      
                                       - row:
                                         contents:
                                           - spacer:
@@ -973,6 +970,28 @@ inc:
                                                 border: full
                                                 temp: true
                                                 suffix: "_{hp}"
+
+                          - section:
+                            untitled: true
+                            mark: armour
+                            merge-bottom: true
+                            contents:
+                              - hr:
+                              - field: armour
+                                legend: "_{Armour}"
+                                size: large
+                                width: stretch
+                                flex: none
+                                icon: armour
+                              - slots:
+                                min: 5
+                                reduce: 1
+                                contents:
+                                  - zone: '@ac-conditional'
+                                placeholder:
+                                  - field: "ac-conditional-#{i}"
+                                    frame: none
+                                    width: stretch
 
                   - tail:
 
@@ -1033,7 +1052,7 @@ inc:
                         contents:
                           - p: "_{Save DC = 10 + Save Bonus}"
                       - slots:
-                        min: 4
+                        min: 5
                         reduce: 1
                         merge-bottom: true
                         contents:
@@ -1044,129 +1063,44 @@ inc:
                             align: left
                             width: stretch
 
-                  - section: "_{Focus}"
-                    flex: small
+                  - section: "_{Effects}"
                     contents:
-                      - layout: 2rr
-                        vr: true
+                      - list:
+                        hr: true
+                        zebra: true
                         contents:
-                          - g:
+                          - repeat: 3
                             contents:
-                              - h5: "_{Focus Spells}"
-                              - each:
-                                template:
+                              - g:
+                                contents:
                                   - row:
                                     contents:
-                                      - h5: "#{i}"
-                                      - item:
-                                contents:
-                                  - slots:
-                                    min: 3
-                                    max: 3
-                                    placeholder:
-                                      - field: "focus-spell-#{i}"
+                                      - field: effect-#{i}
+                                        control: progression
+                                        frame: none
+                                        parts:
+                                          - id: effect-#{i}-1
+                                            control: checkbox
+                                          - id: effect-#{i}-2
+                                            control: checkbox
+                                          - id: effect-#{i}-3
+                                            control: checkbox
+                                      - field: effect-#{i}
                                         width: stretch
-                                        align: left
-                                    contents:
-                                      - zone: '@focus-spells'
+                                        frame: none
+                                        merge-bottom: true
+                                      - field: effect-#{i}-duration
+                                        frame: none
+                                        underlay: "#"
+                                        affix: "_{rds}"
+                                        width: small
+                                        merge-bottom: true
+                                      - field: effect-#{i}-rounds
+                                        control: checkgrid
+                                        frame: none
+                                        max: 6
+                                        depth: 2
 
-                          - g:
-                            contents:
-                              - field: focus-spells
-                                label: "_{Focus Points}"
-                                control: checkgrid
-                                depth: 1
-                                max: 3
-                                
-                              - field: focus-spells-spent
-                                label: "_{Focus Points Spent}"
-                                control: checkgrid
-                                depth: 1
-                                max: 3
-
-
-                      # - table:
-                      #   rows:
-                      #     - slots:
-                      #       min: 3
-                      #       max: 3
-                      #       placeholder:
-                      #         - i: "#{i}"
-                      #       contents:
-                      #         - zone: '@focus-spells'
-                      #   columns:
-                      #     - h5: "_{Focus Spells}"
-                      #     - label: "_{Focus\nPoints}"
-                      #       # vr: true
-                      #       width: small
-                      #     - label: "_{Spent}"
-                      #       vr: true
-                      #       width: small
-                      #   template:
-                      #     - row:
-                      #       contents:
-                      #         - h5: "#{i}"
-                      #         # - icon: action-template
-                      #         - field: "focus-spell-#{i}"
-                      #           width: stretch
-                      #           align: left
-                      #     - field: "focus-spell-point-#{i}"
-                      #       control: checkbox
-                      #     - field: "focus-spell-point-today-#{i}"
-                      #       control: checkbox
-
-
-                      # - row:
-                      #   contents:
-                      #     - calc:
-                      #       output:
-                      #         field: focus
-                      #         suffix: "_{pts}"
-                      #         width: large
-                      #         legend: "_{Focus}"
-                      #       inputs:
-                      #         - join: '+'
-                      #           contents:
-                      #             - zone: '@focus-points'
-                      #               contents:
-                      #                 - field: focus-base
-                      #                   label: "_{Class}"
-                      #             - field: focus-misc
-                      #               label: "_{Misc}"
-                      #               misc: true
-                      #     # - p: "Maximum focus: 3"
-                      #     - spacer:
-                      #     - field: current-focus
-                      #       temp: true
-                      #       label: "_{Current Focus Points}"
-                      #       align: center
-                      #       width: huge
-                      #       border: full
-                      #       suffix: "_{pts}"
-
-                      - row:
-                        contents:
-                          - calc:
-                            output:
-                              field: focus-level
-                              legend: "_{Focus Level}"
-                              width: large
-                            inputs:
-                              - ruby-round-up:
-                                contents:
-                                  - field:
-                                    ref: level
-                                    label: "_{Level}"
-                                  - span: "&divide; 2"
-
-                          - spacer:
-                          - field: refocus
-                            label: "_{Refocus}"
-                            border: full
-                            width: huge
-                            prefix: "+"
-                            underlay: "1"
-                            suffix: "_{pts}"
                   - tail:
 
       - page: feats

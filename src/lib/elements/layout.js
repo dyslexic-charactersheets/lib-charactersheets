@@ -30,7 +30,14 @@ export let layout = {
         case '2rr':
         case 'alignment':
         case 'indent-l':
+        case 'indent-r':
+        case 'indent-lr':
         case 'indent-lw':
+        case 'indent-rw':
+        case 'indent-lrw':
+        case 'indent-ln':
+        case 'indent-rn':
+        case 'indent-lrn':
           columns = 2;
           break;
 

@@ -4,6 +4,7 @@ export let action = {
   defaults: {
     action: 1,
     blk: false,
+    order: 1,
     contents: [],
   },
   transform(args) {
@@ -26,6 +27,7 @@ export let action = {
         type: "layout",
         layout: layout,
         blk: args.blk,
+        order: args.order,
         contents: [
           {
             type: "g",
