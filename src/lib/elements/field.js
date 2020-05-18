@@ -151,7 +151,15 @@ export function fieldInner(args, reg, doc, decoration) {
     
     for (let i = 0; i < args.parts.length; i++) {
       const value = i >= values.length ? null : values[i];
-      const partArgs = {...args, label: '', control: 'input', border: 'full', width: 'medium', ...args.parts[i], value};
+      const part = args.parts[i];
+
+      if (has(part, "type") && part.type != "field") {
+        let item = reg.renderItem(part, doc);
+        boxes.push(item);
+        continue;
+      }
+
+      const partArgs = {...args, label: '', control: 'input', border: 'full', width: 'medium', ...part, value};
       partArgs = {...partArgs, type: 'control:' + partArgs.control};
       const control = reg.renderItem(partArgs, doc);
       

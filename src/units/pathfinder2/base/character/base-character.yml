@@ -650,78 +650,82 @@ inc:
                                   - zone: '@actions'
 
                   - section: "_{Focus}"
-                    flex: small
+                    id: focus
+                    flex: large
                     contents:
-                      - layout: 2rr
-                        vr: true
+                      - list:
+                        hr: true
+                        zebra: true
+                        avoid-shade: true
                         contents:
-                          - g:
-                            contents:
-                              - h5: "_{Focus Spells}"
-                              - list:
-                                hr: true
-                                zebra: true
+                          - each:
+                            template:
+                              - layout: indent-ln
+                                gutter: tiny
                                 contents:
-                                  - each:
-                                    template:
-                                      - layout: indent-ln
-                                        gutter: tiny
-                                        contents:
-                                          - h5: "#{i}"
-                                          - item:
+                                  - h5: "#{i}"
+                                  - item:
+                            contents:
+                              - slots:
+                                min: 3
+                                max: 3
+                                reduce: 1
+                                placeholder:
+                                  - action: template
                                     contents:
-                                      - slots:
-                                        min: 3
-                                        max: 3
-                                        reduce: 1
-                                        placeholder:
-                                          - field: "focus-spell-#{i}"
-                                            width: stretch
-                                            align: left
-                                            merge-bottom: true
-                                            repeat: 2
-                                        contents:
-                                          - sort: order
-                                            contents:
-                                              - zone: '@focus-spells'
-
+                                      - field: "focus-spell-#{i}"
+                                        width: stretch
+                                        align: left
+                                        merge-bottom: true
+                                        repeat: 2
+                                contents:
+                                  - sort: order
+                                    contents:
+                                      - zone: '@focus-spells'
                           - g:
                             contents:
-                              - field: focus-spells
-                                label: "_{Focus Points}"
-                                control: checkgrid
-                                depth: 1
-                                max: 3
-                                
-                              - field: focus-spells-spent
-                                label: "_{Focus Points Spent}"
-                                control: checkgrid
-                                depth: 1
-                                max: 3
-
-                      - row:
-                        contents:
-                          - calc:
-                            output:
-                              field: focus-level
-                              legend: "_{Focus Level}"
-                              width: large
-                            inputs:
-                              - ruby-round-up:
+                              - row:
                                 contents:
-                                  - field:
-                                    ref: level
-                                    label: "_{Level}"
-                                  - span: "&divide; 2"
+                                  - calc:
+                                    output:
+                                      field: focus-level
+                                      legend: "_{Focus Level}"
+                                    inputs:
+                                      - ruby-round-up:
+                                        contents:
+                                          - field:
+                                            ref: level
+                                            label: "_{Level}"
+                                          - span: "&divide; 2"
 
-                          - spacer:
-                          - field: refocus
-                            label: "_{Refocus}"
-                            border: full
-                            width: huge
-                            prefix: "+"
-                            underlay: "1"
-                            suffix: "_{pts}"
+                                  - spacer:
+                                  
+                                  - field: focus-points
+                                    legend: "_{Focus Points}"
+                                    control: compound
+                                    border: multi
+                                    parts:
+                                      - control: checkgrid
+                                        depth: 1
+                                        max: 3
+                                        ruby: "_{Total}"
+                                        border: none
+                                      - type: vr
+                                      - control: checkgrid
+                                        depth: 1
+                                        max: 3
+                                        ruby: "_{Current}"
+                                        border: none
+
+                                  - spacer:
+                                  - field: refocus
+                                    label: "_{Refocus}"
+                                    border: full
+                                    width: large
+                                    prefix: "+"
+                                    underlay: "1"
+                                    suffix: "_{pt}"
+                                    ruby: "_{Once only}"
 
                   - zone: '@weapon-spec-section'
 

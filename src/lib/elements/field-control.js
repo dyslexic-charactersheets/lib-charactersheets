@@ -311,16 +311,17 @@ export let field_control_checkgrid = {
     for (let i = 1; i <= args.max; i++) {
       const ident = fieldIdent(args.id, i);
       const checked = (i <= args.value) ? ' checked' : '';
-      const cls = elementClass("field", "control", args, [], ["control"]);
+      let a = { ...args, control: 'checkbox' };
+      const cls = elementClass("field", "control", a, [], ["control"]);
       const check = `<div${cls}><input type='checkbox'${ident.ident}${checked}><label${ident.for}></label></div>`;
       checks.push(check);
     }
 
     const groups = _.chunk(checks, args.group).map(ch => {
       const grouplen = Math.ceil(parseFloat(ch.length) / parseFloat(args.depth));
-      let a = { dir: args.dir, w: args.w, h: args.h };
+      let a = { control: 'checkgrid', dir: args.dir, w: args.w, h: args.h };
       a[args.direction == 'horizontal' ? 'w' : 'h'] = grouplen;
-      const cls = elementClass("field", "control-group", a, [], ["dir", "w", "h"]);
+      const cls = elementClass("field", "control-group", a, [], ["control", "dir", "w", "h"]);
       return `<div${cls}>${ch.join("")}</div>`
     });
 
