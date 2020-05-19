@@ -16,20 +16,27 @@ inc:
             contents:
               - g:
                 contents:
+                  - h5: "_{Build A Character}"
+                    align: center
                   - h2: "_{Pathfinder Society}"
-                  - p: "_{These extra steps will let you play a character that's legal for Pathfinder Society organised play games.}"
-                  - p: "https://paizo.com/pathfinderSociety"
+                  - p: "_{These extra steps will let you build a character that's legal for Pathfinder Society organised play.}"
                   - spacer:
               - g:
                 contents:
-                  - h5: "_{Available Options}"
-                  - p: "_{PFS characters have access to all common options in the CRB, except:}"
-                  - list:
+                  - layout: 2e
                     contents:
-                      - li: "_{Connections skill feat}"
-                  - p: "_{Pathfinders all posess a Wayfinder compass.}"
-                  - p: "_{Pathfinder Society characters must be at least young adults, and may not be evil.}"
-                  - p: "_{You may spend achievement points to unlock some ancestries, backgrounds and classes in other books.}"
+                      - g:
+                        contents:
+                          - h5: "_{Available Options}"
+                          - p: "_{Pathfinder Society characters must be at least young adults, and may not be evil.}"
+                          - p: "_{Check online to see which options are legal.}"
+                          - p: "https://paizo.com/pathfinderSociety"
+
+                      - g:
+                        contents:
+                          - h5: "_{Inventory}"
+                          - p: "_{Pathfinders all posess a Wayfinder compass.}"
+                          - spacer:
 
           - layout: 2l
             flex: small
@@ -57,6 +64,11 @@ inc:
                           - field: pfs-number-iter
                             width: small
                             align: left
+                      
+                      - g:
+                        contents:
+                          - p: "_{Register on:}"
+                          - p: "_{https://paizo.com/organizedPlay/myAccount}"
                       - spacer:
 
           - layout: 2l
@@ -80,13 +92,16 @@ inc:
                             label: "_{Trained Agent}"
                           - row:
                             contents:
-                              - field: pfs-fame
+                              - field: pfs-networking
                                 label: "_{Networking points}"
                                 border: full
+                                control: value
+                                value: 3
                                 width: large
-                              - p: "_{Networking points can be spent to buy consumables or lore skills.}"
+                              - p: "_{[b]Networking points[/b] can be spent to buy consumables or lore skills.}"
                                 blk: false
                           - spacer:
+
                       - g:
                         contents:
                           - field: pfs-training
@@ -95,8 +110,57 @@ inc:
                             frame: right
                             label: "_{Field-Commissioned Agent}"
 
-                          - p: "_{Field-commissioned agents do not gain the networking points bonus.}"
-                          - p: "_{Instead they get 50% extra downtime between missions (12 days rather than 8).}"
+                          - p: "_{Gain 50% extra downtime between missions (12 days rather than 8).}"
+                          - spacer:
+
+                  - hr:
+                  - table:
+                    rows:
+                      - id: 1pt
+                        name: "_{1pt}"
+                        bonus: "_{Your free consumable may be taken from your school's item list.}"
+                      - id: 2pt
+                        name: "_{2pt}"
+                        bonus: "_{Trained in one lore skill. At level 5, gain a bonus skill feat.}"
+                      - id: 3pt
+                        name: "_{3pt}"
+                        bonus: "_{Second free consumable taken from your school's item list, up to half your level.}"
+                    template:
+                      - selectable:
+                      - field:
+                        control: value
+                        value: "#{name}"
+                        frame: none
+                      - p: "#{bonus}"
+                        align: left
+                      
+                  - hr:
+                  - table:
+                    rows:
+                      - id: scrolls
+                        name: "_{Scroll}"
+                        loreskills: "_{Accounting Lore, Library Lore, Scribing Lore}"
+                        bonusfeats: "_{Assurance, Automatic Knowledge, Multilingual, Streetwise}"
+                      - id: spells
+                        name: "_{Spells}"
+                        loreskills: "_{Academia Lore, Architecture Lore, Herbalism Lore}"
+                        bonusfeats: "_{Arcane Sense, Assurance, Quick Identification, Recognise Spell}"
+                      - id: swords
+                        name: "_{Swords}"
+                        loreskills: "_{Gladiatorial Lore, Scouting Lore, Warfare Lore}"
+                        bonusfeats: "_{Cat Fall, Experienced Smuggler, Forager, Hefty Hauler}"
+                    columns:
+                      - "_{School}"
+                      - "_{Lore skills}"
+                      - "_{Bonus feats}"
+                    template:
+                      - field: pfs-school
+                        value: "#{id}"
+                        control: radio
+                        frame: right
+                        label: "#{name}"
+                      - label: "#{loreskills}"
+                      - label: "#{bonusfeats}"
 
           - layout: 2l
             flex: small
@@ -105,7 +169,7 @@ inc:
                 valign: top
                 contents:
                   - h4: "_{Step Nine}"
-                  - p: "_{Pick a faction.}"
+                  - p: "_{Pick a Pathfinder faction.}"
               - section: "_{Faction}"
                 contents:
                   - row:
@@ -124,7 +188,7 @@ inc:
               - g:
                 valign: top
                 contents:
-                  - h4: "_{Step Nine}"
+                  - h4: "_{Step Ten}"
                   - p: "_{Your character earns bonuses by playing.}"
                   - p: "_{A new PFS character will have no fame or reputation. You may carry achievement points between your characters.}"
 
@@ -137,7 +201,7 @@ inc:
                         underlay: "0"
                         border: full
                         width: large
-                      - p: "_{Fame represents your standing within the Pathfinder Society. Fame can be use to purchase faction boons.}"
+                      - p: "_{[b]Fame[/b] represents your standing within the Pathfinder Society. Fame can be use to purchase faction boons.}"
                         blk: false
 
                   - row:
@@ -147,7 +211,7 @@ inc:
                         underlay: "0"
                         border: full
                         width: large
-                      - p: "_{Reputation represents your standing within your faction. A higher reputation unlocks faction boons you can purchase.}"
+                      - p: "_{[b]Reputation[/b] represents your standing within your faction. A higher reputation unlocks faction boons you can purchase.}"
                         blk: false
 
                   - row:
@@ -157,7 +221,7 @@ inc:
                         border: full
                         width: large
                         suffix: "_{pts}"
-                      - p: "_{Achievement points can be used to purchase boons, or access ancestries or classes.}"
+                      - p: "_{[b]Achievement[/b] points can be used to purchase boons, or access ancestries or classes.}"
                         blk: false
                   
                   - hr:
@@ -166,7 +230,6 @@ inc:
                     contents:
                       - list:
                         hr: true
-                        light: true
                         zebra: true
                         contents:
                           - repeat: 3
@@ -181,7 +244,7 @@ inc:
                           - hr:
                           - h6: "_{Advanced Boon}"
                           - article: "pfs-boon-#{i}"
-                            lines: 3
+                            lines: 4
 
 
           - layout: 2l
@@ -190,19 +253,24 @@ inc:
               - g:
                 valign: top
                 contents:
-                  - h4: "_{Step Ten}"
-                  - p: "_{Play the game.}"
+                  - h4: "_{Step Eleven}"
+                  - p: "_{Find a game through your local Venture-Captain or online.}"
               - section: "_{Play}"
                 contents:
-                  - p: "_{Find a game through your local Venture-Captain or online.}"
-                  - row:
+                  - g:
                     contents:
-                      - field:
-                        border: circle
-                        size: huge
-                        contro: value
-                        value: 1
                       - p: "_{Start each game with one hero point and a free comsumable.}"
+                      - row:
+                        contents:
+                          - field:
+                            border: circle
+                            size: huge
+                            contro: value
+                            value: 1
+                          - field:
+                            label: "_{Consumable Item}"
+                            width: stretch
+                            merge-bottom: true
                   - tail:
           
           - spacer:
