@@ -475,6 +475,10 @@ export function adjustColourRGBA(c, opacity, intensity, highContrast) {
 
 export function adjustColour(c, documentColour, intensity, highContrast) {
   try {
+    if (c == "")
+      c = "#808080";
+    if (documentColour == "")
+      documentColour = "#808080";
     const base = color(c);
     let col = color(documentColour);
 
