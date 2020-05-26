@@ -8,7 +8,7 @@ export let level = {
     level: 1,
     narrow: true,
     blk: false,
-    marker: "Level",
+    marker: "_{Level}",
     contents: [],
     inline: false,
   },
@@ -50,7 +50,7 @@ export let level_marker = {
   key: 'level',
   defaults: {
     level: 1,
-    marker: "Level",
+    marker: "_{Level}",
     inline: false,
     blk: true,
   },

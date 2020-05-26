@@ -14,6 +14,7 @@ export let table = {
     template: [],
     width: '',
     blk: true,
+    'merge-bottom': false,
   },
   render(args, reg, doc) {
     // get headings

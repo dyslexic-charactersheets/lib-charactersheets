@@ -7,6 +7,21 @@ var entries = {};
 const transRegex = /_\{([^{}]*?(\{.*\}[^{}]*?)*?)\}/g;
 const commentRegex = /#\. (.*)$/g;
 
+const presets = [
+  {
+    regex: /control: *speed/,
+    strings: [ "ft", "m", "sq" ]
+  },
+  {
+    regex: /control: *money/,
+    strings: [ "cp", "sp", "gp", "pp" ]
+  },
+  {
+    regex: /control: *weight/,
+    strings: [ "B", "L" ]
+  }
+];
+
 function pushEntry(system, message, context, reference, comment, meta) {
   // if (message === undefined || message == "") {
   //   return;
@@ -41,6 +56,14 @@ function scanString(data, source, system, meta) {
       var message = match[1];
       pushEntry(system, message, context, source+":"+linenum, prevComment, meta);
     }
+
+    presets.forEach(preset => {
+      if (preset.regex.exec(line)) {
+        preset.strings.forEach(str => {
+          pushEntry(system, str, context, source+":"+linenum, prevComment, meta);
+        });
+      }
+    });
 
     if ((match = commentRegex.exec(line)) !== null) {
       prevComment = match[1];

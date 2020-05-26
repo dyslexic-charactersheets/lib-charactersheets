@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { fieldIdent, fieldRadioIdent, fieldDefaults } from './field';
-import { elementClass, has, isArray } from '../util';
+import { elementClass, has, isArray, isNull } from '../util';
 import { __, _e } from '../i18n';
 
 function defaultControlRender (args, reg, doc) {
@@ -29,6 +29,10 @@ function defaultControlRender (args, reg, doc) {
 
 function renderCompoundControl(args, reg, doc) {
   const parts = args.parts;
+  if (isNull(parts)) {
+    error("field", "Compound control: no parts", args);
+    return;
+  }
 
   let i = 0;
   const outputParts = parts.map(part => {
@@ -134,7 +138,7 @@ export let field_control_speed = {
           },
           {
             type: "label",
-            label: "ft"
+            label: "_{ft}"
           },
           {
             type: "field",
@@ -144,7 +148,7 @@ export let field_control_speed = {
           },
           {
             type: "label",
-            label: "sq"
+            label: "_{sq}"
           },
         ];
         break;
@@ -163,7 +167,7 @@ export let field_control_speed = {
           },
           {
             type: "label",
-            label: "m"
+            label: "_{m}"
           },
           {
             type: "field",
@@ -173,7 +177,7 @@ export let field_control_speed = {
           },
           {
             type: "label",
-            label: "sq"
+            label: "_{sq}"
           },
         ];
         break;
@@ -205,7 +209,7 @@ export let field_control_weight = {
           },
           {
             type: "label",
-            label: __("B", doc),
+            label: "_{B}",
           },
           {
             type: "field",
@@ -215,7 +219,7 @@ export let field_control_weight = {
           },
           {
             type: "label",
-            label: __("L", doc),
+            label: "_{L}",
           }
         ];
         break;
@@ -449,10 +453,10 @@ export let field_control_money = {
   render(args, reg, doc) {
     let unit = '';
     switch (args.denomination) {
-      case 'platinum': unit = 'pp'; break;
-      case 'gold': unit = 'gp'; break;
-      case 'silver': unit = 'sp'; break;
-      case 'copper': unit = 'cp'; break;
+      case 'platinum': unit = '_{pp}'; break;
+      case 'gold': unit = '_{gp}'; break;
+      case 'silver': unit = '_{sp}'; break;
+      case 'copper': unit = '_{cp}'; break;
     }
     const suffix = `<span class='field__overlay'>${__(unit, doc)}</span>`;
 

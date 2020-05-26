@@ -299,30 +299,70 @@ inc:
                           - g:
                             flex: tiny
                             contents:
-                              - h5: "_{Archetypes}"
-                              - list:
-                                collapse: true
-                                zebra: true
-                                contents:
-                                  - repeat: 3
-                                    field_frame: none
-                                    merge-bottom: true
-                                    contents:
-                                      - row:
-                                        contents:
-                                          - field: archetype-#{i}-name
-                                            width: stretch
-                                            align: left
-                                            frame: none
-                                          - field: archetype-#{i}-feats
-                                            frame: none
-                                            control: progression
-                                            parts:
-                                              - control: checkbox
-                                              - control: checkbox
-                                              - control: checkbox
-                              - p: "_{You must take three archetype feats before you can start another.}"
-                                optional: true
+                              - table:
+                                merge-bottom: true
+                                rows:
+                                  - i: 1
+                                  - i: 2
+                                  - i: 3
+                                columns:
+                                  - h5: "_{Archetypes}"
+                                  - label: "_{Archetype Feats}"
+                                    colspan: 3
+                                template:
+                                  - field: archetype-#{i}-name
+                                    width: stretch
+                                    align: left
+                                    frame: none
+                                  - field: archetype-#{i}-feats
+                                    frame: none
+                                    control: progression
+                                    width: medium
+                                    parts:
+                                      - control: checkbox
+                                      - control: checkbox
+                                      - control: checkbox
+                                  - p: "of"
+                                    width: tiny
+                                  - field: archetype-#{i}-num-feats
+                                    frame: none
+                                    width: tiny
+                                    underlay: "3"
+
+                          # - g:
+                          #   flex: tiny
+                          #   contents:
+                          #     - row:
+                          #       contents:
+                          #         - h5: "_{Archetypes}"
+                          #         - spacer:
+                          #         - label: "_{Archetype Feats}"
+                          #     - list:
+                          #       collapse: true
+                          #       zebra: true
+                          #       contents:
+                          #         - repeat: 3
+                          #           field_frame: none
+                          #           merge-bottom: true
+                          #           contents:
+                          #             - row:
+                          #               contents:
+                          #                 - field: archetype-#{i}-name
+                          #                   width: stretch
+                          #                   align: left
+                          #                   frame: none
+                          #                 - field: archetype-#{i}-feats
+                          #                   frame: none
+                          #                   control: progression
+                          #                   parts:
+                          #                     - control: checkbox
+                          #                     - control: checkbox
+                          #                     - control: checkbox
+                          #                 - p: "of"
+                          #                 - field: archetype-#{i}-num-feats
+                          #                   frame: none
+                          #                   width: small
+                          #                   underlay: "3"
 
                   - section: "_{Skills}"
                     id: skills
@@ -487,7 +527,9 @@ inc:
                             exists: "#{acp}"
                             prefix: "&ndash;"
 
-                      - p: "_{Assurance: May choose to take 10 rather than roll.}"
+                      - p:
+                        title: "_{Assurance}"
+                        content: "_{May use 10 + proficiency bonus (inc level, but no other bonuses) rather than roll.}"
 
                       - hr:
                       - h5: "_{Skill Actions}"
@@ -566,6 +608,8 @@ inc:
                             frame: right
                             control: checkbox
                             label: "_{Scent}"
+                      - hr:
+                        light: true
                       - zone: '@perception'
                         contents:
                           - row:
@@ -829,9 +873,11 @@ inc:
                                 control: checkbox
                               - id: dying-3
                                 control: checkbox
-                              - zone: '@dying'
-                                contents:
-                                  - nothing:
+                              - id: dying-4
+                                control: checkbox
+                              # - zone: '@dying'
+                              #   contents:
+                              #     - nothing:
                               - icon: evil
                                 size: small
                                 optional: true

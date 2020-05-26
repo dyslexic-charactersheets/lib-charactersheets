@@ -550,9 +550,15 @@ export function adjustColour(c, documentColour, intensity, highContrast) {
   }
 }
 
-export function mergeBottom(element) {
+export function mergeBottom(element, allItems = false) {
   if (isArray(element)) {
-    element[element.length - 1] = mergeBottom(element[element.length - 1]);
+    if (allItems) {
+      element.forEach(e => {
+        e['merge-bottom'] = true;
+      });
+    } else {
+      element[element.length - 1] = mergeBottom(element[element.length - 1]);
+    }
   }
 
   else if (typeof element == 'object') {
