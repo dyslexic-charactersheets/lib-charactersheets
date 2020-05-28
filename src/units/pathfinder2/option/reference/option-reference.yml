@@ -264,25 +264,29 @@ inc:
                         valign: top
                         contents:
                           - h5: "0"
+                          - p: "_{No effect}"
                       - g:
                         align: center
                         valign: top
                         contents:
                           - h5: "&frac12;"
+                          - p: "_{Damage}"
                       - g:
                         align: center
                         valign: top
                         contents:
                           - h5: "1 &times;"
+                          - p: "_{Damage}"
                       - g:
                         align: center
                         valign: top
                         contents:
                           - h5: "2 &times;"
+                          - p: "_{Damage}"
 
                   - row:
                     contents:
-                      - p: "_{Adjustment to damage or effect}"
+                      # - p: "_{Adjustment to damage or effect}"
                       - spacer:
                       - p: "_{CRB p449}"
                         icon: book
@@ -296,31 +300,49 @@ inc:
                       - h5: "_{Action traits}"
                     contents:
                       - each:
-                        map:
-                          concentrate:
-                            name: "_{Concentrate}"
-                            desc: "_{Cannot use more than one of these at once.}"
-                          flourish:
-                            name: "_{Flourish}"
-                            desc: "_{You can only use this once per turn.}"
-                          metamagic:
-                            name: "_{Metamagic}"
-                            desc: "_{Use directly before casting a spell to alter its effect.}"
-                          open:
-                            name: "_{Open}"
-                            desc: "_{Must be the first open or attack action this turn.}"
-                          press:
-                            name: "_{Press}"
-                            desc: "_{Use this directly after another attack.}"
-                          stance:
-                            name: "_{Stance}"
-                            desc: "_{Enter a stance as an action. Cannot use two stances at once, or enter two on the same turn.}"
-
                         contents:
-                          - sort:
+                          - sort: name
                             unique: true
                             contents:
-                              - zone: '@reference/action-traits'
+                              - lookup:
+                                  additive:
+                                    name: "_{Additive}"
+                                    desc: "_{Spend actions to add effects to bombs and elixirs. Can only use one additive effect at once. Additive number + item level cannot exceed your level.}"
+                                  concentrate:
+                                    name: "_{Concentrate}"
+                                    desc: "_{Cannot use more than one of these at once.}"
+                                  flourish:
+                                    name: "_{Flourish}"
+                                    desc: "_{You can only use this once per turn.}"
+                                  fortune:
+                                    name: "_{Fortune}"
+                                    desc: "_{Affects how you roll the dice. Can only use one fortune effect at once; fortune and misfortune effects cancel out.}"
+                                  incapacitation:
+                                    name: "_{Incapacitation}"
+                                    desc: "_{Creatures with a level more than twice the spell level, or more than the item level, treat the result of a check to incapacitate as one step higher.}"
+                                  manipulate:
+                                    name: "_{Manipulate}"
+                                    desc: "_{Physical action that may trigger reactions.}"
+                                  metamagic:
+                                    name: "_{Metamagic}"
+                                    desc: "_{Use directly before casting a spell to alter its effect.}"
+                                  open:
+                                    name: "_{Open}"
+                                    desc: "_{Must be the first open or attack action this turn.}"
+                                  press:
+                                    name: "_{Press}"
+                                    desc: "_{Use this directly after another attack.}"
+                                  rage:
+                                    name: "_{Rage}"
+                                    desc: "_{Must be raging to use this ability.}"
+                                  secret:
+                                    name: "_{Secret}"
+                                    desc: "_{The GM rolls this check in secret.}"
+                                  stance:
+                                    name: "_{Stance}"
+                                    desc: "_{Enter a stance as an action. Cannot use two stances at once, or enter two on the same turn.}"
+                                contents:
+                                  - zone: '@reference/action-traits'
 
                         template:
                           - flags:
@@ -339,67 +361,67 @@ inc:
                             nowrap: true
                     contents:
                       - each:
-                        map:
-                          agile:
-                            name: "_{Agile}"
-                            desc: "_{Multiple Attack Penalty reduced to -4.}"
-                          backstabber:
-                            name: "_{Backstabber}"
-                            desc: "_{Deal 1 extra damage when you hit a flat-footed creature.}"
-                          backswing:
-                            name: "_{Backswing}"
-                            desc: "_{After a miss, you get +1 to another attack the same turn.}"
-                          deadly:
-                            name: "_{Deadly}"
-                            desc: "_{On a critical hit, add another damage die.}"
-                          disarm:
-                            name: "_{Disarm}"
-                            desc: "_{Can use this weapon to disarm. Add the weapon's attack bonus to an Athletics check to disarm.}"
-                          fatal:
-                            name: "_{Fatal}"
-                            desc: "_{On a critical hit, increase the damage die size and add one more damage die.}"
-                          finesse:
-                            name: "_{Finesse}"
-                            desc: "_{Can add your Dex rather than Str to attack rolls. Does not affect damage.}"
-                          forceful:
-                            name: "_{Forceful}"
-                            desc: "_{The second attack on a turn gains a damage bonus equal to the number of damage dice. The third gains twice that bonus.}"
-                          grapple:
-                            name: "_{Grapple}"
-                            desc: "_{Can use this weapon to grapple. Add the weapon's attack bonus to an Athletics check to grapple.}"
-                          nonlethal:
-                            name: "_{Non-lethal}"
-                            desc: "_{Knock an enemy out rather than killing them. -2 to make a lethal attack.}"
-                          reach:
-                            name: "_{Reach}"
-                            desc: "_{Can be used to attack enemies 10ft away.}"
-                          shove:
-                            name: "_{Shove}"
-                            desc: "_{Can use this weapon to shove, with its reach. Add the weapon's attack bonus to an Athletics check to shove.}"
-                          sweep:
-                            name: "_{Sweep}"
-                            desc: "_{Attack multiple enemies. Gain +1 to attack a different enemy on the same turn.}"
-                          thrown:
-                            name: "_{Thrown}"
-                            desc: "_{Can be thrown as a ranged weapon. Use your Strength modifier for the attack bonus.}"
-                          trip:
-                            name: "_{Trip}"
-                            desc: "_{Can use this weapon to trip, with its reach. Add the weapon's attack bonus to an Athletics check to trip.}"
-                          twin:
-                            name: "_{Twin}"
-                            desc: "_{Use as a pair. When attacking with the second of these on a turn, gain a damage bonus equal to the number of damage dice.}"
-                          unarmed:
-                            name: "_{Unarmed}"
-                            desc: "_{Use your body rather than a weapon.}"
-                          versatile:
-                            name: "_{Versatile}"
-                            desc: "_{Can deal a different damage type.}"
-
                         contents:
-                          - sort:
+                          - sort: name
                             unique: true
                             contents:
-                              - zone: '@reference/weapon-traits'
+                              - lookup:
+                                  agile:
+                                    name: "_{Agile}"
+                                    desc: "_{Multiple Attack Penalty reduced to -4.}"
+                                  backstabber:
+                                    name: "_{Backstabber}"
+                                    desc: "_{Deal 1 extra damage when you hit a flat-footed creature.}"
+                                  backswing:
+                                    name: "_{Backswing}"
+                                    desc: "_{After a miss, you get +1 to another attack the same turn.}"
+                                  deadly:
+                                    name: "_{Deadly}"
+                                    desc: "_{On a critical hit, add another damage die.}"
+                                  disarm:
+                                    name: "_{Disarm}"
+                                    desc: "_{Can use this weapon to disarm. Add the weapon's attack bonus to an Athletics check to disarm.}"
+                                  fatal:
+                                    name: "_{Fatal}"
+                                    desc: "_{On a critical hit, increase the damage die size and add one more damage die.}"
+                                  finesse:
+                                    name: "_{Finesse}"
+                                    desc: "_{Can add your Dex rather than Str to attack rolls. Does not affect damage.}"
+                                  forceful:
+                                    name: "_{Forceful}"
+                                    desc: "_{The second attack on a turn gains a damage bonus equal to the number of damage dice. The third gains twice that bonus.}"
+                                  grapple:
+                                    name: "_{Grapple}"
+                                    desc: "_{Can use this weapon to grapple. Add the weapon's attack bonus to an Athletics check to grapple.}"
+                                  nonlethal:
+                                    name: "_{Non-lethal}"
+                                    desc: "_{Knock an enemy out rather than killing them. -2 to make a lethal attack.}"
+                                  reach:
+                                    name: "_{Reach}"
+                                    desc: "_{Can be used to attack enemies 10ft away.}"
+                                  shove:
+                                    name: "_{Shove}"
+                                    desc: "_{Can use this weapon to shove, with its reach. Add the weapon's attack bonus to an Athletics check to shove.}"
+                                  sweep:
+                                    name: "_{Sweep}"
+                                    desc: "_{Attack multiple enemies. Gain +1 to attack a different enemy on the same turn.}"
+                                  thrown:
+                                    name: "_{Thrown}"
+                                    desc: "_{Can be thrown as a ranged weapon. Use your Strength modifier for the attack bonus.}"
+                                  trip:
+                                    name: "_{Trip}"
+                                    desc: "_{Can use this weapon to trip, with its reach. Add the weapon's attack bonus to an Athletics check to trip.}"
+                                  twin:
+                                    name: "_{Twin}"
+                                    desc: "_{Use as a pair. When attacking with the second of these on a turn, gain a damage bonus equal to the number of damage dice.}"
+                                  unarmed:
+                                    name: "_{Unarmed}"
+                                    desc: "_{Use your body rather than a weapon.}"
+                                  versatile:
+                                    name: "_{Versatile}"
+                                    desc: "_{Can deal a different damage type.}"
+                                contents:
+                                  - zone: '@reference/weapon-traits'
 
                         template:
                           - flags:
@@ -418,17 +440,16 @@ inc:
                             nowrap: true
                     contents:
                       - each:
-                        map:
-                          agile:
-                            name: "_{Agile}"
-                            desc: "_{Multiple Attack Penalty reduced to -4.}"
-
                         contents:
                           - sort:
                             unique: true
                             contents:
-                              - zone: '@reference/armour-traits'
-
+                              - lookup:
+                                  agile:
+                                    name: "_{Agile}"
+                                    desc: "_{Multiple Attack Penalty reduced to -4.}"
+                                contents:
+                                  - zone: '@reference/armour-traits'
                         template:
                           - flags:
                               - "#{name}"

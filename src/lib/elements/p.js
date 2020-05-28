@@ -8,6 +8,7 @@ export let p = {
   defaults: {
     prose: false,
     title: '',
+    flags: [],
     content: '',
     align: 'left',
     icon: false,

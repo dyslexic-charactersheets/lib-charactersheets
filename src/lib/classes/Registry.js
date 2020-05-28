@@ -28,6 +28,7 @@ import { level, level_marker, cost } from '../elements/level';
 import { list, join } from '../elements/list';
 import { logelem } from '../elements/log';
 import { logo } from '../elements/logo';
+import { lookup } from '../elements/lookup';
 import { nothing } from '../elements/nothing';
 import { page } from '../elements/page';
 import { p } from '../elements/p';
@@ -108,6 +109,7 @@ export class Registry {
       list, join,
       logelem,
       logo,
+      lookup,
       nothing,
       page,
       p, ul, li, dl,

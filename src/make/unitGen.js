@@ -76,8 +76,10 @@ function generateUnits() {
 
     _.forEach(parsed, (value, key) => {
       try {
-        let id = 'background/'+toKebabCase(value.source)+"/"+toKebabCase(key);
+        // let id = 'background/'+toKebabCase(value.source)+"/"+toKebabCase(key);
+        let id = 'background/'+toKebabCase(key);
         let name = value.title;
+        // let description = value.text.replace(/\n/g, '\\n').replace(/\\nChoose .*$/, '');
         let book = value.source;
 
         if (!includedSources.includes(book)) {
@@ -106,6 +108,13 @@ inc:
     value: "_{${name}}"
   - set: ${skill}-proficiency
     value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{${name}}"
+        lines: 3
+
 `;
 
         if (lorename != '') {

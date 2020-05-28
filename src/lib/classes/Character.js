@@ -313,6 +313,7 @@ export class Character extends Instance {
 
           // language
           document.language = data.language;
+          document.setVar('character-name', data.name);
           document.setVar('description', data.description);
 
           if (data.printLarge) {

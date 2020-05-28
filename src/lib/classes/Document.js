@@ -252,7 +252,7 @@ export class Document {
         return [element];
       }
       if (!has(element, "type")) {
-        warn("Document", "Untyped element", element);
+        // warn("Document", "Untyped element", element);
         return [element];
       }
 

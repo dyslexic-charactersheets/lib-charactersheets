@@ -9,6 +9,7 @@ export let article = {
     id: '',
     title: false,
     header: [],
+    'header-size': 'medium',
     contents: [],
     content: '',
     shade: false,
@@ -44,7 +45,7 @@ export let article = {
             id: args.id,
             frame: 'none',
             align: 'left',
-            // size: 'large',
+            size: args['header-size'],
             width: 'stretch'
           });
         }

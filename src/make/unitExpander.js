@@ -33,6 +33,7 @@ const expansion = {
     level: 'level',
     'level-marker': 'level',
     list: '',
+    lookup: 'lookup',
     log: 'message',
     join: 'join',
     logo: 'source',
