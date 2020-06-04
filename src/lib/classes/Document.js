@@ -288,9 +288,9 @@ export class Document {
               if (subelement.type == "reduce") {
                 let reduce = has(subelement, "reduce") ? subelement.reduce : 1;
                 if (isEmpty(reduce)) reduce = 1;
-                log("Document", "Reducing slots", subelement.reduce, `min = ${element.min}, max = ${element.max}`);
+                // log("Document", "Reducing slots", subelement.reduce, `min = ${element.min}, max = ${element.max}`);
                 element.min -= reduce;
-                log("Document", `min = ${element.min}, max = ${element.max}`);
+                // log("Document", `min = ${element.min}, max = ${element.max}`);
                 return [];
               }
               return [subelement];
