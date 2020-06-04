@@ -19,7 +19,7 @@ export function renderTableBasic(args, reg, doc, headings, rows) {
 
   // take care of the 'hr'
   rows.forEach((row, i) => {
-    if (row.params.hasOwnProperty('hr') && row.params.hr) {
+    if (has(row.params, 'hr') && row.params.hr) {
       mergeBottom(rows[i - 1].cells, true);
     }
   });

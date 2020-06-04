@@ -48,6 +48,7 @@ const expansion = {
     action: 'action',
     selectable: 'selectable',
     portrait: 'char',
+    reduce: 'reduce',
     repeat: 'repeat',
     row: 'layout',
     ruby: 'ruby',

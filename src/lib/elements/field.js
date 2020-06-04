@@ -23,6 +23,21 @@ export let field = {
     ruby: false,
   },
   expect: ['icon'],
+  // transform(args, ctx) {
+  //   switch (args.type) {
+  //     case 'compound':
+  //     case 'progression':
+  //       let modified = false;
+  //       args.parts = args.parts.map(part => {
+          
+  //       });
+  //       if (modified) {
+  //         return args;
+  //       }
+  //       break;
+  //   }
+  //   return null;
+  // },
   render(args, reg, doc) {
     args = fieldDefaults(args, reg, doc);
 

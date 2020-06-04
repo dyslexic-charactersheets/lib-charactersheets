@@ -270,7 +270,7 @@ export class Document {
           break;
       }
 
-      for (const item_key of ["contents", "placeholder", "header", "inputs"]) {
+      for (const item_key of ["contents", "placeholder", "header", "inputs", "parts"]) {
         // log("compose", "Checking for", item_key);
         if (has(element, item_key)) {
           // log("compose", "Preparing item", item_key, element[item_key]);
@@ -279,6 +279,24 @@ export class Document {
           else
             element[item_key] = compose(element[item_key]);
         }
+      }
+
+      switch (element.type) {
+        case 'slots':
+          if (has(element, "contents")) {
+            element.contents = element.contents.flatMap(subelement => {
+              if (subelement.type == "reduce") {
+                let reduce = has(subelement, "reduce") ? subelement.reduce : 1;
+                if (isEmpty(reduce)) reduce = 1;
+                log("Document", "Reducing slots", subelement.reduce, `min = ${element.min}, max = ${element.max}`);
+                element.min -= reduce;
+                log("Document", `min = ${element.min}, max = ${element.max}`);
+                return [];
+              }
+              return [subelement];
+            });
+          }
+          break;
       }
 
       // transform the element

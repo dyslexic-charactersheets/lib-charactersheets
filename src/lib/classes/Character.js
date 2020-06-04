@@ -1,5 +1,5 @@
 import { log, error } from '../log';
-import { adjustColour, interpolate } from '../util';
+import { replaceColours, adjustColour, interpolate } from '../util';
 import { __ } from '../i18n';
 import { ready as systemsReady, getSystem } from './System';
 import { Instance } from './Instance';
@@ -84,7 +84,7 @@ function parseCharacter(primary, request) {
     accentColour: attr.accentColour,
     printIntensity: attr.printIntensity,
     printLogo: attr.printLogo,
-    favicon: 'favicon16.png',
+    favicon: 'favicon.svg',
     printPortrait: attr.printPortrait,
     animalPortrait: attr.animalPortrait,
     printBackground: attr.printBackground,
@@ -214,10 +214,16 @@ function parseCharacter(primary, request) {
 
       if (attr.feats) {
         char.feats = parseFeats(attr.feats);
+        char.feats.forEach(feat => {
+          char.units.push("feat/"+feat);
+        });
       }
 
       if (attr.skillFeats) {
         char.skillFeats = parseFeats(attr.skillFeats);
+        char.feats.forEach(feat => {
+          char.units.push("feat/"+feat);
+        });
       }
 
       if (char.debug) {
@@ -326,6 +332,9 @@ export class Character extends Instance {
           // Load assets
           if (data.favicon) {
             self.getAsset(data.favicon, dataURL => {
+              if (data.favicon.match(/\.svg$/)) {
+                dataURL = replaceColours(dataURL, data.printColour);
+              }
               document.faviconURL = dataURL;
             });
           }

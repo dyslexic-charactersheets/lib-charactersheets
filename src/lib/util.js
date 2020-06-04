@@ -179,12 +179,17 @@ export function elementID(element, id = null) {
 }
 
 function pickMods(args, keys) {
-  return _.flatMap(args, (v, k) => {
+  let mods = [];
+  Object.keys(args).forEach(k => {
+    let v = args[k];
     if (isString(v)) {
       v = v.replace(/#\{.*?\}/g, '');
     }
-    return (v && keys.includes(k) && !isEmpty(v) && v != 'false') ? [k] : [];
+    if (v && keys.includes(k) && !isEmpty(v) && v != 'false') {
+      mods.push(k);
+    }
   });
+  return mods;
 }
 
 function pickAttribs(args, keys) {
@@ -442,6 +447,7 @@ export function interpolate(template, values, document = null) {
         return document.getVar(paramkey);
       }
     } else if (first == 'item' && has(values, 'item') && !isEmpty(values.item)) {
+      // log("util", "Interpolate: item", values.item);
       return values.item;
     }
 
@@ -453,7 +459,7 @@ export function interpolate(template, values, document = null) {
 };
 
 
-export function replaceColours(str, documentColour, accentColour, intensity, highContrast) {
+export function replaceColours(str, documentColour, accentColour = false, intensity = 0, highContrast = false) {
   str = str.replace(/#[0-9a-fA-F]{6}/g, (c) => adjustColour(c, documentColour, intensity, highContrast));
   str = str.replace(/%23[0-9a-fA-F]{6}/g, (c) => {
     c = c.replace('%23', '#');
@@ -462,7 +468,9 @@ export function replaceColours(str, documentColour, accentColour, intensity, hig
     return c;
   });
   str = str.replace(/rgba\(.*?,.*?,.*?,(.*?)\)/g, (c) => adjustColour(c, documentColour, intensity, highContrast));
-  str = str.replace(/--c-accent/g, accentColour);
+  if (accentColour) {
+    str = str.replace(/--c-accent/g, accentColour);
+  }
   str = str.replace(/="#([0-9a-fA-F]{6})"/g, '="%23$1"');
   return str;
 }

@@ -156,20 +156,40 @@ inc:
 
                       - row:
                         contents:
+                          - calc:
+                            output:
+                              field: attack-#{i}-bonus
+                              legend: "_{Throw Bomb}"
+                              width: large
+                              attack: true
+                              icon: bonus
+                            inputs:
+                              - field:
+                                ref: STR
+                                label: "_{STR}"
+                                underlay: "_{STR}"
+                              - span: "+"
+                              - field: attack-#{i}-proficiency
+                                control: proficiency
+                                label: "_{Proficiency}"
+                          - spacer:
                           - field: alchemist-splash
                             legend: "_{Splash}"
-                            border: full
-                            suffix: "_{ft}"
-                            width: huge
-                          - spacer:
-                          - p: "_{Splash weapons don't add strength bonus to damage.}"
+                            # border: full
+                            control: value
+                            value: "_{5ft}"
+                      - p: "_{Splash weapons don't add strength bonus to damage.}"
 
                   - section: "_{Advanced Alchemy}"
                     flex: tiny
                     contents:
                       - row:
                         contents:
-                          - p: "_{Prepare alchemical items.}"
+                          - g:
+                            contents:
+                              - p: "_{Prepare alchemical items each day.}"
+                              - spacer:
+                              - h5: "_{Today's Items}"
                           - spacer:
                           - level-marker:
                             level: 1
@@ -368,7 +388,7 @@ inc:
                         gutter: small
                         merge-bottom: true
                         contents:
-                          - repeat: 27
+                          - repeat: 24
                             reduce: 12
                             contents:
                               - row:
@@ -386,7 +406,7 @@ inc:
                       title: "_{Alchemist Feats}"
                       slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
                       mark: alchemist
-                      lines: 1
+                      lines: 2
 
                   - tail:
                   # - spacer:

@@ -93,14 +93,18 @@ export function addAssetsDir(dir) {
   assetsDirs.push(adir);
 }
 
-export function locateAsset(filename, cb) {
-  // log("data", "Locating asset:", filename, assetsDirs);
-  assetsDirs.flatMap((dir) => {
-    const name = dir + filename;
-    const file = needsBase64(filename) ? (`${name}.base64`) : name;
-    if (existsSync(file)) {
-      // log("data", "Located asset", name);
-      cb(name);
-    }
-  });
+export function locateAsset(name, cb) {
+  try {
+    let filename = needsBase64(name) ? `${name}.base64` : name;
+    // log("data", "Locating asset:", filename, assetsDirs);
+    assetsDirs.flatMap((dir) => {
+      const file = dir + filename;
+      if (existsSync(file)) {
+        // log("data", "Located asset", name);
+        cb(file);
+      }
+    });
+  } catch (e) {
+    error("data", "Error locating asset:", name, e);
+  }
 }

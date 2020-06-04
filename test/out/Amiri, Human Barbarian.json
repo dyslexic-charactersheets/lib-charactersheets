@@ -1406,6 +1406,51 @@
                 {
                   "type": "p",
                   "content": "_{Gain networking points to represent your training with the Pathfinder Society.}"
+                },
+                {
+                  "type": "table",
+                  "rows": [
+                    {
+                      "id": "1pt",
+                      "name": "_{1pt}",
+                      "bonus": "_{Your free consumable may be taken from your school's item list.}"
+                    },
+                    {
+                      "id": "2pt",
+                      "name": "_{2pts}",
+                      "bonus": "_{Trained in one lore skill. At level 5, gain a bonus skill feat.}"
+                    },
+                    {
+                      "id": "3pt",
+                      "name": "_{3pts}",
+                      "bonus": "_{Second free consumable taken from your school's item list, up to half your level.}"
+                    }
+                  ],
+                  "template": [
+                    {
+                      "type": "selectable",
+                      "selectable": null
+                    },
+                    {
+                      "type": "field",
+                      "id": null,
+                      "control": "value",
+                      "value": "#{name}",
+                      "frame": "none",
+                      "valign": "top"
+                    },
+                    {
+                      "type": "p",
+                      "content": "#{bonus}",
+                      "align": "left"
+                    }
+                  ],
+                  "columns": [
+                    null
+                  ]
+                },
+                {
+                  "type": "spacer"
                 }
               ],
               "valign": "top"
@@ -1417,6 +1462,7 @@
                 {
                   "type": "layout",
                   "layout": "2e",
+                  "vr": true,
                   "contents": [
                     {
                       "type": "g",
@@ -1439,7 +1485,7 @@
                               "label": "_{Networking points}",
                               "border": "full",
                               "control": "value",
-                              "value": 3,
+                              "value": "3",
                               "width": "large"
                             },
                             {
@@ -1481,91 +1527,58 @@
                 },
                 {
                   "type": "table",
-                  "rows": [
-                    {
-                      "id": "1pt",
-                      "name": "_{1pt}",
-                      "bonus": "_{Your free consumable may be taken from your school's item list.}"
-                    },
-                    {
-                      "id": "2pt",
-                      "name": "_{2pt}",
-                      "bonus": "_{Trained in one lore skill. At level 5, gain a bonus skill feat.}"
-                    },
-                    {
-                      "id": "3pt",
-                      "name": "_{3pt}",
-                      "bonus": "_{Second free consumable taken from your school's item list, up to half your level.}"
-                    }
-                  ],
-                  "template": [
-                    {
-                      "type": "selectable",
-                      "selectable": null
-                    },
-                    {
-                      "type": "field",
-                      "id": null,
-                      "control": "value",
-                      "value": "#{name}",
-                      "frame": "none"
-                    },
-                    {
-                      "type": "p",
-                      "content": "#{bonus}",
-                      "align": "left"
-                    }
-                  ],
-                  "columns": [
-                    null
-                  ]
-                },
-                {
-                  "type": "hr"
-                },
-                {
-                  "type": "table",
+                  "zebra": true,
                   "rows": [
                     {
                       "id": "scrolls",
-                      "name": "_{Scroll}",
-                      "loreskills": "_{Accounting Lore, Library Lore, Scribing Lore}",
-                      "bonusfeats": "_{Assurance, Automatic Knowledge, Multilingual, Streetwise}"
+                      "name": "_{Scrolls}",
+                      "loreskills": "_{Accounting Lore, Library Lore,\nScribing Lore}",
+                      "bonusfeats": "_{Assurance, Automatic Knowledge,\nMultilingual, Streetwise}"
                     },
                     {
                       "id": "spells",
                       "name": "_{Spells}",
-                      "loreskills": "_{Academia Lore, Architecture Lore, Herbalism Lore}",
-                      "bonusfeats": "_{Arcane Sense, Assurance, Quick Identification, Recognise Spell}"
+                      "loreskills": "_{Academia Lore, Architecture Lore,\nHerbalism Lore}",
+                      "bonusfeats": "_{Arcane Sense, Assurance,\nQuick Identification, Recognise Spell}"
                     },
                     {
                       "id": "swords",
                       "name": "_{Swords}",
-                      "loreskills": "_{Gladiatorial Lore, Scouting Lore, Warfare Lore}",
-                      "bonusfeats": "_{Cat Fall, Experienced Smuggler, Forager, Hefty Hauler}"
+                      "loreskills": "_{Gladiatorial Lore, Scouting Lore,\nWarfare Lore}",
+                      "bonusfeats": "_{Cat Fall, Experienced Smuggler,\nForager, Hefty Hauler}"
                     }
                   ],
                   "columns": [
                     "_{School}",
+                    "_{Points}",
                     "_{Lore skills}",
                     "_{Bonus feats}"
                   ],
                   "template": [
                     {
+                      "type": "h6",
+                      "title": "#{name}",
+                      "valign": "middle"
+                    },
+                    {
                       "type": "field",
-                      "id": "pfs-school",
-                      "value": "#{id}",
-                      "control": "radio",
-                      "frame": "right",
-                      "label": "#{name}"
+                      "id": "pfs-#{id}-points",
+                      "frame": "none",
+                      "control": "checkgrid",
+                      "depth": 1,
+                      "max": 3,
+                      "align": "center",
+                      "valign": "middle"
                     },
                     {
                       "type": "label",
-                      "label": "#{loreskills}"
+                      "label": "#{loreskills}",
+                      "valign": "middle"
                     },
                     {
                       "type": "label",
-                      "label": "#{bonusfeats}"
+                      "label": "#{bonusfeats}",
+                      "valign": "middle"
                     }
                   ]
                 }
@@ -1638,29 +1651,6 @@
                   "content": "_{Your character earns bonuses by playing.}"
                 },
                 {
-                  "type": "p",
-                  "content": "_{[b]Fame[/b] represents your standing within the Pathfinder Society. Fame can be use to purchase faction boons.}"
-                },
-                {
-                  "type": "p",
-                  "content": "_{[b]Reputation[/b] represents your standing within your faction. A higher reputation unlocks faction boons you can purchase.}"
-                },
-                {
-                  "type": "p",
-                  "content": "_{[b]Achievement[/b] points can be used to purchase boons, or access ancestries or classes.}"
-                },
-                {
-                  "type": "p",
-                  "content": "_{A new PFS character will have no fame or reputation. You may carry achievement points between your characters.}"
-                }
-              ],
-              "valign": "top"
-            },
-            {
-              "type": "section",
-              "title": "_{Bonuses}",
-              "contents": [
-                {
                   "type": "row",
                   "layout": null,
                   "contents": [
@@ -1678,12 +1668,23 @@
                   ]
                 },
                 {
-                  "type": "hr"
+                  "type": "p",
+                  "content": "_{[b]Achievement[/b] points can be used to purchase boons, or access ancestries or classes.}"
                 },
                 {
-                  "type": "h5",
-                  "title": "_{Boons}"
+                  "type": "p",
+                  "content": "_{A new PFS character will have no fame or reputation. You may carry achievement points between your characters.}"
                 },
+                {
+                  "type": "spacer"
+                }
+              ],
+              "valign": "top"
+            },
+            {
+              "type": "section",
+              "title": "_{Boons}",
+              "contents": [
                 {
                   "type": "layout",
                   "layout": "2e",
@@ -1916,29 +1917,265 @@
               "title": "_{Play}",
               "contents": [
                 {
-                  "type": "g",
+                  "type": "p",
+                  "content": "_{Start each game with one hero point and a free comsumable.}"
+                },
+                {
+                  "type": "row",
+                  "layout": null,
                   "contents": [
                     {
-                      "type": "p",
-                      "content": "_{Start each game with one hero point and a free comsumable.}"
+                      "type": "field",
+                      "id": null,
+                      "border": "circle",
+                      "size": "huge",
+                      "contro": "value",
+                      "value": 1,
+                      "suffix": "3"
                     },
                     {
-                      "type": "row",
-                      "layout": null,
+                      "type": "field",
+                      "id": null,
+                      "label": "_{Consumable Item}",
+                      "width": "stretch"
+                    }
+                  ]
+                },
+                {
+                  "type": "p",
+                  "content": "_{Holy water, lesser bomb (alchemist), lesser antidote, lesser antiplague, minor healing potion}",
+                  "title": "_{Pick from:}"
+                },
+                {
+                  "type": "layout",
+                  "layout": "indent-l",
+                  "blk": false,
+                  "contents": [
+                    {
+                      "type": "g",
                       "contents": [
                         {
-                          "type": "field",
-                          "id": null,
-                          "border": "circle",
-                          "size": "huge",
-                          "contro": "value",
-                          "value": 1
+                          "type": "level-marker",
+                          "inline": false,
+                          "level": 3,
+                          "marker": "_{Level}"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "p",
+                          "content": "_{Lesser healing potion, potion of water breathing}"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "layout",
+                  "layout": "indent-l",
+                  "blk": false,
+                  "contents": [
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "level-marker",
+                          "inline": false,
+                          "level": 5,
+                          "marker": "_{Level}"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "p",
+                          "content": "_{Moderate bomb}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "layout",
+          "layout": "2l",
+          "contents": [
+            {
+              "type": "g",
+              "contents": [
+                {
+                  "type": "h4",
+                  "title": "_{Step Twelve}"
+                },
+                {
+                  "type": "p",
+                  "content": "_{Get rewarded for completing adventures.}"
+                },
+                {
+                  "type": "p",
+                  "content": "_{[b]Fame[/b] represents your standing within the Pathfinder Society. Fame can be use to purchase faction boons.}"
+                },
+                {
+                  "type": "p",
+                  "content": "_{[b]Reputation[/b] represents your standing within your faction. A higher reputation unlocks faction boons you can purchase.}"
+                }
+              ],
+              "valign": "top"
+            },
+            {
+              "type": "section",
+              "title": "_{Rewards}",
+              "contents": [
+                {
+                  "type": "row",
+                  "layout": null,
+                  "contents": [
+                    {
+                      "type": "field",
+                      "id": "pfs-xp",
+                      "label": "_{Experience}",
+                      "border": "full",
+                      "width": "large",
+                      "suffix": "_{xp}"
+                    },
+                    {
+                      "type": "spacer"
+                    },
+                    {
+                      "type": "field",
+                      "id": "pfs-fame",
+                      "label": "_{Fame}",
+                      "border": "full",
+                      "width": "large"
+                    },
+                    {
+                      "type": "spacer"
+                    },
+                    {
+                      "type": "field",
+                      "id": "pfs-reputation",
+                      "label": "_{Reputation}",
+                      "border": "full",
+                      "width": "large"
+                    },
+                    {
+                      "type": "field",
+                      "id": "pfs-reputation-faction",
+                      "label": "_{Faction}",
+                      "width": "gargantuan"
+                    },
+                    {
+                      "type": "spacer"
+                    },
+                    {
+                      "type": "field",
+                      "id": "pfs-money",
+                      "control": "money",
+                      "label": "_{Gold}",
+                      "digits": 5,
+                      "denomination": "gold"
+                    }
+                  ]
+                },
+                {
+                  "type": "hr"
+                },
+                {
+                  "type": "layout",
+                  "layout": "2e",
+                  "contents": [
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "h5",
+                          "title": "_{Boon}"
                         },
                         {
-                          "type": "field",
+                          "type": "article",
                           "id": null,
-                          "label": "_{Consumable Item}",
-                          "width": "stretch",
+                          "header": [
+                            {
+                              "type": "row",
+                              "blk": false,
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": null,
+                                  "frame": "none",
+                                  "align": "left",
+                                  "size": "medium",
+                                  "width": "stretch"
+                                }
+                              ]
+                            }
+                          ],
+                          "contents": [
+                            {
+                              "type": "field",
+                              "id": "null-details",
+                              "frame": "none",
+                              "align": "left",
+                              "repeat": 3,
+                              "width": "stretch",
+                              "merge-bottom": true
+                            }
+                          ],
+                          "shade": false,
+                          "blk": true,
+                          "annotation": false,
+                          "merge-bottom": true
+                        }
+                      ]
+                    },
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "h5",
+                          "title": "_{Treasure}"
+                        },
+                        {
+                          "type": "article",
+                          "id": null,
+                          "header": [
+                            {
+                              "type": "row",
+                              "blk": false,
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": null,
+                                  "frame": "none",
+                                  "align": "left",
+                                  "size": "medium",
+                                  "width": "stretch"
+                                }
+                              ]
+                            }
+                          ],
+                          "contents": [
+                            {
+                              "type": "field",
+                              "id": "null-details",
+                              "frame": "none",
+                              "align": "left",
+                              "repeat": 3,
+                              "width": "stretch",
+                              "merge-bottom": true
+                            }
+                          ],
+                          "shade": false,
+                          "blk": true,
+                          "annotation": false,
                           "merge-bottom": true
                         }
                       ]
@@ -2189,33 +2426,6 @@
                               "type": "p",
                               "content": "_{Carefully step 5ft without provoking reactions.}",
                               "title": "_{Step}"
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "layout",
-                      "layout": "indent-l",
-                      "blk": false,
-                      "order": 1,
-                      "contents": [
-                        {
-                          "type": "g",
-                          "contents": [
-                            {
-                              "type": "icon",
-                              "icon": "free-action"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "g",
-                          "contents": [
-                            {
-                              "type": "p",
-                              "content": "_{If you take no other movement in a turn, you can take a 5ft step before, during or after other actions. May trigger reactions.}",
-                              "title": "_{Take 5ft step}"
                             }
                           ]
                         }
@@ -2557,7 +2767,7 @@
                       "contents": [
                         {
                           "type": "h6",
-                          "title": "&lt; _{AC/DC} - 10"
+                          "title": "&le; _{AC/DC} - 10"
                         }
                       ],
                       "align": "center",
@@ -4531,6 +4741,7 @@
                       "zebra": true,
                       "flex": true,
                       "hr": true,
+                      "avoid-shade": true,
                       "contents": [
                         {
                           "type": "layout",
@@ -5473,7 +5684,7 @@
                                   "frame": "none",
                                   "align": "left",
                                   "size": "large",
-                                  "icon": "sword"
+                                  "icon": "bow"
                                 },
                                 {
                                   "type": "field",
@@ -5642,7 +5853,7 @@
                                   "frame": "none",
                                   "align": "left",
                                   "size": "large",
-                                  "icon": "sword"
+                                  "icon": "bow"
                                 },
                                 {
                                   "type": "field",
@@ -5811,7 +6022,7 @@
                                   "frame": "none",
                                   "align": "left",
                                   "size": "large",
-                                  "icon": "sword"
+                                  "icon": "bow"
                                 },
                                 {
                                   "type": "field",
@@ -6080,41 +6291,29 @@
                         {
                           "type": "field",
                           "id": "dying",
-                          "control": "compound",
+                          "control": "progression",
                           "label": "_{Dying}",
                           "border": "none",
                           "parts": [
                             {
-                              "control": "progression",
-                              "parts": [
-                                {
-                                  "id": "dying-1",
-                                  "control": "checkbox"
-                                },
-                                {
-                                  "id": "dying-2",
-                                  "control": "checkbox"
-                                },
-                                {
-                                  "id": "dying-3",
-                                  "control": "checkbox"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "vr"
-                            },
-                            {
-                              "id": "dying-4",
+                              "id": "dying-1",
                               "control": "checkbox"
                             },
                             {
-                              "type": "icon",
-                              "icon": "evil",
-                              "size": "small",
-                              "optional": true
+                              "id": "dying-2",
+                              "control": "checkbox"
+                            },
+                            {
+                              "id": "dying-3",
+                              "control": "checkbox"
                             }
                           ]
+                        },
+                        {
+                          "type": "icon",
+                          "icon": "evil",
+                          "size": "medium",
+                          "optional": true
                         }
                       ]
                     }

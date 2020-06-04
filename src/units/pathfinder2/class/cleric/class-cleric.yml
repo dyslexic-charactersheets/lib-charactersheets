@@ -138,18 +138,6 @@ inc:
                     flex: small
                     contents:
                       - paste: anathema
-                      # - ul:
-                      #   merge-bottom: true
-                      #   contents:
-                      #     - zone: '@anathema'
-                      #       contents:
-                      #         - repeat: 5
-                      #           contents:
-                      #             - li:
-                      #               contents:
-                      #                 - field: anathema-#{i}
-                      #                   frame: none
-                      #                   width: stretch
 
                   - section: "_{Spellcasting}"
                     id: spellcasting
@@ -208,39 +196,73 @@ inc:
                             control: checkgrid
                             depth: 2
                             max: 10
-                      - row: split
-                        contents:
-                          - calc:
-                            output:
-                              field: divine-font-dmg
-                              legend: "_{Healing / Damage}"
-                              suffix: "d8"
-                              width: huge
-                            inputs:
-                              - label: "_{Max Spell Level}"
-                          - spacer:
-                          - field: divine-font-range
-                            label: "_{Range}"
-                            border: full
-                            width: large
-                            value: "30"
-                            suffix: "_{ft}"
-                      - list:
-                        hr: true
-                        contents:
-                          - action: 1
+                        
+                      - table:
+                        collapse: true
+                        columns:
+                          - label:
+                          - label:
+                        rows:
+                          - row:
                             contents:
-                              - p: "_{Touch one ally or enemy}"
-                          - action: 2
+                              - icon: action
+                                align: left
+                              - icon: action2
+                                align: left
+                              - icon: action3
+                                align: left
+                          - row:
                             contents:
-                              - p: "_{One ally or enemy in range}"
-                              - p: "_{+8 healing/damage}"
-                          - action: 3
+                              - row:
+                                contents:
+                                  - field: divine-font-dmg
+                                    legend: "_{Healing / Damage}"
+                                    control: compound
+                                    border: full
+                                    parts:
+                                      - field:
+                                        size: small
+                                        ruby: "_{Level}"
+                                      - span: "_{d}"
+                                      - field:
+                                        size: tiny
+                                        underlay: "8"
+                                    width: huge
+                                  - spacer:
+                                  - vr:
+                              - row:
+                                contents:
+                                  - row:
+                                    contents:
+                                  - span: "+"
+                                  - field:
+                                    ref: level
+                                    label: "_{Level}"
+                                  - span: "&times; 8"
+                                  - spacer:
+                                  - field: divine-font-range
+                                    label: "_{Range}"
+                                    control: value
+                                    value: "_{30ft}"
+                                  - vr:
+                              - row:
+                                contents:
+                                  - p: "_{All allies and enemies in range}"
+
+                      - calc:
+                        output:
+                          label: "_{Healing/\ndamage\ndice}"
+                        inputs:
+                          - ruby-round-up:
                             contents:
-                              - p: "_{All allies and enemies in range}"
+                              - field:
+                                ref: level
+                                label: "_{Level}"
+                              - span: "&divide; 2"
+
+                      # - p: "_{Healing/damage dice = Max Spell Level}"
 
                   - tail:
-                  # - spacer:
 
               - g:
                 contents:

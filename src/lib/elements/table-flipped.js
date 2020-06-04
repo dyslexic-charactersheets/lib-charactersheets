@@ -1,5 +1,6 @@
-import { isNull, has, elementClass } from '../util';
+import { isNull, has, elementClass, isString, isEmpty } from '../util';
 import { log, warn } from '../log';
+import { isObject } from 'util';
 
 // Column-oriented table
 export function renderTableFlipped(args, reg, doc, headings, cols) {
@@ -10,8 +11,11 @@ export function renderTableFlipped(args, reg, doc, headings, cols) {
   let ncols = cols.length;
   let nrows = 0;
   headings = headings.map(heading => {
-    if (isNull(heading)) heading = { type: 'label', label: '' };
-    else hasHeading = true;
+    if (isNull(heading) || (isString(heading) && heading == "") || (isObject(heading) && heading.type == 'label' && isEmpty(heading.label)) ) {
+      heading = { type: 'label', label: '' };
+    } else {
+      hasHeading = true;
+    }
 
     if (!has(heading, "rowspan")) heading.rowspan = 1;
     nrows += heading.rowspan;

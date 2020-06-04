@@ -2,6 +2,7 @@ import { interpolate, isObject, isString, isArray, isNull, isEmpty, has, cloneDe
 
 import { renderTableBasic } from './table-basic';
 import { renderTableFlipped } from './table-flipped';
+import { log, warn } from '../log';
 // import { renderTableGrid } from './table-grid';
 
 export let table = {
@@ -21,6 +22,29 @@ export let table = {
     if (doc.isLargePrint) {
       args.columns = args.columns.filter(col => !(has(col, "optional") && col.optional));
     }
+
+/*
+    // is this a direct cells table?
+    if (has(args, "cells") && isEmpty(args.template)) {
+      log("table", "Direct cells", args, args.cells);
+
+      let ncols = 0;
+      let rows = [];
+      args.cells.forEach(row => {
+        if (row.contents.length > ncols) ncols = row.contents.length;
+        rows.push(row.contents);
+      });
+      let headings = new Array(ncols).fill(null);
+
+      // render
+      // return renderTableBasic(headings, rows);
+      if (args.flip) {
+        return renderTableFlipped(args, reg, doc, headings, rows);
+      } else {
+        return renderTableBasic(args, reg, doc, headings, rows);
+      }
+    }
+    */
 
     const headings = args.columns.map(col => {
       if (isNull(col)) {
@@ -117,6 +141,7 @@ export let table = {
           // let params = {...args, ...row};
           // log("table", "Interpolating cell", cell, row);
           cell = interpolate(cell, row, doc);
+          // log("table", "Cell", cell);
           if (cell === null) {
             return null;
           } else {
@@ -136,7 +161,17 @@ export let table = {
       });
     } else {
       rows = args.rows.map(row => {
-        let cells = row.map(cell => {
+        let cells = [];
+
+        if (isArray(row)) {
+          cells = row;
+        } else if (isObject(row)) {
+          if (has(row, "contents")) {
+            cells = row.contents;
+          }
+        }
+
+        cells = cells.map(cell => {
           if (isString(cell)) return { type: "label", label: cell };
           if (!has(cell, "type")) return null;
           return cell;
@@ -144,6 +179,8 @@ export let table = {
         return { params: row, cells: cells };
       });
     }
+
+    // log("table", `${headings.length} columns, ${rows.length} rows`);
 
     // render
     // return renderTableBasic(headings, rows);
