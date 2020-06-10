@@ -4,44 +4,45 @@ name: "_{Lay On Hands}"
 inc:
   - at: '@champion/devotion-spells'
     add:
-      - section: "_{Lay On Hands}"
+      - action: 1
         contents:
-          - action: 1
+          - h5: "_{Lay On Hands}"
+          - dl:
+            defs:
+              range: "_{Touch}"
+              target: "_{1 willing ally or undead creature}"
+          - layout: indent-r
             contents:
-              - layout: indent-r
+              - g:
                 contents:
-                  - layout: 2e
-                    contents:
-                      - g:
-                        valign: top
-                        contents:
-                          - calc:
-                            output:
-                              field: champion-lay-on-hands-healing
-                              legend: "_{Heal\nAllies}"
-                              width: huge
-                            inputs:
-                              - span: "6 &times;"
-                              - field:
-                                ref: level
-                                label: "_{Focus Level}"
-                          - p: "_{Allies gain +2 AC for 1 round.}"
-                      - g:
-                        contents:
-                          - calc:
-                            output:
-                              field: champion-lay-on-hands-damage
-                              legend: "_{Damage\nUndead}"
-                              suffix: "d6"
-                              width: huge
-                            inputs:
-                              - span: "_{1d6} &times;"
-                              - field:
-                                ref: level
-                                label: "_{Focus Level}"
-                          - p: "_{Target must make a Fortitude save or suffer -2 AC for 1 round.}"
-                  - cost: "_{1pt}"
-                    unit: "_{Focus}"
+                  - calc:
+                    output:
+                      field: champion-lay-on-hands-healing
+                      legend: "_{Heal\nAllies}"
+                      width: huge
+                    inputs:
+                      - span: "6 &times;"
+                      - field:
+                        ref: level
+                        label: "_{Focus Level}"
+                  - p: "_{Allies gain +2 AC for 1 round.}"
+                  
+                  - hr:
+                    light: true
+                  - calc:
+                    output:
+                      field: champion-lay-on-hands-damage
+                      legend: "_{Damage\nUndead}"
+                      suffix: "d6"
+                      width: huge
+                    inputs:
+                      - span: "_{1d6} &times;"
+                      - field:
+                        ref: level
+                        label: "_{Focus Level}"
+                  - p: "_{Target must make a Fortitude save or suffer -2 AC for 1 round.}"
+              - cost: "_{1pt}"
+                unit: "_{Focus}"
 
   - at: '@focus-spells'
     add:

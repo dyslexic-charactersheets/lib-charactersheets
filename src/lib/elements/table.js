@@ -11,6 +11,7 @@ export let table = {
     rows: [{}],
     columns: [],
     repeat: 1,
+    reduce: 0,
     flip: false,
     template: [],
     width: '',
@@ -79,10 +80,14 @@ export let table = {
         return [];
       }
       
-      const rep = has(row, "repeat") ? row.repeat : 1;
-      if (rep > 1) {
-        log("table", "Repeating row", rep, "times:", row);
-        let reprows = Array.from({ length: rep }, e => [ ...row ]);
+      let repeat = has(row, "repeat") ? row.repeat : 1;
+      if (doc.largePrint && row.reduce > 0)
+        repeat -= row.reduce;
+      if (repeat > 1) {
+        // log("table", `Repeating row ${rep} times:`, row);
+        let reprows = Array.from({ length: repeat }, e => {
+          return { ...row };
+        });
         if (hr) {
           // log("table", "Setting repeated row hr");
           reprows[0].hr = true;
@@ -103,15 +108,20 @@ export let table = {
     }
 
     // repeat the whole set
-    if (has(args, "repeat") && args.repeat > 1) {
-      let rows2 = Array(rows.length * args.repeat);
-      for (let i = 0; i < args.repeat; i += rows.length) {
-        for (let j = 0; j < rows.length; j++) {
-          rows2[i + j] = cloneDeep(rows[j]);
+    if (has(args, "repeat")) {
+      let repeat = args.repeat;
+      if (doc.largePrint && args.reduce > 0)
+        rep -= args.reduce;
+      if (args.repeat > 1) {
+        let rows2 = Array(rows.length * repeat);
+        for (let i = 0; i < repeat; i += rows.length) {
+          for (let j = 0; j < rows.length; j++) {
+            rows2[i + j] = cloneDeep(rows[j]);
+          }
         }
+        rows = rows2;
+        // log("table", "Repeating row", args.repeat, "times:", rows);
       }
-      rows = rows2;
-      // log("table", "Repeating row", args.repeat, "times:", rows);
     }
 
     // number rows
@@ -180,6 +190,20 @@ export let table = {
       });
     }
 
+    // apply transformations to cells
+    rows = rows.map(row => {
+      row.cells = row.cells.map(cell => {
+        let replace = doc.composeElement(cell, reg);
+        if (isEmpty(replace)) {
+          return { type: 'g', contents: [] };
+        }
+        if (replace.length > 1) {
+          return { type: 'g', contents: replace };
+        }
+        return replace[0];
+      });
+      return row;
+    })
     // log("table", `${headings.length} columns, ${rows.length} rows`);
 
     // render

@@ -100,6 +100,7 @@ inc:
               - g:
                 contents:
                   - class-icon: box
+                    optional: true
                   - zone: '@champion/class-name'
                     contents:
                       - class-name: ''
@@ -120,6 +121,28 @@ inc:
                       - field: champion-deific-weapon-die
                         label: "_{Weapon Die}"
                         prefix: "_{d}"
+
+                  - section: "_{Devotion Spells}"
+                    flex: small
+                    contents:
+                      - paste: spell-attack
+                        params:
+                          id: divine-spell-attack
+                          legend: "_{Divine Spell\nAttack}"
+
+                      - paste: spell-dc
+                        params:
+                          id: divine-spell-dc
+                          legend: "_{Divine Spell\nSave DC}"
+
+                      - hr:
+                      - slots:
+                        min: 1
+                        contents:
+                          - zone: '@champion/devotion-spells'
+                        placeholder:
+                          article:
+                          line: 2
 
                   - zone: '@champion/reaction-section'
                     contents:
@@ -149,50 +172,18 @@ inc:
                         contents:
                           - p: "_{While you have your shield raised, you can use it to absorb damage.}"
 
-                  - section: "_{Divine Ally}"
+                  - section: "_{Hero's Defiance}"
+                    flex: small
                     contents:
-                      - level: 3
+                      - level: 19
                         contents:
-                          - zone: '@champion/divine-ally'
+                          - action: free
                             contents:
-                              - list:
-                                hr: true
-                                light: true
+                              - layout: indent-r
                                 contents:
-                                  - selectable: champion-blade-ally
-                                    pad: true
-                                    contents:
-                                      - h5: "_{Blade Ally}"
-                                      - row:
-                                        contents:
-                                          - field: champion-blade-ally-weapon
-                                            label: "_{Weapon}"
-                                            width: stretch
-                                          - field: champion-blade-ally-rune
-                                            label: "Rune"
-                                            width: stretch
-                                  - selectable: champion-shield-ally
-                                    pad: true
-                                    contents:
-                                      - h5: "_{Shield Ally}"
-                                      - row:
-                                        contents:
-                                          - field:
-                                            control: value
-                                            label: "_{Hardness}"
-                                            value: "+2"
-                                          - field:
-                                            label: "_{Shield\nHit Points}"
-                                            suffix: "hp"
-                                          - field:
-                                            label: "_{Broken\nThreshold}"
-                                            suffix: "hp"
-                                  - selectable: champion-steed-ally
-                                    pad: true
-                                    contents:
-                                      - h5: "_{Steed}"
-                                      - field: champion-steed-ally-mount
-                                        width: stretch
+                                  - p: "_{On being reduced to 0hp, recover 10d4+20 hp.}"
+                                  - cost: "_{1pt}"
+                                    unit: "_{Focus}"
 
                   - tail:
                   - spacer:
@@ -234,43 +225,57 @@ inc:
                                       merge-bottom: false
                                   - p: "_{If you violate your code of conduct, you lose your focus pool and divine ally until you demonstrate repentance.}"
 
-                  - section: "_{Devotion Spells}"
-                    flex: small
+                  - section: "_{Divine Ally}"
                     contents:
-                      - row:
+                      - level: 3
                         contents:
-                          - paste: spell-attack
-                            params:
-                              id: divine-spell-attack
-                              legend: "_{Divine Spell\nAttack}"
-
-                          - paste: spell-dc
-                            params:
-                              id: divine-spell-dc
-                              legend: "_{Divine Spell\nSave DC}"
-
-                      - slots:
-                        min: 1
-                        contents:
-                          - zone: '@champion/devotion-spells'
-                        placeholder:
-                          section: "_{Devotion Spell}"
-                          contents:
-                            - article:
-                              line: 2
-
-                      - section: "_{Hero's Defiance}"
-                        flex: small
-                        contents:
-                          - level: 19
+                          - zone: '@champion/divine-ally'
                             contents:
-                              - action: free
+                              - list:
+                                hr: true
+                                light: true
                                 contents:
-                                  - layout: indent-r
+                                  - selectable: champion-blade-ally
+                                    radio: true
+                                    pad: true
                                     contents:
-                                      - p: "_{On being reduced to 0hp, recover 10d4+20 hp.}"
-                                      - cost: "_{1pt}"
-                                        unit: "_{Focus}"
+                                      - h5: "_{Blade Ally}"
+                                      - row:
+                                        contents:
+                                          - field: champion-blade-ally-weapon
+                                            label: "_{Weapon}"
+                                            width: stretch
+                                          - field: champion-blade-ally-rune
+                                            label: "Rune"
+                                            width: stretch
+                                  - selectable: champion-shield-ally
+                                    radio: true
+                                    pad: true
+                                    contents:
+                                      - h5: "_{Shield Ally}"
+                                      - row:
+                                        contents:
+                                          - field:
+                                            control: value
+                                            label: "_{Hardness}"
+                                            value: "+2"
+                                            width: large
+                                          - field:
+                                            label: "_{Shield\nHit Points}"
+                                            suffix: "hp"
+                                            width: large
+                                          - field:
+                                            label: "_{Broken\nThreshold}"
+                                            suffix: "hp"
+                                            width: large
+                                          - spacer:
+                                  - selectable: champion-steed-ally
+                                    radio: true
+                                    pad: true
+                                    contents:
+                                      - h5: "_{Steed}"
+                                      - field: champion-steed-ally-mount
+                                        width: stretch
 
                   - paste: class-feats
                     params:
@@ -279,3 +284,4 @@ inc:
                       slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
 
                   - tail:
+                  - spacer:

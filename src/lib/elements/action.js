@@ -56,6 +56,7 @@ export let selectable = {
     blk: false,
     pad: false,
     selected: false,
+    radio: false,
     contents: []
   },
   transform(args) {
@@ -71,7 +72,7 @@ export let selectable = {
               {
                 type: "field",
                 id: args.id,
-                control: 'checkbox',
+                control: args.radio ? 'radio' : 'checkbox',
                 frame: 'none',
                 value: args.selected,
               }

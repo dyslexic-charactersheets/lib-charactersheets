@@ -39,15 +39,23 @@ inc:
                 contents:
                   - h4: "_{Step Seven}"
                   - p: "_{Register your character with Paizo.}"
+          #         - p: "_{[b]Achievement[/b] points can be used to purchase boons, or access ancestries or classes.}"
+          #         - p: "_{A new PFS character will have no fame or reputation. You may carry achievement points between your characters.}"
               - section: "_{Pathfinder Society}"
                 contents:
                   - row:
                     contents:
                       - paste: pfs-number
-                      - p:
-                        title: "_{Register on:}"
-                        content: "_{https://paizo.com/organizedPlay/myAccount}"
                       - spacer:
+                      - field: pfs-achievement
+                        label: "_{Achievement Points}"
+                        border: full
+                        width: large
+                        frame: right
+                        suffix: "_{pts}"
+                  - p:
+                    title: "_{Register on:}"
+                    content: "_{https://paizo.com/organizedPlay/myAccount}"
 
           - layout: 2l
             flex: small
@@ -159,16 +167,65 @@ inc:
                   - p: "_{Pick a Pathfinder faction.}"
               - section: "_{Faction}"
                 contents:
-                  - row:
+                  - layout: 2e
                     contents:
-                      - field: pfs-faction
-                        width: huge
-                        flex: small
-                        label: "_{Faction}"
-
-                      - p: "_{Your faction gives you a faction boon.}"
-                  - g:
+                      - g:
+                        pad: true
+                        contents:
+                          - field: pfs-faction
+                            width: stretch
+                            flex: small
+                            legend: "_{Faction}"
+                          - spacer:
+                      - g:
+                        contents:
+                          - h5: "_{Faction Boon}"
+                          - article: "pfs-boon-#{i}"
+                            lines: 3
                   
+          # - layout: 2l
+          #   flex: small
+          #   contents:
+          #     - g:
+          #       valign: top
+          #       contents:
+          #         - h4: "_{Step Ten}"
+          #         - p: "_{Your character earns bonuses by playing.}"
+          #         - row:
+          #           contents:
+          #             - field: pfs-achievement
+          #               label: "_{Achievement Points}"
+          #               border: full
+          #               width: large
+          #               suffix: "_{pts}"
+          #             - spacer:
+          #         - p: "_{[b]Achievement[/b] points can be used to purchase boons, or access ancestries or classes.}"
+          #         - p: "_{A new PFS character will have no fame or reputation. You may carry achievement points between your characters.}"
+          #         - spacer:
+
+          #     - section: "_{Boons}"
+          #       contents:
+          #         - layout: 2e
+          #           contents:
+          #             - list:
+          #               hr: true
+          #               zebra: true
+          #               contents:
+          #                 - repeat: 3
+          #                   contents:
+          #                     - article: "pfs-boon-#{i}"
+          #                       lines: 3
+          #             - g:
+          #               contents:
+          #                 - h6: "_{Faction Boon}"
+          #                 - article: "pfs-boon-#{i}"
+          #                   lines: 3
+          #                 - hr:
+          #                 - h6: "_{Advanced Boon}"
+          #                 - article: "pfs-boon-#{i}"
+          #                   lines: 4
+
+
           - layout: 2l
             flex: small
             contents:
@@ -176,54 +233,12 @@ inc:
                 valign: top
                 contents:
                   - h4: "_{Step Ten}"
-                  - p: "_{Your character earns bonuses by playing.}"
-                  - row:
-                    contents:
-                      - field: pfs-achievement
-                        label: "_{Achievement Points}"
-                        border: full
-                        width: large
-                        suffix: "_{pts}"
-                      - spacer:
-                  - p: "_{[b]Achievement[/b] points can be used to purchase boons, or access ancestries or classes.}"
-                  - p: "_{A new PFS character will have no fame or reputation. You may carry achievement points between your characters.}"
-                  - spacer:
-
-              - section: "_{Boons}"
-                contents:
-                  - layout: 2e
-                    contents:
-                      - list:
-                        hr: true
-                        zebra: true
-                        contents:
-                          - repeat: 3
-                            contents:
-                              - article: "pfs-boon-#{i}"
-                                lines: 3
-                      - g:
-                        contents:
-                          - h6: "_{Faction Boon}"
-                          - article: "pfs-boon-#{i}"
-                            lines: 3
-                          - hr:
-                          - h6: "_{Advanced Boon}"
-                          - article: "pfs-boon-#{i}"
-                            lines: 4
-
-
-          - layout: 2l
-            flex: small
-            contents:
-              - g:
-                valign: top
-                contents:
-                  - h4: "_{Step Eleven}"
                   - p: "_{Find a game through your local Venture-Captain or online.}"
+                  - p: "_{Start each game with one hero point and a free comsumable.}"
               - section: "_{Play}"
                 contents:
-                  - p: "_{Start each game with one hero point and a free comsumable.}"
                   - row:
+                    pad: true
                     contents:
                       - field:
                         border: circle
@@ -234,59 +249,135 @@ inc:
                       - field:
                         label: "_{Consumable Item}"
                         width: stretch
-                  - p:
-                    title: "_{Pick from:}"
-                    content: "_{Holy water, lesser bomb (alchemist), lesser antidote, lesser antiplague, minor healing potion}"
-                  - level: 3
+                  - list:
+                    hr: true
                     contents:
-                      - p: "_{Lesser healing potion, potion of water breathing}"
-                  - level: 5
-                    contents:
-                      - p: "_{Moderate bomb}"
+                      - level: 1
+                        contents:
+                          - layout: 2e
+                            contents:
+                              - p: "_{Holy water, lesser bomb (alchemist), lesser antidote, lesser antiplague, minor healing potion}"
+                              - g:
+                                contents:
+                                  - zone: '@pfs-faction-consumables-lvl1'
+                                    contents:
+                                      - field: pfs-faction-consumables-lvl1
+                                        width: stretch
+                                        repeat: 2
+                                        merge-bottom: true
+                      - level: 3
+                        contents:
+                          - layout: 2e
+                            contents:
+                              - p: "_{Lesser healing potion, potion of water breathing}"
+                              - g:
+                                contents:
+                                  - zone: '@pfs-faction-consumables-lvl1'
+                                    contents:
+                                      - field: pfs-faction-consumables-lvl3
+                                        width: stretch
+                                        repeat: 2
+                                        merge-bottom: true
+                      - level: 5
+                        contents:
+                          - layout: 2e
+                            contents:
+                              - p: "_{Moderate bomb}"
+                              - g:
+                                contents:
+                                  - zone: '@pfs-faction-consumables-lvl5'
+                                    contents:
+                                      - field: pfs-faction-consumables-lvl5
+                                        width: stretch
+                                        repeat: 2
+                                        merge-bottom: true
+
+                      - g:
+                        contents:
+                          - h5: "_{Boons}"
+                          
+                          - list:
+                            zebra: true
+                            columns: 2
+                            merge-bottom: true
+                            contents:
+                              - repeat: 6
+                                contents:
+                                  - field: pfs-boon-#{i}
+                                    width: stretch
           
           - layout: 2l
             contents:
               - g:
                 valign: top
                 contents:
-                  - h4: "_{Step Twelve}"
+                  - h4: "_{Step Eleven}"
                   - p: "_{Get rewarded for completing adventures.}"
+                  
                   - p: "_{[b]Fame[/b] represents your standing within the Pathfinder Society. Fame can be use to purchase faction boons.}"
                   - p: "_{[b]Reputation[/b] represents your standing within your faction. A higher reputation unlocks faction boons you can purchase.}"
+
               - section: "_{Rewards}"
                 contents:
-                  - row:
+                  - layout: 2e
                     contents:
-                      - field: pfs-xp
-                        label: "_{Experience}"
-                        border: full
-                        width: large
-                        suffix: "_{xp}"
+                      - g:
+                        contents:
+                          - row:
+                            contents:
+                              - field: pfs-xp
+                                label: "_{Experience}"
+                                border: full
+                                width: large
+                                suffix: "_{xp}"
 
-                      - spacer:
+                              - field: pfs-xp-threshold
+                                label: "_{Level Up}"
+                                width: large
+                                control: value
+                                value: "_{12xp}"
 
-                      - field: pfs-fame
-                        label: "_{Fame}"
-                        border: full
-                        width: large
+                              - spacer:
 
-                      - spacer:
+                              - field: pfs-fame
+                                label: "_{Fame}"
+                                border: full
+                                width: large
 
-                      - field: pfs-reputation
-                        label: "_{Reputation}"
-                        border: full
-                        width: large
-                      - field: pfs-reputation-faction
-                        label: "_{Faction}"
-                        width: gargantuan
+                              - spacer:
 
-                      - spacer:
+                          - spacer:
 
-                      - field: pfs-money
-                        control: money
-                        label: "_{Gold}"
-                        digits: 5
-                        denomination: gold
+                          - row:
+                            contents:
+                              - field: pfs-money
+                                control: money
+                                frame: left
+                                label: "_{Silver}"
+                                digits: 5
+                                denomination: silver
+                              - spacer:
+                              
+                          - spacer:
+
+                      - g:
+                        contents:
+                          - table:
+                            rows:
+                              - i: #{i}
+                            repeat: 3
+                            columns:
+                              - label: "_{Faction}"
+                              - label: "_{Reputation}"
+                            template:
+                              - field: pfs-faction-#{i}
+                                width: stretch
+                                underlay: "#{i}"
+                                align: left
+                              - field: pfs-faction-#{i}-reputation
+                                border: full
+
+
 
                   - hr:
                   - layout: 2e

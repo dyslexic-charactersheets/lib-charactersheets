@@ -131,6 +131,7 @@ inc:
                                 label: "_{Languages}"
                                 width: stretch
                                 repeat: 2
+                                reduce: 1
                                 merge-bottom: true
                           - g:
                             contents:
@@ -188,6 +189,7 @@ inc:
                                               - spacer:
                               - p: "_{Ability Modifier = (Ability Score - 10) &divide; 2}"
                                 align: left
+                                optional: true
 
                           - g:
                             contents:
@@ -296,9 +298,12 @@ inc:
                               - table:
                                 merge-bottom: true
                                 rows:
-                                  - i: 1
-                                  - i: 2
-                                  - i: 3
+                                  - i: "#{i}"
+                                    repeat: 3
+                                    reduce: 1
+                                  # - i: 1
+                                  # - i: 2
+                                  # - i: 3
                                 columns:
                                   - h5: "_{Archetypes}"
                                   - label: "_{Archetype Feats}"
@@ -500,7 +505,7 @@ inc:
                           - slots:
                             min: 4
                             max: 6
-                            reduce: 1
+                            reduce: 2
                             contents:
                               - if: '#{skill-actions}'
                                 then:
@@ -554,6 +559,7 @@ inc:
                       - row: left
                         contents:
                           - p: "_{Perception DC = 10 + Perception Bonus}"
+                            optional: true
                           - spacer:
                           - field: perception-low-light
                             frame: right
@@ -569,6 +575,7 @@ inc:
                             label: "_{Scent}"
                       - hr:
                         light: true
+                        optional: true
                       - zone: '@perception'
                         contents:
                           - row:
@@ -645,7 +652,7 @@ inc:
                           - slots:
                             min: 4
                             max: 5
-                            reduce: 1
+                            reduce: 2
                             placeholder:
                               action: template
                               contents:
@@ -760,6 +767,7 @@ inc:
                                   i: '#{i}'
 
                           - repeat: 3
+                            reduce: 1
                             contents:
                               - paste: weapon-with-ammo
                                 params:
@@ -953,6 +961,7 @@ inc:
                                           - p:
                                             title: "_{Shield Block}"
                                             content: "_{Deduct hardness, then apply remaining damage to both shield and yourself.}"
+                                            optional: true
 
                                           - selectable: 'shield-block'
                                             contents:
@@ -1063,6 +1072,7 @@ inc:
                       - indent:
                         contents:
                           - p: "_{Save DC = 10 + Save Bonus}"
+                            optional: true
                       - slots:
                         min: 5
                         reduce: 1
@@ -1082,6 +1092,7 @@ inc:
                         zebra: true
                         contents:
                           - repeat: 3
+                            reduce: 1
                             contents:
                               - g:
                                 contents:
@@ -1256,10 +1267,10 @@ inc:
                               - levels: [ 5, 10, 15, 20 ]
                                 gain: "_{Ability boost}"
                               - level: 7
-                                advance: "_{Master in skills}"
+                                advance: "_{May be master in skills}"
                                 icon: proficiency-master
                               - level: 15
-                                advance: "_{Legendary in skills}"
+                                advance: "_{May be legendary in skills}"
                                 icon: proficiency-legendary
                               - zone: '@advancement'
                             fields:
@@ -1321,7 +1332,7 @@ inc:
                                             width: stretch
                                             frame: none
                                             repeat: 14
-                                            reduce: 4
+                                            reduce: 2
                                             merge-bottom: true
 
                   - tail:

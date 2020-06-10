@@ -151,9 +151,16 @@ export let advancement = {
         valign: "middle"
       });
       template.push({
-        type: "icon",
-        icon: "#{icon}",
-        blk: false
+        type: "g",
+        contents: [{
+          type: "if",
+          condition: "#{icon}!=",
+          then: [{
+            type: "icon",
+            icon: "#{icon}",
+            blk: false
+          }]
+        }]
       });
     }
     if (has_labels) {

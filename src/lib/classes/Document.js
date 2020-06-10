@@ -183,15 +183,9 @@ export class Document {
     };
   }
 
-  composeDocument(registry) {
-    // log("Document", "Compose document");
-    // log("compose", " - Doc:", this.doc);
-    // log("compose", " - Zones:", zones);
-    // log("compose", " - Templates:", templates);
-    // log("compose", " - Registry", registry);
-
+  getContext() {
     const self = this;
-    const ctx = { 
+    return { 
       zones: this.zones,
       templates: this.templates,
       largePrint: this.largePrint,
@@ -204,121 +198,132 @@ export class Document {
         return self.getVar(varname);
       }
     };
+  }
 
-    // the lesser form: only expand a few types, don't do full unit expansion
-    function complete(element) {
-      if (isArray(element))
-        return element.flatMap(complete);
-      if (!has(element, "type"))
-        return [element];
+  // the lesser form: only expand a few types, don't do full unit expansion
+  completeElement(element, registry) {
+    const ctx = this.getContext();
 
-      switch (element.type) {
-        case 'zone':
-        case 'sort':
-        case 'slots':
-          const reg = registry.get(element.type);
-
-          if (reg && reg.transform) {
-            if (has(element, "contents")) {
-              element.contents = complete(element.contents);
-            }
-
-            // log("compose", "Applying transformation to", element.type);
-            // log("Document", "Large print?", self.largePrint);
-            const args = Object.assign({}, reg.defaults, element);
-            //const ctx = { zones: self.zones, templates: self.templates, largePrint: self.largePrint, language: self.language };
-            let newelements = reg.transform(args, ctx);
-            if (newelements === false)
-              return element;
-
-            newelements = newelements.flatMap(complete);
-            return newelements;
-          }
-          break;
-      }
+    if (isArray(element))
+      return element.flatMap(el => this.completeElement(el, registry));
+    if (!has(element, "type"))
       return [element];
-    }
 
-    // the greater form: give all elements a chance to transform themselves
-    function compose(element) {
-      if (element === null) {
-        warn("Document", "Null element");
-        return [];
-      }
-      if (isArray(element)) {
-        return element.map(e => compose(e));
-      }
-      if (isString(element)) {
-        return [element];
-      }
-      if (!has(element, "type")) {
-        // warn("Document", "Untyped element", element);
-        return [element];
-      }
+    switch (element.type) {
+      case 'zone':
+      case 'sort':
+      case 'slots':
+        const reg = registry.get(element.type);
 
-      // if (element.type == 'table') log("Document", "Compose item", element);
-
-      // first recurse so we have the ingredients
-      switch (element.type) {
-        case 'advancement':
-          element.advances = complete(element.advances);
-          element.fields = complete(element.fields);
-          break;
-        case 'table':
-          element.rows = complete(element.rows);
-          element.columns = complete(element.columns);
-          break;
-      }
-
-      for (const item_key of ["contents", "placeholder", "header", "inputs", "parts"]) {
-        // log("compose", "Checking for", item_key);
-        if (has(element, item_key)) {
-          // log("compose", "Preparing item", item_key, element[item_key]);
-          if (isArray(element[item_key]))
-            element[item_key] = element[item_key].flatMap(compose);
-          else
-            element[item_key] = compose(element[item_key]);
-        }
-      }
-
-      switch (element.type) {
-        case 'slots':
+        if (reg && reg.transform) {
           if (has(element, "contents")) {
-            element.contents = element.contents.flatMap(subelement => {
-              if (subelement.type == "reduce") {
-                let reduce = has(subelement, "reduce") ? subelement.reduce : 1;
-                if (isEmpty(reduce)) reduce = 1;
-                // log("Document", "Reducing slots", subelement.reduce, `min = ${element.min}, max = ${element.max}`);
-                element.min -= reduce;
-                // log("Document", `min = ${element.min}, max = ${element.max}`);
-                return [];
-              }
-              return [subelement];
-            });
+            element.contents = this.completeElement(element.contents, registry);
           }
-          break;
-      }
 
-      // transform the element
-      const reg = registry.get(element.type);
-      // log("compose", "Registry entry for", element.type, reg);
+          // log("compose", "Applying transformation to", element.type);
+          // log("Document", "Large print?", self.largePrint);
+          const args = Object.assign({}, reg.defaults, element);
+          let newelements = reg.transform(args, ctx);
+          if (newelements === false)
+            return element;
 
-      if (reg && reg.transform) {
-        // log("compose", "Applying transformation to", element.type);
-        const args = Object.assign({}, reg.defaults, element);
-        let newelements = reg.transform(args, ctx);
-        if (newelements === false)
-          return element;
-
-        // log("compose", "Transformed", element.type, (element.type == "zone" ? element.zone : ''), "into", newelements.length, "elements");
-        newelements = newelements.flatMap(compose);
-        return newelements;
-      }
-
+          newelements = newelements.flatMap(el => this.completeElement(el, registry));
+          return newelements;
+        }
+        break;
+    }
+    return [element];
+  }
+  
+  // the greater form: give all elements a chance to transform themselves
+  composeElement(element, registry) {
+    const ctx = this.getContext();
+    
+    if (element === null) {
+      warn("Document", "Null element");
+      return [];
+    }
+    if (isArray(element)) {
+      return element.map(e => this.composeElement(e, registry));
+    }
+    if (isString(element)) {
+      return [element];
+    }
+    if (!has(element, "type")) {
+      // warn("Document", "Untyped element", element);
       return [element];
     }
 
-    const c = compose(this.doc);
+    // if (element.type == 'table') log("Document", "Compose item", element);
+
+    // first recurse so we have the ingredients
+    switch (element.type) {
+      case 'advancement':
+        element.advances = this.completeElement(element.advances, registry);
+        element.fields = this.completeElement(element.fields, registry);
+        break;
+      case 'table':
+        element.rows = this.completeElement(element.rows, registry);
+        element.columns = this.completeElement(element.columns, registry);
+        break;
+    }
+
+    for (const item_key of ["contents", "placeholder", "header", "inputs", "parts"]) {
+      // log("compose", "Checking for", item_key);
+      if (has(element, item_key)) {
+        // log("compose", "Preparing item", item_key, element[item_key]);
+        if (isArray(element[item_key]))
+          element[item_key] = element[item_key].flatMap(el => this.composeElement(el, registry));
+        else
+          element[item_key] = this.composeElement(element[item_key], registry);
+      }
+    }
+
+    switch (element.type) {
+      case 'slots':
+        if (has(element, "contents")) {
+          element.contents = element.contents.flatMap(subelement => {
+            if (subelement.type == "reduce") {
+              let reduce = has(subelement, "reduce") ? subelement.reduce : 1;
+              if (isEmpty(reduce)) reduce = 1;
+              // log("Document", "Reducing slots", subelement.reduce, `min = ${element.min}, max = ${element.max}`);
+              element.min -= reduce;
+              // log("Document", `min = ${element.min}, max = ${element.max}`);
+              return [];
+            }
+            return [subelement];
+          });
+        }
+        break;
+    }
+
+    // transform the element
+    const reg = registry.get(element.type);
+    // log("compose", "Registry entry for", element.type, reg);
+
+    if (reg && reg.transform) {
+      // log("compose", "Applying transformation to", element.type);
+      const args = Object.assign({}, reg.defaults, element);
+      let newelements = reg.transform(args, ctx);
+      if (newelements === false)
+        return element;
+
+      // log("compose", "Transformed", element.type, (element.type == "zone" ? element.zone : ''), "into", newelements.length, "elements");
+      newelements = newelements.flatMap(el => this.composeElement(el, registry));
+      return newelements;
+    }
+
+    return [element];
+  }
+
+  composeDocument(registry) {
+    // log("Document", "Compose document");
+    // log("compose", " - Doc:", this.doc);
+    // log("compose", " - Zones:", zones);
+    // log("compose", " - Templates:", templates);
+    // log("compose", " - Registry", registry);
+
+    const c = this.composeElement(this.doc, registry);
     this.doc = applyContext(c[0]);
   }
 

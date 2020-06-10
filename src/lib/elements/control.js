@@ -1,4 +1,4 @@
-import { interpolate } from '../util';
+import { interpolate, isEmpty } from '../util';
 import { log } from '../log';
 
 export let ifelem = {
@@ -18,44 +18,48 @@ export let ifelem = {
     // log("control", "if condition:", condition);
     let m;
     if (m = condition.match(/(.*)==(.*)/)) {
-      let left = trim(m[1]);
-      let right = trim(m[2]);
+      let left = m[1].trim();
+      let right = m[2].trim();
       condition = (left == right);
     } else if (m = condition.match(/(.*)!=(.*)/)) {
-      let left = trim(m[1]);
-      let right = trim(m[2]);
+      let left = m[1].trim();
+      let right = m[2].trim();
       condition = (left != right);
     } else if (m = condition.match(/(.*)>=(.*)/)) {
-      let left = trim(m[1]);
-      let right = trim(m[2]);
+      let left = m[1].trim();
+      let right = m[2].trim();
       condition = (left >= right);
     } else if (m = condition.match(/(.*)>(.*)/)) {
-      let left = trim(m[1]);
-      let right = trim(m[2]);
+      let left = m[1].trim();
+      let right = m[2].trim();
       condition = (left > right);
     } else if (m = condition.match(/(.*)<=(.*)/)) {
-      let left = trim(m[1]);
-      let right = trim(m[2]);
+      let left = m[1].trim();
+      let right = m[2].trim();
       condition = (left <= right);
     } else if (m = condition.match(/(.*)<(.*)/)) {
-      let left = trim(m[1]);
-      let right = trim(m[2]);
+      let left = m[1].trim();
+      let right = m[2].trim();
       condition = (left < right);
     } else if (m = condition.match(/!(.*)/)) {
-      let value = trim(m[1]);
+      let value = m[1].trim();
       condition = !(value);
+    } else {
+      condition = condition.trim();
     }
 
-    // log("control", "if value:", condition);
+    // log("control", "if: value:", condition);
     switch(condition) {
       case 'true':
       case 'yes':
       case '1':
       case true:
       case 1:
+        // log("control", "if: then:", args.then);
         return args.then;
 
       default:
+        // log("control", "if: else:", args.else);
         return args.else;
     }
   }

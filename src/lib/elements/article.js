@@ -22,6 +22,7 @@ export let article = {
     'show-cat': false,
     'show-level': false,
     lines: 2,
+    reduce: 1,
 
     left: false,
     right: false,
@@ -96,8 +97,8 @@ export let article = {
 
       let contents = args.contents;
       if (isEmpty(args.contents)) {
-        if (ctx.largePrint && args.lines > 1) {
-          args.lines--;
+        if (ctx.largePrint && args.lines > 1 && args.reduce > 0) {
+          args.lines -= args.reduce;
         }
 
         contents = [];
