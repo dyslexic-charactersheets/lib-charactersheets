@@ -1,5 +1,5 @@
 import { __, _e } from '../i18n';
-import { elementClass } from '../util';
+import { elementClass } from '../util/elements';
 
 export let level = {
   name: 'level',

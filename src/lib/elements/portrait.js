@@ -1,4 +1,4 @@
-import { elementClass } from '../util';
+import { elementClass } from '../util/elements';
 import { __ } from '../i18n';
 
 export let portrait = {

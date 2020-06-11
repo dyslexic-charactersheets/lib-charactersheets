@@ -1,4 +1,6 @@
-import { has, isArray, isString, cloneDeep, interpolate, mergeBottom } from '../util';
+import { isArray, isString, interpolate } from '../util';
+import { cloneDeep, has } from '../util/objects';
+import { mergeBottom } from '../util/elements';
 import { log, warn } from '../log';
 // import { mergeBottom } from '../classes/Registry';
 

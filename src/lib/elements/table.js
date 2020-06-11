@@ -1,4 +1,5 @@
-import { interpolate, isObject, isString, isArray, isNull, isEmpty, has, cloneDeep } from '../util';
+import { interpolate, isObject, isString, isArray, isNull, isEmpty } from '../util';
+import { cloneDeep, has } from '../util/objects';
 
 import { renderTableBasic } from './table-basic';
 import { renderTableFlipped } from './table-flipped';

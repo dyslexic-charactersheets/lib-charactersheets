@@ -1,4 +1,4 @@
-import { elementID, elementClass } from '../util';
+import { elementID, elementClass } from '../util/elements';
 import { log } from '../log';
 
 export let layout = {

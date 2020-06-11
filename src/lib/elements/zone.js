@@ -1,4 +1,4 @@
-import { has, cloneDeep } from '../util';
+import { cloneDeep, has } from '../util/objects';
 import { warn } from '../log';
 
 export let zone = {

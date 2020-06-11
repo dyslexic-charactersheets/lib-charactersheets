@@ -1,4 +1,4 @@
-import { elementID, elementClass } from '../util';
+import { elementID, elementClass } from '../util/elements';
 
 const paizoCopyrightAttribution = `<div class='copyright-attribution'><p>
 <b>&copy; Marcus Downing &nbsp; <a href='https://www.dyslexic-charactersheets.com/'>dyslexic-charactersheets.com</a></b>

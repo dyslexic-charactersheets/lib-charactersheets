@@ -4,7 +4,8 @@ import { Character } from './Character';
 import { Party } from './Party';
 import { Build } from './Build';
 import { events } from './Events';
-import { has, isArray } from '../util';
+import { isArray } from '../util';
+import { has } from '../util/objects';
 
 function randomID() {
   return Math.random().toString(16).substring(2, 9)

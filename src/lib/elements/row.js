@@ -1,4 +1,4 @@
-import { elementClass, getLabelHeight, getRubyHeight } from '../util';
+import { elementClass, getRubyHeight } from '../util/elements';
 
 export let row = {
   name: 'row',

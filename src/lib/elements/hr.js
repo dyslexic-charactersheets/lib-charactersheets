@@ -1,4 +1,4 @@
-import { elementClass } from '../util';
+import { elementClass } from '../util/elements';
 
 export let hr = {
   name: 'hr',

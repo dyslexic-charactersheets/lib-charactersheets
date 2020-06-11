@@ -1,7 +1,7 @@
 import { existsSync, readdir, readFile } from 'fs';
 import { log, error } from './log';
-import { has, isString, isNumber, isNull } from './util';
-import * as _ from 'lodash';
+import { isString, isNumber, isNull } from './util';
+import { has } from './util/objects';
 
 let translatorCallbacks = [];
 
@@ -42,7 +42,7 @@ export function _e(str, doc) {
 // Escape strings for HTML
 export function esc(content, newlines = false, bbformat = true) {
   content = content.replace(/#{.*?}/g, '');
-  content = _.escape(content);
+  // content = _.escape(content);
   content = content.replace(/’/g, '&rsquo;').replace(/‘/g, '&lsquo;');
   content = content.replace(/—/g, '&mdash;');
   content = content.replace(/&amp;(.+);/, '&$1;');

@@ -1,6 +1,6 @@
-import { has, isString } from '../util';
-import { log } from '../log';
-import { isNumber } from 'util';
+import { isString, isNumber } from '../util';
+import { has } from '../util/objects';
+// import { log } from '../log';
 
 export let sort = {
   name: 'sort',

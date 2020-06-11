@@ -1,4 +1,5 @@
-import { elementClass, isEmpty, interpolate } from '../util';
+import { interpolate } from '../util';
+import { elementClass } from '../util/elements';
 import { log, error } from '../log';
 import { __, _e, esc } from '../i18n';
 

@@ -1,5 +1,5 @@
 import { __, _e } from '../i18n';
-import { elementClass } from '../util';
+import { elementClass } from '../util/elements';
 import { fieldIdent, fieldRadioIdent, fieldInner } from './field';
 
 function defaultFrameRender(args, reg, doc) {

@@ -1,6 +1,6 @@
-import { interpolate, isObject, cloneDeep, has } from '../util';
-import { log } from '../log';
-import { isString } from 'util';
+import { interpolate, isObject, isString } from '../util';
+import { cloneDeep, has } from '../util/objects';
+// import { log } from '../log';
 
 export let each = {
   name: 'each',

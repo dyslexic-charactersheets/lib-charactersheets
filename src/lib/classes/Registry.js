@@ -1,7 +1,7 @@
-import * as _ from 'lodash';
-
 import { log, warn } from '../log';
-import { has, isArray, isString, mergeBottom } from '../util';
+import { isString } from '../util';
+import { has } from '../util/objects';
+import { mergeBottom } from '../util/elements';
 
 // elements
 import { unit } from '../elements/unit';

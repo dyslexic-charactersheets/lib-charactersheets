@@ -2,7 +2,9 @@ const Handlebars = require('handlebars');
 
 import { log, warn, error } from '../log';
 import { applyContext } from '../context';
-import { clone, replaceColours, has, isArray, isEmpty, isString } from '../util';
+import { isArray, isEmpty, isString } from '../util';
+import { replaceColours } from '../util/colours';
+import { has, clone } from '../util/objects';
 import { esc, _e } from '../i18n';
 
 export class Document {
@@ -140,8 +142,6 @@ export class Document {
             break;
 
           case 'set':
-            // const isOverride = _.has(include, "override") ? !!include.override : false;
-            // const isDefault = _.has(include, "default") ? !!include.default : false;
             if (!has(this.vars, include.set))
               this.vars[include.set] = [];
             this.vars[include.set].push(include);

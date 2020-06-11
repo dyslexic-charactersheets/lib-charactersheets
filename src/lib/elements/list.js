@@ -1,4 +1,6 @@
-import { elementClass, has, isObject, isEmpty } from '../util';
+import { isObject, isEmpty } from '../util';
+import { elementClass } from '../util/elements';
+import { has } from '../util/objects';
 import { log } from '../log';
 
 export let list = {

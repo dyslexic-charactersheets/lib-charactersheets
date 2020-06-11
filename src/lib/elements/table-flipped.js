@@ -1,6 +1,7 @@
-import { isNull, has, elementClass, isString, isEmpty } from '../util';
+import { isNull, isString, isEmpty, isObject } from '../util';
+import { elementClass } from '../util/elements';
 import { log, warn } from '../log';
-import { isObject } from 'util';
+import { has } from '../util/objects';
 
 // Column-oriented table
 export function renderTableFlipped(args, reg, doc, headings, cols) {

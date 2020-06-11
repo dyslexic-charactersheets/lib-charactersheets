@@ -1,6 +1,7 @@
 import { readFile } from 'fs';
 import { log, warn, error } from '../log';
-import { isNull, isArray, has } from '../util';
+import { isNull, isArray } from '../util';
+import { has } from '../util/objects';
 
 let systems = {};
 let commonSystem = null;

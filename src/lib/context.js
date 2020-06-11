@@ -1,5 +1,5 @@
-// import { log, error } from './log';
-import { has, isArray } from './util';
+import { isArray } from './util';
+import { has } from './util/objects';
 
 const contextStack = [];
 

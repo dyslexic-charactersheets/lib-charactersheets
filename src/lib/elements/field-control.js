@@ -1,6 +1,8 @@
-import * as _ from 'lodash';
 import { fieldIdent, fieldRadioIdent, fieldDefaults } from './field';
-import { elementClass, has, isArray, isNull } from '../util';
+import { isArray, isNull } from '../util';
+import { elementClass } from '../util/elements';
+import { chunk } from '../util/arrays';
+import { has } from '../util/objects';
 import { __, _e } from '../i18n';
 
 function defaultControlRender (args, reg, doc) {
@@ -321,7 +323,7 @@ export let field_control_checkgrid = {
       checks.push(check);
     }
 
-    const groups = _.chunk(checks, args.group).map(ch => {
+    const groups = chunk(checks, args.group).map(ch => {
       const grouplen = Math.ceil(parseFloat(ch.length) / parseFloat(args.depth));
       let a = { control: 'checkgrid', dir: args.dir, w: args.w, h: args.h };
       a[args.direction == 'horizontal' ? 'w' : 'h'] = grouplen;

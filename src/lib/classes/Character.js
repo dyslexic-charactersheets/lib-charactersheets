@@ -1,5 +1,6 @@
 import { log, error } from '../log';
-import { replaceColours, adjustColour, interpolate } from '../util';
+import { interpolate } from '../util';
+import { replaceColours, adjustColour } from '../util/colours';
 import { __ } from '../i18n';
 import { ready as systemsReady, getSystem } from './System';
 import { Instance } from './Instance';
@@ -9,7 +10,9 @@ import { events } from './Events';
 
 // import { applyContext } from '../context';
 import { locateAsset, toDataURL, inferMimeType } from '../data';
-import { toKebabCase, toCamelCase, toPathCase, toSpaceCase, toTitleCase, isString, isObject, isNull, isArray, has, isEmpty } from '../util';
+import { isString, isObject, isNull, isArray, isEmpty } from '../util';
+import { toKebabCase, toCamelCase, toPathCase, toSpaceCase, toTitleCase } from '../util/strings';
+import { has } from '../util/objects';
 
 const knownVars = [
   "inventoryStyle",

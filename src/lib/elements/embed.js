@@ -1,4 +1,5 @@
-import { elementID, elementClass, isEmpty, interpolate } from '../util';
+import { isEmpty, interpolate } from '../util';
+import { elementClass } from '../util/elements';
 
 export let embed = {
   name: 'embed',

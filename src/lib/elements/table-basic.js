@@ -1,5 +1,7 @@
-import { isNull, has, elementClass, mergeBottom } from '../util';
-import { log, warn } from '../log';
+import { isNull } from '../util';
+import { elementClass, mergeBottom } from '../util/elements';
+import { has } from '../util/objects';
+// import { log, warn } from '../log';
 // import { mergeBottom } from '../classes/Registry';
 
 // Standard table

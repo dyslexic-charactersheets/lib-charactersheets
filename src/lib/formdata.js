@@ -1,6 +1,6 @@
 import { readFile } from 'fs';
 
-import { has } from './util';
+import { has } from './util/objects';
 import { log, error } from './log';
 import { ready } from './classes/System';
 

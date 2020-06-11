@@ -1,5 +1,5 @@
 import { log, error } from '../log';
-import { adjustColour } from '../util';
+import { adjustColour } from '../util/colours';
 import { ready as systemsReady, getSystem } from './System';
 import { Document } from './Document';
 import { LoadQueue } from './LoadQueue';

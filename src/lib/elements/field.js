@@ -1,6 +1,6 @@
-import * as _ from 'lodash';
-
-import { elementID, elementClass, getLabelHeight, getRubyHeight, has, interpolate, isArray, isString, toBoolean } from '../util';
+import { interpolate, isArray, isString, toBoolean } from '../util';
+import { elementID, elementClass, getRubyHeight } from '../util/elements';
+import { has } from '../util/objects';
 import { __, _e } from '../i18n';
 import { log } from '../log';
 // import { render, renderItem } from '../classes/Registry';

@@ -1,4 +1,5 @@
-import { elementClass, isEmpty } from '../util';
+import { isEmpty } from '../util';
+import { elementClass } from '../util/elements';
 import { log, error } from '../log';
 import { __, _e } from '../i18n';
 

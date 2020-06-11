@@ -1,4 +1,4 @@
-import { elementClass, elementID } from '../util';
+import { elementClass, elementID } from '../util/elements';
 import { __, _e } from '../i18n';
 
 export let section = {

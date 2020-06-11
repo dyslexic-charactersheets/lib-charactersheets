@@ -1,4 +1,5 @@
-import { elementClass, getLabelHeight, getRubyHeight, isString } from '../util';
+import { isString } from '../util';
+import { elementClass, getLabelHeight, getRubyHeight } from '../util/elements';
 
 export let calc = {
   name: 'calc',

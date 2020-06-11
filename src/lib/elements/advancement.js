@@ -1,4 +1,6 @@
-import { has, isEmpty, isArray, toKebabCase } from '../util';
+import { isEmpty, isArray } from '../util';
+import { toKebabCase } from '../util/strings';
+import { has } from '../util/objects';
 import { log, warn } from '../log';
 
 export let advancement = {

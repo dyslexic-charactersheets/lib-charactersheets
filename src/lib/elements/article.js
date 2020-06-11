@@ -1,4 +1,5 @@
-import { elementID, elementClass, isEmpty, embed } from '../util';
+import { isEmpty } from '../util';
+import { elementID, elementClass, embed } from '../util/elements';
 import { __ } from '../i18n';
 import { log } from '../log';
 

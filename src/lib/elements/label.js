@@ -1,4 +1,4 @@
-import { elementClass } from '../util';
+import { elementClass } from '../util/elements';
 import { __, _e } from '../i18n';
 import { log } from '../log';
 

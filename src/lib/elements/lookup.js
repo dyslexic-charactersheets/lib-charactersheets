@@ -1,4 +1,5 @@
-import { isString, isObject, has } from '../util';
+import { isString, isObject } from '../util';
+import { has } from '../util/objects';
 import { log } from '../log';
 
 export let lookup = {
