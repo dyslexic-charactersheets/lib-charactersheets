@@ -1,4 +1,4 @@
-import { interpolate, isEmpty } from '../util';
+import { interpolate } from '../util/objects';
 import { log } from '../log';
 
 export let ifelem = {

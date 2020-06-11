@@ -1,5 +1,5 @@
 import { log, error } from '../log';
-import { interpolate } from '../util';
+import { interpolate } from '../util/objects';
 import { replaceColours, adjustColour } from '../util/colours';
 import { __ } from '../i18n';
 import { ready as systemsReady, getSystem } from './System';

@@ -1,5 +1,5 @@
-import { interpolate, isEmpty } from "../util";
-import { cloneDeep, has } from '../util/objects';
+import { isEmpty } from "../util";
+import { cloneDeep, has, interpolate } from '../util/objects';
 import { log, warn } from "../log";
 
 export let paste = {

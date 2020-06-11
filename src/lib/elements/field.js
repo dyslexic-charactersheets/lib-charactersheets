@@ -1,6 +1,6 @@
-import { interpolate, isArray, isString, toBoolean } from '../util';
+import { isArray, isString, toBoolean } from '../util';
 import { elementID, elementClass, getRubyHeight } from '../util/elements';
-import { has } from '../util/objects';
+import { has, interpolate } from '../util/objects';
 import { __, _e } from '../i18n';
 import { log } from '../log';
 // import { render, renderItem } from '../classes/Registry';

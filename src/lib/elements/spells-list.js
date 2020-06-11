@@ -1,4 +1,5 @@
-import { interpolate, isArray, isString } from '../util';
+import { isArray, isString } from '../util';
+import { interpolate } from '../util/objects';
 import { log } from '../log';
 
 function spellField(lvl, style, n, annotation) {

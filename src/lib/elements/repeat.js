@@ -1,4 +1,5 @@
-import { interpolate, isEmpty, toBoolean } from '../util';
+import { isEmpty, toBoolean } from '../util';
+import { interpolate } from '../util/objects';
 
 export let repeat = {
   name: 'repeat',

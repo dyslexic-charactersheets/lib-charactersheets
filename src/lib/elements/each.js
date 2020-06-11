@@ -1,5 +1,5 @@
-import { interpolate, isObject, isString } from '../util';
-import { cloneDeep, has } from '../util/objects';
+import { isObject, isString } from '../util';
+import { cloneDeep, has, interpolate } from '../util/objects';
 // import { log } from '../log';
 
 export let each = {

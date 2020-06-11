@@ -1,5 +1,5 @@
 import { log } from '../log';
-import { interpolate } from '../util';
+import { interpolate } from '../util/objects';
 
 export let logelem = {
   name: 'log',

@@ -1,4 +1,4 @@
-import { interpolate } from '../util';
+import { interpolate } from '../util/objects';
 import { elementClass } from '../util/elements';
 
 export let class_icon = {
