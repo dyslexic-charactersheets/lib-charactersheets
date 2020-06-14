@@ -6,6 +6,9 @@ import { has } from './util/objects';
 let translatorCallbacks = [];
 
 export function translate(str, doc) {
+  if (str == "") {
+    return "";
+  }
   const language = doc.language;
 
   const meta = {};

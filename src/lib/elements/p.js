@@ -19,7 +19,7 @@ export let p = {
     columns: 1
   },
   render(args, reg, doc) {
-    const cls = elementClass('p', null, args, ['blk', 'nowrap'], { 'align': 'left', 'size': 'medium' });
+    const cls = elementClass('p', null, args, ['blk', 'nowrap', 'icon'], { 'align': 'left', 'size': 'medium' });
 
     // let paras = args.content.split(/[\n\r]/);
     const icon = args.icon ? reg.renderItem({
