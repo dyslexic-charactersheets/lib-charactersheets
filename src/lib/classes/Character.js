@@ -109,7 +109,7 @@ function parseCharacter(primary, request) {
     if (flag.match(/^option-/)) {
       let option = flag.replace(/^option-/, '');
       let ok = char.options[option] = !!attr[key];
-      log("Character", "Option", option, ok);
+      // log("Character", "Option", option, ok);
       if (ok) {
         char.units.push('option/' + option);
       }
@@ -398,7 +398,7 @@ export class Character extends Instance {
           // load units
           let units = system.getUnits(data.units);
           units = system.inferUnits(units);
-          log("Character", "Units:", units.map(unit => unit.id).sort());
+          // log("Character", "Units:", units.map(unit => unit.id).sort());
 
           // infer the title from the units
           let title = __("Character");
