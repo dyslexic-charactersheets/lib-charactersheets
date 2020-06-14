@@ -82,6 +82,16 @@ function generateUnits() {
         // let description = value.text.replace(/\n/g, '\\n').replace(/\\nChoose .*$/, '');
         let book = value.source;
 
+        let group = value.source.replace(/_{(.*?)}/g, '$1');
+        switch (group) {
+          case 'Core Rulebook': group = 'core'; break;
+          case 'Advanced Players Guide': group = 'apg'; break;
+          case 'Lost Omens World Guide':
+          case 'Lost Omens Character Guide':
+          case 'Lost Omens Gods & Magic': group = 'lost-omens'; break;
+          default: group = '3pp'; break;
+        }
+
         if (!includedSources.includes(book)) {
           return;
         }
@@ -93,7 +103,8 @@ function generateUnits() {
         let feat = "feat/"+toKebabCase(value.feat);
         // log("unitGen", `Unit: ${id} - ${name}`);
 
-        let unitfile = path.normalize(__dirname+'/../units/pathfinder2/'+id+'.yml');
+
+        let unitfile = path.normalize(__dirname+'/../units/pathfinder2/'+group+'/'+id+'.yml');
         let unitdir = path.dirname(unitfile);
         let unitdata = `unit: ${id}
 in: background
