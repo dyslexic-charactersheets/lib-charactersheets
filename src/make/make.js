@@ -1,16 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 
-// const _ = require('lodash');
-// const handlebars = require('handlebars');
-
-// const load = require('./loadQueue');
-
 require('./log');
 const units = require('./units');
 const unitGen = require('./unitGen');
 const formdata = require('./formdata');
-const i18n = require('./i18n');
 
 const systems = [
     {
@@ -24,6 +18,10 @@ const systems = [
     // {
     //     code: "dnd5e",
     //     name: "Dungeons & Dragons 5th Edition"
+    // }
+    // {
+    //     code: "starfinder",
+    //     name: "Starfinder"
     // }
     {
       code: "premium",

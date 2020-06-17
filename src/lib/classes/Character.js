@@ -1,6 +1,6 @@
 import { log, error } from '../log';
 import { interpolate } from '../util/objects';
-import { replaceColours, adjustColour } from '../util/colours';
+import { replaceColours, adjustColour, vibrantColour } from '../util/colours';
 import { __ } from '../i18n';
 import { ready as systemsReady, getSystem } from './System';
 import { Instance } from './Instance';
@@ -171,13 +171,13 @@ function parseCharacter(primary, request) {
             if (isArray(attr[key])) {
               attr[key].forEach(selvalue => {
                 selvalue = toKebabCase(selvalue);
-                log("Character", "Class option", key, selname, "=", selvalue);
+                // log("Character", "Class option", key, selname, "=", selvalue);
                 const unitname = className + '/' + selname + '/' + selvalue;
                 char.units.push(unitname);
               })
             } else if (isString(attr[key])) {
               let selvalue = toKebabCase(attr[key]);
-              log("Character", "Class option", key, selname, "=", selvalue);
+              // log("Character", "Class option", key, selname, "=", selvalue);
               const unitname = className + '/' + selname + '/' + selvalue;
               // log("Character", "Class option unit", unitname);
               char.units.push(unitname);
@@ -335,8 +335,9 @@ export class Character extends Instance {
           // Load assets
           if (data.favicon) {
             self.getAsset(data.favicon, dataURL => {
-              if (data.favicon.match(/\.svg$/)) {
-                dataURL = replaceColours(dataURL, data.printColour);
+              if (data.favicon.match(/\.svg$/) && !isEmpty(data.printColour)) {
+                let colour = vibrantColour(data.printColour);
+                dataURL = replaceColours(dataURL, colour);
               }
               document.faviconURL = dataURL;
             });

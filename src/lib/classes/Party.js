@@ -54,7 +54,7 @@ export class Party extends Instance {
 
       // 
       Promise.all(promises).then(() => {
-        log("Party", `Rendered ${files.length} members`);
+        // log("Party", `Rendered ${files.length} members`);
         resolve(files);
       });
     });

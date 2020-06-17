@@ -22,7 +22,7 @@ CharacterSheets.on('error', err => {
 
 function saveResult(result) {
   if (Array.isArray(result)) {
-    log("test", `Array of ${result.length} results`);
+    // log("test", `Array of ${result.length} results`);
     result.forEach(saveResult);
     return;
   }
@@ -33,11 +33,11 @@ function saveResult(result) {
   }
 
   var outfile = __dirname+'/out/'+result.filename;
-  log("test", "Writing:", outfile);
+  // log("test", "Writing:", outfile);
   fs.writeFile(outfile, result.data, (err) => {
     if (!!err)
       error("test", err);
-    log("test", "OK");
+    log("test", "Wrote", outfile);
   });
 }
 

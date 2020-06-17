@@ -2,6 +2,16 @@ import { isNumber } from '../util';
 
 const color = require('color');
 
+// increase a dull colour's saturation
+export function vibrantColour(baseColour, saturation = 0.9) {
+  let c = color(baseColour);
+  let sat = c.saturationl();
+  if (sat >= saturation || sat < 0.1)
+    return baseColour;
+  c = c.saturationl(saturation);
+  return c.hex();
+}
+
 export function replaceColours(str, documentColour, accentColour = false, intensity = 0, highContrast = false) {
   str = str.replace(/#[0-9a-fA-F]{6}/g, (c) => adjustColour(c, documentColour, intensity, highContrast));
   str = str.replace(/%23[0-9a-fA-F]{6}/g, (c) => {

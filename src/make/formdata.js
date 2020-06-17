@@ -8,6 +8,21 @@ module.exports = {
     var slotValues = {};
     var slotGroups = {};
 
+    var languages = [
+      {
+        code: 'en',
+        name: 'English',
+        localname: 'English',
+        flag: 'gb'
+      },
+      {
+        code: 'it',
+        name: 'Italian',
+        localname: 'Italiano',
+        flag: 'it'
+      }
+    ];
+
     units.forEach(unit => {
       if (_.has(unit, "in")) {
         // get a shorter unit code
@@ -77,10 +92,14 @@ module.exports = {
       sel.groups = _.has(slotGroups, sel.select) ? slotGroups[sel.select] : {};
       // log("formdata", `Slot ${sel.select}: ${sel.values.length} units`);
     });
+
+    // translation data
+    // TODO language completion
     
     return {
       selects: baseSelects,
       options: baseOptions,
+      languages: languages,
     };
   }
 };

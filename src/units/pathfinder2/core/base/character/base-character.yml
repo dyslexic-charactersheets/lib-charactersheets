@@ -166,25 +166,26 @@ inc:
                                           - row: center
                                             contents:
                                               - spacer:
-                                              - field: "#{code}"
+                                              - field:
                                                 label: "#{name}"
                                                 border: circle
-                                                size: huge
-                                                # underlay: "#{short}"
-                                                eq: "(%{#{code}-score}-10)/2"
+                                                control: compound
+                                                parts:
+                                                  - field: "key-ability"
+                                                    control: radio
+                                                    value: "#{code}"
+                                                  - field: "#{code}"
+                                                    size: huge
+                                                    eq: "(%{#{code}-score}-10)/2"
+                                                    underlay: "#{short}"
                                               - spacer:
-                                          - row: center
-                                            contents:
-                                              - field: "key-ability"
-                                                control: radio
-                                                frame: none
-                                                value: "#{code}"
                                           - row: center
                                             contents:
                                               - spacer:
                                               - field: "#{code}-score"
                                                 # prefix: "+"
                                                 frame: none
+                                                border: bottom-right
                                                 underlay: "#{short}"
                                               - spacer:
                               - p: "_{Ability Modifier = (Ability Score - 10) &divide; 2}"
