@@ -11,6 +11,7 @@ import { addAssetsDir } from './data';
 import { getFormData } from './formdata';
 import { addTranslator, addTranslationData, loadTranslations, loadDefaultTranslations } from './i18n';
 import { isNull } from './util';
+import { error } from './log';
 
 
 // start this first, it's the slow bit
