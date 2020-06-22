@@ -30,7 +30,7 @@ import { logelem } from '../elements/log';
 import { logo } from '../elements/logo';
 import { lookup } from '../elements/lookup';
 import { nothing } from '../elements/nothing';
-import { page } from '../elements/page';
+import { page, collate_pages } from '../elements/page';
 import { p } from '../elements/p';
 import { portrait } from '../elements/portrait';
 import { proficiency } from '../elements/proficiency';
@@ -111,7 +111,7 @@ export class Registry {
       logo,
       lookup,
       nothing,
-      page,
+      page, collate_pages,
       p, ul, li, dl,
       portrait,
       proficiency, action, selectable,

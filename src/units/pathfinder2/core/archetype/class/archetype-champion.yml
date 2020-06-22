@@ -1,0 +1,218 @@
+unit: archetype/champion
+in: archetype
+group: "_{Core Rulebook}"
+name: "_{Champion}"
+
+form:
+  - select: champion/cause
+    name: "_{Champion's Cause}"
+    max: 1
+  - select: champion/divine-ally
+    name: "_{Divine Ally}"
+    max: 1
+
+inc:
+  - set: champion-class-dc-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Champion}"
+        num-feats: 3
+      - log: 'Champion archetype entry'
+
+  - at: '@pages'
+    add:
+      - page: archetype-champion
+        name: "Champion (Archetype)"
+        order: 26
+        flex: true
+        # landscape: true
+        half: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: box
+                        optional: true
+                      - zone: '@champion/class-name'
+                        contents:
+                          - class-name: ''
+                            preface: "_{Champion}"
+                            suffix: "_{of}"
+                      - row:
+                        contents:
+                          - field: cleric-deity
+                            width: stretch
+                            frame: none
+                            align: center
+
+                  - section: "_{Dedication}"
+                    flex: huge
+                    contents:
+                      - p: "_{Trained in light, medium and heavy armour}"
+                        icon: proficiency-trained
+                      - p: "_{Trained in Religion and your deity's skill}"
+                        icon: proficiency-trained
+
+                      - paste: class-dc
+                        params:
+                          id: champion-class-dc
+                          legend: "_{Champion\nClass DC}"
+                  
+                  - section: "_{Devotions}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - repeat: 5
+                            reduce: 1
+                            contents:
+                              - selectable:
+                                contents:
+                                  - article:
+                                    lines: 3
+                                    reduce: 1
+                  - tail:
+                    
+              - g:
+                contents:
+                  - zone: '@champion/cause-section'
+                    contents:
+                      - section: "_{Cause}"
+                        primary: true
+                        # flex: huge
+                        contents:
+                          - list:
+                            contents:
+                              - layout: alignment
+                                contents:
+                                  - g:
+                                    contents:
+                                      - field: cause
+                                        width: stretch
+                                        size: large
+                                        frame: none
+                                      - field: cause-detail
+                                        width: stretch
+                                        frame: none
+                                  - field: cause-alignment
+                                    control: alignment
+                                    frame: none
+                              - g:
+                                contents:
+                                  - h5: "_{Tenets}"
+                                  - field: champion-tenets
+                                    width: stretch
+                                    repeat: 3
+                                  - h5: "_{Anathema}"
+                                  - paste: anathema
+                                    params:
+                                      lines: 3
+                                      merge-bottom: false
+                                  - p: "_{If you violate your code of conduct, you lose your focus pool and divine ally until you demonstrate repentance.}"
+
+                  - section: "_{Champion Resiliency}"
+                    contents:
+                      - selectable:
+                        contents:
+                          - p:
+                            title: "_{Prerequisite}"
+                            content: "_{A class with no more than 8hp}"
+                          - calc:
+                            output:
+                              field: champion/resiliency/bonus-hp
+                              legend: "_{Bonus Hit Points}"
+                              width: huge
+                              suffix: "_{hp}"
+                            inputs:
+                              - span: "3 &times;"
+                              - field: champion-feats
+                                label: "_{Champion Feats}"
+                              
+                  - zone: '@archetype/champion/healing-touch-section'
+                    contents:
+                      - section: "_{Healing Touch}"
+                        contents:
+                          - selectable:
+                            contents:
+                              - h5: "_{Devotion Spell}"
+                              - article:
+                                lines: 1
+
+                  - zone: '@archetype/champion/reaction-section'
+                    contents:
+                      - section: "_{Champion's Reaction}"
+                        contents:
+                          - selectable:
+                            contents:
+                              - action: reaction
+                                contents:
+                                  - article: 
+                                    lines: 1
+
+                  - section: "_{Divine Ally}"
+                    contents:
+                      - selectable:
+                        contents:
+                          - zone: '@champion/divine-ally'
+                            contents:
+                              - list:
+                                hr: true
+                                light: true
+                                contents:
+                                  - selectable: champion-blade-ally
+                                    radio: true
+                                    pad: true
+                                    contents:
+                                      - h5: "_{Blade Ally}"
+                                      - row:
+                                        contents:
+                                          - field: champion-blade-ally-weapon
+                                            label: "_{Weapon}"
+                                            width: stretch
+                                          - field: champion-blade-ally-rune
+                                            label: "Rune"
+                                            width: stretch
+                                  - selectable: champion-shield-ally
+                                    radio: true
+                                    pad: true
+                                    contents:
+                                      - h5: "_{Shield Ally}"
+                                      - row:
+                                        contents:
+                                          - field:
+                                            control: value
+                                            label: "_{Hardness}"
+                                            value: "+2"
+                                            width: large
+                                          - field:
+                                            label: "_{Shield\nHit Points}"
+                                            suffix: "hp"
+                                            width: large
+                                          - field:
+                                            label: "_{Broken\nThreshold}"
+                                            suffix: "hp"
+                                            width: large
+                                          - spacer:
+                                  - selectable: champion-steed-ally
+                                    radio: true
+                                    pad: true
+                                    contents:
+                                      - h5: "_{Steed}"
+                                      - field: champion-steed-ally-mount
+                                        width: stretch
+
+                  - section: "_{Diverse Armour Expert}"
+                    contents:
+                      - selectable:
+                        contents:
+                          - p: "_{Expert in light, medium and heavy armour.}"
+                            icon: proficiency-expert
+                  - tail:
+

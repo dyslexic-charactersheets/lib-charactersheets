@@ -211,6 +211,7 @@ function parseCharacter(primary, request) {
           if (isString(archetype)) {
             char.archetypes.push(archetype);
             char.units.push('archetype/' + archetype);
+            log("Character", "Archetype:", "archetype/"+archetype);
           }
         });
       }
@@ -306,7 +307,7 @@ export class Character extends Instance {
     return new Promise((resolve, reject) => {
       // log("Character", "Render character");
       // log("Character", `Name: ${this.data.name}, game: ${this.data.game}`);
-      // log("Character", `Units: ${this.data.units}`);
+      log("Character", `Units: ${this.data.units}`);
 
       systemsReady(() => {
         try {
