@@ -92,6 +92,7 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
       case 'optional':
       case 'blk':
       case 'unblk':
+      case 'pad':
         cls.push(mod);
         break;
       default:

@@ -47,7 +47,7 @@ export let p = {
       return `<div${prosecls}><div class='prose__inner'>${paras.join("")}</div></div>`;
     }
     
-    let title = (args.title != '') ? `<span class='p__title'>${_e(args.title, doc)}</span>` : '';
+    let title = (args.title != '') ? `<span class='p__title'>${_e(args.title, doc)}</span> ` : '';
 
     // log("p", "Content", content);
     return `<p${cls}>${icon}${title}${_e(content, doc)}</p>`;

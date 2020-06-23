@@ -189,49 +189,54 @@ inc:
 
                   - section: "_{Bloodline}"
                     primary: true
-                    flex: tiny
                     contents:
-                      - layout: 2r
+                      - layout: 2e
                         contents:
-                          - zone: '@sorcerer/bloodline'
-                            contents:
-                              - field: sorcerer-bloodline
-                                size: large
-                                width: stretch
-                                frame: none
-                                # merge-bottom: true
-                          - field: spell-list
-                            label: "_{Spell List}"
-                            width: stretch
-
-                      - zone: '@sorcerer/bloodline/extra'
-                      
-                      - g:
-                        pad: true
-                        contents:
-                          - h5: "_{Bloodline Spells}"
-                          - list:
-                            hr: true
+                          - g:
                             pad: true
-                            light: true
                             contents:
-                              - indent: left
+                              - zone: '@sorcerer/bloodline'
                                 contents:
-                                  - paste: focus
-                                    contents:
-                                      - zone: '@sorcerer/bloodline-spell/initial'
-                                        contents:
-                                          - field: sorcerer-bloodline-spell-initial
-                                            frame: none
-                                            merge-bottom: true
-                                            width: stretch
-                                            repeat: 2
-                                            reduce: 1
-                              - selectable:
+                                  - field: sorcerer-bloodline
+                                    size: large
+                                    width: stretch
+                                    frame: none
+
+                          - g:
+                            pad: true
+                            contents:
+                              - field: bloodline-tradition
+                                label: "_{Tradition}"
+                                width: stretch
+
+                      - hr:
+                        swash: true
+                      - layout: 2e
+                        contents:
+                            
+                          - g:
+                            contents:
+                              - paste: focus
                                 contents:
-                                  - paste: focus
+                                  - h5: "_{Bloodline Spells}"
+                              - hr:
+                                light: true
+                              - list:
+                                hr: true
+                                pad: true
+                                zebra: true
+                                light: true
+                                contents:
+                                  - zone: '@sorcerer/bloodline-spell/initial'
                                     contents:
-                                      # - h5: "_{Advanced}"
+                                      - field: sorcerer-bloodline-spell-initial
+                                        frame: none
+                                        merge-bottom: true
+                                        width: stretch
+                                        repeat: 2
+                                        reduce: 1
+                                  - selectable:
+                                    contents:
                                       - zone: '@sorcerer/bloodline-spell/advanced'
                                         contents:
                                           - field: sorcerer-bloodline-spell-advanced
@@ -240,11 +245,8 @@ inc:
                                             width: stretch
                                             repeat: 2
                                         reduce: 1
-                              - selectable:
-                                contents:
-                                  - paste: focus
+                                  - selectable:
                                     contents:
-                                      # - h5: "_{Greater}"
                                       - zone: '@sorcerer/bloodline-spell/greater'
                                         contents:
                                           - field: sorcerer-bloodline-spell-greater
@@ -253,19 +255,34 @@ inc:
                                             width: stretch
                                             repeat: 2
                                             reduce: 1
+                              - spacer:
 
-                          - h5: "_{Blood Magic}"
-                          - p: "_{Triggers when you cast a bloodline spell or a spell granted by your bloodline.}"
-                          - zone: '@sorcerer/blood-magic'
+                          - g:
+                            pad: true
                             contents:
-                              - field: blood-magic
-                                frame: none
-                                repeat: 1
-                                width: stretch
-                                merge-bottom: true
+                              - list:
+                                hr: true
+                                contents:
+                                  - zone: '@sorcerer/bloodline/extra'
+                                  - g:
+                                    contents:
+                                      - h5: "_{Blood Magic}"
+                                        pad: true
+                                      - p: "_{Triggers when you cast a bloodline spell or a spell granted by your bloodline.}"
+                                      - hr:
+                                        light: true
+                                      - h6: "_{Effect}"
+                                      - zone: '@sorcerer/blood-magic'
+                                        contents:
+                                          - field: blood-magic
+                                            frame: none
+                                            repeat: 1
+                                            width: stretch
+                                            merge-bottom: true
+
+                              - spacer:
 
                   - section: "_{Cantrips}"
-                    flex: small
                     contents:
                       - spells-list:
                         min: 0
@@ -275,7 +292,6 @@ inc:
                         special: "_{Bloodline}"
 
                   - section: "_{Spells}"
-                    flex: large
                     contents:
                       - list:
                         hr: true
@@ -298,5 +314,6 @@ inc:
                             flex: tiny
 
                   - tail:
+                  - spacer:
 
 

@@ -5,7 +5,7 @@ import { __, _e } from '../i18n';
 function renderHeading(h) {
   return (args, reg, doc) => {
     // log("headings", "elementClass:", args);
-    const cls = elementClass(h, null, args, ['fade', 'bold', 'blk'], { 'align': '' });
+    const cls = elementClass(h, null, args, ['fade', 'bold', 'blk', 'pad'], { 'align': '' });
     return `<${h}${cls}>${_e(args.title, doc)}</${h}>`
   }
 }
