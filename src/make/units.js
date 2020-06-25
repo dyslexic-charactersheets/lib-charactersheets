@@ -193,6 +193,10 @@ module.exports = {
                   if (colour == "transparent") {
                     return match;
                   }
+                  if (colour.match(/!important$/)) {
+                    log("units", "Locked colour:", colour);
+                    return match;
+                  }
 
                   return `text-shadow: 0 0 0 ${colour}; color: transparent;`;
                 });
