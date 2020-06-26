@@ -25,39 +25,40 @@ export class Build {
     this.loadQueue = new LoadQueue();
   }
 
-  render(callback) {
-    systemsReady(() => {
-      try {
-        log("Build", "Data", this.data);
-        const system = getSystem(this.data.game);
+  render() {
+    return new Promise((resolve, reject) => {
+      systemsReady(() => {
+        try {
+          log("Build", "Data", this.data);
+          const system = getSystem(this.data.game);
 
-        const documentUnit = system.getUnit("document");
-        const document = new Document(documentUnit);
-        document.language = this.data.language;
-        
-        let units = system.getUnits(this.data.units);
-        units = system.inferUnits(units);
-        log("Build", "Units", units.map(unit => unit.name));
-        units.forEach(unit => document.addUnit(unit));
-        document.composeDocument(this.registry);
-        
-        document.title = "Build a character";
-        // log("Build", "Document", document);
+          const documentUnit = system.getUnit("document");
+          const document = new Document(documentUnit);
+          document.language = this.data.language;
+          
+          let units = system.getUnits(this.data.units);
+          units = system.inferUnits(units);
+          log("Build", "Units", units.map(unit => unit.name));
+          units.forEach(unit => document.addUnit(unit));
+          document.composeDocument(this.registry);
+          
+          document.title = "Build a character";
+          // log("Build", "Document", document);
 
-        // render the document
-        const data = document.renderDocument(this.registry);
-
-        callback({
-          data: data,
-          filename: document.title + ".html",
-          mimeType: "text/html"
-        });
-      } catch (err) {
-        error("Build", "Error:", err);
-        callback({
-          error: err
-        });
-      }
+          // render the document
+          const data = document.renderDocument(this.registry);
+          resolve({
+            data: data,
+            filename: document.title + ".html",
+            mimeType: "text/html"
+          });
+        } catch (err) {
+          error("Build", "Error:", err);
+          reject({
+            error: err
+          });
+        }
+      });
     });
   }
 }
