@@ -302,9 +302,6 @@ inc:
                                   - i: "#{i}"
                                     repeat: 3
                                     reduce: 1
-                                  # - i: 1
-                                  # - i: 2
-                                  # - i: 3
                                 columns:
                                   - h5: "_{Archetypes}"
                                   - label: "_{Archetype Feats}"
@@ -317,11 +314,7 @@ inc:
                                   - field: archetype-#{i}-feats
                                     frame: none
                                     control: progression
-                                    width: medium
-                                    parts:
-                                      - control: checkbox
-                                      - control: checkbox
-                                      - control: checkbox
+                                    max: 4
                                   - p: "_{of}"
                                     width: tiny
                                   - field: archetype-#{i}-num-feats
@@ -834,17 +827,24 @@ inc:
                             blk: true
 
                           - field: dying
-                            control: progression
+                            control: compound
                             label: "_{Dying}"
+                            ruby: "_{Wounded}"
                             border: none
                             parts:
-                              - id: dying-1
-                                control: checkbox
-                              - id: dying-2
-                                control: checkbox
-                              - id: dying-3
-                                control: checkbox
-                              - zone: '@dying'
+                              - id: dying-wounded
+                                control: checkgrid
+                                style: progress
+                                max: 6
+                                depth: 2
+
+                              # - id: dying-1
+                              #   control: checkbox
+                              # - id: dying-2
+                              #   control: checkbox
+                              # - id: dying-3
+                              #   control: checkbox
+                              # - zone: '@dying'
                           - icon: evil
                             size: medium
                             optional: true

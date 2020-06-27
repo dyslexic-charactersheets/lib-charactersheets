@@ -45,6 +45,9 @@ inc:
   - set: athletics-proficiency
     value: trained
 
+  - set: barbarian-rage-damage-bonus
+    value: 6
+
   - at: '@cover-class'
     replace:
       - h6: "_{Barbarian}"
@@ -218,14 +221,17 @@ inc:
                                       legend: "_{[b]Rage![/b]\nDuration}"
                                       width: huge
                                       suffix: "_{rds}"
+                                    - p: "_{Lasts for 1 minute, until combat ends, or until you fall unconscious.}"
                                     - spacer:
                                     - field: rage-current
-                                      label:
+                                      label: "_{[b]Rage![/b]\nDuration}"
                                       control: checkgrid
                                       depth: 3
                                       max: 10
                                     - spacer:
-                                    - spacer:
+                                - row:
+                                  pad: true
+                                  contents:
                                     - calc:
                                       output:
                                         field: barbarian-rage-temp-hp
@@ -245,17 +251,20 @@ inc:
                                 - row:
                                   contents:
                                     - field: barbarian-rage-damage-bonus
-                                      border: full
+                                      # border: full
                                       legend: "_{[b]Rage![/b] Damage Bonus}"
                                       prefix: "+"
-                                      width: huge
+                                      control: value
+                                      width: large
                                     - p: "_{To melee and unarmed strikes}"
                                     - spacer:
                                     - field: barbarian-rage-ac-penalty
                                       legend: "_{AC Penalty}"
-                                      border: full
-                                      width: huge
-                                      underlay: "_{AC}"
+                                      # border: full
+                                      control: value
+                                      width: large
+                                      value: "-1"
+                                      # underlay: "_{AC}"
                                     - spacer:
                                 - p: "_{While raging, cannot use actions that require concentration, except for Seek.}"
                                 - p: "_{After raging, lose temporary hit points. You cannot rage again for 1 minute.}"

@@ -251,10 +251,11 @@ export let field_control_checkbox = {
     value: false,
     border: 'none',
     width: 'tiny',
+    style: '',
   },
   render(args) {
     const ident = fieldIdent(args.id);
-    const cls = elementClass("field", "control", args, [], ["control"]);
+    const cls = elementClass("field", "control", args, [], {control: '', style: ''});
 
     if (args.value == "false") {
       args.value = false;
@@ -296,6 +297,8 @@ export let field_control_checkgrid = {
     max: 10,
     group: 10,
     direction: "horizontal",
+    style: "",
+    flex: "tiny",
     depth: 3,
     value: 0
   },
@@ -318,7 +321,7 @@ export let field_control_checkgrid = {
       const ident = fieldIdent(args.id, i);
       const checked = (i <= args.value) ? ' checked' : '';
       let a = { ...args, control: 'checkbox' };
-      const cls = elementClass("field", "control", a, [], ["control"]);
+      const cls = elementClass("field", "control", a, [], {control: "", style: ""});
       const check = `<div${cls}><input type='checkbox'${ident.ident}${checked}><label${ident.for}></label></div>`;
       checks.push(check);
     }
@@ -489,12 +492,39 @@ export let field_control_compound = {
 export let field_control_progression = {
   name: 'control:progression',
   defaults: {
-    parts: [],
+    max: 1,
     border: "none",
   },
+  // transform(args, doc) {
+  //   let parts = [];
+  //   for (let i = 0; i < args.max; i++) {
+  //     parts.push({
+  //       control: "control:checkbox",
+  //       style: "progress",
+  //     });
+  //   }
+  //   return {
+  //     type: "control:compound",
+  //     parts: parts,
+  //   };
+  // },
   render(args, reg, doc) {
-    args.parts = args.parts.flatMap(part => [part, '<label class="field__separator"></label>']);
-    args.parts.pop();
-    return renderCompoundControl(args, reg, doc);
+    let parts = [];
+    for (let i = 0; i < args.max; i++) {
+      parts.push({
+        control: "checkbox",
+        id: args.id+"-"+i,
+        style: "progress",
+      });
+    }
+    let compound = {
+      parts: parts,
+    };
+    return renderCompoundControl(compound, reg, doc);
   }
+  // render(args, reg, doc) {
+  //   args.parts = args.parts.flatMap(part => [part, '<label class="field__separator"></label>']);
+  //   args.parts.pop();
+  //   return renderCompoundControl(args, reg, doc);
+  // }
 }

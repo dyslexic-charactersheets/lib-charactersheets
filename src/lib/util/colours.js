@@ -1,4 +1,5 @@
 import { isNumber } from '../util';
+import { log, error } from '../log';
 
 const color = require('color');
 
@@ -29,6 +30,7 @@ export function replaceColours(str, documentColour, accentColour = false, intens
 }
 
 export function adjustColourRGBA(c, opacity, intensity, highContrast) {
+  c = c.trim();
   let col2 = color(this.adjustColour(c, intensity, highContrast));
   col2.fade(opacity);
   return col2.rgba();
@@ -36,8 +38,10 @@ export function adjustColourRGBA(c, opacity, intensity, highContrast) {
 
 export function adjustColour(c, documentColour, intensity, highContrast) {
   try {
+    c = c.trim();
     if (c == "")
       c = "#808080";
+    documentColour = documentColour.trim();
     if (documentColour == "")
       documentColour = "#808080";
     const base = color(c);

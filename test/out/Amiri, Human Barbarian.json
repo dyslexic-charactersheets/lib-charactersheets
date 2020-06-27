@@ -4054,18 +4054,7 @@
                                   "id": "archetype-#{i}-feats",
                                   "frame": "none",
                                   "control": "progression",
-                                  "width": "medium",
-                                  "parts": [
-                                    {
-                                      "control": "checkbox"
-                                    },
-                                    {
-                                      "control": "checkbox"
-                                    },
-                                    {
-                                      "control": "checkbox"
-                                    }
-                                  ]
+                                  "max": 4
                                 },
                                 {
                                   "type": "p",
@@ -6319,21 +6308,17 @@
                         {
                           "type": "field",
                           "id": "dying",
-                          "control": "progression",
+                          "control": "compound",
                           "label": "_{Dying}",
+                          "ruby": "_{Wounded}",
                           "border": "none",
                           "parts": [
                             {
-                              "id": "dying-1",
-                              "control": "checkbox"
-                            },
-                            {
-                              "id": "dying-2",
-                              "control": "checkbox"
-                            },
-                            {
-                              "id": "dying-3",
-                              "control": "checkbox"
+                              "id": "dying-wounded",
+                              "control": "checkgrid",
+                              "style": "progress",
+                              "max": 6,
+                              "depth": 2
                             }
                           ]
                         },
@@ -9586,22 +9571,30 @@
                                       "suffix": "_{rds}"
                                     },
                                     {
+                                      "type": "p",
+                                      "content": "_{Lasts for 1 minute, until combat ends, or until you fall unconscious.}"
+                                    },
+                                    {
                                       "type": "spacer"
                                     },
                                     {
                                       "type": "field",
                                       "id": "rage-current",
-                                      "label": null,
+                                      "label": "_{[b]Rage![/b]\nDuration}",
                                       "control": "checkgrid",
                                       "depth": 3,
                                       "max": 10
                                     },
                                     {
                                       "type": "spacer"
-                                    },
-                                    {
-                                      "type": "spacer"
-                                    },
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "row",
+                                  "layout": null,
+                                  "pad": true,
+                                  "contents": [
                                     {
                                       "type": "calc",
                                       "output": {
@@ -9641,10 +9634,10 @@
                                     {
                                       "type": "field",
                                       "id": "barbarian-rage-damage-bonus",
-                                      "border": "full",
                                       "legend": "_{[b]Rage![/b] Damage Bonus}",
                                       "prefix": "+",
-                                      "width": "huge"
+                                      "control": "value",
+                                      "width": "large"
                                     },
                                     {
                                       "type": "p",
@@ -9657,9 +9650,9 @@
                                       "type": "field",
                                       "id": "barbarian-rage-ac-penalty",
                                       "legend": "_{AC Penalty}",
-                                      "border": "full",
-                                      "width": "huge",
-                                      "underlay": "_{AC}"
+                                      "control": "value",
+                                      "width": "large",
+                                      "value": "-1"
                                     },
                                     {
                                       "type": "spacer"
