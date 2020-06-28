@@ -328,9 +328,9 @@ export let field_control_checkgrid = {
 
     const groups = chunk(checks, args.group).map(ch => {
       const grouplen = Math.ceil(parseFloat(ch.length) / parseFloat(args.depth));
-      let a = { control: 'checkgrid', dir: args.dir, w: args.w, h: args.h };
+      let a = { control: 'checkgrid', dir: args.dir, w: args.w, h: args.h, style: args.style };
       a[args.direction == 'horizontal' ? 'w' : 'h'] = grouplen;
-      const cls = elementClass("field", "control-group", a, [], ["control", "dir", "w", "h"]);
+      const cls = elementClass("field", "control-group", a, [], {control: '', dir: '', w: '', h: '', style: ''});
       return `<div${cls}>${ch.join("")}</div>`
     });
 
