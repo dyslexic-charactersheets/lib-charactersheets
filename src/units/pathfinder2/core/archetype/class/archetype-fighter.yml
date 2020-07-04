@@ -1,0 +1,122 @@
+unit: archetype/fighter
+in: archetype
+group: "_{Core Rulebook}"
+name: "_{Fighter}"
+
+inc:
+  - set: fighter-class-dc-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Fighter}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-fighter
+        name: "Fighter (Archetype)"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: fighter
+                      - class-name: "_{Fighter}"
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Trained in simple and martial weapons}"
+                        icon: proficiency-trained
+                      - p: "_{Trained in either Acrobatics or Athletics}"
+                        icon: proficiency-trained
+                      - hr:
+                      - row:
+                        contents:
+                          - paste: class-dc
+                            params:
+                              id: fighter-class-dc
+                              legend: "_{Fighter\nClass DC}"
+
+                  - section: "_{Fighter Resiliency}"
+                    contents:
+                      - selectable:
+                        contents:
+                          - p:
+                            title: "_{Prerequisite}"
+                            content: "_{A class granting no more than 8hp}"
+                          - g:
+                            contents:
+                              - calc:
+                                output:
+                                  field: fighter/resiliency/bonus-hp
+                                  legend: "_{Bonus Hit Points}"
+                                  width: huge
+                                  suffix: "_{hp}"
+                                inputs:
+                                  - span: "3 &times;"
+                                  - field: fighter-feats
+                                    label: "_{Fighter Feats}"
+
+                  - section: "_{Opportunist}"
+                    contents:
+                      - selectable:
+                        contents:
+                          - action: reaction
+                            contents:
+                              - article:
+                                title: "_{Attack of Opportunity}"
+                                contents:
+                                  - p: "_{When a creature within your reach acts, attacks or moves, you may make a melee strike.}"
+                                  - p: "_{If you make a critical hit, the enemy's action is disrupted.}"
+
+                  - section: "_{Diverse Weapon Expert}"
+                    contents:
+                      - selectable:
+                        contents:
+                          - p: "_{Expert in simple and martial weapons}"
+                            icon: proficiency-expert
+                            
+                  - tail:
+                  - spacer:
+                    flex: huge
+
+              - g:
+                contents:
+                  - section: "_{Manoeuvres}"
+                    mark: fighter
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - level: 4
+                            contents:
+                              - h5: "_{Basic Manoeuvures}"
+                              - p: "_{1st or 2nd level Fighter feat}"
+                          - level: 6
+                            contents:
+                              - h5: "_{Advanced Manoeuvures}"
+                              - calc:
+                                inline: true
+                                output:
+                                  label: "_{Fighter\nLevel}"
+                                inputs:
+                                  - label: "_{Character\nLevel}"
+                                  - span: "&divide; 2"
+                          - repeat: 7
+                            reduce: 1
+                            contents:
+                              - selectable:
+                                contents:
+                                  - article:
+                                    lines: 3
+                                    reduce: 1
+
+                  - tail:
+
