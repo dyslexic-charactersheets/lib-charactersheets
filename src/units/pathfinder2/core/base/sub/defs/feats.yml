@@ -36,3 +36,67 @@ inc:
                       lines: "#{lines}"
                     contents:
                       - zone: '@#{id}'
+
+  - copy: archetype-resiliency
+    params:
+      class-id:
+      class-feats:
+      hp: 8
+    contents:
+      - selectable:
+        contents:
+          - p:
+            title: "_{Prerequisite}"
+            content: "_{A class granting no more than #{hp}hp}"
+          - g:
+            contents:
+              - calc:
+                output:
+                  field: "#{class-id}/resiliency/bonus-hp"
+                  legend: "_{Bonus Hit Points}"
+                  width: huge
+                  suffix: "_{hp}"
+                inputs:
+                  - span: "3 &times;"
+                  - field: "#{class-id}-feats"
+                    label: "#{class-feats}"
+
+
+  - copy: archetype-feats
+    params:
+      id: class-feats
+      basic-level: 4
+      basic-title: "_{Basic Feats}"
+      advanced-level: 6
+      advanced-title: "_{Advanced Feats}"
+      class-level: "_{Class\nLevel}"
+      num: 7
+      lines: 3
+    contents:
+      - list:
+        hr: true
+        zebra: true
+        contents:
+          - level: "#{basic-level}"
+            contents:
+              - h5: "#{basic-title}"
+              - p: "_{1st or 2nd level feat}"
+          - level: "#{advanced-level}"
+            contents:
+              - h5: "#{advanced-title}"
+              - calc:
+                inline: true
+                output:
+                  label: "#{class-level}"
+                inputs:
+                  - label: "_{Character\nLevel}"
+                  - span: "&divide; 2"
+          - repeat: "#{num}"
+            reduce: 1
+            contents:
+              - selectable:
+                contents:
+                  - article:
+                    lines: "#{lines}"
+                    reduce: 1
+      

@@ -1,0 +1,124 @@
+unit: archetype/monk
+in: archetype
+group: "_{Core Rulebook}"
+name: "_{Monk}"
+
+inc:
+  - set: fighter-class-dc-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Monk}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-monk
+        name: "Monk (Archetype)"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: monk
+                      - class-name: "_{Monk}"
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Trained in simple and martial weapons}"
+                        icon: proficiency-trained
+                      - p: "_{Trained in either Acrobatics or Athletics}"
+                        icon: proficiency-trained
+                      - hr:
+                      - row:
+                        contents:
+                          - paste: class-dc
+                            params:
+                              id: fighter-class-dc
+                              legend: "_{Fighter\nClass DC}"
+
+                  - section: "_{Monk Resiliency}"
+                    contents:
+                      - paste: archetype-resiliency
+                        params:
+                          class-id: monk
+                          class-feats: "_{Monk Feats}"
+
+                  - section: "_{Monk Moves}"
+                    contents:
+                      # - h5: "_{Speed bonus}"
+                      - row:
+                        contents:
+                          - field:
+                            frame: none
+                            control: value
+                            value: "_{10ft}"
+                          - p: "_{Bonus to Speed when not wearing armor.}"
+
+                  - section: "_{Monk's Flurry}"
+                    contents:
+                      - selectable:
+                        contents:
+                          - zone: '@monk/flurry-of-blows'
+                            contents:
+                              - action: 1
+                                contents:
+                                  - article:
+                                    header:
+                                      - h5: "_{Flurry of Blows}"
+                                        optional: true
+                                    contents:
+                                      - p: "_{Once per round, make two unarmed Strikes. If both hit the same creature, combine their damage and enhancements for the purpose of resistances and weaknesses.}"
+
+                  - section: "_{Perfection's Path}"
+                    contents:
+                      - selectable:
+                        contents:
+                          - row:
+                            contents:
+                              - field: monk/perfections-path
+                                control: radio
+                                value: fortitude
+                                frame: right
+                                label: "_{Fortitude}"
+                              - field: monk/perfections-path
+                                control: radio
+                                value: reflex
+                                frame: right
+                                label: "_{Reflex}"
+                              - field: monk/perfections-path
+                                control: radio
+                                value: will
+                                frame: right
+                                label: "_{Will}"
+
+                          - row:
+                            contents:
+                              - icon: proficiency-expert
+                              - span: "&rarr;"
+                              - icon: proficiency-master
+                          - p: "_{Become master in one saving throw}"
+                            
+                  - tail:
+                  - spacer:
+                    flex: huge
+
+              - g:
+                contents:
+                  - section: "_{Kata}"
+                    mark: monk
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: monk-feats
+                          basic-title: "_{Basic Kata}"
+                          advanced-title: "_{Advanced Kata}"
+
+                  - tail:
+

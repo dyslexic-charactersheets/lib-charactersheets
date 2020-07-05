@@ -4210,7 +4210,7 @@
                               "merge-bottom": true,
                               "rows": [
                                 {
-                                  "name": "_{Champion}",
+                                  "name": "_{Monk}",
                                   "num-feats": 3
                                 },
                                 {
@@ -11252,8 +11252,8 @@
     {
       "type": "page",
       "order": 15,
-      "id": "inventory+archetype-champion",
-      "name": "_{Inventory (half size)} + Champion (Archetype)",
+      "id": "inventory+archetype-monk",
+      "name": "_{Inventory (half size)} + Monk (Archetype)",
       "flex": true,
       "landscape": true,
       "half": false,
@@ -12650,27 +12650,11 @@
                       "contents": [
                         {
                           "type": "class-icon",
-                          "icon": "box",
-                          "optional": true
+                          "icon": "monk"
                         },
                         {
                           "type": "class-name",
-                          "title": "",
-                          "preface": "_{Champion}",
-                          "suffix": "_{of}"
-                        },
-                        {
-                          "type": "row",
-                          "layout": null,
-                          "contents": [
-                            {
-                              "type": "field",
-                              "id": "cleric-deity",
-                              "width": "stretch",
-                              "frame": "none",
-                              "align": "center"
-                            }
-                          ]
+                          "title": "_{Monk}"
                         }
                       ],
                       "flex": "tiny"
@@ -12678,50 +12662,58 @@
                     {
                       "type": "section",
                       "title": "_{Dedication}",
-                      "flex": "huge",
                       "contents": [
                         {
                           "type": "p",
-                          "content": "_{Trained in light, medium and heavy armour}",
+                          "content": "_{Trained in simple and martial weapons}",
                           "icon": "proficiency-trained"
                         },
                         {
                           "type": "p",
-                          "content": "_{Trained in Religion and your deity's skill}",
+                          "content": "_{Trained in either Acrobatics or Athletics}",
                           "icon": "proficiency-trained"
                         },
                         {
-                          "type": "calc",
-                          "output": {
-                            "type": "field",
-                            "id": "champion-class-dc",
-                            "legend": "_{Champion\nClass DC}",
-                            "underlay": "_{DC}",
-                            "width": "large",
-                            "icon": "dc",
-                            "eq": "10+'%{#{key-ability}}+%{level}+%{champion-class-dc-item-bonus}'"
-                          },
-                          "inputs": [
+                          "type": "hr"
+                        },
+                        {
+                          "type": "row",
+                          "layout": null,
+                          "contents": [
                             {
-                              "type": "span",
-                              "content": "10 +"
-                            },
-                            {
-                              "type": "field",
-                              "id": null,
-                              "label": "_{Key Ability}",
-                              "ref": "key-ability",
-                              "misc": true
-                            },
-                            {
-                              "type": "span",
-                              "content": "+"
-                            },
-                            {
-                              "type": "field",
-                              "id": "champion-class-dc-proficiency",
-                              "label": "_{Proficiency}",
-                              "control": "proficiency"
+                              "type": "calc",
+                              "output": {
+                                "type": "field",
+                                "id": "fighter-class-dc",
+                                "legend": "_{Fighter\nClass DC}",
+                                "underlay": "_{DC}",
+                                "width": "large",
+                                "icon": "dc",
+                                "eq": "10+'%{#{key-ability}}+%{level}+%{fighter-class-dc-item-bonus}'"
+                              },
+                              "inputs": [
+                                {
+                                  "type": "span",
+                                  "content": "10 +"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": null,
+                                  "label": "_{Key Ability}",
+                                  "ref": "key-ability",
+                                  "misc": true
+                                },
+                                {
+                                  "type": "span",
+                                  "content": "+"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "fighter-class-dc-proficiency",
+                                  "label": "_{Proficiency}",
+                                  "control": "proficiency"
+                                }
+                              ]
                             }
                           ]
                         }
@@ -12729,7 +12721,258 @@
                     },
                     {
                       "type": "section",
-                      "title": "_{Devotions}",
+                      "title": "_{Monk Resiliency}",
+                      "contents": [
+                        {
+                          "type": "layout",
+                          "layout": "indent-l",
+                          "blk": false,
+                          "contents": [
+                            {
+                              "type": "g",
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": "",
+                                  "control": "checkbox",
+                                  "frame": "none",
+                                  "value": false
+                                }
+                              ]
+                            },
+                            {
+                              "type": "g",
+                              "pad": false,
+                              "contents": [
+                                {
+                                  "type": "p",
+                                  "content": "_{A class granting no more than 8hp}",
+                                  "title": "_{Prerequisite}"
+                                },
+                                {
+                                  "type": "g",
+                                  "contents": [
+                                    {
+                                      "type": "calc",
+                                      "output": {
+                                        "type": "field",
+                                        "id": "monk/resiliency/bonus-hp",
+                                        "legend": "_{Bonus Hit Points}",
+                                        "width": "huge",
+                                        "suffix": "_{hp}"
+                                      },
+                                      "inputs": [
+                                        {
+                                          "type": "span",
+                                          "content": "3 &times;"
+                                        },
+                                        {
+                                          "type": "field",
+                                          "id": "monk-feats",
+                                          "label": "_{Monk Feats}"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "section",
+                      "title": "_{Monk Moves}",
+                      "contents": [
+                        {
+                          "type": "row",
+                          "layout": null,
+                          "contents": [
+                            {
+                              "type": "field",
+                              "id": null,
+                              "frame": "none",
+                              "control": "value",
+                              "value": "_{10ft}"
+                            },
+                            {
+                              "type": "p",
+                              "content": "_{Bonus to Speed when not wearing armor.}"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "section",
+                      "title": "_{Monk's Flurry}",
+                      "contents": [
+                        {
+                          "type": "layout",
+                          "layout": "indent-l",
+                          "blk": false,
+                          "contents": [
+                            {
+                              "type": "g",
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": "",
+                                  "control": "checkbox",
+                                  "frame": "none",
+                                  "value": false
+                                }
+                              ]
+                            },
+                            {
+                              "type": "g",
+                              "pad": false,
+                              "contents": [
+                                {
+                                  "type": "layout",
+                                  "layout": "indent-l",
+                                  "blk": false,
+                                  "order": 1,
+                                  "contents": [
+                                    {
+                                      "type": "g",
+                                      "contents": [
+                                        {
+                                          "type": "icon",
+                                          "icon": "action"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "g",
+                                      "contents": [
+                                        {
+                                          "type": "article",
+                                          "id": null,
+                                          "header": [
+                                            {
+                                              "type": "h5",
+                                              "title": "_{Flurry of Blows}",
+                                              "optional": true
+                                            }
+                                          ],
+                                          "contents": [
+                                            {
+                                              "type": "p",
+                                              "content": "_{Once per round, make two unarmed Strikes. If both hit the same creature, combine their damage and enhancements for the purpose of resistances and weaknesses.}"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "section",
+                      "title": "_{Perfection's Path}",
+                      "contents": [
+                        {
+                          "type": "layout",
+                          "layout": "indent-l",
+                          "blk": false,
+                          "contents": [
+                            {
+                              "type": "g",
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": "",
+                                  "control": "checkbox",
+                                  "frame": "none",
+                                  "value": false
+                                }
+                              ]
+                            },
+                            {
+                              "type": "g",
+                              "pad": false,
+                              "contents": [
+                                {
+                                  "type": "row",
+                                  "layout": null,
+                                  "contents": [
+                                    {
+                                      "type": "field",
+                                      "id": "monk/perfections-path",
+                                      "control": "radio",
+                                      "value": "fortitude",
+                                      "frame": "right",
+                                      "label": "_{Fortitude}"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "monk/perfections-path",
+                                      "control": "radio",
+                                      "value": "reflex",
+                                      "frame": "right",
+                                      "label": "_{Reflex}"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "monk/perfections-path",
+                                      "control": "radio",
+                                      "value": "will",
+                                      "frame": "right",
+                                      "label": "_{Will}"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "row",
+                                  "layout": null,
+                                  "contents": [
+                                    {
+                                      "type": "icon",
+                                      "icon": "proficiency-expert"
+                                    },
+                                    {
+                                      "type": "span",
+                                      "content": "&rarr;"
+                                    },
+                                    {
+                                      "type": "icon",
+                                      "icon": "proficiency-master"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "p",
+                                  "content": "_{Become master in one saving throw}"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "tail"
+                    },
+                    {
+                      "type": "spacer",
+                      "flex": "huge"
+                    }
+                  ]
+                },
+                {
+                  "type": "g",
+                  "contents": [
+                    {
+                      "type": "section",
+                      "title": "_{Kata}",
+                      "mark": "monk",
                       "contents": [
                         {
                           "type": "list",
@@ -12757,7 +13000,7 @@
                                   "contents": [
                                     {
                                       "type": "h5",
-                                      "title": "_{Basic Devotions}"
+                                      "title": "_{Basic Kata}"
                                     },
                                     {
                                       "type": "p",
@@ -12788,7 +13031,7 @@
                                   "contents": [
                                     {
                                       "type": "h5",
-                                      "title": "_{Advanced Devotions}"
+                                      "title": "_{Advanced Kata}"
                                     },
                                     {
                                       "type": "calc",
@@ -13051,554 +13294,184 @@
                                   ]
                                 }
                               ]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "tail"
-                    }
-                  ]
-                },
-                {
-                  "type": "g",
-                  "contents": [
-                    {
-                      "type": "section",
-                      "title": "_{Cause}",
-                      "primary": true,
-                      "contents": [
-                        {
-                          "type": "list",
-                          "contents": [
+                            },
                             {
                               "type": "layout",
-                              "layout": "alignment",
+                              "layout": "indent-l",
+                              "blk": false,
                               "contents": [
                                 {
                                   "type": "g",
                                   "contents": [
                                     {
                                       "type": "field",
-                                      "id": "cause",
-                                      "width": "stretch",
-                                      "size": "large",
-                                      "frame": "none"
-                                    },
-                                    {
-                                      "type": "field",
-                                      "id": "cause-detail",
-                                      "width": "stretch",
-                                      "frame": "none"
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "cause-alignment",
-                                  "control": "alignment",
-                                  "frame": "none"
-                                }
-                              ]
-                            },
-                            {
-                              "type": "g",
-                              "contents": [
-                                {
-                                  "type": "h5",
-                                  "title": "_{Tenets}"
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "champion-tenets",
-                                  "width": "stretch",
-                                  "repeat": 3
-                                },
-                                {
-                                  "type": "h5",
-                                  "title": "_{Anathema}"
-                                },
-                                {
-                                  "type": "ul",
-                                  "merge-bottom": "false",
-                                  "contents": [
-                                    {
-                                      "type": "li",
-                                      "content": null,
-                                      "contents": [
-                                        {
-                                          "type": "field",
-                                          "id": "anathema-1",
-                                          "frame": "none",
-                                          "width": "stretch"
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "type": "li",
-                                      "content": null,
-                                      "contents": [
-                                        {
-                                          "type": "field",
-                                          "id": "anathema-2",
-                                          "frame": "none",
-                                          "width": "stretch"
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "type": "li",
-                                      "content": null,
-                                      "contents": [
-                                        {
-                                          "type": "field",
-                                          "id": "anathema-3",
-                                          "frame": "none",
-                                          "width": "stretch"
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "p",
-                                  "content": "_{If you violate your code of conduct, you lose your focus pool and divine ally until you demonstrate repentance.}"
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "section",
-                      "title": "_{Champion Resiliency}",
-                      "contents": [
-                        {
-                          "type": "layout",
-                          "layout": "indent-l",
-                          "blk": false,
-                          "contents": [
-                            {
-                              "type": "g",
-                              "contents": [
-                                {
-                                  "type": "field",
-                                  "id": "",
-                                  "control": "checkbox",
-                                  "frame": "none",
-                                  "value": false
-                                }
-                              ]
-                            },
-                            {
-                              "type": "g",
-                              "pad": false,
-                              "contents": [
-                                {
-                                  "type": "p",
-                                  "content": "_{A class granting no more than 8hp}",
-                                  "title": "_{Prerequisite}"
-                                },
-                                {
-                                  "type": "g",
-                                  "contents": [
-                                    {
-                                      "type": "calc",
-                                      "output": {
-                                        "type": "field",
-                                        "id": "champion/resiliency/bonus-hp",
-                                        "legend": "_{Bonus Hit Points}",
-                                        "width": "huge",
-                                        "suffix": "_{hp}"
-                                      },
-                                      "inputs": [
-                                        {
-                                          "type": "span",
-                                          "content": "3 &times;"
-                                        },
-                                        {
-                                          "type": "field",
-                                          "id": "champion-feats",
-                                          "label": "_{Champion Feats}"
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "section",
-                      "title": "_{Healing Touch}",
-                      "contents": [
-                        {
-                          "type": "layout",
-                          "layout": "indent-l",
-                          "blk": false,
-                          "contents": [
-                            {
-                              "type": "g",
-                              "contents": [
-                                {
-                                  "type": "field",
-                                  "id": "",
-                                  "control": "checkbox",
-                                  "frame": "none",
-                                  "value": false
-                                }
-                              ]
-                            },
-                            {
-                              "type": "g",
-                              "pad": false,
-                              "contents": [
-                                {
-                                  "type": "h5",
-                                  "title": "_{Devotion Spell}"
-                                },
-                                {
-                                  "type": "article",
-                                  "id": null,
-                                  "header": [
-                                    {
-                                      "type": "row",
-                                      "blk": false,
-                                      "contents": [
-                                        {
-                                          "type": "field",
-                                          "id": null,
-                                          "frame": "none",
-                                          "align": "left",
-                                          "size": "medium",
-                                          "width": "stretch"
-                                        }
-                                      ]
-                                    }
-                                  ],
-                                  "contents": [
-                                    {
-                                      "type": "field",
-                                      "id": "null-details",
+                                      "id": "",
+                                      "control": "checkbox",
                                       "frame": "none",
-                                      "align": "left",
-                                      "repeat": 1,
-                                      "width": "stretch",
-                                      "merge-bottom": true
+                                      "value": false
                                     }
-                                  ],
-                                  "shade": false,
-                                  "blk": true,
-                                  "annotation": false,
-                                  "merge-bottom": true
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "section",
-                      "title": "_{Champion's Reaction}",
-                      "contents": [
-                        {
-                          "type": "layout",
-                          "layout": "indent-l",
-                          "blk": false,
-                          "contents": [
-                            {
-                              "type": "g",
-                              "contents": [
+                                  ]
+                                },
                                 {
-                                  "type": "field",
-                                  "id": "",
-                                  "control": "checkbox",
-                                  "frame": "none",
-                                  "value": false
-                                }
-                              ]
-                            },
-                            {
-                              "type": "g",
-                              "pad": false,
-                              "contents": [
-                                {
-                                  "type": "layout",
-                                  "layout": "indent-l",
-                                  "blk": false,
-                                  "order": 1,
+                                  "type": "g",
+                                  "pad": false,
                                   "contents": [
                                     {
-                                      "type": "g",
-                                      "contents": [
+                                      "type": "article",
+                                      "id": null,
+                                      "header": [
                                         {
-                                          "type": "icon",
-                                          "icon": "reaction"
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "type": "g",
-                                      "contents": [
-                                        {
-                                          "type": "article",
-                                          "id": null,
-                                          "header": [
-                                            {
-                                              "type": "row",
-                                              "blk": false,
-                                              "contents": [
-                                                {
-                                                  "type": "field",
-                                                  "id": null,
-                                                  "frame": "none",
-                                                  "align": "left",
-                                                  "size": "medium",
-                                                  "width": "stretch"
-                                                }
-                                              ]
-                                            }
-                                          ],
+                                          "type": "row",
+                                          "blk": false,
                                           "contents": [
                                             {
                                               "type": "field",
-                                              "id": "null-details",
+                                              "id": null,
                                               "frame": "none",
                                               "align": "left",
-                                              "repeat": 1,
-                                              "width": "stretch",
-                                              "merge-bottom": true
-                                            }
-                                          ],
-                                          "shade": false,
-                                          "blk": true,
-                                          "annotation": false,
-                                          "merge-bottom": true
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "section",
-                      "title": "_{Divine Ally}",
-                      "contents": [
-                        {
-                          "type": "layout",
-                          "layout": "indent-l",
-                          "blk": false,
-                          "contents": [
-                            {
-                              "type": "g",
-                              "contents": [
-                                {
-                                  "type": "field",
-                                  "id": "",
-                                  "control": "checkbox",
-                                  "frame": "none",
-                                  "value": false
-                                }
-                              ]
-                            },
-                            {
-                              "type": "g",
-                              "pad": false,
-                              "contents": [
-                                {
-                                  "type": "list",
-                                  "hr": true,
-                                  "light": true,
-                                  "contents": [
-                                    {
-                                      "type": "layout",
-                                      "layout": "indent-l",
-                                      "blk": false,
-                                      "contents": [
-                                        {
-                                          "type": "g",
-                                          "contents": [
-                                            {
-                                              "type": "field",
-                                              "id": "",
-                                              "control": "radio",
-                                              "frame": "none",
-                                              "value": false
-                                            }
-                                          ]
-                                        },
-                                        {
-                                          "type": "g",
-                                          "pad": true,
-                                          "contents": [
-                                            {
-                                              "type": "h5",
-                                              "title": "_{Blade Ally}"
-                                            },
-                                            {
-                                              "type": "row",
-                                              "layout": null,
-                                              "contents": [
-                                                {
-                                                  "type": "field",
-                                                  "id": "champion-blade-ally-weapon",
-                                                  "label": "_{Weapon}",
-                                                  "width": "stretch"
-                                                },
-                                                {
-                                                  "type": "field",
-                                                  "id": "champion-blade-ally-rune",
-                                                  "label": "Rune",
-                                                  "width": "stretch"
-                                                }
-                                              ]
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "type": "layout",
-                                      "layout": "indent-l",
-                                      "blk": false,
-                                      "contents": [
-                                        {
-                                          "type": "g",
-                                          "contents": [
-                                            {
-                                              "type": "field",
-                                              "id": "",
-                                              "control": "radio",
-                                              "frame": "none",
-                                              "value": false
-                                            }
-                                          ]
-                                        },
-                                        {
-                                          "type": "g",
-                                          "pad": true,
-                                          "contents": [
-                                            {
-                                              "type": "h5",
-                                              "title": "_{Shield Ally}"
-                                            },
-                                            {
-                                              "type": "row",
-                                              "layout": null,
-                                              "contents": [
-                                                {
-                                                  "type": "field",
-                                                  "id": null,
-                                                  "control": "value",
-                                                  "label": "_{Hardness}",
-                                                  "value": "+2",
-                                                  "width": "large"
-                                                },
-                                                {
-                                                  "type": "field",
-                                                  "id": null,
-                                                  "label": "_{Shield\nHit Points}",
-                                                  "suffix": "hp",
-                                                  "width": "large"
-                                                },
-                                                {
-                                                  "type": "field",
-                                                  "id": null,
-                                                  "label": "_{Broken\nThreshold}",
-                                                  "suffix": "hp",
-                                                  "width": "large"
-                                                },
-                                                {
-                                                  "type": "spacer"
-                                                }
-                                              ]
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "type": "layout",
-                                      "layout": "indent-l",
-                                      "blk": false,
-                                      "contents": [
-                                        {
-                                          "type": "g",
-                                          "contents": [
-                                            {
-                                              "type": "field",
-                                              "id": "",
-                                              "control": "radio",
-                                              "frame": "none",
-                                              "value": false
-                                            }
-                                          ]
-                                        },
-                                        {
-                                          "type": "g",
-                                          "pad": true,
-                                          "contents": [
-                                            {
-                                              "type": "h5",
-                                              "title": "_{Steed}"
-                                            },
-                                            {
-                                              "type": "field",
-                                              "id": "champion-steed-ally-mount",
+                                              "size": "medium",
                                               "width": "stretch"
                                             }
                                           ]
                                         }
-                                      ]
+                                      ],
+                                      "contents": [
+                                        {
+                                          "type": "field",
+                                          "id": "null-details",
+                                          "frame": "none",
+                                          "align": "left",
+                                          "repeat": "3",
+                                          "width": "stretch",
+                                          "merge-bottom": true
+                                        }
+                                      ],
+                                      "shade": false,
+                                      "blk": true,
+                                      "annotation": false,
+                                      "merge-bottom": true
                                     }
                                   ]
                                 }
                               ]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "section",
-                      "title": "_{Diverse Armour Expert}",
-                      "contents": [
-                        {
-                          "type": "layout",
-                          "layout": "indent-l",
-                          "blk": false,
-                          "contents": [
+                            },
                             {
-                              "type": "g",
+                              "type": "layout",
+                              "layout": "indent-l",
+                              "blk": false,
                               "contents": [
                                 {
-                                  "type": "field",
-                                  "id": "",
-                                  "control": "checkbox",
-                                  "frame": "none",
-                                  "value": false
+                                  "type": "g",
+                                  "contents": [
+                                    {
+                                      "type": "field",
+                                      "id": "",
+                                      "control": "checkbox",
+                                      "frame": "none",
+                                      "value": false
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "g",
+                                  "pad": false,
+                                  "contents": [
+                                    {
+                                      "type": "article",
+                                      "id": null,
+                                      "header": [
+                                        {
+                                          "type": "row",
+                                          "blk": false,
+                                          "contents": [
+                                            {
+                                              "type": "field",
+                                              "id": null,
+                                              "frame": "none",
+                                              "align": "left",
+                                              "size": "medium",
+                                              "width": "stretch"
+                                            }
+                                          ]
+                                        }
+                                      ],
+                                      "contents": [
+                                        {
+                                          "type": "field",
+                                          "id": "null-details",
+                                          "frame": "none",
+                                          "align": "left",
+                                          "repeat": "3",
+                                          "width": "stretch",
+                                          "merge-bottom": true
+                                        }
+                                      ],
+                                      "shade": false,
+                                      "blk": true,
+                                      "annotation": false,
+                                      "merge-bottom": true
+                                    }
+                                  ]
                                 }
                               ]
                             },
                             {
-                              "type": "g",
-                              "pad": false,
+                              "type": "layout",
+                              "layout": "indent-l",
+                              "blk": false,
                               "contents": [
                                 {
-                                  "type": "p",
-                                  "content": "_{Expert in light, medium and heavy armour.}",
-                                  "icon": "proficiency-expert"
+                                  "type": "g",
+                                  "contents": [
+                                    {
+                                      "type": "field",
+                                      "id": "",
+                                      "control": "checkbox",
+                                      "frame": "none",
+                                      "value": false
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "g",
+                                  "pad": false,
+                                  "contents": [
+                                    {
+                                      "type": "article",
+                                      "id": null,
+                                      "header": [
+                                        {
+                                          "type": "row",
+                                          "blk": false,
+                                          "contents": [
+                                            {
+                                              "type": "field",
+                                              "id": null,
+                                              "frame": "none",
+                                              "align": "left",
+                                              "size": "medium",
+                                              "width": "stretch"
+                                            }
+                                          ]
+                                        }
+                                      ],
+                                      "contents": [
+                                        {
+                                          "type": "field",
+                                          "id": "null-details",
+                                          "frame": "none",
+                                          "align": "left",
+                                          "repeat": "3",
+                                          "width": "stretch",
+                                          "merge-bottom": true
+                                        }
+                                      ],
+                                      "shade": false,
+                                      "blk": true,
+                                      "annotation": false,
+                                      "merge-bottom": true
+                                    }
+                                  ]
                                 }
                               ]
                             }
@@ -13906,5 +13779,5 @@
   ],
   "largePrint": false,
   "watermark": "",
-  "title": "Fizzlepop, Gnome Rogue Champion"
+  "title": "Fizzlepop, Gnome Rogue Monk"
 }

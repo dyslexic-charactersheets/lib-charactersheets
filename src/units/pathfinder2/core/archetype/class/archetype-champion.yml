@@ -64,26 +64,13 @@ inc:
                   
                   - section: "_{Devotions}"
                     contents:
-                      - list:
-                        hr: true
-                        zebra: true
-                        contents:
-                          - level: 4
-                            contents:
-                              - h5: "_{Basic Devotions}"
-                              - p: "_{1st or 2nd level Fighter feat}"
-                          - level: 6
-                            contents:
-                              - h5: "_{Advanced Devotions}"
-                              - p: "_{Fighter feat up to half your level}"
-                          - repeat: 4
-                            reduce: 1
-                            contents:
-                              - selectable:
-                                contents:
-                                  - article:
-                                    lines: 3
-                                    reduce: 1
+                      - paste: archetype-feats
+                        params:
+                          id: monk-feats
+                          num: 4
+                          basic-title: "_{Basic Devotions}"
+                          advanced-title: "_{Advanced Devotions}"
+
                   - tail:
                     
               - g:
@@ -124,21 +111,10 @@ inc:
 
                   - section: "_{Champion Resiliency}"
                     contents:
-                      - selectable:
-                        contents:
-                          - p:
-                            title: "_{Prerequisite}"
-                            content: "_{A class giving no more than 8hp}"
-                          - calc:
-                            output:
-                              field: champion/resiliency/bonus-hp
-                              legend: "_{Bonus Hit Points}"
-                              width: huge
-                              suffix: "_{hp}"
-                            inputs:
-                              - span: "3 &times;"
-                              - field: champion-feats
-                                label: "_{Champion Feats}"
+                      - paste: archetype-resiliency
+                        params:
+                          class-id: champion
+                          class-feats: "_{Champion Feats}"
                               
                   - zone: '@archetype/champion/healing-touch-section'
                     contents:
