@@ -144,6 +144,11 @@ inc:
     params:
       id: ""
       style: spontaneous
+      tradition: ""
+      tradition-spell-attack: ""
+      tradition-spell-dc: ""
+      ability: ""
+      ability-name: ""
       breadth: ""
     contents:
       - section: "_{Spellcasting}"
@@ -155,15 +160,15 @@ inc:
                 contents:
                   - calc:
                     output:
-                      field:
-                      legend: "_{Occult Spell\nAttack}"
+                      field: "#{tradition}-spell-attack"
+                      legend: "#{tradition-spell-attack}"
                       icon: bonus
                     inputs:
                       - field:
-                        ref: CHA
-                        label: "_{CHA}"
-                        underlay: "_{CHA}"
-                      - field:
+                        ref: "#{ability}"
+                        label: "#{ability-name}"
+                        underlay: "#{ability-name}"
+                      - field: "#{tradition}-spell-attack-proficiency"
                         label: "_{Proficiency}"
                         control: proficiency
                         value: trained
@@ -172,16 +177,16 @@ inc:
                         misc: true
                   - calc:
                     output:
-                      field:
-                      legend: "_{Occult Spell\nSave DC}"
+                      field: "#{tradition}-spell-dc"
+                      legend: "#{tradition-spell-dc}"
                       icon: dc
                     inputs:
                       - span: "10 +"
                       - field:
-                        ref: CHA
-                        label: "_{CHA}"
-                        underlay: "_{CHA}"
-                      - field:
+                        ref: "#{ability}"
+                        label: "#{ability-name}"
+                        underlay: "#{ability-name}"
+                      - field: "#{tradition}-spell-dc-proficiency"
                         label: "_{Proficiency}"
                         control: proficiency
                         value: trained
