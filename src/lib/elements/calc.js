@@ -10,6 +10,7 @@ export let calc = {
     inline: false,
     inputs: [],
     blk: true,
+    spacer: true,
   },
   render(args, reg, doc) {
     args.lp = getLabelHeight(args);
@@ -48,6 +49,8 @@ export let calc = {
     if (args.inline)
       args.field_frame = "inline";
 
-    return `<div${cls}><div class='row__inner'>${reg.render(parts, doc)}<div class='spacer'></div></div></div>`;
+    var spacer = args.spacer ? "<div class='spacer'></div>" : '';
+
+    return `<div${cls}><div class='row__inner'>${reg.render(parts, doc)}${spacer}</div></div>`;
   }
 }

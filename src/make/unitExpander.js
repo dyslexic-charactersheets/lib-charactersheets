@@ -68,6 +68,7 @@ const expansion = {
     copy: 'template',
     paste: 'template',
     unit: 'id',
+    value: 'value',
     vr: '',
     zone: 'zone',
 };

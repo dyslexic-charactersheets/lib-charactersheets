@@ -4210,15 +4210,16 @@
                               "merge-bottom": true,
                               "rows": [
                                 {
-                                  "name": "_{Bard}",
+                                  "name": "_{Barbarian}",
                                   "num-feats": 3
                                 },
                                 {
-                                  "type": "log",
-                                  "message": "Bard archetype entry"
+                                  "i": "1",
+                                  "name": "",
+                                  "num-feats": ""
                                 },
                                 {
-                                  "i": "1",
+                                  "i": "2",
                                   "name": "",
                                   "num-feats": ""
                                 }
@@ -11251,8 +11252,8 @@
     {
       "type": "page",
       "order": 15,
-      "id": "inventory+archetype-bard",
-      "name": "_{Inventory (half size)} + Bard (Archetype)",
+      "id": "inventory+archetype-barbarian",
+      "name": "_{Inventory (half size)} + Barbarian (Archetype)",
       "flex": true,
       "landscape": true,
       "half": false,
@@ -12639,7 +12640,7 @@
             },
             {
               "type": "layout",
-              "layout": "2e",
+              "layout": "2l",
               "contents": [
                 {
                   "type": "g",
@@ -12649,34 +12650,14 @@
                       "contents": [
                         {
                           "type": "class-icon",
-                          "icon": "bard"
+                          "icon": "barbarian"
                         },
                         {
                           "type": "class-name",
-                          "title": "_{Bard}"
+                          "title": "_{Barbarian}"
                         }
                       ],
                       "flex": "tiny"
-                    },
-                    {
-                      "type": "section",
-                      "title": "_{Muse}",
-                      "primary": true,
-                      "contents": [
-                        {
-                          "type": "field",
-                          "id": "bard-muse-name",
-                          "label": "_{Name}",
-                          "width": "stretch"
-                        },
-                        {
-                          "type": "field",
-                          "id": "bard-muse-type",
-                          "label": "_{Type}",
-                          "width": "stretch",
-                          "merge-bottom": true
-                        }
-                      ]
                     },
                     {
                       "type": "section",
@@ -12684,14 +12665,195 @@
                       "contents": [
                         {
                           "type": "p",
-                          "content": "_{Trained in Occultism and Performance}",
+                          "content": "_{Trained in either Acrobatics or Athletics}",
                           "icon": "proficiency-trained"
+                        },
+                        {
+                          "type": "hr"
+                        },
+                        {
+                          "type": "row",
+                          "layout": null,
+                          "contents": [
+                            {
+                              "type": "calc",
+                              "output": {
+                                "type": "field",
+                                "id": "barbarian-class-dc",
+                                "legend": "_{Barbarian\nClass DC}",
+                                "underlay": "_{DC}",
+                                "width": "large",
+                                "icon": "dc",
+                                "eq": "10+'%{#{key-ability}}+%{level}+%{barbarian-class-dc-item-bonus}'"
+                              },
+                              "inputs": [
+                                {
+                                  "type": "span",
+                                  "content": "10 +"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": null,
+                                  "label": "_{Key Ability}",
+                                  "ref": "key-ability",
+                                  "misc": true
+                                },
+                                {
+                                  "type": "span",
+                                  "content": "+"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "barbarian-class-dc-proficiency",
+                                  "label": "_{Proficiency}",
+                                  "control": "proficiency"
+                                }
+                              ]
+                            }
+                          ]
                         }
                       ]
                     },
                     {
                       "type": "section",
-                      "title": "_{Counter Perform}",
+                      "title": "_{Instinct}",
+                      "primary": true,
+                      "contents": [
+                        {
+                          "type": "list",
+                          "hr": true,
+                          "contents": [
+                            {
+                              "type": "field",
+                              "id": "barbarian-instinct",
+                              "frame": "none",
+                              "size": "gargantuan",
+                              "width": "stretch",
+                              "align": "left",
+                              "merge-bottom": true
+                            },
+                            {
+                              "type": "g",
+                              "contents": [
+                                {
+                                  "type": "h5",
+                                  "title": "_{Anathema}"
+                                },
+                                {
+                                  "type": "ul",
+                                  "merge-bottom": true,
+                                  "contents": [
+                                    {
+                                      "type": "li",
+                                      "content": null,
+                                      "contents": [
+                                        {
+                                          "type": "field",
+                                          "id": "barbarian/anathema-1",
+                                          "frame": "none",
+                                          "width": "stretch"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "li",
+                                      "content": null,
+                                      "contents": [
+                                        {
+                                          "type": "field",
+                                          "id": "barbarian/anathema-2",
+                                          "frame": "none",
+                                          "width": "stretch"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "li",
+                                      "content": null,
+                                      "contents": [
+                                        {
+                                          "type": "field",
+                                          "id": "barbarian/anathema-3",
+                                          "frame": "none",
+                                          "width": "stretch"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "layout",
+                              "layout": "indent-l",
+                              "blk": false,
+                              "contents": [
+                                {
+                                  "type": "g",
+                                  "contents": [
+                                    {
+                                      "type": "field",
+                                      "id": "",
+                                      "control": "checkbox",
+                                      "frame": "none",
+                                      "value": false
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "g",
+                                  "pad": false,
+                                  "contents": [
+                                    {
+                                      "type": "h5",
+                                      "title": "_{Instinct Ability}"
+                                    },
+                                    {
+                                      "type": "article",
+                                      "id": null,
+                                      "header": [
+                                        {
+                                          "type": "row",
+                                          "blk": false,
+                                          "contents": [
+                                            {
+                                              "type": "field",
+                                              "id": null,
+                                              "frame": "none",
+                                              "align": "left",
+                                              "size": "medium",
+                                              "width": "stretch"
+                                            }
+                                          ]
+                                        }
+                                      ],
+                                      "contents": [
+                                        {
+                                          "type": "field",
+                                          "id": "null-details",
+                                          "frame": "none",
+                                          "align": "left",
+                                          "repeat": 5,
+                                          "width": "stretch",
+                                          "merge-bottom": true
+                                        }
+                                      ],
+                                      "shade": false,
+                                      "blk": true,
+                                      "annotation": false,
+                                      "merge-bottom": true
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "section",
+                      "title": "_{Barbarian Resiliency}",
                       "contents": [
                         {
                           "type": "layout",
@@ -12716,29 +12878,35 @@
                               "contents": [
                                 {
                                   "type": "p",
-                                  "content": "_{When you or an ally within 60ft rolls a saving throw against an auditory or visual effect,}"
+                                  "content": "_{A class granting no more than 8hp}",
+                                  "title": "_{Prerequisite}"
                                 },
                                 {
-                                  "type": "layout",
-                                  "layout": "indent-l",
-                                  "blk": false,
-                                  "order": 1,
+                                  "type": "g",
                                   "contents": [
                                     {
-                                      "type": "g",
-                                      "contents": [
+                                      "type": "calc",
+                                      "output": {
+                                        "type": "field",
+                                        "id": "barbarian/resiliency/bonus-hp",
+                                        "legend": "_{Bonus Hit Points}",
+                                        "width": "huge",
+                                        "suffix": "_{hp}"
+                                      },
+                                      "inputs": [
                                         {
-                                          "type": "icon",
-                                          "icon": "reaction"
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "type": "g",
-                                      "contents": [
+                                          "type": "span",
+                                          "content": "3 &times;"
+                                        },
                                         {
-                                          "type": "p",
-                                          "content": "_{Roll a Performance check and you or your ally can take the better result.}"
+                                          "type": "field",
+                                          "id": "barbarian-feats",
+                                          "label": "_{Barbarian Feats}",
+                                          "control": "checkgrid",
+                                          "style": "progress",
+                                          "max": 10,
+                                          "depth": 2,
+                                          "width": "stretch"
                                         }
                                       ]
                                     }
@@ -12752,7 +12920,7 @@
                     },
                     {
                       "type": "section",
-                      "title": "_{Inspire Courage}",
+                      "title": "_{Juggernaut's Fortitude}",
                       "contents": [
                         {
                           "type": "layout",
@@ -12776,43 +12944,26 @@
                               "pad": false,
                               "contents": [
                                 {
-                                  "type": "layout",
-                                  "layout": "indent-l",
-                                  "blk": false,
-                                  "order": 1,
+                                  "type": "row",
+                                  "layout": null,
                                   "contents": [
                                     {
-                                      "type": "g",
-                                      "contents": [
-                                        {
-                                          "type": "icon",
-                                          "icon": "action"
-                                        }
-                                      ]
+                                      "type": "icon",
+                                      "icon": "proficiency-expert"
                                     },
                                     {
-                                      "type": "g",
-                                      "contents": [
-                                        {
-                                          "type": "row",
-                                          "layout": null,
-                                          "contents": [
-                                            {
-                                              "type": "field",
-                                              "id": "inspire-courage-bonus",
-                                              "frame": "none",
-                                              "value": "+1",
-                                              "control": "value"
-                                            },
-                                            {
-                                              "type": "p",
-                                              "content": "_{Bonus to attack and damage rolls, and saves against fear.}"
-                                            }
-                                          ]
-                                        }
-                                      ]
+                                      "type": "span",
+                                      "content": "&rarr;"
+                                    },
+                                    {
+                                      "type": "icon",
+                                      "icon": "proficiency-master"
                                     }
                                   ]
+                                },
+                                {
+                                  "type": "p",
+                                  "content": "_{Master in Fortitude saves}"
                                 }
                               ]
                             }
@@ -12821,9 +12972,21 @@
                       ]
                     },
                     {
+                      "type": "tail"
+                    },
+                    {
+                      "type": "spacer",
+                      "flex": "huge"
+                    }
+                  ]
+                },
+                {
+                  "type": "g",
+                  "contents": [
+                    {
                       "type": "section",
-                      "title": "_{Muse's Whispers}",
-                      "mark": "bard",
+                      "title": "_{Furies}",
+                      "mark": "barbarian",
                       "contents": [
                         {
                           "type": "list",
@@ -12851,7 +13014,7 @@
                                   "contents": [
                                     {
                                       "type": "h5",
-                                      "title": "_{Basic Whisper}"
+                                      "title": "_{Basic Fury}"
                                     },
                                     {
                                       "type": "p",
@@ -12942,14 +13105,14 @@
                                   "contents": [
                                     {
                                       "type": "h5",
-                                      "title": "_{Advanced Whispers}"
+                                      "title": "_{Advanced Furies}"
                                     },
                                     {
                                       "type": "calc",
                                       "inline": true,
                                       "output": {
                                         "type": "label",
-                                        "label": "_{Bard\nLevel}"
+                                        "label": "_{Barbarian\nFeats}"
                                       },
                                       "inputs": [
                                         {
@@ -13085,264 +13248,62 @@
                                   ]
                                 }
                               ]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "tail"
-                    }
-                  ]
-                },
-                {
-                  "type": "g",
-                  "contents": [
-                    {
-                      "type": "section",
-                      "title": "_{Spellcasting}",
-                      "contents": [
-                        {
-                          "type": "list",
-                          "hr": true,
-                          "contents": [
-                            {
-                              "type": "g",
-                              "contents": [
-                                {
-                                  "type": "calc",
-                                  "output": {
-                                    "type": "field",
-                                    "id": null,
-                                    "legend": "_{Occult Spell\nAttack}",
-                                    "icon": "bonus"
-                                  },
-                                  "inputs": [
-                                    {
-                                      "type": "field",
-                                      "id": null,
-                                      "ref": "CHA",
-                                      "label": "_{CHA}",
-                                      "underlay": "_{CHA}"
-                                    },
-                                    {
-                                      "type": "field",
-                                      "id": null,
-                                      "label": "_{Proficiency}",
-                                      "control": "proficiency",
-                                      "value": "trained"
-                                    },
-                                    {
-                                      "type": "field",
-                                      "id": null,
-                                      "label": "_{Misc}",
-                                      "misc": true
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "calc",
-                                  "output": {
-                                    "type": "field",
-                                    "id": null,
-                                    "legend": "_{Occult Spell\nSave DC}",
-                                    "icon": "dc"
-                                  },
-                                  "inputs": [
-                                    {
-                                      "type": "span",
-                                      "content": "10 +"
-                                    },
-                                    {
-                                      "type": "field",
-                                      "id": null,
-                                      "ref": "CHA",
-                                      "label": "_{CHA}",
-                                      "underlay": "_{CHA}"
-                                    },
-                                    {
-                                      "type": "field",
-                                      "id": null,
-                                      "label": "_{Proficiency}",
-                                      "control": "proficiency",
-                                      "value": "trained"
-                                    },
-                                    {
-                                      "type": "field",
-                                      "id": null,
-                                      "label": "_{Misc}",
-                                      "misc": true
-                                    }
-                                  ]
-                                }
-                              ]
                             },
                             {
-                              "type": "g",
+                              "type": "layout",
+                              "layout": "indent-l",
+                              "blk": false,
                               "contents": [
                                 {
-                                  "type": "p",
-                                  "content": "_{Start with two cantrips.}"
+                                  "type": "g",
+                                  "contents": [
+                                    {
+                                      "type": "field",
+                                      "id": "",
+                                      "control": "checkbox",
+                                      "frame": "none",
+                                      "value": false
+                                    }
+                                  ]
                                 },
                                 {
-                                  "type": "table",
-                                  "collapse": true,
-                                  "columns": [
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    ""
-                                  ],
-                                  "rows": [
+                                  "type": "g",
+                                  "pad": false,
+                                  "contents": [
                                     {
-                                      "contents": [
+                                      "type": "article",
+                                      "id": null,
+                                      "header": [
                                         {
-                                          "type": "g",
-                                          "contents": null
-                                        },
-                                        {
-                                          "type": "g",
+                                          "type": "row",
+                                          "blk": false,
                                           "contents": [
                                             {
                                               "type": "field",
-                                              "id": "archetype--spellcasting-basic",
-                                              "frame": "right",
-                                              "control": "checkbox",
-                                              "label": "_{Basic}"
+                                              "id": null,
+                                              "frame": "none",
+                                              "align": "left",
+                                              "size": "medium",
+                                              "width": "stretch"
                                             }
-                                          ],
-                                          "colspan": 3
-                                        },
-                                        {
-                                          "type": "g",
-                                          "contents": [
-                                            {
-                                              "type": "field",
-                                              "id": "archetype--spellcasting-expert",
-                                              "frame": "right",
-                                              "control": "checkbox",
-                                              "label": "_{Expert}"
-                                            }
-                                          ],
-                                          "colspan": 3,
-                                          "vr": true
-                                        },
-                                        {
-                                          "type": "g",
-                                          "contents": [
-                                            {
-                                              "type": "field",
-                                              "id": "archetype--spellcasting-master",
-                                              "frame": "right",
-                                              "control": "checkbox",
-                                              "label": "_{Master}"
-                                            }
-                                          ],
-                                          "colspan": 3,
-                                          "vr": true
+                                          ]
                                         }
-                                      ]
-                                    },
-                                    {
+                                      ],
                                       "contents": [
                                         {
-                                          "type": "label",
-                                          "label": "_{Class\nLevel}",
-                                          "rotate": true,
-                                          "width": "tiny"
-                                        },
-                                        {
-                                          "type": "value",
-                                          "value": 4
-                                        },
-                                        {
-                                          "type": "value",
-                                          "value": 5
-                                        },
-                                        {
-                                          "type": "value",
-                                          "value": 6
-                                        },
-                                        {
-                                          "type": "value",
-                                          "value": 8,
-                                          "vr": true
-                                        },
-                                        {
-                                          "type": "value",
-                                          "value": 10
-                                        },
-                                        {
-                                          "type": "value",
-                                          "value": 12
-                                        },
-                                        {
-                                          "type": "value",
-                                          "value": 18,
-                                          "vr": true
-                                        },
-                                        {
-                                          "type": "value",
-                                          "value": 20
-                                        },
-                                        {
-                                          "type": "value",
-                                          "value": ""
+                                          "type": "field",
+                                          "id": "null-details",
+                                          "frame": "none",
+                                          "align": "left",
+                                          "repeat": "3",
+                                          "width": "stretch",
+                                          "merge-bottom": true
                                         }
-                                      ]
-                                    },
-                                    {
-                                      "contents": [
-                                        {
-                                          "type": "label",
-                                          "label": "_{Spell\nLevel}",
-                                          "rotate": true,
-                                          "width": "tiny"
-                                        },
-                                        {
-                                          "type": "value",
-                                          "value": "1"
-                                        },
-                                        {
-                                          "type": "value",
-                                          "value": "2"
-                                        },
-                                        {
-                                          "type": "value",
-                                          "value": "3"
-                                        },
-                                        {
-                                          "type": "value",
-                                          "value": "4",
-                                          "vr": true
-                                        },
-                                        {
-                                          "type": "value",
-                                          "value": "5"
-                                        },
-                                        {
-                                          "type": "value",
-                                          "value": "6"
-                                        },
-                                        {
-                                          "type": "value",
-                                          "value": "7",
-                                          "vr": true
-                                        },
-                                        {
-                                          "type": "value",
-                                          "value": "8"
-                                        },
-                                        {
-                                          "type": "value",
-                                          "value": ""
-                                        }
-                                      ]
+                                      ],
+                                      "shade": false,
+                                      "blk": true,
+                                      "annotation": false,
+                                      "merge-bottom": true
                                     }
                                   ]
                                 }
@@ -13370,54 +13331,38 @@
                                   "pad": false,
                                   "contents": [
                                     {
-                                      "type": "h5",
-                                      "title": "_{Occult Breadth}"
-                                    },
-                                    {
-                                      "type": "p",
-                                      "content": "_{Gain an extra spell slot, and learn an extra spell, at each spell level except your highest two.}"
-                                    }
-                                  ]
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "section",
-                      "title": "_{Spells}",
-                      "contents": [
-                        {
-                          "type": "list",
-                          "hr": true,
-                          "contents": [
-                            {
-                              "type": "layout",
-                              "layout": "indent-l",
-                              "blk": false,
-                              "contents": [
-                                {
-                                  "type": "g",
-                                  "contents": [
-                                    {
-                                      "type": "level-marker",
-                                      "inline": false,
-                                      "level": "0",
-                                      "marker": ""
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "g",
-                                  "contents": [
-                                    {
-                                      "type": "field",
+                                      "type": "article",
                                       "id": null,
-                                      "width": "stretch",
-                                      "repeat": "3",
-                                      "frame": "none",
+                                      "header": [
+                                        {
+                                          "type": "row",
+                                          "blk": false,
+                                          "contents": [
+                                            {
+                                              "type": "field",
+                                              "id": null,
+                                              "frame": "none",
+                                              "align": "left",
+                                              "size": "medium",
+                                              "width": "stretch"
+                                            }
+                                          ]
+                                        }
+                                      ],
+                                      "contents": [
+                                        {
+                                          "type": "field",
+                                          "id": "null-details",
+                                          "frame": "none",
+                                          "align": "left",
+                                          "repeat": "3",
+                                          "width": "stretch",
+                                          "merge-bottom": true
+                                        }
+                                      ],
+                                      "shade": false,
+                                      "blk": true,
+                                      "annotation": false,
                                       "merge-bottom": true
                                     }
                                   ]
@@ -13433,45 +13378,51 @@
                                   "type": "g",
                                   "contents": [
                                     {
-                                      "type": "level-marker",
-                                      "inline": false,
-                                      "level": "1",
-                                      "marker": ""
+                                      "type": "field",
+                                      "id": "",
+                                      "control": "checkbox",
+                                      "frame": "none",
+                                      "value": false
                                     }
                                   ]
                                 },
                                 {
                                   "type": "g",
+                                  "pad": false,
                                   "contents": [
                                     {
-                                      "type": "field",
+                                      "type": "article",
                                       "id": null,
-                                      "width": "stretch",
-                                      "frame": "none",
-                                      "control": "compound",
-                                      "parts": [
+                                      "header": [
                                         {
-                                          "control": "checkbox"
-                                        },
-                                        {
-                                          "width": "stretch"
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "type": "field",
-                                      "id": null,
-                                      "width": "stretch",
-                                      "frame": "none",
-                                      "control": "compound",
-                                      "parts": [
-                                        {
-                                          "control": "checkbox"
-                                        },
-                                        {
-                                          "width": "stretch"
+                                          "type": "row",
+                                          "blk": false,
+                                          "contents": [
+                                            {
+                                              "type": "field",
+                                              "id": null,
+                                              "frame": "none",
+                                              "align": "left",
+                                              "size": "medium",
+                                              "width": "stretch"
+                                            }
+                                          ]
                                         }
                                       ],
+                                      "contents": [
+                                        {
+                                          "type": "field",
+                                          "id": "null-details",
+                                          "frame": "none",
+                                          "align": "left",
+                                          "repeat": "3",
+                                          "width": "stretch",
+                                          "merge-bottom": true
+                                        }
+                                      ],
+                                      "shade": false,
+                                      "blk": true,
+                                      "annotation": false,
                                       "merge-bottom": true
                                     }
                                   ]
@@ -13487,339 +13438,51 @@
                                   "type": "g",
                                   "contents": [
                                     {
-                                      "type": "level-marker",
-                                      "inline": false,
-                                      "level": "2",
-                                      "marker": ""
+                                      "type": "field",
+                                      "id": "",
+                                      "control": "checkbox",
+                                      "frame": "none",
+                                      "value": false
                                     }
                                   ]
                                 },
                                 {
                                   "type": "g",
+                                  "pad": false,
                                   "contents": [
                                     {
-                                      "type": "field",
+                                      "type": "article",
                                       "id": null,
-                                      "width": "stretch",
-                                      "frame": "none",
-                                      "control": "compound",
-                                      "parts": [
+                                      "header": [
                                         {
-                                          "control": "checkbox"
-                                        },
-                                        {
-                                          "width": "stretch"
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "type": "field",
-                                      "id": null,
-                                      "width": "stretch",
-                                      "frame": "none",
-                                      "control": "compound",
-                                      "parts": [
-                                        {
-                                          "control": "checkbox"
-                                        },
-                                        {
-                                          "width": "stretch"
+                                          "type": "row",
+                                          "blk": false,
+                                          "contents": [
+                                            {
+                                              "type": "field",
+                                              "id": null,
+                                              "frame": "none",
+                                              "align": "left",
+                                              "size": "medium",
+                                              "width": "stretch"
+                                            }
+                                          ]
                                         }
                                       ],
-                                      "merge-bottom": true
-                                    }
-                                  ]
-                                }
-                              ]
-                            },
-                            {
-                              "type": "layout",
-                              "layout": "indent-l",
-                              "blk": false,
-                              "contents": [
-                                {
-                                  "type": "g",
-                                  "contents": [
-                                    {
-                                      "type": "level-marker",
-                                      "inline": false,
-                                      "level": "3",
-                                      "marker": ""
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "g",
-                                  "contents": [
-                                    {
-                                      "type": "field",
-                                      "id": null,
-                                      "width": "stretch",
-                                      "frame": "none",
-                                      "control": "compound",
-                                      "parts": [
+                                      "contents": [
                                         {
-                                          "control": "checkbox"
-                                        },
-                                        {
-                                          "width": "stretch"
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "type": "field",
-                                      "id": null,
-                                      "width": "stretch",
-                                      "frame": "none",
-                                      "control": "compound",
-                                      "parts": [
-                                        {
-                                          "control": "checkbox"
-                                        },
-                                        {
-                                          "width": "stretch"
+                                          "type": "field",
+                                          "id": "null-details",
+                                          "frame": "none",
+                                          "align": "left",
+                                          "repeat": "3",
+                                          "width": "stretch",
+                                          "merge-bottom": true
                                         }
                                       ],
-                                      "merge-bottom": true
-                                    }
-                                  ]
-                                }
-                              ]
-                            },
-                            {
-                              "type": "layout",
-                              "layout": "indent-l",
-                              "blk": false,
-                              "contents": [
-                                {
-                                  "type": "g",
-                                  "contents": [
-                                    {
-                                      "type": "level-marker",
-                                      "inline": false,
-                                      "level": "4",
-                                      "marker": ""
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "g",
-                                  "contents": [
-                                    {
-                                      "type": "field",
-                                      "id": null,
-                                      "width": "stretch",
-                                      "frame": "none",
-                                      "control": "compound",
-                                      "parts": [
-                                        {
-                                          "control": "checkbox"
-                                        },
-                                        {
-                                          "width": "stretch"
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "type": "field",
-                                      "id": null,
-                                      "width": "stretch",
-                                      "frame": "none",
-                                      "control": "compound",
-                                      "parts": [
-                                        {
-                                          "control": "checkbox"
-                                        },
-                                        {
-                                          "width": "stretch"
-                                        }
-                                      ],
-                                      "merge-bottom": true
-                                    }
-                                  ]
-                                }
-                              ]
-                            },
-                            {
-                              "type": "layout",
-                              "layout": "indent-l",
-                              "blk": false,
-                              "contents": [
-                                {
-                                  "type": "g",
-                                  "contents": [
-                                    {
-                                      "type": "level-marker",
-                                      "inline": false,
-                                      "level": "5",
-                                      "marker": ""
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "g",
-                                  "contents": [
-                                    {
-                                      "type": "field",
-                                      "id": null,
-                                      "width": "stretch",
-                                      "frame": "none",
-                                      "control": "compound",
-                                      "parts": [
-                                        {
-                                          "control": "checkbox"
-                                        },
-                                        {
-                                          "width": "stretch"
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "type": "field",
-                                      "id": null,
-                                      "width": "stretch",
-                                      "frame": "none",
-                                      "control": "compound",
-                                      "parts": [
-                                        {
-                                          "control": "checkbox"
-                                        },
-                                        {
-                                          "width": "stretch"
-                                        }
-                                      ],
-                                      "merge-bottom": true
-                                    }
-                                  ]
-                                }
-                              ]
-                            },
-                            {
-                              "type": "layout",
-                              "layout": "indent-l",
-                              "blk": false,
-                              "contents": [
-                                {
-                                  "type": "g",
-                                  "contents": [
-                                    {
-                                      "type": "level-marker",
-                                      "inline": false,
-                                      "level": "6",
-                                      "marker": ""
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "g",
-                                  "contents": [
-                                    {
-                                      "type": "field",
-                                      "id": null,
-                                      "width": "stretch",
-                                      "frame": "none",
-                                      "control": "compound",
-                                      "parts": [
-                                        {
-                                          "control": "checkbox"
-                                        },
-                                        {
-                                          "width": "stretch"
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "type": "field",
-                                      "id": null,
-                                      "width": "stretch",
-                                      "frame": "none",
-                                      "control": "compound",
-                                      "parts": [
-                                        {
-                                          "control": "checkbox"
-                                        },
-                                        {
-                                          "width": "stretch"
-                                        }
-                                      ],
-                                      "merge-bottom": true
-                                    }
-                                  ]
-                                }
-                              ]
-                            },
-                            {
-                              "type": "layout",
-                              "layout": "indent-l",
-                              "blk": false,
-                              "contents": [
-                                {
-                                  "type": "g",
-                                  "contents": [
-                                    {
-                                      "type": "level-marker",
-                                      "inline": false,
-                                      "level": "7",
-                                      "marker": ""
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "g",
-                                  "contents": [
-                                    {
-                                      "type": "field",
-                                      "id": null,
-                                      "width": "stretch",
-                                      "frame": "none",
-                                      "control": "compound",
-                                      "parts": [
-                                        {
-                                          "control": "checkbox"
-                                        },
-                                        {
-                                          "width": "stretch"
-                                        }
-                                      ],
-                                      "merge-bottom": true
-                                    }
-                                  ]
-                                }
-                              ]
-                            },
-                            {
-                              "type": "layout",
-                              "layout": "indent-l",
-                              "blk": false,
-                              "contents": [
-                                {
-                                  "type": "g",
-                                  "contents": [
-                                    {
-                                      "type": "level-marker",
-                                      "inline": false,
-                                      "level": "8",
-                                      "marker": ""
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "g",
-                                  "contents": [
-                                    {
-                                      "type": "field",
-                                      "id": null,
-                                      "width": "stretch",
-                                      "frame": "none",
-                                      "control": "compound",
-                                      "parts": [
-                                        {
-                                          "control": "checkbox"
-                                        },
-                                        {
-                                          "width": "stretch"
-                                        }
-                                      ],
+                                      "shade": false,
+                                      "blk": true,
+                                      "annotation": false,
                                       "merge-bottom": true
                                     }
                                   ]
@@ -14130,5 +13793,5 @@
   ],
   "largePrint": false,
   "watermark": "",
-  "title": "Fizzlepop, Gnome Rogue Bard"
+  "title": "Fizzlepop, Gnome Rogue Barbarian"
 }

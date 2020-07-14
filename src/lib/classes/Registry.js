@@ -49,7 +49,7 @@ import { copy, paste } from '../elements/template';
 import { ul, li } from '../elements/ul';
 import { zone } from '../elements/zone';
 
-import { field } from '../elements/field';
+import { field, value } from '../elements/field';
 import {
   field_frame_above,
   field_frame_none,
@@ -155,6 +155,7 @@ export class Registry {
       field_control_proficiency,
       field_control_proficiency_icon,
       field_control_icon,
+      value,
     ].forEach(elem => this.register(elem));
 
     // log("Registry", "Loaded registry elements", Object.keys(this.registry));

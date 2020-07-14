@@ -1,0 +1,103 @@
+unit: archetype/rogue
+in: archetype
+group: "_{Core Rulebook}"
+name: "_{Rogue}"
+
+inc:
+  - set: rogue-class-dc-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Rogue}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-rogue
+        name: "Rogue (Archetype)"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: rogue
+                      - class-name: "_{Rogue}"
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Trained in Stealth or Thievery, and one other skill}"
+                        icon: proficiency-trained
+                      - hr:
+                      - row:
+                        contents:
+                          - paste: class-dc
+                            params:
+                              id: rogue-class-dc
+                              legend: "_{Rogue\nClass DC}"
+
+                  - section: "_{Surprise Attack}"
+                    contents:
+                      - p: "_{On the first round of combat, if you roll Deception or Stealth for initiative, creatures that haven't acted yet are flat-footed.}"
+
+                  - section: "_{Sneak Attacker}"
+                    contents:
+                      - selectable:
+                        contents:
+                          - row:
+                            contents:
+                              - field: sneak-attack-dmg
+                                legend: "_{Damage Bonus}"
+                                icon: damage
+                                width: large
+                                border: full
+                                suffix: "_{d6}"
+                              - p: "_{Precision damage}"
+                              - spacer:
+                          - p: "_{When you attack a flat-footed opponent with an agile or finesse weapon/unarmed strike, or a ranged weapon.}"
+
+                  - section: "_{Rogue Resiliency}"
+                    contents:
+                      - paste: archetype-resiliency
+                        params:
+                          class-id: rogue
+                          class-feats: "_{Rogue Feats}"
+
+                  - section: "_{Uncanny Dodge}"
+                    contents:
+                      - p: "_{Not flat-footed to hidden, undetected or flanking creatures, or surprise attacks by creatures up to your level.}"
+
+                  - section: "_{Evasiveness}"
+                    contents:
+                      - selectable:
+                        contents:
+                          - row:
+                            contents:
+                              - icon: proficiency-expert
+                              - span: "&rarr;"
+                              - icon: proficiency-master
+                          - p: "_{Become master in Reflex saves}"
+
+                  - tail:
+                  - spacer:
+                    flex: huge
+
+              - g:
+                contents:
+                  - section: "_{Trickery}"
+                    mark: rogue
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: rogue-feats
+                          class-level: "_{Rogue\nLevel}"
+                          basic-title: "_{Basic Tricker}"
+                          advanced-title: "_{Advanced Trickery}"
+
+                  - tail:
+
