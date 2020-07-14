@@ -8,7 +8,7 @@ export let dl = {
   defaults: {
     div: false,
     min: false,
-    defs: [],
+    defs: {},
     blk: true,
   },
   render(args, reg, doc) {
