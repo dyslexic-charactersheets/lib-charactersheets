@@ -135,8 +135,25 @@ inc:
                       - control: checkbox
                       - width: stretch
             else:
-              - layout: indent-r
-                contents:
+              - if: "#{style}==spontaneous"
+                then:
+                  - layout: indent-r
+                    contents:
+                      - g:
+                        contents:
+                          - field:
+                            width: stretch
+                            repeat: "#{num}"
+                            frame: none
+                            merge-bottom: true
+                      - g:
+                        contents:
+                          - field: "archetype-spells-#{level}-today"
+                            control: checkgrid
+                            max: "#{max}"
+                            depth: 1
+                            frame: none
+                else:
                   - g:
                     contents:
                       - field:
@@ -144,13 +161,6 @@ inc:
                         repeat: "#{num}"
                         frame: none
                         merge-bottom: true
-                  - g:
-                    contents:
-                      - field: "archetype-spells-#{level}-today"
-                        control: checkgrid
-                        max: "#{max}"
-                        depth: 1
-                        frame: none
 
   - copy: archetype-spellcasting
     params:
@@ -301,7 +311,7 @@ inc:
               - paste: archetype-spellcasting-level
                 params:
                   level: 0
-                  style: "spontaneous"
+                  style: "cantrip"
                   num: 3
                   max: 0
               - paste: archetype-spellcasting-level
