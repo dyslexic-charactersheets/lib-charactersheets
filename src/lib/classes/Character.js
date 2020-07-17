@@ -481,6 +481,7 @@ function pathfinder2Title(units, doc, data) {
   let archetypes = getUnits("archetype");
   if (!isEmpty(archetypes)) {
     parts["archetypes"] = archetypes.map(arch => __(arch.name, doc)).join(" ");
+    log("Character", "Archetypes:", parts["archetypes"]);
   }
 
   let template = isEmpty(parts.name) ? "_{#{ancestry} #{class} #{archetypes}}" : "_{#{name}, #{ancestry} #{class} #{archetypes}}";
