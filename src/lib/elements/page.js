@@ -1,5 +1,6 @@
 import { elementID, elementClass, embed } from '../util/elements';
 import { has } from '../util/objects';
+import { log } from '../log';
 
 const paizoCopyrightAttribution = `<div class='copyright-attribution'><p>
 <b>&copy; Marcus Downing &nbsp; <a href='https://www.dyslexic-charactersheets.com/'>dyslexic-charactersheets.com</a></b>
@@ -48,20 +49,20 @@ export let collate_pages = {
   },
   transform(args) {
     let pages = args.contents;
-    // log("page", "Collate", pages);
+    log("page", "Collate", pages);
 
     let out = [];
     for (let i = 0; i < pages.length; i++) {
       let page = pages[i];
       if (has(page, "half") && page.half) {
-        // log("page", "Collate: half page", page.id);
+        log("page", "Collate: half page", page.id);
         let nextPage = pages[i+1];
         let id = page.id;
         let name = page.name;
 
         let replacement = [embed(page.contents)];
         if (has(nextPage, "half") && nextPage.half) {
-          // log("page", "Collate: next page", nextPage.id);
+          log("page", "Collate: next page", nextPage.id);
           replacement.push(embed(nextPage.contents));
           id = `${id}+${nextPage.id}`;
           name = `${name} + ${nextPage.name}`;
