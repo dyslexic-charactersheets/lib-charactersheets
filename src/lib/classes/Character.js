@@ -134,8 +134,9 @@ function parseCharacter(primary, request) {
         char.units.push('ancestry/' + attr.ancestry.replace(/^ancestry-/, ''));
         char.ancestry = attr.ancestry.replace(/^ancestry-/, '');
 
-        if (attr.heritage)
+        if (attr.heritage && attr.heritage != "none") {
           char.units.push('heritage/' + char.ancestry + "/" + attr.heritage.replace(/^heritage-/, ''));
+        }
       }
 
       if (attr.ancestryFeats) {
