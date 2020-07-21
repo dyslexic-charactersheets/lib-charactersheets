@@ -49,20 +49,20 @@ export let collate_pages = {
   },
   transform(args) {
     let pages = args.contents;
-    log("page", "Collate", pages);
+    // log("page", "Collate", pages);
 
     let out = [];
     for (let i = 0; i < pages.length; i++) {
       let page = pages[i];
       if (has(page, "half") && page.half) {
-        log("page", "Collate: half page", page.id);
+        // log("page", "Collate: half page", page.id);
         let nextPage = pages[i+1];
         let id = page.id;
         let name = page.name;
 
         let replacement = [embed(page.contents)];
         if (has(nextPage, "half") && nextPage.half) {
-          log("page", "Collate: next page", nextPage.id);
+          // log("page", "Collate: next page", nextPage.id);
           replacement.push(embed(nextPage.contents));
           id = `${id}+${nextPage.id}`;
           name = `${name} + ${nextPage.name}`;
