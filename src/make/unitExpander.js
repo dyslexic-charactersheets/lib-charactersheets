@@ -47,7 +47,7 @@ const expansion = {
     page: 'id',
     proficiency: 'proficiency',
     action: 'action',
-    selectable: 'selectable',
+    selectable: 'id',
     portrait: 'char',
     reduce: 'reduce',
     repeat: 'repeat',
@@ -69,6 +69,7 @@ const expansion = {
     paste: 'template',
     unit: 'id',
     value: 'value',
+    'value-block': 'value',
     vr: '',
     zone: 'zone',
 };

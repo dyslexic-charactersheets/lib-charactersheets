@@ -1,0 +1,126 @@
+unit: archetype/lost-omens-world-guide/aldori-duelist
+in: archetype
+group: "_{Lost Omens World Guide}"
+name: "_{Aldori Duelist}"
+
+inc:
+  - set: dueling-lore-proficiency
+    value: trained
+
+  - at: '@lore-skills'
+    add:
+      - skill: lore-dueling
+        name: "_{Dueling Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+
+  - at: '@pages'
+    add:
+      - page: archetype-aldori-duelist
+        name: "Aldori Duelist (Archetype)"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - class-icon: aldori-duelist
+                  - class-name: "_{Aldori Duelist}"
+
+                  - section: "_{Dedication}"
+                    contents:
+
+                      - p: "_{You have sworn the Aldori swordpact and study the art of Aldori dueling.}"
+                        size: large
+
+                      - p: "_{Trained in Acrobatics or Athletics, and Dueling Lore}"
+                        icon: proficiency-trained
+                      - layout: 2rr
+                        contents:
+                          - g:
+                            contents:
+                              - p: "_{Gain access to Aldori dueling swords.}"
+                              - p: "_{Your proficiency with Aldori dueling swords is equal to that with any other weapon.}"
+                          - g:
+                            contents:
+                              - field: aldori-dueling-sword-proficiency
+                                control: proficiency
+                                value: trained
+                                label: "_{Aldori Dueling Sword Proficiency}"
+                              - spacer:
+
+                  - section: "_{Duelist's Edge}"
+                    contents:
+                      - selectable: aldori-duelist/duelists-edge
+                        contents:
+                          - action: free
+                            contents:
+                              - p: "_{Draw your sword seamlessly at the start of a fight.}"
+                              - value-block: "+2"
+                                content: "_{Initiative bonus provided you can see an enemy}"
+
+                  - section: "_{Saving Slash}"
+                    contents:
+                      - selectable: aldori-duelist/saving-slash
+                        contents:
+                          - action: reaction
+                            contents:
+                              - p: "_{On being critically hit with a melee weapon, make a DC 16 flat check. If successful, the attack is no longer a critical.}"
+
+                  - tail:
+                  - spacer:
+              - g:
+                contents:
+
+                  - section: "_{Aldori Parry}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - selectable: aldori-duelist/parry
+                            contents:
+                              - action:
+                                contents:
+                                  - p: "_{When using an Aldori dueling sword, spend an action to parry.}"
+                                  - value-block: "+2"
+                                    content: "_{AC bonus until the start of your next turn}"
+                          - selectable: aldori-duelist/riposte
+                            contents:
+                              - action: reaction
+                                contents:
+                                  - h5: "_{Aldori Riposte}"
+                                  - p: "_{When an opponent in reach critically fails a Strike against you while parrying, make a Strike or Disarm check in return.}"
+                                  - hr:
+                                    light: true
+                                  - p:
+                                    title: "_{Disarm}"
+                                    content: "_{Make an Athletics check against the opponent's Reflex DC.}"
+                                  - dl:
+                                    div: true
+                                    defs:
+                                      critical_success: 'Target is disarmed'
+                                      success: 'Gain +2 to further Disarm attampts, and the enemy takes -2 circumstance penalty to attacks with that weapon.'
+                          
+                  - section: "_{Unnerving Prowess}"
+                    contents:
+                      - selectable: aldori-duelist/unnerving-prowess
+                        contents:
+                          - action: free
+                            contents:
+                              - p: "_{When you critically succeed at a Strike or Disarm with your Aldori dueling sword, make a Demoralise check without the language penalty.}"
+                              - hr:
+                                light: true
+                              - p:
+                                title: "_{Demoralise}"
+                                content: "_{Make an Intimidation check against the oppenent's Will DC.}"
+                              - dl:
+                                div: true
+                                defs:
+                                  critical_success: 'Target is frightened 2'
+                                  success: 'Target is frightened 2'
+
+                  - tail:
+                  - spacer:
