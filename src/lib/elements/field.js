@@ -5,21 +5,6 @@ import { __, _e } from '../i18n';
 import { log } from '../log';
 // import { render, renderItem } from '../classes/Registry';
 
-export let value = {
-  name: 'value',
-  key: 'value',
-  defaults: {
-    frame: 'none',
-    control: 'value',
-    width: 'tiny',
-  },
-  transform(args, ctx) {
-    return [{
-      ...args,
-      type: 'field'
-    }];
-  }
-}
 
 export let field = {
   name: 'field',
