@@ -1,0 +1,112 @@
+unit: archetype/lost-omens-world-guide/lastwall-sentry
+in: archetype
+group: "_{Lost Omens World Guide}"
+name: "_{Lastwall Sentry}"
+
+inc:
+  - set: undead-lore-proficiency
+    value: trained
+
+  - at: '@lore-skills'
+    add:
+      - skill: lore-undead
+        name: "_{Undead Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+
+  - at: '@pages'
+    add:
+      - page: archetype-lastwall-sentry
+        name: "Lastwall Sentry (Archetype)"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - class-icon: lastwall-sentry
+                  - class-name: "_{Lastwall Sentry}"
+
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{You've sworn yourself as a sentry for the Knights of lastwall, the first line of defence against incursions by the Whispering Tyrant.}"
+                        size: large
+
+                      - list:
+                        hr: true
+                        light: true
+                        contents:
+                          - p: "_{Trained in Athletics and Undead Lore}"
+                            icon: proficiency-trained
+
+                          - action: reaction
+                            contents:
+                              - h5: "_{Reactive Shield}"
+                              - p: "_{Raise your shield as a reaction, gaining its bonus to AC.}"
+
+
+                  - section: "_{Eye of Ozem}"
+                    contents:
+                      - selectable: lastwall-sentry/eye-of-ozem
+                        contents:
+                          - value-block: "+2"
+                            content: "_{Initiative rolls using Perception}"
+                          - value-block: "+2"
+                            content: "_{Bonus to allies' initiative when Scouting (instead of +1)}"
+
+                  - section: "_{Grave Sense}"
+                    contents:
+                      - selectable: lastwall-sentry/grave-sense
+                        contents:
+                          - p: "_{Sense the presence of the undead like a scent.}"
+                          - p: "_{An undead using a disguise must make a Deception check against your Perception DC to hide its presence from you for one day.}"
+
+                  - tail:
+                  - spacer:
+              - g:
+                contents:
+
+                  - section: "_{Necromantic Resistance}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - selectable: lastwall-sentry/necromantic-resistance
+                            contents:
+                              - list:
+                                hr: true
+                                light: true
+                                contents:
+                                  - value-block: "+1"
+                                    content: "_{Circumstance bonus against necromancy effects}"
+                                  - g:
+                                    contents:
+                                      - calc:
+                                        output:
+                                          field: lastwall-sentry/necromantic-resistance
+                                          legend: "_{Damage Reduction}"
+                                          width: large
+                                        inputs:
+                                          - field:
+                                            ref: level
+                                            label: "_{Level}"
+                                          - span: "&divide; 2"
+                                      - p: "_{Gain damage reduction against negative damage.}"
+
+                          - selectable: lastwall-sentry/necromantic-tenacity
+                            contents:
+                              - h5: "_{Necromantic Tenacity}"
+                              - p: "_{Upgraded success and reduced failure on saves against necromantic effects.}"
+
+                  - section: "_{Lastwall Warden}"
+                    contents:
+                      - selectable: lastwall-sentry/warden
+                        contents:
+                          - p: "_{When you have your shield raised, can use your Shield Block reaction to protect an ally.}"
+                          - p: "_{When an undead attacks an ally within 10ft, can Step and use Shield Block as the same reaction.}"
+
+                  - tail:
+                  - spacer:
