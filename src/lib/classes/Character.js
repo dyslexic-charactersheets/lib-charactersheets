@@ -401,7 +401,7 @@ export class Character extends Instance {
           // load units
           let units = system.getUnits(data.units);
           units = system.inferUnits(units);
-          // log("Character", "Units:", units.map(unit => unit.id).sort());
+          log("Character", "Units:", units.map(unit => unit.id).sort());
 
           // infer the title from the units
           let title = __("Character");
