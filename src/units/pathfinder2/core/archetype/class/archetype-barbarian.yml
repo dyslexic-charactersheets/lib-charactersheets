@@ -1,0 +1,115 @@
+unit: archetype/barbarian
+in: archetype
+group: "_{Core Rulebook}"
+name: "_{Barbarian}"
+
+form:
+  - select: barbarian/instinct
+    name: "_{Instinct}"
+    max: 1
+
+inc:
+  - set: barbarian-class-dc-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Barbarian}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-barbarian
+        name: "Barbarian (Archetype)"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: barbarian
+                      - class-name: "_{Barbarian}"
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Trained in either Acrobatics or Athletics}"
+                        icon: proficiency-trained
+                      - hr:
+                      - row:
+                        contents:
+                          - paste: class-dc
+                            params:
+                              id: barbarian-class-dc
+                              legend: "_{Barbarian\nClass DC}"
+
+                  - section: "_{Instinct}"
+                    primary: true
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - zone: '@barbarian/instinct'
+                            contents:
+                              - field: barbarian-instinct
+                                frame: none
+                                size: gargantuan
+                                width: stretch
+                                align: left
+                                merge-bottom: true
+                              - g:
+                                contents:
+                                  - h5: "_{Anathema}"
+                                  - paste: anathema-fixed
+                                    params:
+                                      id: barbarian/anathema
+                                      lines: 3
+                          - selectable:
+                            contents:
+                              - h5: "_{Instinct Ability}"
+                              - zone: '@barbarian/instinct-ability'
+                                contents:
+                                  - article:
+                                    lines: 5
+                                    reduce: 2
+
+                  - section: "_{Barbarian Resiliency}"
+                    contents:
+                      - paste: archetype-resiliency
+                        params:
+                          class-id: barbarian
+                          class-feats: "_{Barbarian Feats}"
+
+                  - section: "_{Juggernaut's Fortitude}"
+                    contents:
+                      - selectable:
+                        contents:
+                          - row:
+                            contents:
+                              - icon: proficiency-expert
+                              - span: "&rarr;"
+                              - icon: proficiency-master
+                          - p: "_{Master in Fortitude saves}"
+
+                  - tail:
+                  - spacer:
+                    flex: huge
+
+              - g:
+                contents:
+
+                  - section: "_{Furies}"
+                    mark: barbarian
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: barbarian-feats
+                          class-level: "_{Barbarian\nFeats}"
+                          basic-title: "_{Basic Fury}"
+                          advanced-title: "_{Advanced Furies}"
+
+                  - tail:
+

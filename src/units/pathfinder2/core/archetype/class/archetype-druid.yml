@@ -1,0 +1,107 @@
+unit: archetype/druid
+in: archetype
+group: "_{Core Rulebook}"
+name: "_{Druid}"
+
+inc:
+  - set: occultism-proficiency
+    value: trained
+  - set: performance-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Druid}"
+        num-feats: 3
+      - log: 'Druid archetype entry'
+
+  - at: '@pages'
+    add:
+      - page: archetype-druid
+        name: "Druid (Archetype)"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: druid
+                        optional: true
+                      - class-name: "_{Druid}"
+
+                  - section: "_{Druidic Order}"
+                    primary: true
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - zone: '@druid/order'
+                            contents:
+                              - field: druid-order
+                                frame: none
+                                size: huge
+                                width: stretch
+                                align: center
+                                merge-bottom: true
+
+                          - g:
+                            contents:
+                              - h5: "_{Anathema}"
+                              - ul:
+                                contents:
+                                  - li: "_{Using metal armor or shields}"
+                                  - li: "_{Despoiling natural places}"
+                                  - li: "_{Teaching the Druidic language to nondruids}"
+                                  - zone: '@anathema'
+                                    contents:
+                                      - field: anathema
+                                        width: stretch
+                                        label: "_{Order Anathema}"
+                                        repeat: 3
+                                        merge-bottom: 2
+
+                          - selectable:
+                            contents:
+                              - h5: "_{Order Spell}"
+                              - paste: focus
+                                contents:
+                                  - article:
+
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Learn the Druidic language}"
+                      - p: "_{Trained in Nature and your order's skill}"
+                        icon: proficiency-trained
+
+                  - section: "_{Wilding}"
+                    mark: druid
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: druid
+                          class-level: "_{Druid\nLevel}"
+                          basic-title: "_{Basic Wilding}"
+                          advanced-title: "_{Advanced Wildings}"
+                          num: 2
+                          lines: 2
+
+                  - tail:
+                  # - spacer:
+
+              - g:
+                contents:
+                  - paste: archetype-spellcasting
+                    params:
+                      style: prepared
+                      tradition: primal
+                      tradition-spell-attack: "_{Primal Spell\nAttack}"
+                      tradition-spell-dc: "_{Primal Spell\nSave DC}"
+                      ability: "WIS"
+                      ability-name: "_{WIS}"
+                      breadth: "_{Primal Breadth}"
+                  - tail:

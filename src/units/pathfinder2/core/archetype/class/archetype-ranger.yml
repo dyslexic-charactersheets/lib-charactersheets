@@ -1,0 +1,99 @@
+unit: archetype/ranger
+in: archetype
+group: "_{Core Rulebook}"
+name: "_{Ranger}"
+
+inc:
+  - set: ranger-class-dc-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Ranger}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-ranger
+        name: "Ranger (Archetype)"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: ranger
+                      - class-name: "_{Ranger}"
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Trained in Survival}"
+                        icon: proficiency-trained
+                      - hr:
+                      - row:
+                        contents:
+                          - paste: class-dc
+                            params:
+                              id: ranger-class-dc
+                              legend: "_{Ranger\nClass DC}"
+
+                  - section: "_{Hunt Prey}"
+                    contents:
+                      - p: "_{Designate a single creature you can see or hear as your target.}"
+                      - field: ranger-hunt-prey-perception
+                        border: full
+                        legend: "_{Perception Bonus}"
+                        prefix: "+"
+                        width: large
+                      - row:
+                        contents:
+                          - field: ranger-hunt-prey-survival
+                            border: full
+                            legend: "_{Survival\nBonus}"
+                            prefix: "+"
+                            width: large
+                          - p: "_{To Track your prey.}"
+                          - spacer:
+                      - p: "_{Ignore the first ranged increment penalty when within second range}"
+                      
+
+                  - section: "_{Ranger Resiliency}"
+                    contents:
+                      - paste: archetype-resiliency
+                        params:
+                          class-id: ranger
+                          class-feats: "_{Ranger Feats}"
+
+                  - section: "_{Master Spotter}"
+                    contents:
+                      - selectable:
+                        contents:
+                          - row:
+                            contents:
+                              - icon: proficiency-expert
+                              - span: "&rarr;"
+                              - icon: proficiency-master
+                          - p: "_{Become master in Perception}"
+
+                  - tail:
+                  - spacer:
+                    flex: huge
+
+              - g:
+                contents:
+                  - section: "_{Hunter's Tricks}"
+                    mark: ranger
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: ranger-feats
+                          class-level: "_{Ranger\nLevel}"
+                          basic-title: "_{Basic Hunter's Trick}"
+                          advanced-title: "_{Advanced Hunter's Tricks}"
+
+                  - tail:
+

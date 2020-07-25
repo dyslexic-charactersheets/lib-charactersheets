@@ -1,0 +1,70 @@
+unit: archetype/fighter
+in: archetype
+group: "_{Core Rulebook}"
+name: "_{Fighter}"
+
+inc:
+  - set: fighter-class-dc-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Fighter}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-fighter
+        name: "Fighter (Archetype)"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: fighter
+                      - class-name: "_{Fighter}"
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Trained in simple and martial weapons}"
+                        icon: proficiency-trained
+                      - p: "_{Trained in either Acrobatics or Athletics}"
+                        icon: proficiency-trained
+                      - hr:
+                      - row:
+                        contents:
+                          - paste: class-dc
+                            params:
+                              id: fighter-class-dc
+                              legend: "_{Fighter\nClass DC}"
+
+                  - section: "_{Fighter Resiliency}"
+                    contents:
+                      - paste: archetype-resiliency
+                        params:
+                          class-id: fighter
+                          class-feats: "_{Fighter Feats}"
+
+                  - tail:
+                  - spacer:
+                    flex: huge
+
+              - g:
+                contents:
+                  - section: "_{Manoeuvres}"
+                    mark: fighter
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: fighter-feats
+                          class-level: "_{Fighter\nFeats}"
+                          basic-title: "_{Basic Manoeuvure}"
+                          advanced-title: "_{Advanced Manoeuvures}"
+
+                  - tail:
+

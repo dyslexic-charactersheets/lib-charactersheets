@@ -11,6 +11,7 @@ const expansion = {
     calc: '',
     'class-name': 'title',
     'class-icon': 'icon',
+    'collate-pages': '',
     cost: 'cost',
     document: 'title',
     each: '',
@@ -67,6 +68,7 @@ const expansion = {
     copy: 'template',
     paste: 'template',
     unit: 'id',
+    value: 'value',
     vr: '',
     zone: 'zone',
 };

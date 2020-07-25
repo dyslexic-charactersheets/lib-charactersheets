@@ -30,7 +30,7 @@ import { logelem } from '../elements/log';
 import { logo } from '../elements/logo';
 import { lookup } from '../elements/lookup';
 import { nothing } from '../elements/nothing';
-import { page } from '../elements/page';
+import { page, collate_pages } from '../elements/page';
 import { p } from '../elements/p';
 import { portrait } from '../elements/portrait';
 import { proficiency } from '../elements/proficiency';
@@ -49,7 +49,7 @@ import { copy, paste } from '../elements/template';
 import { ul, li } from '../elements/ul';
 import { zone } from '../elements/zone';
 
-import { field } from '../elements/field';
+import { field, value } from '../elements/field';
 import {
   field_frame_above,
   field_frame_none,
@@ -111,7 +111,7 @@ export class Registry {
       logo,
       lookup,
       nothing,
-      page,
+      page, collate_pages,
       p, ul, li, dl,
       portrait,
       proficiency, action, selectable,
@@ -155,6 +155,7 @@ export class Registry {
       field_control_proficiency,
       field_control_proficiency_icon,
       field_control_icon,
+      value,
     ].forEach(elem => this.register(elem));
 
     // log("Registry", "Loaded registry elements", Object.keys(this.registry));

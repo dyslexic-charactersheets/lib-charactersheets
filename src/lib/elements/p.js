@@ -38,8 +38,9 @@ export let p = {
       }
       // log("p", "Prose paras", paras);
 
+      let title = (args.title != '') ? `<span class='p__title'>${_e(args.title, doc)}</span>` : '';
       let firstpara = paras.shift();
-      firstpara = `<p${cls}>${icon}${esc(firstpara)}</p>`;
+      firstpara = `<p${cls}><span class='p__inner'>${icon}<span class='p__content'>${title}${esc(firstpara)}</span></span></p>`;
       paras = paras.map(p => `<p${cls}>${esc(p)}</p>`);
       paras = [firstpara, ...paras];
 
@@ -50,6 +51,6 @@ export let p = {
     let title = (args.title != '') ? `<span class='p__title'>${_e(args.title, doc)}</span> ` : '';
 
     // log("p", "Content", content);
-    return `<p${cls}>${icon}${title}${_e(content, doc)}</p>`;
+    return `<p${cls}><span class='p__inner'>${icon}<span class='p__content'>${title}${_e(content, doc)}</span><span></p>`;
   }
 }

@@ -1,0 +1,101 @@
+unit: archetype/bard
+in: archetype
+group: "_{Core Rulebook}"
+name: "_{Bard}"
+
+inc:
+  - set: occultism-proficiency
+    value: trained
+  - set: performance-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Bard}"
+        num-feats: 3
+      - log: 'Bard archetype entry'
+
+  - at: '@pages'
+    add:
+      - page: archetype-bard
+        name: "Bard (Archetype)"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: bard
+                      - class-name: "_{Bard}"
+
+                  - section: "_{Muse}"
+                    primary: true
+                    contents:
+                      - field: bard-muse-name
+                        label: "_{Name}"
+                        width: stretch
+                      - field: bard-muse-type
+                        label: "_{Type}"
+                        width: stretch
+                        merge-bottom: true
+
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Trained in Occultism and Performance}"
+                        icon: proficiency-trained
+
+                  - section: "_{Counter Perform}"
+                    contents:
+                      - selectable: 'bard-counter-perform'
+                        contents:
+                          - p: "_{When you or an ally within 60ft rolls a saving throw against an auditory or visual effect,}"
+                          - action: reaction
+                            contents:
+                              - p: "_{Roll a Performance check and you or your ally can take the better result.}"
+                          
+                  - section: "_{Inspire Courage}"
+                    contents:
+                      - selectable: 'bard-counter-perform'
+                        contents:
+                          - action:
+                            contents:
+                              - row:
+                                contents:
+                                  - field: inspire-courage-bonus
+                                    # legend: "_{Courage Bonus}"
+                                    frame: none
+                                    value: "+1"
+                                    control: value
+                                  - p: "_{Bonus to attack and damage rolls, and saves against fear.}"
+
+                  - section: "_{Muse's Whispers}"
+                    mark: bard
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: bard
+                          class-level: "_{Bard\nLevel}"
+                          basic-title: "_{Basic Whisper}"
+                          advanced-title: "_{Advanced Whispers}"
+                          num: 2
+
+                  - tail:
+
+              - g:
+                contents:
+                  - paste: archetype-spellcasting
+                    params:
+                      style: prepared
+                      tradition: occult
+                      tradition-spell-attack: "_{Occult Spell\nAttack}"
+                      tradition-spell-dc: "_{Occult Spell\nSave DC}"
+                      ability: "WIS"
+                      ability-name: "_{WIS}"
+                      breadth: "_{Occult Breadth}"
+
+                  - tail:

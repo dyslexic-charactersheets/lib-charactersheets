@@ -12,9 +12,9 @@ export function renderTableBasic(args, reg, doc, headings, rows) {
     const tcols = headings.map(col => {
       const colCls = elementClass('th', null, col, ['vr'], { 'width': '' });
       const elem = reg.renderItem(col, doc);
-      const cs = has(col, 'colspan') ? col.colspan : 1;
-      const colspan = (cs > 1) ? ` colspan='${col.colspan}'` : '';
-      return `<th${colCls}${colspan}>${elem}</th>`;
+      const colspan = (has(col, "colspan") && col.colspan > 1) ? ` colspan="${col.colspan}"` : '';
+      const rowspan = (has(col, "rowspan") && col.rowspan > 1) ? ` rowspan="${col.rowspan}"` : '';
+      return `<th${colCls}${colspan}${rowspan}>${elem}</th>`;
     });
     thead = `<thead>${tcols.join("\n")}</thead>\n`;
   }
@@ -41,7 +41,9 @@ export function renderTableBasic(args, reg, doc, headings, rows) {
         cell = {...colFields, ...cell};
       }
       const cellCls = elementClass('td', null, cell, ['shade', 'vr'], { 'width': '', 'align': '', 'valign': 'bottom' });
-      return `<td${cellCls}>${reg.renderItem(cell, doc)}</td>`;
+      const colspan = (has(cell, "colspan") && cell.colspan > 1) ? ` colspan="${cell.colspan}"` : '';
+      const rowspan = (has(cell, "rowspan") && cell.rowspan > 1) ? ` rowspan="${cell.rowspan}"` : '';
+      return `<td${cellCls}${colspan}${rowspan}>${reg.renderItem(cell, doc)}</td>`;
     });
 
     const rowCls = elementClass('tr', null, row.params, ['hr']);

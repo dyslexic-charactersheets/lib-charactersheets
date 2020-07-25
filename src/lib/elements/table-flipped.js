@@ -57,11 +57,14 @@ export function renderTableFlipped(args, reg, doc, headings, cols) {
     let th = '';
     if (hasHeading) {
       const head = row.shift();
+      const colspan = (has(head, "colspan") && head.colspan > 1) ? ` colspan="${head.colspan}"` : '';
       const rowspan = (has(head, "rowspan") && head.rowspan > 1) ? ` rowspan="${head.rowspan}"` : '';
-      th = `<th scope="row"${rowspan}>${isNull(head) ? '' : reg.renderItem(head, doc)}</th>`;
+      th = `<th scope="row"${colspan}${rowspan}>${isNull(head) ? '' : reg.renderItem(head, doc)}</th>`;
     }
 
     const tds = row.map(elem => {
+      const colspan = (has(elem, "colspan") && elem.colspan > 1) ? ` colspan="${elem.colspan}"` : '';
+      const rowspan = (has(elem, "rowspan") && elem.rowspan > 1) ? ` rowspan="${elem.rowspan}"` : '';
       return `<td>${isNull(elem) ? '' : reg.renderItem(elem, doc)}</td>`;
     });
 

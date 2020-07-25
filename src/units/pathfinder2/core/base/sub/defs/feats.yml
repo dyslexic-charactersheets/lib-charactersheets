@@ -36,3 +36,323 @@ inc:
                       lines: "#{lines}"
                     contents:
                       - zone: '@#{id}'
+
+  - copy: archetype-resiliency
+    params:
+      class-id:
+      class-feats:
+      hp: 8
+    contents:
+      - selectable:
+        contents:
+          - p:
+            title: "_{Prerequisite}"
+            content: "_{A class granting no more than #{hp}hp}"
+          - g:
+            contents:
+              - calc:
+                output:
+                  field: "#{class-id}/resiliency/bonus-hp"
+                  legend: "_{Bonus Hit Points}"
+                  width: huge
+                  suffix: "_{hp}"
+                inputs:
+                  - span: "3 &times;"
+                  - field: "#{class-id}-feats"
+                    label: "#{class-feats}"
+                    control: checkgrid
+                    style: progress
+                    max: 10
+                    depth: 2
+                    width: stretch
+
+  - copy: archetype-feats
+    params:
+      id: class-feats
+      basic-level: 4
+      basic-title: "_{Basic Feats}"
+      advanced-level: 6
+      advanced-title: "_{Advanced Feats}"
+      class-level: "_{Class\nLevel}"
+      num: 6
+      lines: 3
+    contents:
+      - list:
+        hr: true
+        zebra: true
+        contents:
+          - level: "#{basic-level}"
+            contents:
+              - h5: "#{basic-title}"
+              - p: "_{1st or 2nd level feat}"
+          - selectable:
+            flex: small
+            contents:
+              - article:
+                lines: "#{lines}"
+                reduce: 1
+          - level: "#{advanced-level}"
+            contents:
+              - h5: "#{advanced-title}"
+              - calc:
+                inline: true
+                output:
+                  label: "#{class-level}"
+                inputs:
+                  - label: "_{Character\nLevel}"
+                  - span: "&divide; 2"
+          - repeat: "#{num}"
+            reduce: 1
+            flex: large
+            contents:
+              - selectable:
+                contents:
+                  - article:
+                    lines: "#{lines}"
+                    reduce: 1
+
+
+  - copy: archetype-spellcasting-level
+    params:
+      level: 0
+      num: 2
+      max: 2
+      style: spontaneous
+    contents:
+      - level: "#{level}"
+        marker: ''
+        contents:
+          - if: "#{style}==prepared"
+            then:
+              - repeat: "#{num}"
+                merge-bottom: true
+                contents:
+                  - field:
+                    width: stretch
+                    frame: none
+                    control: compound
+                    parts:
+                      - control: checkbox
+                      - width: stretch
+            else:
+              - if: "#{style}==spontaneous"
+                then:
+                  - layout: indent-r
+                    contents:
+                      - g:
+                        contents:
+                          - field:
+                            width: stretch
+                            repeat: "#{num}"
+                            frame: none
+                            merge-bottom: true
+                      - g:
+                        contents:
+                          - field: "archetype-spells-#{level}-today"
+                            control: checkgrid
+                            max: "#{max}"
+                            depth: 1
+                            frame: none
+                else:
+                  - g:
+                    contents:
+                      - field:
+                        width: stretch
+                        repeat: "#{num}"
+                        frame: none
+                        merge-bottom: true
+
+  - copy: archetype-spellcasting
+    params:
+      id: ""
+      style: spontaneous
+      tradition: ""
+      tradition-spell-attack: ""
+      tradition-spell-dc: ""
+      ability: ""
+      ability-name: ""
+      breadth: ""
+    contents:
+      - section: "_{Spellcasting}"
+        contents:
+          - list:
+            hr: true
+            contents:
+              - g:
+                contents:
+                  - calc:
+                    output:
+                      field: "#{tradition}-spell-attack"
+                      legend: "#{tradition-spell-attack}"
+                      icon: bonus
+                    inputs:
+                      - field:
+                        ref: "#{ability}"
+                        label: "#{ability-name}"
+                        underlay: "#{ability-name}"
+                      - field: "#{tradition}-spell-attack-proficiency"
+                        label: "_{Proficiency}"
+                        control: proficiency
+                        value: trained
+                      - field:
+                        label: "_{Misc}"
+                        misc: true
+                  - calc:
+                    output:
+                      field: "#{tradition}-spell-dc"
+                      legend: "#{tradition-spell-dc}"
+                      icon: dc
+                    inputs:
+                      - span: "10 +"
+                      - field:
+                        ref: "#{ability}"
+                        label: "#{ability-name}"
+                        underlay: "#{ability-name}"
+                      - field: "#{tradition}-spell-dc-proficiency"
+                        label: "_{Proficiency}"
+                        control: proficiency
+                        value: trained
+                      - field:
+                        label: "_{Misc}"
+                        misc: true
+
+              - g:
+                contents:
+                  - p: "_{Start with two cantrips.}"
+                  - table:
+                    collapse: true
+                    columns:
+                      - ""
+                      - ""
+                      - ""
+                      - ""
+                      - ""
+                      - ""
+                      - ""
+                      - ""
+                      - ""
+                    rows:
+                      - contents:
+                          - g:
+                          - g:
+                            colspan: 3
+                            contents:
+                              - field: "archetype-#{id}-spellcasting-basic"
+                                frame: right
+                                control: checkbox
+                                # style: progress
+                                label: "_{Basic}"
+                          - g:
+                            colspan: 3
+                            vr: true
+                            contents:
+                              - field: "archetype-#{id}-spellcasting-expert"
+                                frame: right
+                                control: checkbox
+                                # style: progress
+                                label: "_{Expert}"
+                          - g:
+                            colspan: 3
+                            vr: true
+                            contents:
+                              - field: "archetype-#{id}-spellcasting-master"
+                                frame: right
+                                control: checkbox
+                                # style: progress
+                                label: "_{Master}"
+
+                      - contents:
+                          - label: "_{Class\nLevel}"
+                            rotate: true
+                            width: tiny
+                          - value: 4
+                          - value: 5
+                          - value: 6
+                          - value: 8
+                            vr: true
+                          - value: 10
+                          - value: 12
+                          - value: 18
+                            vr: true
+                          - value: 20
+                          - value: ""
+
+                      - contents:
+                          - label: "_{Spell\nLevel}"
+                            rotate: true
+                            width: tiny
+                          - value: "1"
+                          - value: "2"
+                          - value: "3"
+                          - value: "4"
+                            vr: true
+                          - value: "5"
+                          - value: "6"
+                          - value: "7"
+                            vr: true
+                          - value: "8"
+                          - value: ""
+
+              - selectable:
+                contents:
+                  - h5: "#{breadth}"
+                  - if: "#{style}==prepared"
+                    then:
+                      - p: "_{Gain an extra spell slot, and learn an extra spell, at each spell level except your highest two.}"
+                    else:
+                      - p: "_{Learn an extra spell at each spell level except your highest two.}"
+
+      - section: "_{Spells}"
+        contents:
+          - list:
+            hr: true
+            zebra: true
+            contents:
+              - paste: archetype-spellcasting-level
+                params:
+                  level: 0
+                  style: "cantrip"
+                  num: 3
+                  max: 0
+              - paste: archetype-spellcasting-level
+                params:
+                  level: 1
+                  style: "#{style}"
+                  num: 2
+              - paste: archetype-spellcasting-level
+                params:
+                  level: 2
+                  style: "#{style}"
+                  num: 2
+              - paste: archetype-spellcasting-level
+                params:
+                  level: 3
+                  style: "#{style}"
+                  num: 2
+              - paste: archetype-spellcasting-level
+                params:
+                  level: 4
+                  style: "#{style}"
+                  num: 2
+              - paste: archetype-spellcasting-level
+                params:
+                  level: 5
+                  style: "#{style}"
+                  num: 2
+              - paste: archetype-spellcasting-level
+                params:
+                  level: 6
+                  style: "#{style}"
+                  num: 2
+              - paste: archetype-spellcasting-level
+                params:
+                  level: 7
+                  style: "#{style}"
+                  num: 1
+                  max: 1
+              - paste: archetype-spellcasting-level
+                params:
+                  level: 8
+                  style: "#{style}"
+                  num: 1
+                  max: 1

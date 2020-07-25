@@ -134,8 +134,9 @@ function parseCharacter(primary, request) {
         char.units.push('ancestry/' + attr.ancestry.replace(/^ancestry-/, ''));
         char.ancestry = attr.ancestry.replace(/^ancestry-/, '');
 
-        if (attr.heritage)
+        if (attr.heritage && attr.heritage != "none") {
           char.units.push('heritage/' + char.ancestry + "/" + attr.heritage.replace(/^heritage-/, ''));
+        }
       }
 
       if (attr.ancestryFeats) {
@@ -211,6 +212,7 @@ function parseCharacter(primary, request) {
           if (isString(archetype)) {
             char.archetypes.push(archetype);
             char.units.push('archetype/' + archetype);
+            log("Character", "Archetype:", "archetype/"+archetype);
           }
         });
       }
@@ -306,7 +308,7 @@ export class Character extends Instance {
     return new Promise((resolve, reject) => {
       // log("Character", "Render character");
       // log("Character", `Name: ${this.data.name}, game: ${this.data.game}`);
-      // log("Character", `Units: ${this.data.units}`);
+      log("Character", `Units: ${this.data.units}`);
 
       systemsReady(() => {
         try {
@@ -480,6 +482,7 @@ function pathfinder2Title(units, doc, data) {
   let archetypes = getUnits("archetype");
   if (!isEmpty(archetypes)) {
     parts["archetypes"] = archetypes.map(arch => __(arch.name, doc)).join(" ");
+    log("Character", "Archetypes:", parts["archetypes"]);
   }
 
   let template = isEmpty(parts.name) ? "_{#{ancestry} #{class} #{archetypes}}" : "_{#{name}, #{ancestry} #{class} #{archetypes}}";

@@ -1,0 +1,85 @@
+unit: archetype/sorcerer
+in: archetype
+group: "_{Core Rulebook}"
+name: "_{Sorcerer}"
+
+inc:
+  - set: occultism-proficiency
+    value: trained
+  - set: performance-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Sorcerer}"
+        num-feats: 3
+      - log: 'Sorcerer archetype entry'
+
+  - at: '@pages'
+    add:
+      - page: archetype-sorcerer
+        name: "Sorcerer (Archetype)"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: sorcerer
+                        optional: true
+                      - class-name: "_{Sorcerer}"
+
+                  - section: "_{Bloodline}"
+                    primary: true
+                    contents:
+                      - zone: '@sorcerer/bloodline'
+                        contents:
+                          - field: sorcerer-bloodline
+                            size: large
+                            width: stretch
+                            frame: none
+
+                      - g:
+                        pad: true
+                        contents:
+                          - field: bloodline-tradition
+                            label: "_{Tradition}"
+                            width: stretch
+                            merge-bottom: true
+
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Trained in Nature and your order's skill}"
+                        icon: proficiency-trained
+
+                  - section: "_{Blood Potency}"
+                    mark: sorcerer
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: sorcerer
+                          class-level: "_{Sorcerer\nLevel}"
+                          basic-title: "_{Basic Blood Potency}"
+                          advanced-title: "_{Advanced Blood Potency}"
+                          num: 3
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+                  - paste: archetype-spellcasting
+                    params:
+                      style: spontaneous
+                      tradition: sorcerer
+                      tradition-spell-attack: "_{Spell Attack}"
+                      tradition-spell-dc: "_{Spell Save DC}"
+                      ability: "CHA"
+                      ability-name: "_{CHA}"
+                      breadth: "_{Bloodline Breadth}"
+                  - tail:

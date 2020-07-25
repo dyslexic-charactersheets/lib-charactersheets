@@ -325,6 +325,8 @@ export class Document {
 
     const c = this.composeElement(this.doc, registry);
     this.doc = applyContext(c[0]);
+
+    // log("Document", " - Pages", this.doc.contents.map(page => `${page.id}: ${page.name}`));
   }
 
   getFavicon() {
@@ -387,6 +389,8 @@ export class Document {
   }
 
   renderDocument(registry) {
+    // log("Document", " - Pages", this.doc.contents.map(page => `${page.id}: ${page.name}`));
+
     const favicon = this.faviconURL ? `<link id="favicon" rel="shortcut icon" type="image/png" href='${this.faviconURL}' />` : ''
     const stylesheet = this.getStylesheet();
     const javascript = this.getJavascript();

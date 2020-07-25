@@ -303,9 +303,17 @@ inc:
                               - table:
                                 merge-bottom: true
                                 rows:
-                                  - i: "#{i}"
-                                    repeat: 3
+                                  - slots:
+                                    min: 3
+                                    max: 3
                                     reduce: 1
+                                    contents:
+                                      - type: zone
+                                        zone: '@archetypes'
+                                    placeholder:
+                                      - i: "#{i}"
+                                        name: ''
+                                        num-feats: ''
                                 columns:
                                   - h5: "_{Archetypes}"
                                   - label: "_{Archetype Feats}"
@@ -315,6 +323,7 @@ inc:
                                     width: stretch
                                     align: left
                                     frame: none
+                                    value: "#{name}"
                                   - field: archetype-#{i}-feats
                                     frame: none
                                     control: progression
@@ -325,6 +334,7 @@ inc:
                                     frame: none
                                     width: tiny
                                     underlay: "3"
+                                    value: "#{num-feats}"
 
                   - section: "_{Skills}"
                     id: skills
@@ -1126,6 +1136,7 @@ inc:
                   - tail:
 
       - page: feats
+        name: "_{Advancement}"
         order: 8
         flex: true
         contents:
