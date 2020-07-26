@@ -44,17 +44,17 @@ export class System {
     let more = true;
     for (let i = 0; more && i < 10; i++) {
       more = false;
-      // log("Character", "Checking for required units");
+      log("System", "Checking for required units");
       let moreunits = [];
       let unitIds = units.map(unit => unit.id);
       // log("Character", "Unit IDs:", unitIds);
       units.forEach(unit => {
         if (has(unit, "require") && !isArray(unit.require)) {
-          error("Character", `Require not an array in ${unit.id}`, unit.require);
+          error("System", `Require not an array in ${unit.id}`, unit.require);
         }
         if (has(unit, "require")) {
           unit.require.forEach(req => {
-            // log("Character", `Unit ${unit.id} requires`, req);
+            log("System", `Unit ${unit.id} requires`, req);
             // check if the new unit is really new
             if (unitIds.includes(req.unit))
               return;

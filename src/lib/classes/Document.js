@@ -389,7 +389,7 @@ export class Document {
   }
 
   renderDocument(registry) {
-    log("Document", " - Pages", this.doc.contents.map(page => `${page.id}: ${page.name}`));
+    log("Document", "Pages", this.doc.contents.map(page => `${page.id}: ${page.name}`));
 
     const favicon = this.faviconURL ? `<link id="favicon" rel="shortcut icon" type="image/png" href='${this.faviconURL}' />` : ''
     const stylesheet = this.getStylesheet();
