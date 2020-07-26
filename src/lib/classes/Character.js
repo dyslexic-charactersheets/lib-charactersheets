@@ -158,7 +158,7 @@ function parseCharacter(primary, request) {
         if (attr[classFeatsKey]) {
           char.classFeats = parseFeats(attr[classFeatsKey]);
           char.classFeats.forEach(feat => {
-            log("Character", "Class feat:", feat);
+            // log("Character", "Class feat:", feat);
             char.units.push('feat/' + className + '/' + feat);
           });
         }
@@ -212,7 +212,7 @@ function parseCharacter(primary, request) {
           if (isString(archetype)) {
             char.archetypes.push(archetype);
             char.units.push('archetype/' + archetype);
-            log("Character", "Archetype:", "archetype/"+archetype);
+            // log("Character", "Archetype:", "archetype/"+archetype);
           }
         });
       }
@@ -401,7 +401,7 @@ export class Character extends Instance {
           // load units
           let units = system.getUnits(data.units);
           units = system.inferUnits(units);
-          log("Character", "Units:", units.map(unit => unit.id).sort());
+          // log("Character", "Inferred units:", units.map(unit => unit.id).sort());
 
           // infer the title from the units
           let title = __("Character");

@@ -4,7 +4,7 @@ import { log, warn, error } from '../log';
 import { applyContext } from '../context';
 import { isArray, isEmpty, isString } from '../util';
 import { replaceColours } from '../util/colours';
-import { has, clone } from '../util/objects';
+import { has, cloneDeep } from '../util/objects';
 import { esc, _e } from '../i18n';
 
 export class Document {
@@ -13,7 +13,7 @@ export class Document {
 
     const baseDocument = baseUnit.contents[0];
     // log("Document", "Base document", baseDocument);
-    this.doc = clone(baseDocument);
+    this.doc = cloneDeep(baseDocument);
     this.language = 'en';
     this.units = [baseUnit];
     this.zones = {};
@@ -176,7 +176,7 @@ export class Document {
   }
 
   defineTemplate(templateId, defaults, elements) {
-    log("compose", "Defining template:", templateId, defaults);
+    // log("compose", "Defining template:", templateId, defaults);
     this.templates[templateId] = {
       defaults: defaults,
       elements: elements
@@ -389,7 +389,7 @@ export class Document {
   }
 
   renderDocument(registry) {
-    log("Document", "Pages", this.doc.contents.map(page => `${page.id}: ${page.name}`));
+    // log("Document", "Pages", this.doc.contents.map(page => `${page.id}: ${page.name}`));
 
     const favicon = this.faviconURL ? `<link id="favicon" rel="shortcut icon" type="image/png" href='${this.faviconURL}' />` : ''
     const stylesheet = this.getStylesheet();
