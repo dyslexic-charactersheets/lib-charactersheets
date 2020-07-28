@@ -943,12 +943,12 @@ inc:
                                 contents:
                                   - g:
                                     contents:
-                                      - field: shield
-                                        legend: "_{Shield}"
-                                        size: large
-                                        width: stretch
-                                        flex: none
-                                        icon: shield
+                                      # - field: shield
+                                      #   legend: "_{Shield}"
+                                      #   size: large
+                                      #   width: stretch
+                                      #   flex: none
+                                      #   icon: shield
                                       - row:
                                         contents:
                                           - action:
@@ -1007,21 +1007,38 @@ inc:
                             merge-bottom: true
                             contents:
                               - hr:
-                              - field: armour
-                                legend: "_{Armour}"
-                                size: large
-                                width: stretch
-                                flex: none
-                                icon: armour
-                              - slots:
-                                min: 5
-                                reduce: 1
+                              - list:
+                                hr: true
                                 contents:
-                                  - zone: '@ac-conditional'
-                                placeholder:
-                                  - field: "ac-conditional-#{i}"
-                                    frame: none
-                                    width: stretch
+                                  - g:
+                                    contents:
+                                      - field: shield
+                                        legend: "_{Shield}"
+                                        size: large
+                                        width: stretch
+                                        flex: none
+                                        icon: shield
+                                        merge-bottom: true
+                                  - g:
+                                    contents:
+                                      - field: armour
+                                        legend: "_{Armour}"
+                                        size: large
+                                        width: stretch
+                                        flex: none
+                                        icon: armour
+                                        merge-bottom: true
+                                  - g:
+                                    contents:
+                                      - slots:
+                                        min: 2
+                                        reduce: 1
+                                        contents:
+                                          - zone: '@ac-conditional'
+                                        placeholder:
+                                          - field: "ac-conditional-#{i}"
+                                            frame: none
+                                            width: stretch
 
                   - tail:
 
@@ -1094,13 +1111,13 @@ inc:
                             align: left
                             width: stretch
 
-                  - section: "_{Effects}"
-                    contents:
+                      - hr:
+                      - h5: "_{Effects}"
                       - list:
                         hr: true
                         zebra: true
                         contents:
-                          - repeat: 3
+                          - repeat: 2
                             reduce: 1
                             contents:
                               - g:
@@ -1110,13 +1127,7 @@ inc:
                                       - field: effect-#{i}
                                         control: progression
                                         frame: none
-                                        parts:
-                                          - id: effect-#{i}-1
-                                            control: checkbox
-                                          - id: effect-#{i}-2
-                                            control: checkbox
-                                          - id: effect-#{i}-3
-                                            control: checkbox
+                                        max: 3
                                       - field: effect-#{i}
                                         width: stretch
                                         frame: none
