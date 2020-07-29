@@ -22,6 +22,7 @@ function spellField(lvl, style, n, annotation) {
         frame: frame,
         label: label,
         align: 'left',
+        width: 'stretch',
         // border: border,
         control: "compound",
         parts: [
