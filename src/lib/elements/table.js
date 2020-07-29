@@ -164,7 +164,7 @@ export let table = {
 
             const col = {...headings[i], label: '', legend: '' };
             delete col.icon;
-            return { type: 'label', label: '', ...col, ...cell };
+            return { type: 'label', label: '', ...col, colspan: 1, rowspan: 1, ...cell };
           }
         });
         // cells = interpolate(cells, {...args, ...row}, doc);
