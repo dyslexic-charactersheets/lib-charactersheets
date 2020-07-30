@@ -7,7 +7,7 @@ const _ = require('lodash');
 const jsYaml = require('js-yaml');
 const sass = require('node-sass');
 const Handlebars = require('handlebars');
-const xgettext = require('xgettext-regex')
+// const xgettext = require('xgettext-regex')
 
 const load = require('./loadQueue');
 const unitExpander = require('./unitExpander');
