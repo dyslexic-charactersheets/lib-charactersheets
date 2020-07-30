@@ -273,7 +273,8 @@ module.exports = {
         i18n.writePot(system, systemName);
 
         // return the units
-        callback(systemUnits);
+        let units = _.sortBy(systemUnits, ['id']);
+        callback(units);
       });
     }, 1000);
   }
