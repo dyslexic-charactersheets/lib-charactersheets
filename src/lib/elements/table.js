@@ -16,7 +16,7 @@ export let table = {
     flip: false,
     template: [],
     width: '',
-    blk: true,
+    blk: false,
     'merge-bottom': false,
   },
   render(args, reg, doc) {
