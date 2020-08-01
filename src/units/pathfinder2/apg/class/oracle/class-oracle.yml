@@ -1,0 +1,115 @@
+unit: apg/class/oracle
+in: class
+group: "_{Core Rulebook}"
+name: "_{Oracle}"
+
+form:
+  - select: oracle/methodology
+    name: "_{Methodolody}"
+    max: 1
+
+require:
+  - unit: weapon-spec/fast
+  - with: option/reference
+    unit: apg/class/oracle/reference
+  
+inc:
+  - set: class
+    value: "_{Oracle}"
+
+  - set: hp-class
+    value: 8
+  - set: class-icon
+    value: oracle
+  - set: subclass-label
+    value: "_{Methodology}"
+
+  - set: oracle-class-dc-proficiency
+    value: trained
+  - set: perception-proficiency
+    value: expert
+
+  - set: unarmoured-proficiency
+    value: trained
+  - set: light-armour-proficiency
+    value: trained
+
+  - set: fortitude-proficiency
+    value: trained
+  - set: reflex-proficiency
+    value: expert
+  - set: will-proficiency
+    value: expert
+
+  - set: society-proficiency
+    value: trained
+
+  - at: '@cover-class'
+    replace:
+      - h6: "_{Oracle}"
+      - field: oracle-methodology
+        label: "_{Methodology}"
+        width: stretch
+        align: left
+
+  - at: '@key-ability-field'
+    replace:
+      - field:
+        label: "_{INT}"
+        underlay: "_{INT}"
+        ref: INT
+  
+  - at: '@advancement'
+    add:
+      - level: 1
+        class-feat: true
+      - level: 1
+        gain: "_{Methodology}"
+      - level: 1
+        advance: ""
+
+  - at: '@saving-throws'
+    add:
+      - level: 7
+        contents:
+          - paste: juggernaut
+      - level: 13
+        contents:
+          - paste: greater-juggernaut
+      - level: 15
+        contents:
+          - paste: indomitable-will
+
+  - at: '@actions'
+    add:
+
+  - at: '@pages'
+    add:
+      - page: oracle
+        name: "_{Oracle}"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+            - g:
+              contents:
+                - class-icon: oracle
+                  optional: true
+                - class-name: "_{Oracle}"
+
+                - tail:
+                - spacer:
+
+            - g:
+              contents:
+                - paste: class-feats
+                  params:
+                    id: oracle-feats
+                    title: "_{Oracle Feats}"
+                    slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                    mark: oracle
+                    lines: 2
+
+                - tail:
+                - spacer:

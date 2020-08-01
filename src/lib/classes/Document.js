@@ -4,7 +4,7 @@ import { log, warn, error } from '../log';
 import { applyContext } from '../context';
 import { isArray, isEmpty, isString } from '../util';
 import { replaceColours } from '../util/colours';
-import { has, cloneDeep } from '../util/objects';
+import { has, cloneDeep, interpolate } from '../util/objects';
 import { esc, _e } from '../i18n';
 
 export class Document {
@@ -18,6 +18,7 @@ export class Document {
     this.units = [baseUnit];
     this.zones = {};
     this.templates = {};
+    this.delayedBlocks = [];
 
     this.largePrint = false;
     this.highContrast = false;
@@ -130,32 +131,43 @@ export class Document {
 
     if (has(unit, "inc")) {
       for (const include of unit.inc) {
-        let directive = Object.keys(include)[0];
         // log("Document", "Incorporating directive:", directive);
-
-        switch (directive) {
-          case 'at':
-            if (has(include, "add"))
-              this.addAtZone(include.at, include.add, false);
-            if (has(include, "replace"))
-              this.addAtZone(include.at, include.replace, true);
-            break;
-
-          case 'set':
-            if (!has(this.vars, include.set))
-              this.vars[include.set] = [];
-            this.vars[include.set].push(include);
-            break;
-
-          case 'copy':
-            // log("Document", "Copy template:", include.copy);
-            this.templates[include.copy] = {
-              params: include.params,
-              contents: include.contents,
-            };
-            break;
-        }
+        this.addDirective(include);
+      }
     }
+  }
+
+  addDirective(include) {
+    let directive = Object.keys(include)[0];
+    switch (directive) {
+      case 'at':
+        if (has(include, "add"))
+          this.addAtZone(include.at, include.add, false);
+        if (has(include, "replace"))
+          this.addAtZone(include.at, include.replace, true);
+        break;
+
+      case 'set':
+        if (!has(this.vars, include.set))
+          this.vars[include.set] = [];
+        this.vars[include.set].push(include);
+        break;
+
+      case 'copy':
+        // log("Document", "Copy template:", include.copy);
+        this.templates[include.copy] = {
+          params: include.params,
+          contents: include.contents,
+        };
+        break;
+
+      case 'paste':
+        // log("Document", "Add delayed block", include);
+        this.delayedBlocks.push({
+          template: include.paste,
+          params: include.params
+        });
+        break;
     }
   }
 
@@ -185,12 +197,12 @@ export class Document {
 
   getContext() {
     const self = this;
-    return { 
+    return {
       zones: this.zones,
       templates: this.templates,
       largePrint: this.largePrint,
       locale: this.language,
-    
+
       hasVar(varname) {
         return self.hasVar(varname);
       },
@@ -234,11 +246,11 @@ export class Document {
     }
     return [element];
   }
-  
+
   // the greater form: give all elements a chance to transform themselves
   composeElement(element, registry) {
     const ctx = this.getContext();
-    
+
     if (element === null) {
       warn("Document", "Null element");
       return [];
@@ -323,6 +335,39 @@ export class Document {
     // log("compose", " - Templates:", templates);
     // log("compose", " - Registry", registry);
 
+    // Expand unit-level paste blocks
+    const self = this;
+    while (this.delayedBlocks.length > 0) {
+      let blocks = this.delayedBlocks;
+      this.delayedBlocks = [];
+      blocks.forEach((block) => {
+        // log("Document", "Delayed block", block);
+        if (!has(self.templates, block.template)) {
+          warn("Document", "Cannot find delayed block template", block.template);
+          return;
+        }
+
+        let template = self.templates[block.template];
+        if (isEmpty(template)) {
+          warn("Document", "Empty delayed block template", block.template);
+          return;
+        }
+
+        // log("Document", "Delayed block template", template);
+        let contents = cloneDeep(template.contents);
+        if (has(block, "params") || has(template, "params")) {
+          let params = { ...template.params, ...block.params };
+          // log("Document", "Interpolating parameters", params);
+          contents = interpolate(contents, params);
+        }
+        // log("Document", "Block content", contents);
+        contents.forEach(directive => {
+          self.addDirective(directive);
+        });
+      });
+    }
+
+    // Fill in the element tree
     const c = this.composeElement(this.doc, registry);
     this.doc = applyContext(c[0]);
 

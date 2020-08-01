@@ -1,0 +1,65 @@
+unit: prototype/class
+name: "_{Prototype Class}"
+
+require:
+  - unit: prototype/key-ability
+
+inc:
+  - copy: prototype-class
+    params:
+      class:
+      class-name:
+      subclass:
+      subclass-name:
+      hp:
+      perception: trained
+      unarmoured:
+      light-armour:
+      fortitude:
+      reflex:
+      will:
+      skill: none
+      skill2: none
+
+    contents:
+      - set: class
+        value: "#{class-name}"
+
+      - set: hp-class
+        value: "#{hp}"
+      - set: class-icon
+        value: "#{class}"
+      - set: subclass-label
+        value: "#{subclass-name}"
+
+      - set: "#{class}-class-dc-proficiency"
+        value: trained
+      - set: perception-proficiency
+        value: "#{perception}"
+
+      - set: unarmoured-proficiency
+        value: "#{unarmoured}"
+      - set: light-armour-proficiency
+        value: "#{light-armour}"
+
+      - set: fortitude-proficiency
+        value: "#{fortitude}"
+      - set: reflex-proficiency
+        value: "#{reflex}"
+      - set: will-proficiency
+        value: "#{will}"
+
+      - set: "#{skill}-proficiency"
+        value: trained
+      - set: "#{skill2}-proficiency"
+        value: trained
+
+      - at: '@cover-class'
+        replace:
+          - h6: "#{class-name}"
+          - if: "#{subclass}"
+            then:
+              - field: "#{subclass}"
+                label: "#{subclass-name}"
+                width: stretch
+                align: left

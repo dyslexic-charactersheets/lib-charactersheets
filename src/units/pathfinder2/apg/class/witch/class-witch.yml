@@ -1,0 +1,115 @@
+unit: apg/class/witch
+in: class
+group: "_{Core Rulebook}"
+name: "_{Witch}"
+
+form:
+  - select: witch/methodology
+    name: "_{Methodolody}"
+    max: 1
+
+require:
+  - unit: weapon-spec/fast
+  - with: option/reference
+    unit: apg/class/witch/reference
+  
+inc:
+  - set: class
+    value: "_{Witch}"
+
+  - set: hp-class
+    value: 8
+  - set: class-icon
+    value: witch
+  - set: subclass-label
+    value: "_{Methodology}"
+
+  - set: witch-class-dc-proficiency
+    value: trained
+  - set: perception-proficiency
+    value: expert
+
+  - set: unarmoured-proficiency
+    value: trained
+  - set: light-armour-proficiency
+    value: trained
+
+  - set: fortitude-proficiency
+    value: trained
+  - set: reflex-proficiency
+    value: expert
+  - set: will-proficiency
+    value: expert
+
+  - set: society-proficiency
+    value: trained
+
+  - at: '@cover-class'
+    replace:
+      - h6: "_{Witch}"
+      - field: witch-methodology
+        label: "_{Methodology}"
+        width: stretch
+        align: left
+
+  - at: '@key-ability-field'
+    replace:
+      - field:
+        label: "_{INT}"
+        underlay: "_{INT}"
+        ref: INT
+  
+  - at: '@advancement'
+    add:
+      - level: 1
+        class-feat: true
+      - level: 1
+        gain: "_{Methodology}"
+      - level: 1
+        advance: ""
+
+  - at: '@saving-throws'
+    add:
+      - level: 7
+        contents:
+          - paste: juggernaut
+      - level: 13
+        contents:
+          - paste: greater-juggernaut
+      - level: 15
+        contents:
+          - paste: indomitable-will
+
+  - at: '@actions'
+    add:
+
+  - at: '@pages'
+    add:
+      - page: witch
+        name: "_{Witch}"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+            - g:
+              contents:
+                - class-icon: witch
+                  optional: true
+                - class-name: "_{Witch}"
+
+                - tail:
+                - spacer:
+
+            - g:
+              contents:
+                - paste: class-feats
+                  params:
+                    id: witch-feats
+                    title: "_{Witch Feats}"
+                    slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                    mark: witch
+                    lines: 2
+
+                - tail:
+                - spacer:

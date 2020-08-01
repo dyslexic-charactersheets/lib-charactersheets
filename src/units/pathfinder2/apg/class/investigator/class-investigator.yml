@@ -1,0 +1,359 @@
+unit: class/apg/investigator
+in: class
+group: "_{Advanced Player's Guide}"
+name: "_{Investigator}"
+
+form:
+  - select: investigator/methodology
+    name: "_{Methodolody}"
+    max: 1
+
+require:
+  - unit: prototype/class
+  - unit: weapon-spec/fast
+  - with: option/reference
+    unit: apg/class/investigator/reference
+
+inc:
+  - paste: prototype-class
+    params:
+      class: investigator
+      class-name: "_{Investigator}"
+      subclass: investigator-methodology
+      subclass-name: "_{Methodology}"
+      hp: 8
+
+      perception: expert
+      unarmoured: trained
+      light-armour: trained
+      skill: society
+
+      fortitude: trained
+      reflex: expert
+      will: expert
+      
+  - paste: prototype-key-ability
+    params:
+      key-ability: "INT"
+
+  - at: '@advancement'
+    add:
+      - levels: [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
+        skill-feat: true
+      - levels: [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
+        skill-increase: true
+      - levels: [ 1, 5, 9, 13, 17 ]
+        sneak-attack: [ "_{1d6}", "_{2d6}", "_{3d6}", "_{4d6}", "_{5d6}" ]
+
+      - level: 1
+        class-feat: true
+      - level: 1
+        gain: "_{Methodology}"
+      - level: 1
+        advance: "_{On The Case}"
+      - level: 1
+        advance: "_{Devise a Stratagem}"
+      - level: 3
+        advance: "_{Keen Recollection}"
+      - level: 5
+        advance: "_{Weapon Expertise}"
+      - level: 9
+        advance: "_{Investigator Expertise}"
+      - level: 11
+        advance: "_{Deductive Improvisation}"
+      - level: 19
+        advance: "_{Master Detective}"
+
+  - at: '@advancement-fields'
+    add:
+      - name: "_{Strategic Strike}"
+        key: strategic strike
+        format: string
+
+  - at: '@saving-throws'
+    add:
+      - level: 9
+        contents:
+          - paste: great-fortitude
+      - level: 11
+        contents:
+          - paste: resolve
+      - level: 15
+        contents:
+          - paste: evasion
+      - level: 17
+        contents:
+          - paste: greater-resolve
+
+  - at: '@actions'
+    add:
+      - action:
+        contents:
+          - p:
+            title: "_{Devise a Stragem}"
+            content: "_{Roll a strike in advance, and use your Intelligence to attack.}"
+
+      - action: reaction
+        contents:
+          - p:
+            title: "_{Clue In}"
+            content: "_{Share knowledge to grant allies a combat bonus.}"
+
+  - at: '@skill-feats-section'
+    replace:
+      - list:
+        hr: true
+        contents:
+          - g:
+            contents:
+              - list:
+                zebra: true
+                hr: true
+                columns: 2
+                contents:
+                  - each:
+                    template:
+                      - level: "#{level}"
+                        contents:
+                          - item: yes
+                    contents:
+                      - slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                        min: 1
+                        max: 1
+                        placeholder:
+                          article: 'skill-feat-#{level}'
+                          blk: false
+                          lines: 2
+                        contents:
+                          - zone: '@skill-feats'
+          - g:
+            contents:
+              - list:
+                zebra: true
+                zebra-inverse: true
+                hr: true
+                columns: 2
+                contents:
+                  - g:
+                    contents:
+                      - zone: '@investigator/skillful-lessons-into'
+                        contents:
+                          - h5: "_{Skillful Lessons}"
+                          - p: "_{Skill feats for Intelligence, Wisdom or Charisma-based skills.}"
+                  - each:
+                    template:
+                      - level: "#{level}"
+                        contents:
+                          - item: yes
+                    contents:
+                      - slots: [ 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
+                        min: 1
+                        max: 1
+                        placeholder:
+                          article: 'skill-feat-#{level}'
+                          blk: false
+                          lines: 2
+                        contents:
+                          - zone: '@skill-feats'
+
+  - at: '@pages'
+    add:
+      - page: investigator
+        name: "_{Investigator}"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+            - g:
+              contents:
+                - class-icon: investigator
+                  optional: true
+                - class-name: "_{Investigator}"
+
+                - section: "_{On The Case}"
+                  contents:
+                    - list:
+                      hr: true
+                      zebra: true
+                      avoid-shade: true
+                      contents:
+                        - g:
+                          contents:
+                            - h5: "_{Pursue a Lead}"
+                            - p: "_{Spend a minute examining clues. Designate the related subject - typically a person, item or place.}"
+                            - row:
+                              contents:
+                                - h5: "1"
+                                - field: investigator/pursue-a-lead/subject-1
+                                  legend: "_{Subject}"
+                                  width: stretch
+                            - row:
+                              contents:
+                                - h5: "2"
+                                - field: investigator/pursue-a-lead/subject-2
+                                  frame: none
+                                  width: stretch
+
+                            - p: "_{You do not need to know the subject's actual identity.}"
+                            - indent: l
+                              contents:
+                                - value-block: "+1"
+                                  content: "_{Bonus to Perception and skill checks to investigate subject.}"
+
+                        - g:
+                          contents:
+                            - action: reaction
+                              contents:
+                                - h5: "_{Clue In}"
+                                - p: "Share information with an ally pursuing the same lead. They gain your Pursue A Lead bonus to one check."
+
+                        - level: 9
+                          contents:
+                            - h5: "_{Investigator Expertise}"
+                            - value-block: "+2"
+                              content: "_{Bonus to Perception and skill checks to investigate the subject of your investigation.}"
+
+                        - level: 19
+                          contents:
+                            - h5: "_{Master Detective}"
+                            - p: "_{On entering a new location with a clue relevant to the subject of your investigation, the GM informs you of the clue and its type: object, person, spell effect, etc.}"
+                            - p: "_{When you identify the clue, the GM informs you. If there is more than one clue, the GM chooses one to inform you of.}"
+
+
+                - section: "_{Devise a Stratagem}"
+                  contents:
+                    - list:
+                      hr: true
+                      contents:
+                        - action:
+                          contents:
+                            - p: "_{Choose a target and roll a d20 in advance. If you make a Strike this turn, use that as your attack roll.}"
+                            - p: "_{Use INT instead of STR or DEX for that attack, provided you're wielding an agile or finesse weapon.}"
+
+                        - action: free
+                          contents:
+                            - p: "_{Devise a Stratagem as a free action against the subject of your investigation.}"
+
+                        - g:
+                          contents:
+                            - h5: "_{Strategic Strike}"
+                            - advancement:
+                              flip: true
+                              elide: true
+                              fields:
+                                - key: bonus
+                                  name: "_{Damage\nBonus}"
+                                  format: string
+                              advances:
+                                - level: 1
+                                  bonus: "_{1d6}"
+                                - level: 5
+                                  bonus: "_{2d6}"
+                                - level: 9
+                                  bonus: "_{3d6}"
+                                - level: 13
+                                  bonus: "_{4d6}"
+                                - level: 17
+                                  bonus: "_{5d6}"
+
+                - section: "_{Keen Recollection}"
+                  contents:
+                    - level: 3
+                      contents:
+                        - layout: indent-lw
+                          contents:
+                            - g:
+                              pad: true
+                              contents:
+                                - field:
+                                  ref: level
+                                  label: "_{Level}"
+                            - p: "Proficiency bonus to all untrained checks to Recall Knowledge"
+
+                - section: "_{Deductive Improvisation}"
+                  contents:
+                    - level: 11
+                      contents:
+                        - layout: 2l
+                          contents:
+                            - g:
+                              contents:
+                                - row:
+                                  contents:
+                                    - icon: "proficiency-untrained"
+                                    - span: "&rarr;"
+                                    - icon: "proficiency-trained"
+                                - row:
+                                  contents:
+                                    - icon: "proficiency-trained"
+                                    - span: "&rarr;"
+                                    - icon: "proficiency-expert"
+                                - row:
+                                  contents:
+                                    - icon: "proficiency-expert"
+                                    - span: "&rarr;"
+                                    - icon: "proficiency-master"
+
+                            - g:
+                              contents:
+                                - p: "_{Make a skill check that requires one step higher proficiency.}"
+
+                - tail:
+                - spacer:
+
+            - g:
+              contents:
+                - section: "_{Methodology}"
+                  primary: true
+                  contents:
+                    - zone: '@investigator/methodology'
+                      contents:
+                        - field: investigator-methodology
+                          size: huge
+                          width: stretch
+                          frame: none
+                          merge-bottom: true
+                        - hr:
+                          swash: true
+                        - layout: 2e
+                          contents:
+                            - g:
+                              contents:
+                                - article:
+                                  lines: 4
+                                  reduce: 1
+                                - hr:
+                                - action: template
+                                  contents:
+                                    - article:
+                                      lines: 3
+                                      reduce: 1
+                            - g:
+                              contents:
+                                - field: investigator/methodology/skill
+                                  icon: proficiency-trained
+                                  width: stretch
+                                  label: "_{Skill training}"
+
+                                - h5: "_{Skill Feat}"
+                                - article:
+                                  lines: 2
+                                  reduce: 1
+                                - hr:
+                                - article:
+                                  lines: 2
+                                  reduce: 1
+
+                - zone: '@investigator/more'
+
+                - paste: class-feats
+                  params:
+                    id: investigator-feats
+                    title: "_{Investigator Feats}"
+                    slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                    mark: investigator
+                    lines: 3
+
+                - tail:
+                - spacer:

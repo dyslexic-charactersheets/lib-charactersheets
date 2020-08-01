@@ -18,33 +18,22 @@ require:
     unit: class/rogue/reference
 
 inc:
-  - set: class
-    value: "_{Rogue}"
-  - set: class-icon
-    value: rogue
-  - set: subclass-label
-    value: "_{Racket}"
+  - paste: prototype-class
+    params:
+      class: rogue
+      class-name: "_{Rogue}"
+      subclass: rogue-racket
+      subclass-name: "_{Racket}"
+      hp: 8
 
-  - set: hp-class
-    value: 8
-  - set: rogue-class-dc-proficiency
-    value: trained
-  - set: stealth-proficiency
-    value: trained
-  - set: perception-proficiency
-    value: expert
+      perception: expert
+      unarmoured: trained
+      light-armour: trained
+      skill: stealth
 
-  - set: fortitude-proficiency
-    value: trained
-  - set: reflex-proficiency
-    value: expert
-  - set: will-proficiency
-    value: expert
-
-  - set: unarmoured-proficiency
-    value: trained
-  - set: light-armour-proficiency
-    value: trained
+      fortitude: trained
+      reflex: expert
+      will: expert
 
   - at: '@skill-actions'
     add:
@@ -70,7 +59,6 @@ inc:
         zebra: true
         hr: true
         columns: 2
-        # flex: shrink
         contents:
           - each:
             template:
@@ -241,7 +229,7 @@ inc:
                   - section: "_{Racket}"
                     primary: true
                     contents:
-                      - zone: '@rogue-racket'
+                      - zone: '@rogue/racket'
                         contents:
                           - field: rogue-racket
                             size: huge

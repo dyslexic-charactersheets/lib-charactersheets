@@ -60,7 +60,7 @@ function parseCharacter(primary, request) {
     units: ['core', 'base', 'base/character', 'theme/' + attr.theme],
     language: attr.language,
     description: attr.description,
-    
+
     ancestry: false,
     heritage: false,
     background: false,
@@ -96,6 +96,8 @@ function parseCharacter(primary, request) {
     debug: primary.debug,
     instances: {},
   };
+
+  // log("Character", "Request attributes", attr);
 
   // log("Character", "Print intensity", char.printIntensity);
   if (isEmpty(char.accentColour)) {
@@ -149,9 +151,10 @@ function parseCharacter(primary, request) {
 
       if (attr.class) {
         let className = attr.class.replace(/^class-/, '');
+        let classShortName = className.replace(/^.*\//, '');
         char.units.push('class/' + className);
         char.classes.push(className);
-        let classPrefix = toCamelCase('class ' + className);
+        let classPrefix = toCamelCase('class ' + classShortName);
         // log("Character", "Class name", className, ", prefix", classPrefix);
 
         let classFeatsKey = classPrefix + 'Feats';
@@ -169,17 +172,19 @@ function parseCharacter(primary, request) {
 
           if (key.startsWith(classPrefix) && !key.endsWith('Feats')) {
             let selname = toKebabCase(key.replace(classPrefix, ''));
+            // log("Character", "Class selector", selname);
             if (isArray(attr[key])) {
               attr[key].forEach(selvalue => {
                 selvalue = toKebabCase(selvalue);
                 // log("Character", "Class option", key, selname, "=", selvalue);
-                const unitname = className + '/' + selname + '/' + selvalue;
+                const unitname = classShortName + '/' + selname + '/' + selvalue;
+                // log("Character", "Subclass unit name", unitname);
                 char.units.push(unitname);
-              })
+              });
             } else if (isString(attr[key])) {
               let selvalue = toKebabCase(attr[key]);
               // log("Character", "Class option", key, selname, "=", selvalue);
-              const unitname = className + '/' + selname + '/' + selvalue;
+              const unitname = classShortName + '/' + selname + '/' + selvalue;
               // log("Character", "Class option unit", unitname);
               char.units.push(unitname);
             }

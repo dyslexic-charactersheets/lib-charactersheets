@@ -11,6 +11,7 @@ export let list = {
     blk: false,
     flowv: true,
     zebra: false,
+    'zebra-inverse': false,
     flex: false,
     sort: true,
     hr: false,
