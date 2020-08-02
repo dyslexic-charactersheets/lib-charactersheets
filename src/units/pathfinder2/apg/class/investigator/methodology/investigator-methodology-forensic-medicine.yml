@@ -1,0 +1,78 @@
+unit: investigator/methodology/forensic-medicine
+in: investigator/methodology
+group: "_{Advanced Player's Guide}"
+name: "_{Forensic Medicine}"
+
+inc:
+  - set: investigator-methodology
+    value: "_{Forensic Medicine}"
+  - set: medicine-proficiency
+    value: trained
+
+  - at: '@investigator/methodology'
+    replace:
+      - h4: "_{Forensic Medicine}"
+      - hr:
+        swash: true
+      - layout: 2e
+        contents:
+          - g:
+            contents:
+              - action:
+                contents:
+                  - article:
+                    title: "_{Battle Medicine}"
+                    contents:
+                      - p: "_{Make a medicine check to Treat Wounds (usually DC15).}"
+                      - dl:
+                        div: true
+                        defs:
+                          critical_success: "_{Heal 4d8 hp}"
+                          success: "_{Heal 2d8 hp}"
+                          failure: "_{Inflict 1d8 damage}"
+
+              - calc:
+                output:
+                  field: investigator/methodology/forensic-medicine/battle-medicine-healing
+                  legend: "_{Healing}"
+                  width: large
+                inputs:
+                  - field:
+                    label: "_{Battle Medicine}"
+                  - "+"
+                  - field:
+                    ref: level
+                    label: "_{Level}"
+
+          - g:
+            contents:
+              - p:
+                icon: proficiency-trained
+                title: "_{Medicine}"
+
+              - h5: "_{Skill Feat}"
+              - article:
+                title: "_{Forensic Acumen}"
+                contents:
+                  - p: "_{Roll a Medicine check to Recall Knowledge to make a forensic examination, taking half the time (at least 5 minutes).}"
+                  - p: "_{If successful, you can make a further Recall Knowledge check with a bonus.}"
+                  - table:
+                    flip: true
+                    rows:
+                      - medicine: trained
+                        bonus: "+2"
+                      - medicine: master
+                        bonus: "+3"
+                      - medicine: legendary
+                        bonus: "+4"
+                    template:
+                      - g:
+                        align: center
+                        contents:
+                          - icon: "proficiency-#{medicine}"
+                      - g:
+                        align: center
+                        contents:
+                          - value: "#{bonus}"
+
+
