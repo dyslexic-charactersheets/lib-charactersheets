@@ -56,6 +56,7 @@ export let selectable = {
     blk: false,
     pad: false,
     selected: false,
+    style: '',
     radio: false,
     contents: []
   },
@@ -75,6 +76,7 @@ export let selectable = {
                 control: args.radio ? 'radio' : 'checkbox',
                 frame: 'none',
                 value: args.selected,
+                style: args.style
               }
             ]
           },

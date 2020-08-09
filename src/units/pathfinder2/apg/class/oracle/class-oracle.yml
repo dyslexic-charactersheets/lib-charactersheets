@@ -1,87 +1,79 @@
-unit: apg/class/oracle
+unit: class/apg/oracle
 in: class
 group: "_{Advanced Player's Guide}"
 name: "_{Oracle}"
 
 form:
-  - select: oracle/methodology
-    name: "_{Methodolody}"
+  - select: oracle/mystery
+    name: "_{Mystery}"
     max: 1
 
 require:
-  - unit: weapon-spec/fast
+  - unit: weapon-spec/slow
   - with: option/reference
     unit: apg/class/oracle/reference
+  - unit: option/spellbook
   
 inc:
-  - set: class
-    value: "_{Oracle}"
+  - paste: prototype-class
+    params:
+      class: oracle
+      class-name: "_{Oracle}"
+      subclass: oracle-mystery
+      subclass-name: "_{Mystery}"
+      hp: 8
 
-  - set: hp-class
-    value: 8
-  - set: class-icon
-    value: oracle
-  - set: subclass-label
-    value: "_{Methodology}"
+      perception: expert
+      unarmoured: trained
+      light-armour: trained
+      skill: religion
+      divine: trained
 
-  - set: oracle-class-dc-proficiency
-    value: trained
-  - set: perception-proficiency
-    value: expert
+      fortitude: trained
+      reflex: expert
+      will: expert
 
-  - set: unarmoured-proficiency
-    value: trained
-  - set: light-armour-proficiency
-    value: trained
-
-  - set: fortitude-proficiency
-    value: trained
-  - set: reflex-proficiency
-    value: expert
-  - set: will-proficiency
-    value: expert
-
-  - set: society-proficiency
-    value: trained
+  - paste: prototype-key-ability
+    params:
+      key-ability: "CHA"
 
   - at: '@cover-class'
     replace:
       - h6: "_{Oracle}"
-      - field: oracle-methodology
-        label: "_{Methodology}"
+      - field: oracle-mystery
+        label: "_{Mystery}"
         width: stretch
         align: left
-
-  - at: '@key-ability-field'
-    replace:
-      - field:
-        label: "_{INT}"
-        underlay: "_{INT}"
-        ref: INT
   
+  - at: '@focus-points'
+    replace:
+      - field: focus-mystery
+        label: "_{Mystery}"
+        underlay: "1"
+
   - at: '@advancement'
     add:
       - level: 1
         class-feat: true
       - level: 1
-        gain: "_{Methodology}"
+        gain: "_{Mystery}"
       - level: 1
-        advance: ""
+        advance: "Curse"
 
-  - at: '@saving-throws'
-    add:
-      - level: 7
-        contents:
-          - paste: juggernaut
-      - level: 13
-        contents:
-          - paste: greater-juggernaut
-      - level: 15
-        contents:
-          - paste: indomitable-will
+  # - at: '@saving-throws'
+  #   add:
+      # - level: 7
+      #   contents:
+      #     - paste: juggernaut
+      # - level: 13
+      #   contents:
+      #     - paste: greater-juggernaut
+      # - level: 15
+      #   contents:
+      #     - paste: indomitable-will
 
-  - at: '@actions'
-    add:
+  # - at: '@actions'
+  #   add:
 
   - at: '@pages'
     add:
@@ -92,24 +84,196 @@ inc:
         contents:
           - layout: 2l
             contents:
-            - g:
-              contents:
-                - class-icon: oracle
-                  optional: true
-                - class-name: "_{Oracle}"
+              - g:
+                contents:
+                  - class-icon: oracle
+                    optional: true
+                  - class-name: "_{Oracle}"
 
-                - tail:
-                - spacer:
+                  - section: "_{Spellcasting}"
+                    id: spellcasting
+                    contents:
+                      - spells-table:
+                        expanded: "_{Signature Spell}"
 
-            - g:
-              contents:
-                - paste: class-feats
-                  params:
-                    id: oracle-feats
-                    title: "_{Oracle Feats}"
-                    slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
-                    mark: oracle
-                    lines: 2
+                      - hr:
+                        light: true
+                      - paste: spell-attack
+                        params:
+                          id: divine-spell-attack
+                          legend: "_{Divine Spell\nAttack}"
 
-                - tail:
-                - spacer:
+                      - paste: spell-dc
+                        params:
+                          id: divine-spell-dc
+                          legend: "_{Divine Spell\nSave DC}"
+
+                      - hr:
+                      - level: 3
+                        contents:
+                          - p: "_{Signature spells can be heightened without learning separately.}"
+                      
+                  - paste: class-feats
+                    params:
+                      id: oracle-feats
+                      title: "_{Oracle Feats}"
+                      mark: oracle
+                      extra: 0
+                      columns: 1
+                      lines: 1
+
+                  - section: "_{Oracular Clarity}"
+                    contents:
+                      - level: 19
+                        contents:
+                          - p: "Gain two 10th level divine spells, and one 10th level spell slot."
+
+                  - tail:
+
+              - g:
+                contents:
+                  - section: "_{Mystery}"
+                    primary: true
+                    contents:
+                      - zone: '@oracle/mystery'
+                        contents:
+                          - field: oracle-mystery
+                            size: huge
+                            width: stretch
+                            frame: none
+                            merge-bottom: true
+                          - hr:
+                            swash: true
+                          - layout: 2e
+                            contents:
+                              - article:
+                              - article:
+
+                  - layout: 2e
+                    contents:
+                      - section: "_{Revelation Spells}"
+                        contents:
+                          - list:
+                            hr: true
+                            zebra: true
+                            avoid-shade: true
+                            contents:
+                              - paste: focus
+                                contents:
+                                  - flags:
+                                      - "_{Cursebound}"
+                                  # - p: "_{Casting a revelation spell increases the severity of your curse.}"
+                                  #   optional: true
+                              - g:
+                                contents:
+                                  - h6: "_{Mystery}"
+                                    blk: false
+                                  - zone: '@oracle/revelation-spell/mystery'
+                                    contents:
+                                      - article: oracle/reveltion-spell/mystery
+                                        lines: 1
+                              - g:
+                                contents:
+                                  - h6: "_{Domain}"
+                                    blk: false
+                                  - article: oracle/revelation-spell/domain
+                                    lines: 1
+                              - selectable:
+                                contents:
+                                  - h6: "_{Advanced Revelation}"
+                                    blk: false
+                                  - zone: '@oracle/revelation-spell/advanced'
+                                    contents:
+                                      - article: oracle/revelation-spell/advanced
+                                        lines: 1
+                              - selectable:
+                                contents:
+                                  - h6: "_{Greater Revelation}"
+                                    blk: false
+                                  - zone: '@oracle/revelation-spell/greater'
+                                    contents:
+                                      - article: oracle/revelation-spell/greater
+                                        lines: 1
+                              - selectable:
+                                contents:
+                                  - h6: "_{Diverse Mystery}"
+                                    blk: false
+                                  - article: oracle/revelation-spell/diverse
+                                    lines: 1
+
+                      - section: "_{Curse}"
+                        contents:
+                          - zone: '@oracle/curse-section'
+                            contents:
+                              - list:
+                                hr: true
+                                zebra: true
+                                avoid-shade: true
+                                contents:
+                                  - zone: '@oracle/curse'
+                                    contents:
+                                      - field: oracle-curse
+                                        size: huge
+                                        width: stretch
+                                        merge-bottom: true
+                                  - selectable:
+                                    style: progress
+                                    contents:
+                                      - zone: '@oracle/curse/minor'
+                                        contents:
+                                          - h5: "_{Minor}"
+                                          - article:
+                                  - selectable:
+                                    style: progress
+                                    contents:
+                                      - zone: '@oracle/curse/moderate'
+                                        contents:
+                                          - h5: "_{Moderate}"
+                                          - article:
+                                  - level: 11
+                                    contents:
+                                      - selectable:
+                                        style: progress
+                                        contents:
+                                          - zone: '@oracle/curse/major'
+                                            contents:
+                                              - h5: "_{Major}"
+                                              - article:
+                                      - level: 17
+                                        contents:
+                                          - selectable:
+                                            style: progress
+                                            contents:
+                                              - h5: "_{Extreme}"
+                                              - p: "_{Become doomed 2.}"
+                                              - p: "_{Once every 10 minutes, reroll one failed attack roll, saving throw, skill or Perception check.}"
+
+                  - section: "_{Cantrips}"
+                    flex: tiny
+                    contents:
+                      - spells-list:
+                        min: 0
+                        max: 0
+                        spells: 5
+                        style: spontaneous
+                        special: "_{Mystery Cantrip}"
+                      
+                  - section: "_{Spells}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - spells-list:
+                            flex: huge
+                            min: 1
+                            max: 9
+                            spells: 4
+                            contents:
+                              - "_{Inspire Courage}"
+                          - spells-list:
+                            flex: tiny
+                            min: 10
+                            max: 10
+                            spells: 2
+                      
+                  - tail:
