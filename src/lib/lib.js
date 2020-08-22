@@ -25,7 +25,7 @@ const registry = new Registry();
 
 /**
  * Register for events emitted by the character sheet builder. Known events include 'request', 'createElementsTree', 'render' and 'error'.
- * 
+ *
  * @param {string} evt - The event code
  * @param  {...any} params - A list of parameters
  */
@@ -35,7 +35,7 @@ export function on(evt, ...params) {
 
 /**
  * Event emitted when a client has requested a character sheet.
- * 
+ *
  * @error CharacterSheets#request
  * @type {object}
  * @property {Object} request - The request object.
@@ -43,7 +43,7 @@ export function on(evt, ...params) {
 
 /**
  * Event emitted when a character sheet request has been compiled into an element tree.
- * 
+ *
  * @error CharacterSheets#createElementTree
  * @type {object}
  * @property {Object} elementTree - The compiled element tree.
@@ -53,7 +53,7 @@ export function on(evt, ...params) {
 
 /**
  * Event emitted when a character sheet request has been rendered into an HTML document.
- * 
+ *
  * @error CharacterSheets#render
  * @type {object}
  * @property {string} data - The rendered document.
@@ -64,14 +64,14 @@ export function on(evt, ...params) {
 
 /**
  * Event emitted when an error occurs while creating a character sheet.
- * 
+ *
  * @error CharacterSheets#error
  * @type {Error}
  */
 
 /**
  * Create a character sheet object.
- * 
+ *
  * @param {Object} chardesc - A character description object.
  * @returns {Promise} A promise representing a character, party or GM object.
  * @fires CharacterSheets#request

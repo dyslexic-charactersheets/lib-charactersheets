@@ -55,6 +55,7 @@ function parseCharacter(primary, request) {
 
   // an object to start with
   let char = {
+    id: primary.id,
     name: attr.name,
     game: attr.game,
     units: ['core', 'base', 'base/character', 'theme/' + attr.theme],
@@ -325,7 +326,7 @@ export class Character extends Instance {
 
           // start with a document
           const documentUnit = system.getUnit("document");
-          const document = new Document(documentUnit);
+          const document = new Document(documentUnit, data.id);
 
           // language
           document.language = data.language;

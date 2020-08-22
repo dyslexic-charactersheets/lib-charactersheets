@@ -8,12 +8,13 @@ import { has, cloneDeep, interpolate } from '../util/objects';
 import { esc, _e } from '../i18n';
 
 export class Document {
-  constructor(baseUnit) {
+  constructor(baseUnit, id) {
     this.nextPage = 1;
 
     const baseDocument = baseUnit.contents[0];
     // log("Document", "Base document", baseDocument);
     this.doc = cloneDeep(baseDocument);
+    this.id = id;
     this.language = 'en';
     this.units = [baseUnit];
     this.zones = {};
@@ -436,6 +437,7 @@ export class Document {
   renderDocument(registry) {
     // log("Document", "Pages", this.doc.contents.map(page => `${page.id}: ${page.name}`));
 
+    const documentId = this.id;
     const favicon = this.faviconURL ? `<link id="favicon" rel="shortcut icon" type="image/png" href='${this.faviconURL}' />` : ''
     const stylesheet = this.getStylesheet();
     const javascript = this.getJavascript();
@@ -451,7 +453,7 @@ ${stylesheet}
 </style>
 </head>
 
-<body>
+<body id='${documentId}'>
 
 <main>
 ${registry.render(this.doc.contents, this)}

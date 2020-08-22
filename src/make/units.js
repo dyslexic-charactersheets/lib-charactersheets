@@ -129,6 +129,9 @@ module.exports = {
       i18n.scan(data, unitfile, system, meta);
 
       try {
+        if (!_.has(unitdata, "unit")) {
+          return;
+        }
         var unitid = unitdata.unit;
         unitdata.id = unitid;
         delete unitdata.unit;

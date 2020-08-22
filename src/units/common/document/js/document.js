@@ -1,5 +1,3 @@
-{{{embed "node_modules/ua-parser-js/dist/ua-parser.min.js"}}}
-
 if ((function isSafari() {
   var parser = new UAParser();
   var result = parser.getResult();

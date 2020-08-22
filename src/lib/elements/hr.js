@@ -5,13 +5,12 @@ export let hr = {
   defaults: {
     swash: false,
     light: false,
+    blk: true,
   },
   render(args) {
-    args.blk = true;
-
     if (args.swash) {
-
-      return `<div class='hr--swash blk'><div class='inner'></div></div>`;
+      const cls = elementClass('hr', null, args, ['swash', 'blk']);
+      return `<div${cls}><div class='inner'></div></div>`;
     }
 
     const cls = elementClass('hr', null, args, ['swash', 'light', 'blk']);
@@ -21,9 +20,11 @@ export let hr = {
 
 export let tail = {
   name: 'tail',
+  defaults: {
+    blk: true,
+  },
   render(args) {
     args.tail = true;
-    args.blk = true;
     const cls = elementClass('hr', null, args, ['tail', 'blk']);
     return `<hr${cls}>`;
   }
