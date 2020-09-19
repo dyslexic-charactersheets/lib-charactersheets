@@ -1,5 +1,5 @@
 import { log, warn } from '../log';
-import { isString } from '../util';
+import { isString, isNull } from '../util';
 import { has } from '../util/objects';
 import { mergeBottom } from '../util/elements';
 
@@ -188,6 +188,10 @@ export class Registry {
   }
 
   render(items, doc) {
+    if (isNull(items)) {
+      warn("Registry", "Nothing to render");
+      return "";
+    }
     // log("registry", "Render", items);
     const rendered = items.map(item => this.renderItem(item, doc));
     return rendered.join("");

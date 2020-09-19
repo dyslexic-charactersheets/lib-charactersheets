@@ -59,6 +59,20 @@ inc:
         gain: "_{Mystery}"
       - level: 1
         advance: "Curse"
+      - levels: [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
+        spell-level: [ "_{1st}", "_{2nd}", "_{3rd}", "_{4th}", "_{5th}", "_{6th}", "_{7th}", "_{8th}", "_{9th}", "_{10th}" ]
+
+  - at: '@advancement-fields'
+    add:
+      - name: "_{Spell Level}"
+        key: spell-level
+        format: string
+
+  - at: '@advancement-every-level'
+    replace:
+      - p:
+        title: "_{Every level}:"
+        content: "_{Proficiencies, hit points, spells}"
 
   - at: '@saving-throws'
     add:
@@ -113,6 +127,17 @@ inc:
                         contents:
                           - p: "_{Signature spells can be heightened without learning separately.}"
                       
+                  - section: "_{Cantrips}"
+                    flex: tiny
+                    contents:
+                      - spells-list:
+                        min: 0
+                        max: 0
+                        spells: 5
+                        reduce: 2
+                        style: spontaneous
+                        special: "_{Mystery Cantrip}"
+
                   - paste: class-feats
                     params:
                       id: oracle-feats
@@ -122,18 +147,13 @@ inc:
                       columns: 1
                       lines: 1
 
-                  - section: "_{Oracular Clarity}"
-                    contents:
-                      - level: 19
-                        contents:
-                          - p: "Gain two 10th level divine spells, and one 10th level spell slot."
-
                   - tail:
 
               - g:
                 contents:
                   - section: "_{Mystery}"
                     primary: true
+                    flex: small
                     contents:
                       - zone: '@oracle/mystery'
                         contents:
@@ -229,44 +249,45 @@ inc:
                                   - selectable:
                                     style: progress
                                     contents:
+                                      - h5: "_{Minor}"
                                       - zone: '@oracle/curse/minor'
                                         contents:
-                                          - h5: "_{Minor}"
                                           - article:
                                   - selectable:
                                     style: progress
                                     contents:
+                                      - h5: "_{Moderate}"
                                       - zone: '@oracle/curse/moderate'
                                         contents:
-                                          - h5: "_{Moderate}"
                                           - article:
                                   - level: 11
                                     contents:
                                       - selectable:
                                         style: progress
                                         contents:
+                                          - h5: "_{Major}"
                                           - zone: '@oracle/curse/major'
                                             contents:
-                                              - h5: "_{Major}"
                                               - article:
-                                      - level: 17
+                                  - level: 17
+                                    contents:
+                                      - selectable:
+                                        style: progress
                                         contents:
-                                          - selectable:
-                                            style: progress
-                                            contents:
-                                              - h5: "_{Extreme}"
-                                              - p: "_{Become doomed 2.}"
-                                              - p: "_{Once every 10 minutes, reroll one failed attack roll, saving throw, skill or Perception check.}"
+                                          - h5: "_{Extreme}"
+                                          - p:
+                                            title: "_{Doomed 2}"
+                                          - p: "_{Once every 10 minutes, reroll one failed attack roll, saving throw, skill or Perception check.}"
 
-                  - section: "_{Cantrips}"
-                    flex: tiny
-                    contents:
-                      - spells-list:
-                        min: 0
-                        max: 0
-                        spells: 5
-                        style: spontaneous
-                        special: "_{Mystery Cantrip}"
+                  # - section: "_{Cantrips}"
+                  #   flex: tiny
+                  #   contents:
+                  #     - spells-list:
+                  #       min: 0
+                  #       max: 0
+                  #       spells: 5
+                  #       style: spontaneous
+                  #       special: "_{Mystery Cantrip}"
                       
                   - section: "_{Spells}"
                     contents:

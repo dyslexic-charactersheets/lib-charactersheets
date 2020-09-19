@@ -2,7 +2,7 @@ const Handlebars = require('handlebars');
 
 import { log, warn, error } from '../log';
 import { applyContext } from '../context';
-import { isArray, isEmpty, isString } from '../util';
+import { isArray, isEmpty, isString, isNull } from '../util';
 import { replaceColours } from '../util/colours';
 import { has, cloneDeep, interpolate } from '../util/objects';
 import { esc, _e } from '../i18n';
@@ -178,9 +178,15 @@ export class Document {
       return;
     }
     // log("Document", "Adding to zone:", zoneId);
-    if (!has(this.zones, zoneId))
+    if (!has(this.zones, zoneId)) {
       this.zones[zoneId] = [];
+    }
+    if (isNull(elements) || isEmpty(elements)) {
+      return;
+    }
     for (const element of elements) {
+      if (isNull(element))
+        continue;
       if (replace)
         element.replace = true;
       this.zones[zoneId].push(element);

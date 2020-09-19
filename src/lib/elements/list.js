@@ -1,7 +1,7 @@
-import { isObject, isEmpty } from '../util';
+import { isObject, isEmpty, isNull } from '../util';
 import { elementClass } from '../util/elements';
 import { has } from '../util/objects';
-import { log } from '../log';
+import { log, error } from '../log';
 
 export let list = {
   name: 'list',
@@ -25,6 +25,9 @@ export let list = {
     footer: [],
   },
   render(args, reg, doc) {
+    if (isNull(args.contents)) {
+      error("list", "No list contents", this);
+    }
     if (args.zebra && args['avoid-shade']) {
       args['zebra-inverse'] = (args.contents.length % 2 == 0);
     }
