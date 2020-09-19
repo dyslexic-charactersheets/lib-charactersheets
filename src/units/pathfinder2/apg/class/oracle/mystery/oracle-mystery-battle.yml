@@ -14,28 +14,34 @@ inc:
   - set: high-armour-proficiency
     value: trained
 
-  - at: '@oracle/mystery'
+  - at: '@oracle/mystery/title'
     replace:
       - h4: "_{Battle}"
-      - hr:
-        swash: true
-        blk: false
-      - layout: 2e
+  
+  - at: '@oracle/mystery/benefit'
+    replace:
+      - g:
         contents:
-          - g:
-            contents:
-              - field: oracle/mystery/battle/weapon-proficiency
-                label: "_{Weapon Group}"
-                icon: proficiency-trained
-                width: stretch
-              - p: "_{Trained in martial weapons in this group.}"
-          - level: 13
-            contents:
-              - p:
-                icon: proficiency-expert
-                content: "_{Expert in martial weapons, trained in advanced weapons in your chosen group.}"
+          - field: oracle/mystery/battle/weapon-proficiency
+            label: "_{Weapon Group}"
+            icon: proficiency-trained
+            width: stretch
+          - p: "_{Trained in martial weapons in this group.}"
+      - level: 13
+        contents:
+          - p:
+            icon: proficiency-expert
+            content: "_{Expert in martial weapons, trained in advanced weapons in your chosen group.}"
 
-  - at: '@oracle/revelation-spell/mystery'
+  - set: oracle/mystery/initial-revelation
+    value: "_{Call to Arms}"
+  - set: oracle/mystery/advanced-revelation
+    value: "_{Battlefield Persistence}"
+  - set: oracle/mystery/greater-revelation
+    value: "_{Heroic Feat}"
+
+  # SPELLS
+  - at: '@oracle/revelation-spell/initial'
     replace:
       - action: reaction
         contents:
@@ -101,6 +107,7 @@ inc:
               field: oracle/mystery/battle/healing
               border: full
               legend: "_{Healing}"
+              width: large
             inputs:
               - field:
                 ref: level
@@ -121,6 +128,7 @@ inc:
               field: oracle/mystery/battle/healing
               border: full
               legend: "_{Healing}"
+              width: large
             inputs:
               - field:
                 ref: level

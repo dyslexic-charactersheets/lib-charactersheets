@@ -16,24 +16,29 @@ inc:
       - level: 11
         advance: "_{Additional ancestry feat}"
 
-  - at: '@oracle/mystery'
+  - at: '@oracle/mystery/title'
     replace:
       - h4: "_{Ancestors}"
-      - hr:
-        swash: true
-        blk: false
-      - layout: 2e
-        contents:
-          - level: 1
-            contents:
-              - h5: "_{Ancestry Feat}"
-              - article:
-          - level: 11
-            contents:
-              - h5: "_{Ancestry Feat}"
-              - article:
 
-  - at: '@oracle/revelation-spell/mystery'
+  - at: '@oracle/mystery/benefit'
+    replace:
+      - level: 1
+        contents:
+          - h5: "_{Ancestry Feat}"
+          - article:
+      - level: 11
+        contents:
+          - h5: "_{Ancestry Feat}"
+          - article:
+
+  - set: oracle/mystery/initial-revelation
+    value: "_{Ancestral Touch}"
+  - set: oracle/mystery/advanced-revelation
+    value: "_{Ancestral Defence}"
+  - set: oracle/mystery/greater-revelation
+    value: "_{Ancestral Form}"
+
+  - at: '@oracle/revelation-spell/initial'
     replace:
       - action:
         contents:
@@ -75,6 +80,10 @@ inc:
               - row:
                 blk: false
                 contents:
+                  - level: "_{1d4}"
+                    marker: "_{Roll}"
+                    contents:
+                      - p: "_{Roll once a day}"
                   - spacer:
                   - field: oracle/curse-progress
                     control: checkgrid
@@ -82,10 +91,6 @@ inc:
                     max: 4
                     depth: 1
 
-              - level: "_{1d4}"
-                marker: "_{Roll}"
-                contents:
-                  - p: "_{Roll once a day}"
               - p: "_{DC4 flat check to act freely.}"
                 optional: true
           - g:

@@ -9,68 +9,102 @@ inc:
   - set: nature-proficiency
     value: trained
 
-  - at: '@oracle/mystery'
+  - at: '@oracle/mystery/title'
     replace:
       - h4: "_{Cosmos}"
-      - hr:
-        swash: true
-        blk: false
-      - layout: 2e
-        contents:
-          # - g:
-          #   contents:
-          #     - field: oracle/mystery/battle/weapon-proficiency
-          #       label: "_{Weapon Group}"
-          #       icon: proficiency-trained
-          #       width: stretch
-          #     - p: "_{Trained in martial weapons in this group.}"
-          # - level: 13
-          #   contents:
-          #     - p:
-          #       icon: proficiency-expert
-          #       content: "_{Expert in martial weapons, trained in advanced weapons in your chosen group.}"
 
-  - at: '@oracle/revelation-spell/mystery'
+  - at: '@oracle/mystery/benefit'
     replace:
-      # - action: reaction
-      #   contents:
-      #     - article:
-      #       title: "_{Soul Siphon}"
-      #       contents:
-      #         - list:
-      #           hr: true
-      #           light: true
-      #           contents:
-      #             - value-block: "+2"
-      #               content: "_{Initiative to allies within 20ft.}"
-      #             - row:
-      #               contents:
-      #                 - level: 11
-      #                   contents:
-      #                     - value: "+3"
-      #                 - level: 17
-      #                   contents:
-      #                     - value: "+4"
+      - g:
+        pad: true
+        contents:
+          - calc:
+            output:
+              field:
+              legend: "_{Damage Resistance}"
+              border: full
+            inputs:
+              - span: "2 +"
+              - field:
+                ref: level
+                label: "_{Level}"
+
+  - set: oracle/mystery/initial-revelation
+    value: "_{Spray of Stars}"
+  - set: oracle/mystery/advanced-revelation
+    value: "_{Interstellar Void}"
+  - set: oracle/mystery/greater-revelation
+    value: "_{Moonlight Bridge}"
+
+  - at: '@oracle/revelation-spell/initial'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Spray of Stars}"
+            contents:
+              - dl:
+                defs:
+                  area: "_{15ft cone}"
+              - calc:
+                output:
+                  label: "_{Fire\nDamage}"
+                inputs:
+                  - label: "_{Spell\nLevel}"
+                  - span: "&times; d4"
+              - p: "_{Targets must make a Reflex save:}"
+              - paste: save
+                params:
+                  critical_success: "_{No effect}"
+                  success: "_{Half damage, dazzled for 1 round}"
+                  failure: "_{Full damage, dazzled for 3 rounds}"
+                  critical-failure: "_{Double damage, dazzled for 1 minute}"
   
   - at: '@oracle/revelation-spell/advanced'
     replace:
-      # - action: reaction
-      #   contents:
-      #     - article:
-      #       title: "_{Battlefield Persistence}"
-      #       contents:
-      #         - value-block: "+2"
-      #           content: "_{Saving throw bonus}"
-      #         - p: "_{If the save is against an incapacitation effect, treat as level +2.}"
+      - list:
+        hr: true
+        light: true
+        contents:
+          - action: 2
+            contents:
+              - article:
+                title: "_{Interstellar Void}"
+                contents:
+                  - dl:
+                    defs:
+                      range: "_{30ft}"
+                      target: "_{1 creature}"
+                      duration: "_{1 minute}"
+                  - value-block: "_{3d6}"
+                    content: "_{Cold damage}"
+                  - p: "_{Target makes a basic Fortitude save. Target is fatigued.}"
+                  - p:
+                    title: "_{Fatigued}"
+                    content: "_{-1 to AC and saving throws.}"
+          - action:
+            contents:
+              - p:
+                title: "_{Sustain}"
+                content: "_{Deal damage again, prolong Fatigued status.}"
 
   - at: '@oracle/revelation-spell/greater'
     replace:
-      # - action:
-      #   contents:
-      #     - article:
-      #       title: "_{Heroic Feat}"
-      #       contents:
-      #         - p: "_{Use the action from one common fighter feat, up to your focus level.}"
+      - action: 2
+        contents:
+          - article:
+            title: "_{Moonlight Bridge}"
+            contents:
+              - p: "_{Create a bridge of moonlight.}"
+              - calc:
+                output:
+                  label: "_{Bridge\nLength}"
+                inputs:
+                  - label: "_{Spell\nLevel}"
+                  - span: "&times; 20ft"
+              - p: "_{The bridge is 10ft wide, and up to 45&deg; up or down.}"
+              - p: "_{Non-allies cannot walk on the bridge.}"
+
 
   # CURSE
   - at: '@oracle/curse'
@@ -80,47 +114,45 @@ inc:
 
   - at: '@oracle/curse/minor'
     replace:
-      # - value-block: "-2"
-      #   content: "_{AC and saving throws}"
-      # - p: "_{On making a Strike, suspend this penalty until your next turn.}"
+      - p:
+        title: "_{Enfeebled 1}"
+        content: "_{Penalty to strength-based rolls and DCs.}"
+      - value-block: "-2"
+        content: "_{Penalty to saves and DCs against grapple, shove and other forced movement.}"
 
   - at: '@oracle/curse/moderate'
     replace:
-      # - p: "_{Penalty only reduced to -1}"
-      # - value-block: "+2"
-      #   content: "_{Damage bonus}"
-      # - row:
-      #   contents:
-      #     - calc:
-      #       output:
-      #         field: oracle/mystery/battle/healing
-      #         border: full
-      #         legend: "_{Healing}"
-      #       inputs:
-      #         - field:
-      #           ref: level
-      #           label: "_{Level}"
-      #         - span: "&divide; 2"
-      #     - p: "_{When in combat}"
+      - p:
+        title: "_{Enfeebled 2}"
+      - value-block: "-3"
+        content: "_{Penalty to saves and DCs against grapple, shove and other forced movement.}"
+      - p: "_{Treated as one size smaller for wind effects}"
+
+      - hr:
+        light: true
+
+      - value-block: "+2"
+        content: "_{Bonus against Trip}"
+      - p: "_{Take half damage from falls.}"
+      - p:
+        title: "_{Powerful Leap}"
+        content: "_{Leap 5ft up or +5ft horizontally.}"
+      - p:
+        title: "_{Quick Jump}"
+        content: "_{High jump and long jump in a single action.}"
 
   - at: '@oracle/curse/major'
     replace:
-      # - value-block: "+1"
-      #   content: "_{Attack bonus}"
-      # - value-block: "+6"
-      #   content: "_{Damage bonus}"
-      # - row:
-      #   contents:
-      #     - calc:
-      #       output:
-      #         field: oracle/mystery/battle/healing
-      #         border: full
-      #         legend: "_{Healing}"
-      #       inputs:
-      #         - field:
-      #           ref: level
-      #           label: "_{Level}"
-      #     - p: "_{When in combat}"
-      # - p:
-      #   title: "_{Stupefied 2}"
-      #   content: "_{Penalty to Int, Wis and Cha checks}"
+      - p:
+        title: "_{Enfeebled 2}"
+      - value-block: "-3"
+        content: "_{Penalty to saves and DCs against grapple, shove and other forced movement.}"
+      
+      - hr:
+        light: true
+
+      - p: "_{Can walk on liquids. Don't leave tracks, trigger pressure plates, or otherwise touch the ground.}"
+      - p: 
+        title: "_{Cloud Jump}"
+        content: "_{3&times; distance long jump. Use long jump calculation for high jumps.}"
+      

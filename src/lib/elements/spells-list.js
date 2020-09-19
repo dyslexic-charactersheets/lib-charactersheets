@@ -218,6 +218,7 @@ export let spells_table = {
     'expanded': false,
     ordinal: true,
     flip: false,
+    pad: false,
     'merge-bottom': true,
   },
   transform(args) {
@@ -291,6 +292,14 @@ export let spells_table = {
     };
     table = Object.assign({}, args, table);
     // log("-","[spells] Expanded spells table:", table);
+
+    if (args.pad) {
+      table = {
+        type: "g",
+        pad: true,
+        contents: [table]
+      };
+    }
     return [table];
   }
 }
