@@ -9,68 +9,160 @@ inc:
   - set: acrobatics-proficiency
     value: trained
 
-  - at: '@oracle/mystery'
+  - at: '@oracle/mystery/title'
     replace:
       - h4: "_{Flames}"
-      - hr:
-        swash: true
-        blk: false
-      - layout: 2e
-        contents:
-          # - g:
-          #   contents:
-          #     - field: oracle/mystery/battle/weapon-proficiency
-          #       label: "_{Weapon Group}"
-          #       icon: proficiency-trained
-          #       width: stretch
-          #     - p: "_{Trained in martial weapons in this group.}"
-          # - level: 13
-          #   contents:
-          #     - p:
-          #       icon: proficiency-expert
-          #       content: "_{Expert in martial weapons, trained in advanced weapons in your chosen group.}"
 
-  - at: '@oracle/revelation-spell/mystery'
+  - at: '@oracle/mystery/benefit'
     replace:
-      # - action: reaction
-      #   contents:
-      #     - article:
-      #       title: "_{Soul Siphon}"
-      #       contents:
-      #         - list:
-      #           hr: true
-      #           light: true
-      #           contents:
-      #             - value-block: "+2"
-      #               content: "_{Initiative to allies within 20ft.}"
-      #             - row:
-      #               contents:
-      #                 - level: 11
-      #                   contents:
-      #                     - value: "+3"
-      #                 - level: 17
-      #                   contents:
-      #                     - value: "+4"
+      - list:
+        hr: true
+        contents:
+          - p: "_{Expert in Reflex saves.}"
+            icon: proficiency-expert
+      - level: 13
+        contents:
+          - p: "_{If you gain the Lightning Reflexes feat, become master in Reflex saves, and upgrade success.}"
+
+  - set: oracle/mystery/cantrip
+    value: "_{Produce Flame}"
+  - set: oracle/mystery/initial-revelation
+    value: "_{Incendiary Aura}"
+  - set: oracle/mystery/advanced-revelation
+    value: "_{Whirling Flames}"
+  - set: oracle/mystery/greater-revelation
+    value: "_{Flaming Fusillade}"
+
+  # SPELLS
+  - at: '@oracle/spellbook/focus-header'
+    add:
+      - paste: focus-level
+
+  - at: '@oracle/revelation-spell/initial'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Incendiary Aura}"
+            contents:
+              - dl:
+                  area: "_{10ft emanation}"
+                  duration: "_{1 minute}"
+              - paste: heighten
+                params:
+                  heighten: "+2"
+              - p: "_{When a creature in range takes fire damage, they catch fire and take persistent fire damage.}"
+              - calc:
+                output:
+                  field:
+                  legend: "_{Damage}"
+                  width: large
+                  suffix: "_{d4}"
+                inputs:
+                  - span: "_{2d4} +"
+                  - field:
+                    label: "_{Heighten}"
+                    ref: true
+                  - span: "&times; _{1d4}"
+
+              - calc:
+                output:
+                  field:
+                  legend: "_{Area}"
+                  width: large
+                  suffix: "_{ft}"
+                inputs:
+                  - span: "_{10ft} +"
+                  - field:
+                    label: "_{Heighten}"
+                    ref: true
+                  - span: "&times; _{5ft}"
+
   
   - at: '@oracle/revelation-spell/advanced'
     replace:
-      # - action: reaction
-      #   contents:
-      #     - article:
-      #       title: "_{Battlefield Persistence}"
-      #       contents:
-      #         - value-block: "+2"
-      #           content: "_{Saving throw bonus}"
-      #         - p: "_{If the save is against an incapacitation effect, treat as level +2.}"
+      - action: 2
+        contents:
+          - article:
+            title: "_{Whirling Flames}"
+            contents:
+              - dl:
+                  range: "_{30ft}"
+              - paste: heighten
+                params:
+                  level: 3
+                  heighten: "+2"
+                  max: 3
+
+              - p: "_{Engulf all creatures in range in flame. Targets must make a basic Reflex save.}"
+
+              - calc:
+                output:
+                  field:
+                  legend: "_{Damage}"
+                  width: large
+                  suffix: "_{d6}"
+                inputs:
+                  - span: "_{5d6} +"
+                  - field:
+                    label: "_{Heighten}"
+                    ref: true
+                  - span: "&times; _{3d6}"
+              - calc:
+                output:
+                  field:
+                  legend: "_{Area}"
+                  border: full
+                  width: large
+                  suffix: "_{sq}"
+                inputs:
+                  - span: "_{1sq} +"
+                  - field:
+                    label: "_{Heighten}"
+                    ref: true
+                  - span: "&times; _{1sq}"
+
 
   - at: '@oracle/revelation-spell/greater'
     replace:
-      # - action:
-      #   contents:
-      #     - article:
-      #       title: "_{Heroic Feat}"
-      #       contents:
-      #         - p: "_{Use the action from one common fighter feat, up to your focus level.}"
+      - action: 2
+        contents:
+          - article:
+            title: "_{Flaming Fusillade}"
+            contents:
+              - list:
+                hr: true
+                light: true
+                contents:
+                  - g:
+                    contents:
+                      - dl:
+                          duration: "_{1 minute}"
+                          range: "_{30ft}"
+                      - p: "_{Throw a ball of flame. Make a spell attack, either ranged or melee.}"
+                      - action:
+                        contents:
+                          - p: "_{Throw another ball of flame.}"
+                      - calc:
+                        output:
+                          field:
+                          suffix: "_{d4}"
+                          width: large
+                          legend: "_{Damage}"
+                        inputs:
+                          - field:
+                            label: "_{Focus Level}"
+                            ref: focus-level
+                          - span: "&times; 1d4"
+                      - p: "_{On a critical success, double damage + 1d4 persistent fire damage.}"
+                  - level: 9
+                    marker: "_{Focus Level}"
+                    contents:
+                      - p: "_{Add focus level to damage.}"
+
+  - at: '@oracle/revelation-spell/diverse-mystery'
+    replace:
+      - nothing:
 
   # CURSE
   - at: '@oracle/curse'
@@ -80,47 +172,20 @@ inc:
 
   - at: '@oracle/curse/minor'
     replace:
-      # - value-block: "-2"
-      #   content: "_{AC and saving throws}"
-      # - p: "_{On making a Strike, suspend this penalty until your next turn.}"
+      - p: "_{Creatures further than 30ft are concealed from you.}"
 
   - at: '@oracle/curse/moderate'
     replace:
-      # - p: "_{Penalty only reduced to -1}"
-      # - value-block: "+2"
-      #   content: "_{Damage bonus}"
-      # - row:
-      #   contents:
-      #     - calc:
-      #       output:
-      #         field: oracle/mystery/battle/healing
-      #         border: full
-      #         legend: "_{Healing}"
-      #       inputs:
-      #         - field:
-      #           ref: level
-      #           label: "_{Level}"
-      #         - span: "&divide; 2"
-      #     - p: "_{When in combat}"
+      - p: "_{All your senses become imprecise beyond 30ft.}"
+      - p: "_{All creatures are concealed from you, though when casting a fire spell you automatically succeed the flat check against targets within 30ft.}"
+      - p: "_{You are concealed from other creatures.}"
 
   - at: '@oracle/curse/major'
     replace:
-      # - value-block: "+1"
-      #   content: "_{Attack bonus}"
-      # - value-block: "+6"
-      #   content: "_{Damage bonus}"
-      # - row:
-      #   contents:
-      #     - calc:
-      #       output:
-      #         field: oracle/mystery/battle/healing
-      #         border: full
-      #         legend: "_{Healing}"
-      #       inputs:
-      #         - field:
-      #           ref: level
-      #           label: "_{Level}"
-      #     - p: "_{When in combat}"
-      # - p:
-      #   title: "_{Stupefied 2}"
-      #   content: "_{Penalty to Int, Wis and Cha checks}"
+      - value-block: "_{4d6}"
+        content: "_{Surrounded by a 10ft aura of fire, dealing damage with a basic Reflex save at the end of your turn.}"
+      - value-block: "_{1d6}"
+        content: "_{Take fire damage at the end of your turn.}"
+      - action:
+        contents:
+          - p: "_{Suppress your aura this turn.}"

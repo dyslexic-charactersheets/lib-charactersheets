@@ -280,6 +280,7 @@ inc:
                         spells: 5
                         style: spontaneous
                         special: "_{Mystery Cantrip}"
+                        special-value: ["#{oracle/mystery/cantrip}"]
                       
                   - section: "_{Spells}"
                     contents:
@@ -328,12 +329,15 @@ inc:
 
           - zone: '@oracle/spellbook/mystery/preface'
 
-          - paste: focus
+          - g:
             contents:
-              - flags:
-                  - "_{Cursebound}"
-              - p: "_{Casting a revelation spell increases the severity of your curse.}"
-                optional: true
+              - paste: focus
+                contents:
+                  - flags:
+                      - "_{Cursebound}"
+                  - p: "_{Casting a revelation spell increases the severity of your curse.}"
+                    optional: true
+              - zone: '@oracle/spellbook/focus-header'
 
           - g:
             contents:
@@ -344,7 +348,7 @@ inc:
                   - action: template
                     contents:
                       - article: oracle/reveltion-spell/initial
-                        lines: 6
+                        lines: 5
 
           - g:
             contents:
@@ -353,9 +357,9 @@ inc:
               - action: template
                 contents:
                   - article: oracle/revelation-spell/domain
-                    lines: 6
+                    lines: 5
 
-          - selectable:
+          - g:
             contents:
               - h6: "_{Advanced Revelation}"
                 blk: false
@@ -364,9 +368,9 @@ inc:
                   - action: template
                     contents:
                       - article: oracle/revelation-spell/advanced
-                        lines: 6
+                        lines: 5
 
-          - selectable:
+          - g:
             contents:
               - h6: "_{Greater Revelation}"
                 blk: false
@@ -375,16 +379,18 @@ inc:
                   - action: template
                     contents:
                       - article: oracle/revelation-spell/greater
-                        lines: 6
+                        lines: 5
 
-          - selectable:
+          - zone: '@oracle/revelation-spell/diverse-mystery'
             contents:
-              - h6: "_{Diverse Mystery}"
-                blk: false
-              - action: template
+              - g:
                 contents:
-                  - article: oracle/revelation-spell/diverse
-                    lines: 6
+                  - h6: "_{Diverse Mystery}"
+                    blk: false
+                  - action: template
+                    contents:
+                      - article: oracle/revelation-spell/diverse
+                        lines: 5
 
       - tail:
       - spacer:

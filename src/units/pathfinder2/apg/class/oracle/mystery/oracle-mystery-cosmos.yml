@@ -23,12 +23,16 @@ inc:
               field:
               legend: "_{Damage Resistance}"
               border: full
+              width: large
             inputs:
-              - span: "2 +"
+              - span: "2 + ("
               - field:
                 ref: level
                 label: "_{Level}"
+              - span: "&divide; 2)"
 
+  - set: oracle/mystery/cantrip
+    value: "_{Dancing Lights}"
   - set: oracle/mystery/initial-revelation
     value: "_{Spray of Stars}"
   - set: oracle/mystery/advanced-revelation
@@ -36,6 +40,7 @@ inc:
   - set: oracle/mystery/greater-revelation
     value: "_{Moonlight Bridge}"
 
+  # SPELLS
   - at: '@oracle/revelation-spell/initial'
     replace:
       - action: 2
@@ -44,13 +49,17 @@ inc:
             title: "_{Spray of Stars}"
             contents:
               - dl:
-                defs:
                   area: "_{15ft cone}"
               - calc:
                 output:
-                  label: "_{Fire\nDamage}"
+                  field:
+                  legend: "_{Fire Damage}"
+                  border: full
+                  width: large
                 inputs:
-                  - label: "_{Spell\nLevel}"
+                  - field:
+                    label: "_{Spell Level}"
+                    ref: focus-level
                   - span: "&times; d4"
               - p: "_{Targets must make a Reflex save:}"
               - paste: save
@@ -72,7 +81,6 @@ inc:
                 title: "_{Interstellar Void}"
                 contents:
                   - dl:
-                    defs:
                       range: "_{30ft}"
                       target: "_{1 creature}"
                       duration: "_{1 minute}"
@@ -98,9 +106,14 @@ inc:
               - p: "_{Create a bridge of moonlight.}"
               - calc:
                 output:
-                  label: "_{Bridge\nLength}"
+                  field:
+                  legend: "_{Bridge\nLength}"
+                  border: full
+                  width: large
                 inputs:
-                  - label: "_{Spell\nLevel}"
+                  - field:
+                    label: "_{Spell\nLevel}"
+                    ref: focus-level
                   - span: "&times; 20ft"
               - p: "_{The bridge is 10ft wide, and up to 45&deg; up or down.}"
               - p: "_{Non-allies cannot walk on the bridge.}"

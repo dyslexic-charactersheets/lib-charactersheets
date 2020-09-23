@@ -9,68 +9,127 @@ inc:
   - set: medicine-proficiency
     value: trained
 
-  - at: '@oracle/mystery'
+  - at: '@oracle/mystery/title'
     replace:
       - h4: "_{Life}"
-      - hr:
-        swash: true
-        blk: false
-      - layout: 2e
-        contents:
-          # - g:
-          #   contents:
-          #     - field: oracle/mystery/battle/weapon-proficiency
-          #       label: "_{Weapon Group}"
-          #       icon: proficiency-trained
-          #       width: stretch
-          #     - p: "_{Trained in martial weapons in this group.}"
-          # - level: 13
-          #   contents:
-          #     - p:
-          #       icon: proficiency-expert
-          #       content: "_{Expert in martial weapons, trained in advanced weapons in your chosen group.}"
 
-  - at: '@oracle/revelation-spell/mystery'
+  - at: '@oracle/mystery/benefit'
     replace:
-      # - action: reaction
-      #   contents:
-      #     - article:
-      #       title: "_{Soul Siphon}"
-      #       contents:
-      #         - list:
-      #           hr: true
-      #           light: true
-      #           contents:
-      #             - value-block: "+2"
-      #               content: "_{Initiative to allies within 20ft.}"
-      #             - row:
-      #               contents:
-      #                 - level: 11
-      #                   contents:
-      #                     - value: "+3"
-      #                 - level: 17
-      #                   contents:
-      #                     - value: "+4"
-  
+      - p: "_{Hit points per level increases to 10 + CON.}"
+
+  - at: '@oracle/revelation-spell/initial'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Life Link}"
+            contents:
+              - dl:
+                  range: "_{30ft}"
+                  duration: "_{1 minute}"
+              - p: "_{Connect yourself to a target, and immediately heal them.}"
+              - p: "_{When your targets take damage, transfer a portion of that damage to yourself. This bypasses immunities.}"
+              - advancement:
+                index: "_{Focus Level}"
+                elide: true
+                fields:
+                  - key: targets
+                    name: "_{Targets}"
+                    format: string
+                  - key: healing
+                    name: "_{Initial healing}"
+                    format: string
+                  - key: hp
+                    name: "_{Damage transfer}"
+                    format: string
+                advances:
+                  - level: 1
+                    targets: 1
+                    healing: "_{1d4}"
+                    hp: "_{3hp}"
+                  - level: 3
+                    targets: 2
+                    healing: "_{3d4}"
+                    hp: "_{5hp}"
+                  - level: 6
+                    targets: 3
+                    healing: "_{6d4}"
+                    hp: "_{10hp}"
+                  - level: 9
+                    targets: 4
+                    healing: "_{9d4}"
+                    hp: "_{15hp}"
+
   - at: '@oracle/revelation-spell/advanced'
     replace:
-      # - action: reaction
-      #   contents:
-      #     - article:
-      #       title: "_{Battlefield Persistence}"
-      #       contents:
-      #         - value-block: "+2"
-      #           content: "_{Saving throw bonus}"
-      #         - p: "_{If the save is against an incapacitation effect, treat as level +2.}"
+      - action: 2
+        contents:
+          - article:
+            title: "_{Delay Affliction}"
+            contents:
+              - dl:
+                  range: "_{30ft}"
+                  target: "_{1 creature}"
+              - p: "_{Suspend the effect of an affiction for 1 hour. Can only be used once a day.}"
+              - calc:
+                output:
+                  field:
+                  legend: "_{Healing}"
+                  width: large
+                  suffix: "_{d8}"
+                inputs:
+                  - field:
+                    label: "_{Focus Level}"
+                    ref: focus-level
+                  - span: "&times; _{1d8}"
 
   - at: '@oracle/revelation-spell/greater'
     replace:
-      # - action:
-      #   contents:
-      #     - article:
-      #       title: "_{Heroic Feat}"
-      #       contents:
-      #         - p: "_{Use the action from one common fighter feat, up to your focus level.}"
+      - action: 2
+        contents:
+          - article:
+            title: "_{Life-Giving Form}"
+            contents:
+              - dl:
+                  duration: "_{1 minute}"
+              - list:
+                hr: true
+                light: true
+                contents:
+                  - g:
+                    contents:
+                      - p: "_{Gain resistance to precision damage and weakness}"
+                      - calc:
+                        output:
+                          field:
+                          legend: "_{Resistance/ Weakness}"
+                          width: large
+                        inputs:
+                          - field:
+                            label: "_{Focus Level}"
+                            ref: focus-level
+                          - span: "- 1"
+                  - g:
+                    contents:
+                      - action:
+                        contents:
+                          - p: "_{Touch a living creater to heal. Another creature can touch you get the same effect. Can use once per minute.}"
+                      - p: "_{An undead creature instead takes 3d4 positive damage each time they touch you.}"
+                      - calc:
+                        output:
+                          field:
+                          legend: "_{Healing}"
+                          width: large
+                          suffix: "_{d8}"
+                        inputs:
+                          - field:
+                            label: "_{Focus Level}"
+                            ref: focus-level
+                          - span: "&times; _{1d8}"
+
+  - at: '@oracle/revelation-spell/diverse-mystery'
+    replace:
+      - nothing:
 
   # CURSE
   - at: '@oracle/curse'
@@ -80,47 +139,57 @@ inc:
 
   - at: '@oracle/curse/minor'
     replace:
-      # - value-block: "-2"
-      #   content: "_{AC and saving throws}"
-      # - p: "_{On making a Strike, suspend this penalty until your next turn.}"
+      - p: "_{Healing yourself is reduced.}"
+      - g:
+        pad: true
+        contents:
+          - calc:
+            output:
+              field:
+              legend: "_{Reduction}"
+              width: large
+            inputs:
+              - field:
+                label: "_{Level}"
+                ref: level
+              - span: "&divide; 2"
 
   - at: '@oracle/curse/moderate'
     replace:
-      # - p: "_{Penalty only reduced to -1}"
-      # - value-block: "+2"
-      #   content: "_{Damage bonus}"
-      # - row:
-      #   contents:
-      #     - calc:
-      #       output:
-      #         field: oracle/mystery/battle/healing
-      #         border: full
-      #         legend: "_{Healing}"
-      #       inputs:
-      #         - field:
-      #           ref: level
-      #           label: "_{Level}"
-      #         - span: "&divide; 2"
-      #     - p: "_{When in combat}"
+      - p: "_{Cannot be healed by others' magic. If unconscious, can be healed to 1hp.}"
+      - p: "_{When you cast Heal on living creatures, roll d12s rather than d8s.}"
+      - hr:
+        light: true
+      - p: "_{On casting any non-cantrip spell, heal one target of that spell or the nearest creature.}"
+      - g:
+        pad: true
+        contents:
+          - calc:
+            output:
+              field:
+              legend: "_{Healing}"
+              width: large
+            inputs:
+              - field:
+                label: "_{Focus Level}"
+                ref: focus-level
 
   - at: '@oracle/curse/major'
     replace:
-      # - value-block: "+1"
-      #   content: "_{Attack bonus}"
-      # - value-block: "+6"
-      #   content: "_{Damage bonus}"
-      # - row:
-      #   contents:
-      #     - calc:
-      #       output:
-      #         field: oracle/mystery/battle/healing
-      #         border: full
-      #         legend: "_{Healing}"
-      #       inputs:
-      #         - field:
-      #           ref: level
-      #           label: "_{Level}"
-      #     - p: "_{When in combat}"
-      # - p:
-      #   title: "_{Stupefied 2}"
-      #   content: "_{Penalty to Int, Wis and Cha checks}"
+      - dl:
+          range: "_{30ft}"
+      - p: "_{On taking 2 actions to cast a 5th level or higher spell, heal all those around you.}"
+      - g:
+        pad: true
+        contents:
+          - calc:
+            output:
+              field:
+              legend: "_{Healing}"
+              width: large
+              suffix: "_{d8}"
+            inputs:
+              - field:
+                label: "_{Focus Level}"
+                ref: focus-level
+              - span: "- 4"

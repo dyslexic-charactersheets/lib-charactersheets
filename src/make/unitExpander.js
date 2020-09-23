@@ -43,7 +43,7 @@ const expansion = {
     place: 'loc',
     ul: '',
     li: 'content',
-    dl: '',
+    dl: 'defs',
     page: 'id',
     proficiency: 'proficiency',
     action: 'action',
