@@ -1,4 +1,4 @@
-import { isArray, isString, toBoolean } from '../util';
+import { isArray, isString, isNull, toBoolean } from '../util';
 import { elementID, elementClass, getRubyHeight } from '../util/elements';
 import { has, interpolate } from '../util/objects';
 import { __, _e } from '../i18n';
@@ -43,7 +43,7 @@ export let field = {
   render(args, reg, doc) {
     args = fieldDefaults(args, reg, doc);
 
-    if (args.value === null) {
+    if (isNull(args.value)) {
       args.value = doc.getVar(args.id);
       // if (args.value) log("field", "Value:", args.id, "=", args.value);
     }
@@ -96,6 +96,11 @@ export function fieldDefaults(args, reg, doc) {
   //   args.lp = getLabelHeight(args);
   //   // log("field", `Frame ${args.frame}, label padding ${args.lp}`);
   // }
+
+  // Special fields
+  if (args.control == "money") {
+    args.width = "";
+  }
 
   args = interpolate(args, {}, doc);
   return args;

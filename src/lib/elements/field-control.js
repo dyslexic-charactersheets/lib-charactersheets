@@ -434,13 +434,24 @@ export let field_control_proficiency_icon = {
   render(args) {
     const cls = elementClass("field", "control", { control: "icon" }, [], { "control": "input" });
 
+    let value = args.value;
+    switch (value) {
+      case 'untrained': case 0: case false: value = "untrained"; break;
+      case 'trained': case 1: value = "trained"; break;
+      case 'expert': case 2: value = "expert"; break;
+      case 'master': case 3: value = "master"; break;
+      case 'legendary': case 4: value = "legendary"; break;
+      default: value = "untrained";
+    }
+    let icon = `icon_proficiency-${value}`;
+
     // TODO checkboxes? radio buttons?
     return `<div${cls}>
       <input type='checkbox'${fieldIdent(args.id, "trained").ident} class='field--proficiency__trained'${args.value > 0 ? ' checked="checked"' : ''}>
       <input type='checkbox'${fieldIdent(args.id, "expert").ident} class='field--proficiency__expert'${args.value > 1 ? ' checked="checked"' : ''}>
       <input type='checkbox'${fieldIdent(args.id, "master").ident} class='field--proficiency__master'${args.value > 2 ? ' checked="checked"' : ''}>
       <input type='checkbox'${fieldIdent(args.id, "legendary").ident} class='field--proficiency__legendary'${args.value > 3 ? ' checked="checked"' : ''}>
-      <i class='icon field--proficiency__icon'></i>
+      <i class='icon field--proficiency__icon ${icon}'></i>
     </div>`;
   }
 }
