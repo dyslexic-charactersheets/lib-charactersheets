@@ -106,15 +106,15 @@ inc:
                         min: 0
                         merge-bottom: false
 
-                      - paste: spell-attack
-                        params:
-                          # id: arcane-spell-attack
-                          # legend: "_{Arcane Spell\nAttack}"
-
-                      - paste: spell-dc
-                        params:
-                          # id: arcane-spell-dc
-                          # legend: "_{Arcane Spell\nSave DC}"
+                      - g:
+                        pad: true
+                        contents:
+                          - zone: '@witch/spell-dcs'
+                            contents:
+                              - paste: spell-attack
+                                params:
+                              - paste: spell-dc
+                                params:
 
                   - section: "_{Hexes}"
                     contents:
@@ -214,22 +214,22 @@ inc:
                       - hr:
                         swash: true
 
-                      - zone: '@witch/patron'
+                      - layout: 2e
                         contents:
-                          - layout: 2e
+                          - g:
                             contents:
-                              - g:
+                              - zone: '@witch/patron/theme'
                                 contents:
                                   - field: witch/patron/theme
                                     width: stretch
                                     label: "_{Patron Theme}"
                                     merge-bottom: true
-                              - g:
-                                contents:
-                                  - field: witch/patron/tradition
-                                    width: stretch
-                                    label: "_{Spellcasting Tradition}"
-                                    merge-bottom: true
+                          - g:
+                            contents:
+                              - field: witch/patron/tradition
+                                width: stretch
+                                label: "_{Spellcasting Tradition}"
+                                merge-bottom: true
 
                   - section: "_{Cantrips}"
                     flex: small
@@ -239,6 +239,7 @@ inc:
                         max: 0
                         spells: 10
                         special: "_{Patron}"
+                        special-value: "#{witch/patron/cantrip}"
 
                   - section: "_{Spells}"
                     contents:
