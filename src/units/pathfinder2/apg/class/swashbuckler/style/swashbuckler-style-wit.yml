@@ -1,0 +1,42 @@
+unit: swashbuckler/style/wit
+in: swashbuckler/style
+group: "_{Advanced Player's Guide}"
+name: "_{Wit}"
+
+inc:
+  - set: swashbuckler-style
+    value: "_{Wit}"
+  - set: diplomacy-proficiency
+    value: trained
+
+  - at: '@swashbuckler/gain-panache'
+    replace:
+      - li:
+        contents:
+          - p: "_{}"
+
+  - at: '@swashbuckler/style'
+    replace:
+      - h4: "_{Wit}"
+      - hr:
+        swash: true
+      - layout: 2e
+        contents:
+          - g:
+            contents:
+              - h5: "_{Bon Mot}"
+              - p: "_{Choose a foe within 30ft and roll a Diplomacy check against their Will DC.}"
+              - paste: save
+                params:
+                  critical_success: "_{Target takes -3 to Perception and Will saves for 1 minute. Target can end the effect with a retort.}"
+                  success: "_{As critical success, but the penalty is -2.}"
+                  critical_failure: "_{You take the penalty instead.}"
+          - g:
+            contents:
+              - level: 9
+                contents:
+                  - h5: "_{Exemplary Finisher}"
+                  - p: "_{When you successfully strike as part of a finisher...}"
+                  - value-block: "-2"
+                    content: "_{Foe's attack penalty against you until your next turn.}"
+              - spacer:

@@ -8,6 +8,7 @@ export let value = {
     frame: 'none',
     control: 'value',
     width: 'tiny',
+    size: 'medium',
   },
   transform(args, ctx) {
     return [{
@@ -24,6 +25,7 @@ export let value_block = {
     frame: 'none',
     control: 'value',
     width: 'tiny',
+    size: 'medium',
     content: '',
     contents: [],
   },

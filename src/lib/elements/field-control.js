@@ -83,7 +83,8 @@ export let field_control_value = {
     const suffix = args.suffix ? `<span class='field__overlay'>${__(args.suffix, doc)}</span>` : '';
     const underlay = args.underlay ? `<u>${__(args.underlay, doc)}</u>` : '';
 
-    const value = `<span>${_e(args.value, doc)}</span>`;
+    const spancls = elementClass("span", null, args, [], {'size': 'medium'});
+    const value = `<span${spancls}>${_e(args.value, doc)}</span>`;
 
     return `${prefix}<div${cls}>${value}${underlay}</div>${suffix}`;
   }
