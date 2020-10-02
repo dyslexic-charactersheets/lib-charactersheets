@@ -17,10 +17,13 @@ export let page = {
     flex: false,
     landscape: false,
     half: false,
+    background: 'yes',
     contents: []
   },
   render(args, reg, doc) {
     // log("page", "Rendering page", args.id);
+    if (has(args, 'no-bg') && args['no-bg'])
+      args.background = 'no';
 
     const id = elementID('page', args.id);
     const cls = elementClass('page', null, args, ['flex', 'landscape', 'no-bg']);
@@ -31,9 +34,22 @@ export let page = {
     if (args.id == 'permission')
       copyrightAttribution = '';
 
+    let background = '';
+    switch (args.background) {
+      case 'yes':
+        background = "<div class='page__background'></div>";
+        break;
+      
+      case 'no':
+        break;
+
+      default:
+        background = `<div class='page__background page__background--background_${args.background}'></div>`;
+    }
+
     const watermark = doc.watermark ? `<div class='page__watermark'><div class='page__watermark__inner'>${doc.watermark}</div></div>` : '';
 
-    return `<div${id}${cls}>
+    return `<div${id}${cls}>${background}
       ${copyrightAttribution}${pageNumber}${watermark}
       <div class='page__contents'>${reg.render(args.contents, doc)}</div>
       </div>

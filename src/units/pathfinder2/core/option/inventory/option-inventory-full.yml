@@ -105,8 +105,8 @@ inc:
                                 collapse: true
                                 field_frame: none
                                 contents:
-                                  - repeat: 8
-                                    reduce: 1
+                                  - repeat: 16
+                                    reduce: 2
                                     contents:
                                       - row:
                                         contents:
@@ -183,51 +183,6 @@ inc:
                                         ref: STR
                                         label: "_{STR}"
                                         underlay: "_{STR}"
-
-
-
-                  - section: "_{Money}"
-                    flex: none
-                    contents:
-                      - g:
-                        blk: true
-                        contents:
-                          - field: money-platinum
-                            frame: left
-                            control: money
-                            label: "_{Platinum}"
-                            denomination: platinum
-                            digits: 7
-                            shift: 3
-                          - field: money-gold
-                            frame: left
-                            control: money
-                            label: "_{Gold}"
-                            denomination: gold
-                            digits: 8
-                            shift: 2
-                          - field: money-silver
-                            frame: left
-                            control: money
-                            label: "_{Silver}"
-                            denomination: silver
-                            digits: 9
-                            shift: 1
-                          - field: money-copper
-                            frame: left
-                            control: money
-                            label: "_{Copper}"
-                            denomination: copper
-                            digits: 10
-                          - field: money-total
-                            frame: left
-                            output: 'true'
-                            control: money
-                            legend: "_{Total}"
-                            denomination: copper
-                            digits: 10
-                            decimal: 1
-                      - p: "_{1000 coins = 1 bulk}"
                   - tail:
 
               - g:
@@ -317,7 +272,6 @@ inc:
                                         label: "_{Hit Points}"
                                         icon: hp
                                         border: full
-                                        # width: large
                                         suffix: "_{hp}"
                                   - field: shield-properties
                                     width: stretch
@@ -327,76 +281,117 @@ inc:
                                     merge-bottom: true
 
                               - tail:
+
                               - portrait: personal
+                                overprint: true
 
-                      - section: "_{Invested Items}"
-                        contents:
-                          - list:
-                            zebra: true
-                            # columns: 2
-                            flex: true
-                            avoid-shade: true
-                            hr: true
-                            contents:
-                              - repeat: 10
+                              - section: "_{Money}"
+                                flex: none
                                 contents:
-                                  - level: '#{i}'
-                                    marker: ''
+                                  - g:
+                                    blk: true
                                     contents:
-                                      - article:
-                                        lines: 2
-                                        show-level: true
+                                      - field: money-platinum
+                                        frame: left
+                                        control: money
+                                        label: "_{Platinum}"
+                                        denomination: platinum
+                                        digits: 6
+                                        shift: 3
+                                      - field: money-gold
+                                        frame: left
+                                        control: money
+                                        label: "_{Gold}"
+                                        denomination: gold
+                                        digits: 7
+                                        shift: 2
+                                      - field: money-silver
+                                        frame: left
+                                        control: money
+                                        label: "_{Silver}"
+                                        denomination: silver
+                                        digits: 8
+                                        shift: 1
+                                      - field: money-copper
+                                        frame: left
+                                        control: money
+                                        label: "_{Copper}"
+                                        denomination: copper
+                                        digits: 9
+                                      - field: money-total
+                                        frame: left
+                                        output: 'true'
+                                        control: money
+                                        legend: "_{Total}"
+                                        denomination: copper
+                                        digits: 9
+                                        decimal: 1
+                                  - p: "_{1000 coins = 1 bulk}"
+                              - section: "_{Scrolls}"
+                                flex: none
+                                mark: scroll
+                                contents:
+                                  - list:
+                                    merge-bottom: true
+                                    zebra: true
+                                    avoid-shade: true
+                                    contents:
+                                      - repeat: 6
+                                        reduce: 1
+                                        contents:
+                                          - row:
+                                            blk: false
+                                            contents:
+                                              - field: inventory-scrolls-#{i}
+                                                frame: none
+                                                width: stretch
+                                              - field: inventory-scrolls-#{i}-use
+                                                control: checkbox
+                                                frame: none
+                              - tail:
 
-                  - layout: 2e
-                    flex: none
-                    contents:
-                      - section: "_{Scrolls}"
-                        flex: none
-                        mark: scroll
+                      - g:
                         contents:
-                          - list:
-                            merge-bottom: true
-                            zebra: true
-                            avoid-shade: true
+                          - section: "_{Invested Items}"
                             contents:
-                              - repeat: 10
-                                reduce: 2
+                              - list:
+                                zebra: true
+                                flex: true
+                                avoid-shade: true
+                                hr: true
                                 contents:
-                                  - row:
-                                    blk: false
+                                  - repeat: 10
                                     contents:
-                                      - field: inventory-scrolls-#{i}
-                                        frame: none
-                                        width: stretch
-                                      - field: inventory-scrolls-#{i}-use
-                                        control: checkbox
-                                        frame: none
-                          - tail:
-
-                      - section: "_{Potions}"
-                        flex: none
-                        mark: potion
-                        contents:
-                          - list:
-                            merge-bottom: true
-                            zebra: true
-                            avoid-shade: true
+                                      - level: '#{i}'
+                                        marker: ''
+                                        contents:
+                                          - article:
+                                            lines: 2
+                                            show-level: true
+                          - section: "_{Potions}"
+                            flex: none
+                            mark: potion
                             contents:
-                              - repeat: 10
-                                reduce: 2
+                              - list:
+                                merge-bottom: true
+                                zebra: true
+                                avoid-shade: true
                                 contents:
-                                  - row:
-                                    blk: false
+                                  - repeat: 11
+                                    reduce: 2
                                     contents:
-                                      - field: inventory-potion-#{i}
-                                        width: stretch
-                                        frame: none
-                                      - field: inventory-potion-#{i}-count
-                                        underlay: "#"
-                                        frame: none
-                                      - field: inventory-potion-#{i}-use
-                                        frame: none
-                                        control: checkgrid
-                                        max: 6
-                                        depth: 2
+                                      - row:
+                                        blk: false
+                                        contents:
+                                          - field: inventory-potion-#{i}
+                                            width: stretch
+                                            frame: none
+                                          - field: inventory-potion-#{i}-count
+                                            underlay: "#"
+                                            frame: none
+                                          - field: inventory-potion-#{i}-use
+                                            frame: none
+                                            control: checkgrid
+                                            max: 6
+                                            depth: 2
                           - tail:

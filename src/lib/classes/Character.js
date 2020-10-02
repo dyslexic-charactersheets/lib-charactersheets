@@ -209,6 +209,10 @@ function parseCharacter(primary, request) {
           char.units.push("option/inventory/full");
           break;
 
+        case "double":
+          char.units.push("option/inventory/double");
+          break;
+
         default:
           char.units.push("option/inventory/half");
       }

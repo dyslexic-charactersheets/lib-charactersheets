@@ -1,0 +1,95 @@
+unit: option/inventory/double
+in: option/inventory
+name: "_{Inventory (double size)}"
+
+require:
+  - unit: option/inventory/full
+
+inc:
+  - copy: inventory-full-column
+    contents:
+      - hr:
+      - list:
+        zebra: true
+        contents:
+          - repeat: 50
+            reduce: 10
+            merge-bottom: true
+            contents:
+              - row:
+                contents:
+                  - field: inventory-extra-#{i}
+                    frame: none
+                    width: stretch
+                  - field: inventory-extra-#{i}-value
+                    frame: none
+                  - field: inventory-extra-#{i}-weight
+                    frame: none
+      - tail:
+
+  - copy: inventory-container
+    contents:
+      - section: "_{Container}"
+        primary: true
+        contents:
+          - list:
+            zebra: true
+            contents:
+              - repeat: 13
+                reduce: 5
+                merge-bottom: true
+                contents:
+                  - row:
+                    contents:
+                      - field: inventory-extra-#{i}
+                        frame: none
+                        width: stretch
+                      - field: inventory-extra-#{i}-value
+                        frame: none
+                      - field: inventory-extra-#{i}-weight
+                        frame: none
+                  
+  - at: '@pages'
+    add:
+      - page: inventory
+        name: "_{Inventory (extra)}"
+        order: 17
+        flex: true
+        contents:
+          - layout: 3e
+            contents:
+              - g:
+                contents:
+                  - paste: inventory-full-column
+
+              - g:
+                contents:
+                  - h2: "_{Inventory}"
+                  
+                  - spacer:
+                  - paste: inventory-container
+                  - spacer:
+                  - paste: inventory-container
+                  - spacer:
+
+                  - list:
+                    zebra: true
+                    contents:
+                      - repeat: 18
+                        reduce: 5
+                        merge-bottom: true
+                        contents:
+                          - row:
+                            contents:
+                              - field: inventory-extra-#{i}
+                                frame: none
+                                width: stretch
+                              - field: inventory-extra-#{i}-value
+                                frame: none
+                              - field: inventory-extra-#{i}-weight
+                                frame: none
+                  - tail:
+
+              - g:
+                contents:
+                  - paste: inventory-full-column
