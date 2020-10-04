@@ -47,11 +47,18 @@ module.exports = {
         // log("formdata", `Unit ${unit.in}:${unit.code}`);
         
         var unlocks = [];
+        var exclude_from = [];
         if (_.has(unit, "form") && unit.id != "base") {
           unit.form.forEach(item => {
             var key = Object.keys(item)[0];
-            if (key == "select" ) {
-              unlocks.push(item[key]);
+            switch (key) {
+              case "select":
+                unlocks.push(item[key]);
+                break;
+
+              case "exclude-from":
+                exclude_from.push(item[key]);
+                break;
             }
           });
         }
@@ -65,13 +72,16 @@ module.exports = {
           code: unit.code,
           group: unit.group,
           name: unit.name,
-          selects: unlocks
         };
 
         if (_.has(unit, "level"))
           item.level = unit.level;
         if (_.has(unit, "order"))
           item.order = unit.order;
+        if (unlocks.length > 0)
+          item["selects"] = unlocks;
+        if (exclude_from.length > 0)
+          item["exclude-from"] = exclude_from;
 
         slotValues[unit.in][unit.code] = item;
 
