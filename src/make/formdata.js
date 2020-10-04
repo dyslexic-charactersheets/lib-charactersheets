@@ -2,7 +2,7 @@ const _ = require('lodash');
 require('./log');
 
 module.exports = {
-  summarise: function(units) {
+  summarise: function(game, units) {
     var baseSelects = [];
     var baseOptions = [];
     var slotValues = {};
@@ -22,6 +22,18 @@ module.exports = {
         flag: 'it'
       }
     ];
+
+    switch (game) {
+      case "pathfinder2":
+        baseSelects.push({
+          select: "heritage/versatile",
+          name: "Versatile Heritages",
+          max: 1,
+          base: false,
+          values: [],
+        });
+        break;
+    }
 
     units.forEach(unit => {
       if (_.has(unit, "in")) {
