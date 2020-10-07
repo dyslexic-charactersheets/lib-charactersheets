@@ -12,6 +12,7 @@ const expansion = {
     'class-name': 'title',
     'class-icon': 'icon',
     'collate-pages': '',
+    'color': 'color',
     cost: 'cost',
     document: 'title',
     each: '',

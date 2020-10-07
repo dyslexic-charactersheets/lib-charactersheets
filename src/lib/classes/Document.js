@@ -20,6 +20,8 @@ export class Document {
     this.zones = {};
     this.templates = {};
     this.delayedBlocks = [];
+    this.cssParts = [];
+    this.jsParts = [];
 
     this.largePrint = false;
     this.highContrast = false;
@@ -425,6 +427,11 @@ export class Document {
       cssParts.push(`.page__background{background: ${this.backgroundColour};}`);
     }
 
+    // custom extras
+    this.cssParts.forEach(css => {
+      this.cssParts.push(css);
+    });
+
     return cssParts.join("");
   }
 
@@ -435,6 +442,11 @@ export class Document {
       if (!has(unit, "js") || unit.js == "")
         return;
       jsParts.push(unit.js);
+    });
+
+    // custom extras
+    this.jsParts.forEach(js => {
+      this.jsParts.push(js);
     });
 
     return jsParts.join("\n");

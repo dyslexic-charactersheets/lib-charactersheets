@@ -40,9 +40,12 @@ module.exports = {
         // get a shorter unit code
         if (!_.has(unit, "code")) {
           unit.code = unit.id;
-          if (unit.code.startsWith(unit.in)) {
+          if (unit.in == "heritage/versatile/") {
+            unit.code = unit.id.substr("heritage/".length);
+          } else if (unit.code.startsWith(unit.in)) {
             unit.code = unit.id.substr(unit.in.length + 1);
           }
+          unit.code = unit.code.replace(/\//g, '-');
         }
         // log("formdata", `Unit ${unit.in}:${unit.code}`);
         

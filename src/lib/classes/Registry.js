@@ -12,6 +12,7 @@ import { article } from '../elements/article';
 import { blockquote } from '../elements/blockquote';
 import { calc } from '../elements/calc';
 import { class_icon } from '../elements/class-icon';
+import { color } from '../elements/color';
 import { ifelem } from '../elements/control';
 // import { document } from '../elements/document';
 import { dl } from '../elements/dl';
@@ -96,6 +97,7 @@ export class Registry {
       calc,
       class_name,
       class_icon,
+      color,
       each,
       embed,
       flags,
