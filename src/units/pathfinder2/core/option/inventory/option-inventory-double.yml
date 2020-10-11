@@ -7,31 +7,49 @@ require:
 
 inc:
   - copy: inventory-full-column
+    params:
+      col: ''
     contents:
       - hr:
+        blk: false
       - list:
-        zebra: true
+        hr: true
         contents:
-          - repeat: 50
-            reduce: 10
-            merge-bottom: true
+          - repeat: 3
             contents:
-              - row:
+              - g:
+                blk: false
                 contents:
-                  - field: inventory-extra-#{i}
-                    frame: none
-                    width: stretch
-                  - field: inventory-extra-#{i}-value
-                    frame: none
-                  - field: inventory-extra-#{i}-weight
-                    frame: none
+                  - list:
+                    zebra: true
+                    # zebra-inverse: "#{i}"
+                    contents:
+                      - repeat: 16
+                        reduce: 3
+                        merge-bottom: true
+                        index: j
+                        contents:
+                          - row:
+                            contents:
+                              - field: inventory-extra-#{col}-#{i}-#{j}
+                                frame: none
+                                width: stretch
+                              - field: inventory-extra-#{col}-#{i}-#{j}-value
+                                frame: none
+                              - field: inventory-extra-#{col}-#{i}-#{j}-weight
+                                frame: none
       - tail:
 
   - copy: inventory-container
+    params:
+      group: ''
     contents:
       - section: "_{Container}"
         primary: true
         contents:
+          - field: inventory-extra-group-#{group}
+            size: large
+            width: stretch
           - list:
             zebra: true
             contents:
@@ -41,12 +59,12 @@ inc:
                 contents:
                   - row:
                     contents:
-                      - field: inventory-extra-#{i}
+                      - field: inventory-extra-#{group}-#{i}
                         frame: none
                         width: stretch
-                      - field: inventory-extra-#{i}-value
+                      - field: inventory-extra-#{group}-#{i}-value
                         frame: none
-                      - field: inventory-extra-#{i}-weight
+                      - field: inventory-extra-#{group}-#{i}-weight
                         frame: none
                   
   - at: '@pages'
@@ -61,6 +79,8 @@ inc:
               - g:
                 contents:
                   - paste: inventory-full-column
+                    params:
+                      col: left
 
               - g:
                 contents:
@@ -68,14 +88,18 @@ inc:
                   
                   - spacer:
                   - paste: inventory-container
+                    params:
+                      group: first
                   - spacer:
                   - paste: inventory-container
-                  - spacer:
+                    params:
+                      group: second
+                  # - spacer:
 
                   - list:
                     zebra: true
                     contents:
-                      - repeat: 18
+                      - repeat: 16
                         reduce: 5
                         merge-bottom: true
                         contents:
@@ -93,3 +117,5 @@ inc:
               - g:
                 contents:
                   - paste: inventory-full-column
+                    params:
+                      col: right

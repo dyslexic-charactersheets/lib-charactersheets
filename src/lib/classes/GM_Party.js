@@ -90,9 +90,9 @@ export class GM_Party extends GM_Instance {
   completeDocument(document) {
     document.title = "Party";
 
-    log("GM", "Colors", this.data.colors);
+    // log("GM", "Colors", this.data.colors);
     this.data.colors.forEach((color, i) => {
-      log("GM", "Adding color", i, color);
+      // log("GM", "Adding color", i, color);
       
       // TODO custom Sass compilation for color blocks
       let css = `".color--color_${i} p, .color--color_${i} label, .color--color_${i} span { color: black; }`;

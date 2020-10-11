@@ -166,6 +166,10 @@ export function mergeBottom(element, allItems = false) {
         });
         break;
 
+      case 'table':
+        element.rows = mergeBottom(element.rows);
+        break;
+
       case 'row':
       case 'td':
         element.contents.forEach(e => {

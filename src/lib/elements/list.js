@@ -1,4 +1,4 @@
-import { isObject, isEmpty, isNull } from '../util';
+import { isObject, isEmpty, isNull, isNumber, isString } from '../util';
 import { elementClass } from '../util/elements';
 import { has } from '../util/objects';
 import { log, error } from '../log';
@@ -30,6 +30,10 @@ export let list = {
     }
     if (args.zebra && args['avoid-shade']) {
       args['zebra-inverse'] = (args.contents.length % 2 == 0);
+    // } else if (isNumber(args['zebra-inverse']) || isString(args['zebra-inverse'])) {
+    //   let zebraInverse = parseInt(args['zebra-inverse']);
+    //   log("list", "Zebra inverse:", zebraInverse);
+    //   args['zebra-inverse'] = (zebraInverse % 2 == 0);
     }
     const cls = elementClass('list', null, args,
       ["zebra", "zebra-inverse", "collapse", "vr", "hr", "light", "merge-bottom", "blk", "unblk"],

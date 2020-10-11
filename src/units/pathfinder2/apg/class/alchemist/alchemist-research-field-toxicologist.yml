@@ -1,0 +1,171 @@
+unit: alchemist/research-field/apg/toxicologist
+in: alchemist/research-field
+group: "_{Advanced Player's Guide}"
+name: "_{Toxicologist}"
+
+inc:
+  - set: alchemist-research-field
+    value: "_{Toxicologist}"
+
+  - at: '@alchemist/research-field'
+    replace:
+      - g:
+        contents:
+          - h4: "_{Toxicologist}"
+          - hr:
+            swash: true
+          - action:
+            contents:
+              - p: "_{Apply poison to a weapon. Use your class DC for poisons if it's higher.}"
+      - level: 5
+        contents:
+          - h5: "_{Field Discovery}"
+          - row:
+            contents:
+              - level-marker:
+                level: 1
+                marker: "_{Infused\nReagents}"
+              - span: "&rarr;"
+              - level-marker:
+                level: 3
+                marker: "_{Poisons}"
+              - p: "_{When preparing poisons with Advanced Alchemy.}"
+      - level: 13
+        contents:
+          - h5: "_{Greater Field Discovery}"
+          - p: "_{Apply two poisons to the same weapon, provided they were prepared with perpetual infusions.}"
+          - row:
+            contents:
+              - calc:
+                output:
+                  field:
+                  legend: "_{Max Poison Level}"
+                  width: large
+                  border: full
+                inputs:
+                  - field:
+                    ref: level
+                    label: "_{Level}"
+                  - span: "- 6"
+              - span: "&nbsp;"
+              - p: "_{Use the lower of the two poison DCs, and the lower number of poison stages.}"
+          
+  - at: '@alchemist/formulas'
+    replace:
+      - table:
+        field_frame: none
+        width: stretch
+        merge-bottom: true
+        columns:
+          - label: "_{Poison}"
+            align: left
+          - "_{Level}"
+          - "_{Action}"
+          - "_{Activate}"
+          - "_{Stages}"
+        rows:
+          - n: 1
+        repeat: 5
+        template:
+          - field: alchemist-poison-#{i}
+            width: stretch
+          - field: alchemist-poison-#{i}-level
+            width: small
+          - field: alchemist-poison-#{i}-action
+            control: icon
+            icon: action-template
+          - field: alchemist-poison-#{i}-activate
+            width: huge
+          - field: alchemist-poison-#{i}-stages
+            width: stretch
+      - hr:
+
+  - at: '@formula-book/left'
+    replace:
+      - list:
+        zebra: true
+        hr: true
+        flex: true
+        contents:
+          - repeat: 4
+            index: j
+            contents:
+              - article: formula-book-poison-#{j}
+                show-level: true
+                header:
+                  - row:
+                    contents:
+                      - field: 'formula-book-poison-#{j}'
+                        width: stretch
+                        align: left
+                        legend: "_{Poison}"
+                      - field: 'formula-book-poison-#{j}-level'
+                        label: "_{Level}"
+                  
+                contents:
+                  - action: template
+                    contents:
+                      - row:
+                        contents:
+                          - field: formula-book-poison-#{j}-activate
+                            label: "_{Activate}"
+                            width: stretch
+                          - field: formula-book-poison-#{j}-method
+                            label: "_{Method}"
+                            width: stretch
+
+                  - row:
+                    contents:
+                      - field:
+                        label: "_{Onset}"
+                        width: stretch
+                      - field:
+                        label: "_{Saving Throw}"
+                        width: stretch
+                        align: right
+                      - field: formula-book-poison-#{j}-save-dc
+                        label: "_{DC}"
+                        icon: dc
+                        border: full
+
+                  - list:
+                    # zebra: true
+                    # zebra-inverse: true
+                    contents:
+                      - row:
+                        contents:
+                          - p:
+                            title: "_{Stage 1}"
+                          - field: formula-book-poison-#{j}-stage-1
+                      - row:
+                        contents:
+                          - p:
+                            title: "_{Stage 2}"
+                          - field: formula-book-poison-#{j}-stage-2
+                      - row:
+                        contents:
+                          - p:
+                            title: "_{Stage 3}"
+                          - field: formula-book-poison-#{j}-stage-3
+
+                  - field: 'formula-book-poison-#{j}-details'
+                    width: stretch
+                    align: left
+                    frame: none
+                    repeat: 2
+                    reduce: 1
+                  - row:
+                    contents:
+                      - field: 'formula-book-poison-#{j}-final'
+                        width: stretch
+                      - field: 'formula-book-poison-#{j}-ref'
+                        icon: book
+                        label: "_{Source}"
+                        align: left
+                        width: huge
+                        control: compound
+                        parts:
+                          - width: large
+                          - span: 'p'
+                          - width: large
+                            align: left
