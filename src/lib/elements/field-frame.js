@@ -83,7 +83,7 @@ export let field_frame_annotation = {
 export let field_frame_circle = {
   name: 'frame:circle',
   defaults: {
-    border: 'full'
+    border: 'circle'
   },
   render: defaultFrameRender
 }
