@@ -1,0 +1,156 @@
+unit: champion/cause/apg/antipaladin
+in: champion/cause
+order: 9
+group: "_{Advanced Player's Guide}"
+name: "_{Antipaladin}"
+badge: "_{Chaotic Evil}"
+
+# require:
+#   - unit: champion/devotion-spell/lay-on-hands
+
+inc:
+  - set: class
+    value: "_{Antipaladin}"
+  - set: 'champion-cause-name'
+    value: '_{Antipaladin}'
+
+  - at: '@champion/class-name'
+    replace:
+      - class-name: "_{Antipaladin}"
+        preface: "_{Champion}"
+        suffix: "_{of}"
+
+  - at: '@champion/cause-section'
+    replace:
+      - section: "_{Antipaladin}"
+        primary: true
+        contents:
+          - list:
+            contents:
+              - layout: alignment
+                contents:
+                  - g:
+                    contents:
+                      - field: cause
+                        width: stretch
+                        size: large
+                        legend: "Cause"
+                      - field: cause-detail
+                        width: stretch
+                        frame: none
+                  - field: cause-alignment
+                    control: alignment
+                    frame: none
+              - g:
+                contents:
+                  - h5: "_{Tenets}"
+                  - ul:
+                    contents:
+                      - li: "_{Never willingly commit a purely good act, such as giving out of charity, casting a good spell or using a good item.}"
+                      - li: "_{Never put another's needs before you own, or put your own needs before your deity's.}"
+                      - li: "_{Must not bind yourself with any law or oath beyond that of your code. Act dishonourably, take advantage of others, lie, cheat and steal to get what you want.}"
+                      - li: "_{Destroy that which offends you or stands in your way, particularly the forces of good and law that oppose you.}"
+                  - h5: "_{Anathema}"
+                  - paste: anathema
+                    params:
+                      merge-bottom: false
+                  - p: "_{If you violate your code of conduct, you lose your focus pool and divine ally until you demonstrate repentance.}"
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        advance: "_{Destructive Vengeance}"
+
+  - at: '@actions'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{Destructive Vengeance}"
+            content: "_{Deal evil or negative damage to one who attacks you}"
+
+  - at: '@reference/actions'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{Destructive Vengeance}"
+            content: "_{Deal evil or negative damage to one who attacks you}"
+
+  - at: '@champion/reaction-section'
+    replace:
+      - section: "_{Destructive Vengeance}"
+        contents:
+          - list:
+            hr: true
+            contents:
+              - action: reaction
+                contents:
+                  - p: "_{When an enemy within 15ft damages you, you may take extra damage to also deal that damage in return.}"
+                  - table:
+                    flip: true
+                    rows:
+                      - level: 1
+                        damage: "_{1d6}"
+                      - level: 5
+                        damage: "_{2d6}"
+                      - level: 9
+                        damage: "_{3d6}"
+                      - level: 12
+                        damage: "_{4d6}"
+                      - level: 16
+                        damage: "_{5d6}"
+                      - level: 19
+                        damage: "_{6d6}"
+                    columns:
+                      - label: "_{Level}"
+                        rotate: true
+                      - label: "_{Damage}"
+                        rotate: true
+                    template:
+                      - level-marker: "#{level}"
+                        marker: ""
+                      - value: "#{damage}"
+
+                  - p: "_{Your strikes against that enemy do extra evil or negative damage on your next turn.}"
+                  - table:
+                    flip: true
+                    rows:
+                      - level: 1
+                        damage: "+2"
+                      - level: 9
+                        damage: "+4"
+                      - level: 16
+                        damage: "+6"
+                    columns:
+                      - label: "_{Level}"
+                        rotate: true
+                      - label: "_{Extra\nDamage}"
+                        rotate: true
+                    template:
+                      - level-marker: "#{level}"
+                        marker: ""
+                      - value: "#{damage}"
+
+              - level: 9
+                contents:
+                  - h5: "_{Divine Smite}"
+                  - p: "_{The enemy also takes persistent evil damage:}"
+                  - g:
+                    pad: true
+                    contents:
+                      - calc:
+                        output:
+                          field: champion-divine-smite-glimpse-of-redemption
+                          legend: "_{Persistent\nDamage}"
+                          width: large
+                        inputs:
+                          - field:
+                            ref: CHA
+                            label: "_{CHA}"
+                            underlay: "_{CHA}"
+
+              - level: 11
+                contents:
+                  - h5: "_{Exalt}"
+                  - p: "_{Other enemies withing 15 feet take half the damage.}"

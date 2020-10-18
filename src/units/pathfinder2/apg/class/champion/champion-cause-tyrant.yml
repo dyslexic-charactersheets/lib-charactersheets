@@ -1,0 +1,159 @@
+unit: champion/cause/apg/tyrant
+in: champion/cause
+order: 7
+group: "_{Advanced Player's Guide}"
+name: "_{Tyrant}"
+badge: "_{Lawful Evil}"
+
+# require:
+#   - unit: champion/devotion-spell/lay-on-hands
+
+inc:
+  - set: class
+    value: "_{Tyrant}"
+  - set: 'champion-cause-name'
+    value: '_{Tyrant}'
+
+  - at: '@champion/class-name'
+    replace:
+      - class-name: "_{Tyrant}"
+        preface: "_{Champion}"
+        suffix: "_{of}"
+
+  - at: '@champion/cause-section'
+    replace:
+      - section: "_{Tyrant}"
+        primary: true
+        contents:
+          - list:
+            contents:
+              - layout: alignment
+                contents:
+                  - g:
+                    contents:
+                      - field: cause
+                        width: stretch
+                        size: large
+                        legend: "Cause"
+                      - field: cause-detail
+                        width: stretch
+                        frame: none
+                  - field: cause-alignment
+                    control: alignment
+                    frame: none
+              - g:
+                contents:
+                  - h5: "_{Tenets}"
+                  - ul:
+                    contents:
+                      - li: "_{Never willingly commit a purely good act, such as giving out of charity, casting a good spell or using a good item.}"
+                      - li: "_{Never put another's needs before you own, or put your own needs before your deity's.}"
+                      - li: "_{Let no one lesser than you wield power over you or lead you.}"
+                      - li: "_{Mercilessly enforce established hierarchies of masters and servants. Topple or sieze control of illegitimate hierarchies, such as democratic governments or the arrogant echelons of the celestial planes, and fill power vacuums by taking that power for yourself.}"
+                      - li: "_{Bind the weak to serve you.}"
+                  - h5: "_{Anathema}"
+                  - paste: anathema
+                    params:
+                      merge-bottom: false
+                  - p: "_{If you violate your code of conduct, you lose your focus pool and divine ally until you demonstrate repentance.}"
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        advance: "_{Iron Command}"
+
+  - at: '@actions'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{Iron Command}"
+            content: "_{Command an enemy to kneel before you}"
+
+  - at: '@reference/actions'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{Iron Command}"
+            content: "_{Command an enemy to kneel before you}"
+
+  - at: '@champion/reaction-section'
+    replace:
+      - section: "_{Iron Command}"
+        contents:
+          - list:
+            hr: true
+            contents:
+              - action: reaction
+                contents:
+                  - p: "_{When an enemy within 15ft damages you, command them enemy to kneel before you in obedience.}"
+                  - ul:
+                    contents:
+                      - li: "_{They can drop prone as a free action}"
+                      - li: "_{OR they can suffer mental damage}"
+                  - table:
+                    flip: true
+                    rows:
+                      - level: 1
+                        damage: "_{1d6}"
+                      - level: 5
+                        damage: "_{2d6}"
+                      - level: 9
+                        damage: "_{3d6}"
+                      - level: 12
+                        damage: "_{4d6}"
+                      - level: 16
+                        damage: "_{5d6}"
+                      - level: 19
+                        damage: "_{6d6}"
+                    columns:
+                      - label: "_{Level}"
+                        rotate: true
+                      - label: "_{Mental\nDamage}"
+                        rotate: true
+                    template:
+                      - level-marker: "#{level}"
+                        marker: ""
+                      - value: "#{damage}"
+              - level: 9
+                contents:
+                  - h5: "_{Divine Smite}"
+                  - p: "_{An enemy who refuses your command also takes persistent evil damage:}"
+                  - g:
+                    pad: true
+                    contents:
+                      - calc:
+                        output:
+                          field: champion-divine-smite-glimpse-of-redemption
+                          legend: "_{Persistent\nDamage}"
+                          width: large
+                        inputs:
+                          - field:
+                            ref: CHA
+                            label: "_{CHA}"
+                            underlay: "_{CHA}"
+              - level: 11
+                contents:
+                  - h5: "_{Exalt}"
+                  - p: "_{Other enemies within 15ft must kneel or take damage.}"
+                  - table:
+                    flip: true
+                    rows:
+                      - level: 11
+                        damage: "3"
+                      - level: 12
+                        damage: "4"
+                      - level: 16
+                        damage: "5"
+                      - level: 19
+                        damage: "6"
+                    columns:
+                      - label: "_{Level}"
+                        rotate: true
+                      - label: "_{Mental\nDamage}"
+                        rotate: true
+                    template:
+                      - level-marker: "#{level}"
+                        marker: ""
+                      - value: "#{damage}"

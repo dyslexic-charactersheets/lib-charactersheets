@@ -1,0 +1,144 @@
+unit: champion/cause/apg/desecrator
+in: champion/cause
+order: 8
+group: "_{Advanced Player's Guide}"
+name: "_{Desecrator}"
+badge: "_{Neutral Evil}"
+
+# require:
+#   - unit: champion/devotion-spell/lay-on-hands
+
+inc:
+  - set: class
+    value: "_{Desecrator}"
+  - set: 'champion-cause-name'
+    value: '_{Desecrator}'
+
+  - at: '@champion/class-name'
+    replace:
+      - class-name: "_{Desecrator}"
+        preface: "_{Champion}"
+        suffix: "_{of}"
+
+  - at: '@champion/cause-section'
+    replace:
+      - section: "_{Desecrator}"
+        primary: true
+        contents:
+          - list:
+            contents:
+              - layout: alignment
+                contents:
+                  - g:
+                    contents:
+                      - field: cause
+                        width: stretch
+                        size: large
+                        legend: "Cause"
+                      - field: cause-detail
+                        width: stretch
+                        frame: none
+                  - field: cause-alignment
+                    control: alignment
+                    frame: none
+              - g:
+                contents:
+                  - h5: "_{Tenets}"
+                  - ul:
+                    contents:
+                      - li: "_{Never willingly commit a purely good act, such as giving out of charity, casting a good spell or using a good item.}"
+                      - li: "_{Never put another's needs before you own, or put your own needs before your deity's.}"
+                      - li: "_{Subvert or corrupt everything in your path that is pure and good, and sow doubt among those upholding such ideals.}"
+                  - h5: "_{Anathema}"
+                  - paste: anathema
+                    params:
+                      merge-bottom: false
+                  - p: "_{If you violate your code of conduct, you lose your focus pool and divine ally until you demonstrate repentance.}"
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        advance: "_{Selfish Shield}"
+
+  - at: '@actions'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{Selfish Shield}"
+            content: "_{Gain resistance against damage}"
+
+  - at: '@reference/actions'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{Selfish Shield}"
+            content: "_{Gain resistance against damage}"
+
+  - at: '@champion/reaction-section'
+    replace:
+      - section: "_{Selfish Shield}"
+        contents:
+          - list:
+            hr: true
+            contents:
+              - action: reaction
+                contents:
+                  - p: "_{When an enemy within 15ft damages you, you may reduce that damage.}"
+                  - calc:
+                    output:
+                      field: desecrator-selfish-shield-resistance
+                      legend: "_{Resistance}"
+                      width: large
+                    inputs:
+                      - span: "2 + ("
+                      - field:
+                        ref: level
+                        label: "_{Level}"
+                      - span: "&divide; 2)"
+                  - p: "_{Strikes against that enemy do extra evil or negative damage for your next turn.}"
+                  - table:
+                    flip: true
+                    rows:
+                      - level: 1
+                        damage: "+1"
+                      - level: 9
+                        damage: "+2"
+                      - level: 16
+                        damage: "+3"
+                    columns:
+                      - label: "_{Level}"
+                        rotate: true
+                      - label: "_{Damage}"
+                        rotate: true
+                    template:
+                      - level-marker: "#{level}"
+                        marker: ""
+                      - value: "#{damage}"
+              - level: 9
+                contents:
+                  - h5: "_{Divine Smite}"
+                  - p: "_{If your CHA is +2 or greater, resistance becomes:}"
+                  - g:
+                    pad: true
+                    contents:
+                      - calc:
+                        output:
+                          field: champion-divine-smite-glimpse-of-redemption
+                          legend: "_{Resistance}"
+                          width: large
+                        inputs:
+                          - field:
+                            ref: CHA
+                            label: "_{CHA}"
+                            underlay: "_{CHA}"
+                          - span: "+ ("
+                          - field:
+                            ref: level
+                            label: "_{Level}"
+                          - span: "&divide; 2)"
+              - level: 11
+                contents:
+                  - h5: "_{Exalt}"
+                  - p: "_{All enemies within 15ft take -1 to attack you until your next turn.}"

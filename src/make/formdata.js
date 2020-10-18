@@ -77,6 +77,8 @@ module.exports = {
           name: unit.name,
         };
 
+        if (_.has(unit, "badge"))
+          item.badge = unit.badge;
         if (_.has(unit, "level"))
           item.level = unit.level;
         if (_.has(unit, "order"))
