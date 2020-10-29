@@ -1,0 +1,144 @@
+unit: sorcerer/bloodline/apg/genie
+in: sorcerer/bloodline
+group: "_{Advanced Player's Guide}"
+name: "_{Genie}"
+
+inc:
+  - set: deception-proficiency
+    value: trained
+  - set: arcana-proficiency
+    value: trained
+
+  - set: sorcerer-bloodline
+    value: "_{Genie}"
+  - set: spell-list
+    value: "_{Arcane}"
+  - set: arcane-spell-proficiency
+    value: trained
+
+  - at: '@sorcerer/bloodline'
+    replace:
+      - h4: "_{Genie}"
+
+  - at: '@sorcerer/bloodline-extra'
+    add:
+      - field:
+        label: "_{Genie Type}"
+        width: stretch
+
+  - at: '@sorcerer/dcs'
+    replace:
+      - paste: arcane-spell-dcs
+
+  - at: '@focus-spells'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{Genie's Veil}"
+            content: "_{Conceal target against attacks.}"
+
+  - at: '@sorcerer/bloodline-spell/initial'
+    replace:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{Genie's Veil}"
+            content: "_{Conceal target against attacks.}"
+
+  - at: '@sorcerer/bloodline-spell/advanced'
+    replace:
+      - action:
+        contents:
+          - p:
+            title: "_{Heart's Desire}"
+            content: "_{Distract a target with illusions of their greatest desires.}"
+
+  - at: '@sorcerer/bloodline-spell/greater'
+    replace:
+      - action:
+        contents:
+          - p:
+            title: "_{Wish-twisted Form}"
+            content: "_{Eliminate a target's defences and turn their strengths into weaknesses.}"
+
+  - at: '@sorcerer/blood-magic'
+    replace:
+      - p: "_{Either gain +1 to Deception, or target takes –1 to Perception, for 1 round.}"
+
+
+  - at: '@sorcerer/spellbook/bloodline-spell/initial'
+    replace:
+      - article:
+        title: "_{Genie's Veil}"
+        contents:
+          - action: reaction
+            contents:
+              - dl:
+                defs:
+                  range: "_{30ft}"
+              - p: "_{When an ally is attacked, you can make the disappear for a moment, granting them concealment against that attack and others until the end of the current creature's turn.}"
+
+  - at: '@sorcerer/spellbook/bloodline-spell/advanced'
+    replace:
+      - article:
+        title: "_{Heart's Desire}"
+        contents:
+          - action: 2
+            contents:
+              - dl:
+                defs:
+                  duration: "_{1 round}"
+              - p: "_{Surround targets with wondrous illusions of their greatest desires, which distract them from reality. Targets make a Will save:}"
+          - paste: save
+            params:
+              critical_success: "_{No effect.}"
+              success: "_{Stupefied 2 and –2 to any checks it makes to determine the effects of reactions, for 1 round.}"
+              failure: "_{Stupefied 2 and can't use reactions, for 1 minute.}"
+              critical_failure: "_{All spaces are difficult terrain.}"
+          - calc:
+            output:
+              label: "_{Targets}"
+            inputs:
+              - paste: round-down
+                contents:
+                  - span: "("
+                  - label: "_{Focus Level}"
+                  - span: "&divide; 2 )"
+              - span: "- 1"
+
+  - at: '@sorcerer/spellbook/bloodline-spell/greater'
+    replace:
+      - article:
+        title: "_{Wish-twisted Form}"
+        contents:
+          - action: 2
+            contents:
+              - dl:
+                defs:
+                  range: "_{60ft}"
+                  target: "_{1 creature}"
+              - p: "_{Eliminate a target's defences and turn their strengths into weaknesses.}"
+          - paste: save
+            params:
+              critical_success: "_{No effect.}"
+              success: "_{Affected for 1 round.}"
+              failure: "_{Affected for 1 minute.}"
+              critical_failure: "_{Take -1 AC for 1 minute}"
+          - hr:
+            light: true
+          - ul:
+            contents:
+              - li: "_{-10ft speed}"
+              - li: "_{-1 to saving throws}"
+              - li: "_{Weakness (see below) to one energy type}"
+              - li: "_{Reduce resitances (see below)}"
+          - calc:
+            output:
+              label: "_{Penalty}"
+            inputs:
+              - label: "_{Focus Level}"
+
+  - at: '@sorcerer/spellbook/blood-magic'
+    replace:
+      - p: "_{Either gain +1 to Deception, or target takes –1 to Perception, for 1 round.}"
