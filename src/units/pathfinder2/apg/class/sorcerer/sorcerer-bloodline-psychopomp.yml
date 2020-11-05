@@ -30,7 +30,7 @@ inc:
         contents:
           - p:
             title: "_{Sepulchral Mask}"
-            content: "_{}"
+            content: "_{A sombre mask gives you a bonus to Will saves and forces your foes to confront their regrets.}"
 
   - at: '@sorcerer/bloodline-spell/initial'
     replace:
@@ -38,7 +38,7 @@ inc:
         contents:
           - p:
             title: "_{Sepulchral Mask}"
-            content: "_{}"
+            content: "_{A sombre mask gives you a bonus to Will saves and forces your foes to confront their regrets.}"
 
   - at: '@sorcerer/bloodline-spell/advanced'
     replace:
@@ -46,7 +46,7 @@ inc:
         contents:
           - p:
             title: "_{Spirit Veil}"
-            content: "_{}"
+            content: "_{A veil conceals you, particularly from undead creatures.}"
 
   - at: '@sorcerer/bloodline-spell/greater'
     replace:
@@ -54,11 +54,11 @@ inc:
         contents:
           - p:
             title: "_{Shepherd of Souls}"
-            content: "_{}"
+            content: "_{Stay the hand of fate for one not yet destined to die, sacrificing some of your own vitality to heal them. }"
 
   - at: '@sorcerer/blood-magic'
     replace:
-      - p: "_{}"
+      - p: "_{Either gain +2 to Fortitude saving throws for 1 round, or a target takes 1 damage (positive or negative) per spell level.}"
 
 
   - at: '@sorcerer/spellbook/bloodline-spell/initial'
@@ -66,73 +66,85 @@ inc:
       - article:
         title: "_{Sepulchral Mask}"
         contents:
-          # - action: 1
-          #   contents:
-          #     - dl:
-          #       defs:
-          #         duration: "_{1 minute}"
-          #     - p: "_{Tentacles can make touch spells and unarmed strikes.}"
-          # - calc:
-          #   output:
-          #     label: "_{Tentacle\nReach}"
-          #   inputs:
-          #     - span: "("
-          #     - label: "_{Focus Level}"
-          #     - span: "&divide; 2"
-          #     - span: ") &times; 10ft"
+          - action: 2
+            contents:
+              - dl:
+                  duration: "_{1 minute}"
+              - value-block: "+1"
+                content: "_{Will saves}"
+          - calc:
+            output:
+              label: "_{Range}"
+            inputs:
+              - ruby-round-up:
+                contents:
+                  - span: "("
+                  - label: "_{Focus\nLevel}"
+                  - span: "&divide; 2"
+                  - span: ")"
+              - span: " &times; 5ft"
+          - p: "_{Targets within range must make a Will save:}"
+          - paste: save
+            params:
+              critical_success: "_{No effect.}"
+              success: "_{Half damage.}"
+              failure: "_{Full damage, -1 to Will saves against emotion effects for 1 round.}"
+              critical_failure: "_{Double damage, -1 to Will saves against emotion effects for 1 minute.}"
+          - calc:
+            output:
+              label: "_{Mental Damage}"
+            inputs:
+              - ruby-round-up:
+                contents:
+                  - span: "("
+                  - label: "_{Focus\nLevel}"
+                  - span: "&divide; 2"
+                  - span: ")"
+              - span: " &times; 2d4"
 
   - at: '@sorcerer/spellbook/bloodline-spell/advanced'
     replace:
       - article:
         title: "_{Spirit Veil}"
         contents:
-          # - action: 1
-          #   contents:
-          #     - dl:
-          #       defs:
-          #         duration: "_{1 round}"
-          #     - p: "_{You utter phrases in an unknown tongue, assaulting the minds of those nearby.}"
-          # - calc:
-          #   output:
-          #     label: "_{Spell\nRange}"
-          #   inputs:
-          #     - span: "("
-          #     - label: "_{Focus Level}"
-          #     - span: "&divide; 3 +"
-          #     - icon: action2nd
-          #     - span: ") &times; 5ft"
-          # - p: "_{Targets must make a will save:}"
-          # - dl:
-          #   div: true
-          #   defs:
-          #     success: "_{No effect}"
-          #     failure: "_{Stupefied 2}"
-          #     critical_failure: "_{Confused}"
+          - paste: heighten
+            params:
+              level: "3"
+              heighten: "+2"
+              max: 8
+          - action: 2
+            contents:
+              - dl:
+                  duration: "_{1 minute}"
+              - p: "_{Concealed to all creatures. Hidden from undead creatures regardless of what precise senses they have; this grants the effects of invisibility, but against all the undead creature's precise senses.}"
+              - p: "_{If you physically interact with an undead creature or use a hostile action, the spell ends.}"
+          - hr:
+            light: true
+          - p:
+            title: "_{Heighten}"
+            content: "_{Conceal an extra target.}"
 
   - at: '@sorcerer/spellbook/bloodline-spell/greater'
     replace:
       - article:
         title: "_{Shepherd of Souls}"
         contents:
-          # - action: 1
-          #   contents:
-          #     - dl:
-          #       defs:
-          #         duration: "_{1 minute}"
-          #     - p: "_{Transform your flesh into bizarre shapes.}"
-          # - ul:
-          #   contents:
-          #     - li: "_{Resistance to precision and critical hit damage}"
-          #     - li: "_{Darkvision}"
-          #     - li: "_{2d6 return acid damage when hit in melee}"
-          # - calc:
-          #   output:
-          #     label: "_{Damage\nResistance}"
-          #   inputs:
-          #     - span: "("
-          #     - label: "_{Focus Level}"
-          #     - span: "&divide; 2 + 1"
-          #     - span: ") &times; 5ft"
+          - action: reaction
+            contents:
+              - dl:
+                  range: "_{30ft}"
+              - p: "_{When a creature within range takes damage, sacrifice hit points to reduce target's damage by twice that many.}"
+          - calc:
+            output:
+              label: "_{Max Hit\nPoints}"
+            inputs:
+              - ruby-round-up:
+                contents:
+                  - span: "("
+                  - label: "_{Focus\nLevel}"
+                  - span: "&divide; 2"
+                  - span: ")"
+              - span: "&times; 5ft"
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:
