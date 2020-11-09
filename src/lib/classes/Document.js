@@ -438,15 +438,19 @@ export class Document {
   getJavascript() {
     let jsParts = [];
 
+    function processJS(js) {
+      return js.replace(/\/\*.*?\*\//g, '');
+    }
+
     this.units.forEach(unit => {
       if (!has(unit, "js") || unit.js == "")
         return;
-      jsParts.push(unit.js);
+      jsParts.push(processJS(unit.js));
     });
 
     // custom extras
     this.jsParts.forEach(js => {
-      this.jsParts.push(js);
+      this.jsParts.push(processJS(js));
     });
 
     return jsParts.join("\n");

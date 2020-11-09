@@ -2773,7 +2773,7 @@ article header .field__box { border-bottom-width: 0.05rem; margin-bottom: -0.05r
 <button id='button--print' onclick="window.print();return false;">Print</button>
 </nav>
 <script type='text/javascript'>
-if ((function isSafari() {
+/* function isSafari() {
   var parser = new UAParser();
   var result = parser.getResult();
 
@@ -2782,7 +2782,11 @@ if ((function isSafari() {
   var eng = result.engine.name;
 
   return br == "Safari" || br == "Mobile Safari" || ((os == "iOS" || os == "Mac OS") && eng == "WebKit");
-})()) {
+} */
+
+var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+if (isSafari) {
   document.documentElement.classList.add("html--safari");
 }
 
