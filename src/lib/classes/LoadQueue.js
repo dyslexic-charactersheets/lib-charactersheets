@@ -38,7 +38,7 @@ export class LoadQueue {
 
   ready(callback) {
     Promise.all(this.promises).then(callback).catch(err => {
-      error("LoadQueue", "Queue error", err, err.stack);
+      error("LoadQueue", "Queue error:", err, "@", err.stack);
     });
   }
 }

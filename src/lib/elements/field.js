@@ -44,7 +44,7 @@ export let field = {
     args = fieldDefaults(args, reg, doc);
 
     if (isNull(args.value)) {
-      args.value = doc.getVar(args.id);
+      args.value = doc.getVar(args.id, args.typeHint);
       // if (args.value) log("field", "Value:", args.id, "=", args.value);
     }
     if (args.ruby) {

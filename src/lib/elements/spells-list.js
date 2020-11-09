@@ -2,7 +2,7 @@ import { isArray, isString } from '../util';
 import { interpolate } from '../util/objects';
 import { log } from '../log';
 
-function spellField(lvl, style, n, annotation, value) {
+function spellField(lvl, style, checks, n, annotation, value) {
   // log("spells", `Spell field: level = ${lvl}, style = ${style}, n = ${n}`);
   let frame = "none";
   let label = null;
@@ -16,6 +16,14 @@ function spellField(lvl, style, n, annotation, value) {
 
   switch (style) {
     case 'prepared':
+      let checkboxes = [];
+      for (let i = 0; i < checks; i++) {
+        checkboxes.push({
+            control: "checkbox",
+            id: `spells-level-${lvl}-${n}-${i}`
+          });
+      }
+
       return {
         type: "field",
         id: `spells-level-${lvl}-${n}`,
@@ -26,10 +34,7 @@ function spellField(lvl, style, n, annotation, value) {
         // border: border,
         control: "compound",
         parts: [
-          {
-            control: "checkbox",
-            id: `spells-level-${lvl}-${n}`
-          },
+          ...checkboxes,
           {
             control: "input",
             width: 'stretch',
@@ -55,7 +60,7 @@ function spellField(lvl, style, n, annotation, value) {
   }
 }
 
-function spellLevel(lvl, ord, style, slots, special, special_value) {
+function spellLevel(lvl, ord, style, checks, slots, special, special_value) {
   // log("spells", "Spell level:", lvl);
   const level_marker = {
     type: "level-marker",
@@ -68,7 +73,7 @@ function spellLevel(lvl, ord, style, slots, special, special_value) {
   if (special) {
     if (isString(special)) {
       // log("spells", "Adding special entry", special);
-      special = spellField(lvl, style, "special", special, special_value);
+      special = spellField(lvl, style, checks, "special", special, special_value);
       // log("spells", "Special", special);
     }
     special = interpolate(special, { 'level': lvl });
@@ -79,7 +84,7 @@ function spellLevel(lvl, ord, style, slots, special, special_value) {
   const n = parseInt(2 * Math.ceil((slots + fields.length) / 2.0)) - fields.length;
   // log("spells", `Adding up to ${n} spell fields`);
   for (let i = 1; i <= n; i++) {
-    fields.push(spellField(lvl, style, i, '', ''));
+    fields.push(spellField(lvl, style, checks, i, '', ''));
   }
   // log("spells", "Spell fields", fields);
 
@@ -167,6 +172,7 @@ export let spells_list = {
     special: false,
     "special-value": "",
     style: "prepared",
+    checks: 3,
     ordinal: true,
   },
   transform(args, ctx) {
@@ -190,7 +196,7 @@ export let spells_list = {
     let spell_levels = [];
 
     if (args.cantrips) {
-      spell_levels.push(spellLevel(0, '', 'spontaneous', args.cantrips, false));
+      spell_levels.push(spellLevel(0, '', 'spontaneous', 1, args.cantrips, false));
     }
 
     for (let lvl = min; lvl <= max; lvl++) {
@@ -199,7 +205,7 @@ export let spells_list = {
       if (args.special && isArray(args["special-value"]) && args["special-value"].length > lvl - args.max) {
         special_value = args["special-value"][lvl - args.max];
       }
-      spell_levels.push(spellLevel(lvl, ord, args.style, slots[lvl], args.special, special_value));
+      spell_levels.push(spellLevel(lvl, ord, args.style, args.checks, slots[lvl], args.special, special_value));
     }
 
     return [

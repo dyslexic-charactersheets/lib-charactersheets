@@ -84,8 +84,16 @@ export class Document {
   }
 
   getVar(varname, typeHint = null) {
-    if (!has(this.vars, varname))
+    if (!has(this.vars, varname)) {
+      if (!isNull(typeHint)) {
+        switch (typeHint) {
+          case 'string': return '';
+          case 'number': return 0;
+          case 'boolean': return false;
+        }
+      }
       return false;
+    }
 
     // separate the stored vars by priority
     const high = [], medium = [], low = [];
@@ -215,8 +223,8 @@ export class Document {
       hasVar(varname) {
         return self.hasVar(varname);
       },
-      getVar(varname) {
-        return self.getVar(varname);
+      getVar(varname, typeHint = null) {
+        return self.getVar(varname, typeHint);
       }
     };
   }

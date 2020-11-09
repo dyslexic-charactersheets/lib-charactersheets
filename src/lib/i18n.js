@@ -2,6 +2,8 @@ import { existsSync, readdir, readFile } from 'fs';
 import { log, error } from './log';
 import { isString, isNumber, isNull } from './util';
 import { has } from './util/objects';
+import { Exception } from 'handlebars';
+import { isBoolean } from 'util';
 
 let translatorCallbacks = [];
 
@@ -31,8 +33,14 @@ export function __(str, doc) {
     str = "" + str;
   }
   if (!isString(str)) {
-    error("i18n", "Not a string", str);
-    throw "Not a string";
+    error("i18n", "Not a string:", str);
+    if (isBoolean(str)) {
+      return translate(str ? "true" : "false", doc);
+    }
+    if (isNumber(str)) {
+      return ""+str;
+    }
+    throw new Exception("Not a string");
   }
   return str.replace(/_\{(.*?(#\{.*?\}.*?)*)\}/gs, (m, p) => translate(p, doc));
 }

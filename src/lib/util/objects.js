@@ -54,7 +54,7 @@ export function interpolate(template, values, document = null) {
       if (has(values, index)) {
         return values[index];
       } else if (!isNull(document) && document.hasVar(index)) {
-        return document.getVar(index);
+        return document.getVar(index, 'string');
       }
       return match[0];
     });

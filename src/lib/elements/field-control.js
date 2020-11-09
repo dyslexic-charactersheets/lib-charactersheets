@@ -1,5 +1,6 @@
 import { fieldIdent, fieldRadioIdent, fieldDefaults } from './field';
-import { isArray, isNull } from '../util';
+import { log, warn, error } from '../log';
+import { isArray, isNull, isBoolean } from '../util';
 import { elementClass } from '../util/elements';
 import { chunk } from '../util/arrays';
 import { has } from '../util/objects';
@@ -66,6 +67,7 @@ export let field_control_input = {
   defaults: {
     value: '',
     border: 'bottom',
+    typeHint: 'string',
   },
   render: defaultControlRender
 }
@@ -75,6 +77,7 @@ export let field_control_value = {
   defaults: {
     value: '',
     border: 'none',
+    typeHint: 'string',
   },
   render(args, reg, doc) {
     const cls = elementClass("field", "control", args, [], { "control": "", "align": "centre", "width": "" });
@@ -84,6 +87,11 @@ export let field_control_value = {
     const underlay = args.underlay ? `<u>${__(args.underlay, doc)}</u>` : '';
 
     const spancls = elementClass("span", null, args, [], {'size': 'medium'});
+    if (isNull(args.value)) {
+      error("field", "Value is undefined", args);
+    } else if (isBoolean(args.value)) {
+      error("field", "Value is a boolean", args);
+    }
     const value = `<span${spancls}>${_e(args.value, doc)}</span>`;
 
     return `${prefix}<div${cls}>${value}${underlay}</div>${suffix}`;
@@ -94,7 +102,8 @@ export let field_control_ref = {
   name: 'control:ref',
   defaults: {
     icon: "book",
-    width: "huge"
+    width: "huge",
+    typeHint: 'string',
   },
   render(args, reg, doc) {
     let id = args.id;
@@ -125,6 +134,7 @@ export let field_control_speed = {
     units: "imperial",
     value: '',
     width: 'large',
+    typeHint: 'number',
   },
   render(args, reg, doc) {
     switch (args.units) {
@@ -196,7 +206,8 @@ export let field_control_weight = {
   name: 'control:weight',
   defaults: {
     schema: "bulk",
-    width: "huge"
+    width: "huge",
+    typeHint: 'number',
   },
   render(args, reg, doc) {
     switch (args.schema) {
@@ -238,6 +249,7 @@ export let field_control_radio = {
   defaults: {
     value: false,
     border: 'none',
+    typeHint: 'string',
   },
   render(args) {
     const ident = fieldRadioIdent(args.id, args.value);
@@ -253,6 +265,7 @@ export let field_control_checkbox = {
     border: 'none',
     width: 'tiny',
     style: '',
+    typeHint: 'boolean',
   },
   render(args) {
     const ident = fieldIdent(args.id);
@@ -273,6 +286,7 @@ export let field_control_boost = {
     up: true,
     down: true,
     border: 'none',
+    typeHint: 'boolean',
   },
   render(args) {
     let up = '';
@@ -301,7 +315,8 @@ export let field_control_checkgrid = {
     style: "",
     flex: "tiny",
     depth: 3,
-    value: 0
+    value: 0,
+    typeHint: 'number',
   },
   render(args) {
     let g = args.group;
@@ -344,6 +359,7 @@ export let field_control_alignment = {
   defaults: {
     value: '',
     border: 'none',
+    typeHint: 'string',
   },
   render(args, reg, doc) {
     const radios = ["lg", "ll", "le", "ng", "nn", "ne", "cg", "cn", "ce"].map(al => {
@@ -375,6 +391,7 @@ export let field_control_icon = {
     border: 'none',
     icon: '',
     width: '',
+    typeHint: 'string',
   },
   render(args) {
     const cls = elementClass("field", "control", args, [], {"control": ""});
@@ -389,6 +406,7 @@ export let field_control_proficiency = {
     value: 0,
     icon: true,
     'has-bonus': true,
+    typeHint: 'number',
   },
   render(args, reg, doc) {
     switch (args.value) {
@@ -466,6 +484,7 @@ export let field_control_money = {
     decimal: 0,
     denomination: "copper",
     value: '',
+    typeHint: 'number',
   },
   render(args, reg, doc) {
     let unit = '';
@@ -506,6 +525,7 @@ export let field_control_progression = {
   defaults: {
     max: 1,
     border: "none",
+    typeHint: 'number',
   },
   // transform(args, doc) {
   //   let parts = [];
