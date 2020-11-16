@@ -91,25 +91,25 @@ inc:
 
                   - g:
                     contents:
-                      - portrait: animal-companion
+                      - portrait: familiar
                         # overprint: true
                       - g:
                         contents:
-                          - field: animal-companion-name
+                          - field: familiar/name
                             legend: "_{Name}"
                             width: stretch
                             align: left
                             size: large
                           - row:
                             contents:
-                              - field: animal-companion-species
+                              - field: familiar/species
                                 label: "_{Animal Type}"
                                 align: left
                                 width: stretch
-                              - field: animal-companion-size
+                              - field: familiar/size
                                 label: "_{Size}"
                                 icon: size
-                              - field: animal-companion-gender
+                              - field: familiar/gender
                                 label: "_{Gender}"
                                 icon: gender
                       - g:
@@ -125,7 +125,7 @@ inc:
                                 contents:
                                   - calc:
                                     output:
-                                      field: familiar-skill-bonus
+                                      field: familiar/skill-bonus
                                       icon: bonus
                                       legend: "_{Skill Bonus}"
                                       width: large
@@ -136,7 +136,7 @@ inc:
                                       - span: "+"
                                       - zone: '@familiar/key-ability'
                                         contents:
-                                          - field: familiar-key-ability-mod
+                                          - field: familiar/key-ability-mod
                                             ref: CHA
                                             underlay: "_{CHA}"
                                             label: "_{CHA}"
@@ -151,15 +151,15 @@ inc:
                                   - row:
                                     unlabelled: true
                                     contents:
-                                      - field: animal-companion-perception-low-light
+                                      - field: familiar/perception-low-light
                                         frame: right
                                         control: checkbox
                                         label: "_{Low-light vision}"
-                                      - field: animal-companion-perception-darkvision
+                                      - field: familiar/perception-darkvision
                                         frame: right
                                         control: checkbox
                                         label: "_{Dark vision}"
-                                      - field: animal-companion-perception-scent
+                                      - field: familiar/perception-scent
                                         frame: right
                                         control: checkbox
                                         label: "_{Scent}"
@@ -167,7 +167,7 @@ inc:
                                 contents:
                                   - calc:
                                     output:
-                                      field: familiar-attack-bonus
+                                      field: familiar/attack-bonus
                                       icon: bonus
                                       legend: "_{Attack Bonus}"
                                       width: large
@@ -228,17 +228,17 @@ inc:
                             contents:
                               - row: split
                                 contents:
-                                  - field: animal-companion-speed
+                                  - field: familiar/speed
                                     legend: "_{Speed}"
                                     control: speed
                                     border: full
-                                  - field: animal-companion-speed-alt
+                                  - field: familiar/speed-alt
                                     label: "_{Speed in Barding}"
                                     control: speed
                               - row:
                                 unlabelled: true
                                 contents:
-                                  - field: animal-companion-speed-mount
+                                  - field: familiar/speed-mount
                                     frame: right
                                     control: checkbox
                                     label: "_{Mount}"
@@ -260,7 +260,7 @@ inc:
                                         contents:
                                           - row:
                                             contents:
-                                              - field: animal-companion-attack-#{i}
+                                              - field: familiar/attack-#{i}
                                                 width: stretch
                                                 frame: none
                                                 align: left
@@ -270,7 +270,7 @@ inc:
                                             contents:
                                               - calc:
                                                 output:
-                                                  field: animal-companion-attack-#{i}-bonus
+                                                  field: familiar/attack-#{i}-bonus
                                                   label: "_{Attack Bonus}"
                                                   # width: large
                                                   attack: true
@@ -283,7 +283,7 @@ inc:
                                                   - field:
                                                     control: proficiency
                                                     label: "_{Proficiency}"
-                                              - field: animal-companion-attack-#{i}-damage
+                                              - field: familiar/attack-#{i}-damage
                                                 border: full
                                                 label: "_{Damage}"
                                                 width: small
@@ -297,7 +297,7 @@ inc:
                                                   - subid: extra
                                           - row:
                                             contents:
-                                              - field: animal-companion-attack-#{i}-critical
+                                              - field: familiar/attack-#{i}-critical
                                                 frame: none
                                                 width: stretch
                                                 align: left
@@ -316,7 +316,7 @@ inc:
                                 contents:
                                   - calc:
                                     output:
-                                      field: animal-companion-hp
+                                      field: familiar/hp
                                       legend: "_{Hit Points}"
                                       icon: hp
                                       suffix: "_{hp}"
@@ -329,7 +329,7 @@ inc:
 
                               - row:
                                 contents:
-                                  - field: animal-companion-current-hp
+                                  - field: familiar/current-hp
                                     label: "_{Current Hit Points}"
                                     border: full
                                     temp: true
@@ -337,19 +337,23 @@ inc:
                                     suffix: "_{hp}"
                                     width: stretch
                                     
-                                  - field: animal-companion-dying
-                                    control: progression
+                                  - field: dying
+                                    control: compound
                                     label: "_{Dying}"
+                                    ruby: "_{Wounded}"
+                                    border: none
+                                    flex: none
+                                    width: stretch
+                                    align: center
                                     parts:
-                                      - id: dying-1
-                                        control: checkbox
-                                      - id: dying-2
-                                        control: checkbox
-                                      - id: dying-3
-                                        control: checkbox
-                                      - icon: evil
-                                        size: small
-                                        optional: true
+                                      - id: dying-wounded
+                                        control: checkgrid
+                                        style: progress
+                                        max: "#{dying-max}"
+                                        depth: 2
+                                  - icon: evil
+                                    size: medium
+                                    optional: true
 
                               - hr:
                               - h5: "_{Effects}"
@@ -401,62 +405,54 @@ inc:
                                       
                               - row:
                                 contents:
-                                  # - field: temp-ac
-                                  #   temp: true
-                                  #   label: "_{Temp AC}"
-                                  #   border: full
-                                  #   underlay: "_{AC}"
-                                  #   width: large
-                                  #   icon: shield
+                                    
                                   - spacer:
 
-                                  - field: animal-unarmoured-proficiency
-                                    control: proficiency
+                                  - field: familiar/unarmoured-proficiency
+                                    control: proficiency-icon
                                     frame: right
                                     has-bonus: false
                                     border: none
                                     label: "_{Unarmoured}"
-                                  - field: animal-light-barding-proficiency
-                                    control: proficiency
+                                  - field: familiar/light-armour-proficiency
+                                    control: proficiency-icon
                                     frame: right
                                     has-bonus: false
                                     border: none
                                     label: "_{Light}"
-                                  - field: animal-heavy-barding-proficiency
-                                    control: proficiency
+                                  - field: familiar/heavy-armour-proficiency
+                                    control: proficiency-icon
                                     frame: right
                                     has-bonus: false
                                     border: none
                                     label: "_{Heavy}"
 
-                              # - hr:
-
                               - row:
                                 contents:
-                                  - field: animal-companion-barding
+                                  - field: familiar/barding
                                     size: large
                                     width: stretch
                                     legend: "_{Barding}"
-                                  - field: animal-companion-barding-ac
+                                  - field: familiar/barding-ac
                                     label: "_{AC Bonus}"
                                     border: full
                                     icon: shield
                               - row:
                                 layout: split
                                 contents:
-                                  - field: animal-companion-barding-acp
+                                  - field: familiar/barding-acp
                                     label: "_{Barding\nCheck\nPenalty}"
-                                  - field: animal-companion-barding-max-dex
+                                  - field: familiar/barding-max-dex
                                     label: "_{DEX\nCap}"
-                                  - field: animal-companion-barding-speed-penalty
+                                  - field: familiar/barding-speed-penalty
                                     label: "_{Speed\nPenalty}"
                                     control: speed
-                                  - field: animal-companion-barding-bulk
+                                  - field: familiar/barding-bulk
                                     label: "Bulk"
 
                               # - hr:
 
-                              - field: animal-companion-ac-conditional
+                              - field: familiar/ac-conditional
                                 # label: "_{Conditional}"
                                 frame: none
                                 width: stretch
@@ -508,7 +504,7 @@ inc:
                                       - span: "+"
                                       - field:
                                         misc: true
-                              - field: animal-companion-saving-throws-conditional
+                              - field: familiar/saving-throws-conditional
                                 label: "_{Conditional}"
                                 align: left
                                 repeat: 2
@@ -526,11 +522,11 @@ inc:
                                     contents:
                                       - row:
                                         contents:
-                                          - field: animal-companion-inventory-#{i}
+                                          - field: familiar/inventory-#{i}
                                             width: stretch
-                                          - field: animal-companion-inventory-#{i}-value
-                                          - field: animal-companion-inventory-#{i}-weight
-                              - field: animal-companion-weight-total
+                                          - field: familiar/inventory-#{i}-value
+                                          - field: familiar/inventory-#{i}-weight
+                              - field: familiar/weight-total
                                 frame: left
                                 label: "_{Total weight}"
                                 control: weight
