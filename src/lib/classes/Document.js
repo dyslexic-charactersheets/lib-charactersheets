@@ -295,6 +295,9 @@ export class Document {
         element.rows = this.completeElement(element.rows, registry);
         element.columns = this.completeElement(element.columns, registry);
         break;
+      case 'lookup':
+        element.lookup = this.completeElement(element.lookup, registry);
+        break;
     }
 
     for (const item_key of ["contents", "placeholder", "header", "inputs", "parts"]) {
