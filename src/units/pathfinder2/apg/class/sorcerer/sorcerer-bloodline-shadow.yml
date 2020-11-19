@@ -1,0 +1,130 @@
+unit: sorcerer/bloodline/apg/shadow
+in: sorcerer/bloodline
+group: "_{Advanced Player's Guide}"
+name: "_{Shadow}"
+
+inc:
+  - set: stealth-proficiency
+    value: trained
+  - set: occultism-proficiency
+    value: trained
+
+  - set: sorcerer-bloodline
+    value: "_{Shadow}"
+  - set: spell-list
+    value: "_{Occult}"
+  - set: occult-spell-proficiency
+    value: trained
+
+  - at: '@sorcerer/bloodline'
+    replace:
+      - h4: "_{Shadow}"
+
+  - at: '@sorcerer/dcs'
+    replace:
+      - paste: occult-spell-dcs
+
+  - at: '@focus-spells'
+    add:
+      - action:
+        contents:
+          - p:
+            title: "_{Dim the Light}"
+            content: "_{Cause the ambient light level to flicker briefly so you can slip from sight.}"
+
+  - at: '@sorcerer/bloodline-spell/initial'
+    replace:
+      - action:
+        contents:
+          - p:
+            title: "_{Dim the Light}"
+            content: "_{Cause the ambient light level to flicker briefly so you can slip from sight.}"
+
+  - at: '@sorcerer/bloodline-spell/advanced'
+    replace:
+      - action:
+        contents:
+          - p:
+            title: "_{Steal Shadow}"
+            content: "_{Steal a creature's shadow, leaving it weakened and vulnerable.}"
+
+  - at: '@sorcerer/bloodline-spell/greater'
+    replace:
+      - action:
+        contents:
+          - p:
+            title: "_{Consuming Darkness}"
+            content: "_{Form a gateway of shadow through which the horrors of another plane can be seen.}"
+
+  - at: '@sorcerer/blood-magic'
+    replace:
+      - p: "_{Grant yourself or one target +1 to Stealth, or impose –1 to Perception for 1 round.}"
+
+  - at: '@sorcerer/spellbook/bloodline-spell/initial'
+    replace:
+      - article:
+        title: "_{Dim the Light}"
+        contents:
+          - action: reaction
+            contents:
+              - p: "_{Cause the ambient light level to flicker briefly so you can slip from sight.}"
+          - p: "_{On casting a darkness or shadow spell, attempt a Stealth check to Hide. You can become hidden to a creature even if you don't have cover and aren't otherwise concealed.}"
+          - p: "_{You cease being hidden at the end of your turn unless you move into cover or become concealed before then.}"
+
+  - at: '@sorcerer/spellbook/bloodline-spell/advanced'
+    replace:
+      - article:
+        title: "_{Steal Shadow}"
+        contents:
+          - action: 2
+            contents:
+              - dl:
+                  duration: "_{Sustained up to 1 minute}"
+              - p: "_{Steal a creature's shadow, leaving it weakened and vulnerable.}"
+          - p: "_{Target makes a Fortitude save:}"
+          - paste: save
+            params:
+              critical_success: "_{No effect}"
+              success: "_{Enfeebled 1 for 1 round}"
+              failure: "_{Take damage and enfeebled 1 for the duration. On sustaining, additional damage (basic Fortitude save)}"
+              critical_failure: "_{Enfeebled 2}"
+          - calc:
+            output:
+              label: "_{Spell\nDamage}"
+            inputs:
+              - label: "_{Focus\nLevel}"
+              - span: "&times; _{d4}"
+
+  - at: '@sorcerer/spellbook/bloodline-spell/greater'
+    replace:
+      - article:
+        title: "_{Consuming Darkness}"
+        contents:
+          - action: 2
+            contents:
+              - dl:
+                  range: "_{10ft}"
+              - p: "_{Form a gateway of shadow through which the horrors of another plane can be seen.}"
+          - p: "_{Creatures in or entering the area must make a Reflex save:}"
+          - paste: save
+            params:
+              critical_success: "_{No effect}"
+              success: "_{Half damage, -5ft speed while in area}"
+              failure: "_{Full damage, -10ft speed while in area}"
+              critical_failure: "_{Double damage, immobilised for 1 round or until it escapes}"
+          - calc:
+            output:
+              label: "_{Negative\nDamage}"
+            inputs:
+              - span: "("
+              - label: "_{Focus\nLevel}"
+              - span: "- 3 ) &times; _{d6}"
+          - hr:
+            light: true
+          - p:
+            title: "_{Sustain}"
+            content: "_{Increase area 5ft}"
+
+  - at: '@sorcerer/spellbook/blood-magic'
+    replace:
+      - p: "_{}"

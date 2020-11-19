@@ -1,0 +1,160 @@
+unit: oracle/mystery/tempest
+in: oracle/mystery
+group: "_{Advanced Player's Guide}"
+name: "_{Tempest}"
+
+inc:
+  - set: oracle-mystery
+    value: "_{Tempest}"
+  - set: nature-proficiency
+    value: trained
+
+  - at: '@oracle/mystery/title'
+    replace:
+      - h4: "_{Tempest}"
+
+  - at: '@oracle/mystery/benefit'
+    replace:
+      - g:
+        contents:
+          - p: "_{No penalty to Perception from wind, rain, fog, etc, or from looking through water or being underwater, and such conditions don't cause anything to be concealed from you.}"
+          - hr:
+            light: true
+          - p: "_{Air and water damage spells deal extra electricity damage equal to spell level.}"
+
+  - set: oracle/mystery/cantrip
+    value: "_{Electric Arc}"
+  - set: oracle/mystery/initial-revelation
+    value: "_{Tempest Touch}"
+  - set: oracle/mystery/advanced-revelation
+    value: "_{Thunderburst}"
+  - set: oracle/mystery/greater-revelation
+    value: "_{Tempest Form}"
+
+  # SPELLS
+  - at: '@oracle/revelation-spell/initial'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Tempest Touch}"
+            contents:
+              - dl:
+                  range: "_{Touch}"
+                  target: "_{1 creature}"
+              - calc:
+                output:
+                  field:
+                  legend: "_{Bludgeoning/ Cold Damage}"
+                  width: gargantuan
+                  control: compound
+                  parts:
+                    - width: large
+                      suffix: "d4 +"
+                    - width: large
+                      suffix: "d4"
+                inputs:
+                  - field:
+                    label: "_{Focus level}"
+                    ref: focus-level
+              - p: "_{Target must attempt a Fortitude save}"
+              - paste: save
+                params:
+                  critical_success: "_{No effect}"
+                  success: "_{Half damage, -5ft penalty to speed until the end of your next turn}"
+                  failure: "_{Full damage, -10ft penalty to speed until the end of your next turn}"
+                  critical_failure: "_{Double damage}"
+
+  - at: '@oracle/revelation-spell/advanced'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Thunderburst}"
+            contents:
+              - dl:
+                  range: "_{100ft}"
+                  area: "_{20ft burst}"
+              
+              - paste: heighten
+                params:
+                  level: "3"
+                  heighten: "+2"
+              - calc:
+                output:
+                  field:
+                  legend: "_{Bludgeoning/ Cold Damage}"
+                  width: gargantuan
+                  control: compound
+                  parts:
+                    - width: large
+                      suffix: "d4 +"
+                    - width: large
+                      suffix: "d4"
+                inputs:
+                  - span: "_{2d6} +"
+                  - field:
+                    label: "_{Heighten}"
+                    ref: true
+                  - span: "&times; 2d6"
+
+              - p: "_{Targets must attempt a Fortitude save}"
+              - paste: save
+                params:
+                  critical_success: "_{No effect}"
+                  success: "_{Half damage}"
+                  failure: "_{Full damage, deafened for 1 minute}"
+                  critical_failure: "_{Double damage, deafened for 1 hour}"
+
+  - at: '@oracle/revelation-spell/greater'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Tempest Form}"
+            contents:
+              - p: "_{}"
+
+  - at: '@oracle/spellbook/focus-header'
+    add:
+      - paste: focus-level
+
+  # CURSE
+  - at: '@oracle/curse'
+    replace:
+      - h4: "_{Curse of the Perpetual Storm}"
+        size: small
+
+  - at: '@oracle/curse/minor'
+    replace:
+      - dl:
+          "Aura": "_{5ft}"
+      - p: "_{Fires within aura are extinguished by the tempest.}"
+      - value-block: "2"
+        content: "_{Weakness to electricity.}"
+      - p: "_{Equivalent to wearing metal for the purposes of effects.}"
+
+  - at: '@oracle/curse/moderate'
+    replace:
+      - dl:
+          "Aura": "_{10ft}"
+      # - value-block: "_{10ft}"
+      #   content: "_{Storm aura.}"
+      - value-block: "2"
+        content: "_{Weakness to electricity.}"
+      - value-block: "_{-2}"
+        content: "_{Ranged weapon attack rolls.}"
+      - hr:
+        light: true
+      - value-block: "2"
+        content: "_{Resistance to fire.}"
+
+  - at: '@oracle/curse/major'
+    replace:
+      - dl:
+          "Aura": "_{15ft}"
+      # - value-block: "_{15ft}"
+      #   content: "_{Storm aura.}"
+      - p: "_{Aura is difficult terrain for Large or smaller creatures, and Huge or smaller flying creatures.}"
+      - value-block: "_{1d6}"
+        content: "_{Damage to any creature that touches you.}"

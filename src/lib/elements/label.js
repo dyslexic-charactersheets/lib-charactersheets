@@ -9,10 +9,11 @@ export let label = {
     label: "",
     rotate: false,
     align: "",
+    nowrap: false,
   },
   render(args, reg, doc) {
     // log("label", "Args", args);
-    const cls = elementClass('label', null, args, ["rotate"], {"align": ""});
+    const cls = elementClass('label', null, args, ["rotate", "nowrap"], {"align": ""});
     return `<label${cls}>${_e(args.label, doc)}</label>`;
   }
 }

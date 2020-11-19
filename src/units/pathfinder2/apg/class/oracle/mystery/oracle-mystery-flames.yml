@@ -1,0 +1,190 @@
+unit: oracle/mystery/flames
+in: oracle/mystery
+group: "_{Advanced Player's Guide}"
+name: "_{Flames}"
+
+inc:
+  - set: oracle-mystery
+    value: "_{Flames}"
+  - set: acrobatics-proficiency
+    value: trained
+
+  - at: '@oracle/mystery/title'
+    replace:
+      - h4: "_{Flames}"
+
+  - at: '@oracle/mystery/benefit'
+    replace:
+      - g:
+        contents:
+          - p: "_{Expert in Reflex saves.}"
+            icon: proficiency-expert
+      - level: 13
+        contents:
+          - p: "_{If you gain the Lightning Reflexes feat, become master in Reflex saves, and upgrade success.}"
+
+  - set: oracle/mystery/cantrip
+    value: "_{Produce Flame}"
+  - set: oracle/mystery/initial-revelation
+    value: "_{Incendiary Aura}"
+  - set: oracle/mystery/advanced-revelation
+    value: "_{Whirling Flames}"
+  - set: oracle/mystery/greater-revelation
+    value: "_{Flaming Fusillade}"
+
+  # SPELLS
+  - at: '@oracle/spellbook/focus-header'
+    add:
+      - paste: focus-level
+
+  - at: '@oracle/revelation-spell/initial'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Incendiary Aura}"
+            contents:
+              - dl:
+                  area: "_{10ft emanation}"
+                  duration: "_{1 minute}"
+              - paste: heighten
+                params:
+                  heighten: "+2"
+              - p: "_{When a creature in range takes fire damage, they catch fire and take persistent fire damage.}"
+              - calc:
+                output:
+                  field:
+                  legend: "_{Damage}"
+                  width: large
+                  suffix: "_{d4}"
+                inputs:
+                  - span: "_{2d4} +"
+                  - field:
+                    label: "_{Heighten}"
+                    ref: true
+                  - span: "&times; _{1d4}"
+
+              - calc:
+                output:
+                  field:
+                  legend: "_{Area}"
+                  width: large
+                  suffix: "_{ft}"
+                inputs:
+                  - span: "_{10ft} +"
+                  - field:
+                    label: "_{Heighten}"
+                    ref: true
+                  - span: "&times; _{5ft}"
+
+  
+  - at: '@oracle/revelation-spell/advanced'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Whirling Flames}"
+            contents:
+              - dl:
+                  range: "_{30ft}"
+              - paste: heighten
+                params:
+                  level: 3
+                  heighten: "+2"
+                  max: 3
+
+              - p: "_{Engulf all creatures in range in flame. Targets must make a basic Reflex save.}"
+
+              - calc:
+                output:
+                  field:
+                  legend: "_{Damage}"
+                  width: large
+                  suffix: "_{d6}"
+                inputs:
+                  - span: "_{5d6} +"
+                  - field:
+                    label: "_{Heighten}"
+                    ref: true
+                  - span: "&times; _{3d6}"
+              - calc:
+                output:
+                  field:
+                  legend: "_{Area}"
+                  border: full
+                  width: large
+                  suffix: "_{sq}"
+                inputs:
+                  - span: "_{1sq} +"
+                  - field:
+                    label: "_{Heighten}"
+                    ref: true
+                  - span: "&times; _{1sq}"
+
+
+  - at: '@oracle/revelation-spell/greater'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Flaming Fusillade}"
+            contents:
+              - list:
+                hr: true
+                light: true
+                contents:
+                  - g:
+                    contents:
+                      - dl:
+                          duration: "_{1 minute}"
+                          range: "_{30ft}"
+                      - p: "_{Throw a ball of flame. Make a spell attack, either ranged or melee.}"
+                      - action:
+                        contents:
+                          - p: "_{Throw another ball of flame.}"
+                      - calc:
+                        output:
+                          field:
+                          suffix: "_{d4}"
+                          width: large
+                          legend: "_{Damage}"
+                        inputs:
+                          - field:
+                            label: "_{Focus Level}"
+                            ref: focus-level
+                          - span: "&times; 1d4"
+                      - p: "_{On a critical success, double damage + 1d4 persistent fire damage.}"
+                  - level: 9
+                    marker: "_{Focus Level}"
+                    contents:
+                      - p: "_{Add focus level to damage.}"
+
+  - at: '@oracle/revelation-spell/diverse-mystery'
+    replace:
+      - nothing:
+
+  # CURSE
+  - at: '@oracle/curse'
+    replace:
+      - h4: "_{Curse of Engulfing Flames}"
+        size: small
+
+  - at: '@oracle/curse/minor'
+    replace:
+      - p: "_{Creatures further than 30ft are concealed from you.}"
+
+  - at: '@oracle/curse/moderate'
+    replace:
+      - p: "_{All your senses become imprecise beyond 30ft.}"
+      - p: "_{All creatures are concealed from you, though when casting a fire spell you automatically succeed the flat check against targets within 30ft.}"
+      - p: "_{You are concealed from other creatures.}"
+
+  - at: '@oracle/curse/major'
+    replace:
+      - value-block: "_{4d6}"
+        content: "_{Surrounded by a 10ft aura of fire, dealing damage with a basic Reflex save at the end of your turn.}"
+      - value-block: "_{1d6}"
+        content: "_{Take fire damage at the end of your turn.}"
+      - action:
+        contents:
+          - p: "_{Suppress your aura this turn.}"

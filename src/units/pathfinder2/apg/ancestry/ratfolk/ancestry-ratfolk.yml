@@ -1,0 +1,45 @@
+unit: ancestry/apg/ratfolk
+in: ancestry
+group: "_{Advanced Player's Guide}"
+name: "_{Ratfolk}"
+
+require:
+  - unit: optional-darkvision/trigger
+
+form:
+  - select: heritage/apg/ratfolk
+    name: "_{Ratfolk Heritage}"
+    max: 1
+
+inc:
+  - set: ancestry
+    value: "_{Ratfolk}"
+  - set: hp-ancestry
+    value: 6
+  - set: perception-low-light
+    value: true
+  - set: build-boost-DEX-ancestry
+    value: 1
+  - set: build-boost-INT-ancestry
+    value: 1
+  - set: build-boost-STR-ancestry
+    value: -1
+  - set: languages
+    value: "_{Common}, _{Ysoki}"
+
+  - at: '@ancestry'
+    replace:
+      - article:
+        title: "_{Ratfolk}"
+        contents:
+          - flags:
+              - "_{Ratfolk}"
+              - "_{Humanoid}"
+          - zone: '@ratfolk/speed'
+            contents:
+              - field: ancestry-speed
+                frame: right
+                label: "_{Speed}"
+                control: value
+                value: "_{25ft}"
+          - paste: low-light-vision

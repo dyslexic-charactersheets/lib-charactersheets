@@ -1,0 +1,29 @@
+unit: heritage/apg/kobold/dragonscaled
+in: heritage/apg/kobold
+group: "_{Advanced Player's Guide}"
+name: "_{Dragonscaled Kobold}"
+
+inc:
+  - set: heritage
+    value: "_{Dragonscaled Kobold}"
+
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Dragonscaled Kobold}"
+        contents:
+          - field: apg/kobold/dragonscaled/resistance-type
+            label: "_{Energy type}"
+            width: stretch
+          - calc:
+            output:
+              field: apg/kobold/dragonscaled/resistance
+              width: large
+              border: full
+              legend: "_{Damage Resistance}"
+            inputs:
+              - field:
+                ref: level
+                label: "_{Level}"
+              - span: "&divide; 2"
+          - p: "_{Double against dragons' breath weapons.}"

@@ -1,5 +1,6 @@
 unit: base/character
 name: "_{Character}"
+group: "_{Core Rulebook}"
 
 form:
   - select: ancestry
@@ -29,6 +30,9 @@ form:
     name: "_{Inventory}"
     max: 1
     default: half
+
+require:
+  - unit: prototype/class
 
 inc:
 
@@ -208,7 +212,6 @@ inc:
                                     label: "_{Level}"
                                     border: circle
                                     frame: left
-                                    width: large
 
                               - layout: 5e
                                 gutter: none
@@ -814,6 +817,10 @@ inc:
                                 label: "_{CON}"
                                 underlay: "_{CON}"
                                 ref: CON
+                              - span: "+"
+                              - field: hp-toughness
+                                label: "_{Toughness}"
+                                control: checkbox
                               - span: ") &times;"
                               - field:
                                 ref: level
@@ -897,6 +904,8 @@ inc:
                                 label: "_{Misc}"
                                 misc: true
                                 optional: true
+                          - spacer:
+                          - zone: '@ac-extra'
                       - row:
                         contents:
                           - field: temp-ac
@@ -911,25 +920,25 @@ inc:
                           - spacer:
 
                           - field: unarmoured-proficiency
-                            control: proficiency
+                            control: proficiency-icon
                             frame: right
                             has-bonus: false
                             border: none
                             label: "_{Unarmoured}"
                           - field: light-armour-proficiency
-                            control: proficiency
+                            control: proficiency-icon
                             frame: right
                             has-bonus: false
                             border: none
                             label: "_{Light}"
                           - field: medium-armour-proficiency
-                            control: proficiency
+                            control: proficiency-icon
                             frame: right
                             has-bonus: false
                             border: none
                             label: "_{Medium}"
                           - field: heavy-armour-proficiency
-                            control: proficiency
+                            control: proficiency-icon
                             frame: right
                             has-bonus: false
                             border: none
@@ -1280,7 +1289,7 @@ inc:
                     flex: none
                     contents:
                       - list:
-                        hr: true
+                        # hr: true
                         contents:
                           - advancement:
                             advances:
@@ -1315,6 +1324,13 @@ inc:
                                 key: skill-feat
                               - name: "_{Skill increase}"
                                 key: skill-increase
+                          - indent: left
+                            contents:
+                              - zone: '@advancement-every-level'
+                                contents:
+                                  - p:
+                                    title: "_{Every level}:"
+                                    content: "_{Proficiencies, hit points}"
 
                   - tail:
                   - spacer:

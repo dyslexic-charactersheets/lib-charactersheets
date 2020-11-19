@@ -1,6 +1,4 @@
-{{{embed "node_modules/ua-parser-js/dist/ua-parser.min.js"}}}
-
-if ((function isSafari() {
+/* function isSafari() {
   var parser = new UAParser();
   var result = parser.getResult();
 
@@ -9,6 +7,10 @@ if ((function isSafari() {
   var eng = result.engine.name;
 
   return br == "Safari" || br == "Mobile Safari" || ((os == "iOS" || os == "Mac OS") && eng == "WebKit");
-})()) {
+} */
+
+var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+if (isSafari) {
   document.documentElement.classList.add("html--safari");
 }

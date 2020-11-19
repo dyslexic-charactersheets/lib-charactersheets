@@ -1,0 +1,149 @@
+unit: oracle/mystery/battle
+in: oracle/mystery
+group: "_{Advanced Player's Guide}"
+name: "_{Battle}"
+
+inc:
+  - set: oracle-mystery
+    value: "_{Battle}"
+  - set: society-proficiency
+    value: trained
+
+  - set: medium-armour-proficiency
+    value: trained
+  - set: high-armour-proficiency
+    value: trained
+
+  - at: '@oracle/mystery/title'
+    replace:
+      - h4: "_{Battle}"
+  
+  - at: '@oracle/mystery/benefit'
+    replace:
+      - g:
+        contents:
+          - field: oracle/mystery/battle/weapon-proficiency
+            label: "_{Weapon Group}"
+            icon: proficiency-trained
+            width: stretch
+          - p: "_{Trained in martial weapons in this group.}"
+      - level: 13
+        contents:
+          - p:
+            icon: proficiency-expert
+            content: "_{Expert in martial weapons, trained in advanced weapons in your chosen group.}"
+
+  - set: oracle/mystery/cantrip
+    value: "_{Shield}"
+  - set: oracle/mystery/initial-revelation
+    value: "_{Call to Arms}"
+  - set: oracle/mystery/advanced-revelation
+    value: "_{Battlefield Persistence}"
+  - set: oracle/mystery/greater-revelation
+    value: "_{Heroic Feat}"
+
+  # SPELLS
+  - at: '@oracle/revelation-spell/initial'
+    replace:
+      - action: reaction
+        contents:
+          - article:
+            title: "_{Call to Arms}"
+            contents:
+              - list:
+                hr: true
+                light: true
+                contents:
+                  - value-block: "+2"
+                    content: "_{Initiative to allies within 20ft.}"
+                  - row:
+                    contents:
+                      - level: 11
+                        contents:
+                          - value: "+3"
+                      - level: 17
+                        contents:
+                          - value: "+4"
+  
+  - at: '@oracle/revelation-spell/advanced'
+    replace:
+      - action: reaction
+        contents:
+          - article:
+            title: "_{Battlefield Persistence}"
+            contents:
+              - value-block: "+2"
+                content: "_{Saving throw bonus}"
+              - p: "_{If the save is against an incapacitation effect, treat as level +2.}"
+
+  - at: '@oracle/revelation-spell/greater'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Heroic Feat}"
+            contents:
+              - p: "_{Use the action from one common fighter feat, up to your focus level.}"
+
+  # CURSE
+  - at: '@oracle/curse'
+    replace:
+      - h4: "_{Curse of the Hero's Burden}"
+        size: small
+
+  - at: '@oracle/curse/minor'
+    replace:
+      - value-block: "-2"
+        content: "_{AC and saving throws}"
+      - p: "_{On making a Strike, suspend this penalty until your next turn.}"
+
+  - at: '@oracle/curse/moderate'
+    replace:
+      - p: "_{Penalty only reduced to -1}"
+      - value-block: "+2"
+        content: "_{Damage bonus}"
+      - row:
+        contents:
+          - calc:
+            output:
+              field: oracle/mystery/battle/healing
+              border: full
+              legend: "_{Healing}"
+              width: large
+            inputs:
+              - field:
+                ref: level
+                label: "_{Level}"
+              - span: "&divide; 2"
+          - p: "_{When in combat}"
+
+  - at: '@oracle/curse/major'
+    replace:
+      - value-block: "+1"
+        content: "_{Attack bonus}"
+      - value-block: "+6"
+        content: "_{Damage bonus}"
+      - row:
+        contents:
+          - calc:
+            output:
+              field: oracle/mystery/battle/healing
+              border: full
+              legend: "_{Healing}"
+              width: large
+            inputs:
+              - field:
+                ref: level
+                label: "_{Level}"
+          - p: "_{When in combat}"
+      - p:
+        title: "_{Stupefied 2}"
+        content: "_{Penalty to Int, Wis and Cha checks}"
+
+  - at: '@ac-extra'
+    add:
+      - field:
+        control: value
+        label: "Curse"
+        value: -2
+        border: full

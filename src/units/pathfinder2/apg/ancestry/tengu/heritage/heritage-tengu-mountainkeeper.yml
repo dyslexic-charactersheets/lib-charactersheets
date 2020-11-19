@@ -1,0 +1,39 @@
+unit: heritage/apg/tengu/mountainkeeper
+in: heritage/apg/tengu
+group: "_{Advanced Player's Guide}"
+name: "_{Mountainkeeper Tengu}"
+
+inc:
+  - set: heritage
+    value: "_{Mountainkeeper Tengu}"
+
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Mountainkeeper Tengu}"
+        contents:
+          - action: 2
+            contents:
+              - h6: "_{Disrupt Undead}"
+              - dl:
+                  range: "_{30ft}"
+                  # target: "_{1 undead creature}"
+              - calc:
+                output:
+                  field: disrupt-undead/damage
+                  border: full
+                  legend: "_{Damage}"
+                  suffix: "_{d6}"
+                  width: large
+                inputs:
+                  - ruby-round-up:
+                    contents:
+                      - field:
+                        ref: level
+                        label: "_{Level}"
+                      - span: "&divide; 2"
+
+          - hr:
+            light: true
+          - p: "_{When casting a spell from Tengu feats, decide whether it's divine or primal.}"
+          

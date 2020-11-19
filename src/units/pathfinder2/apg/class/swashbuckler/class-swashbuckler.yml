@@ -1,0 +1,374 @@
+unit: class/apg/swashbuckler
+in: class
+group: "_{Advanced Player's Guide}"
+name: "_{Swashbuckler}"
+
+form:
+  - select: swashbuckler/style
+    name: "_{Swashbuckler's Style}"
+    max: 1
+
+require:
+  - unit: weapon-spec/fast
+  - with: option/reference
+    unit: class/apg/swashbuckler/reference
+  
+inc:
+  - paste: prototype-class
+    params:
+      class: swashbuckler
+      class-name: "_{Swashbuckler}"
+      subclass: swashbuckler-style
+      subclass-name: "_{Swashbuckler's Style}"
+      hp: 10
+
+      perception: expert
+      unarmoured: trained
+      light-armour: trained
+      skill: acrobatics
+
+      fortitude: trained
+      reflex: expert
+      will: expert
+
+  - paste: prototype-key-ability
+    params:
+      key-ability: "DEX"
+
+  - at: '@cover-class'
+    replace:
+      - h6: "_{Swashbuckler}"
+      - field: swashbuckler-style
+        label: "_{Style}"
+        width: stretch
+        align: left
+  
+  - at: '@advancement'
+    add:
+      - level: 1
+        class-feat: true
+      - level: 1
+        gain: "_{Swashbuckler's Style}"
+      - levels: [ 3, 7, 15 ]
+        skill-feat: true
+
+  - at: '@saving-throws'
+    add:
+      - level: 7
+        contents:
+          - paste: evasion
+      - level: 13
+        contents:
+          - paste: improved-evasion
+      - level: 17
+        contents:
+          - paste: resolve
+
+  - at: '@actions'
+    add:
+
+  - at: '@skill-feats-section'
+    replace:
+      - list:
+        hr: true
+        contents:
+          - g:
+            contents:
+              - list:
+                zebra: true
+                hr: true
+                columns: 2
+                contents:
+                  - each:
+                    template:
+                      - level: "#{level}"
+                        contents:
+                          - item: yes
+                    contents:
+                      - slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                        min: 1
+                        max: 1
+                        placeholder:
+                          article: 'skill-feat-#{level}'
+                          blk: false
+                          lines: 2
+                        contents:
+                          - zone: '@skill-feats'
+          - g:
+            contents:
+              - list:
+                zebra: true
+                zebra-inverse: true
+                hr: true
+                columns: 2
+                contents:
+                  - g:
+                    contents:
+                      - zone: '@swashbuckler/stylish-tricks'
+                        contents:
+                          - h5: "_{Stylish Tricks}"
+                          - p: "_{Skill feats for Acrobatics or your Swashbuckler Style skill.}"
+                  - each:
+                    template:
+                      - level: "#{level}"
+                        contents:
+                          - item: yes
+                    contents:
+                      - slots: [ 3, 7, 15 ]
+                        min: 1
+                        max: 1
+                        placeholder:
+                          article: 'skill-feat-#{level}'
+                          blk: false
+                          lines: 2
+                        contents:
+                          - zone: '@skill-feats'
+
+          - g:
+            contents:
+              - h5: "_{Notes}"
+              - layout: 2e
+                contents:
+                  - repeat: 2
+                    contents:
+                      - field: skill-notes-#{i}
+                        flex: small
+                        width: stretch
+                        frame: none
+                        repeat: 8
+                        reduce: 4
+                        merge-bottom: true
+  - at: '@pages'
+    add:
+      - page: swashbuckler
+        name: "_{Swashbuckler}"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: swashbuckler
+                    optional: true
+                  - class-name: "_{Swashbuckler}"
+
+                  - section: "_{Class DC}"
+                    contents:
+                      - paste: class-dc
+                        params:
+                            id: swashbuckler-class-dc
+                            legend: "_{Swashbuckler\nClass DC}"
+
+                  - section: "_{Precise Strike}"
+                    contents:
+                      - p: "When you have panache and strike with an agile or finesse melee weapon or unarmed strike, deal extra damage."
+                      - calc:
+                        output:
+                          field:
+                          legend: "_{Bonus Damage}"
+                          width: huge
+                        inputs:
+                          - span: "2 + ("
+                          - field:
+                            ref: level
+                            label: "_{Level}"
+                          - span: "&divide; 4 )"
+
+
+                  - section: "_{Confident Finisher}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - action:
+                            contents:
+                              - flags:
+                                  - "_{Finisher}"
+                              - p: "_{Spend panache to make the final Strike of your turn. Get greater Precise Strike damage.}"
+                              - calc:
+                                output:
+                                  field:
+                                  control: compound
+                                  legend: "_{Bonus Damage}"
+                                  width: huge
+                                  parts:
+                                    - type: span
+                                      content: "_{2d6} +"
+                                    - field:
+                                      frame: none
+                                inputs:
+                                  - span: "("
+                                  - field:
+                                    ref: level
+                                    label: "_{Level}"
+                                  - span: "&divide; 4 )"
+                              - p: "_{On a failure, deal half this bonus damage.}"
+                          - level: 19
+                            contents:
+                              - h5: "_{Eternal Confidence}"
+                              - p: "_{When you Strike with an agile or finesse melee weapon or unarmed attack, as part of any finisher action or opportune riposte, apply the half damage above on failure.}"
+
+                  - section: "_{Opportune Riposte}"
+                    contents:
+                      - level: 3
+                        contents:
+                          - action: reaction
+                            contents:
+                              - p: "_{When an enemy in reach misses a Strike against you, make a melee Strike or Disarm attempt.}"
+
+                  - section: "_{Continuous Flair}"
+                    contents:
+                      - level: 11
+                        contents:
+                          - p: "_{When you succeed at a check during exploration that would have given you panache during combat, gain a bonus:}"
+                          - value-block: "+1"
+                            content: "_{to further checks that would grant panache}"
+                          - p: "_{This bonus ends when combat starts, or at GM's discretion.}"
+
+                  - section: "_{Keen Flair}"
+                    contents:
+                      - level: 15
+                        contents:
+                          - p: "_{When you Strike with a melee weapon or unarmed, a 19 that would be a success becomes a critical success.}"
+
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+                  - section: "_{Swashbuckler's Style}"
+                    primary: true
+                    contents:
+                      - zone: '@swashbuckler/style'
+                        contents:
+                          - field: swashbuckler/style
+                            frame: none
+                            size: huge
+                            width: stretch
+                            merge-bottom: true
+                          - hr:
+                            swash: true
+                          - layout: 2e
+                            contents:
+                              - g:
+                                contents:
+                                  - article:
+                                    lines: 3
+                              - level: 9
+                                contents:
+                                  - h5: "_{Exemplary Finisher}"
+                                  - p: "_{When you successfully strike as part of a finisher...}"
+                                  - article:
+
+                  - section: "_{Panache}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - row:
+                            contents:
+                              - spacer:
+                              - layout: indent-l
+                                contents:
+                                  - field: panache
+                                    control: checkbox
+                                  - h6: "_{Panache}"
+                              - spacer:
+
+                          - layout: 2e
+                            contents:
+                              - list:
+                                hr: true
+                                contents:
+                                  - g:
+                                    contents:
+                                      - h6: "_{Gain panache when...}"
+                                      - ul:
+                                        contents:
+                                          - li: "_{You successfully Tumble Through an enemy's space}"
+                                          - zone: '@swashbuckler/gain-panache'
+                                            contents:
+                                              - li:
+                                                contents:
+                                                  - field: gain-panache
+                                                    width: stretch
+                                                    frame: none
+                                          - li: "_{At GM's discretion, when you do something spectacular.}"
+                                          - li:
+                                            contents:
+                                              - field: gain-panache-extra
+                                                width: stretch
+                                                frame: none
+                                                merge-bottom: true
+                                  - g:
+                                    contents:
+                                      - h6: "_{Spend panache to...}"
+                                      - ul: 
+                                        contents:
+                                          - li: "_{Make a finishing move}"
+                                          - zone: '@swashbuckler/spend-panache'
+                                            contents:
+                                              - li:
+                                                contents:
+                                                  - field: spend-panache-extra
+                                                    width: stretch
+                                                    frame: none
+                                                    merge-bottom: true
+                                          
+                              - g:
+                                contents:
+                                  - h6: "_{While you have panache...}"
+                                  - value-block: "+1"
+                                    content: "_{Tumble Through, or your style's panache action}"
+                                    width: small
+
+                                  - table:
+                                    flip: true
+                                    columns:
+                                      - label: "_{Level}"
+                                        rotate: true
+                                      - label: "_{Speed\nBonus}"
+                                        rotate: true
+                                      - label: "_{Half\nBonus}"
+                                        rotate: true
+                                    rows:
+                                      - level: 1
+                                        speed: "_{5ft}"
+                                        half: 
+                                      - level: 3
+                                        speed: "_{10ft}"
+                                        half: "_{5ft}"
+                                      - level: 7
+                                        speed: "_{15ft}"
+                                        half:
+                                      - level: 11
+                                        speed: "_{20ft}"
+                                        half: "_{10ft}"
+                                      - level: 15
+                                        speed: "_{25ft}"
+                                        half:
+                                      - level: 19
+                                        speed: "_{30ft}"
+                                        half: "_{15ft}"
+                                    template:
+                                      - value: "#{level}"
+                                      - value: "#{speed}"
+                                        size: small
+                                      - value: "#{half}"
+                                        size: small
+
+                                  - p: "_{Half speed bonus applies even when you don't have panache.}"
+                                  - spacer:
+
+                  - paste: class-feats
+                    params:
+                      id: swashbuckler-feats
+                      title: "_{Swashbuckler Feats}"
+                      slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                      mark: swashbuckler
+                      lines: 2
+
+                  - tail:
+                  - spacer:

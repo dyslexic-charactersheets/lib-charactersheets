@@ -45,14 +45,14 @@ inc:
   - set: athletics-proficiency
     value: trained
 
-  - set: barbarian-rage-damage-bonus
-    value: 6
+  # - set: barbarian-rage-damage-bonus
+  #   value: 2
 
   - at: '@cover-class'
     replace:
       - h6: "_{Barbarian}"
       - field: barbarian-instinct
-        label: "Instinct"
+        label: "_{Instinct}"
         width: stretch
         align: left
 
@@ -137,39 +137,42 @@ inc:
                       contents:
                         - zone: '@barbarian/instinct'
                           contents:
-                            - field: barbarian-instinct
-                              frame: none
-                              size: gargantuan
-                              width: stretch
-                              align: left
-                              merge-bottom: true
                             - g:
                               contents:
+                                - field: barbarian-instinct
+                                  frame: none
+                                  size: gargantuan
+                                  width: stretch
+                                  align: left
+                                  merge-bottom: true
+                                - hr:
+                                  swash: true
                                 - h5: "_{Anathema}"
                                 - paste: anathema-fixed
                                   params:
                                     id: barbarian/anathema
                                     lines: 3
-                        - g:
+                        - zone: '@barbarian/instinct-ability'
                           contents:
-                            - h5: "_{Instinct Ability}"
-                            - zone: '@barbarian/instinct-ability'
+                            - g:
                               contents:
+                                - h5: "_{Instinct Ability}"
                                 - article:
                                   lines: 5
                                   reduce: 2
-                        - level: 7
+                        - zone: '@barbarian/specialisation-ability'
                           contents:
-                            - h5: "_{Specialisation Ability}"
-                            - zone: '@barbarian/specialisation-ability'
+                            - level: 7
                               contents:
+                                - h5: "_{Weapon Specialisation}"
                                 - article:
                                   lines: 3
                                   reduce: 1
-                        - level: 15
+                        - zone: '@barbarian/specialisation-ability/greater'
                           contents:
-                            - zone: '@barbarian/specialisation-ability/greater'
+                            - level: 15
                               contents:
+                                - h5: "_{Greater Weapon Specilisation}"
                                 - article:
                                   lines: 3
                                   reduce: 1
@@ -207,11 +210,10 @@ inc:
                         - p: "_{If you succeed at a melee Strike against a target with resistance against the physical damage type of the weapon or unarmed attack you’re using, reduce that resistance.}"
                 - tail:
                 - spacer:
-                - spacer:
 
             - g:
               contents:
-                - section: "_{Rage!}"
+                - section: "[b]_{Rage!}[/b]"
                   id: barbarian-rage
                   contents:
                     - list:
@@ -223,18 +225,12 @@ inc:
                               contents:
                                 - row:
                                   contents:
-                                    - field: rage-duration
-                                      border: full
-                                      legend: "_{[b]Rage![/b]\nDuration}"
-                                      width: huge
-                                      suffix: "_{rds}"
-                                    - p: "_{Lasts for 1 minute, until combat ends, or until you fall unconscious.}"
-                                    - spacer:
                                     - field: rage-current
-                                      label: "_{[b]Rage![/b]\nDuration}"
+                                      legend: "_{[b]Rage![/b]\nDuration}"
                                       control: checkgrid
                                       depth: 3
                                       max: 10
+                                    - p: "_{Lasts for 1 minute, until combat ends, or until you fall unconscious.}"
                                     - spacer:
                                 - hr:
                                   light: true
@@ -261,10 +257,9 @@ inc:
                                   pad: true
                                   contents:
                                     - field: barbarian-rage-damage-bonus
-                                      # border: full
+                                      border: full
                                       legend: "_{[b]Rage![/b] Damage Bonus}"
                                       prefix: "+"
-                                      control: value
                                       width: large
                                     - p: "_{To melee and unarmed strikes}"
                                     - spacer:
@@ -276,6 +271,9 @@ inc:
                                       value: "-1"
                                       # underlay: "_{AC}"
                                     - spacer:
+                                - p:
+                                  title: "_{Agile}"
+                                  content: "_{If using an agile weapon, rage damage bonus is halved.}"
                                 - hr:
                                   light: true
                                 - p:

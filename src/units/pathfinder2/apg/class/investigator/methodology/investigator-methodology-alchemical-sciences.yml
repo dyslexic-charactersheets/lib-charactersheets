@@ -1,0 +1,89 @@
+unit: investigator/methodology/alchemical-sciences
+in: investigator/methodology
+group: "_{Advanced Player's Guide}"
+name: "_{Alchemical Sciences}"
+
+require:
+  - unit: option/formula-book
+
+inc:
+  - set: investigator-methodology
+    value: "_{Alchemical Sciences}"
+  - set: crafting-proficiency
+    value: trained
+
+  - at: '@investigator/methodology'
+    replace:
+      - h4: "_{Alchemical Sciences}"
+      - hr:
+        swash: true
+      - layout: 2e
+        contents:
+          - g:
+            contents:
+              - p: "_{Create versatile vials during your daily preparations.}"
+              - row:
+                contents:
+                  - calc:
+                    output:
+                      field: investigator/alchemical-sciences/vials
+                      legend: "_{Versatile Vials}"
+                      width: large
+                    inputs:
+                      - field:
+                        ref: INT
+                        label: "_{INT}"
+                        underlay: "_{INT}"
+                  - spacer:
+                  - field: investigator/alchemical-sciences/vials
+                    control: checkgrid
+                    max: 10
+                    label: "_{Today}"
+              - action:
+                contents:
+                  - article:
+                    title: "_{Quick Tincture}"
+                    content: "_{Use a versatile vial to brew up an elixir or alchemical tool up to your level. This item has the infused trait, but must be used this turn.}"
+
+          - g:
+            contents:
+              - p:
+                icon: proficiency-trained
+                title: "_{Crafting}"
+
+              - h5: "_{Skill Feat}"
+              - article:
+                title: "_{Alchemical Crafting}"
+                content: "_{Can craft alchemical items. Add the formulas for common 1st-level alchemical items to your formula book.}"
+              - calc:
+                output:
+                  field:
+                  legend: "_{Formulas Known}"
+                  width: large
+                inputs:
+                  - span: "5 +"
+                  - field:
+                    ref: level
+                    label: "_{Level}"
+              - p: "_{Learn formulas of alchemical items of a level you can create.}"
+
+  - at: '@investigator/more'
+    add:
+      - section: "_{Formulas}"
+        contents:
+          - list:
+            columns: 3
+            gutter: small
+            merge-bottom: true
+            contents:
+              - repeat: 27
+                reduce: 6
+                contents:
+                  - row:
+                    contents:
+                      - field: alchemist-formula-#{i}
+                        frame: none
+                        width: stretch
+                      - field: alchemist-formula-#{i}-level
+                        frame: none
+                        width: small

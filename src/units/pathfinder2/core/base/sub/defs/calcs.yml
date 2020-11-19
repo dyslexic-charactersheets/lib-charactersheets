@@ -1,4 +1,5 @@
 unit: defs/calcs
+group: "_{Core Rulebook}"
 
 inc:
   - copy: half-level
@@ -14,7 +15,120 @@ inc:
           width: "#{width}"
           label: "#{label}"
         inputs:
+          - ruby-round-down:
+            contents:
+              - field:
+                ref: level
+                label: "_{Level}"
+              - span: "&divide; 2"
+
+  - copy: focus-level
+    params:
+      id: ''
+      label: "_{Focus Level}"
+      width: large
+    contents:
+      - calc:
+        output:
+          field: '#{id}'
+          width: "#{width}"
+          legend: "#{label}"
+        inputs:
+          - ruby-round-up:
+            contents:
+              - field:
+                ref: level
+                label: "_{Level}"
+              - span: "&divide; 2"
+
+  - copy: heighten
+    params:
+      id: ''
+      label: "_{Focus}"
+      level: 1
+      heighten: "+1"
+      max: 4
+    contents:
+      - row:
+        valign: center
+        contents:
+          - h6: "#{label} [b]#{level}[/b]&nbsp;"
+          - vr:
+          - h6: "&nbsp;_{Heighten} [b]#{heighten}[/b]&nbsp;&nbsp;"
           - field:
-            ref: level
-            label: "_{Level}"
-          - span: "&divide; 2"
+            frame: none
+            control: checkgrid
+            style: progress
+            max: "#{max}"
+            depth: 1
+          - spacer:
+
+  # - copy: spell-article
+  #   params:
+  #     title: ''
+  #     id: ''
+  #     category: "_{Focus}"
+  #     level: 1
+  #   contents:
+  #     - article:
+  #       header:
+  #         - row:
+  #           valign: center
+  #           contents:
+  #             - h6: "#{title}"
+  #             - spacer:
+  #             - h6: "#{category} [b]#{level}[/b]"
+  #       contents:
+  #         - item:
+
+  # - copy: spell-article-heighten
+  #   params:
+  #     title: ''
+  #     id: ''
+  #     category: "_{Focus}"
+  #     level: 1
+  #     heighten: "+1"
+  #     max: 4
+  #   contents:
+  #     - article:
+  #       header:
+  #         - row:
+  #           valign: center
+  #           contents:
+  #             - h6: "#{title}"
+  #             - spacer:
+  #             - h6: "#{category} [b]#{level}[/b]&nbsp;"
+  #             - vr:
+  #             - h6: "&nbsp;[b]#{heighten}[/b]&nbsp;&nbsp;"
+  #             - field:
+  #               frame: none
+  #               control: checkgrid
+  #               style: progress
+  #               max: "#{max}"
+  #               depth: 1
+  #       contents:
+  #         - item:
+    
+  # - copy: heighten-title
+  #   params:
+  #     title: ''
+  #     id: ''
+  #     label: "_{Focus}"
+  #     level: 1
+  #     heighten: "+1"
+  #     max: 4
+  #   contents:
+  #     - row:
+  #       valign: center
+  #       contents:
+  #         - h6: "#{title}"
+  #         - spacer:
+  #         - h6: "#{label} [b]#{level}[/b]&nbsp;"
+  #         - vr:
+  #         - h6: "&nbsp;_{Heighten} [b]#{heighten}[/b]&nbsp;&nbsp;"
+  #         - field:
+  #           frame: none
+  #           control: checkgrid
+  #           style: progress
+  #           max: "#{max}"
+  #           depth: 1

@@ -2,6 +2,7 @@ import { log } from '../log';
 
 import { Character } from './Character';
 import { Party } from './Party';
+import { GM_Party } from './GM_Party';
 import { Build } from './Build';
 import { events } from './Events';
 import { isArray } from '../util';
@@ -86,6 +87,12 @@ export class Request {
 
         case 'party':
           return new Party(primary, this, registry);
+
+        case 'gm':
+          switch(primary.attributes['gm']) {
+            case 'party':
+              return new GM_Party(primary, this, registry);
+          }
 
         case 'quick':
           switch(primary.attributes['quick']) {

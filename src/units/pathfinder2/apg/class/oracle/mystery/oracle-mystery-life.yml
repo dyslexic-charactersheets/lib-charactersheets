@@ -1,0 +1,205 @@
+unit: oracle/mystery/life
+in: oracle/mystery
+group: "_{Advanced Player's Guide}"
+name: "_{Life}"
+
+inc:
+  - set: oracle-mystery
+    value: "_{Life}"
+  - set: medicine-proficiency
+    value: trained
+
+  - at: '@oracle/mystery/title'
+    replace:
+      - h4: "_{Life}"
+
+  - at: '@oracle/mystery/benefit'
+    replace:
+      - p: "_{Hit points per level increases to 10 + CON.}"
+
+  - set: oracle/mystery/cantrip
+    value: "_{Stablise}"
+  - set: oracle/mystery/initial-revelation
+    value: "_{Life Link}"
+  - set: oracle/mystery/advanced-revelation
+    value: "_{Delay Affliction}"
+  - set: oracle/mystery/greater-revelation
+    value: "_{Life-Giving Form}"
+
+  # SPELLS
+  - at: '@oracle/revelation-spell/initial'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Life Link}"
+            contents:
+              - dl:
+                  range: "_{30ft}"
+                  duration: "_{1 minute}"
+              - p: "_{Connect yourself to a target, and immediately heal them.}"
+              - p: "_{When your targets take damage, transfer a portion of that damage to yourself. This bypasses immunities.}"
+              - advancement:
+                index: "_{Focus Level}"
+                elide: true
+                fields:
+                  - key: targets
+                    name: "_{Targets}"
+                    format: string
+                  - key: healing
+                    name: "_{Initial healing}"
+                    format: string
+                  - key: hp
+                    name: "_{Damage transfer}"
+                    format: string
+                advances:
+                  - level: 1
+                    targets: 1
+                    healing: "_{1d4}"
+                    hp: "_{3hp}"
+                  - level: 3
+                    targets: 2
+                    healing: "_{3d4}"
+                    hp: "_{5hp}"
+                  - level: 6
+                    targets: 3
+                    healing: "_{6d4}"
+                    hp: "_{10hp}"
+                  - level: 9
+                    targets: 4
+                    healing: "_{9d4}"
+                    hp: "_{15hp}"
+
+  - at: '@oracle/revelation-spell/advanced'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Delay Affliction}"
+            contents:
+              - dl:
+                  range: "_{30ft}"
+                  target: "_{1 creature}"
+              - p: "_{Suspend the effect of an affiction for 1 hour. Can only be used once a day.}"
+              - calc:
+                output:
+                  field:
+                  legend: "_{Healing}"
+                  width: large
+                  suffix: "_{d8}"
+                inputs:
+                  - field:
+                    label: "_{Focus Level}"
+                    ref: focus-level
+                  - span: "&times; _{1d8}"
+
+  - at: '@oracle/revelation-spell/greater'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Life-Giving Form}"
+            contents:
+              - dl:
+                  duration: "_{1 minute}"
+              - list:
+                hr: true
+                light: true
+                contents:
+                  - g:
+                    contents:
+                      - p: "_{Gain resistance to precision damage and weakness}"
+                      - calc:
+                        output:
+                          field:
+                          legend: "_{Resistance/ Weakness}"
+                          width: large
+                        inputs:
+                          - field:
+                            label: "_{Focus Level}"
+                            ref: focus-level
+                          - span: "- 1"
+                  - g:
+                    contents:
+                      - action:
+                        contents:
+                          - p: "_{Touch a living creater to heal. Another creature can touch you get the same effect. Can use once per minute.}"
+                      - p: "_{An undead creature instead takes 3d4 positive damage each time they touch you.}"
+                      - calc:
+                        output:
+                          field:
+                          legend: "_{Healing}"
+                          width: large
+                          suffix: "_{d8}"
+                        inputs:
+                          - field:
+                            label: "_{Focus Level}"
+                            ref: focus-level
+                          - span: "&times; _{1d8}"
+
+  - at: '@oracle/revelation-spell/diverse-mystery'
+    replace:
+      - nothing:
+
+  # CURSE
+  - at: '@oracle/curse'
+    replace:
+      - h4: "_{Curse of Outpouring Life}"
+        size: small
+
+  - at: '@oracle/curse/minor'
+    replace:
+      - p: "_{Healing yourself is reduced.}"
+      - g:
+        pad: true
+        contents:
+          - calc:
+            output:
+              field:
+              legend: "_{Reduction}"
+              width: large
+            inputs:
+              - field:
+                label: "_{Level}"
+                ref: level
+              - span: "&divide; 2"
+
+  - at: '@oracle/curse/moderate'
+    replace:
+      - p: "_{Cannot be healed by others' magic. If unconscious, can be healed to 1hp.}"
+      - p: "_{When you cast Heal on living creatures, roll d12s rather than d8s.}"
+      - hr:
+        light: true
+      - p: "_{On casting any non-cantrip spell, heal one target of that spell or the nearest creature.}"
+      - g:
+        pad: true
+        contents:
+          - calc:
+            output:
+              field:
+              legend: "_{Healing}"
+              width: large
+            inputs:
+              - field:
+                label: "_{Focus Level}"
+                ref: focus-level
+
+  - at: '@oracle/curse/major'
+    replace:
+      - dl:
+          range: "_{30ft}"
+      - p: "_{On taking 2 actions to cast a 5th level or higher spell, heal all those around you.}"
+      - g:
+        pad: true
+        contents:
+          - calc:
+            output:
+              field:
+              legend: "_{Healing}"
+              width: large
+              suffix: "_{d8}"
+            inputs:
+              - field:
+                label: "_{Focus Level}"
+                ref: focus-level
+              - span: "- 4"

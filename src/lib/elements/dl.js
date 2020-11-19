@@ -5,6 +5,7 @@ import { __, _e } from '../i18n';
 
 export let dl = {
   name: 'dl',
+  key: 'defs',
   defaults: {
     div: false,
     min: false,

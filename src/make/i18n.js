@@ -30,6 +30,15 @@ function pushEntry(system, message, context, reference, comment, meta) {
     entries[system] = {};
   }
   var id = (context == "") ? message : (context+"/"+message);
+  if (_.has(meta, "Source")) {
+    id = id + "@" + meta["Source"];
+  } else {
+    warn("i18n", "No source", reference);
+  }
+  if (_.has(meta, "Unit")) {
+    id = id + "!" + meta["Unit"];
+  }
+
   if (!_.has(entries[system], id)) {
     entries[system][id] = [];
   }

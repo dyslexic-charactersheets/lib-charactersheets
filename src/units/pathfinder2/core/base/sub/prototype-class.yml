@@ -1,0 +1,90 @@
+unit: prototype/class
+name: "_{Prototype Class}"
+group: "_{Core Rulebook}"
+
+require:
+  - unit: prototype/key-ability
+
+inc:
+  - copy: prototype-class
+    params:
+      class:
+      class-name:
+      subclass:
+      subclass-name:
+      hp:
+      perception: trained
+      unarmoured:
+      light-armour:
+      fortitude:
+      reflex:
+      will:
+      skill: none
+      skill2: none
+      divine:
+      occult:
+      arcane:
+      primal:
+
+    contents:
+      - set: class
+        value: "#{class-name}"
+
+      - set: hp-class
+        value: "#{hp}"
+      - set: class-icon
+        value: "#{class}"
+      - set: subclass-label
+        value: "#{subclass-name}"
+
+      - set: "#{class}-class-dc-proficiency"
+        value: trained
+      - set: perception-proficiency
+        value: "#{perception}"
+
+      - set: unarmoured-proficiency
+        value: "#{unarmoured}"
+      - set: light-armour-proficiency
+        value: "#{light-armour}"
+
+      - set: fortitude-proficiency
+        value: "#{fortitude}"
+      - set: reflex-proficiency
+        value: "#{reflex}"
+      - set: will-proficiency
+        value: "#{will}"
+
+      - set: "#{skill}-proficiency"
+        value: trained
+      - set: "#{skill2}-proficiency"
+        value: trained
+
+      - set: divine-spell-attack-proficiency
+        value: "#{divine}"
+      - set: divine-spell-dc-proficiency
+        value: "#{divine}"
+
+      - set: occult-spell-attack-proficiency
+        value: "#{occult}"
+      - set: occult-spell-dc-proficiency
+        value: "#{occult}"
+
+      - set: arcane-spell-attack-proficiency
+        value: "#{arcane}"
+      - set: arcane-spell-dc-proficiency
+        value: "#{arcane}"
+
+      - set: primal-spell-attack-proficiency
+        value: "#{primal}"
+      - set: primal-spell-dc-proficiency
+        value: "#{primal}"
+
+      - at: '@cover-class'
+        replace:
+          - h6: "#{class-name}"
+          - if: "#{subclass}"
+            then:
+              - field: "#{subclass}"
+                label: "#{subclass-name}"
+                width: stretch
+                align: left

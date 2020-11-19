@@ -1,0 +1,20 @@
+unit: optional-darkvision
+name: "_{Optional Darkvision}"
+group: "_{Core Rulebook}"
+
+# These units allows for heritages that grant low-light vision, but which may grant
+# darkvision if the character's ancestry already includes low-light vision.
+
+require:
+  - with: optional-darkvision/trigger
+    unit: optional-darkvision/enable
+
+inc:
+  - set: perception-low-light
+    value: true
+
+  - copy: optional-darkvision
+    contents:
+      - zone: '@optional-darkvision'
+        contents:
+          - paste: low-light-vision

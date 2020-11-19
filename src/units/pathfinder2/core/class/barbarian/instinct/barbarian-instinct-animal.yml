@@ -20,6 +20,8 @@ inc:
       - g:
         contents:
           - h4: "_{Animal}"
+          - hr:
+            swash: true
           - field: barbarian-animal-instinct-type
             label: "Animal type"
             size: huge
@@ -36,9 +38,12 @@ inc:
               
   - at: '@barbarian/instinct-ability'
     replace:
-      - g:
+      - nothing:
+
+  - at: '@barbarian/left'
+    add:
+      - section: "[b]_{Bestial Rage!}[/b]"
         contents:
-          - h5: "[b]_{Bestial Rage!}[/b]"
           - p: "_{When raging, you gain your animal's unarmed attacks.}"
           - field: barbarian-animal-instinct-attack
             label: "_{Natural attack}"
@@ -69,31 +74,37 @@ inc:
 
   - at: '@barbarian/specialisation-ability'
     replace:
-      - p: "_{Increase the damage die of your bestial rage attacks by one step.}"
-      - field:
-        label: "_{[b]Bestial Rage![/b] Damage Bonus}"
-        frame: right
-        control: value
-        width: large
-        value: "+5"
-      - row:
+      - level: 7
         contents:
-          - field: barbarian-bestial-rage-range
-            label: "_{Range}"
-            border: none
+          - h5: "_{Weapon Specialisation}"
+          - p: "_{Increase the damage die of your bestial rage attacks by one step.}"
+          - field:
+            label: "_{[b]Bestial Rage![/b] Damage Bonus}"
+            frame: right
             control: value
             width: large
-            value: 10ft
-          - p: "_{For the frog's tongue and deer's anters.}"
+            value: "5"
+          - row:
+            contents:
+              - field: barbarian-bestial-rage-range
+                label: "_{Range}"
+                border: none
+                control: value
+                width: large
+                value: 10ft
+              - p: "_{For the frog's tongue and deer's anters.}"
 
   - at: '@barbarian/specialisation-ability/greater'
     replace:
-      - field:
-        label: "_{[b]Bestial Rage![/b] Damage Bonus}"
-        frame: right
-        control: value
-        width: large
-        value: "+12"
+      - level: 15
+        contents:
+          - h5: "_{Greater Weapon Specialisation}"
+          - field:
+            label: "_{[b]Bestial Rage![/b] Damage Bonus}"
+            frame: right
+            control: value
+            width: large
+            value: "12"
 
   - at: '@barbarian/raging-resistance'
     replace:

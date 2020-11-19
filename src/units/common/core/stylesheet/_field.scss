@@ -25,6 +25,7 @@
   /* width and flex */
 
   $field-width: 2.5rem;
+  $overprint: 3rem;
   $icon-width: 1.3rem;
   $frame-width: 0.25rem;
   $frame-temp-width: 1rem;
@@ -55,6 +56,42 @@
           overflow: visible;
         }
       }
+      &.field--overprint {
+        .field__frame > legend {
+          width: $width+$overprint;
+          margin-right: -$overprint;
+        }
+      }
+
+      &.field--frame_left,
+      &.field--frame_right {
+        &,
+        &.field--icon {
+          width: auto;
+        }
+
+        .field__frame {
+          width: auto;
+        }
+  
+        .field__box {
+          width: $width - $frame-width;
+        }
+  
+        &.field--temp .field__box {
+          width: $width - $frame-temp-width;
+        }
+  
+        &.field--control_icon .field__box, &.field--control_proficiency-icon .field__box {
+          // width: $width + $icon-width;
+          width: $icon-width;
+        }
+  
+        &.field--control_icon.field--temp .field__box, &.field--control_proficiency-icon.field--temp .field__box {
+          // width: $width + $icon-width - $frame-temp-width;
+          width: $icon-width - $frame-temp-width;
+        }
+      }
     }
     .field__control--width_#{$name} {
       width: $width - $frame-width;
@@ -70,30 +107,6 @@
     }
     &.field--icon.field--temp .field__control--width_#{$name} {
       width: $width - $icon-width - $frame-temp-width;
-    }
-
-    &.field--frame_left,
-    &.field--frame_right {
-      &,
-      &.field--icon {
-        width: auto;
-      }
-
-      .field_frame {
-        width: $width - $frame-width;
-      }
-
-      &.field--temp .field_frame {
-        width: $width - $frame-temp-width;
-      }
-
-      &.field--icon .field_frame {
-        width: $width + $icon-width;
-      }
-
-      &.field--icon.field--temp .field_frame {
-        width: $width + $icon-width - $frame-temp-width;
-      }
     }
   }
 

@@ -1,0 +1,36 @@
+unit: heritage/halfling/apg/jinxed
+in: heritage/halfling
+group: "_{Advanced Player's Guide}"
+name: "_{Jinxed Halfling}"
+
+inc:
+  - set: heritage
+    value: "_{Jinxed Halfling}"
+
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Jinxed Halfling}"
+        contents:
+          - action: 2
+            contents:
+              - article:
+                title: "_{Jinx}"
+                contents:
+                  - dl:
+                      range: "_{30ft}"
+                      target: "_{A creature you can see}"
+                      duration: "_{1 minute}"
+                  - p: "_{Use your class DC or spell DC, whichever is higher}"
+                  - paste: save
+                    params:
+                      failure: "_{Clumsy 1}"
+                      critical_failure: "_{Clumsy 2}"
+
+  - at: '@actions'
+    add:
+      - action: 2
+        contents:
+          - p:
+            title: "_{Jinx}"
+            content: "_{Curse a target within 30ft.}"

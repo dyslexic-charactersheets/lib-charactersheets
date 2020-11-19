@@ -46,7 +46,7 @@ systems.forEach(system => {
         });
 
         if (system.code != "common") {
-          var summary = formdata.summarise(systemUnits);
+          var summary = formdata.summarise(system.code, systemUnits);
           var summaryData = JSON.stringify(summary);
           var summaryFile = path.normalize(__dirname+'/../../lib/data-'+system.code+".json");
           fs.writeFile(summaryFile, summaryData, err => {

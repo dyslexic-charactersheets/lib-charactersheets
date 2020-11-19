@@ -1,0 +1,38 @@
+unit: swashbuckler/style/gymnast
+in: swashbuckler/style
+group: "_{Advanced Player's Guide}"
+name: "_{Gymnast}"
+
+inc:
+  - set: swashbuckler-style
+    value: "_{Gymnast}"
+  - set: athletivcs-proficiency
+    value: trained
+
+  - at: '@swashbuckler/gain-panache'
+    replace:
+      - li:
+        contents:
+          - p: "_{You successfully Grapple, Shove or Trip a foe}"
+
+  - at: '@swashbuckler/style'
+    replace:
+      - h4: "_{Gymnast}"
+      - hr:
+        swash: true
+      - level: 9
+        contents:
+          - h5: "_{Exemplary Finisher}"
+          - p: "_{When you successfully strike as part of a finisher...}"
+          - p: "_{If the target is grabbed, restrained or prone, gain a damage bonus:}"
+          - calc:
+            output:
+              field:
+              legend: "_{Damage Bonus}"
+              width: large
+              border: full
+            inputs:
+              - span: "2 &times;"
+              - field:
+                label: "_{Number of damage dice}"
+                width: large

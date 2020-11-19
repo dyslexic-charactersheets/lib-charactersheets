@@ -1,0 +1,300 @@
+unit: class/apg/witch
+in: class
+group: "_{Advanced Player's Guide}"
+name: "_{Witch}"
+
+form:
+  - select: witch/patron
+    name: "_{Patron}"
+    max: 1
+
+require:
+  - unit: weapon-spec/slow
+  - with: option/reference
+    unit: class/apg/witch/reference
+  - unit: option/familiar
+  - unit: option/spellbook
+  
+inc:
+  - paste: prototype-class
+    params:
+      class: witch
+      class-name: "_{Witch}"
+      subclass: witch-patron
+      subclass-name: "_{Patron}"
+      hp: 6
+
+      perception: trained
+      unarmoured: trained
+
+      fortitude: trained
+      reflex: trained
+      will: expert
+
+  - paste: prototype-key-ability
+    params:
+      key-ability: "INT"
+
+  - at: '@cover-class'
+    replace:
+      - h6: "_{Witch}"
+      - field: witch-patron
+        label: "_{Patron}"
+        width: stretch
+        align: left
+  
+  - at: '@advancement'
+    add:
+      - level: 1
+        gain: "_{Patron}"
+      - level: 1
+        advance: ""
+      - levels: [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
+        spell-level: [ "_{1st}", "_{2nd}", "_{3rd}", "_{4th}", "_{5th}", "_{6th}", "_{7th}", "_{8th}", "_{9th}", "_{10th}" ]
+
+  - at: '@advancement-fields'
+    add:
+      - name: "_{Spell Level}"
+        key: spell-level
+        format: string
+
+  - at: '@advancement-every-level'
+    replace:
+      - p:
+        title: "_{Every level}:"
+        content: "_{Proficiencies, hit points, spells}"
+
+  - at: '@saving-throws'
+    add:
+      # - level: 7
+      #   contents:
+      #     - paste: juggernaut
+      # - level: 13
+      #   contents:
+      #     - paste: greater-juggernaut
+      # - level: 15
+      #   contents:
+      #     - paste: indomitable-will
+
+  - at: '@actions'
+    add:
+
+  - at: '@pages'
+    add:
+      - page: witch
+        name: "_{Witch}"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: witch
+                    optional: true
+                  - class-name: "_{Witch}"
+
+                  - section: "_{Familiar}"
+                    contents:
+                      - p: "_{Your patron has sent you a familiar. Commune with your familiar to prepare spells each day.}"
+                      - p: "_{If your familiar dies, your patron replaces it the next morning. This does not affect your spells.}"
+
+                  - section: "_{Spellcasting}"
+                    contents:
+                      - spells-table:
+                        flip: true
+                        min: 0
+                        merge-bottom: false
+
+                      - g:
+                        pad: true
+                        contents:
+                          - zone: '@witch/spell-dcs'
+                            contents:
+                              - paste: spell-attack
+                                params:
+                              - paste: spell-dc
+                                params:
+
+                  - section: "_{Hexes}"
+                    contents:
+                      - paste: focus
+                        contents:
+                          - p: "Cast only one hex per turn"
+                      - hr:
+                      - article:
+                        title: "_{Phase Familiar}"
+                        contents:
+                          - action: reaction
+                            contents:
+                              - dl:
+                                  trigger: "_{Your familiar would take damage}"
+                                  range: "_{60ft}"
+                              - p: "Your familiar becomes an ephemeral version of itself shaped of mist. It is immune to precision damage and gains damage resistance against this attack:"
+                              - calc:
+                                pad: true
+                                output:
+                                  field: witch/phase-familiar/damage-reduction
+                                  width: large
+                                  legend: "_{Damage Resistance}"
+                                inputs:
+                                  - span: "3 + ("
+                                  - field:
+                                    ref: focus-level
+                                    label: "_{Focus Level}"
+                                  - span: "&times; 2 )"
+
+                  - section: "_{Lessons}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - selectable: witch/basic-lesson
+                            contents:
+                              - g:
+                                pad: true
+                                contents:
+                                  - field: witch/basic-lesson
+                                    legend: "_{Basic Lesson}"
+                                    width: stretch
+                                  - field: witch/basic-lesson/hex
+                                    label: "_{Hex}"
+                                    width: stretch
+                                  - field: witch/basic-lesson/familiar-spell
+                                    label: "_{Familiar Spell}"
+                                    width: stretch
+                                    merge-bottom: true
+                          - selectable: witch/greater-lesson
+                            contents:
+                              - g:
+                                pad: true
+                                contents:
+                                  - field: witch/greater-lesson
+                                    legend: "_{Greater Lesson}"
+                                    width: stretch
+                                  - field: witch/greater-lesson/hex
+                                    label: "_{Hex}"
+                                    width: stretch
+                                  - field: witch/greater-lesson/familiar-spell
+                                    label: "_{Familiar Spell}"
+                                    width: stretch
+                                    merge-bottom: true
+                          - selectable: witch/major-lesson
+                            contents:
+                              - g:
+                                pad: true
+                                contents:
+                                  - field: witch/major-lesson
+                                    legend: "_{Major Lesson}"
+                                    width: stretch
+                                  - field: witch/major-lesson/hex
+                                    label: "_{Hex}"
+                                    width: stretch
+                                  - field: witch/major-lesson/familiar-spell
+                                    label: "_{Familiar Spell}"
+                                    width: stretch
+                                    merge-bottom: true
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+                      
+                  - section: "_{Patron}"
+                    primary: true
+                    contents:
+                      - field: witch/patron
+                        size: huge
+                        frame: none
+                        width: stretch
+                        merge-bottom: true
+
+                      - hr:
+                        swash: true
+
+                      - layout: 2e
+                        contents:
+                          - g:
+                            contents:
+                              - zone: '@witch/patron/theme'
+                                contents:
+                                  - field: witch/patron/theme
+                                    width: stretch
+                                    label: "_{Patron Theme}"
+                                    merge-bottom: true
+                          - g:
+                            contents:
+                              - field: witch/patron/tradition
+                                width: stretch
+                                label: "_{Spellcasting Tradition}"
+                                merge-bottom: true
+
+                  - section: "_{Cantrips}"
+                    flex: small
+                    contents:
+                      - spells-list:
+                        min: 0
+                        max: 0
+                        spells: 10
+                        special: "_{Patron}"
+                        special-value: "#{witch/patron/cantrip}"
+
+                  - section: "_{Spells}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        flatten: true
+                        avoid-shade: true
+                        contents:
+                          - spells-list:
+                            min: 1
+                            max: 2
+                            spells: 5
+                            style: prepared
+                            flex: huge
+                          - spells-list:
+                            min: 3
+                            max: 9
+                            spells: 3
+                            style: prepared
+                            flex: huge
+                          - spells-list:
+                            min: 10
+                            max: 10
+                            spells: 1
+                            style: prepared
+                            flex: tiny
+
+                  - paste: class-feats
+                    params:
+                      id: witch-feats
+                      title: "_{Witch Feats}"
+                      slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                      mark: witch
+                      lines: 2
+
+                  - tail:
+                  # - spacer:
+
+  - at: '@familiar/abilities/per-day'
+    replace:
+      - layout: 2e
+        contents:
+          - row:
+            contents:
+              - field: familiar/daily-abilities
+                # frame: none
+                underlay: 3
+                label: "_{Abilities each day}"
+              - spacer:
+          - g:
+            contents:
+              - label: "_{Extra abilities}"
+              - row:
+                contents:
+                  - level-marker: 6
+                  - level-marker: 12
+                  - level-marker: 18

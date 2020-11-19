@@ -1,7 +1,7 @@
-import { isObject, isEmpty } from '../util';
+import { isObject, isEmpty, isNull, isNumber, isString } from '../util';
 import { elementClass } from '../util/elements';
 import { has } from '../util/objects';
-import { log } from '../log';
+import { log, error } from '../log';
 
 export let list = {
   name: 'list',
@@ -11,6 +11,7 @@ export let list = {
     blk: false,
     flowv: true,
     zebra: false,
+    'zebra-inverse': false,
     flex: false,
     sort: true,
     hr: false,
@@ -24,8 +25,15 @@ export let list = {
     footer: [],
   },
   render(args, reg, doc) {
+    if (isNull(args.contents)) {
+      error("list", "No list contents", this);
+    }
     if (args.zebra && args['avoid-shade']) {
       args['zebra-inverse'] = (args.contents.length % 2 == 0);
+    // } else if (isNumber(args['zebra-inverse']) || isString(args['zebra-inverse'])) {
+    //   let zebraInverse = parseInt(args['zebra-inverse']);
+    //   log("list", "Zebra inverse:", zebraInverse);
+    //   args['zebra-inverse'] = (zebraInverse % 2 == 0);
     }
     const cls = elementClass('list', null, args,
       ["zebra", "zebra-inverse", "collapse", "vr", "hr", "light", "merge-bottom", "blk", "unblk"],

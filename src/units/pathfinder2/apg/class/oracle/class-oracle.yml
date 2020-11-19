@@ -1,0 +1,396 @@
+unit: class/apg/oracle
+in: class
+group: "_{Advanced Player's Guide}"
+name: "_{Oracle}"
+
+form:
+  - select: oracle/mystery
+    name: "_{Mystery}"
+    max: 1
+
+require:
+  - unit: weapon-spec/slow
+  - with: option/reference
+    unit: class/apg/oracle/reference
+  - unit: option/spellbook
+  - unit: option/spellbook/custom
+  
+inc:
+  - paste: prototype-class
+    params:
+      class: oracle
+      class-name: "_{Oracle}"
+      subclass: oracle-mystery
+      subclass-name: "_{Mystery}"
+      hp: 8
+
+      perception: expert
+      unarmoured: trained
+      light-armour: trained
+      skill: religion
+      divine: trained
+
+      fortitude: trained
+      reflex: expert
+      will: expert
+
+  - paste: prototype-key-ability
+    params:
+      key-ability: "CHA"
+
+  - at: '@cover-class'
+    replace:
+      - h6: "_{Oracle}"
+      - field: oracle-mystery
+        label: "_{Mystery}"
+        width: stretch
+        align: left
+  
+  - at: '@focus-points'
+    replace:
+      - field: focus-mystery
+        label: "_{Mystery}"
+        underlay: "1"
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        class-feat: true
+      - level: 1
+        gain: "_{Mystery}"
+      - level: 1
+        advance: "Curse"
+      - levels: [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
+        spell-level: [ "_{1st}", "_{2nd}", "_{3rd}", "_{4th}", "_{5th}", "_{6th}", "_{7th}", "_{8th}", "_{9th}", "_{10th}" ]
+
+  - at: '@advancement-fields'
+    add:
+      - name: "_{Spell Level}"
+        key: spell-level
+        format: string
+
+  - at: '@advancement-every-level'
+    replace:
+      - p:
+        title: "_{Every level}:"
+        content: "_{Proficiencies, hit points, spells}"
+
+  - at: '@saving-throws'
+    add:
+      - level: 7
+        contents:
+          - paste: resolve
+      - level: 17
+        contents:
+          - paste: greater-resolve
+
+  - at: '@pages'
+    add:
+      - page: oracle
+        name: "_{Oracle}"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: oracle
+                    optional: true
+                  - class-name: "_{Oracle}"
+                  
+                  - section: "_{Curse}"
+                    contents:
+                      - zone: '@oracle/curse-section'
+                        contents:
+                          - list:
+                            hr: true
+                            zebra: true
+                            avoid-shade: true
+                            contents:
+                              - zone: '@oracle/curse'
+                                contents:
+                                  - field: oracle-curse
+                                    size: huge
+                                    width: stretch
+                                    merge-bottom: true
+                              - selectable:
+                                style: progress
+                                contents:
+                                  - h5: "_{Minor}"
+                                  - zone: '@oracle/curse/minor'
+                                    contents:
+                                      - article:
+                              - selectable:
+                                style: progress
+                                contents:
+                                  - h5: "_{Moderate}"
+                                  - zone: '@oracle/curse/moderate'
+                                    contents:
+                                      - article:
+                              - level: 11
+                                contents:
+                                  - selectable:
+                                    style: progress
+                                    contents:
+                                      - h5: "_{Major}"
+                                      - zone: '@oracle/curse/major'
+                                        contents:
+                                          - article:
+                              - level: 17
+                                contents:
+                                  - selectable:
+                                    style: progress
+                                    contents:
+                                      - h5: "_{Extreme}"
+                                      - p:
+                                        title: "_{Doomed 2}"
+                                      - p: "_{Once every 10 minutes, reroll one failed attack roll, saving throw, skill or Perception check.}"
+
+                  - section: "_{Spellcasting}"
+                    id: spellcasting
+                    contents:
+                      - spells-table:
+                        max: 10
+                        pad: true
+                        expanded: "_{Signature Spell}"
+
+                      - hr:
+                        light: true
+                      - paste: spell-attack
+                        params:
+                          id: divine-spell-attack
+                          legend: "_{Divine Spell\nAttack}"
+
+                      - paste: spell-dc
+                        params:
+                          id: divine-spell-dc
+                          legend: "_{Divine Spell\nSave DC}"
+
+                      - hr:
+                      - level: 3
+                        contents:
+                          - p: "_{Signature spells can be heightened without learning separately.}"
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+                  - section: "_{Mystery}"
+                    primary: true
+                    flex: tiny
+                    contents:
+                      - zone: '@oracle/mystery/title'
+                        contents:
+                          - field: oracle-mystery
+                            size: huge
+                            width: stretch
+                            frame: none
+                            merge-bottom: true
+                      - hr:
+                        swash: true
+                      - layout: 2e
+                        contents:
+                          - g:
+                            contents:
+                              - list:
+                                hr: true
+                                contents:
+                                  - g:
+                                    contents:
+                                      - g:
+                                        pad: true
+                                        contents:
+                                          - label: "_{Domains}"
+                                            align: left
+                                          - layout: 2e
+                                            contents:
+                                              - field:
+                                                frame: none
+                                                width: stretch
+                                              - field:
+                                                frame: none
+                                                width: stretch
+                                  - g:
+                                    contents:
+                                      - h5: "_{Mystery Benfit}"
+                                      - list:
+                                        hr: true
+                                        contents:
+                                          - zone: '@oracle/mystery/benefit'
+                                            contents:
+                                              - article:
+                                                lines: 3
+                                              - indent: left
+                                                contents:
+                                                  - article:
+                                                    lines: 3
+                              - tail:
+                              - spacer:
+
+                          - g:
+                            contents:
+                              - h5: "_{Revelation Spells}"
+                              - list:
+                                hr: true
+                                light: true
+                                contents:
+                                  - g:
+                                    contents:
+                                      - paste: focus
+                                        contents:
+                                          - flags:
+                                              - "_{Cursebound}"
+                                          - p: "_{Casting a revelation spell increases the severity of your curse.}"
+                                            optional: true
+                                  - field: oracle/mystery/initial-revelation
+                                    label: "_{Initial Revelation}"
+                                    width: stretch
+                                    merge-bottom: true
+                                  - field: oracle/mystery/domain-spell
+                                    label: "_{Domain Spell}"
+                                    width: stretch
+                                    merge-bottom: true
+                                  - selectable:
+                                    contents:
+                                      - field: oracle/mystery/advanced-revelation
+                                        label: "_{Advanced Revelation}"
+                                        width: stretch
+                                        merge-bottom: true
+                                  - selectable:
+                                    contents:
+                                      - field: oracle/mystery/greater-revelation
+                                        label: "_{Greater Revelation}"
+                                        width: stretch
+                                        merge-bottom: true
+                                  - selectable:
+                                    contents:
+                                      - field: oracle/mystery/diverse-mystery
+                                        label: "_{Diverse Mystery}"
+                                        width: stretch
+                                        merge-bottom: true
+
+                  - section: "_{Cantrips}"
+                    flex: tiny
+                    contents:
+                      - spells-list:
+                        min: 0
+                        max: 0
+                        spells: 5
+                        style: spontaneous
+                        special: "_{Mystery Cantrip}"
+                        special-value: ["#{oracle/mystery/cantrip}"]
+                      
+                  - section: "_{Spells}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - spells-list:
+                            flex: huge
+                            min: 1
+                            max: 9
+                            spells: 4
+                            contents:
+                              - "_{Inspire Courage}"
+                          - spells-list:
+                            flex: tiny
+                            min: 10
+                            max: 10
+                            spells: 2
+                      
+                  - paste: class-feats
+                    params:
+                      id: oracle-feats
+                      title: "_{Oracle Feats}"
+                      mark: oracle
+                      extra: 0
+                      lines: 1
+
+                  - tail:
+
+  - at: '@spellbook/left/header'
+    replace:
+      - spacer:
+      - h5: "_{Mystery}"
+      - zone: '@oracle/mystery/title'
+        contents:
+          - h4: "_{Mystery}"
+            size: small
+      - hr:
+
+  - at: '@spellbook/left'
+    replace:
+      - list:
+        hr: true
+        zebra: true
+        contents:
+
+          - zone: '@oracle/spellbook/mystery/preface'
+
+          - g:
+            contents:
+              - paste: focus
+                contents:
+                  - flags:
+                      - "_{Cursebound}"
+                  - p: "_{Casting a revelation spell increases the severity of your curse.}"
+                    optional: true
+              - zone: '@oracle/spellbook/focus-header'
+
+          - g:
+            contents:
+              - h6: "_{Initial Revelation}"
+                blk: false
+              - zone: '@oracle/revelation-spell/initial'
+                contents:
+                  - action: template
+                    contents:
+                      - article: oracle/reveltion-spell/initial
+                        lines: 5
+
+          - g:
+            contents:
+              - h6: "_{Domain Spell}"
+                blk: false
+              - action: template
+                contents:
+                  - article: oracle/revelation-spell/domain
+                    lines: 5
+
+          - g:
+            contents:
+              - h6: "_{Advanced Revelation}"
+                blk: false
+              - zone: '@oracle/revelation-spell/advanced'
+                contents:
+                  - action: template
+                    contents:
+                      - article: oracle/revelation-spell/advanced
+                        lines: 5
+
+          - g:
+            contents:
+              - h6: "_{Greater Revelation}"
+                blk: false
+              - zone: '@oracle/revelation-spell/greater'
+                contents:
+                  - action: template
+                    contents:
+                      - article: oracle/revelation-spell/greater
+                        lines: 5
+
+          - zone: '@oracle/revelation-spell/diverse-mystery'
+            contents:
+              - g:
+                contents:
+                  - h6: "_{Diverse Mystery}"
+                    blk: false
+                  - action: template
+                    contents:
+                      - article: oracle/revelation-spell/diverse
+                        lines: 5
+
+      - tail:
+      - spacer:

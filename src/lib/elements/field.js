@@ -1,4 +1,4 @@
-import { isArray, isString, toBoolean } from '../util';
+import { isArray, isString, isNull, toBoolean } from '../util';
 import { elementID, elementClass, getRubyHeight } from '../util/elements';
 import { has, interpolate } from '../util/objects';
 import { __, _e } from '../i18n';
@@ -22,6 +22,7 @@ export let field = {
     value: null,
     blk: false,
     ruby: false,
+    overprint: false,
   },
   expect: ['icon'],
   // transform(args, ctx) {
@@ -42,8 +43,8 @@ export let field = {
   render(args, reg, doc) {
     args = fieldDefaults(args, reg, doc);
 
-    if (args.value === null) {
-      args.value = doc.getVar(args.id);
+    if (isNull(args.value)) {
+      args.value = doc.getVar(args.id, args.typeHint);
       // if (args.value) log("field", "Value:", args.id, "=", args.value);
     }
     if (args.ruby) {
@@ -52,7 +53,7 @@ export let field = {
 
     const id = elementID('field', args.id);
     const cls = elementClass('field', null, args,
-      ["icon", "ref", "misc", "temp", "indent", "blk"],
+      ["icon", "ref", "misc", "temp", "indent", "blk", "overprint"],
       { "frame": "normal", "width": "", "align": "centre", "size": "medium", "control": "input", "shift": 0, "rb": 0, "border": "bottom", "flex": false });
 
     const frameArgs = Object.assign({}, args, { type: 'frame:' + args.frame });
@@ -95,6 +96,11 @@ export function fieldDefaults(args, reg, doc) {
   //   args.lp = getLabelHeight(args);
   //   // log("field", `Frame ${args.frame}, label padding ${args.lp}`);
   // }
+
+  // Special fields
+  if (args.control == "money") {
+    args.width = "";
+  }
 
   args = interpolate(args, {}, doc);
   return args;

@@ -54,6 +54,13 @@ inc:
         underlay: "_{INT}"
         ref: INT
 
+  - at: '@familiar/key-ability'
+    replace:
+      - field: familiar/key-ability
+        label: "_{INT}"
+        underlay: "_{INT}"
+        ref: INT
+
   - at: '@skill-actions'
     add:
       - paste: 10mins
@@ -68,8 +75,22 @@ inc:
         gain: "_{Arcane Thesis}"
       - level: 1
         gain: "_{Arcane School}"
+      - level: 1
+        advance: "_{Learn 10 cantrips and 5 first-level spells}"
       - levels: [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
         spell-level: [ "_{1st}", "_{2nd}", "_{3rd}", "_{4th}", "_{5th}", "_{6th}", "_{7th}", "_{8th}", "_{9th}", "_{10th}" ]
+
+  - at: '@advancement-fields'
+    add:
+      - name: "_{Spell Level}"
+        key: spell-level
+        format: string
+
+  - at: '@advancement-every-level'
+    replace:
+      - p:
+        title: "_{Every level}:"
+        content: "_{Proficiencies, hit points, 2 spells of a level you can cast}"
 
   - at: '@saving-throws'
     add:
@@ -92,6 +113,7 @@ inc:
       - page: wizard
         name: "_{Wizard}"
         order: 10
+        flex: true
         contents:
           - layout: 2l
             contents:
@@ -197,6 +219,7 @@ inc:
                                         label: "_{Used today}"
 
                   - tail:
+                  - spacer:
 
               - g:
                 contents:
@@ -208,7 +231,8 @@ inc:
                       - spells-list:
                         min: 0
                         max: 0
-                        spells: 7
+                        spells: 10
+                        checks: 1
 
                   - section: "_{Spells}"
                     contents:
@@ -220,6 +244,13 @@ inc:
                         contents:
                           - spells-list:
                             min: 1
+                            max: 6
+                            spells: 5
+                            style: prepared
+                            special: "_{School}"
+                            flex: huge
+                          - spells-list:
+                            min: 7
                             max: 9
                             spells: 3
                             style: prepared
@@ -229,6 +260,7 @@ inc:
                             min: 10
                             max: 10
                             spells: 1
+                            checks: 1
                             style: prepared
                             flex: tiny
 
@@ -239,6 +271,7 @@ inc:
                       mark: wizard
                       
                   - tail:
+                  - spacer:
 
       - page: 'wizard-thesis'
         order: 11

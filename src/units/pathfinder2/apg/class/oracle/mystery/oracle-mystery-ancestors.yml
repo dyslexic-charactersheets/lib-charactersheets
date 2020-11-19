@@ -1,0 +1,150 @@
+unit: oracle/mystery/ancestors
+in: oracle/mystery
+group: "_{Advanced Player's Guide}"
+name: "_{Ancestors}"
+
+inc:
+  - set: oracle-mystery
+    value: "_{Ancestors}"
+  - set: society-proficiency
+    value: trained
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        advance: "_{Additional ancestry feat}"
+      - level: 11
+        advance: "_{Additional ancestry feat}"
+
+  - at: '@oracle/mystery/title'
+    replace:
+      - h4: "_{Ancestors}"
+
+  - at: '@oracle/mystery/benefit'
+    replace:
+      - level: 1
+        contents:
+          - h5: "_{Ancestry Feat}"
+          - article:
+      - level: 11
+        contents:
+          - h5: "_{Ancestry Feat}"
+          - article:
+
+  - set: oracle/mystery/cantrip
+    value: "_{Guidance}"
+  - set: oracle/mystery/initial-revelation
+    value: "_{Ancestral Touch}"
+  - set: oracle/mystery/advanced-revelation
+    value: "_{Ancestral Defence}"
+  - set: oracle/mystery/greater-revelation
+    value: "_{Ancestral Form}"
+
+  - at: '@oracle/revelation-spell/initial'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Ancestral Touch}"
+            contents:
+              - p: "_{Touch a target to deal mental damage.}"
+  
+  - at: '@oracle/revelation-spell/advanced'
+    replace:
+      - action: reaction
+        contents:
+          - article:
+            title: "_{Ancestral Defence}"
+            contents:
+              - p: "_{Take the better of two rolls on a will save.}"
+
+  - at: '@oracle/revelation-spell/greater'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Ancestral Form}"
+            contents:
+              - p: "_{Take the form of an ancestral spirit, becoming invisible and quasi-corporeal.}"
+
+
+  # CURSE
+  - at: '@oracle/curse-section'
+    replace:
+      - list:
+        hr: true
+        contents:
+          - g:
+            contents:
+              - h4: "_{Curse of Ancestral Meddling}"
+                size: small
+
+              - row:
+                blk: false
+                contents:
+                  - level: "_{1d4}"
+                    marker: "_{Roll}"
+                    contents:
+                      - p: "_{Roll once a day}"
+                  - spacer:
+                  - field: oracle/curse-progress
+                    control: checkgrid
+                    style: progress
+                    max: 4
+                    depth: 1
+
+              - p: "_{DC4 flat check to act freely.}"
+                optional: true
+          - g:
+            contents:
+              - value-block: "1"
+                contents:
+                  - h5: "_{Martial}"
+              - p:
+                title: "_{Minor}"
+                content: "_{Prefer strikes}"
+              - p:
+                title: "_{Moderate}"
+                content: "_{+1 attack, +2 damage}"
+              - p:
+                title: "_{Major}"
+                content: "_{+1 attack, +6 damage}"
+          - g:
+            contents:
+              - value-block: "2"
+                contents:
+                  - h5: "_{Skillful}"
+              - p:
+                title: "_{Minor}"
+                content: "_{Prefer skills and Perception}"
+              - p:
+                title: "_{Moderate}"
+                content: "_{+1 skills and Perception}"
+              - p:
+                title: "_{Major}"
+                content: "_{+2 skills and Perception}"
+          - g:
+            contents:
+              - value-block: "3"
+                contents:
+                  - h5: "_{Spellcasting}"
+              - p:
+                title: "_{Minor}"
+                content: "_{Prefer spells}"
+              - p:
+                title: "_{Moderate}"
+                content: "_{+spell level to damage / healing}"
+              - p:
+                title: "_{Major}"
+                content: "_{+3 spell damage / healing}"
+          - g:
+            contents:
+              - value-block: "4"
+                contents:
+                  - h5: "_{Your choice}"
+          - level: 17
+            contents:
+              - h5: "_{Extreme}"
+              - p:
+                title: "_{Doomed 2}"
+              - p: "_{Once every 10 minutes, reroll one failed attack roll, saving throw, skill or Perception check.}"

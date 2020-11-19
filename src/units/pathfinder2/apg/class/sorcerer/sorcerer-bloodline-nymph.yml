@@ -1,0 +1,140 @@
+unit: sorcerer/bloodline/apg/nymph
+in: sorcerer/bloodline
+group: "_{Advanced Player's Guide}"
+name: "_{Nymph}"
+
+inc:
+  - set: diplomacy-proficiency
+    value: trained
+  - set: nature-proficiency
+    value: trained
+
+  - set: sorcerer-bloodline
+    value: "_{Nymph}"
+  - set: spell-list
+    value: "_{Primal}"
+  - set: primal-spell-proficiency
+    value: trained
+
+  - at: '@sorcerer/bloodline'
+    replace:
+      - h4: "_{Nymph}"
+
+  - at: '@sorcerer/dcs'
+    replace:
+      - paste: primal-spell-dcs
+
+  - at: '@focus-spells'
+    add:
+      - action:
+        contents:
+          - p:
+            title: "_{Nymph's Token}"
+            content: "_{Give an ally a token that grants them a bonus to Performance and Will saves.}"
+
+  - at: '@sorcerer/bloodline-spell/initial'
+    replace:
+      - action:
+        contents:
+          - p:
+            title: "_{Nymph's Token}"
+            content: "_{Give an ally a token that grants them a bonus to Performance and Will saves.}"
+
+  - at: '@sorcerer/bloodline-spell/advanced'
+    replace:
+      - action:
+        contents:
+          - p:
+            title: "_{Blinding Beauty}"
+            content: "_{Enemies must make a Will save or be dazzled.}"
+
+  - at: '@sorcerer/bloodline-spell/greater'
+    replace:
+      - action:
+        contents:
+          - p:
+            title: "_{Establish Ward}"
+            content: "_{Create a warded area that grants you power within it, but drains you outside of it.}"
+
+  - at: '@sorcerer/blood-magic'
+    replace:
+      - p: "_{Either +1 to Diplomacy checks, or –1 to one target's Will saves, for 1 round.}"
+
+
+  - at: '@sorcerer/spellbook/bloodline-spell/initial'
+    replace:
+      - article:
+        title: "_{Nymph's Token}"
+        contents:
+          - action: 2
+            contents:
+              - dl:
+                defs:
+                  duration: "_{1 minute}"
+              - p: "_{Create a token for an ally. As long as the ally has the token, they gain +1 to Performance checks and Will saves. You can Dismiss the spell as a free action.}"
+          - hr:
+            light: true
+          - level: 4
+            marker: "_{Focus Level}"
+            contents:
+              - p: "_{As long as the ally has the token, you can cast touch spells on them at a range of 30 feet.}"
+
+  - at: '@sorcerer/spellbook/bloodline-spell/advanced'
+    replace:
+      - article:
+        title: "_{Blinding Beauty}"
+        contents:
+          - action: 1
+            contents:
+              - dl:
+                defs:
+                  area: "_{30ft cone}"
+              - p: "_{Enemies in the area must make a Will save.}"
+          - paste: save
+            params:
+              critical_success: "_{No effect}"
+              success: "_{Dazzled until its next turn}"
+              failure: "_{Blinded until its next turn}"
+              critical_failure: "_{Blinded for 1 minute}"
+
+  - at: '@sorcerer/spellbook/bloodline-spell/greater'
+    replace:
+      - article:
+        title: "_{Establish Ward}"
+        contents:
+          - paste: heighten
+            params:
+              level: "5"
+              heighten: "+2"
+              max: 7
+          - action: 1
+            contents:
+              - dl:
+                defs:
+                  duration: "_{1 minute}"
+              - p: "_{Create a warded area that grants you power within it, but drains you outside of it.}"
+          - calc:
+            output:
+              label: "_{Warded\nArea}"
+            inputs:
+              - span: "_{30ft} +"
+              - label: "_{Heighten}"
+              - span: "&times; _{5ft}"
+          - p: "_{While within the area, you can make nature's wrath Strikes by commanding plants, wind, rocks, and other natural features to attack enemies. Use your spell attack modifier. Can target any creature within the ward; deal bludgeoning, piercing, or slashing damage.}"
+          - calc:
+            output:
+              label: "_{Strike\nDamage}"
+            inputs:
+              - span: "_{2d8} + ("
+              - label: "_{Heighten}"
+              - span: "&times; _{1d8} ) +"
+              - field:
+                label: "_{CHA}"
+                ref: CHA
+                underlay: "_{CHA}"
+          - p: "_{Upon casting the spell, you can immediately make a nature's wrath Strike. You are quickened while inside the ward, and can use the additional action only to make nature's wrath Strikes.}"
+          - p: "_{You are slowed 1 while outside the area.}"
+
+  - at: '@sorcerer/spellbook/blood-magic'
+    replace:
+      - p: "_{Either +1 to Diplomacy checks, or –1 to one target's Will saves, for 1 round.}"

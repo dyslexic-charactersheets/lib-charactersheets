@@ -1,3 +1,5 @@
+import { isEmpty } from '../util';
+import { log } from '../log';
 
 export let value = {
   name: 'value',
@@ -6,6 +8,7 @@ export let value = {
     frame: 'none',
     control: 'value',
     width: 'tiny',
+    size: 'medium',
   },
   transform(args, ctx) {
     return [{
@@ -22,23 +25,29 @@ export let value_block = {
     frame: 'none',
     control: 'value',
     width: 'tiny',
+    size: 'medium',
     content: '',
+    contents: [],
   },
   transform(args, ctx) {
     let value = {
       ...args,
       type: 'field'
     };
-    let label = {
-      type: 'p',
-      content: args.content
-    };
+
+    let contents = isEmpty(args.contents) ? {
+        type: 'p',
+        content: args.content
+      } : {
+        type: 'g',
+        contents: args.contents
+      };
 
     return [{
       type: 'layout',
       layout: 'indent-l',
       contents: [
-        value, label
+        value, contents
       ]
     }];
   }

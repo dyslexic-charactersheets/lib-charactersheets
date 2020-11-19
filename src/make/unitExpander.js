@@ -12,6 +12,7 @@ const expansion = {
     'class-name': 'title',
     'class-icon': 'icon',
     'collate-pages': '',
+    'color': 'color',
     cost: 'cost',
     document: 'title',
     each: '',
@@ -43,7 +44,7 @@ const expansion = {
     place: 'loc',
     ul: '',
     li: 'content',
-    dl: '',
+    dl: 'defs',
     page: 'id',
     proficiency: 'proficiency',
     action: 'action',
@@ -73,6 +74,18 @@ const expansion = {
     vr: '',
     zone: 'zone',
 };
+
+function expandTopObject (object) {
+    // console.log(`[expand] expandObject ${JSON.stringify(object)}`);
+    var kv = _.toPairs(object);
+    
+    if (kv[0][0] == 'paste') {
+      object = { 'paste': kv[0][1] };
+      return expandValues(object, kv);
+    }
+
+    return expandObjectKV(kv);
+}
 
 function expandObject (object) {
     // console.log(`[expand] expandObject ${JSON.stringify(object)}`);
@@ -173,5 +186,5 @@ function expandValue(value) {
 // TEST
 
 module.exports = {
-    expandZone: expandObject
+    expandZone: expandTopObject
 }

@@ -1,4 +1,4 @@
-import { isString } from '../util';
+import { isString, isEmpty, isObject } from '../util';
 import { elementClass, getLabelHeight, getRubyHeight } from '../util/elements';
 
 export let calc = {
@@ -6,6 +6,7 @@ export let calc = {
   // key: 'output',
   defaults: {
     output: {},
+    outputs: [],
     layout: 'left',
     inline: false,
     inputs: [],
@@ -20,10 +21,29 @@ export let calc = {
     const cls = elementClass('row', null, args, ["calc", "inline", "blk"], { 'layout': 'center', 'lp': '', 'rb': '' });
 
     // parts of the calculation
-    const outputPart = Object.assign({
-      border: "full"
-    }, args.output);
+    // const outputPart = Object.assign({
+    //   border: "full"
+    // }, args.output);
     // log("-","Output:", output);
+    
+    let outputs = isEmpty(args.outputs) ? [ args.output ] : args.outputs;
+    const outputParts = outputs.map(part => {
+      if (isString(part)) {
+        return {
+          "type": "span",
+          "content": part
+        };
+      }
+      if (isObject(part)) {
+        if (part.type == "field") {
+          return {
+            border: "full",
+            ...part
+          };
+        }
+      }
+      return part;
+    })
 
     const inputParts = args.inputs.map(part => {
       if (isString(part)) {
@@ -36,7 +56,7 @@ export let calc = {
     });
 
     const parts = [
-      outputPart,
+      ...outputParts,
       {
         "type": "span",
         "content": "="

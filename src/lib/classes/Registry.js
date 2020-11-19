@@ -1,5 +1,5 @@
 import { log, warn } from '../log';
-import { isString } from '../util';
+import { isString, isNull } from '../util';
 import { has } from '../util/objects';
 import { mergeBottom } from '../util/elements';
 
@@ -12,6 +12,7 @@ import { article } from '../elements/article';
 import { blockquote } from '../elements/blockquote';
 import { calc } from '../elements/calc';
 import { class_icon } from '../elements/class-icon';
+import { color } from '../elements/color';
 import { ifelem } from '../elements/control';
 // import { document } from '../elements/document';
 import { dl } from '../elements/dl';
@@ -96,6 +97,7 @@ export class Registry {
       calc,
       class_name,
       class_icon,
+      color,
       each,
       embed,
       flags,
@@ -188,6 +190,10 @@ export class Registry {
   }
 
   render(items, doc) {
+    if (isNull(items)) {
+      warn("Registry", "Nothing to render");
+      return "";
+    }
     // log("registry", "Render", items);
     const rendered = items.map(item => this.renderItem(item, doc));
     return rendered.join("");

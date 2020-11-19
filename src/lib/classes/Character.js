@@ -55,12 +55,13 @@ function parseCharacter(primary, request) {
 
   // an object to start with
   let char = {
+    id: primary.id,
     name: attr.name,
     game: attr.game,
     units: ['core', 'base', 'base/character', 'theme/' + attr.theme],
     language: attr.language,
     description: attr.description,
-    
+
     ancestry: false,
     heritage: false,
     background: false,
@@ -97,6 +98,8 @@ function parseCharacter(primary, request) {
     instances: {},
   };
 
+  // log("Character", "Request attributes", attr);
+
   // log("Character", "Print intensity", char.printIntensity);
   if (isEmpty(char.accentColour)) {
     char.accentColour = adjustColour('#707070', char.printColour, char.printIntensity);
@@ -131,11 +134,11 @@ function parseCharacter(primary, request) {
   switch (attr.game) {
     case 'pathfinder2':
       if (attr.ancestry) {
-        char.units.push('ancestry/' + attr.ancestry.replace(/^ancestry-/, ''));
+        char.units.push('ancestry/' + attr.ancestry.replace(/^ancestry[\/-]/, ''));
         char.ancestry = attr.ancestry.replace(/^ancestry-/, '');
 
         if (attr.heritage && attr.heritage != "none") {
-          char.units.push('heritage/' + char.ancestry + "/" + attr.heritage.replace(/^heritage-/, ''));
+          char.units.push('heritage/' + attr.heritage.replace(/^heritage[\/-]/, ''));
         }
       }
 
@@ -144,14 +147,15 @@ function parseCharacter(primary, request) {
       }
 
       if (attr.background) {
-        char.units.push('background/' + attr.background.replace(/^background-/, ''));
+        char.units.push('background/' + attr.background.replace(/^background[\/-]/, ''));
       }
 
       if (attr.class) {
-        let className = attr.class.replace(/^class-/, '');
+        let className = attr.class.replace(/^class[\/-]/, '');
+        let classShortName = className.replace(/^.*\//, '');
         char.units.push('class/' + className);
         char.classes.push(className);
-        let classPrefix = toCamelCase('class ' + className);
+        let classPrefix = toCamelCase('class ' + classShortName);
         // log("Character", "Class name", className, ", prefix", classPrefix);
 
         let classFeatsKey = classPrefix + 'Feats';
@@ -168,19 +172,24 @@ function parseCharacter(primary, request) {
           // let value = attr[key];
 
           if (key.startsWith(classPrefix) && !key.endsWith('Feats')) {
-            let selname = toKebabCase(key.replace(classPrefix, ''));
+            // let selname = toKebabCase(key.replace(classPrefix, ''));
+            let selname = key;
+            log("Character", "Class selector", selname);
             if (isArray(attr[key])) {
               attr[key].forEach(selvalue => {
-                selvalue = toKebabCase(selvalue);
+                // selvalue = toKebabCase(selvalue);
                 // log("Character", "Class option", key, selname, "=", selvalue);
-                const unitname = className + '/' + selname + '/' + selvalue;
+                // const unitname = classShortName + '/' + selname + '/' + selvalue;
+                const unitname = selvalue;
+                log("Character", "Subclass unit name", unitname);
                 char.units.push(unitname);
-              })
+              });
             } else if (isString(attr[key])) {
-              let selvalue = toKebabCase(attr[key]);
+              // let selvalue = toKebabCase(attr[key]);
               // log("Character", "Class option", key, selname, "=", selvalue);
-              const unitname = className + '/' + selname + '/' + selvalue;
-              // log("Character", "Class option unit", unitname);
+              // const unitname = classShortName + '/' + selname + '/' + selvalue;
+              const unitname = attr[key];
+              log("Character", "Class option unit", unitname);
               char.units.push(unitname);
             }
           }
@@ -203,6 +212,10 @@ function parseCharacter(primary, request) {
           char.units.push("option/inventory/full");
           break;
 
+        case "double":
+          char.units.push("option/inventory/double");
+          break;
+
         default:
           char.units.push("option/inventory/half");
       }
@@ -211,7 +224,7 @@ function parseCharacter(primary, request) {
         attr.archetypes.forEach(archetype => {
           if (isString(archetype)) {
             char.archetypes.push(archetype);
-            char.units.push('archetype/' + archetype);
+            char.units.push('archetype/' + archetype.replace(/^archetype[\/-]/, ''));
             // log("Character", "Archetype:", "archetype/"+archetype);
           }
         });
@@ -268,34 +281,6 @@ export class Character extends Instance {
     this.registry = registry;
     this.request = request;
     this.data = parseCharacter(primary, request);
-    this.loadQueue = new LoadQueue();
-  }
-
-  getAsset(asset, callback) {
-    if (!isNull(asset) && isString(asset) && asset != "" && has(this.data.instances, asset)) {
-      // log("Character", "getAsset: known instance", asset);
-      asset = this.data.instances[asset];
-    }
-
-    if (asset === null) {
-      // log("Character", "getAsset: null");
-      return;
-    } else if (isObject(asset)) {
-      // log("Character", "getAsset: object");
-      const dataURL = toDataURL(asset.data, asset.mimeType);
-      callback(dataURL);
-    } else if (isString(asset)) {
-      // log("Character", "getAsset: string", asset);
-      locateAsset(asset, assetFile => {
-        this.loadQueue.loadEmbed(assetFile).then(data => {
-          const mimeType = inferMimeType(asset);
-          const dataURL = toDataURL(data, mimeType);
-          callback(dataURL);
-        })
-      });
-    } else {
-      warn("Character", "Unknown asset", asset);
-    }
   }
 
   /**
@@ -315,12 +300,13 @@ export class Character extends Instance {
           const system = getSystem(data.game);
           if (system === null) {
             error("Character", "System not found:", data.game);
+            reject();
             return;
           }
 
           // start with a document
           const documentUnit = system.getUnit("document");
-          const document = new Document(documentUnit);
+          const document = new Document(documentUnit, data.id);
 
           // language
           document.language = data.language;

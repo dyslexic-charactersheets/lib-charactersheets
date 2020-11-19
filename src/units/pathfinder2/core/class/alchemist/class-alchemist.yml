@@ -38,6 +38,8 @@ inc:
     value: trained
   - set: light-armour-proficiency
     value: trained
+  - set: medium-armour-proficiency
+    value: trained
 
   - set: fortitude-proficiency
     value: expert
@@ -55,6 +57,13 @@ inc:
         label: "_{INT}"
         underlay: "_{INT}"
         ref: INT
+
+  - at: '@familiar/key-ability'
+    replace:
+      - field: familiar-key-ability-mod
+        ref: INT
+        underlay: "_{INT}"
+        label: "_{INT}"
 
   - at: '@skill-actions'
     add:
@@ -106,6 +115,33 @@ inc:
       - level: 15
         contents:
           - paste: evasion
+
+  - copy: alchemist/signature-items
+    params:
+      label: "_{Alchemical\nItems}"
+    contents:
+      # - layout: 2e
+      #   contents:
+      #     - field: alchemist/research-field-signature-item-1
+      #       label: "_{Signature items}"
+      #       width: stretch
+      #     - field: alchemist/research-field-signature-item-2
+      #       width: stretch
+      - row:
+        contents:
+          - level-marker:
+            level: 1
+            marker: "_{Infused\nReagents}"
+          - span: "&rarr;"
+          - level-marker:
+            level: 3
+            marker: "#{label}"
+          - field: alchemist-perpetual-perfection
+            width: stretch
+            # label: "_{Signature items}"
+            frame: none
+            merge-bottom: true
+            repeat: 2
 
   - at: '@pages'
     add:
@@ -203,12 +239,13 @@ inc:
                             level: 2
                             marker: "_{Alchemical\nItems}"
                       - hr:
+                        blk: false
                       - list:
                         zebra: true
                         merge-bottom: true
                         avoid-shade: true
                         contents:
-                          - repeat: 6
+                          - repeat: 5
                             reduce: 3
                             contents:
                               - row:
@@ -244,6 +281,11 @@ inc:
                               - p: "_{Swiftly mix up an infusion using a formula in your book, without spending the normal cost.}"
                               - p: "_{These last only one round.}"
                                 optional: true
+
+                          - level: 5
+                            contents:
+                              - h5: "_{Powerful Alchemy}"
+                              - p: "_{Use your class DC for item saves.}"
 
                           - level: 7
                             contents:
@@ -300,6 +342,7 @@ inc:
                                   - level-marker:
                                     level: 3
                                     marker: "_{Alchemical\nItems}"
+                                  - p: "_{You can stow one of these.}"
                           
                           - level: 17
                             contents:
@@ -336,11 +379,16 @@ inc:
                                     size: huge
                                     width: stretch
                                     frame: none
+                                  - hr:
+                                    swash: true
                                   - field: alchemist-research-field-details
                                     frame: none
                                     width: stretch
                                     repeat: 2
                                     merge-bottom: true
+
+                                  - paste: alchemist/signature-items
+
                               - level: 5
                                 contents:
                                   - h5: "_{Field Discovery}"
@@ -394,7 +442,7 @@ inc:
                         gutter: small
                         merge-bottom: true
                         contents:
-                          - repeat: 24
+                          - repeat: 18
                             reduce: 6
                             contents:
                               - row:

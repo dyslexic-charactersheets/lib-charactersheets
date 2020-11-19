@@ -1,0 +1,171 @@
+unit: oracle/mystery/cosmos
+in: oracle/mystery
+group: "_{Advanced Player's Guide}"
+name: "_{Cosmos}"
+
+inc:
+  - set: oracle-mystery
+    value: "_{Cosmos}"
+  - set: nature-proficiency
+    value: trained
+
+  - at: '@oracle/mystery/title'
+    replace:
+      - h4: "_{Cosmos}"
+
+  - at: '@oracle/mystery/benefit'
+    replace:
+      - g:
+        pad: true
+        contents:
+          - calc:
+            output:
+              field:
+              legend: "_{Damage Resistance}"
+              border: full
+              width: large
+            inputs:
+              - span: "2 + ("
+              - field:
+                ref: level
+                label: "_{Level}"
+              - span: "&divide; 2)"
+
+  - set: oracle/mystery/cantrip
+    value: "_{Dancing Lights}"
+  - set: oracle/mystery/initial-revelation
+    value: "_{Spray of Stars}"
+  - set: oracle/mystery/advanced-revelation
+    value: "_{Interstellar Void}"
+  - set: oracle/mystery/greater-revelation
+    value: "_{Moonlight Bridge}"
+
+  # SPELLS
+  - at: '@oracle/revelation-spell/initial'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Spray of Stars}"
+            contents:
+              - dl:
+                  area: "_{15ft cone}"
+              - calc:
+                output:
+                  field:
+                  legend: "_{Fire Damage}"
+                  border: full
+                  width: large
+                inputs:
+                  - field:
+                    label: "_{Spell Level}"
+                    ref: focus-level
+                  - span: "&times; d4"
+              - p: "_{Targets must make a Reflex save:}"
+              - paste: save
+                params:
+                  critical_success: "_{No effect}"
+                  success: "_{Half damage, dazzled for 1 round}"
+                  failure: "_{Full damage, dazzled for 3 rounds}"
+                  critical-failure: "_{Double damage, dazzled for 1 minute}"
+  
+  - at: '@oracle/revelation-spell/advanced'
+    replace:
+      - list:
+        hr: true
+        light: true
+        contents:
+          - action: 2
+            contents:
+              - article:
+                title: "_{Interstellar Void}"
+                contents:
+                  - dl:
+                      range: "_{30ft}"
+                      target: "_{1 creature}"
+                      duration: "_{1 minute}"
+                  - value-block: "_{3d6}"
+                    content: "_{Cold damage}"
+                  - p: "_{Target makes a basic Fortitude save. Target is fatigued.}"
+                  - p:
+                    title: "_{Fatigued}"
+                    content: "_{-1 to AC and saving throws.}"
+          - action:
+            contents:
+              - p:
+                title: "_{Sustain}"
+                content: "_{Deal damage again, prolong Fatigued status.}"
+
+  - at: '@oracle/revelation-spell/greater'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Moonlight Bridge}"
+            contents:
+              - p: "_{Create a bridge of moonlight.}"
+              - calc:
+                output:
+                  field:
+                  legend: "_{Bridge\nLength}"
+                  border: full
+                  width: large
+                inputs:
+                  - field:
+                    label: "_{Spell\nLevel}"
+                    ref: focus-level
+                  - span: "&times; 20ft"
+              - p: "_{The bridge is 10ft wide, and up to 45&deg; up or down.}"
+              - p: "_{Non-allies cannot walk on the bridge.}"
+
+
+  # CURSE
+  - at: '@oracle/curse'
+    replace:
+      - h4: "_{Curse of the Sky's Call}"
+        size: small
+
+  - at: '@oracle/curse/minor'
+    replace:
+      - p:
+        title: "_{Enfeebled 1}"
+        content: "_{Penalty to strength-based rolls and DCs.}"
+      - value-block: "-2"
+        content: "_{Penalty to saves and DCs against grapple, shove and other forced movement.}"
+
+  - at: '@oracle/curse/moderate'
+    replace:
+      - p:
+        title: "_{Enfeebled 2}"
+      - value-block: "-3"
+        content: "_{Penalty to saves and DCs against grapple, shove and other forced movement.}"
+      - p: "_{Treated as one size smaller for wind effects}"
+
+      - hr:
+        light: true
+
+      - value-block: "+2"
+        content: "_{Bonus against Trip}"
+      - p: "_{Take half damage from falls.}"
+      - p:
+        title: "_{Powerful Leap}"
+        content: "_{Leap 5ft up or +5ft horizontally.}"
+      - p:
+        title: "_{Quick Jump}"
+        content: "_{High jump and long jump in a single action.}"
+
+  - at: '@oracle/curse/major'
+    replace:
+      - p:
+        title: "_{Enfeebled 2}"
+      - value-block: "-3"
+        content: "_{Penalty to saves and DCs against grapple, shove and other forced movement.}"
+      
+      - hr:
+        light: true
+
+      - p: "_{Can walk on liquids. Don't leave tracks, trigger pressure plates, or otherwise touch the ground.}"
+      - p: 
+        title: "_{Cloud Jump}"
+        content: "_{3&times; distance long jump. Use long jump calculation for high jumps.}"
+      

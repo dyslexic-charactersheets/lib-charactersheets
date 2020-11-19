@@ -1,0 +1,46 @@
+unit: ancestry/apg/tengu
+in: ancestry
+group: "_{Advanced Player's Guide}"
+name: "_{Tengu}"
+
+require:
+  - unit: optional-darkvision/trigger
+  
+form:
+  - select: heritage/apg/tengu
+    name: "_{Tengu Heritage}"
+    max: 1
+
+inc:
+  - set: ancestry
+    value: "_{Tengu}"
+  - set: hp-ancestry
+    value: 6
+  - set: perception-low-light
+    value: true
+  - set: build-boost-DEX-ancestry
+    value: 1
+  - set: languages
+    value: "_{Common}, _{Tengu}"
+
+  - at: '@ancestry'
+    replace:
+      - article:
+        title: "_{Tengu}"
+        contents:
+          - flags:
+              - "_{Tengu}"
+              - "_{Humanoid}"
+          - zone: '@ratfolk/speed'
+            contents:
+              - field: ancestry-speed
+                frame: right
+                label: "_{Speed}"
+                control: value
+                value: "_{25ft}"
+          - paste: low-light-vision
+          - hr:
+            light: true
+          - h6: "_{Sharp Beak}"
+          - value-block: "_{1d6}"
+            content: "_{Brawling, finesse}"

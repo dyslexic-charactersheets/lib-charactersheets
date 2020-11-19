@@ -1,0 +1,134 @@
+unit: oracle/mystery/bones
+in: oracle/mystery
+group: "_{Advanced Player's Guide}"
+name: "_{Bones}"
+
+inc:
+  - set: oracle-mystery
+    value: "_{Bones}"
+  - set: medicine-proficiency
+    value: trained
+
+  - at: '@oracle/mystery/title'
+    replace:
+      - h4: "_{Bones}"
+
+  - at: '@oracle/mystery/benefit'
+    replace:
+      - g:
+        contents:
+          - p: "_{Choose each day}:"
+          - row: center
+            contents:
+              - field: oracle/mystery/bones/effect
+                value: heal
+                frame: left
+                control: radio
+                label: "_{Heal}"
+              - icon: good
+              - span: "&nbsp;"
+              - icon: evil
+              - field: oracle/mystery/bones/effect
+                value: harm
+                frame: right
+                control: radio
+                label: "_{Harm}"
+          - p: "_{If you already have negative healing, the DC for recovery checks is reduced to 9 + dying value.}"
+
+  - set: oracle/mystery/cantrip
+    value: "_{Chill Touch}"
+  - set: oracle/mystery/initial-revelation
+    value: "_{Soul Siphon}"
+  - set: oracle/mystery/advanced-revelation
+    value: "_{Armour of Bones}"
+  - set: oracle/mystery/greater-revelation
+    value: "_{Claim Undead}"
+
+  # SPELLS
+  - at: '@oracle/revelation-spell/initial'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Soul Siphon}"
+            contents:
+              - p: "_{Draw life from your target to yourself.}"
+              - paste: save
+                params:
+                  critical_success: "_{No effect}"
+                  success: "_{Half damage}"
+                  failure: "_{Full damage, drained 1}"
+                  critical_failure: "_{Double damage, drained 2}"
+              - value-block: "_{1d4}"
+                content: "Damage and drain grant you temporary hit points"
+              - p: "_{Drain reduces a target's maximum hit points.}"
+  
+  - at: '@oracle/revelation-spell/advanced'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Armour of Bones}"
+            contents:
+              - value-block: 2
+                content: "_{Resistance to electricity, fire, piercing and slashing}"
+
+  - at: '@oracle/revelation-spell/greater'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Claim Undead}"
+            contents:
+              - dl:
+                  range: "_{30ft}"
+                  target: "_{1 undead creature}"
+                  duration: "_{10mins}"
+              - p: "_{Target or its controller must make a will save:}"
+              - paste: saves
+                params:
+                  critical_success: "_{No effect}"
+                  success: "_{Stunned 1}"
+                  failure: "_{Follows your orders, may make a new Will save every turn}"
+                  critical_failure: "_{Follows your orders, may make a new Will save if you give an order against its nature}"
+
+  # CURSE
+  - at: '@oracle/curse'
+    replace:
+      - h4: "_{Curse of Living Death}"
+        size: small
+
+  - at: '@oracle/curse/minor'
+    replace:
+      - p: "_{Bones stick through your skin.}"
+      - p: "_{Non-magical healing does only half}"
+
+  - at: '@oracle/curse/moderate'
+    replace:
+      - p:
+        title: "_{Drained 1}"
+        content: "_{Penalty to Con-based saves. Reduces your max hit points if Constitution was reduced.}"
+      
+      - calc:
+        output:
+          field: oracle/mystery/bones/resistance
+          border: full
+          legend: "_{Poison Resistance}"
+          width: large
+        inputs:
+          - field:
+            ref: level
+            label: "_{Level}"
+          - span: "&divide; 2"
+
+      - value-block: "+4"
+        content: "_{Bonus to saves against poisons, diseases and death effects}"
+      - p: "_{Improved success to saves against poisons, diseases and death effects.}"
+        icon: save-crit-succeed
+
+  - at: '@oracle/curse/major'
+    replace:
+      - p:
+        title: "_{Wounded 1}"
+        content: "_{When you begin dying, start your dying value 1 higher.}"
+
