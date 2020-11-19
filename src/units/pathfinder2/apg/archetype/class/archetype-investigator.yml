@@ -3,8 +3,6 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Investigator}"
 
-enabled: false
-
 form:
   - select: investigator/instinct
     name: "_{Instinct}"
@@ -38,7 +36,7 @@ inc:
                       - class-name: "_{Investigator}"
                   - section: "_{Dedication}"
                     contents:
-                      - p: "_{Trained in alchemical bombs and Crafting}"
+                      - p: "_{Trained in Society, and one other skill}"
                         icon: proficiency-trained
                       - hr:
                       - row:
@@ -48,10 +46,120 @@ inc:
                               id: investigator-class-dc
                               legend: "_{Investigator\nClass DC}"
 
+                  - section: "_{Deductions}"
+                    mark: investigator
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: investigator-feats
+                          class-level: "_{Investigator\nLevel}"
+                          basic-title: "_{Basic Deduction}"
+                          advanced-title: "_{Advanced Deductions}"
+                          num: 4
+
                   - tail:
 
               - g:
                 contents:
 
+                  - section: "_{On The Case}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        avoid-shade: true
+                        contents:
+                          - g:
+                            contents:
+                              - h5: "_{Pursue a Lead}"
+                              - p: "_{Spend a minute examining clues. Designate the related subject - typically a person, item or place.}"
+                              - row:
+                                contents:
+                                  - h5: "1"
+                                  - field: investigator/pursue-a-lead/subject-1
+                                    legend: "_{Subject}"
+                                    width: stretch
+                              - row:
+                                contents:
+                                  - h5: "2"
+                                  - field: investigator/pursue-a-lead/subject-2
+                                    frame: none
+                                    width: stretch
+
+                              - p: "_{You do not need to know the subject's actual identity.}"
+                              - indent: l
+                                contents:
+                                  - value-block: "+1"
+                                    content: "_{Bonus to Perception and skill checks to investigate subject.}"
+
+                          - g:
+                            contents:
+                              - action: reaction
+                                contents:
+                                  - h5: "_{Clue In}"
+                                  - p: "Share information with an ally pursuing the same lead. They gain your Pursue A Lead bonus to one check."
+
+                  - section: "_{Investigator's Stratagem}"
+                    contents:
+                      - selectable: "##:investigators-stratagem"
+                        contents:
+                          - action:
+                            contents:
+                              - article:
+                                title: "_{Devise a Stratagem}"
+                                contents:
+                                  - p: "_{Choose a target and roll a d20 in advance. If you make a Strike this turn, use that as your attack roll.}"
+                                  - row:
+                                    contents:
+                                      - field:
+                                        border: full
+                                        legend: "_{Roll}"
+                                      - field:
+                                        width: stretch
+                                        label: "_{Target}"
+                      
+                  - section: "_{Keen Recollection}"
+                    contents:
+                      - selectable: "##:keen-recollection"
+                        contents:
+                          - layout: indent-lw
+                            contents:
+                              - g:
+                                pad: true
+                                contents:
+                                  - field:
+                                    ref: level
+                                    label: "_{Level}"
+                              - p: "Proficiency bonus to all untrained checks to Recall Knowledge"
+                      
+                  - section: "_{Skill Mastery}"
+                    contents:
+                      - selectable: "##:skill-mastery"
+                        contents:
+                          - row:
+                            contents:
+                              - icon: proficiency-expert
+                              - span: "&rarr;"
+                              - icon: proficiency-master
+                              - p: "_{Become master in one skill}"
+                          - row:
+                            contents:
+                              - icon: proficiency-trained
+                              - span: "&rarr;"
+                              - icon: proficiency-expert
+                              - p: "_{Become expert in one skill}"
+                      
+                  - section: "_{Master Spotter}"
+                    contents:
+                      - selectable: "##:master-spotter"
+                        contents:
+                          - row:
+                            contents:
+                              - icon: proficiency-expert
+                              - span: "&rarr;"
+                              - icon: proficiency-master
+                              - p: "_{Become master in Perception}"
+
                   - tail:
+                  - spacer:
 

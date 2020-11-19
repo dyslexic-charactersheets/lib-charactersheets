@@ -11,6 +11,7 @@ const Handlebars = require('handlebars');
 
 const load = require('./loadQueue');
 const unitExpander = require('./unitExpander');
+const util = require('./util');
 const i18n = require('./i18n');
 
 const dataURLs = require('./dataURLs');
@@ -143,8 +144,12 @@ module.exports = {
         // log("units", "Loading unit", unitid, "-", unitdata.name);
 
         // Only expand the 'inc' section, it messes things up if you do the whole thing.
-        if (_.has(unitdata, "inc"))
+        if (_.has(unitdata, "inc")) {
+          unitdata.inc = util.interpolate(unitdata.inc, {
+            unit: unitid,
+          });
           unitdata.inc = unitdata.inc.map(unitExpander.expandZone);
+        }
 
         var data;
         try {
