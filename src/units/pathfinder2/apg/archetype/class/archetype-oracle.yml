@@ -1,0 +1,112 @@
+unit: archetype/apg/oracle
+in: archetype
+group: "_{Advanced Player's Guide}"
+name: "_{Oracle}"
+
+form:
+  - select: oracle/mystery
+    name: "_{Mystery}"
+    max: 1
+
+require:
+  - unit: option/spellbook
+
+inc:
+  - set: oracle-class-dc-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Oracle}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-oracle
+        name: "Oracle (Archetype)"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: oracle
+                      - class-name: "_{Oracle}"
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Trained in Religion, and your mystery's skill}"
+                        icon: proficiency-trained
+                      # - hr:
+                      # - row:
+                      #   contents:
+                      #     - paste: class-dc
+                      #       params:
+                      #         id: oracle-class-dc
+                      #         legend: "_{Oracle\nClass DC}"
+
+                  - section: "_{Mystery}"
+                    primary: true
+                    contents:
+                      - h5: "_{Curse}"
+                      - zone: '@oracle:mystery/curse'
+                        contents:
+                          - field: "##:mystery/curse"
+                            width: stretch
+                            repeat: 3
+                            merge-bottom: true
+                      - hr:
+                      - selectable:
+                        contents:
+                          - h5: "_{First Revelation}"
+                          - zone: '@oracle:mystery/revelation'
+                            contents:
+                              - field: "##:mystery/revelation"
+                                width: stretch
+                                repeat: 3
+                                merge-bottom: true
+
+                  # - section: "_{}"
+                  #   contents:
+                  #     - selectable: "##:"
+                  #       contents:
+                  #         - p: "..."
+
+                  # - section: "_{}"
+                  #   contents:
+                  #     - selectable: "##:"
+                  #       contents:
+                  #         - p: "..."
+
+                  - section: "_{Mysteries}"
+                    mark: oracle
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: oracle-feats
+                          class-level: "_{Oracle\nLevel}"
+                          basic-title: "_{Basic Mystery}"
+                          advanced-title: "_{Advanced Mysteries}"
+                          num: 2
+
+                  - tail:
+
+              - g:
+                contents:
+
+                  - paste: archetype-spellcasting
+                    params:
+                      style: prepared
+                      # tradition: divine
+                      # tradition-spell-attack: "_{Divine\nAttack}"
+                      # tradition-spell-dc: "_{Divine\nSave DC}"
+                      ability: "CHA"
+                      ability-name: "_{CHI}"
+                      breadth: "_{Mysterious Breadth}"
+
+                  - tail:
+

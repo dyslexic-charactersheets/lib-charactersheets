@@ -6,10 +6,6 @@ See the website: https://www.dyslexic-charactersheets.com/.
 
 This project is a Node.js module: https://npmjs.com/package/dyslexic-charactersheets
 
-## This is a work in progress
-
-This library is not ready for production use.
-
 You can follow progress on [the project's Patreon page](https://www.patreon.com/dyslexic_charactersheets).
 
 # Install

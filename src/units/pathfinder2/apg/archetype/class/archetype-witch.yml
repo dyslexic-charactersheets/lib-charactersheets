@@ -1,0 +1,106 @@
+unit: archetype/apg/witch
+in: archetype
+group: "_{Advanced Player's Guide}"
+name: "_{Witch}"
+
+form:
+  - select: witch/patron
+    name: "_{Patron}"
+    max: 1
+
+inc:
+  - set: witch-class-dc-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Witch}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-witch
+        name: "Witch (Archetype)"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: witch
+                      - class-name: "_{Witch}"
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Trained in your patron's skill}"
+                        icon: proficiency-trained
+                      # - hr:
+                      # - row:
+                      #   contents:
+                      #     - paste: class-dc
+                      #       params:
+                      #         id: witch-class-dc
+                      #         legend: "_{Witch\nClass DC}"
+
+                  - section: "_{Patron}"
+                    primary: true
+                    contents:
+                      - field: witch/patron
+                        size: large
+                        frame: none
+                        width: stretch
+                        merge-bottom: true
+                      - hr:
+                        swash: true
+                      - zone: '@witch/patron/theme'
+                        contents:
+                          - field: witch/patron/theme
+                            width: stretch
+                            label: "_{Patron Theme}"
+                            merge-bottom: true
+
+                  - section: "_{Familiar}"
+                    contents:
+                      - p: "_{Your patron has sent you a familiar. Commune with your familiar to prepare spells each day.}"
+                      - p: "_{If your familiar dies, your patron replaces it the next morning. This does not affect your spells.}"
+                      - p: "_{Your familiar has one less familiar ability than normal.}"
+
+                  - section: "_{Witchcraft}"
+                    mark: witch
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: witch-feats
+                          class-level: "_{Witch\nLevel}"
+                          basic-title: "_{Basic Witchcraft}"
+                          advanced-title: "_{Advanced Witchcraft}"
+                          num: 2
+
+                  - tail:
+
+              - g:
+                contents:
+
+                  - paste: archetype-spellcasting
+                    params:
+                      style: spontaneous
+                      tradition: divine
+                      tradition-spell-attack: "_{Divine\nAttack}"
+                      tradition-spell-dc: "_{Divine\nSave DC}"
+                      ability: "INT"
+                      ability-name: "_{INT}"
+                      breadth: "_{Patron's Breadth}"
+                    contents:
+                      - g:
+                        contents:
+                          - field: witch/patron/tradition
+                            width: stretch
+                            label: "_{Spellcasting Tradition}"
+                            merge-bottom: true
+
+                  - tail:
+

@@ -1,0 +1,187 @@
+unit: archetype/apg/swashbuckler
+in: archetype
+group: "_{Advanced Player's Guide}"
+name: "_{Swashbuckler}"
+
+form:
+  - select: swashbuckler/style
+    name: "_{Swashbuckler Style}"
+    max: 1
+
+require:
+  - unit: option/familiar
+  - unit: option/spellbook
+
+inc:
+  - set: swashbuckler-class-dc-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Swashbuckler}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-swashbuckler
+        name: "Swashbuckler (Archetype)"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: swashbuckler
+                      - class-name: "_{Swashbuckler}"
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Trained in Acrobatics, or the skill for your style}"
+                        icon: proficiency-trained
+                      - hr:
+                      - row:
+                        contents:
+                          - paste: class-dc
+                            params:
+                              id: swashbuckler-class-dc
+                              legend: "_{Swashbuckler\nClass DC}"
+
+                  - section: "_{Flair}"
+                    mark: swashbuckler
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: swashbuckler-feats
+                          class-level: "_{Swashbuckler\nLevel}"
+                          basic-title: "_{Basic Flair}"
+                          advanced-title: "_{Advanced Flair}"
+                          num: 4
+
+                  - tail:
+
+              - g:
+                contents:
+
+                  - section: "_{Swashbuckler's Style}"
+                    primary: true
+                    contents:
+                      - field: swashbuckler/style
+                        frame: none
+                        size: huge
+                        width: stretch
+                        merge-bottom: true
+
+                  - section: "_{Panache}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - row:
+                            contents:
+                              - spacer:
+                              - layout: indent-l
+                                contents:
+                                  - field: panache
+                                    control: checkbox
+                                  - h6: "_{Panache}"
+                              - spacer:
+
+                          - list:
+                            hr: true
+                            contents:
+                              - g:
+                                contents:
+                                  - h6: "_{Gain panache when...}"
+                                  - ul:
+                                    contents:
+                                      - li: "_{You successfully Tumble Through an enemy's space}"
+                                      - zone: '@swashbuckler/gain-panache'
+                                        contents:
+                                          - li:
+                                            contents:
+                                              - field: gain-panache
+                                                width: stretch
+                                                frame: none
+                                      - li: "_{At GM's discretion, when you do something spectacular.}"
+                                      - li:
+                                        contents:
+                                          - field: gain-panache-extra
+                                            width: stretch
+                                            frame: none
+                                            merge-bottom: true
+                              - g:
+                                contents:
+                                  - h6: "_{Spend panache to...}"
+                                  - ul: 
+                                    contents:
+                                      - li: "_{Make a finishing move}"
+                                      - zone: '@swashbuckler/spend-panache'
+                                        contents:
+                                          - li:
+                                            contents:
+                                              - field: spend-panache-extra
+                                                width: stretch
+                                                frame: none
+                                                merge-bottom: true
+                                          
+                              - g:
+                                contents:
+                                  - h6: "_{While you have panache...}"
+                                  - value-block: "+1"
+                                    content: "_{Tumble Through, or your style's panache action}"
+                                    width: small
+
+                                  - value-block: "+_{5ft}"
+                                    content: "_{Speed}"
+
+                  - section: "_{Finishing Precision}"
+                    contents:
+                      - selectable: "##:finishing-precision"
+                        contents:
+                          - p: "When you have panache and strike with an agile or finesse melee weapon or unarmed strike, deal extra damage."
+                          - value-block: "+1"
+                            content: "_{Bonus Damage}"
+                          - hr:
+                            light: true
+                          - action:
+                            contents:
+                              - h5: "_{Basic Finisher}"
+                              - p: "_{Spend panache to make the final Strike of your turn.}"
+                              - value-block: "+_{1d6}"
+                                content: "_{Bonus Damage}"
+                  
+                  - section: "_{Swashbuckler's Riposte}"
+                    contents:
+                      - selectable: "##:swashbucklers-riposte"
+                        contents:
+                          - action: reaction
+                            contents:
+                              - p: "_{When an enemy in reach misses a Strike against you, make a melee Strike or Disarm attempt.}"
+                  
+                  - section: "_{Swashbuckler's Speed}"
+                    contents:
+                      - selectable: "##:swashbucklers-speed"
+                        contents:
+                          - value-block: "+_{5ft}"
+                            content: "_{Speed with Panache}"
+                          - value-block: "+_{5ft}"
+                            content: "_{Speed without Panache}"
+                  
+                  - section: "_{Evasiveness}"
+                    contents:
+                      - selectable: "##:evasiveness"
+                        contents:
+                          - row:
+                            contents:
+                              - icon: proficiency-expert
+                              - span: "&rarr;"
+                              - icon: proficiency-master
+                              - p: "_{Become master in Reflex saves}"
+
+                  - tail:
+                  # - spacer:
+
