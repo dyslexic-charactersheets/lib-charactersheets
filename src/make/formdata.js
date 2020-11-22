@@ -83,6 +83,8 @@ module.exports = {
           item.level = unit.level;
         if (_.has(unit, "order"))
           item.order = unit.order;
+        if (unit.in == "archetype")
+          item.multiclass = _.has(unit, "multiclass") && unit.multiclass;
         if (unlocks.length > 0)
           item["selects"] = unlocks;
         if (exclude_from.length > 0)
