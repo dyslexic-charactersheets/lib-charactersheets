@@ -1,0 +1,32 @@
+unit: feat/rogue/poison-weapon
+name: "_{Poison Weapon}"
+group: "_{Core Rulebook}"
+
+inc:
+  - copy: feat/rogue/poison-weapon
+    contents:
+      - article:
+        title: "_{Poison Weapon}"
+        cat: "_{Feat}"
+        contents:
+          - action:
+            contents:
+              - p: "_{Apply a contact or injury poison to a slashing or piercing weapon. Can draw a poison as part of this action. The poison lasts to the end of your next turn, and is wasted on a critical miss.}"
+          - p: "_{Prepare simple injury poisons each day, which do [b]1d4[/b] damage. Only you can apply these poisons properly.}"
+          - row:
+            contents:
+              - calc:
+                output:
+                  field: "##:poisons-per-day"
+                  legend: "_{Poisons per day}"
+                  width: huge
+                inputs:
+                  - field:
+                    ref: level
+                    label: "_{Level}"
+              - spacer:
+              - field: "##:poisons-today"
+                label: "_{Poisons today}"
+                control: checkgrid
+                max: 20
+

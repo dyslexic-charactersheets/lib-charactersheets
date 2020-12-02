@@ -2,3 +2,111 @@ unit: archetype/apg/acrobat
 in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Acrobat}"
+
+inc:
+  - at: '@archetypes'
+    add:
+      - name: "_{Acrobat}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-acrobat
+        name: "_{Acrobat}"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-name: "_{Acrobat}"
+                        suffix: "_{Archetype}"
+                      - paste: book-ref
+                        params:
+                          page-ref: "_{APG p155}"
+
+                  - section: "_{Dedication}"
+                    primary: true
+                    contents:
+                      - p: "_{When you successfully tumble through an enemy's space, don't treat that space as difficult terrain.}"
+                      - p: "_{Expert in Acrobatics}"
+                        icon: proficiency-expert
+                      - hr:
+                      - level: 7
+                        contents:
+                          - p: "_{Master in Acrobatics}"
+                            icon: proficiency-master
+                      - hr:
+                      - level: 15
+                        contents:
+                          - p: "_{Legendary in Acrobatics}"
+                            icon: proficiency-legendary
+
+                  - section: "_{Contortionist}"
+                    contents:
+                      - selectable: "##:contortionist"
+                        contents:
+                          - h5: "_{Quick Squeeze}"
+                          - value-block: "_{5ft}"
+                            content: "_{Squeeze through small spaces}"
+                          - p: "_{If master in Acrobatics, squeeze 10ft.}"
+                            icon: proficiency-master
+                          - hr:
+                            light: true
+                          - p: "_{Whenever you successfully Escape using Acrobatics, the creature you Escaped from is flat-footed against the next attack you make against it before the end of your next turn.}"
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+
+                  - section: "_{Dodge Away}"
+                    contents:
+                      - selectable: "##:dodge-away"
+                        contents:
+                          - action: reaction
+                            contents:
+                              - value-block: "+1"
+                                content: "_{AC against one attack}"
+                              - p: "_{If the attack misses, you can Step afterwards.}"
+                          - hr:
+                            light: true
+                          - p: "_{If you're a master in Acrobatics, Step 10ft instead.}"
+                            icon: proficiency-master
+
+                  - section: "_{Graceful Leaper}"
+                    contents:
+                      - selectable: "##:graceful-leaper"
+                        contents:
+                          - p: "_{High or long jump with Acrobatics instead of Athletics.}"
+
+                  - section: "_{Tumbling Strike}"
+                    contents:
+                      - selectable: "##:tumbling-strike"
+                        contents:
+                          - action:
+                            contents:
+                              - p: "_{When adjacent to an enemy, make an Acrobatics check against their Reflex DC.}"
+                              - paste: save
+                                params:
+                                  critical_success: "_{Tumble through an enemy space without tiggering reactions, then make a Strike; the enemy is flat-footed}"
+                                  success: "_{As above, but the enemy is not flat-footed}"
+                                  failure: "_{Don't move, but can still Strike}"
+                                  critical_failure: "_{No effect}"
+
+                  - section: "_{Tumbling Opportunist}"
+                    contents:
+                      - selectable: "##:tumbling-opportunist"
+                        contents:
+                          - action: free
+                            contents:
+                              - p: "_{Immediately after tumbling through an enemy space, make a free Trip attempt against them using Acrobatics.}"
+
+                  - tail:
+                  - spacer:

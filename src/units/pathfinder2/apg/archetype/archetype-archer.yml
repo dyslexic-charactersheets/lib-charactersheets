@@ -2,3 +2,132 @@ unit: archetype/apg/archer
 in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Archer}"
+
+require:
+  - unit: feat/fighter/assisting-shot
+  - unit: feat/fighter/point-blank-shot
+  - unit: feat/fighter/double-shot
+  - unit: feat/fighter/parting-shot
+  - unit: feat/fighter/running-reload
+  - unit: feat/fighter/triple-shot
+  - unit: feat/fighter/mobile-shot-stance
+  - unit: feat/fighter/multishot-stance
+
+inc:
+  - at: '@archetypes'
+    add:
+      - name: "_{Archer}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-archer
+        name: "_{Archer}"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-name: "_{Archer}"
+                        suffix: "_{Archetype}"
+                      - paste: book-ref
+                        params:
+                          page-ref: "_{APG p157}"
+
+                  - section: "_{Dedication}"
+                    primary: true
+                    contents:
+                      - p: "_{Trained in all simple and martial bows.}"
+                        icon: proficiency-trained
+                      - p: "_{Whenever you become expert in any weapon, also become expert in simple and martial bows.}"
+                        icon: proficiency-expert
+                      - p: "_{If expert in a bow, gain critical specialisation.}"
+
+                  - section: "_{Quick Shot}"
+                    contents:
+                      - selectable: "##:quick-shot"
+                        contents:
+                          - action:
+                            contents:
+                              - p: "_{Draw and fire your bow in single action}"
+
+                  - section: "_{Advanced Bow Training}"
+                    contents:
+                      - selectable: "##:advanced-bow-training"
+                        contents:
+                          - p: "_{Gain proficiency in all advanced bows as if they were martial.}"
+
+                  - section: "_{Crossbow Terror}"
+                    contents:
+                      - selectable: "##:crossbow-terror"
+                        contents:
+                          - value-block: "+2"
+                            content: "_{Damage with crossbows}"
+                          - p: "_{Increase the damage die for simple crossbows.}"
+
+                  - section: "_{Archer's Aim}"
+                    contents:
+                      - selectable: "##:archers-aim"
+                        contents:
+                          - action: 2
+                            contents:
+                              - value-block: "+2"
+                                content: "_{One attack with a bow}"
+                              - p: "_{Ignore target's concealment. If target is hidden, reduce flat check from 11 to 5.}"
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+
+                  - section: "_{Archery Feats}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - selectable: feat/fighter/assisting-shot
+                            contents:
+                              - paste: feat/fighter/assisting-shot
+
+                          - selectable: feat/fighter/point-blank-shot
+                            contents:
+                              - paste: feat/fighter/point-blank-shot
+
+                          - list:
+                            hr: true
+                            light: true
+                            contents:
+                              - selectable: feat/fighter/double-shot
+                                contents:
+                                  - paste: feat/fighter/double-shot
+
+                              - selectable: feat/fighter/triple-shot
+                                contents:
+                                  - paste: feat/fighter/triple-shot
+
+                              - selectable: feat/fighter/multishot-stance
+                                contents:
+                                  - paste: feat/fighter/multishot-stance
+
+                          - selectable: feat/fighter/parting-shot
+                            contents:
+                              - paste: feat/fighter/parting-shot
+
+                          - selectable: feat/fighter/running-reload
+                            contents:
+                              - paste: feat/fighter/running-reload
+
+                          - selectable: feat/fighter/mobile-shot-stance
+                            contents:
+                              - paste: feat/fighter/mobile-shot-stance
+
+                  - tail:
+                  - spacer:

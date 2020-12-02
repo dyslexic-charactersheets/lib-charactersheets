@@ -69,8 +69,8 @@ export function esc(content, newlines = false, bbformat = true) {
 }
 
 export function format_string(content) {
-  content = content.replace(/\[b\](.*?)\[\/b\]/, '<b>$1</b>');
-  content = content.replace(/\[i\](.*?)\[\/i\]/, '<i>$1</i>');
+  content = content.replace(/\[b\](.*?)\[\/b\]/g, '<b>$1</b>');
+  content = content.replace(/\[i\](.*?)\[\/i\]/g, '<i>$1</i>');
   return content;
 }
 

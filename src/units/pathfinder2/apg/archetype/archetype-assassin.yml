@@ -2,3 +2,119 @@ unit: archetype/apg/assassin
 in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Assassin}"
+
+require:
+  - unit: feat/alchemist/poison-resistance
+  - unit: feat/rogue/poison-weapon
+  - unit: feat/rogue/improved-poison-weapon
+  - unit: feat/rogue/sneak-attacker
+
+inc:
+  - at: '@archetypes'
+    add:
+      - name: "_{Assassin}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-assassin
+        name: "_{Assassin}"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-name: "_{Assassin}"
+                        suffix: "_{Archetype}"
+                      - paste: book-ref
+                        params:
+                          page-ref: "_{APG p158}"
+
+                  - section: "_{Dedication}"
+                    primary: true
+                    contents:
+                      - action: 3
+                        contents:
+                          - h5: "_{Mark for Death}"
+                          - p: "_{Designate a mark you can see and hear.}"
+                          - value-block: "+2"
+                            content: "_{Perception to Seek, and Deception to Feint against your mark. Agile, finesse and unarmed attacks become [b]backstabber[/b] and [b]deadly d6[/b] (or increase deadly one die).}"
+                          - p:
+                            title: "_{Backstabber}"
+                            content: "_{[b]+1[/b] precision damage; [b]+2[/b] for a +3 the weapon.}"
+                          - p:
+                            title: "_{Deadly}"
+                            content: "_{On a critical hit, add extra damage.}"
+
+                  - section: "_{Expert Backstabber}"
+                    contents:
+                      - selectable: "##:expert-backstabber"
+                        contents:
+                          - p: "_{Increase bonus for backstabber weapons:}"
+                          - p: "_{[b]+2[/b] precision damage; [b]+4[/b] for a +3 the weapon.}"
+
+                  - section: "_{Surprise Attack}"
+                    contents:
+                      - selectable: "##:surprise-attack"
+                        contents:
+                          - p: "_{On the first round of combat, if you rolled Deception or Stealth for initiative, creatures tha haven't acted are flat-footed to you.}"
+
+                  - section: "_{Angel of Death}"
+                    contents:
+                      - selectable: "##:angel-of-death"
+                        contents:
+                          - flags:
+                              - "_{Death}"
+                          - p: "_{Strikes against your mark kill as soon as they hit 0hp.}"
+                          - p: "_{They cannot be returned to life, raised as undead or otherwise disturbed unless the effect is at least half your level (rounded up).}"
+
+                  - section: "_{Assassinate}"
+                    contents:
+                      - selectable: "##:assassinate"
+                        contents:
+                          - action: 2
+                            contents:
+                              - p: "_{Strike your mark, provided you're unnoticed.}"
+                              - value-block: "_{6d6}"
+                                content: "_{Bonus damage, with a basic Fortitude save against your class DC or spell DC.}"
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+
+                  - section: "_{Feats}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - selectable: "feat/alchemist/poison-resistance"
+                            contents:
+                              - paste: feat/alchemist/poison-resistance
+
+                          - list:
+                            hr: true
+                            light: true
+                            contents:
+                              - selectable: "feat/rogue/poison-weapon"
+                                contents:
+                                  - paste: feat/rogue/poison-weapon
+
+                              - selectable: "feat/rogue/improved-poison-weapon"
+                                contents:
+                                  - paste: feat/rogue/improved-poison-weapon
+
+                          - selectable: "feat/rogue/sneak-attacker"
+                            contents:
+                              - paste: feat/rogue/sneak-attacker
+
+                  - tail:
+                  - spacer:

@@ -2,3 +2,149 @@ unit: archetype/apg/archaeologist
 in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Archaeologist}"
+
+require:
+  - unit: cantrip/detect-magic
+  - unit: cantrip/guidance
+  - unit: cantrip/read-aura
+  - unit: spell/augury
+  - unit: spell/locate
+  - unit: spell/nondetection
+  - unit: feat/rogue/trap-finder
+  - unit: feat/rogue/delay-trap
+
+inc:
+  - at: '@archetypes'
+    add:
+      - name: "_{Archaeologist}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-archaeologist
+        name: "_{Archaeologist}"
+        order: 27
+        flex: true
+        # half: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-name: "_{Archaeologist}"
+                        suffix: "_{Archetype}"
+                      - paste: book-ref
+                        params:
+                          page-ref: "_{APG p156}"
+
+                  - section: "_{Dedication}"
+                    primary: true
+                    contents:
+                      - p: "_{Expert in Society and Thievery}"
+                        icon: proficiency-expert
+                      - value-block: "+1"
+                        content: "_{Recall Knowledge about ancient history, peoples and cultures}"
+
+                  - section: "_{Scholastic Identification}"
+                    contents:
+                      - selectable: "##:scholastic-identification"
+                        contents:
+                          - p: "_{Can use Society to Decipher Writing of any type, or to Identify Magic when examining a magic item or location of cultural significance.}"
+
+                  - section: "_{Archaeologist's Luck}"
+                    contents:
+                      - selectable: "##:archaeologists-luck"
+                        contents:
+                          - p: "_{Once an hour, you can reroll a check against a trap and use the new result.}"
+
+                  - section: "_{Traps}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - selectable: "feat/rogue/trap-finder"
+                            contents:
+                              - paste: "feat/rogue/trap-finder"
+                          - selectable: "feat/rogue/delay-trap"
+                            contents:
+                              - paste: "feat/rogue/delay-trap"
+                          
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+
+                  - section: "_{Settlement Scholastics}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - repeat: 3
+                            contents:
+                              - selectable: "##:settlement-scholastics/#{i}"
+                                contents:
+                                  - field: "##:settlement-scholastics/#{i}/lore"
+                                    label: "_{Location Lore}"
+                                    icon: proficiency-expert
+                                    width: stretch
+                                  - field: "##:settlement-scholastics/#{i}/language"
+                                    label: "_{Language}"
+                                    width: stretch
+                                    merge-bottom: true
+
+                  - section: "_{Magical Scholastics}"
+                    contents:
+                      - selectable: "##:magical-scholastics"
+                        contents:
+                          - h5: "_{Cantrips}"
+                          - list:
+                            hr: true
+                            zebra: true
+                            contents:
+                              - paste: cantrip/detect-magic
+                              - paste: cantrip/guidance
+                              - paste: cantrip/read-aura
+
+                  - section: "_{Greater Magical Scholastics}"
+                    contents:
+                      - selectable: "##:greater-magical-scholastics"
+                        contents:
+                          - h5: "_{Spells}"
+                          - list:
+                            hr: true
+                            zebra: true
+                            contents:
+                              - layout: indent-r
+                                contents:
+                                  - paste: spell/augury
+                                  - g:
+                                    contents:
+                                      - field: "##:greater-magical-scholastics/augury/today"
+                                        control: checkbox
+                                        label: "_{Today}"
+                                        
+                              - layout: indent-r
+                                contents:
+                                  - paste: spell/locate
+                                  - g:
+                                    contents:
+                                      - field: "##:greater-magical-scholastics/augury/today"
+                                        control: checkbox
+                                        label: "_{Today}"
+                                        
+                              - layout: indent-r
+                                contents:
+                                  - paste: spell/nondetection
+                                  - g:
+                                    contents:
+                                      - field: "##:greater-magical-scholastics/augury/today"
+                                        control: checkbox
+                                        label: "_{Today}"
+
+                  - tail:
+                  - spacer:
+

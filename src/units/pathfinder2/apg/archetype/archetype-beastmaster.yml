@@ -2,3 +2,154 @@ unit: archetype/apg/beastmaster
 in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Beastmaster}"
+
+require:
+  - unit: option/animal-companion
+  - unit: feat/ranger/magic-hide
+  - unit: feat/ranger/wild-empathy
+  - unit: feat/ranger/companions-cry
+  - unit: feat/ranger/enlarge-companion
+  - unit: feat/ranger/side-by-side
+
+inc:
+  - at: '@archetypes'
+    add:
+      - name: "_{Beastmaster}"
+        num-feats: 3
+
+  - at: '@skill-actions'
+    add:
+      - action:
+        contents:
+          - p:
+            title: "_{Command An Animal (Nature)}"
+            content: "_{Attempt a check against the target's Will DC; the GM may adjust the DC based on attitude or circumstances. Fail if the target is hostile or unfriendly.}"
+
+  - at: '@pages'
+    add:
+      - page: archetype-beastmaster
+        name: "_{Beastmaster}"
+        order: 26
+        flex: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-name: "_{Beastmaster}"
+                        suffix: "_{Archetype}"
+                      - paste: book-ref
+                        params:
+                          page-ref: "_{APG p160}"
+
+                  - section: "_{Dedication}"
+                    primary: true
+                    contents:
+                      - paste: spell-attack
+                        params:
+                          id: primal-spell-attack
+                          legend: "_{Primal Spell\nAttack}"
+                        
+                      - paste: spell-dc
+                        params:
+                          id: primal-spell-save-dc
+                          legend: "_{Primal Spell\nSave DC}"
+
+                  - section: "_{Heal Animal}"
+                    contents:
+                      - selectable: "##:heal-animal"
+                        contents:
+                          - ...
+
+                  - section: "_{Beastmaster's Trance}"
+                    contents:
+                      - selectable: "##:beastmasters-trance"
+                        contents:
+                          - ...
+
+                  - section: "_{Bestmaster Bond}"
+                    contents:
+                      - selectable: "##:beastmaster-bond"
+                        contents:
+                          - ...
+
+                  - section: "_{Beastmaster's Call}"
+                    contents:
+                      - selectable: "##:beastmasters-call"
+                        contents:
+                          - ...
+
+                  - section: "_{Lead the Pack}"
+                    contents:
+                      - selectable: "##:lead-the-pack"
+                        contents:
+                          - ...
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+
+                  - section: "_{Beastmaster Companion}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - g:
+                            contents:
+                              - p: "_{Gain an animal companion.}"
+
+                          - selectable: "##:additional-companion"
+                            contents:
+                              - h5: "_{Additional Companion}"
+                              - hr:
+                                light: true
+                              - paste: 1min
+                                contents:
+                                  - p:
+                                    title: "_{Call Companion}"
+                                    content: "_{Switch to another of your animal companions}"
+
+                          - selectable: "##:mature-beastmaster-companion"
+                            contents:
+                              - h5: "_{Mature Beastmaster Companion}"
+
+                          - selectable: "##:incredible-beastmaster-companion"
+                            contents:
+                              - h5: "_{Incredible Beastmaster Companion}"
+
+                          - selectable: "##:Specialised-beastmaster-companion"
+                            contents:
+                              - h5: "_{Specialised Beastmaster Companion}"
+
+                  - section: "_{Feats}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - selectable: feat/ranger/magic-hide
+                            contents:
+                              - paste: feat/ranger/magic-hide
+                              
+                          - selectable: feat/ranger/wild-empathy
+                            contents:
+                              - paste: feat/ranger/wild-empathy
+                              
+                          - selectable: feat/ranger/companions-cry
+                            contents:
+                              - paste: feat/ranger/companions-cry
+                              
+                          - selectable: feat/ranger/enlarge-companion
+                            contents:
+                              - paste: feat/ranger/enlarge-companion
+                              
+                          - selectable: feat/ranger/side-by-side
+                            contents:
+                              - paste: feat/ranger/side-by-side
+
+                  - tail:
+                  - spacer:

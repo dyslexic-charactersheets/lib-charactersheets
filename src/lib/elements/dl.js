@@ -19,6 +19,7 @@ export let dl = {
       if (isEmpty(termdef))
         return '';
       switch (term) {
+        case 'cast': term = "_{Cast}"; break;
         case 'trigger': term = "_{Trigger}"; break;
         case 'frequency': term = "_{Frequency}"; break;
         case 'duration': term = "_{Duration}"; break;
