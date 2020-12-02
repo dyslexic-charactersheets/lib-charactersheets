@@ -19,10 +19,10 @@ const systems = [
     //     code: "dnd5e",
     //     name: "Dungeons & Dragons 5th Edition"
     // }
-    // {
-    //     code: "starfinder",
-    //     name: "Starfinder"
-    // }
+    {
+        code: "starfinder",
+        name: "Starfinder"
+    },
     {
       code: "premium",
       name: "Premium Options"

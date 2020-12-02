@@ -26,7 +26,7 @@ function parseCharacter(primary, request) {
   let attr = {
     name: false,
     game: 'pathfinder2',
-    theme: 'adventurer',
+    theme: '',
     language: 'en',
 
     ancestry: false,
@@ -52,6 +52,17 @@ function parseCharacter(primary, request) {
     printBackground: false,
     ...primary.attributes
   };
+
+  if (attr.theme == '') {
+    switch (attr.game) {
+      case 'pathfinder2':
+        attr.theme = 'adventurer';
+        break;
+      case 'starfinder':
+        attr.theme = 'spacefarer';
+        break;
+    }
+  }
 
   // an object to start with
   let char = {
@@ -132,6 +143,10 @@ function parseCharacter(primary, request) {
 
   // game-specific settings
   switch (attr.game) {
+
+    //
+    //  Pathfinder Second Edition
+    //
     case 'pathfinder2':
       if (attr.ancestry) {
         char.units.push('ancestry/' + attr.ancestry.replace(/^ancestry[\/-]/, ''));
@@ -241,6 +256,44 @@ function parseCharacter(primary, request) {
         char.skillFeats = parseFeats(attr.skillFeats);
         char.feats.forEach(feat => {
           char.units.push("feat/"+feat);
+        });
+      }
+
+      if (char.debug) {
+        char.units.push('option/debug');
+      }
+
+      break;
+
+    //
+    //  Starfinder
+    //
+    case 'starfinder':
+      if (attr.race) {
+        char.units.push('race:' + attr.race.replace(/^race[\/:-]/, ''));
+      }
+      
+      if (attr.char_theme) {
+        char.units.push('theme:' + attr.char_theme.replace(/^theme[\/:-]/, ''));
+      }
+
+      if (attr.class && isArray(attr.class)) {
+        attr.class.forEach(cls => {
+          if (isString(cls)) {
+            char.classes.push(cls);
+            char.units.push('class:' + cls.replace(/^class[\/:-]/, ''));
+            // log("Character", "Archetype:", "archetype/"+archetype);
+          }
+        });
+      }
+
+      if (attr.archetypes && isArray(attr.archetypes)) {
+        attr.archetypes.forEach(archetype => {
+          if (isString(archetype)) {
+            char.archetypes.push(archetype);
+            char.units.push('archetype:' + archetype.replace(/^archetype[\/:-]/, ''));
+            // log("Character", "Archetype:", "archetype/"+archetype);
+          }
         });
       }
 
@@ -395,6 +448,9 @@ export class Character extends Instance {
             case 'pathfinder2':
               title = pathfinder2Title(units, document, data);
               break;
+            case 'starfinder':
+              title = starfinderTitle(units, document, data);
+              break;
           }
           document.title = title;
 
@@ -472,6 +528,45 @@ function pathfinder2Title(units, doc, data) {
   }
 
   let template = isEmpty(parts.name) ? "_{#{ancestry} #{class} #{archetypes}}" : "_{#{name}, #{ancestry} #{class} #{archetypes}}";
+  let title = interpolate(__(template, doc), parts);
+  title = title.replace(/  +/g, ' ');
+  title = title.replace(/^ +/, '');
+  title = title.replace(/ +$/, '');
+  if (title == "")
+    title = "Character";
+  return title;
+}
+
+function starfinderTitle(units, doc, data) {
+  let parts = {
+    name: data.name,
+    race: '',
+    theme: '',
+    classes: '',
+    archetypes: '',
+  };
+  
+  function getUnits(group) {
+    return units.filter(unit => unit.in == group);
+  }
+
+  let race = getUnits("race");
+  if (!isEmpty(race)) {
+    race = race[0];
+    parts["race"] = __(race.name, doc);
+  }
+
+  let classes = getUnits("class");
+  if (!isEmpty(classes)) {
+    parts["classes"] = classes.map(cls => __(cls.name, doc)).join(" ");
+  }
+
+  let archetypes = getUnits("archetype");
+  if (!isEmpty(archetypes)) {
+    parts["archetypes"] = archetypes.map(arch => __(arch.name, doc)).join(" ");
+  }
+
+  let template = isEmpty(parts.name) ? "_{#{race} #{theme} #{classes} #{archetypes}}" : "_{#{name}, #{race} #{theme} #{classes} #{archetypes}}";
   let title = interpolate(__(template, doc), parts);
   title = title.replace(/  +/g, ' ');
   title = title.replace(/^ +/, '');
