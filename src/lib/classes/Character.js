@@ -571,6 +571,7 @@ function starfinderTitle(units, doc, data) {
   title = title.replace(/  +/g, ' ');
   title = title.replace(/^ +/, '');
   title = title.replace(/ +$/, '');
+  title = title.replace(/,$/, '');
   if (title == "")
     title = "Character";
   return title;
