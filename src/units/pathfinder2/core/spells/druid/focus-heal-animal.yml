@@ -1,0 +1,56 @@
+unit: focus/druid/heal-animal
+name: "_{Heal Animal}"
+group: "_{Core Rulebook}"
+
+inc:
+  - copy: focus/druid/heal-animal
+    contents:
+      - article: focus/druid/heal-animal
+        title: "_{Heal Animal}"
+        cat: "_{Focus} 1"
+        contents:
+          - paste: focus
+            contents:
+              - list:
+                hr: true
+                light: true
+                contents:
+                  - action:
+                    contents:
+                      - p: "_{Touch an animal to heal}"
+                      - g:
+                        contents:
+                          - calc:
+                            output:
+                              field: "##:one-action/healing"
+                              legend: "_{Healing}"
+                              border: full
+                              width: large
+                              suffix: "_{d8}"
+                            inputs:
+                              - span: "_{1d8} &times;"
+                              - field:
+                                ref: focus-level
+                                label: "_{Focus\nLevel}"
+                  - action: 2
+                    contents:
+                      - p: "_{Heal an animaul up to 30ft}"
+                      - g:
+                        contents:
+                          - calc:
+                            output:
+                              field: "##:one-action/healing"
+                              legend: "_{Healing}"
+                              border: full
+                              width: huge
+                              control: compound
+                              parts:
+                                - field:
+                                  suffix: "_{d8}"
+                                - field:
+                                  prefix: "+"
+                            inputs:
+                              - span: "(_{1d8} + 8) &times;"
+                              - field:
+                                ref: focus-level
+                                label: "_{Focus\nLevel}"

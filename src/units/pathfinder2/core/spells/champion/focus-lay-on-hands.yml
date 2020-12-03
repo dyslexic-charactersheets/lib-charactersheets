@@ -1,0 +1,45 @@
+unit: focus/champion/lay-on-hands
+name: "_{Lay On Hands}"
+group: "_{Core Rulebook}"
+
+inc:
+  - copy: focus/champion/lay-on-hands
+    contents:
+      - article: focus/champion/lay-on-hands
+        title: "_{Lay On Hands}"
+        cat: "_{Focus} 1"
+        contents:
+          - paste: focus
+            contents:
+              - action: 1
+                contents:
+                  - dl:
+                    defs:
+                      range: "_{Touch}"
+                      target: "_{1 willing ally or undead creature}"
+                  - calc:
+                    output:
+                      field: champion-lay-on-hands-healing
+                      legend: "_{Heal\nAllies}"
+                      width: huge
+                    inputs:
+                      - span: "6 &times;"
+                      - field:
+                        ref: level
+                        label: "_{Focus Level}"
+                  - p: "_{Allies gain +2 AC for 1 round.}"
+                  
+                  - hr:
+                    light: true
+                  - calc:
+                    output:
+                      field: champion-lay-on-hands-damage
+                      legend: "_{Damage\nUndead}"
+                      suffix: "d6"
+                      width: huge
+                    inputs:
+                      - span: "_{1d6} &times;"
+                      - field:
+                        ref: level
+                        label: "_{Focus Level}"
+                  - p: "_{Target must make a Fortitude save or suffer -2 AC for 1 round.}"

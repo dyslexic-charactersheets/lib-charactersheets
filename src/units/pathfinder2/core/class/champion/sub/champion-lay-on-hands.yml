@@ -2,48 +2,13 @@ unit: champion/devotion-spell/lay-on-hands
 name: "_{Lay On Hands}"
 group: "_{Core Rulebook}"
 
+require:
+  - unit: focus/champion/lay-on-hands
+
 inc:
   - at: '@champion/devotion-spells'
     add:
-      - action: 1
-        contents:
-          - h5: "_{Lay On Hands}"
-          - dl:
-            defs:
-              range: "_{Touch}"
-              target: "_{1 willing ally or undead creature}"
-          - layout: indent-r
-            contents:
-              - g:
-                contents:
-                  - calc:
-                    output:
-                      field: champion-lay-on-hands-healing
-                      legend: "_{Heal\nAllies}"
-                      width: huge
-                    inputs:
-                      - span: "6 &times;"
-                      - field:
-                        ref: level
-                        label: "_{Focus Level}"
-                  - p: "_{Allies gain +2 AC for 1 round.}"
-                  
-                  - hr:
-                    light: true
-                  - calc:
-                    output:
-                      field: champion-lay-on-hands-damage
-                      legend: "_{Damage\nUndead}"
-                      suffix: "d6"
-                      width: huge
-                    inputs:
-                      - span: "_{1d6} &times;"
-                      - field:
-                        ref: level
-                        label: "_{Focus Level}"
-                  - p: "_{Target must make a Fortitude save or suffer -2 AC for 1 round.}"
-              - cost: "_{1pt}"
-                unit: "_{Focus}"
+      - paste: focus/champion/lay-on-hands
 
   - at: '@focus-spells'
     add:

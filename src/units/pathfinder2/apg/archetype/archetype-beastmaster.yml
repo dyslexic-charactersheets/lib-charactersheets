@@ -5,11 +5,13 @@ name: "_{Beastmaster}"
 
 require:
   - unit: option/animal-companion
-  - unit: feat/ranger/magic-hide
+  - unit: focus/druid/heal-animal
+  - unit: focus/beastmaster/trance
+  - unit: focus/ranger/apg/magic-hide
   - unit: feat/ranger/wild-empathy
   - unit: feat/ranger/companions-cry
-  - unit: feat/ranger/enlarge-companion
-  - unit: feat/ranger/side-by-side
+  - unit: focus/ranger/apg/enlarge-companion
+  - unit: feat/druid/side-by-side
 
 inc:
   - at: '@archetypes'
@@ -24,6 +26,37 @@ inc:
           - p:
             title: "_{Command An Animal (Nature)}"
             content: "_{Attempt a check against the target's Will DC; the GM may adjust the DC based on attitude or circumstances. Fail if the target is hostile or unfriendly.}"
+
+  - copy: ability-up
+    params:
+      str: "-"
+      dex: "-"
+      con: "-"
+      int: "-"
+      wis: "-"
+      cha: "-"
+    contents:
+      - layout: 6e
+        gutter: small
+        contents:
+          - level-marker: "#{str}"
+            marker: "_{Strength}"
+            blk: false
+          - level-marker: "#{dex}"
+            marker: "_{Dexterity}"
+            blk: false
+          - level-marker: "#{con}"
+            marker: "_{Constitution}"
+            blk: false
+          - level-marker: "#{int}"
+            marker: "_{Intelligence}"
+            blk: false
+          - level-marker: "#{wis}"
+            marker: "_{Wisdom}"
+            blk: false
+          - level-marker: "#{cha}"
+            marker: "_{Charisma}"
+            blk: false
 
   - at: '@pages'
     add:
@@ -48,6 +81,20 @@ inc:
                   - section: "_{Dedication}"
                     primary: true
                     contents:
+                      - g:
+                        contents:
+                          - p: "_{Gain an animal companion, even if you already have one.}"
+                          
+                          - field:
+                            label: "_{Animal Companions}"
+                            width: stretch
+                            repeat: 4
+                            # merge-bottom: true
+                          - p: "_{Can refocus by grooming, feeding or playing with your animals.}"
+
+                      - hr:
+                        swash: true
+
                       - paste: spell-attack
                         params:
                           id: primal-spell-attack
@@ -58,54 +105,16 @@ inc:
                           id: primal-spell-save-dc
                           legend: "_{Primal Spell\nSave DC}"
 
-                  - section: "_{Heal Animal}"
-                    contents:
-                      - selectable: "##:heal-animal"
-                        contents:
-                          - ...
-
-                  - section: "_{Beastmaster's Trance}"
-                    contents:
-                      - selectable: "##:beastmasters-trance"
-                        contents:
-                          - ...
-
-                  - section: "_{Bestmaster Bond}"
-                    contents:
-                      - selectable: "##:beastmaster-bond"
-                        contents:
-                          - ...
-
-                  - section: "_{Beastmaster's Call}"
-                    contents:
-                      - selectable: "##:beastmasters-call"
-                        contents:
-                          - ...
-
-                  - section: "_{Lead the Pack}"
-                    contents:
-                      - selectable: "##:lead-the-pack"
-                        contents:
-                          - ...
-
-                  - tail:
-                  - spacer:
-
-              - g:
-                contents:
-
                   - section: "_{Beastmaster Companion}"
                     contents:
                       - list:
                         hr: true
                         contents:
-                          - g:
-                            contents:
-                              - p: "_{Gain an animal companion.}"
 
                           - selectable: "##:additional-companion"
                             contents:
                               - h5: "_{Additional Companion}"
+                              - p: "_{Gain another animal companion.}"
                               - hr:
                                 light: true
                               - paste: 1min
@@ -117,23 +126,117 @@ inc:
                           - selectable: "##:mature-beastmaster-companion"
                             contents:
                               - h5: "_{Mature Beastmaster Companion}"
+                              - p: "_{If you don't Command your companion, they can still take 1 action to either Stride or Strike.}"
+                              - hr:
+                                light: true
+                              - p: "_{All your animal companions become mature and gain abilities.}"
+                              - paste: ability-up
+                                params:
+                                  str: "+1"
+                                  dex: "+1"
+                                  con: "+1"
+                                  wis: "+1"
+                              - p: "_{Increase unarmed attack damage to two dice.}"
+                              - p: "_{Expert in Perception and saving throws.}"
+                                icon: proficiency-expert
+                              - p: "_{Increase proficiency in Intimidation, Stealth and Survival to trained or expert.}"
+                              - p: "_{Creatures smaller than medium increase in size.}"
 
                           - selectable: "##:incredible-beastmaster-companion"
                             contents:
-                              - h5: "_{Incredible Beastmaster Companion}"
+                              - list:
+                                hr: true
+                                light: true
+                                contents:
+                                  - g:
+                                    contents:
+                                      - h5: "_{Incredible Beastmaster Companion}"
+                                      - p: "_{All your animal companions become either nimble or savage.}"
+                                  - g:
+                                    contents:
+                                      - h6: "_{Nimble}"
+                                      - paste: ability-up
+                                        params:
+                                          str: "+1"
+                                          dex: "+2"
+                                          con: "+1"
+                                          wis: "+1"
+                                      - value-block: "+2"
+                                        content: "_{Unarmed damage}; _{Unarmed attacks are magical.}"
+                                      - p: "_{Expert in Acrobatics and unarmoured defence.}"
+                                        icon: proficiency-expert
+                                      - p: "_{Learns the advanced manouevre for its type.}"
+                                  - g:
+                                    contents:
+                                      - h6: "_{Savage}"
+                                      - paste: ability-up
+                                        params:
+                                          str: "+2"
+                                          dex: "+1"
+                                          con: "+1"
+                                          wis: "+1"
+                                      - value-block: "+3"
+                                        content: "_{Unarmed damage}; _{Unarmed attacks are magical.}"
+                                      - p: "_{Expert in Athletics}"
+                                        icon: proficiency-expert
+                                      - p: "_{Learns the advanced manouevre for its type.}"
 
                           - selectable: "##:Specialised-beastmaster-companion"
                             contents:
                               - h5: "_{Specialised Beastmaster Companion}"
+                              - p: "_{All your animal companions gain a specialisation.}"
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+
+                  - section: "_{Heal Animal}"
+                    contents:
+                      - selectable: "##:heal-animal"
+                        contents:
+                          - paste: focus/druid/heal-animal
+
+                  - section: "_{Beastmaster's Trance}"
+                    contents:
+                      - selectable: "##:beastmasters-trance"
+                        contents:
+                          - paste: focus/beastmaster/trance
+
+                  - section: "_{Beastmaster Bond}"
+                    contents:
+                      - selectable: "##:beastmaster-bond"
+                        contents:
+                          - p: "_{Can communicate telepahtically with your animal companions within 100ft.}"
+                          - p: "_{If you are legendary in Nature, can communicate anywhere on the planet.}"
+
+                  - section: "_{Beastmaster's Call}"
+                    contents:
+                      - selectable: "##:beastmasters-call"
+                        contents:
+                          - action:
+                            contents:
+                              - dl:
+                                  duration: "_{1 round}"
+                                  range: "_{30ft}"
+                              - p: "_{Summon a projection of one inactive animal companion, providing the companion's support benefit. It appears in an empty square of your choice. It disappears on your next turn.}"
+
+                  - section: "_{Lead the Pack}"
+                    contents:
+                      - selectable: "##:lead-the-pack"
+                        contents:
+                          - p: "_{Can have two active animal companions at once.}"
+                          - p: "_{If you don't spend an action to Command either companion, one of them can use 1 action.}"
 
                   - section: "_{Feats}"
                     contents:
                       - list:
                         hr: true
                         contents:
-                          - selectable: feat/ranger/magic-hide
+                          - selectable: focus/ranger/apg/magic-hide
                             contents:
-                              - paste: feat/ranger/magic-hide
+                              - paste: focus/ranger/apg/magic-hide
                               
                           - selectable: feat/ranger/wild-empathy
                             contents:
@@ -143,13 +246,13 @@ inc:
                             contents:
                               - paste: feat/ranger/companions-cry
                               
-                          - selectable: feat/ranger/enlarge-companion
+                          - selectable: focus/ranger/apg/enlarge-companion
                             contents:
-                              - paste: feat/ranger/enlarge-companion
+                              - paste: focus/ranger/apg/enlarge-companion
                               
-                          - selectable: feat/ranger/side-by-side
+                          - selectable: feat/druid/side-by-side
                             contents:
-                              - paste: feat/ranger/side-by-side
+                              - paste: feat/druid/side-by-side
 
                   - tail:
                   - spacer:

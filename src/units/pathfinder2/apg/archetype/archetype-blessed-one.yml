@@ -3,6 +3,20 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Blessed One}"
 
+require:
+  - unit: focus/champion/lay-on-hands
+  - unit: focus/cleric/protectors-sacrifice
+
+  - unit: feat/champion/apg/accelerating-touch
+  - unit: feat/champion/apg/resilient-touch
+  - unit: feat/champion/apg/amplifying-touch
+  - unit: feat/champion/apg/rejuvenating-touch
+
+  - unit: feat/champion/mercy
+  - unit: feat/champion/invigorating-mercy
+  - unit: feat/champion/greater-mercy
+  - unit: feat/champion/elucidating-mercy
+
 inc:
   - at: '@archetypes'
     add:
@@ -17,7 +31,7 @@ inc:
         flex: true
         half: true
         contents:
-          - layout: 2l
+          - layout: 2e
             contents:
               - g:
                 contents:
@@ -32,18 +46,97 @@ inc:
 
                   - section: "_{Dedication}"
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
-                        icon: proficiency-trained
+                      - paste: focus/champion/lay-on-hands
                       - hr:
 
-                  - section: "_{Contortionist}"
+                      - paste: spell-attack
+                        params:
+                          id: divine-spell-attack
+                          legend: "_{Divine Spell\nAttack}"
+                        
+                      - paste: spell-dc
+                        params:
+                          id: divine-spell-save-dc
+                          legend: "_{Divine Spell\nSave DC}"
+
+                      - p: "_{Can refocus by meditating.}"
+
+                  - section: "_{Blessed Sacrifice}"
                     contents:
-                      - selectable: "##:contortionist"
+                      - selectable: "##:blessed-sacrifice"
                         contents:
-                          - ...
+                          - paste: focus/cleric/protectors-sacrifice
+                          
+                  - section: "_{Blessed Denial}"
+                    contents:
+                      - selectable: "##:blessed-denial"
+                        contents:
+                          - action: reaction
+                            contents:
+                              - dl:
+                                  range: "_{30ft}"
+                              - p: "_{When an ally would become frightened, drained, enfeebled, sickened, or stupefied, reduce the value of the condition by 1.}"
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+                  - section: "_{Blessed Spell}"
+                    contents:
+                      - selectable: "##:blessed-spell"
+                        contents:
+                          - action: 
+                            contents:
+                              - flags:
+                                  - "_{Concentrate}"
+                                  - "_{Metamagic}"
+                              - p: "_{Cast followed by a spell targeting an ally to remove a harmful condition as Mercy.}"
+
+                  - section: "_{Feats}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - list:
+                            hr: true
+                            light: true
+                            contents:
+                              - selectable: feat/champion/apg/accelerating-touch
+                                contents:
+                                  - paste: feat/champion/apg/accelerating-touch
+                                  
+                              - selectable: feat/champion/apg/resilient-touch
+                                contents:
+                                  - paste: feat/champion/apg/resilient-touch
+                                  
+                              - selectable: feat/champion/apg/amplifying-touch
+                                contents:
+                                  - paste: feat/champion/apg/amplifying-touch
+
+                              - selectable: feat/champion/apg/rejuvenating-touch
+                                contents:
+                                  - paste: feat/champion/apg/rejuvenating-touch
+                              
+                          - list:
+                            hr: true
+                            light: true
+                            contents:
+                              - selectable: feat/champion/mercy
+                                contents:
+                                  - paste: feat/champion/mercy
+
+                              - selectable: feat/champion/invigorating-mercy
+                                contents:
+                                  - paste: feat/champion/invigorating-mercy
+                                  
+                              - selectable: feat/champion/greater-mercy
+                                contents:
+                                  - paste: feat/champion/greater-mercy
+
+                              - selectable: feat/champion/elucidating-mercy
+                                contents:
+                                  - paste: feat/champion/elucidating-mercy
+
+                  - tail:
+                  - spacer:
