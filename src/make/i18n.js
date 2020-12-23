@@ -19,8 +19,14 @@ const presets = [
   {
     regex: /control: *weight/,
     strings: [ "B", "L" ]
+  },
+  {
+    regex: /control: *alignment/,
+    strings: [ "Good", "Evil", "Lawful", "Chaotic" ]
   }
 ];
+
+// INPUT
 
 function pushEntry(system, message, context, reference, comment, meta) {
   // if (message === undefined || message == "") {
@@ -81,6 +87,39 @@ function scanString(data, source, system, meta) {
     }
   });
 }
+
+/*
+function scanUnit(unit, source, system, meta) {
+  function getElementType(elem) {
+    if (_.has(elem, "type")) {
+      return elem.type;
+    }
+    
+    var kv = _.toPairs(elem);
+    
+    var pair = kv.shift();
+    var objtype = pair[0];
+    return objtype;
+  }
+
+  function scanElement(elem) {
+    let type = getElementType(elem);
+    switch (type) {
+    }
+    ["contents", "template"].forEach(key => {
+      if (_.isArray(elem, key)) {
+
+      }
+    })
+  }
+
+  unit.inc.forEach(elem => {
+    scanElement(elem);
+  });
+}
+*/
+
+// OUTPUT
 
 const LINE_LENGTH = 80;
 

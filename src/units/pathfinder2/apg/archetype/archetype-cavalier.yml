@@ -3,6 +3,10 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Cavalier}"
 
+require:
+  - unit: option/animal-companion
+  - unit: defs/animals
+
 inc:
   - at: '@archetypes'
     add:
@@ -15,7 +19,6 @@ inc:
         name: "_{Cavalier}"
         order: 26
         flex: true
-        half: true
         contents:
           - layout: 2l
             contents:
@@ -31,19 +34,131 @@ inc:
                           page-ref: "_{APG p164}"
 
                   - section: "_{Dedication}"
+                    primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
+                      - p: "_{Gain a young animal companion as your mount.}"
                         icon: proficiency-trained
-                      - hr:
+                      - field: "##:mount"
+                        label: "_{Mount}"
+                        width: stretch
+                        merge-bottom: true
 
-                  - section: "_{Contortionist}"
+                  - section: "_{Cavalier's Charge}"
                     contents:
-                      - selectable: "##:contortionist"
+                      - selectable: "##:cavaliers-charge"
                         contents:
-                          - ...
+                          - action: 2
+                            contents:
+                              - p: "_{Command your mount to Stride twice. At any point, Strike an enemy.}"
+                              - value-block: "+1"
+                                content: "_{To attack}"
+
+                  - section: "_{Impressive Mount}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - selectable: "##:impressive-mount"
+                            contents:
+                              - p: "_{Your mount becomes a mature animal.}"
+                              - paste: animal/mature
+                              
+                          - selectable: "##:incredible-mount"
+                            contents:
+                              - h5: "_{Incredible Mount}"
+                              - list:
+                                hr: true
+                                light: true
+                                contents:
+                                  - p: "_{Your mount becomes either nimble or savage.}"
+                                  - g:
+                                    contents:
+                                      - h6: "_{Nimble}"
+                                      - paste: animal/nimble
+                                  - g:
+                                    contents:
+                                      - h6: "_{Savage}"
+                                      - paste: animal/savage
+                              
+                          - selectable: "##:specialised-mount"
+                            max: 3
+                            contents:
+                              - h5: "_{Specialised Mount}"
+                              - p: "_{Your mount gains one specialisation.}"
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+
+                  - section: "_{Cavalier Pledge}"
+                    primary: true
+                    contents:
+                      - p: "_{Pledge yourself to an individual or organisation.}"
+                      - field: 
+                        size: large
+                        width: stretch
+                        label: "_{Patron}"
+                      - hr:
+                        swash: true
+                      - selectable: "##:cavaliers-banner"
+                        contents:
+                          - h5: "_{Cavalier's Banner}"
+                          - dl:
+                              range: "_{30ft}"
+                          - p: "_{Fly the banner of your pledge.}"
+                          - value-block: "+1"
+                            content: "_{To Will saves and DCs against fear, for you and allies.}"
+                          - p: "_{If your banner is destroyed or removed, allies become frightened 1.}"
+
+                  - section: "_{Quick Mount}"
+                    contents:
+                      - selectable: "##:quick-mount"
+                        contents:
+                          - action:
+                            contents:
+                              - p: "_{Quickly mount your animal and command it.}"
+
+                  - section: "_{Defend Mount}"
+                    contents:
+                      - selectable: "##:defend-mount"
+                        contents:
+                          - action: reaction
+                            contents:
+                              - p: "_{When somebody attacks your mount, place yourself in the way. Use your AC, and take any damage.}"
+
+                  - section: "_{Mounted Shield}"
+                    contents:
+                      - selectable: "##:mounted-shield"
+                        contents:
+                          - p: "_{When you raise a shield, both you and your mount gain the benefit to AC.}"
+                            icon: action
+                          - p: "_{If you have Shield Block reaction, you can use it when your mount takes damage.}"
+                            icon: reaction
+
+                  - section: "_{Trampling Charge}"
+                    contents:
+                      - selectable: "##:trampling-charge"
+                        contents:
+                          - action: 3
+                            contents:
+                              - p: "_{If your mount has a melee attack, command it to Stride and trample enemies. Any enemies in the way make a basic Reflex save against your mount's Athletics DC; on a critical failure they are flat-footed until the end of your next turn.}"
+
+                  - section: "_{Unseat}"
+                    contents:
+                      - selectable: "##:unseat"
+                        contents:
+                          - action:
+                            contents:
+                              - p: "_{Attempt to knock an enemy off their mount.}"
+                              - p: "_{Make an attack; if it hits, make an Athletics check against their Fortitude DC. If you succeed, the enemy is knocked into a space of their choosing; if you critically succeed, they are prone.}"
+
+                  - section: "_{Legendary Rider}"
+                    contents:
+                      - selectable: "##:legendary-rider"
+                        contents:
+                          - p: "_{When riding your mount, you are quickened: get an extra action each turn, which you can only use to command your mount.}"
+
+                  - tail:
+                  - spacer:

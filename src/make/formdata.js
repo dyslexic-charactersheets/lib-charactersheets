@@ -20,6 +20,12 @@ module.exports = {
         name: 'Italian',
         localname: 'Italiano',
         flag: 'it'
+      },
+      {
+        code: 'fr',
+        name: 'French',
+        localname: 'Francais',
+        flag: 'fr'
       }
     ];
 

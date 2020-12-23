@@ -3,6 +3,10 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Herbalist}"
 
+require:
+  - unit: apg/defs/archetypes 
+  - unit: feat/natural-medicine
+
 inc:
   - at: '@archetypes'
     add:
@@ -31,19 +35,46 @@ inc:
                           page-ref: "_{APG p176}"
 
                   - section: "_{Dedication}"
+                    primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
-                        icon: proficiency-trained
-                      - hr:
+                      - p: "_{}"
 
-                  - section: "_{Contortionist}"
+                  - section: "_{Natural Medicine}"
                     contents:
-                      - selectable: "##:contortionist"
+                      - paste: feat/natural-medicine
+
+                      - selectable: "##:fresh-ingredients"
                         contents:
-                          - ...
+                          - p: "_{When you use Natural Medicine, spend a batch of herbs to gain the bonus even when not in the wilderness.}"
+                          - value-block: "+4"
+                            content: "_{To Treat Wounds using Nature in the wilderness when you spend a batch of herbs}"
+
+                  - section: "_{Poultice Preparation}"
+                    contents:
+                      - selectable: "##:poultice-preparation"
+                        contents:
+                          - p: "_{When you create a healing elixir, make it as a poultice instead.}"
+                          - flags:
+                              - "_{Oil}"
+                              - "_{Alchemical}"
+                          - action: "_{Apply a poultice with one hand. The recipient can attempt a check to recover from persistent acid, bleed or fire damage.}"
+
+                  - section: "_{Endemic Herbs}"
+                    contents:
+                      - selectable: "##:endemic-herbs"
+                        contents:
+                          - "_{}"
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+                  - paste: archetype-basic-alchemy
+                    params:
+                      advanced: "_{Expert Herbalism}"
+                    contents:
+                      - p: "_{Only applies to herbal items for healing, antidote and antiplague.}"
+
+                  - tail:
+                  - spacer:

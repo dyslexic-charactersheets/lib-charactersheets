@@ -374,10 +374,10 @@ export let field_control_alignment = {
       <i class='icon icon_lawful'></i>
       <i class='icon icon_chaotic'></i>
 
-      <label class='field__good'>${__("Good", doc)}</label>
-      <label class='field__evil'>${__("Evil", doc)}</label>
-      <label class='field__lawful'>${__("Lawful", doc)}</label>
-      <label class='field__chaotic'>${__("Chaotic", doc)}</label>
+      <label class='field__good'>${__("_{Good}", doc)}</label>
+      <label class='field__evil'>${__("_{Evil}", doc)}</label>
+      <label class='field__lawful'>${__("_{Lawful}", doc)}</label>
+      <label class='field__chaotic'>${__("_{Chaotic}", doc)}</label>
 
       ${radios.join("")}
     `;

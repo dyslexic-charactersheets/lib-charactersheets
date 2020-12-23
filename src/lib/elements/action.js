@@ -54,6 +54,7 @@ export let selectable = {
   defaults: {
     id: '',
     blk: false,
+    max: 1,
     pad: false,
     selected: false,
     style: '',
@@ -61,6 +62,44 @@ export let selectable = {
     contents: []
   },
   transform(args) {
+    let checkboxes = [];
+    if (args.max > 1) {
+      let depth = args.max > 6 ? 3 : (args.max > 3 ? 2 : 1);
+      checkboxes = [
+        {
+          type: "field",
+          id: args.id,
+          control: 'checkgrid',
+          frame: 'none',
+          max: args.max,
+          depth: depth,
+          direction: "vertical",
+          value: args.selected,
+          style: args.style
+        }
+      ]
+      // for (let i = 1; i <= args.max; i++) {
+      //   checkboxes.push({
+      //     type: "field",
+      //     id: args.id+"-"+i,
+      //     control: args.radio ? 'radio' : 'checkbox',
+      //     frame: 'none',
+      //     value: args.selected,
+      //     style: args.style
+      //   });
+      // }
+    } else {
+      checkboxes = [
+        {
+          type: "field",
+          id: args.id,
+          control: args.radio ? 'radio' : 'checkbox',
+          frame: 'none',
+          value: args.selected,
+          style: args.style
+        }
+      ];
+    }
     return [
       {
         type: "layout",
@@ -69,16 +108,7 @@ export let selectable = {
         contents: [
           {
             type: "g",
-            contents: [
-              {
-                type: "field",
-                id: args.id,
-                control: args.radio ? 'radio' : 'checkbox',
-                frame: 'none',
-                value: args.selected,
-                style: args.style
-              }
-            ]
+            contents: checkboxes
           },
           {
             type: "g",

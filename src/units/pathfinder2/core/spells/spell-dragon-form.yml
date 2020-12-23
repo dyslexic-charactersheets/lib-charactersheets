@@ -1,0 +1,320 @@
+unit: spell/dragon-form
+name: "_{Dragon Form}"
+group: "_{Advanced Player's Guide}"
+
+inc:
+  - copy: spell/dragon-form
+    contents:
+      - article: spell/dragon-form
+        title: "_{Dragon Form}"
+        cat: "_{Spell} 6"
+        contents:
+          - list:
+            hr: true
+            light: true
+            contents:
+              - action: 2
+                contents:
+                  - dl:
+                      duration: "_{1 minute}"
+                  - p: "_{Assume the form of a dragon.}"
+
+                  - dl:
+                      "_{Size}": "_{Large}"
+                      "_{Senses}": "_{Darkvision, imprecise scent 60 feet.}"
+                      
+                  - row:
+                    contents:
+                      - field: speed
+                        legend: "_{Speed}"
+                        control: speed
+                        border: full
+                        width: gargantuan
+                        value: [ 40, 8 ]
+                      - spacer:
+                      - field: speed-fly
+                        label: "_{Fly Speed}"
+                        control: speed
+                        width: gargantuan
+                        value: [ 100, 20 ]
+                      - spacer:
+                      - field: speed-other
+                        label: ""
+                        control: speed
+                        width: gargantuan
+                        misc: true
+
+
+                  - value-block: "10"
+                    content: "_{Resistance against the damage type of your breath weapon.}"
+                  - value-block: "+23"
+                    content: "_{Athletics modifier, unless your own modifier is higher.}"
+
+                  - row:
+                    contents:
+                      - calc:
+                        output:
+                          field: "##:ac"
+                          legend: "_{Armour Class}"
+                          icon: ac
+                          border: full
+                          width: large
+                          underlay: "_{AC}"
+                          merge-top: true
+                          eq: '18+%{level}'
+                        inputs:
+                          - span: 18 +
+                          - field:
+                            ref: level
+                            label: "_{Level}"
+                      - spacer:
+                      - field: "##:temp-hp"
+                        label: "_{Temporary Hit Points}"
+                        control: compound
+                        border: multi
+                        width: gargantuan
+                        parts:
+                          - subid: "total"
+                            ruby: "_{Total}"
+                            border: full
+                            suffix: "_{hp}"
+                          - subid: "current"
+                            ruby: "_{Current}"
+                            border: full
+                            temp: true
+                            suffix: "_{hp}"
+                        value: [ 10 ]
+
+              - action:
+                contents:
+                  - g:
+                    contents:
+                      - h6: "_{Jaws}"
+                      - row:
+                        contents:
+                          - field: "##:jaws/attack-bonus"
+                            label: "_{Attack Bonus}"
+                            width: large
+                            icon: bonus
+                            border: full
+                            control: value
+                            value: "+22"
+                          - spacer:
+                          - field: "##:jaws/damage"
+                            label: "_{Damage}"
+                            width: gargantuan
+                            border: full
+                            icon: damage
+                            control: compound
+                            parts:
+                              - subid: ndice
+                                width: tiny
+                                align: right
+                              - label: "_{d}"
+                              - subid: die
+                                width: tiny
+                                align: right
+                              - label: "+"
+                              - ref: "STR"
+                                underlay: "_{STR}"
+                              - label: "+6"
+                          - h6: "_{piercing}"
+                          - span: "+"
+                          - field: "##:jaws/damage2"
+                            label: "_{Damage}"
+                            width: large
+                            border: full
+                            control: compound
+                            parts:
+                              - subid: ndice
+                                width: tiny
+                                align: right
+                              - label: "_{d}"
+                              - subid: die
+                                width: tiny
+                                align: left
+                          - field: "##:jaws/damage2-type"
+                            width: large
+                            label: "_{Type}"
+              - action:
+                contents:
+                  - g:
+                    contents:
+                      - h6: "_{Claws}"
+                      - row:
+                        merge-bottom: true
+                        contents:
+                          - field: "##:claws/attack-bonus"
+                            label: "_{Attack Bonus}"
+                            width: large
+                            icon: bonus
+                            border: full
+                            control: value
+                            value: "+22"
+                          - spacer:
+                          - field: "##:claws/damage"
+                            label: "_{Damage}"
+                            width: gargantuan
+                            border: full
+                            icon: damage
+                            control: compound
+                            parts:
+                              - subid: ndice
+                                width: tiny
+                                align: right
+                              - label: "_{d}"
+                              - subid: die
+                                width: tiny
+                                align: right
+                              - label: "+"
+                              - ref: "STR"
+                                underlay: "_{STR}"
+                              - label: "+6"
+                          - h6: "_{slashing}"
+                          - span: "+"
+                          - field: "##:claws/damage2"
+                            label: "_{Damage}"
+                            width: large
+                            border: full
+                            control: compound
+                            parts:
+                              - subid: ndice
+                                width: tiny
+                                align: right
+                              - label: "_{d}"
+                              - subid: die
+                                width: tiny
+                                align: left
+                          - field: "##:claws/damage2-type"
+                            width: large
+                            label: "_{Type}"
+              - action:
+                contents:
+                  - g:
+                    contents:
+                      - h6: "_{Tail}"
+                      - row:
+                        contents:
+                          - field: "##:tail/attack-bonus"
+                            label: "_{Attack Bonus}"
+                            width: large
+                            icon: bonus
+                            border: full
+                            control: value
+                            value: "+22"
+                          - spacer:
+                          - field: "##:tail/damage"
+                            label: "_{Damage}"
+                            width: gargantuan
+                            border: full
+                            icon: damage
+                            control: compound
+                            parts:
+                              - subid: ndice
+                                width: tiny
+                                align: right
+                              - label: "_{d}"
+                              - subid: die
+                                width: tiny
+                                align: right
+                              - label: "+"
+                              - ref: "STR"
+                                underlay: "_{STR}"
+                              - label: "+6"
+                          - h6: "_{bludgeoning}"
+                          - span: "+"
+                          - field: "##:tail/damage2"
+                            label: "_{Damage}"
+                            width: large
+                            border: full
+                            control: compound
+                            parts:
+                              - subid: ndice
+                                width: tiny
+                                align: right
+                              - label: "_{d}"
+                              - subid: die
+                                width: tiny
+                                align: left
+                          - field: "##:tail/damage2-type"
+                            width: large
+                            label: "_{Type}"
+              - action:
+                contents:
+                  - g:
+                    contents:
+                      - h6: "_{Horns}"
+                      - row:
+                        contents:
+                          - field: "##:horns/attack-bonus"
+                            label: "_{Attack Bonus}"
+                            width: large
+                            icon: bonus
+                            border: full
+                            control: value
+                            value: "+22"
+                          - spacer:
+                          - field: "##:horns/damage"
+                            label: "_{Damage}"
+                            width: gargantuan
+                            border: full
+                            icon: damage
+                            control: compound
+                            parts:
+                              - subid: ndice
+                                width: tiny
+                                align: right
+                              - label: "_{d}"
+                              - subid: die
+                                width: tiny
+                                align: right
+                              - label: "+"
+                              - ref: "STR"
+                                underlay: "_{STR}"
+                              - label: "+6"
+                          - h6: "_{piercing}"
+                          - span: "+"
+                          - field: "##:horns/damage2"
+                            label: "_{Damage}"
+                            width: large
+                            border: full
+                            control: compound
+                            parts:
+                              - subid: ndice
+                                width: tiny
+                                align: right
+                              - label: "_{d}"
+                              - subid: die
+                                width: tiny
+                                align: left
+                          - field: "##:horns/damage2-type"
+                            width: large
+                            label: "_{Type}"
+
+              - action: 2
+                contents:
+                  - row:
+                    contents:
+                      - h6: "_{Breath Weapon}"
+                      - field: "##:breath-weapon/shape"
+                        label: "_{Shape}"
+                        width: huge
+                      - field: "##:breath-weapon/damage"
+                        label: "_{Damage}"
+                        border: full
+                        icon: damage
+                        control: compound
+                        width: large
+                        parts:
+                          - subid: ndice
+                            width: tiny
+                            align: right
+                          - label: "_{d}"
+                          - subid: die
+                            width: tiny
+                            align: left
+                      - field: "##:breath-weapon/damage-type"
+                        width: huge
+                        # align: left
+                        label: "_{Type}"
+                  - p: "_{Cannot use your breath weapon again for 1d4 rounds.}"

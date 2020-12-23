@@ -3,6 +3,10 @@ in: sorcerer/bloodline
 group: "_{Core Rulebook}"
 name: "_{Draconic}"
 
+require:
+  - unit: focus/sorcerer/dragon-breath
+  - unit: focus/sorcerer/dragon-wings
+
 inc:
   - set: arcana-proficiency
     value: trained
@@ -128,61 +132,11 @@ inc:
 
   - at: '@sorcerer/spellbook/bloodline-spell/advanced'
     replace:
-      - article:
-        title: "_{Dragon Breath}"
-        contents:
-          - action: 2
-            contents:
-              - p: "_{Spew forth energy.}"
-          - calc:
-            inline: true
-            output:
-              field: sorcerer/draconic
-              legend: "_{Breath\nDamage}"
-              width: large
-              suffix: "_{d6}"
-            inputs:
-              - span: "("
-              - field:
-                ref: focus-level
-                label: "_{Focus Level}"
-              - span: "&times; 2) - 1"
-          - paste: basic-save
-            params:
-              "_{Save}"
+      - paste: focus/sorcerer/dragon-breath
 
   - at: '@sorcerer/spellbook/bloodline-spell/greater'
     replace:
-      - article:
-        title: "_{Dragon Wings}"
-        contents:
-          - action: 2
-            contents:
-              - dl:
-                defs:
-                  "_{Fly Speed}": "_{60ft}"
-                  duration: "_{1 minute}"
-              - p: "_{Leathery wings sprout from your back.}"
-          - list:
-            hr: true
-            light: true
-            contents:
-              - p: "_{When this spell ends, you float to the ground.}"
-              - g:
-                contents:
-                  - paste: focus
-                    params:
-                      points: "+1"
-                    contents:
-                      - p: "_{Spend an extra focus point to also grow claws.}"
-
-          - hr:
-          - level: 5
-            marker: "_{Focus Level}"
-            contents:
-              - dl:
-                defs:
-                  duration: "_{10 mins}"
+      - paste: focus/sorcerer/dragon-wings
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:
@@ -190,25 +144,6 @@ inc:
         defs:
           duration: "_{1 round}"
       - p: "_{Draconic scales grown on you or one other, granting +1 AC.}"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   - at: '@sorcerer/bloodline-spells'
     replace:
@@ -238,6 +173,7 @@ inc:
 
       - article:
         title: "_{Dragon Claws}"
+        cat: "_{Focus} 1"
         action: 1
         right:
           - paste: focus
@@ -269,7 +205,8 @@ inc:
           - h5: "_{Advanced}"
           - article:
             title: "_{Dragon Breath}"
-            action: 1
+            cat: "_{Focus} 3"
+            action: 2
             right:
               - paste: focus
             contents:
@@ -287,6 +224,7 @@ inc:
           - h5: "_{Greater}"
           - article:
             title: "_{Dragon Wings}"
+            cat: "_{Focus} 5"
             action: 1
             right:
               - paste: focus

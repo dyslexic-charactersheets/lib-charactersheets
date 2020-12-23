@@ -17,7 +17,7 @@ inc:
         flex: true
         half: true
         contents:
-          - layout: 2l
+          - layout: 2e
             contents:
               - g:
                 contents:
@@ -31,19 +31,87 @@ inc:
                           page-ref: "_{APG p175}"
 
                   - section: "_{Dedication}"
+                    primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
+                      - p: "_{Trained in Gladiatorial Lore}"
                         icon: proficiency-trained
                       - hr:
-
-                  - section: "_{Contortionist}"
-                    contents:
-                      - selectable: "##:contortionist"
+                      - row:
                         contents:
-                          - ...
+                          - calc:
+                            output:
+                              field: "##:temp-hp"
+                              legend: "_{Temporary Hit Points}"
+                              width: large
+                              border: full
+                              suffix: "_{hp}"
+                            inputs:
+                              - field:
+                                ref: level
+                                label: "_{Level}"
+                          - spacer:
+                          - field: "##:temp-hp-duration"
+                            label: "_{Duration}"
+                            control: value
+                            width: large
+                            value: "_{1 min}"
+                      - p: "_{Can roll Performance for initiative.}"
 
+                  - section: "_{Fancy Moves}"
+                    contents:
+                      - selectable: "##:fancy-moves"
+                        contents:
+                          - p: "_{Can use Performance to Demoralize your enemies.}"
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+
+                  - section: "_{Play to the Crowd}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - selectable: "##:play-to-the-crowd"
+                            contents:
+                              - action: reaction
+                                contents:
+                                  - p: "_{Attempt a performance check to show off.}"
+                                  - paste: save
+                                    params:
+                                      success: "_{Choose one benefit}"
+                                      critical_success: "_{Choose two benefits}"
+                                  - hr:
+                                    light: true
+                                  - ul:
+                                    contents:
+                                      - li: "_{Temporary hit points equal to your level, for 1 minute}"
+                                      - li: "_{+1 AC until the end of your next turn}"
+                                      - li: "_{+1 to your next attack roll}"
+                              
+                          - selectable: "##:call-your-shot"
+                            contents:
+                              - h5: "_{Call Your Shot}"
+                              - ul:
+                                contents:
+                                  - li: "_{Pick a creature within 30ft to become frightened 1}"
+
+
+                  - section: "_{Stage Fighting}"
+                    contents:
+                      - selectable: "##:stage-fighting"
+                        contents:
+                          - p: "_{Don't take the –2 penalty when making a nonlethal attack with a lethal weapon.}"
+
+                  - section: "_{Weapons Training}"
+                    contents:
+                      - selectable: "##:performative-weapons-training"
+                        contents:
+                          - h5: "_{Performative Weapons Training}"
+                          - p: "_{Trained with the bo staff, dueling cape, spiked chain, sword cane, and whip.}"
+                            icon: proficiency-trained
+                          - p: "_{Whenever you gain a class feature that improves your proficiency in a given weapon, also gain that proficiency in the weapons listed.}"
+
+                  - tail:
+                  - spacer:

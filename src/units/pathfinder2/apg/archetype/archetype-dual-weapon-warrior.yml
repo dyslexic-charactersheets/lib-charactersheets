@@ -3,6 +3,14 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Dual-Weapon Warrior}"
 
+require:
+  - unit: feat/fighter/double-slice
+  - unit: feat/fighter/twin-parry
+  - unit: feat/fighter/twin-riposte
+  - unit: feat/fighter/improved-twin-riposte
+  - unit: feat/fighter/twinned-defence
+  - unit: feat/fighter/two-weapon-flurry
+
 inc:
   - at: '@archetypes'
     add:
@@ -17,7 +25,7 @@ inc:
         flex: true
         half: true
         contents:
-          - layout: 2l
+          - layout: 2e
             contents:
               - g:
                 contents:
@@ -31,19 +39,82 @@ inc:
                           page-ref: "_{APG p170}"
 
                   - section: "_{Dedication}"
+                    primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
-                        icon: proficiency-trained
-                      - hr:
+                      - paste: feat/fighter/double-slice
 
-                  - section: "_{Contortionist}"
+                  - section: "_{Dual Thrower}"
                     contents:
-                      - selectable: "##:contortionist"
+                      - selectable: "##:dual-thrower"
                         contents:
-                          - ...
+                          - p: _"{Any feat below that lets you make a melee strike can also be used for a thrown or one-handed ranged strike.}"
+
+                  - section: "_{Dual-Weapon Reload}"
+                    contents:
+                      - selectable: "##:dual-weapon-reload"
+                        contents:
+                          - action:
+                            contents:
+                              - p: "_{Reload once while wielding two one-handed weapons.}"
+
+                  - section: "_{Flensing Slice}"
+                    contents:
+                      - selectable: "##:flensing-slice"
+                        contents:
+                          - action:
+                            contents:
+                              - p: "_{When you make a Double Slice and both attacks hit, deal [b]1d8[/b] damage for the highest of the two weapons' number of damage dice.}"
+                              - p: "_{Target is flat-footed, and its resistances to physical damage types reduced by 5, until your next turn.}"
+
+
+                  - section: "_{Dual-Weapon Blitz}"
+                    contents:
+                      - selectable: "##:dual-weapon-blitz"
+                        contents:
+                          - action: 2
+                            contents:
+                              - p: "_{Stride up to your Speed. At any point during this movement, you can Strike once with each of two weapons one-handed melee weapons.}"
+
+                  - section: "_{Dual Onslaught}"
+                    contents:
+                      - selectable: "##:dual-onslaught"
+                        contents:
+                          - p: "_{When you use Double Slice but miss twice, apply the effects of a hit with one weapon.}"
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+
+                  - section: "_{Feats}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - list:
+                            hr: true
+                            light: true
+                            contents:
+                              - selectable: feat/fighter/twin-parry
+                                contents:
+                                  - paste: feat/fighter/twin-parry
+                              
+                              - selectable: feat/fighter/twin-riposte
+                                contents:
+                                  - paste: feat/fighter/twin-riposte
+                                  
+                              - selectable: feat/fighter/improved-twin-riposte
+                                contents:
+                                  - paste: feat/fighter/improved-twin-riposte
+                                  
+                              - selectable: feat/fighter/twinned-defence
+                                contents:
+                                  - paste: feat/fighter/twinned-defence
+                              
+                          - selectable: feat/fighter/two-weapon-flurry
+                            contents:
+                              - paste: feat/fighter/two-weapon-flurry
+
+                  - tail:
+                  - spacer:

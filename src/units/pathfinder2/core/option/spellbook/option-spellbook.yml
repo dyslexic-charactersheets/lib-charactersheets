@@ -6,15 +6,40 @@ inc:
   - copy: spellbook/spell
     params:
       id:
-      lines: 3
+      lines: 5
     contents:
       - article: '#{id}'
+        header-size: large
+        show-level: true
+        no-header-line: true
         contents:
-          - field: '#{id}-details'
-            width: stretch
-            align: left
-            frame: none
-            repeat: '#{lines}'
+          - layout: indent-lw
+            contents:
+              - g:
+                contents:
+                  - icon: action-template
+                    width: huge
+                    
+                  - field: '#{id}-component-verbal'
+                    control: checkbox
+                    frame: left
+                    label: "_{V}"
+                  - field: '#{id}-component-somatic'
+                    control: checkbox
+                    frame: left
+                    label: "_{S}"
+                  - field: '#{id}-component-material'
+                    control: checkbox
+                    frame: left
+                    label: "_{M}"
+              - g:
+                contents:
+                  - field: '#{id}-details'
+                    width: stretch
+                    align: left
+                    frame: none
+                    repeat: '#{lines}'
+
           - row:
             contents:
               - field: '#{id}-final'
@@ -52,7 +77,7 @@ inc:
         hr: true
         flex: true
         contents:
-          - repeat: 7
+          - repeat: 5
             reduce: 1
             index: j
             contents:

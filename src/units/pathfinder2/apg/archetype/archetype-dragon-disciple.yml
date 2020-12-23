@@ -3,6 +3,11 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Dragon Disciple}"
 
+require:
+  - unit: focus/sorcerer/dragon-breath
+  - unit: focus/sorcerer/dragon-wings
+  - unit: spell/dragon-form
+
 inc:
   - at: '@archetypes'
     add:
@@ -15,7 +20,6 @@ inc:
         name: "_{Dragon Disciple}"
         order: 26
         flex: true
-        half: true
         contents:
           - layout: 2l
             contents:
@@ -31,19 +35,189 @@ inc:
                           page-ref: "_{APG p168}"
 
                   - section: "_{Dedication}"
+                    primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
-                        icon: proficiency-trained
-                      - hr:
+                      - field: "##:dragon-type"
+                        label: "_{Dragon type}"
+                        width: stretch
 
-                  - section: "_{Contortionist}"
-                    contents:
-                      - selectable: "##:contortionist"
+                      - row:
                         contents:
-                          - ...
+                          - calc:
+                            output:
+                              field: "##:dragon-type/resistance"
+                              legend: "_{Resistance}"
+                              width: huge
+                            inputs:
+                              - field:
+                                ref: level
+                                label: "_{Level}"
+                              - span: "&divide; 2"
+
+                          - vr:
+
+                          - field: "##:dragon-type/resistance-type"
+                            label: "_{Resistance}"
+                            width: stretch
+
+                      - value-block: "+1"
+                        content: "_{Saves against sleep and paralysis.}"
+
+                  - section: "_{Draconic Scent}"
+                    contents:
+                      - selectable: "##:draconic-scent"
+                        contents:
+                          - dl:
+                              range: "_{30ft}"
+                          - p: "_{Imprecise scent.}"
+
+                  - section: "_{Dragon Arcana}"
+                    contents:
+                      - selectable: "##:dragon-arcana"
+                        contents:
+                          - p: "_{Add the draconic bloodline's spells.}"
+
+                          # ... spells ...
+
+
+                  - section: "_{Scales of the Dragon}"
+                    contents:
+                      - selectable: "##:scaled-of-the-dragon"
+                        contents:
+                          - value-block: "+2"
+                            content: "_{AC when unarmoured, with a DEX cap of +2.}"
+                          - g:
+                            pad: true
+                            contents:
+                              - calc:
+                                output:
+                                  field: "##:dragon-type/resistance"
+                                  legend: "_{Resistance}"
+                                  width: huge
+                                inputs:
+                                  - span: "3 + ("
+                                  - field:
+                                    ref: level
+                                    label: "_{Level}"
+                                  - span: "&divide; 2 )"
+
+                  - section: "_{Breath of the Dragon}"
+                    contents:
+                      - selectable: "##:breath-of-the-dragon"
+                        contents:
+                          - paste: focus/sorcerer/dragon-breath
+
+                  - section: "_{Wings of the Dragon}"
+                    contents:
+                      - selectable: "##:wings-of-the-dragon"
+                        contents:
+                          - paste: focus/sorcerer/dragon-wings
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+
+                  - section: "_{Claws of the Dragon}"
+                    contents:
+                      - selectable: "##:claws-of-the-dragon"
+                        contents:
+                          - action:
+                            contents:
+                              - row:
+                                contents:
+                                  - h6: "_{Claws}"
+                                  - flags:
+                                      - "_{Agile}"
+                                      - "_{Finesse}"
+                                      - "_{Brawling}"
+                              - g:
+                                contents:
+                                  - row:
+                                    contents:
+                                      - calc:
+                                        output:
+                                          field: "##:claws/attack-bonus"
+                                          label: "_{Attack Bonus}"
+                                          width: huge
+                                          attack: true
+                                          icon: bonus
+                                        inputs:
+                                          - field:
+                                            ref: true
+                                            misc: true
+                                            label: "_{Ability}"
+                                          - span: "+"
+                                          - field: "##:claws/attack-proficiency"
+                                            control: proficiency
+                                            label: "_{Proficiency}"
+                                      - spacer:
+                                      - field: "##:claws/damage"
+                                        border: full
+                                        label: "_{Damage}"
+                                        width: huge
+                                        icon: damage
+                                        control: compound
+                                        parts:
+                                          - subid: ndice
+                                            width: tiny
+                                            align: right
+                                          - label: "_{d6}"
+                                          - label: "+"
+                                          - subid: extra
+                                            width: tiny
+                                      - h6: "_{Slashing}"
+
+                  - section: "_{Shape of the Dragon}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - selectable: "##:shape-of-the-dragon"
+                            contents:
+                              - layout: indent-r
+                                contents:
+                                  - p: "_{Cast Dragon Shape once per day}"
+                                  - g:
+                                    contents:
+                                      - field:
+                                        label: "_{Today}"
+                                        control: checkbox
+                              - paste: spell/dragon-form
+
+                          - selectable: "##:mighty-dragon-shape"
+                            contents:
+                              - h5: "_{Mighty Dragon Shape}"
+                              - p: "_{Cast Dragon Shape once per hour.}"
+
+                  - section: "_{Disciple's Breath}"
+                    contents:
+                      - selectable: "##:disciples-breath"
+                        contents:
+                          - action: 2
+                            contents:
+                              - g:
+                                contents:
+                                  - row:
+                                    contents:
+                                      - p: "_{Use your breath weapon without spending focus.}"
+                                      - spacer:
+
+                                      - field: "##:disciples-breath/damage"
+                                        label: "_{Damage}"
+                                        border: full
+                                        control: compound
+                                        width: huge
+                                        parts:
+                                          - subid: ndice
+                                            width: tiny
+                                            align: right
+                                          - label: "_{d}"
+                                          - subid: die
+                                            width: tiny
+                                            align: left
+                                        value: [ 9, '', 6 ]
+
+                  - tail:
+                  - spacer:

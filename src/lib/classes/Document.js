@@ -23,6 +23,7 @@ export class Document {
     this.cssParts = [];
     this.jsParts = [];
 
+    this.browserTarget = false;
     this.largePrint = false;
     this.highContrast = false;
     this.printColour = '#808080';
@@ -475,8 +476,13 @@ export class Document {
     const stylesheet = this.getStylesheet();
     const javascript = this.getJavascript();
 
+    let htmlClasses = [];
+    if (this.browserTarget) {
+      htmlClasses.push("html--"+this.browserTarget);
+    }
+
     return `<!DOCTYPE html>
-<html lang='${this.language}'>
+<html lang='${this.language}' class='${htmlClasses.join(" ")}'>
 <head>
 <meta charset='utf-8'/>
 <title>${esc(this.doc.title)}</title>

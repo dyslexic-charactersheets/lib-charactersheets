@@ -3,11 +3,22 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Duelist}"
 
+require:
+  - unit: feat/ranger/quick-draw
+  - unit: feat/fighter/dueling-parry
+  - unit: feat/fighter/dueling-dance
+  - unit: feat/fighter/disarming-stance
+  - unit: feat/fighter/dueling-riposte
+  - unit: feat/fighter/improved-dueling-riposte
+  - unit: feat/fighter/guiding-riposte
+  - unit: feat/fighter/disarming-twist
+
 inc:
   - at: '@archetypes'
     add:
       - name: "_{Duelist}"
         num-feats: 3
+
 
   - at: '@pages'
     add:
@@ -15,7 +26,6 @@ inc:
         name: "_{Duelist}"
         order: 26
         flex: true
-        half: true
         contents:
           - layout: 2l
             contents:
@@ -31,19 +41,123 @@ inc:
                           page-ref: "_{APG p171}"
 
                   - section: "_{Dedication}"
+                    primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
-                        icon: proficiency-trained
-                      - hr:
+                      - paste: feat/ranger/quick-draw
 
-                  - section: "_{Contortionist}"
+                  - section: "_{Duelist's Challenge}"
                     contents:
-                      - selectable: "##:contortionist"
+                      - selectable: "##:duelists-challenge"
                         contents:
-                          - ...
+                          - action:
+                            contents:
+                            - dl:
+                              div: true
+                              defs:
+                                requirements: "_{Wielding a one-handed melee weapon with your other hand free.}"
+                            - p: "_{Select one foe you can see and declare a challenge. That foe is your opponent until they are defeated, flee or the encounter ends.}"
+                            - p: "_{Any time you hit your foe, deal extra damage equal to the number of damage dice.}"
+                            - p: "_{If you attack anyone other than your foe, take that as a penalty to damage instead.}"
+
+                  - section: "_{Dueling Parry}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - selectable: feat/fighter/dueling-parry
+                            contents:
+                              - paste: feat/fighter/dueling-parry
+                              
+                          - selectable: feat/fighter/dueling-dance
+                            contents:
+                              - paste: feat/fighter/dueling-dance
+                          
+                          - selectable: "##:selfless-parry"
+                            contents:
+                              - value-block: "+1"
+                                content: "_{AC for adjacent allies, while you're benefiting from Dueling Parry.}"
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+
+                  - section: "_{Feats}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - selectable: feat/fighter/disarming-stance
+                            contents:
+                              - paste: feat/fighter/disarming-stance
+                              
+                          - list:
+                            hr: true
+                            light: true
+                            contents:
+                              - selectable: feat/fighter/dueling-riposte
+                                contents:
+                                  - paste: feat/fighter/dueling-riposte
+
+                              - selectable: feat/fighter/improved-dueling-riposte
+                                contents:
+                                  - paste: feat/fighter/improved-dueling-riposte
+
+                              - selectable: feat/fighter/guiding-riposte
+                                contents:
+                                  - paste: feat/fighter/guiding-riposte
+                              
+                          - selectable: feat/fighter/disarming-twist
+                            contents:
+                              - paste: feat/fighter/disarming-twist
+                    
+                  - section: "_{Student of the Dueling Arts}"
+                    contents:
+                      - selectable: "##:student-of-the-dueling-arts"
+                        contents:
+                          - list:
+                            hr: true
+                            contents:
+                              - g:
+                                contents:
+                                  - g:
+                                    pad: true
+                                    contents:
+                                      - field: "##:student-of-the-dueling-arts/number"
+                                        label: "_{Number of feats}"
+                                        frame: right
+                                        border: full
+                              - list:
+                                hr: true
+                                light: true
+                                zebra: true
+                                contents:
+                                  - each:
+                                    template:
+                                      - field: "##:student-of-the-dueling-arts/#{id}"
+                                        label: "#{name}"
+                                        frame: right
+                                        control: checkbox
+                                    contents:
+                                      - id: duelists-challenge
+                                        name: "_{Duelist's Challenge}"
+                                      - id: dueling-parry
+                                        name: "_{Dueling Parry}"
+                                      - id: dueling-dance
+                                        name: "_{Dueling Dance}"
+                                      - id: selfless-parry
+                                        name: "_{Selfless Parry}"
+                                      - id: disarming-stance
+                                        name: "_{Disarming Stance}"
+                                      - id: dueling-riposte
+                                        name: "_{Dueling Riposte}"
+                                      - id: improved-dueling-riposte
+                                        name: "_{Improved Dueling Riposte}"
+                                      - id: guiding-riposte
+                                        name: "_{Guiding Riposte}"
+                                      - id: disarming-twist
+                                        name: "_{Disarming Twist}"
+                            
+                  - tail:
+                  - spacer:

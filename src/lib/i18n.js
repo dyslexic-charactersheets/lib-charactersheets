@@ -1,9 +1,7 @@
 import { existsSync, readdir, readFile } from 'fs';
 import { log, error } from './log';
-import { isString, isNumber, isNull } from './util';
+import { isString, isNumber, isBoolean, isNull } from './util';
 import { has } from './util/objects';
-import { Exception } from 'handlebars';
-import { isBoolean } from 'util';
 
 let translatorCallbacks = [];
 

@@ -1,0 +1,233 @@
+unit: option/background
+name: "_{Character Background}"
+group: "_{Core Rulebook}"
+
+inc:
+  - copy: option/background/relation
+    params:
+      id: ''
+      name: ""
+    contents:
+      - layout: alignment
+        contents:
+          - g:
+            contents:
+              - row:
+                contents:
+                  - field: "##:#{id}/name"
+                    width: stretch
+                    label: "#{name}"
+              - row:
+                contents:
+                  - icon: hp
+                  - span: " "
+                  - field: "##:#{id}/attitude"
+                    control: checkgrid
+                    max: 5
+                    depth: 1
+                    frame: none
+                    border: none
+                  - icon: evil
+                  - field: "##:#{id}/info"
+                    width: stretch
+                    frame: none
+                    merge-bottom: true
+          - g:
+            contents:
+              - field: "##:#{id}/alignment"
+                frame: none
+                control: alignment
+
+
+  - at: '@pages'
+    add:
+      - page: background
+        name: "_{Character Background}"
+        order: 18
+        flex: true
+        numbered: false
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-name: "_{Character Background}"
+                  - field: character-name
+                    label: "_{Character Name}"
+                    size: large
+                    width: stretch
+                    align: left
+                  - field: character-origin
+                    label: "_{Origin}"
+                    width: stretch
+                    repeat: 3
+                    reduce: 2
+                    merge-bottom: true
+
+              - g:
+                contents:
+                  - section: "_{Origins}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        avoid-shade: true
+                        contents:
+                          - row:
+                            contents:
+                              - h6: "_{Attitude}:"
+                              - spacer:
+                              - icon: hp
+                              - h6: "&nbsp;_{Helpful}"
+                              - spacer:
+                              - h6: "&middot;"
+                              - spacer:
+                              - h6: "_{Friendly}"
+                              - spacer:
+                              - h6: "&middot;"
+                              - spacer:
+                              - h6: "_{Indifferent}"
+                              - spacer:
+                              - h6: "&middot;"
+                              - spacer:
+                              - h6: "_{Unfriendly}"
+                              - spacer:
+                              - h6: "&middot;"
+                              - spacer:
+                              - h6: "_{Hostile}"
+                              - icon: evil
+
+                          - paste: option/background/relation
+                            params:
+                              id: parents
+                              name: "_{Parents}"
+                          - paste: option/background/relation
+                            params:
+                              id: country
+                              name: "_{Country}"
+
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - section: "_{Portrait}"
+                    contents:
+                      - portrait: personal
+              - g:
+                contents:
+                  - section: "_{Affiliations}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        avoid-shade: true
+                        contents:
+                          - paste: option/background/relation
+                            params:
+                              id: religion
+                              name: "_{Religion}"
+                          - paste: option/background/relation
+                            params:
+                              id: employer
+                              name: "_{Employer}"
+                          - paste: option/background/relation
+                            params:
+                              id: current-country
+                              name: "_{Current country}"
+                          - paste: option/background/relation
+                          - paste: option/background/relation
+
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - section: "_{Appearance}"
+                    contents:
+                      - row:
+                        contents:
+                          - field: ancestry
+                            label: "_{Ancestry}"
+                            width: stretch
+                          - field: gender
+                            label: "_{Gender}"
+                            icon: gender
+                            width: large
+                      - row:
+                        contents:
+                          - field: character-age
+                            label: "_{Age}"
+                            width: huge
+                            align: left
+                          - spacer:
+                          - field: character-height
+                            label: "_{Height}"
+                            width: huge
+                            align: left
+                          - spacer:
+                          - field: character-weight
+                            label: "_{Weight}"
+                            width: huge
+                            align: left
+                      - row:
+                        contents:
+                          - field: character-eyes
+                            label: "_{Eyes}"
+                            width: huge
+                            align: left
+                          - field: character-hair
+                            label: "_{Hair}"
+                            width: stretch
+                      - field: character-defining-features
+                        label: "_{Defining Features}"
+                        width: stretch
+                        repeat: 3
+                        merge-bottom: true
+
+                  - section: "_{Personality}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - field: character-motivations
+                            label: "_{Motivations}"
+                            width: stretch
+                            repeat: 2
+                            merge-bottom: true
+                          - field: character-fears
+                            label: "_{Fears}"
+                            width: stretch
+                            repeat: 2
+                            merge-bottom: true
+                          - field: character-likes
+                            label: "_{Likes}"
+                            width: stretch
+                            repeat: 2
+                            merge-bottom: true
+                          - field: character-dislikes
+                            label: "_{Dislikes}"
+                            width: stretch
+                            repeat: 2
+                            merge-bottom: true
+                          - field: character-quirks
+                            label: "_{Quicks}"
+                            width: stretch
+                            repeat: 2
+                            merge-bottom: true
+                  - tail:
+
+              - g:
+                contents:
+                  - section: "_{Friends & Foes}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - repeat: 8
+                            reduce: 2
+                            contents:
+                              - paste: option/background/relation
+                      - tail:
+
+

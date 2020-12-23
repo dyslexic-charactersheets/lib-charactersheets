@@ -3,6 +3,9 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Eldritch Archer}"
 
+require:
+  - unit: feat/fighter/impossible-volley
+
 inc:
   - at: '@archetypes'
     add:
@@ -15,7 +18,6 @@ inc:
         name: "_{Eldritch Archer}"
         order: 26
         flex: true
-        half: true
         contents:
           - layout: 2l
             contents:
@@ -31,25 +33,140 @@ inc:
                           page-ref: "_{APG p172}"
 
                   - section: "_{Dedication}"
+                    primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
-                        icon: proficiency-trained
-                      - hr:
-                      - row:
+                      - action: 3
                         contents:
-                          - paste: class-dc
-                            params:
-                              id: investigator-class-dc
-                              legend: "_{Investigator\nClass DC}"
+                          - h5: "_{Eldritch Shot}"
+                          - dl:
+                              requirements: "_{You're wielding a bow}"
+                          - p: "_{Cast a 1 or 2 action spell that requires an attack roll, then make a Strike with your bow, using that roll to determine both the Strike and the spell success.}"
+                          - p: "_{This counts as two attacks for MAP.}"
 
-                  - section: "_{Contortionist}"
+                  - paste: archetype-spellcasting
+                    params:
+                      style: spontaneous
+                      # tradition: divine
+                      tradition-spell-attack: "_{Spell\nAttack}"
+                      tradition-spell-dc: "_{Spell\nSave DC}"
+                      ability: "CHA"
+                      ability-name: "_{CHA}"
                     contents:
-                      - selectable: "##:contortionist"
+                      - g:
                         contents:
-                          - ...
+                          - field: witch/patron/tradition
+                            width: stretch
+                            label: "_{Spellcasting Tradition}"
+                            merge-bottom: true
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+                  - section: "_{Enchanting Arrow}"
+                    contents:
+                      - selectable: "##:enchanting-arrow"
+                        contents:
+                          - action: 2
+                            contents:
+                              - list:
+                                hr: true
+                                light: true
+                                contents:
+                                  - g:
+                                    contents:
+                                      - p: "_{Make a bow Strike.}"
+                                      - paste: save
+                                        params:
+                                          success: "_{[b]2d6[/b] mental damage}"
+                                          critical_success: "_{Target is also stunned 1}"
+                                  - selectable:
+                                    contents:
+                                      - p: "_{[b]3d6[/b] if your bow has a greater striking rune}"
+                                  - selectable:
+                                    contents:
+                                      - p: "_{[b]4d6[/b] if your bow has a major striking rune}"
+                          
+                  - section: "_{Magic Arrow}"
+                    contents:
+                      - p: "_{Once a round, transform an arrow or bolt into a form of magical ammunition up to level 4.}"
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - repeat: 3
+                            contents:
+                              - selectable: "##:magic-arrow/#{i}"
+                                contents:
+                                  - action: free
+                                    contents:
+                                      - field: "##:magic-arrow/#{i}/ammo"
+                                        repeat: 3
+                                        width: stretch
+                                        label: "_{Ammo type}"
+                                        merge-bottom: true
+                          
+                  - section: "_{Precious Arrow}"
+                    contents:
+                      - selectable: "##:precious-arrow"
+                        contents:
+                          - action:
+                            contents:
+                              - list:
+                                hr: true
+                                contents:
+                                  - p: "_{Make an arrow either cold iron or silver, provided you shoot it this round.}"
+                                  - level: 14
+                                    contents:
+                                      - p: "_{Make an arrow adamantine.}"
+                            
+                  - section: "_{Seeker Arrow}"
+                    contents:
+                      - selectable: "##:seeker-arrow"
+                        contents:
+                          - action:
+                            contents:
+                              - p: "_{Make a bow Strike against a target you can see. Your arrow travels round corners to ignore concealment and cover.}"
+                          
+                  - section: "_{Phase Arrow}"
+                    contents:
+                      - selectable: "##:phase-arrow"
+                        contents:
+                          - action:
+                            contents:
+                              - layout: indent-r
+                                contents:
+                                  - g:
+                                    contents:
+                                      - p: "_{Once a day, make a bow Strike against a hidden enemy. The arrow passes though objects in its way, though magical barriers stop it. The shot ignores all cover, concealment, and shield bonuses.}"
+                                      - value-block: "+4"
+                                        content: "_{To hit creatures wearing any sort of armour.}"
+                                  - g:
+                                    contents:
+                                      - field: "##:greater-magical-scholastics/augury/today"
+                                        control: checkbox
+                                        label: "_{Today}"
+                          
+                  - section: "_{Arrow of Death}"
+                    contents:
+                      - selectable: "##:arrow-of-death"
+                        contents:
+                          - action: 3
+                            contents:
+                              - p: "_{Make a bow Strike.}"
+                              - row:
+                                contents:
+                                  - span: "_{10d10}"
+                                  - p: "_{Bonus damage}"
+                              - p: "_{Target must make a Fortitude save against your class DC or spell DC, or be immediately slain.}"
+
+                  - section: "_{Feats}"
+                    contents:
+                      - selectable: feat/fighter/impossible-volley
+                        contents:
+                          - paste: feat/fighter/impossible-volley
+
+                  - tail:
+                  - spacer:
+

@@ -32,6 +32,7 @@ export let dl = {
         case 'failure': icon = 'save-fail'; term = "_{Failure}"; break;
         case 'critical_failure': icon = 'save-crit-fail'; term = "_{Critical Failure}"; break;
         case 'sustain': term = "_{Sustain}"; break;
+        case 'requirement': case 'requirements': term = "_{Requirements}"; break;
       }
 
       if (args.min)

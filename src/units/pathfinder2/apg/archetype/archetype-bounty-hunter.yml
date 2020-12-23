@@ -3,6 +3,10 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Bounty Hunter}"
 
+require:
+  - unit: feat/ranger/hunt-prey
+  - unit: feat/ranger/double-prey
+
 inc:
   - at: '@archetypes'
     add:
@@ -17,7 +21,7 @@ inc:
         flex: true
         half: true
         contents:
-          - layout: 2l
+          - layout: 2e
             contents:
               - g:
                 contents:
@@ -31,19 +35,64 @@ inc:
                           page-ref: "_{APG p163}"
 
                   - section: "_{Dedication}"
+                    primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
-                        icon: proficiency-trained
+                      - paste: feat/ranger/hunt-prey
                       - hr:
+                      - value-block: "+2"
+                        content: "_{Gather Information regarding your prey}"
 
-                  - section: "_{Contortionist}"
+                  - section: "_{Tools of the Trade}"
                     contents:
-                      - selectable: "##:contortionist"
+                      - selectable: "##:tools-of-the-trade"
                         contents:
-                          - ...
+                          - p: "_{Trained with the bola, sap and whip.}"
+                            icon: proficiency-trained
+                          - p: "_{Whenever you become expert or better in any weapon, become the same in the bola, sap and whip.}"
+                          - p: "_{No penalty for making a nonlethal attack with a lethal weapon.}"
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+
+                  - section: "_{Posse}"
+                    contents:
+                      - selectable: "##:posse"
+                        contents:
+                          - paste: 1min
+                            contents:
+                              - p: "_{Instruct up to 5 allies to help you. They each gain:}"
+                              - value-block: "+1"
+                                content: "_{Perception and Survival to seek and track your prey}"
+                              - value-block: "+1"
+                                content: "_{Gather Information regarding your prey}"
+
+                  - section: "_{Keep Pace}"
+                    contents:
+                      - selectable: "##:keep-pace"
+                        contents:
+                          - action: reaction
+                            contents:
+                              - p: "_{When your prey attempts to move away, follow them up to your Speed.}"
+
+                  - section: "_{Opportunistic Grapple}"
+                    contents:
+                      - selectable: "##:opportunistic-grapple"
+                        contents:
+                          - action: reaction
+                            contents:
+                              - p: "_{When your prey critically fails a Strike while within your reach, and you have a free hand, attempt an Athletics check to grapple them.}"
+
+                  - section: "_{Feats}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - selectable: feat/ranger/double-prey
+                            contents:
+                              - paste: feat/ranger/double-prey
+
+                  - tail:
+                  - spacer:

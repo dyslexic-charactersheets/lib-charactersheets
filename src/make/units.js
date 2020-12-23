@@ -128,6 +128,7 @@ module.exports = {
       }
 
       i18n.scan(data, unitfile, system, meta);
+      // i18n.scanUnit(unit, unitfile, system, meta);
 
       try {
         if (!_.has(unitdata, "unit")) {

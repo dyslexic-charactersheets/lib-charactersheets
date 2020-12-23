@@ -5,6 +5,7 @@ import { __, _e } from '../i18n';
 
 export let ul = {
   name: 'ul',
+  key: 'contents',
   defaults: {
     blk: true,
     flags: false,

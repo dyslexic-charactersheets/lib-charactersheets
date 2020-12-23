@@ -30,6 +30,7 @@ export let article = {
     action: false,
   },
   transform(args, ctx) {
+    let emptyHeader = false;
     if (isEmpty(args.header) || isEmpty(args.contents)) {
       let header = args.header;
       if (isEmpty(args.header)) {
@@ -50,8 +51,10 @@ export let article = {
             size: args['header-size'],
             width: 'stretch'
           });
+          emptyHeader = true;
         }
         if (args.cat || args['show-cat']) {
+          emptyHeader = false;
           if (args.cat) {
             header.push({
               type: 'span',
@@ -70,6 +73,7 @@ export let article = {
           }
         }
         if (args.level || args['show-level']) {
+          emptyHeader = false;
           if (args.level) {
             header.push({
               type: 'level-marker',
@@ -81,6 +85,7 @@ export let article = {
               type: 'field',
               id: args.id + '-level',
               frame: 'none',
+              border: 'heavy',
               size: 'large',
               width: 'small'
             });
@@ -165,6 +170,7 @@ export let article = {
         shade: false,
         blk: args.blk,
         annotation: args.annotation,
+        "no-header-line": args['no-header-line'] || emptyHeader,
         'merge-bottom': args['merge-bottom'],
       };
 
@@ -173,8 +179,10 @@ export let article = {
     return false;
   },
   render(args, reg, doc) {
-    const id = elementID('section', args.id);
-    const cls = elementClass('section', null, args, ['shade', 'blk']);
+    if (isEmpty(args.header) || (args.header.length == 1 && args.header[0].type == 'field'))
+      args['no-header-line'] = true;
+    const id = elementID('article', args.id);
+    const cls = elementClass('article', null, args, ['shade', 'blk', 'no-header-line']);
 
     const annotation = args.annotation ? `<div class='article__annotation'>${__(args.annotation, doc)}</div>` : '';
     const header = `<header>${reg.render(args.header, doc)}</header>`

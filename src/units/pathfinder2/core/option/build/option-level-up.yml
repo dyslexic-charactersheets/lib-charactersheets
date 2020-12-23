@@ -1,0 +1,200 @@
+unit: option/level-up
+name: "_{Level Up}"
+group: "_{Core Rulebook}"
+
+inc:
+  - at: '@pages'
+    add:
+      - page: level-up
+        name: "_{Level Up}"
+        no-bg: true
+        order: 22
+        flex: true
+        numbered: false
+        contents:
+          - layout: 2l
+            flex: large
+            contents:
+              - g:
+                contents:
+                  - h2: "_{Level Up}"
+                  # - paste: book-ref
+                  #   params:
+                  #     page-ref: "_{CRB p31}"
+
+                  # - hr:
+                  #   swash: true
+
+                  - g:
+                    pad: true
+                    contents:
+                      - h4: "_{Step One}"
+                      - p: "_{Increase your level by 1 and subtract 1,000 XP from your XP total.}"
+
+                      - g:
+                        pad: true
+                        contents:
+                          - field: level
+                            legend: "_{Level}"
+                            border: full
+                            width: large
+
+                  - g:
+                    pad: true
+                    contents:
+                      - h4: "_{Step Two}"
+                      - p: "_{Increase your maximum Hit Points.}"
+
+                      - g:
+                        pad: true
+                        contents:
+                          - calc:
+                            output:
+                              field: hp
+                              legend: "_{Additional Hit Points}"
+                              icon: hp
+                              prefix: "+"
+                              suffix: "_{hp}"
+                              width: large
+                              eq: '%{hp-ancestry}+((%{hp-class}+%{CON})*%{level})'
+                            inputs:
+                              - field: hp-class
+                                label: "_{Class}"
+                              - span: "+"
+                              - field:
+                                label: "_{CON}"
+                                underlay: "_{CON}"
+                                ref: CON
+                              - span: "+"
+                              - field: hp-toughness
+                                label: "_{Toughness}"
+                                control: checkbox
+
+                  - g:
+                    pad: true
+                    contents:
+                      - h4: "_{Step Three}"
+                      - p: "_{Add class features from your class advancement table, including ability boosts and skill increases.}"
+
+                      - g:
+                        pad: true
+                        contents:
+                          - h5: "_{Ability boost}"
+                          - p: "_{Boost 4 different ability scores. Increase by 1 if the score is already 18 or above, or 2 if not.}"
+
+                      - g:
+                        pad: true
+                        contents:
+                          - h5: "_{Skill increase}"
+                          - p: "_{Increase proficiency in one skill to trained or expert.}"
+                          - level: 7
+                            contents:
+                              - p: "_{May increase a skill to master.}"
+                          - level: 15
+                            contents:
+                              - p: "_{May increase a skill to legendary.}"
+
+                  - g:
+                    pad: true
+                    contents:
+                      - h4: "_{Step Four}"
+                      - p: "_{Select feats as indicated on your class advancement table.}"
+
+                      - paste: book-ref
+                        params:
+                          page-ref: "_{CRB p33}"
+                        contents:
+                          - h6: "_{Ancestry feats}"
+
+                      - paste: book-ref
+                        params:
+                          page-ref: "_{CRB p66}"
+                        contents:
+                          - h6: "_{Class feats}"
+
+                      - paste: book-ref
+                        params:
+                          page-ref: "_{CRB p255}"
+                        contents:
+                          - h6: "_{General and skill feats}"
+
+                  - g:
+                    pad: true
+                    contents:
+                      - h4: "_{Step Five}"
+                      - p: "_{Add spells and spell slots if your class grants spellcasting.}"
+
+                      - paste: book-ref
+                        params:
+                          page-ref: "_{CRB p297}"
+                        contents:
+                          - h6: "_{Spells}"
+
+                  - g:
+                    pad: true
+                    contents:
+                      - h4: "_{Step Six}"
+                      - p: "_{Increase all of your proficiency bonuses by 1 from your new level, and make other increases to your proficiency bonuses as necessary from skill increases or other class features. Increase any other statistics that changed as a result of ability boosts or other abilities.}"
+
+                  - g:
+                    pad: true
+                    contents:
+                      - h4: "_{Step Seven}"
+                      - p: "_{Adjust bonuses from feats and other abilities that are based on your level.}"
+
+                  # - tail:
+                  - spacer:
+
+
+
+              - g:
+                contents:
+                  - section: '_{Advancement}'
+                    flex: none
+                    contents:
+                      - list:
+                        # hr: true
+                        contents:
+                          - advancement:
+                            advances:
+                              - levels: [ 1, 5, 9, 13, 17 ]
+                                ancestry-feat: true
+                              - levels: [ 3, 7, 11, 15, 19 ]
+                                general-feat: true
+                              - levels: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                                class-feat: true
+                              - levels: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                                skill-feat: true
+                              - levels: [ 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
+                                skill-increase: true
+                              - levels: [ 5, 10, 15, 20 ]
+                                gain: "_{Ability boost}"
+                              - level: 7
+                                advance: "_{May be master in skills}"
+                                icon: proficiency-master
+                              - level: 15
+                                advance: "_{May be legendary in skills}"
+                                icon: proficiency-legendary
+                              - zone: '@advancement'
+                            fields:
+                              - zone: '@advancement-fields'
+                              - name: "_{Ancestry feat}"
+                                key: ancestry-feat
+                              - name: "_{General feat}"
+                                key: general-feat
+                              - name: "_{Class feat}"
+                                key: class-feat
+                              - name: "_{Skill feat}"
+                                key: skill-feat
+                              - name: "_{Skill increase}"
+                                key: skill-increase
+                          # - indent: left
+                          #   contents:
+                          #     - zone: '@advancement-every-level'
+                          #       contents:
+                          #         - p:
+                          #           title: "_{Every level}:"
+                          #           content: "_{Proficiencies, hit points}"
+
+                  - tail:
+                  - spacer:

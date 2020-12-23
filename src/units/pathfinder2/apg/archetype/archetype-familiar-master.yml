@@ -3,6 +3,9 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Familiar Master}"
 
+require:
+  - unit: feat/druid/enhanced-familiar
+  
 inc:
   - at: '@archetypes'
     add:
@@ -17,7 +20,7 @@ inc:
         flex: true
         half: true
         contents:
-          - layout: 2l
+          - layout: 2e
             contents:
               - g:
                 contents:
@@ -31,19 +34,81 @@ inc:
                           page-ref: "_{APG p174}"
 
                   - section: "_{Dedication}"
+                    primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
-                        icon: proficiency-trained
-                      - hr:
+                      - p: "_{Gain a familiar. If you already have a familiar, gain the Enhanced Familiar feat.}"
 
-                  - section: "_{Contortionist}"
+                  - section: "_{Familiar Mascot}"
                     contents:
-                      - selectable: "##:contortionist"
+                      - selectable: "##:familiar-mascot"
                         contents:
-                          - ...
+                          - p: "_{When selecting master abilities, you can choose an ally to benefit from any of them.}"
+
+                  - section: "_{Familiar Conduit}"
+                    contents:
+                      - selectable: "##:familiar-conduit"
+                        contents:
+                          - action:
+                            contents:
+                              - p: "_{Cast a spell with a range after this. The spell uses the familiar as its origin point.}"
+
+                  - section: "_{Improved Familiar}"
+                    contents:
+                      - selectable: "##:improved-familiar"
+                        contents:
+                          - p: "_{The number of abilities required to make your familiar a specific familiar is two lower than normal.}"
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+                  - section: "_{Mutable Familiar}"
+                    contents:
+                      - selectable: "##:mutable-familiar"
+                        contents:
+                          - paste: 10mins
+                            contents:
+                              - p: "_{Switch any of the following abilities for another on this list:}"
+                              - list:
+                                hr: true
+                                contents:
+                                  - each:
+                                    template:
+                                      - selectable: "##:mutable-familiar/#{id}"
+                                        contents:
+                                          - p: "#{name}"
+                                    contents:
+                                      - id: amphibious
+                                        name: "_{Amphibious}"
+                                      - id: burrower
+                                        name: "_{Burrower}"
+                                      - id: climber
+                                        name: "_{Climber}"
+                                      - id: darkvision
+                                        name: "_{Darkvision}"
+                                      - id: fast-movement
+                                        name: "_{Fast movement}"
+                                      - id: manual-dexterity 
+                                        name: "_{Manual dexterity}"
+                                      - id: resistance
+                                        name: "_{Resistance}"
+                                      - id: scent
+                                        name: "_{Scent}"
+
+                  - section: "_{Enhanced Familiar}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - selectable: feat/druid/enhanced-familiar
+                            contents:
+                              - paste: feat/druid/enhanced-familiar
+                              
+                          - selectable: "##:incredible-familiar"
+                            contents:
+                              - h5: "_{Incredible Familiar}"
+                              - p: "_{Can select 6 familiar or master abilities each day, instead of 4.}"
+
+                  - tail:
+                  - spacer:

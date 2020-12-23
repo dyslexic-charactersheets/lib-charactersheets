@@ -17,7 +17,7 @@ inc:
         flex: true
         half: true
         contents:
-          - layout: 2l
+          - layout: 2e
             contents:
               - g:
                 contents:
@@ -32,18 +32,63 @@ inc:
 
                   - section: "_{Dedication}"
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
-                        icon: proficiency-trained
+                      - value-block: "+1"
+                        content: "_{Earn income when the task is above your level.}"
                       - hr:
-
-                  - section: "_{Contortionist}"
-                    contents:
-                      - selectable: "##:contortionist"
+                      - action: reaction
                         contents:
-                          - ...
+                          - h5: "_{Upstage}"
+                          - p: "_{When an enemy makes a skill check and doesn't get a critical success, attempt the same check.}"
+                          - paste: save
+                            params:
+                              critical_success: "_{[b]+1[/b] to attacks, Perception, saving throws, and skill checks until the end of your next turn}"
+                              success: "_{The same, but only if the enemy failed their check.}"
+
+                  - section: "_{Never Tire}"
+                    contents:
+                      - selectable: "##:never-tire"
+                        contents:
+                          - action:
+                            contents:
+                              - p: "_{Continue to perform when you would become fatigued. Delay up to 1 minute, as long as you have an audience of at least 3.}"
 
                   - tail:
                   - spacer:
 
+
               - g:
                 contents:
+                
+                  - section: "_{Mesmerising Gaze}"
+                    contents:
+                      - selectable: "##:mesmerising-gaze"
+                        contents:
+                          - flags:
+                              - "_{Emotion}"
+                              - "_{Enchantment}"
+                              - "_{Mental}"
+                              - "_{Visual}"
+                          - action: 2
+                            contents:
+                              - p: "_{One target must succeed at a Will save or be fascinated until the end of your next turn; use your class DC or spell DC, whichever is higher.}"
+                          
+                  - section: "_{Command Attention}"
+                    contents:
+                      - selectable: "##:command-attention"
+                        contents:
+                          - flags:
+                              - "_{Auditory}"
+                              - "_{Emotion}"
+                              - "_{Enchantment}"
+                              - "_{Mental}"
+                              - "_{Visual}"
+                          - action:
+                            contents:
+                              - dl:
+                                  range: "_{30ft}"
+                              - p: "_{Until the end of your next turn, anyone within the area who makes a saving throw against a visual effect has a degree of success 1 step better.}"
+                          - p: "_{An enemy within the area attempting to use a visual effect that involves focusing its attention on a particular creature must succeed at a Will save against your class DC or spell DC in order to target any creature except you.}"
+                          - p: "_{Allies in the area can attempt to Hide even if they don't have cover, as you are continually providing a distraction.}"
+
+                  - tail:
+                  - spacer:

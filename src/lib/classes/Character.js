@@ -80,6 +80,7 @@ function parseCharacter(primary, request) {
     skillActions: attr.skillActions,
     miniSize: attr.miniSize,
 
+    browserTarget: attr.browserTarget,
     printLarge: attr.printLarge,
     printHighContrast: attr.printHighContrast,
     printDyslexic: attr.printDyslexic,
@@ -364,6 +365,12 @@ export class Character extends Instance {
                 document.backgroundURL = dataURL;
               });
             }
+          }
+
+          // set target
+          if (has(data, "browserTarget") && data.browserTarget) {
+            document.browserTarget = data.browserTarget;
+            log("Character", "Browser target", data.browserTarget);
           }
 
           // TODO set character parameters
