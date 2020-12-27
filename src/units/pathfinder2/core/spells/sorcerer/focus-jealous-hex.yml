@@ -1,0 +1,52 @@
+unit: focus/sorcerer/jealous-hex
+name: "_{Jealous Hex}"
+group: "_{Core Rulebook}"
+
+inc:
+  - copy: focus/sorcerer/jealous-hex
+    contents:
+      - article: focus/sorcerer/jealous-hex
+        title: "_{Jealous Hex}"
+        cat: "_{Focus} 1"
+        contents:
+          - action: 1
+            contents:
+              - dl:
+                defs:
+                  range: "_{30ft}"
+                  target: "_{1 creature}"
+                  duration: "_{1 minute}"
+          - p: "_{Target must make a will save.}"
+          - paste: save
+            params:
+              save: "_{WILL}"
+              success: "_{No effect}"
+              failure: "_{Penalty} -1"
+              critical_failure: "_{Penalty} -2"
+          - hr:
+            light: true
+          - p: "_{Penalty to the target's highest ability score. Target may attempt a save to end every turn.}"
+          - layout: 6e
+            gutter: none
+            contents:
+              - repeat:
+                rows:
+                  - ability: "_{STR}"
+                    effect: "_{enfeebled}"
+                  - ability: "_{DEX}"
+                    effect: "_{clumsy}"
+                  - ability: "_{CON}"
+                    effect: "_{drained}"
+                  - ability: "_{INT}"
+                    effect: "_{stupefied}"
+                  - ability: "_{WIS}"
+                    effect: "_{stupefied}"
+                  - ability: "_{CHA}"
+                    effect: "_{stupefied}"
+                contents:
+                  - g:
+                    contents:
+                      - h5: "#{ability}"
+                        align: center
+                      - label: "#{effect}"
+                        align: center

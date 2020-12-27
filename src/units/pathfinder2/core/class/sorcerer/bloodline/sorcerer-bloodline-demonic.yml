@@ -3,6 +3,11 @@ in: sorcerer/bloodline
 group: "_{Core Rulebook}"
 name: "_{Demonic}"
 
+require:
+  - unit: focus/sorcerer/gluttons-jaws
+  - unit: focus/sorcerer/swamp-of-sloth
+  - unit: focus/sorcerer/abyssal-wrath
+
 inc:
   - set: intimidation-proficiency
     value: trained
@@ -63,111 +68,15 @@ inc:
 
   - at: '@sorcerer/spellbook/bloodline-spell/initial'
     replace:
-      - article:
-        title: "_{Glutton's Jaws}"
-        cat: "_{Focus} 1"
-        contents:
-          - action: 1
-            contents:
-              - dl:
-                defs:
-                  duration: "_{1 minute}"
-              - p: "_{Jaws deal damage and grant temporary hit points.}"
-          - field:
-            control: value
-            value: "_{1d8}"
-            frame: right
-            label: "_{Piercing damage}"
-          - calc:
-            output:
-              label: "_{Temporary\nHit Points}"
-            inputs:
-              - span: "("
-              - label: "_{Focus Level}"
-              - span: "&divide; 2 )"
-              - span: "&times; d6"
+      - paste: focus/sorcerer/gluttons-jaws
 
   - at: '@sorcerer/spellbook/bloodline-spell/advanced'
     replace:
-      - article:
-        title: "_{Swamp of Sloth}"
-        cat: "_{Focus} 3"
-        contents:
-          - action: 1
-            contents:
-              - dl:
-                defs:
-                  duration: "_{1 minute}"
-                  range: "_{120ft}"
-              - p: "_{Ground in the area turns a fetid swamp filled with sludge beasts that deal acid damage to anyone ending their turn in the area.}"
-          - calc:
-            output:
-              label: "_{Burst\nRadius}"
-            inputs:
-              - span: "("
-              - label: "_{Focus Level}"
-              - span: "&divide; 2 +"
-              - icon: action2nd
-              - span: ") &times; 5ft"
-          - hr:
-            light: true
-          - calc:
-            output:
-              label: "_{Acid\nDamage}"
-            inputs:
-              - span: "("
-              - label: "_{Focus Level}"
-              - span: "&divide; 2 )"
-              - span: "&times; d6"
-          - paste: basic-save
-            params:
-              save: "_{FORT}"
+      - paste: focus/sorcerer/swamp-of-sloth
 
   - at: '@sorcerer/spellbook/bloodline-spell/greater'
     replace:
-      - article:
-        title: "_{Abyssal Wrath}"
-        cat: "_{Focus} 5"
-        contents:
-          - action: 2
-            contents:
-              - dl:
-                defs:
-                  area: "_{60ft cone}"
-              - p: "_{Attack with the energy of an abyssal realm.}"
-          - table:
-            collapse: true
-            columns:
-              - "_{1d4}"
-              - "_{Realm}"
-              - "_{Damage types}"
-            rows:
-              - i: 1
-                realm: "_{Skies}"
-                damage: "_{Bludgeoning, electricity}"
-              - i: 2
-                realm: "_{Depths}"
-                damage: "_{Slashing, acid}"
-              - i: 3
-                realm: "_{Frozen}"
-                damage: "_{Bludgeoning, cold}"
-              - i: 4
-                realm: "_{Volcanic}"
-                damage: "_{Piercing, fire}"
-            template:
-              - h6: "#{i}"
-              - h6: "#{realm}"
-              - h6: "#{damage}"
-          - hr:
-            light: true
-          - calc:
-            output:
-              label: "_{Damage}"
-            inputs:
-              - span: "("
-              - label: "_{Focus Level}"
-              - span: "+ 3"
-              - span: ") &times; d6"
+      - paste: focus/sorcerer/abyssal-wrath
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:

@@ -4,21 +4,144 @@ name: "_{Feats}"
 
 inc:
   - copy: archetype-basic-alchemy
-    params:
-      advanced: "_{Advanced Alchemy}"
     contents:
       - section: "_{Alchemy}"
         contents:
           - list:
             hr: true
             contents:
-              - item:
+              - zone: '@archetype-basic-alchemy/before'
 
               - g:
                 contents:
-                  - h5: "_{Basic Alchemy}"
+                  - row:
+                    contents:
+                      - calc:
+                        output:
+                          field: archetype-infused-reagents-per-day
+                          legend: "_{Infused Reagents\nPer Day}"
+                          width: large
+                        inputs:
+                          - field:
+                            ref: level
+                            label: "_{Level}"
 
-              - selectable: "advanced-alchemy"
+                      - spacer:
+                      - field: archetype-infused-reagents-today
+                        label: "_{Today}"
+                        temp: true
+                        border: full
+                        width: huge
+
+                  - zone: '@archetype-basic-alchemy/reagents-per-day'
+
+                  # - paste: class-dc
+                  #   params:
+                  #     id: alchemist-class-dc
+                  #     legend: "_{Alchemist\nClass DC}"
+
+                  - row:
+                    contents:
+                      - calc:
+                        output:
+                          field: archetype-attack-#{i}-bonus
+                          legend: "_{Throw Bomb}"
+                          width: large
+                          attack: true
+                          icon: bonus
+                        inputs:
+                          - field:
+                            ref: DEX
+                            label: "_{DEX}"
+                            underlay: "_{DEX}"
+                          - span: "+"
+                          - field: archetype-attack-#{i}-proficiency
+                            control: proficiency
+                            label: "_{Proficiency}"
+                      - spacer:
+                      - field:
+                        legend: "_{Splash}"
+                        # border: full
+                        control: value
+                        value: "_{5ft}"
+                  - p: "_{Splash weapons don't add strength bonus to damage.}"
+                    optional: true
+
+              - g:
                 contents:
-                  - h5: "#{advanced}"
+                  - field: ""
+                    label: "_{Formulas}"
+                    repeat: 4
+                    width: stretch
+                    merge-bottom: true
 
+            
+      - section: "_{Advanced Alchemy}"
+        flex: tiny
+        contents:
+          - row:
+            contents:
+              - g:
+                contents:
+                  - p: "_{Prepare alchemical items each day.}"
+                    optional: true
+                  - spacer:
+                  - h5: "_{Today's Items}"
+              - spacer:
+              - level-marker:
+                level: 1
+                marker: "_{Infused\nReagents}"
+              - span: "&rarr;"
+              - level-marker:
+                level: 2
+                marker: "_{Alchemical\nItems}"
+
+          - hr:
+            blk: false
+
+          - list:
+            zebra: true
+            merge-bottom: true
+            avoid-shade: true
+            contents:
+              - repeat: 5
+                reduce: 3
+                contents:
+                  - row:
+                    contents:
+                      - field: alchemist-advanced-alchemy-infusion-#{i}
+                        width: stretch
+                        frame: none
+                      - field: alchemist-advanced-alchemy-infusion-#{i}-count
+                        frame: none
+                        underlay: "#"
+                      - field: alchemist-advanced-alchemy-infusion-#{i}-used
+                        frame: none
+                        control: checkgrid
+                        depth: 2
+                        max: 8
+                        
+          - hr:
+            blk: false
+
+          - p: "_{Considered level 1 for advanced alchemy.}"
+
+      - section: "_{Quick Alchemy}"
+        contents:
+          - list:
+            hr: true
+            contents:
+              - action:
+                contents:
+                  - row:
+                    contents:
+                      - level-marker:
+                        level: 1
+                        marker: "_{Infused\nReagents}"
+                      - span: "&rarr;"
+                      - level-marker:
+                        level: 1
+                        marker: "_{Alchemical\nItems}"
+                  - p: "_{Swiftly mix up an infusion using a formula in your book, without spending the normal cost.}"
+                  - p: "_{These last only one round.}"
+                    optional: true

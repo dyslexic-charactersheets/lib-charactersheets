@@ -3,6 +3,11 @@ in: sorcerer/bloodline
 group: "_{Core Rulebook}"
 name: "_{Angelic}"
 
+require:
+  - unit: focus/sorcerer/angelic-halo
+  - unit: focus/sorcerer/angelic-wings
+  - unit: focus/sorcerer/celestial-brand
+
 inc:
   - set: diplomacy-proficiency
     value: trained
@@ -63,67 +68,15 @@ inc:
 
   - at: '@sorcerer/spellbook/bloodline-spell/initial'
     replace:
-      - article:
-        title: "_{Angelic Halo}"
-        cat: "_{Focus} 1"
-        contents:
-          - action: 1
-            contents:
-              - dl:
-                defs:
-                  duration: "_{1 minute}"
-                  area: "_{15ft}"
-              - p: "_{Gain a halo with that grants a bonus to healing}"
-          - calc:
-            output:
-              label: "_{Healing\nBonus}"
-            inputs:
-              - label: "_{Focus Level}"
-              - span: "&times; 2"
+      - paste: focus/sorcerer/angelic-halo
 
   - at: '@sorcerer/spellbook/bloodline-spell/advanced'
     replace:
-      - article:
-        title: "_{Angelic Wings}"
-        cat: "_{Focus} 3"
-        contents:
-          - list:
-            hr: true
-            contents:
-              - action: 2
-                contents:
-                  - dl:
-                    defs:
-                      duration: "_{3 rounds}"
-                  - p: "_{Wings let you fly at your usual speed, and cast bright light.}"
-              - level: 5
-                marker: "_{Focus Level}"
-                contents:
-                  - dl:
-                    defs:
-                      duration: "_{1 minute}"
+      - paste: focus/sorcerer/angelic-wings
 
   - at: '@sorcerer/spellbook/bloodline-spell/greater'
     replace:
-      - article:
-        title: "_{Celestial Brand}"
-        cat: "_{Focus} 5"
-        contents:
-          - action: 1
-            contents:
-              - p: "_{A symbol appears on one target.}"
-          - p: "_{You and allies gain a bonus to attacks, saves and damage against the target.}"
-          - calc:
-            output:
-              label: "_{Brand\nBonus}"
-            inputs:
-              - label: "_{Focus Level}"
-              - span: "&divide; 2"
-          - field:
-            control: value
-            value: "+_{1d4}"
-            frame: right
-            label: "_{Damage Bonus}"
+      - paste: focus/sorcerer/celestial-brand
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:

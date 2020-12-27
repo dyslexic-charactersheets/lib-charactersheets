@@ -3,6 +3,11 @@ in: sorcerer/bloodline
 group: "_{Core Rulebook}"
 name: "_{Hag}"
 
+require:
+  - unit: focus/sorcerer/jealous-hex
+  - unit: focus/sorcerer/horrific-visage
+  - unit: focus/sorcerer/youre-mine
+
 inc:
   - set: deception-proficiency
     value: trained
@@ -62,119 +67,15 @@ inc:
 
   - at: '@sorcerer/spellbook/bloodline-spell/initial'
     replace:
-      - article:
-        title: "_{Jealous Hex}"
-        cat: "_{Focus} 1"
-        contents:
-          - action: 1
-            contents:
-              - dl:
-                defs:
-                  range: "_{30ft}"
-                  target: "_{1 creature}"
-                  duration: "_{1 minute}"
-          - p: "_{Target must make a will save.}"
-          - paste: save
-            params:
-              save: "_{WILL}"
-              success: "_{No effect}"
-              failure: "_{Penalty} -1"
-              critical_failure: "_{Penalty} -2"
-          - hr:
-            light: true
-          - p: "_{Penalty to the target's highest ability score. Target may attempt a save to end every turn.}"
-          - layout: 6e
-            gutter: none
-            contents:
-              - repeat:
-                rows:
-                  - ability: "_{STR}"
-                    effect: "_{enfeebled}"
-                  - ability: "_{DEX}"
-                    effect: "_{clumsy}"
-                  - ability: "_{CON}"
-                    effect: "_{drained}"
-                  - ability: "_{INT}"
-                    effect: "_{stupefied}"
-                  - ability: "_{WIS}"
-                    effect: "_{stupefied}"
-                  - ability: "_{CHA}"
-                    effect: "_{stupefied}"
-                contents:
-                  - g:
-                    contents:
-                      - h5: "#{ability}"
-                        align: center
-                      - label: "#{effect}"
-                        align: center
+      - paste: focus/sorcerer/jealous-hex
 
   - at: '@sorcerer/spellbook/bloodline-spell/advanced'
     replace:
-      - article:
-        title: "_{Horrific Visage}"
-        cat: "_{Focus} 3"
-        contents:
-          - list:
-            hr: true
-            light: true
-            contents:
-              - g:
-                contents:
-                  - action: 2
-                    contents:
-                      - dl:
-                        defs:
-                          area: "_{30ft radius}"
-                  - p: "_{Transform into a horrific hag. Targets must make a will save.}"
-                  - paste: save
-                    params:
-                      failure: "_{Frightened} 1"
-                      critical_failure: "_{Frightened} 2"
-              - level: 5
-                marker: "_{Focus Level}"
-                contents:
-                  - paste: save
-                    params:
-                      success: "_{Frightened} 1"
-                      failure: "_{Frightened} 2"
-                      critical_failure: "_{Frightened} 3"
+      - paste: focus/sorcerer/horrific-visage
 
   - at: '@sorcerer/spellbook/bloodline-spell/greater'
     replace:
-      - article:
-        title: "_{You're Mine}"
-        cat: "_{Focus} 5"
-        contents:
-          - list:
-            hr: true
-            light: true
-            contents:
-              - g:
-                contents:
-                  - action: 2
-                    contents:
-                      - dl:
-                        defs:
-                          range: "_{30ft}"
-                          target: "_{1 creature}"
-                          duration: "_{1 round}"
-                  - p: "_{Manipulate a target's emotions. They must make a will save.}"
-                  - paste: save
-                    params:
-                      save: "_{Will}"
-                      success: "_{Stunned 1}"
-                      failure: "_{Stunned 1, and must take one action of your choice}"
-                      critical_failure: "_{Target is controlled for 1 round}"
-              - g:
-                contents:
-                  - level: 7
-                    marker: "_{Focus Level}"
-                    contents:
-                      - paste: save
-                        params:
-                          success: "_{Stunned 1}"
-                          failure: "_{Target is controlled for 1 round}"
-                          critical_failure: "_{Target is controlled for up to 1 minute (may attempt a save every turn)}"
+      - paste: focus/sorcerer/youre-mine
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:

@@ -3,6 +3,15 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Horizon Walker}"
 
+require:
+  - unit: feat/ranger/favored-terrain
+  - unit: feat/fighter/blind-fight
+  - unit: feat/ranger/terrain-master
+  - unit: feat/ranger/wardens-step
+  - unit: spell/darkvision
+  - unit: spell/spider-climb
+  - unit: spell/water-breathing
+
 inc:
   - at: '@archetypes'
     add:
@@ -15,7 +24,6 @@ inc:
         name: "_{Horizon Walker}"
         order: 26
         flex: true
-        half: true
         contents:
           - layout: 2l
             contents:
@@ -33,18 +41,108 @@ inc:
                   - section: "_{Dedication}"
                     primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
-                        icon: proficiency-trained
-                      - hr:
+                      - value-block: "+_{10ft}"
+                        width: large
+                        content: "_{Speed when in your favored terrain.}"
+                      - p: "_{Allies following you in your favored terrain can ignore speed penalties from non-magical difficult terrain.}"
 
-                  - section: "_{Contortionist}"
+                  - section: "_{Feats}"
                     contents:
-                      - selectable: "##:contortionist"
+                      - list:
+                        hr: true
+                        zebra: true
                         contents:
-                          - ...
+                          - paste: feat/ranger/favored-terrain
+
+                          - selectable: feat/ranger/terrain-master
+                            contents:
+                              - paste: feat/ranger/terrain-master
+
+                          - selectable: feat/fighter/blind-fight
+                            contents:
+                              - paste: feat/fighter/blind-fight
+
+                          - selectable: feat/ranger/wardens-step
+                            contents:
+                              - paste: feat/ranger/wardens-step
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+
+                  - section: "_{Acclimatisation}"
+                    contents:
+                      - selectable: "##:acclimatisation"
+                        contents:
+                          - calc:
+                            output:
+                              field: "##:acclimatisation/resistance"
+                              legend: "_{Resitance}"
+                              width: large
+                              border: full
+                            inputs:
+                              - field:
+                                ref: level
+                                label: "_{Level}"
+                              - span: "&divide; 2"
+                          - p: "_{To temperature when in your favored terrain.}"
+                          - p: "_{Treat temperature effects as one step less severe}"
+                          - hr:
+                            light: true
+                          - p: "_{Allies following you in your favored terrain treat temperature effects as one step less severe.}"
+                          
+                  - section: "_{Sure Foot}"
+                    contents:
+                      - selectable: "##:sure-foot"
+                        contents:
+                          - value-block: "+2"
+                            content: "_{Skill checks to move within your favored terrain}"
+                          
+                  - section: "_{Perpetual Scout}"
+                    contents:
+                      - selectable: "##:perpetual-scout"
+                        contents:
+                          - value-block: "+1"
+                            content: "_{Initiative for you and allies in favored terrain, as if Scouting even if performing another activity}"
+                          - hr:
+                            light: true
+                          - p: "_{If legendary in Survival, get this benefit in any terrrain}"
+
+                  - section: "_{Magical Adaptation}"
+                    contents:
+                      - selectable: "##:magical-adaptation"
+                        contents:
+                          - p: "_{Can cast once per day:}"
+                          - list:
+                            hr: true
+                            zebra: true
+                            contents:
+                              - layout: indent-r
+                                contents:
+                                  - paste: spell/darkvision
+                                  - field: "##:magical-adaptation/darkvision/today"
+                                    label: "_{Today}"
+                                    control: checkbox
+                              - layout: indent-r
+                                contents:
+                                  - paste: spell/spider-climb
+                                  - field: "##:magical-adaptation/spider-climb/today"
+                                    label: "_{Today}"
+                                    control: checkbox
+                              - layout: indent-r
+                                contents:
+                                  - paste: spell/water-breathing
+                                  - field: "##:magical-adaptation/water-breathing/today"
+                                    label: "_{Today}"
+                                    control: checkbox
+
+                  - section: "_{Wild Strider}"
+                    contents:
+                      - selectable: "##:wild-strider"
+                        contents:
+                          - p: "_{Ignore non-magical difficult terrain.}"
+
+                  - tail:
+                  - spacer:

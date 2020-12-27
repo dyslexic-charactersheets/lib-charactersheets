@@ -4,7 +4,7 @@ const _ = require('lodash');
 
 var entries = {};
 
-const transRegex = /_\{([^{}]*?(\{.*\}[^{}]*?)*?)\}/g;
+const transRegex = /_\{([^{}]*?(\{[^{}]*\}[^{}]*?)*?)\}/gs;
 const commentRegex = /#\. (.*)$/g;
 
 const presets = [
@@ -61,10 +61,18 @@ function pushEntry(system, message, context, reference, comment, meta) {
 function scanString(data, source, system, meta) {
   var prevComment = '';
 
+  // log("i18n", "Scanning unit", source);
   var linenum = 0;
+  var lineIndex = 0;
+  var lineNumbers = {};
   data.split('\n').forEach(line => {
     linenum++;
 
+    // store the line numbers for later
+    lineNumbers[linenum] = lineIndex;
+    lineIndex += line.length + 1;
+
+    // match strings in the line
     var match;
     var context = '';
     while ((match = transRegex.exec(line)) !== null) {
@@ -86,6 +94,32 @@ function scanString(data, source, system, meta) {
       prevComment = "";
     }
   });
+
+  var maxLineNum = linenum;
+
+  function index2lineNumber(index) {
+    // log("i18n", "Looking for index", index);
+    // log("i18n", "  in line numbers", lineNumbers);
+    for (var i = 1; i < maxLineNum; i++) {
+      // log("i18n", "  checking", i, ":", lineNumbers[i]);
+      if (index <= lineNumbers[i])
+        return i - 1;
+    }
+    return '-';
+  }
+  // Now find any multi-line strings
+  while ((match = transRegex.exec(data)) !== null) {
+    var message = match[1];
+    if (message.match(/\n/)) {
+      message = message.replace(/\n+/, ' ').replace(/\s+/g, ' ');
+      var index = match.index;
+      var linenum = index2lineNumber(index);
+
+      // log("i18n", `Match "${message}" at index ${index} / line number ${linenum}.`);
+      var context = '';
+      pushEntry(system, message, context, source+":"+linenum, prevComment, meta);
+    }
+  }
 }
 
 /*
@@ -104,20 +138,40 @@ function scanUnit(unit, source, system, meta) {
 
   function scanElement(elem) {
     let type = getElementType(elem);
+    log("i18n", "Scan elem", type);
     switch (type) {
+      case 'p':
+        log("i18n", "Scan para", elem.content);
+        break;
     }
-    ["contents", "template"].forEach(key => {
-      if (_.isArray(elem, key)) {
+
+    // strings
+    ["content", "title", "label", "legend"].forEach(key => {
+      if (_.has(elem, key) && _.isString(elem[key]) && elem[key] != "" ) {
+        log("i18n", `${unit.unit}: ${type}.${key} = "${elem[key]}"`);
 
       }
-    })
+    });
+
+    // recurse
+    ["contents", "template", "add", "replace"].forEach(key => {
+      if (_.has(elem, key) && _.isArray(elem[key])) {
+        elem[key].forEach(subelem => {
+          scanElement(subelem);
+        })
+      }
+    });
   }
 
-  unit.inc.forEach(elem => {
-    scanElement(elem);
-  });
+  log("i18n", "Scan unit", unit.unit);
+  if (_.has(unit, "inc")) {
+    unit.inc.forEach(elem => {
+      scanElement(elem);
+    });
+  }
 }
 */
+
 
 // OUTPUT
 
@@ -269,5 +323,6 @@ msgstr ${embedPoString(headers)}
 
 module.exports = {
   scan: scanString,
+  // scanUnit: scanUnit,
   writePot: writePot
 }

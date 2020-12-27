@@ -1,0 +1,40 @@
+unit: focus/sorcerer/swamp-of-sloth
+name: "_{Swamp of Sloth}"
+group: "_{Core Rulebook}"
+
+inc:
+  - copy: focus/sorcerer/swamp-of-sloth
+    contents:
+      - article: focus/sorcerer/swamp-of-sloth
+        title: "_{Swamp of Sloth}"
+        cat: "_{Focus} 3"
+        contents:
+          - action: 1
+            contents:
+              - dl:
+                defs:
+                  duration: "_{1 minute}"
+                  range: "_{120ft}"
+              - p: "_{Ground in the area turns a fetid swamp filled with sludge beasts that deal acid damage to anyone ending their turn in the area.}"
+          - calc:
+            output:
+              label: "_{Burst\nRadius}"
+            inputs:
+              - span: "("
+              - label: "_{Focus Level}"
+              - span: "&divide; 2 +"
+              - icon: action2nd
+              - span: ") &times; 5ft"
+          - hr:
+            light: true
+          - calc:
+            output:
+              label: "_{Acid\nDamage}"
+            inputs:
+              - span: "("
+              - label: "_{Focus Level}"
+              - span: "&divide; 2 )"
+              - span: "&times; d6"
+          - paste: basic-save
+            params:
+              save: "_{FORT}"

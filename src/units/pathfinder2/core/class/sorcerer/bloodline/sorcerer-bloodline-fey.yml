@@ -3,6 +3,11 @@ in: sorcerer/bloodline
 group: "_{Core Rulebook}"
 name: "_{Fey}"
 
+require:
+  - unit: focus/sorcerer/faerie-dust
+  - unit: focus/sorcerer/fey-disappearance
+  - unit: focus/sorcerer/fey-glamour
+
 inc:
   - set: deception-proficiency
     value: trained
@@ -63,94 +68,15 @@ inc:
 
   - at: '@sorcerer/spellbook/bloodline-spell/initial'
     replace:
-      - article:
-        title: "_{Faerie Dust}"
-        cat: "_{Focus} 1"
-        contents:
-          - action: 1
-            contents:
-              - dl:
-                defs:
-                  range: "_{30ft}"
-              - p: "_{Sprinkle dust. Targets in the area are easier to trick.}"
-          - calc:
-            inline: true
-            output:
-              label: "_{Dust\nRange}"
-            inputs:
-              - span: "("
-              - label: "_{Focus Level}"
-              - span: "&divide; 3"
-              - span: ") &times; 5ft"
-          - p: "_{Targets must make a will save:}"
-          - paste: save
-            params:
-              success: "_{No effect}"
-              failure: "_{No reactions; -2 Perception and Will saves for 1 round}"
-              critical_failure: "_{Also -1 Perception and Will saves for 1 minute}"
+      - paste: focus/sorcerer/faerie-dust
 
   - at: '@sorcerer/spellbook/bloodline-spell/advanced'
     replace:
-      - article:
-        title: "_{Fey Disappearance}"
-        cat: "_{Focus} 3"
-        contents:
-          - list:
-            # hr: true
-            contents:
-              - action: 1
-                contents:
-                  - dl:
-                    defs:
-                      duration: "_{Till the end of your next turn}"
-                  - p: "_{Become invisible and ignore difficult terrain.}"
-              - level: 5
-                marker: "_{Focus Level}"
-                contents:
-                  - p: "_{Invisibility doesn't end with a hostile action.}"
+      - paste: focus/sorcerer/fey-disappearance
 
   - at: '@sorcerer/spellbook/bloodline-spell/greater'
     replace:
-      - article:
-        title: "_{Fey Glamour}"
-        cat: "_{Focus} 5"
-        contents:
-          - list:
-            hr: true
-            light: true
-            contents:
-              - action: 2
-                contents:
-                  - dl:
-                    defs:
-                      range: "_{30ft}"
-                      duration: "_{10 minutes}"
-                  - p: "_{Create an illusory scene or disguise creatures.}"
-              - g:
-                contents:
-                  - p: "_{Form a scene with up to 10 separate creatures or objects, including sounds and smells.}"
-                  - level: 7
-                    marker: "_{Focus Level}"
-                    contents:
-                      - p: "_{Creatures in your scene can speak.}"
-                  - level: 9
-                    marker: "_{Focus Level}"
-                    contents:
-                      - dl:
-                        defs:
-                          duration: "_{Unlimited}"
-              - g:
-                contents:
-                  - p: "_{Disguise up to 10 targets as creatures of similar size and shape.}"
-                  - p: "_{Targets gain +4 to Disguise checks, and add level even if untrained.}"
-                  - level: 6
-                    marker: "_{Focus Level}"
-                    contents:
-                      - p: "_{Also disguise target's voice and scent.}"
-                  - level: 8
-                    marker: "_{Focus Level}"
-                    contents:
-                      - p: "_{Targets can appear as any creature the same size, even specific individuals you've seen.}"
+      - paste: focus/sorcerer/fey-glamour
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:

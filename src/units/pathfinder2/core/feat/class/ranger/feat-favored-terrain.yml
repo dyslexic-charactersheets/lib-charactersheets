@@ -1,0 +1,96 @@
+unit: feat/ranger/favored-terrain
+in: feat/ranger
+group: "_{Core Rulebook}"
+name: "_{Favored Terrain}"
+
+inc:
+  - copy: feat/ranger/favored-terrain
+    contents:
+      - article:
+        title: "_{Favored Terrain}"
+        cat: "_{Feat}"
+        contents:
+          - list:
+            # zebra: true
+            # avoid-shade: true
+            contents:
+              - row:
+                contents:
+                  - field: "##:terrain"
+                    control: radio
+                    value: aquatic
+                    frame: none
+                  - p: "_{[b]Aquatic[/b]: Gain a swim speed, or +10}"
+                  - spacer:
+                  - field: "##:terrain/swim-speed"
+                    control: speed
+                    label: "_{Swim Speed}"
+                    width: huge
+              - field: "##:terrain"
+                control: radio
+                value: aquatic
+                frame: right
+                label: "_{[b]Arctic[/b]: Need to eat and drink only one-tenth as much as usual; aren’t affected by extreme cold; can walk across ice and snow at full Speed without needing to Balance.}"
+              - row:
+                contents:
+                  - field: "##:terrain"
+                    control: radio
+                    value: forest-mountain-underground
+                    frame: none
+                  - p: "_{[b]Forest, Mountain, or Underground[/b]: Gain a climb speed, or +10}"
+                  - spacer:
+                  - field: "##:terrain/climb-speed"
+                    control: speed
+                    label: "_{Swim Speed}"
+                    width: huge
+              - row:
+                contents:
+                  - field: "##:terrain"
+                    control: radio
+                    value: plains
+                    frame: none
+                  - p: "_{[b]Plains[/b]: +10 speed}"
+                  - spacer:
+                  - field: "##:terrain/speed"
+                    control: speed
+                    label: "_{Speed}"
+                    width: huge
+              - row:
+                contents:
+                  - field: "##:terrain"
+                    control: radio
+                    value: plains
+                    frame: none
+                  - p: "_{[b]Sky[/b]: +10 fly speed}"
+                  - spacer:
+                  - field: "##:terrain/fly-speed"
+                    control: speed
+                    label: "_{Fly Speed}"
+                    width: huge
+              - field: "##:terrain"
+                control: radio
+                value: aquatic
+                frame: right
+                label: "_{[b]Swamp[/b]: Can move across bogs at full Speed, even if they are deep enough to be greater difficult terrain or to normally require you to Swim.}"
+
+
+  - at: '@ranger/left'
+    add:
+      - section: "_{Favored Terrain}"
+        contents:
+          - paste: feat/ranger/favored-terrain
+          # - field: ranger-favored-terrain
+          #   label: "_{Terrain}"
+          #   width: "stretch"
+          # - row:
+          #   contents:
+          #     - field: ranger-favored-terrain-bonus
+          #       border: full
+          #       prefix: "+"
+          #       width: large
+          #       frame: none
+          #     - field: ranger-favored-terrain-details
+          #       width: stretch
+          #       frame: none
+
+

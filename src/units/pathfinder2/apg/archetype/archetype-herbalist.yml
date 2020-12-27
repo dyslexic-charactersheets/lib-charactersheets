@@ -19,7 +19,6 @@ inc:
         name: "_{Herbalist}"
         order: 26
         flex: true
-        half: true
         contents:
           - layout: 2l
             contents:
@@ -37,17 +36,32 @@ inc:
                   - section: "_{Dedication}"
                     primary: true
                     contents:
-                      - p: "_{}"
+                      - p: "_{Expert in Nature. Can use Nature to craft herbal items, using healer's tools instead of alchemist's tools.}"
+                        icon: proficiency-expert
+
+                  - paste: archetype-basic-alchemy
+                    contents:
+                      - p: "_{Only applies to herbal items for healing, antidote and antiplague.}"
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
 
                   - section: "_{Natural Medicine}"
                     contents:
-                      - paste: feat/natural-medicine
-
-                      - selectable: "##:fresh-ingredients"
+                      - list:
+                        hr: true
                         contents:
-                          - p: "_{When you use Natural Medicine, spend a batch of herbs to gain the bonus even when not in the wilderness.}"
-                          - value-block: "+4"
-                            content: "_{To Treat Wounds using Nature in the wilderness when you spend a batch of herbs}"
+                          - paste: feat/natural-medicine
+
+                          - selectable: "##:fresh-ingredients"
+                            contents:
+                              - h5: "_{Fresh Ingredients}"
+                              - p: "_{When you use Natural Medicine, spend a batch of herbs to gain the bonus even when not in the wilderness.}"
+                              - value-block: "+4"
+                                content: "_{To Treat Wounds using Nature in the wilderness when you spend a batch of herbs}"
 
                   - section: "_{Poultice Preparation}"
                     contents:
@@ -57,24 +71,136 @@ inc:
                           - flags:
                               - "_{Oil}"
                               - "_{Alchemical}"
-                          - action: "_{Apply a poultice with one hand. The recipient can attempt a check to recover from persistent acid, bleed or fire damage.}"
+                          - action:
+                            contents:
+                              - p: "_{Apply a poultice with one hand. The recipient can attempt a check to recover from persistent acid, bleed or fire damage.}"
 
                   - section: "_{Endemic Herbs}"
                     contents:
                       - selectable: "##:endemic-herbs"
                         contents:
-                          - "_{}"
+                          - p: "_{During daily preparations, locate local herbs. Can spend an addition batch of herbs to add a benefit to an item you create.}"
 
-                  - tail:
-                  - spacer:
+                          - list:
+                            zebra: true
+                            light: true
+                            avoid-shade: true
+                            contents:
+                              - sort: value
+                                contents:
+                                  - field: "##:endemic-herbs"
+                                    control: radio
+                                    value: aquatic
+                                    frame: right
+                                    label: "_{[b]Aquatic[/b]: For 1 minute, +1 to Fortitude saves}"
+                                  - field: "##:endemic-herbs"
+                                    control: radio
+                                    value: arctic
+                                    frame: right
+                                    label: "_{[b]Arctic[/b]: For 1 hour, cold is 1 step less severe}"
+                                  - field: "##:endemic-herbs"
+                                    control: radio
+                                    value: desert
+                                    frame: right
+                                    label: "_{[b]Desert[/b]: For 1 hour, heat is 1 step less severe}"
+                                  - field: "##:endemic-herbs"
+                                    control: radio
+                                    value: forest
+                                    frame: right
+                                    label: "_{[b]Forest[/b]: For 1 minute, +2 to saves against disease and poison}"
+                                  - field: "##:endemic-herbs"
+                                    control: radio
+                                    value: mountain
+                                    frame: right
+                                    label: "_{[b]Mountain[/b]: For 1 minute, +1 to Reflex saves}"
+                                  - field: "##:endemic-herbs"
+                                    control: radio
+                                    value: plains
+                                    frame: right
+                                    label: "_{[b]Plains[/b]: For 1 minute, +1 to Will saves}"
+                                  - field: "##:endemic-herbs"
+                                    control: radio
+                                    value: swamp
+                                    frame: right
+                                    label: "_{[b]Swamp[/b]: Remove one source of bleed}"
+                                  - field: "##:endemic-herbs"
+                                    control: radio
+                                    value: underground
+                                    frame: right
+                                    label: "_{[b]Underground[/b]: For 1 minute, +1 to Perception}"
 
-              - g:
-                contents:
-                  - paste: archetype-basic-alchemy
-                    params:
-                      advanced: "_{Expert Herbalism}"
+                  - section: "_{Expert Herbalism}"
                     contents:
-                      - p: "_{Only applies to herbal items for healing, antidote and antiplague.}"
+                      - selectable: "##:expert-herbalism"
+                        contents:
+                          - list:
+                            hr: true
+                            contents:
+                              - g:
+                                contents:
+                                  - calc:
+                                    output:
+                                      field: expert-herbalism-level
+                                      legend: "_{Advanced Alchemy Level}"
+                                      width: large
+                                    inputs:
+                                      - field:
+                                        ref: level
+                                        label: "_{Level}"
+                                      - span: "- 3"
+                              - level: 8
+                                contents:
+                                  - p: "_{Gain the formula for lesser elixir of life}"
+                                  - layout: 2e
+                                    contents:
+                                      - value-block: "_{3d6+3}"
+                                        content: "_{Healing}"
+                                        width: huge
+                                      - value-block: "+1"
+                                        content: "_{Against diseases and poisons}"
+                              - level: 12
+                                contents:
+                                  - p: "_{Gain the formula for moderate elixir of life}"
+                                  - layout: 2e
+                                    contents:
+                                      - value-block: "_{5d6+12}"
+                                        content: "_{Healing}"
+                                        width: huge
+                                      - value-block: "+2"
+                                        content: "_{Against diseases and poisons}"
+                              - level: 16
+                                contents:
+                                  - p: "_{Gain the formula for greater elixir of life}"
+                                  - layout: 2e
+                                    contents:
+                                      - value-block: "_{7d6+18}"
+                                        content: "_{Healing}"
+                                        width: huge
+                                      - value-block: "+2"
+                                        content: "_{Against diseases and poisons}"
+                              - level: 18
+                                contents:
+                                  - p: "_{Gain the formula for major elixir of life}"
+                                  - layout: 2e
+                                    contents:
+                                      - value-block: "_{8d6+21}"
+                                        content: "_{Healing}"
+                                        width: huge
+                                      - value-block: "+3"
+                                        content: "_{Against diseases and poisons}"
+
 
                   - tail:
                   - spacer:
+
+  - at: '@archetype-basic-alchemy/before'
+    add:
+      - g:
+        contents:
+          - p: "_{Only applies to herbal items for healing, antidote and antiplague.}"
+
+  - at: '@archetype-basic-alchemy/reagents-per-day'
+    add:
+      - g:
+        contents:
+          - p: "_{If you don't make your daily preparations in the wilderness, gain only half the reagents per day.}"

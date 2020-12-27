@@ -1,4 +1,5 @@
 import { isNull, isString, isArray, isObject, isEmpty } from '../util';
+import { log } from '../log';
 
 export function has(container, property) {
   if (isNull(container)) return false;

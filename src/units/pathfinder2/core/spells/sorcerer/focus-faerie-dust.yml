@@ -1,0 +1,32 @@
+unit: focus/sorcerer/faerie-dust
+name: "_{Faerie Dust}"
+group: "_{Core Rulebook}"
+
+inc:
+  - copy: focus/sorcerer/faerie-dust
+    contents:
+      - article: focus/sorcerer/faerie-dust
+        title: "_{Faerie Dust}"
+        cat: "_{Focus} 1"
+        contents:
+          - action: 1
+            contents:
+              - dl:
+                defs:
+                  range: "_{30ft}"
+              - p: "_{Sprinkle dust. Targets in the area are easier to trick.}"
+          - calc:
+            inline: true
+            output:
+              label: "_{Dust\nRange}"
+            inputs:
+              - span: "("
+              - label: "_{Focus Level}"
+              - span: "&divide; 3"
+              - span: ") &times; 5ft"
+          - p: "_{Targets must make a will save:}"
+          - paste: save
+            params:
+              success: "_{No effect}"
+              failure: "_{No reactions; -2 Perception and Will saves for 1 round}"
+              critical_failure: "_{Also -1 Perception and Will saves for 1 minute}"

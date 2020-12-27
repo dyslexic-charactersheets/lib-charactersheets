@@ -3,6 +3,11 @@ in: sorcerer/bloodline
 group: "_{Core Rulebook}"
 name: "_{Aberrant}"
 
+require:
+  - unit: focus/sorcerer/tentacular-limbs
+  - unit: focus/sorcerer/aberrant-whispers
+  - unit: focus/sorcerer/unusual-anatomy
+
 inc:
   - set: intimidation-proficiency
     value: trained
@@ -63,79 +68,15 @@ inc:
 
   - at: '@sorcerer/spellbook/bloodline-spell/initial'
     replace:
-      - article:
-        title: "_{Tentacular Limbs}"
-        cat: "_{Focus} 1"
-        contents:
-          - action: 1
-            contents:
-              - dl:
-                defs:
-                  duration: "_{1 minute}"
-              - p: "_{Tentacles can make touch spells and unarmed strikes.}"
-          - calc:
-            output:
-              label: "_{Tentacle\nReach}"
-            inputs:
-              - span: "("
-              - label: "_{Focus Level}"
-              - span: "&divide; 2"
-              - span: ") &times; 10ft"
+      - paste: focus/sorcerer/tentacular-limbs
 
   - at: '@sorcerer/spellbook/bloodline-spell/advanced'
     replace:
-      - article:
-        title: "_{Aberrant Whispers}"
-        cat: "_{Focus} 3"
-        contents:
-          - action: 1
-            contents:
-              - dl:
-                defs:
-                  duration: "_{1 round}"
-              - p: "_{You utter phrases in an unknown tongue, assaulting the minds of those nearby.}"
-          - calc:
-            output:
-              label: "_{Spell\nRange}"
-            inputs:
-              - span: "("
-              - label: "_{Focus Level}"
-              - span: "&divide; 3 +"
-              - icon: action2nd
-              - span: ") &times; 5ft"
-          - p: "_{Targets must make a will save:}"
-          - dl:
-            div: true
-            defs:
-              success: "_{No effect}"
-              failure: "_{Stupefied 2}"
-              critical_failure: "_{Confused}"
+      - paste: focus/sorcerer/aberrant-whispers
 
   - at: '@sorcerer/spellbook/bloodline-spell/greater'
     replace:
-      - article:
-        title: "_{Unusual Anatomy}"
-        cat: "_{Focus} 5"
-        contents:
-          - action: 1
-            contents:
-              - dl:
-                defs:
-                  duration: "_{1 minute}"
-              - p: "_{Transform your flesh into bizarre shapes.}"
-          - ul:
-            contents:
-              - li: "_{Resistance to precision and critical hit damage}"
-              - li: "_{Darkvision}"
-              - li: "_{2d6 return acid damage when hit in melee}"
-          - calc:
-            output:
-              label: "_{Damage\nResistance}"
-            inputs:
-              - span: "("
-              - label: "_{Focus Level}"
-              - span: "&divide; 2 + 1"
-              - span: ") &times; 5ft"
+      - paste: focus/sorcerer/unusual-anatomy
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:

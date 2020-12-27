@@ -3,6 +3,11 @@ in: sorcerer/bloodline
 group: "_{Core Rulebook}"
 name: "_{Diabolic}"
 
+require:
+  - unit: focus/sorcerer/diabolic-edict
+  - unit: focus/sorcerer/embrace-the-pit
+  - unit: focus/sorcerer/hellfire-plume
+
 inc:
   - set: deception-proficiency
     value: trained
@@ -63,111 +68,15 @@ inc:
 
   - at: '@sorcerer/spellbook/bloodline-spell/initial'
     replace:
-      - article:
-        title: "_{Diabolic Edict}"
-        cat: "_{Focus} 1"
-        contents:
-          - action: 1
-            contents:
-              - dl:
-                defs:
-                  range: "_{30ft}"
-                  duration: "_{1 round}"
-              - p: "_{Issue a diabolic edict to one target, demanding they perform a task and offering rewards for its fulfillment.}"
-          - ul:
-            contents:
-              - li: "_{If they agree to perform the task, they gain +1 to attack rolls and skill checks related to performing the task.}"
-              - li: "_{Otherwise, they take a -1 penalty to related attack rolls and skill checks.}"
+      - paste: focus/sorcerer/diabolic-edict
 
   - at: '@sorcerer/spellbook/bloodline-spell/advanced'
     replace:
-      - article:
-        title: "_{Embrace The Pit}"
-        cat: "_{Focus} 3"
-        contents:
-          - list:
-            hr: true
-            light: true
-            contents:
-              - action: 1
-                contents:
-                  - dl:
-                    defs:
-                      duration: "_{1 minute}"
-                  - p: "_{Devil horns grow from your skull, and your appearance takes on features of your diabolical bloodline.}"
-              - g:
-                contents:
-                  - p: "_{Resistance to evil, fire and poison:}"
-                  - calc:
-                    output:
-                      field: sorcerer/bloodline/diabolic/embrace-the-pit/resistance
-                      width: large
-                      legend: "_{Damage\nResistance}"
-                    inputs:
-                      - span: "("
-                      - field:
-                        ref: focus-level
-                        label: "_{Focus Level}"
-                      - span: "&divide; 2"
-                      - span: ") &times; 5"
-              - g:
-                contents:
-                  - p: "_{Resistance to physical damage (except silver):}"
-                  - calc:
-                    output:
-                      field: sorcerer/bloodline/diabolic/embrace-the-pit/resistance-physical
-                      width: large
-                      legend: "_{Damage\nResistance}"
-                    inputs:
-                      - span: "("
-                      - field:
-                        ref: focus-level
-                        label: "_{Focus Level}"
-                      - span: "&divide; 2"
-                      - span: ") &times; 2"
-              - g:
-                contents:
-                  - p: "_{Weakness to good damage:}"
-                  - calc:
-                    output:
-                      field: sorcerer/bloodline/diabolic/embrace-the-pit/weakness
-                      width: large
-                      legend: "_{Weakness\nto good}"
-                    inputs:
-                      - span: "("
-                      - field:
-                        ref: focus-level
-                        label: "_{Focus Level}"
-                      - span: "&divide; 2"
-                      - span: ") &times; 5"
+      - paste: focus/sorcerer/embrace-the-pit
 
   - at: '@sorcerer/spellbook/bloodline-spell/greater'
     replace:
-      - article:
-        title: "_{Hellfire Plume}"
-        cat: "_{Focus} 5"
-        contents:
-          - action: 2
-            contents:
-              - dl:
-                defs:
-                  range: "_{60ft}"
-                  area: "_{10ft radius, 60ft tall cylinder}"
-              - p: "_{A plume of hellfire erupts from below}"
-          - calc:
-            output:
-              field: sorcerer/bloodline/diabolic/hellfire-plume/damage
-              width: large
-              legend: "_{Damage}"
-              suffix: "_{d6}"
-            inputs:
-              - field:
-                ref: focus-level
-                label: "_{Focus Level}"
-              - span: "- 1"
-          - paste: basic-save
-            params:
-              save: "_{REF}"
+      - paste: focus/sorcerer/hellfire-plume
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:

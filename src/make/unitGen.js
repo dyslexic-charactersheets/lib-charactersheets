@@ -125,6 +125,7 @@ inc:
       - article: char-background
         title: "_{${name}}"
         lines: 3
+        reduce: 1
 
 `;
 

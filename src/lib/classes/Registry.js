@@ -1,5 +1,5 @@
 import { log, warn } from '../log';
-import { isString, isNull } from '../util';
+import { isString, isNull, isEmpty } from '../util';
 import { has } from '../util/objects';
 import { mergeBottom } from '../util/elements';
 
@@ -233,7 +233,14 @@ export class Registry {
       if (item['merge-bottom'])
         item = mergeBottom(item);
 
-      this.stack.push(item.type + ((item.id == null) ? '' : ":" + item.id) + ((item.title == null) ? '' : ':' + item.title));
+      let row = [item.type];
+      ["id", "title", "layout"].forEach(key => {
+        if (has(item, key) && isString(item[key]) && !isEmpty(item[key])) {
+          row.push(item[key]);
+        }
+      });
+      this.stack.push(row.join(":"));
+      // this.stack.push(item.type + ((item.id == null) ? '' : ":" + item.id) + ((item.title == null) ? '' : ':' + item.title));
       const output = reg.render(item, this, doc);
       this.stack.pop();
       return output;

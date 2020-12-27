@@ -56,25 +56,46 @@ inc:
   - at: '@skill-feats-section'
     replace:
       - list:
-        zebra: true
         hr: true
-        columns: 2
         contents:
-          - each:
-            template:
-              - level: "#{level}"
-                contents:
-                  - item: yes
+          - list:
+            zebra: true
+            hr: true
+            columns: 2
+            flex: large
             contents:
-              - slots: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
-                min: 1
-                max: 1
-                placeholder:
-                  article: 'skill-feat-#{level}'
-                  blk: false
-                  lines: 2
+              - each:
+                template:
+                  - level: "#{level}"
+                    contents:
+                      - item:
                 contents:
-                  - zone: '@skill-feats'
+                  - slots: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
+                    min: 1
+                    max: 1
+                    placeholder:
+                      article: 'skill-feat-#{level}'
+                      blk: false
+                      lines: 2
+                      reduce: 1
+                    contents:
+                      - zone: '@skill-feats'
+                      
+      - tail:
+          # - g:
+          #   contents:
+          #     - h5: "_{Notes}"
+          #     - layout: 2e
+          #       contents:
+          #         - repeat: 2
+          #           contents:
+          #             - field: skill-notes-#{i}
+          #               flex: small
+          #               width: stretch
+          #               frame: none
+          #               repeat: 6
+          #               reduce: 2
+          #               merge-bottom: true
 
   - at: '@language-section'
     replace:

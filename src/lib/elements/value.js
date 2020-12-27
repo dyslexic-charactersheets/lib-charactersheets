@@ -43,11 +43,24 @@ export let value_block = {
         contents: args.contents
       };
 
+    let type = 'layout';
     let layout = 'indent-l';
     switch (args.width) {
       case 'medium':
       case 'large':
         layout = 'indent-lw';
+        break;
+        
+      case 'huge':
+        return [{
+          type: 'row',
+          contents: [
+            value, contents, {
+              type: 'spacer'
+            }
+          ]
+        }];
+        break;
     }
 
     return [{

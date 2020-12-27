@@ -18,6 +18,8 @@ require:
   - unit: option/spellbook/custom
   - with: option/reference
     unit: class/bard/reference
+  - unit: cantrip/bard/inspire-courage
+  - unit: focus/bard/counter-performance
 
 inc:
 
@@ -68,29 +70,6 @@ inc:
           - p:
             title: "_{Earn Income (Performance)}"
             content: "_{GM sets the hidden DC of the check.}"
-
-  - at: '@focus-spells'
-    add:
-      - action: reaction
-        contents:
-          - p:
-            title: "_{Counter Performance}"
-            content: "_{Make a performance to counter an auditory or visual effect. You and allies within 30ft can take that check in place of a saving throw.}"
-
-  - at: '@actions'
-    add:
-      - action:
-        contents:
-          - row:
-            contents:
-              - p:
-                title: "_{Inspire Courage}"
-                content: "_{Bonus to attack, damage and saves against fear for allies within 60ft.}"
-              - field: bard-inspire-courage-bonus
-                label: "_{Bonus}"
-                control: value
-                width: small
-                value: "+1"
 
   - at: '@advancement'
     add:
@@ -161,20 +140,7 @@ inc:
                     contents:
                       - zone: '@bard/composition-cantrips'
                         contents:
-                          - article:
-                            title: "_{Inspire Courage}"
-                            cat: "_{Cantrip} 1"
-                            contents:
-                              - action:
-                                contents:
-                                  - dl:
-                                      area: "_{60ft emanation}"
-                                      duration: "_{1rd}"
-                                  - value-block: "+1"
-                                    content: "_{To attack, damage and saves against fear for allies.}"
-                              - paste: book-ref
-                                params:
-                                  page-ref: "_{CRB p386}"
+                          - paste: cantrip/bard/inspire-courage
                     placeholder:
                       paste: spellbook/spell
                       params:
@@ -193,18 +159,7 @@ inc:
                     contents:
                       - zone: '@bard/composition-spells'
                         contents:
-                          - article:
-                            title: "_{Counter Performance}"
-                            cat: "_{Focus} 1"
-                            contents:
-                              - action: reaction
-                                contents:
-                                  - dl:
-                                      range: "_{60ft}"
-                                  - p: "_{Roll a performance check to counter an auditory or visual effect. You and allies can take that result in place of a saving throw.}"
-                              - paste: book-ref
-                                params:
-                                  page-ref: "_{CRB p386}"
+                          - paste: focus/bard/counter-performance
                     placeholder:
                       paste: spellbook/spell
                       params:
