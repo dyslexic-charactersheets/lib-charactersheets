@@ -78,20 +78,29 @@ export let advancement = {
       let advances = [];
       let gains = [];
       let icons = [];
+      let iconItems = [];
 
       itemsByLevel[lv].forEach(item => {
         Object.assign(flags, item);
         if (has(item, "advance")) {
-          advances.push(item.advance);
-          has_labels = true;
+          if (has(item, "icon")) {
+            iconItems.push({
+              type: "p",
+              content: item.advance,
+              icon: item.icon
+            });
+          } else {
+            advances.push(item.advance);
+            has_labels = true;
+          }
         } else if (has(item, "gain")) {
           gains.push(item.gain);
           has_labels = true;
         }
-        if (has(item, "icon")) {
-          icons.push(item.icon);
-          has_icons = true;
-        }
+        // if (has(item, "icon")) {
+        //   icons.push(item.icon);
+        //   has_icons = true;
+        // }
       });
       delete flags.level;
       delete flags.label;
@@ -128,7 +137,7 @@ export let advancement = {
         icon: icons.join(","),
         item: {
           type: "g",
-          contents: items
+          contents: [...iconItems, ...items]
         }
       });
     }

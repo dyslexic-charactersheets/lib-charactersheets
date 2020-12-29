@@ -436,7 +436,7 @@ export class Document {
     if (this.backgroundURL) {
       cssParts.push(`.page__background{background-image:url('${this.backgroundURL}'); background-size: 100% 100%;}`);
     } else if (this.backgroundColour) {
-      cssParts.push(`.page__background{background: ${this.backgroundColour};}`);
+      cssParts.push(`.page__background{background: ${this.backgroundColour} !important;}`);
     }
 
     // custom extras
