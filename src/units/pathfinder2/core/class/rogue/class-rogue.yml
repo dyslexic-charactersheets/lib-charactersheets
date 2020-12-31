@@ -55,33 +55,70 @@ inc:
 
   - at: '@skill-feats-section'
     replace:
-      - list:
-        hr: true
+      - section: "_{Skill Feats}"
+        flex: large
         contents:
           - list:
             zebra: true
-            hr: true
             columns: 2
-            flex: large
+            flex: huge
+            hr: true
             contents:
               - each:
                 template:
                   - level: "#{level}"
                     contents:
-                      - item:
+                      - item: yes
                 contents:
                   - slots: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
                     min: 1
                     max: 1
                     placeholder:
                       article: 'skill-feat-#{level}'
-                      blk: false
-                      lines: 2
-                      reduce: 1
+                      lines: 3
                     contents:
                       - zone: '@skill-feats'
+
+      - section: "_{Notes}"
+        contents:
+          - layout: 2e
+            contents:
+              - repeat: 2
+                contents:
+                  - field: skill-notes-#{i}
+                    flex: small
+                    width: stretch
+                    frame: none
+                    repeat: 12
+                    reduce: 2
+                    merge-bottom: true
+      # - list:
+      #   hr: true
+      #   contents:
+      #     - list:
+      #       zebra: true
+      #       hr: true
+      #       columns: 2
+      #       flex: large
+      #       contents:
+      #         - each:
+      #           template:
+      #             - level: "#{level}"
+      #               contents:
+      #                 - item:
+      #           contents:
+      #             - slots: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
+      #               min: 1
+      #               max: 1
+      #               placeholder:
+      #                 article: 'skill-feat-#{level}'
+      #                 blk: false
+      #                 lines: 2
+      #                 reduce: 1
+      #               contents:
+      #                 - zone: '@skill-feats'
                       
-      - tail:
+      # - tail:
           # - g:
           #   contents:
           #     - h5: "_{Notes}"
@@ -128,6 +165,41 @@ inc:
         advance: "_{Master Tricks}"
       - level: 20
         advance: "_{Master Strike}"
+
+        # proficiencies
+      - level: 7
+        advance: "_{Reflex saves}"
+        proficiency: master
+      - level: 7
+        advance: "_{Perception}"
+        proficiency: master
+      - level: 9
+        advance: "_{Fortitude saves}"
+        proficiency: expert
+      - level: 11
+        advance: "_{Rogue class DC}"
+        proficiency: expert
+      - level: 13
+        advance: "_{Reflex saves}"
+        proficiency: legendary
+      - level: 13
+        advance: "_{Perception}"
+        proficiency: legendary
+      - level: 13
+        advance: "_{Light armour}"
+        proficiency: expert
+      - level: 13
+        advance: "_{Simple weapons, rapier, sap, shortbow and shortsword}"
+        proficiency: master
+      - level: 17
+        advance: "_{Will saves}"
+        proficiency: master
+      - level: 19
+        advance: "_{Light armour}"
+        proficiency: master
+      - level: 20
+        advance: "_{Rogue class DC}"
+        proficiency: master
 
   - at: '@advancement-fields'
     add:

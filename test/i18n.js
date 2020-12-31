@@ -56,10 +56,31 @@ function cloneDeep(original) {
   return original;
 }
 
+// Convert string case
+function splitAnyCase(str) {
+  if (!isString(str)) {
+    warn("util", "Not a string", str);
+    return [];
+  }
+  let words = str.split(/[ _/-]+/);
+  words = words.flatMap(word => word.split(/([A-Z][a-z]+)/));
+  words = words.map(word => word.toLowerCase());
+  words = words.filter(word => word != '');
+  return words;
+}
+
+function toCamelCase(str) {
+  // convertAStringToCamelCase
+  var words = splitAnyCase(str);
+  words = words.map(word => word.charAt(0).toUpperCase() + word.substr(1).toLowerCase());
+  words[0] = words[0].toLowerCase();
+  return words.join('');
+}
+
 // Character creation
 var systems = ["pathfinder2"];
-var languages = ["it", "es", "pl", "de", "fr", "pt", "pt-BR", "ru"];
-// var languages = ["it"];
+// var languages = ["it", "es", "pl", "de", "fr", "pt", "pt-BR", "ru"];
+var languages = ["fr"];
 
 systems.forEach(system => {
   languages.forEach(lang => {
@@ -137,29 +158,39 @@ systems.forEach(system => {
           }
 
           var char = {};
-          char[keySelect] = val.code;
+          char[keySelect] = val.id;
 
           var keyName = val.name.replace(/_\{(.*?)\}/g, '$1');
           makeCharacter(system, char, keyName);
           numTests++;
 
-          val.selects.forEach(subSelect => {
-            if (has(selects, subSelect)) {
-              var subsel = selects[subSelect];
+          if (has(val, "selects")) {
+            val.selects.forEach(subSelect => {
+              if (has(selects, subSelect)) {
+                var subsel = selects[subSelect];
 
-              subsel.values.forEach(subVal => {
-                // log("i18n", "Sub select", subSelect, subVal);
+                var subKey = toCamelCase(subSelect);
+                if (subSelect.match(/^heritage\//)) {
+                  subKey = "heritage";
+                } else if (keySelect == "class") {
+                  subKey = toCamelCase("class "+subSelect);
+                }
 
-                var char = {};
-                char[keySelect] = val.code;
-                char[subSelect] = subVal.code;
+                subsel.values.forEach(subVal => {
+                  // log("i18n", "Sub select", subSelect, subVal);
 
-                var subName = subVal.name.replace(/_\{(.*?)\}/g, '$1');
-                makeCharacter(system, char, `${keyName} - ${subName}`);
-                numTests++;
-              })
-            }
-          });
+                  var char = {};
+                  char[keySelect] = val.id;
+                  char[subKey] = subVal.id;
+
+                  var subName = subVal.name.replace(/_\{(.*?)\}/g, '$1');
+                  log("i18n", "Sub char", char);
+                  makeCharacter(system, char, `${keyName} - ${subName}`);
+                  numTests++;
+                });
+              }
+            });
+          }
         });
       }
     });

@@ -78,14 +78,23 @@ export let advancement = {
       let advances = [];
       let gains = [];
       let icons = [];
+      let proficiencyAdvances = {
+        trained: [],
+        expert: [],
+        master: [],
+        legendary: []
+      };
       let iconItems = [];
 
       itemsByLevel[lv].forEach(item => {
         Object.assign(flags, item);
         if (has(item, "advance")) {
-          if (has(item, "icon")) {
+          if (has(item, "proficiency")) {
+            proficiencyAdvances[item.proficiency].push(item.advance);
+          } else if (has(item, "icon")) {
             iconItems.push({
               type: "p",
+              blk: false,
               content: item.advance,
               icon: item.icon
             });
@@ -108,6 +117,18 @@ export let advancement = {
       delete flags.gain;
       delete flags.type;
 
+      const proficiencyItems = [];
+      ["trained", "expert", "master", "legendary"].forEach(tier => {
+        if (!isEmpty(proficiencyAdvances[tier])) {
+          proficiencyItems.push({
+            type: "p",
+            blk: false,
+            content: proficiencyAdvances[tier].join(", "),
+            icon: "proficiency-"+tier
+          });
+        }
+      });
+
       const items = gains.map((gain) => {
         let slug = gain.replace(/_\{(.*?)\}/g, '$1');
         slug = `gain-${lv}-${toKebabCase(slug)}`;
@@ -123,6 +144,7 @@ export let advancement = {
       if (!isEmpty(advances)) {
         items.push({
           type: "p",
+          blk: false,
           content: advances.join(", ")
         });
       }
@@ -137,7 +159,7 @@ export let advancement = {
         icon: icons.join(","),
         item: {
           type: "g",
-          contents: [...iconItems, ...items]
+          contents: [...proficiencyItems, ...iconItems, ...items]
         }
       });
     }
@@ -222,6 +244,20 @@ export let advancement = {
             // width: "small",
             exists: "#{" + field.key + "}",
             shade: field.shade
+          });
+          break;
+
+        case 'checkgrid':
+          // log("advancement", `Checkgrid: label = ${field.label}, num = ${field.num}`);
+          template.push({
+            type: "field",
+            id: table_id + '-#{level}-' + field.key,
+            frame: "left",
+            label: field.label,
+            control: "checkgrid",
+            depth: 1,
+            max: field.max,
+            shade: field.shade,
           });
           break;
 
