@@ -62,7 +62,7 @@ function splitAnyCase(str) {
     warn("util", "Not a string", str);
     return [];
   }
-  let words = str.split(/[ _/-]+/);
+  var words = str.split(/[ _/-]+/);
   words = words.flatMap(word => word.split(/([A-Z][a-z]+)/));
   words = words.map(word => word.toLowerCase());
   words = words.filter(word => word != '');
@@ -75,6 +75,13 @@ function toCamelCase(str) {
   words = words.map(word => word.charAt(0).toUpperCase() + word.substr(1).toLowerCase());
   words[0] = words[0].toLowerCase();
   return words.join('');
+}
+
+function toTitleCase(str) {
+  // Convert A String To Title Case
+  var words = str.split(' ');
+  words = words.map(word => word.charAt(0).toUpperCase() + word.substr(1).toLowerCase());
+  return words.join(' ');
 }
 
 // Character creation
@@ -150,6 +157,10 @@ systems.forEach(system => {
     ['ancestry', 'background', 'class', 'archetype'].forEach(keySelect => {
       if (has(selects, keySelect)) {
         var select = selects[keySelect];
+        let prefix = toTitleCase(keySelect);
+        if (keySelect == 'archetype') {
+          keySelect = 'archetypes';
+        }
 
         select.values.forEach(val => {
           // log("i18n", "Key select", keySelect, val);
@@ -158,10 +169,14 @@ systems.forEach(system => {
           }
 
           var char = {};
-          char[keySelect] = val.id;
+          if (keySelect == 'archetypes') {
+            char[keySelect] = [val.id];
+          } else {
+            char[keySelect] = val.id;
+          }
 
           var keyName = val.name.replace(/_\{(.*?)\}/g, '$1');
-          makeCharacter(system, char, keyName);
+          makeCharacter(system, char, `${prefix} - ${keyName}`);
           numTests++;
 
           if (has(val, "selects")) {
@@ -180,12 +195,16 @@ systems.forEach(system => {
                   // log("i18n", "Sub select", subSelect, subVal);
 
                   var char = {};
-                  char[keySelect] = val.id;
+                  if (keySelect == 'archetypes') {
+                    char[keySelect] = [val.id];
+                  } else {
+                    char[keySelect] = val.id;
+                  }
                   char[subKey] = subVal.id;
 
                   var subName = subVal.name.replace(/_\{(.*?)\}/g, '$1');
                   log("i18n", "Sub char", char);
-                  makeCharacter(system, char, `${keyName} - ${subName}`);
+                  makeCharacter(system, char, `${prefix} - ${keyName} - ${subName}`);
                   numTests++;
                 });
               }
