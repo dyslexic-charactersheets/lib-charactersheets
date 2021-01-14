@@ -3,6 +3,19 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Loremaster}"
 
+require:
+  - unit: feat/bard/loremasters-etude
+  - unit: feat/bard/assured-knowledge
+  - unit: feat/bard/enigmas-knowledge
+  - unit: feat/bard/true-hypercognition
+  
+  - unit: cantrip/guidance
+  - unit: cantrip/message
+  - unit: cantrip/sigil
+  - unit: spell/mindlink
+  - unit: spell/comprehend-language
+  - unit: spell/secret-page
+
 inc:
   - at: '@archetypes'
     add:
@@ -15,7 +28,6 @@ inc:
         name: "_{Loremaster}"
         order: 26
         flex: true
-        half: true
         contents:
           - layout: 2l
             contents:
@@ -33,18 +45,105 @@ inc:
                   - section: "_{Dedication}"
                     primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
+                      - p: "_{Trained in Loremaster Lore, which can be used to Recall Knowledge on any topic.}"
                         icon: proficiency-trained
+                      - p: "_{If legendary in a skill used to Decipher Writing, become expert in Loremaster Lore.}"
+                        icon: proficiency-expert
+                      - p: "[b]_{Cannot improve Loremaster Lore by any other means.}[/b]"
                       - hr:
+                      - value-block: "+1"
+                        content: "_{Bardic Lore}"
 
-                  - section: "_{Contortionist}"
+                  - section: "_{Orthographic Mastery}"
                     contents:
-                      - selectable: "##:contortionist"
+                      - selectable: "##:orthographic-mastery"
                         contents:
-                          - ...
+                          - p: "_{Can attempt to Decipher Writing using Loremaster Lore in place of the required skill.}"
+
+                  - section: "_{Quick Study}"
+                    contents:
+                      - selectable: "##:quick-study"
+                        contents:
+                          - p: "_{During your daily preparations, study a subject to become trained in one Lore skill. You must have interacted with that subject in some way on the previous day.}"
+
+                  - section: "_{Feats}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+
+                          - selectable: "feat/bard/loremasters-etude"
+                            contents:
+                              - paste: "feat/bard/loremasters-etude"
+
+                          - list:
+                            hr: true
+                            light: true
+                            contents:
+                              - selectable: "feat/bard/assured-knowledge"
+                                contents:
+                                  - paste: "feat/bard/assured-knowledge"
+
+                              - selectable: "feat/bard/enigmas-knowledge"
+                                contents:
+                                  - paste: "feat/bard/enigmas-knowledge"
+
+                          - selectable: "feat/bard/true-hypercognition"
+                            contents:
+                              - paste: "feat/bard/true-hypercognition"
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+
+                  - section: "_{Magical Edification}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - selectable: "##:magical-edification"
+                            contents:
+                              # - label: "_{Innate Cantrips}"
+                              - list:
+                                hr: true
+                                # light: true
+                                zebra: true
+                                contents:
+                                  - paste: cantrip/guidance
+                                  - paste: cantrip/message
+                                  - paste: cantrip/sigil
+
+                          - selectable: "##:magical-edification/greater"
+                            contents:
+                              # - h5: "_{Greater Magical Edification}"
+                              - list:
+                                hr: true
+                                # light: true
+                                zebra: true
+                                zebra-inverse: true
+                                contents:
+                                  - paste: daily
+                                    params:
+                                      id: "##:spell/mindlink"
+                                    contents:
+                                      - paste: spell/mindlink
+                                  - paste: daily
+                                    params:
+                                      id: "##:spell/comprehend-language"
+                                    contents:
+                                      - paste: spell/comprehend-language
+                                  - g:
+                                    contents:
+                                      - paste: daily
+                                        params:
+                                          id: "##:spell/secret-page"
+                                        contents:
+                                          - paste: spell/secret-page
+                                      - p: "_{This spell heightens like a cantrip.}"
+
+                  - tail:
+                  - spacer:
+

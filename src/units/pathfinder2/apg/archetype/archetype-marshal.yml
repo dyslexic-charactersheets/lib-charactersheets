@@ -3,11 +3,20 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Marshal}"
 
+require:
+  - unit: feat/attack-of-opportunity
+
 inc:
   - at: '@archetypes'
     add:
       - name: "_{Marshal}"
         num-feats: 3
+
+  - at: '@reference/action-traits'
+    add:
+      - flourish
+      - open
+      - stance
 
   - at: '@pages'
     add:
@@ -15,7 +24,6 @@ inc:
         name: "_{Marshal}"
         order: 26
         flex: true
-        half: true
         contents:
           - layout: 2l
             contents:
@@ -33,18 +41,172 @@ inc:
                   - section: "_{Dedication}"
                     primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
+                      - p: "_{Trained or expert in Diplomacy or Intimidation}"
                         icon: proficiency-trained
                       - hr:
+                      - h5: "_{Marshal's Aura}"
+                      - dl:
+                          range: "_{10ft aura}"
+                      - value-block: "+1"
+                        content: "_{Saves against fear}"
 
-                  - section: "_{Contortionist}"
+                  - section: "_{Back To Back}"
                     contents:
-                      - selectable: "##:contortionist"
+                      - selectable: "##:back-to-back"
                         contents:
-                          - ...
+                          - p: "_{While you and an ally are adjacent, neither of you can become flat-footed due to flanking unless both of you are flanked. Applies to multiple allies at once.}"
+
+                  - section: "_{Topple Foe}"
+                    contents:
+                      - selectable: "##:topple-foe"
+                        contents:
+                          - action: reaction
+                            contents:
+                              - p: "_{When an ally succeeds at a melee Strike against an opponent you are both adjacent to, make an Athletics check to trip them.}"
+
+                  - section: "_{Target of Opportunity}"
+                    contents:
+                      - selectable: "##:target-of-opportunity"
+                        contents:
+                          - action: reaction
+                            contents:
+                              - p: "_{When an ally succeeds at a ranged Strike against an opponent within your range, make a ranged Strike with a –2 penalty against them.  If successful, combine the damage from this and your ally's attack for the purpose of resistances and weaknesses.}"
+
+                  - section: "_{Feats}"
+                    contents:
+                      - selectable: feat/attack-of-opportunity
+                        contents:
+                          - paste: feat/attack-of-opportunity
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+
+                  - section: "_{Stance}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - selectable: "##:dread-marshal-stance"
+                            contents:
+                              - action:
+                                contents:
+                                  - h5: "_{Dread Marshal Stance}"
+                                  - flags:
+                                      - "_{Open}"
+                                      - "_{Stance}"
+                                  - p: "_{Attempt an Intimidation check:}"
+                                  - paste: save
+                                    params:
+                                      critical_success: "_{Marshal's Aura increase to 20ft. Damage bonus = number of damage dice of the weapon you are wielding. When you or an ally in your aura critically hits an enemy, they are frightened 1.}"
+                                      success: "_{As above, but the aura doesn't increase.}"
+                                      failure: "_{Fail to enter the stance.}"
+                                      critical_failure: "_{Can't take this action again for 1 minute}"
+
+                          - selectable: "##:inspiring-marshal-stance"
+                            contents:
+                              - action:
+                                contents:
+                                  - h5: "_{Inspiring Marshal Stance}"
+                                  - flags:
+                                      - "_{Open}"
+                                      - "_{Stance}"
+                                  - p: "_{Attempt a Diplomacy check:}"
+                                  - paste: save
+                                    params:
+                                      critical_success: "_{Marshal's Aura increase to 20ft. +1 to attacks and saves against mental effects.}"
+                                      success: "_{As above, but the aura doesn't increase.}"
+                                      failure: "_{Fail to enter the stance.}"
+                                      critical_failure: "_{Can't take this action again for 1 minute}"
+
+                  - section: "_{Snap Out Of It!}"
+                    contents:
+                      - selectable: "##:snap-out-of-it"
+                        contents:
+                          - action:
+                            contents:
+                              - p: "_{An ally within your aura gets an immediate Will save at +1 against a mental effect with a duration up to 1 minute. Cannot use again for 10 minutes.}"
+
+                  - section: "_{Steel Yourself!}"
+                    contents:
+                      - selectable: "##:steel-yourself"
+                        contents:
+                          - action:
+                            contents:
+                              - p: "_{An ally within your aura gets temporary hit points and +2 to Fortitude saves until the start of your next turn.}"
+                              - g:
+                                pad: true
+                                contents:
+                                  - calc:
+                                    output:
+                                      field: "##:steel-yourself/temp-hp"
+                                      legend: "_{Temporary Hit Points}"
+                                      width: large
+                                      border: full
+                                    inputs:
+                                      - field:
+                                        ref: CHA
+                                        label: "_{CHA}"
+                                        underlay: "_{CHA}"
+
+                  - section: "_{Cadence Call}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - selectable: "##:cadence-call"
+                            contents:
+                              - action:
+                                contents:
+                                  - p: "_{Allies within your marshal's aura are quickened until the end of their next turn, but can only use the extra action to Stride. If they use the action, at the end of their turn they become slowed 1 until the end of their following turn.}"
+
+                          - selectable: "##:tactical-cadence"
+                            contents:
+                              - h5: "_{Tactical Cadence}"
+                              - p: "_{Allies can use the quickened condition to Stride or Strike, and aren't slowed on their following turn.}"
+
+                  - section: "_{Rallying Charge}"
+                    contents:
+                      - selectable: "##:rallying-charge"
+                        contents:
+                          - action: 2
+                            contents:
+                              - p: "_{Stride up to your Speed and make a melee Strike. If it hits and damages an enemy, allies within 60 feet who saw you hit gain temporary hit points until the start of your next turn.}"
+                              - g:
+                                pad: true
+                                contents:
+                                  - calc:
+                                    output:
+                                      field: "##:steel-yourself/temp-hp"
+                                      legend: "_{Temporary Hit Points}"
+                                      width: large
+                                      border: full
+                                    inputs:
+                                      - field:
+                                        ref: CHA
+                                        label: "_{CHA}"
+                                        underlay: "_{CHA}"
+
+                  - section: "_{To Battle!}"
+                    contents:
+                      - selectable: "##:to-battle"
+                        contents:
+                          - action:
+                            contents:
+                              - p: "_{An ally can use their reaction to immediately Stride.}"
+                          - action: 2
+                            contents:
+                              - p: "_{If you spend 2 actions, that ally can use their reaction to immediately Strike.}"
+
+                  - section: "_{Coordinated Charge}"
+                    contents:
+                      - selectable: "##:coordinated-charge"
+                        contents:
+                          - action: 2
+                            contents:
+                              - p: "_{Stride up to your Speed and make a melee Strike. If it hits and damages an enemy, allies within 60 feet who saw you hit can use a reaction to Stride, but they must end their Stride closer to the creature you hit.}"
+
+                  - tail:
+                  - spacer:

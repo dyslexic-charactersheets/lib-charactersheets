@@ -17,7 +17,7 @@ inc:
         flex: true
         half: true
         contents:
-          - layout: 2l
+          - layout: 2e
             contents:
               - g:
                 contents:
@@ -33,18 +33,121 @@ inc:
                   - section: "_{Dedication}"
                     primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
+                      - p: "_{Trained in Society}"
                         icon: proficiency-trained
                       - hr:
-
-                  - section: "_{Contortionist}"
-                    contents:
-                      - selectable: "##:contortionist"
+                      # note: Gaining multilingual twice
+                      - article:
+                        title: "_{Multilingual}"
+                        cat: "_{Feat} &times; 2"
                         contents:
-                          - ...
+                          - label: "_{Languages}"
+                            align: left
+                          - list:
+                            hr: true
+                            light: true
+                            contents:
+                              - layout: indent-l
+                                contents:
+                                  - icon: proficiency-trained
+                                  - g:
+                                    contents:
+                                      - field: "##:multilingual/language"
+                                        width: stretch
+                                        frame: none
+                                        repeat: 4
+                                        merge-bottom: true
+                              - layout: indent-l
+                                contents:
+                                  - icon: proficiency-master
+                                  - g:
+                                    contents:
+                                      - field: "##:multilingual/language-master"
+                                        width: stretch
+                                        frame: none
+                                        repeat: 2
+                                        merge-bottom: true
+                              - layout: indent-l
+                                contents:
+                                  - icon: proficiency-legendary
+                                  - g:
+                                    contents:
+                                      - field: "##:multilingual/language-legendary"
+                                        width: stretch
+                                        frame: none
+                                        repeat: 2
+                                        merge-bottom: true
+
+                  - section: "_{Multilingual Cipher}"
+                    contents:
+                      - selectable: "##:multilingual-cipher"
+                        contents:
+                          - value-block: "+1"
+                            content: "_{To decipher writing}"
+                          - value-block: "-2"
+                            content: "_{Anyone else deciphering writing you've encoded}"
+
+                  - section: "_{Phonetic Training}"
+                    contents:
+                      - selectable: "##:phonetic-training"
+                        contents:
+                          - p: "_{Can pronounce words perfectly even if you don't understand them.}"
+                          - p: "_{Can write words in a phonetic script that another character with Phonetic Training can read.}"
+
+                  - section: "_{Spot Translate}"
+                    contents:
+                      - selectable: "##:spot translate"
+                        contents:
+                          - action: reaction
+                            contents:
+                              - dl:
+                                  range: "_{60ft}"
+                              - p: "_{When a creature speaks a language you understand, you can repeat that message in another language you know.}"
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+
+                  - section: "_{Analyze Idiolect}"
+                    contents:
+                      - selectable: "##:analyze-idiolect"
+                        contents:
+                          - paste: 10mins
+                            contents:
+                              - p: "_{Interact with somebody for at least 10 minutes to memorise their speech patterns.}"
+                          - field: "##:analyze-ideolect"
+                            label: "_{Current Target}"
+                            width: stretch
+                          - value-block: "+4"
+                            content: "_{Deception checks and DCs to Impersonate them.}"
+
+                  - section: "_{Read Shibboleths}"
+                    contents:
+                      - selectable: "##:read-shibboleths"
+                        contents:
+                          - paste: 10mins
+                            contents:
+                              - p: "_{Interact with somebody for at least 10 minutes to discern a minor fact, such as their hometown or a group they belong to.}"
+                          - p: "_{If the target is lying about their background, they make a Deception, Society or appropriate Lore check against your Society DC.}"
+                          - hr:
+                            light: true
+                          - value-block: "+1"
+                            content: "_{Diplomacy and Deception checks against them.}"
+
+                  - section: "_{Crude Communication}"
+                    contents:
+                      - selectable: "##:crude-communication"
+                        contents:
+                          - paste: 10mins
+                            contents:
+                              - p: "_{Interact with a creature for 10 minutes to pick up its meaning even if you don't speak its language.}"
+                          - p: "_{The GM rolls a secret Society check to determine if your understanding is successful.}"
+                          - hr:
+                            light: true
+                          - p: "_{If legendary in Society, can communicate instantly without the check.}"
+                            icon: proficiency-legendary
+
+                  - tail:
+                  - spacer:

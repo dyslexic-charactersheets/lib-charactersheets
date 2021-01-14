@@ -23,7 +23,64 @@ const presets = [
   {
     regex: /control: *alignment/,
     strings: [ "Good", "Evil", "Lawful", "Chaotic" ]
-  }
+  },
+  // dl
+  {
+    regex: /cast:/,
+    strings: [ "Cast" ]
+  },
+  {
+    regex: /trigger:/,
+    strings: [ "Trigger" ]
+  },
+  {
+    regex: /frequency:/,
+    strings: [ "Frequency" ]
+  },
+  {
+    regex: /duration:/,
+    strings: [ "Duration" ]
+  },
+  {
+    regex: /range:/,
+    strings: [ "Range" ]
+  },
+  {
+    regex: /target:/,
+    strings: [ "Target" ]
+  },
+  {
+    regex: /area:/,
+    strings: [ "Area" ]
+  },
+  {
+    regex: /save:/,
+    strings: [ "Saving Throw" ]
+  },
+  {
+    regex: /critical_success:/,
+    strings: [ "Critical Success" ]
+  },
+  {
+    regex: /success:/,
+    strings: [ "Success" ]
+  },
+  {
+    regex: /failure:/,
+    strings: [ "Failure" ]
+  },
+  {
+    regex: /critical_failure:/,
+    strings: [ "Critical Failure" ]
+  },
+  {
+    regex: /sustain:/,
+    strings: [ "Sustain" ]
+  },
+  {
+    regex: /requirement\?:/,
+    strings: [ "Requirements" ]
+  },
 ];
 
 // INPUT

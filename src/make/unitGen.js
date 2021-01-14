@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
+const jsYaml = require('js-yaml');
 
 // Convert string case
 function splitAnyCase(str) {
@@ -68,16 +69,17 @@ const knownLore = [
 function generateUnits() {
   // Backgrounds supplied by Nibrodooh
   // cf https://github.com/Nibrodooh/...
-  let filename = `${__dirname}/../data/pathfinder2/background.json`;
+  let filename = `${__dirname}/../data/pathfinder2/backgrounds.yml`;
   try {
     let data = fs.readFileSync(filename, 'utf-8');
-    let parsed = JSON.parse(data);
+    let parsed = jsYaml.safeLoad(data);
+    // let parsed = JSON.parse(data);
     log("make", `Generating backgrounds from data (${_.size(parsed)} units)`);
 
-    _.forEach(parsed, (value, key) => {
+    _.forEach(parsed, value => {
       try {
         // let id = 'background/'+toKebabCase(value.source)+"/"+toKebabCase(key);
-        let id = 'background/'+toKebabCase(key);
+        let id = 'background/'+toKebabCase(value.title);
         let name = value.title;
         // let description = value.text.replace(/\n/g, '\\n').replace(/\\nChoose .*$/, '');
         let book = value.source;
@@ -100,8 +102,9 @@ function generateUnits() {
         let lorename = knownLore.includes(value.lore) ? `${value.lore} Lore` : '';
         let loreskill = knownLore.includes(value.lore) ? `lore-${toKebabCase(value.lore)}` : '';
 
-        let feat = "feat/"+toKebabCase(value.feat);
+        let feat = "feat/"+toKebabCase(value.feat.replace(/ \(.*\)/, ''));
         // log("unitGen", `Unit: ${id} - ${name}`);
+        let featExists = false;
 
 
         let unitfile = path.normalize(__dirname+'/../units/pathfinder2/'+group+'/'+id+'.yml');
@@ -137,6 +140,13 @@ inc:
         ability: "_{INT}"
         abilityref: INT
         acp: false
+`;
+        }
+
+        if (featExists) {
+          unitdata += `  - at: '@background-skill-feat'
+    add:
+      - paste: ${feat}
 `;
         }
 

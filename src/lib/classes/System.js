@@ -46,6 +46,7 @@ export class System {
       more = false;
       // log("System", "Checking for required units");
       let moreunits = [];
+      let denyunits = [];
       let unitIds = units.map(unit => unit.id);
       // log("Character", "Unit IDs:", unitIds);
       units.forEach(unit => {
@@ -54,6 +55,11 @@ export class System {
         }
         if (has(unit, "require")) {
           unit.require.forEach(req => {
+            if (has(req, "deny")) {
+              denyunits.push(req["deny"]);
+              return;
+            }
+
             // log("System", `Unit ${unit.id} requires`, req);
             // check if the new unit is really new
             if (unitIds.includes(req.unit))
@@ -73,7 +79,7 @@ export class System {
           });
         }
       });
-      units = units.concat(moreunits);
+      units = units.concat(moreunits).filter(unit => !denyunits.includes(unit.id));
     }
     units = [...new Set(units)];
     return units;
