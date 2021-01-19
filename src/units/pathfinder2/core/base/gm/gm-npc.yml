@@ -11,6 +11,7 @@ inc:
         order: 30
         flex: true
         landscape: true
+        numbered: false
         contents:
           - layout: 2e
             contents:
@@ -76,36 +77,51 @@ inc:
                           - list:
                             hr: true
                             zebra: true
+                            avoid-shade: true
                             contents:
-                              - repeat: 6
+                              - repeat: 4
                                 reduce: 1
                                 contents:
                                   - article:
                                     lines: 3
+                      - section: "_{Notes}"
+                        flex: none
+                        contents:
+                          - field: npc/notes
+                            repeat: 7
+                            width: stretch
+                            frame: none
+                            merge-bottom: true
                       - tail:
 
                   - g:
                     contents:
-                      - g:
+                      - layout: alignment
+                        gutter: none
                         contents:
-                          - field: npc/name
-                            legend: "_{Name}"
-                            width: stretch
-                            align: left
-                            size: large
-                          - row:
+                          - g:
                             contents:
-                              - field: npc/ancestry
-                                label: "_{Ancestry}"
-                                align: left
+                              - field: npc/name
+                                legend: "_{Name}"
                                 width: stretch
-                              - field: npc/size
-                                label: "_{Size}"
-                                icon: size
-                              - field: npc/gender
-                                label: "_{Gender}"
-                                icon: gender
-                              - zone: '@npc/key-fields'
+                                align: left
+                                size: large
+                              - row:
+                                contents:
+                                  - field: npc/ancestry
+                                    label: "_{Ancestry}"
+                                    align: left
+                                    width: stretch
+                                  - field: npc/size
+                                    label: "_{Size}"
+                                    icon: size
+                                  - field: npc/gender
+                                    label: "_{Gender}"
+                                    icon: gender
+                                  - zone: '@npc/key-fields'
+                          - field: alignment
+                            frame: none
+                            control: alignment
                               
                       - g:
                         contents:
@@ -242,7 +258,9 @@ inc:
                                 border: full
                                 exists: "#{acp}"
                                 prefix: "&ndash;"
+                          - spacer:
                           
+                          - hr:
                           - h5: "_{Skill Actions}"
                           - list:
                             zebra: true
@@ -338,56 +356,16 @@ inc:
                                 hr: true
                                 flex: true
                                 contents:
-                                  - repeat: 3
+                                  - repeat: 2
                                     contents:
-                                      - g:
-                                        contents:
-                                          - row:
-                                            contents:
-                                              - field: npc/attack-#{i}
-                                                width: stretch
-                                                frame: none
-                                                align: left
-                                                size: large
-                                                # icon: sword
-                                          - row:
-                                            contents:
-                                              - calc:
-                                                output:
-                                                  field: npc/attack-#{i}-bonus
-                                                  label: "_{Attack Bonus}"
-                                                  # width: large
-                                                  attack: true
-                                                  icon: bonus
-                                                inputs:
-                                                  - field:
-                                                    ref: true
-                                                    label: "_{Ability}"
-                                                    misc: true
-                                                  - span: "+"
-                                                  - field:
-                                                    control: proficiency
-                                                    label: "_{Proficiency}"
-                                              - field: npc/attack-#{i}-damage
-                                                border: full
-                                                label: "_{Damage}"
-                                                width: small
-                                                icon: damage
-                                                control: compound
-                                                parts:
-                                                  - subid: ndice
-                                                    suffix: "_{d}"
-                                                  - subid: die
-                                                    suffix: "+"
-                                                  - subid: extra
-                                          - row:
-                                            contents:
-                                              - field: npc/attack-#{i}-critical
-                                                frame: none
-                                                width: stretch
-                                                align: left
-                                                unlined: true
-                                                merge-bottom: true
+                                      - paste: weapon-small
+                                        params:
+                                          id: "npc/"
+                                          i: "#{i}"
+                                  - paste: weapon-small-with-ammo
+                                    params:
+                                      id: "npc/"
+                                      i: 3
                   - layout: 2r
                     narrow: true
                     contents:
@@ -429,7 +407,7 @@ inc:
                                     icon: hp
                                     suffix: "_{hp}"
                                     width: stretch
-                                    
+
                                   - field: npc/dying
                                     control: compound
                                     label: "_{Dying}"
@@ -439,10 +417,10 @@ inc:
                                     width: stretch
                                     align: center
                                     parts:
-                                      - id: dying-wounded
+                                      - id: npc/dying-wounded
                                         control: checkgrid
                                         style: progress
-                                        max: "#{dying-max}"
+                                        max: 6
                                         depth: 2
                                                 
                                   - icon: evil
@@ -451,31 +429,26 @@ inc:
 
                               - hr:
                               - h5: "_{Effects}"
-                              - row:
+                              - repeat: 2
                                 contents:
-                                  - field: effect-#{i}
-                                    control: progression
-                                    frame: none
-                                    parts:
-                                      - id: effect-#{i}-1
-                                        control: checkbox
-                                      - id: effect-#{i}-2
-                                        control: checkbox
-                                      - id: effect-#{i}-3
-                                        control: checkbox
-                                  - field: effect-#{i}
-                                    width: stretch
-                                    frame: none
-                                  - field: effect-#{i}-duration
-                                    frame: none
-                                    underlay: "#"
-                                    affix: "_{rds}"
-                                    width: small
-                                  - field:
-                                    control: checkgrid
-                                    frame: none
-                                    max: 6
-                                    depth: 2
+                                  - row:
+                                    contents:
+                                      - field: effect-#{i}
+                                        control: progression
+                                        frame: none
+                                        max: 3
+                                      - field: effect-#{i}
+                                        width: stretch
+                                        frame: none
+                                      - field: effect-#{i}-duration
+                                        frame: none
+                                        underlay: "#"
+                                        suffix: "_{rds}"
+                                      - field:
+                                        control: checkgrid
+                                        frame: none
+                                        max: 6
+                                        depth: 2
                                 
                           - section: "_{Armour Class}"
                             mark: shield
@@ -502,28 +475,34 @@ inc:
                                     misc: true
                                     label: "_{Misc}"
                                       
-                              - row:
-                                contents:
-                                  - spacer:
+                              # - row:
+                              #   contents:
+                              #     - spacer:
 
-                                  - field: npc/unarmoured-proficiency
-                                    control: proficiency-icon
-                                    frame: right
-                                    has-bonus: false
-                                    border: none
-                                    label: "_{Unarmoured}"
-                                  - field: npc/light-armour-proficiency
-                                    control: proficiency-icon
-                                    frame: right
-                                    has-bonus: false
-                                    border: none
-                                    label: "_{Light}"
-                                  - field: npc/heavy-armour-proficiency
-                                    control: proficiency-icon
-                                    frame: right
-                                    has-bonus: false
-                                    border: none
-                                    label: "_{Heavy}"
+                              #     - field: npc/unarmoured-proficiency
+                              #       control: proficiency-icon
+                              #       frame: right
+                              #       has-bonus: false
+                              #       border: none
+                              #       label: "_{Unarmoured}"
+                              #     - field: npc/light-armour-proficiency
+                              #       control: proficiency-icon
+                              #       frame: right
+                              #       has-bonus: false
+                              #       border: none
+                              #       label: "_{Light}"
+                              #     - field: npc/medium-armour-proficiency
+                              #       control: proficiency-icon
+                              #       frame: right
+                              #       has-bonus: false
+                              #       border: none
+                              #       label: "_{Medium}"
+                              #     - field: npc/heavy-armour-proficiency
+                              #       control: proficiency-icon
+                              #       frame: right
+                              #       has-bonus: false
+                              #       border: none
+                              #       label: "_{Heavy}"
 
                               # - hr:
 
@@ -553,11 +532,9 @@ inc:
                               # - hr:
 
                               - field: npc/ac-conditional
-                                # label: "_{Conditional}"
                                 frame: none
                                 width: stretch
                                 align: left
-                                repeat: 2
                                 merge-bottom: true
 
                           - tail:
@@ -572,7 +549,7 @@ inc:
                                 columns:
                                   - 
                                   - 
-                                  - "_{Ability Modifier}"
+                                  - 
                                   - "_{Proficiency}"
                                 rows:
                                   - save: fortitude
@@ -609,18 +586,42 @@ inc:
                               - field: npc/saving-throws-conditional
                                 label: "_{Conditional}"
                                 align: left
-                                repeat: 2
                                 merge-bottom: true
                                 width: stretch
 
-                          - section: "_{Inventory}"
+                          - g:
+                            cut: top left
                             contents:
+                              - field:
+                                legend: "_{Inventory}"
+                                width: stretch
+                              - row:
+                                contents:
+                                  - spacer:
+                                  - field: npc/money/gold
+                                    frame: none
+                                    control: money
+                                    denomination: gold
+                                    digits: 4
+                                    border: full
+                                  - field: npc/money/silver
+                                    frame: none
+                                    control: money
+                                    denomination: silver
+                                    digits: 2
+                                    border: full
+                                  - field: npc/money/copper
+                                    frame: none
+                                    control: money
+                                    denomination: copper
+                                    digits: 2
+                                    border: full
                               - list:
                                 zebra: true
                                 collapse: true
                                 field_frame: none
                                 contents:
-                                  - repeat: 6
+                                  - repeat: 7
                                     contents:
                                       - row:
                                         contents:
@@ -632,4 +633,5 @@ inc:
                                 frame: left
                                 label: "_{Total weight}"
                                 control: weight
+
                           - tail:

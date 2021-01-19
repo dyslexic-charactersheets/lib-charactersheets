@@ -221,6 +221,129 @@ inc:
                 frame: none
                 control: checkbox
 
+  - copy: weapon-small
+    params:
+      id: ''
+      i: 0
+    contents:
+      - g:
+        contents:
+          - row:
+            contents:
+              - field: "#{id}attack-#{i}"
+                width: stretch
+                frame: none
+                align: left
+                size: large
+                icon: sword
+          - row:
+            contents:
+              - calc:
+                output:
+                  field: "#{id}attack-#{i}-bonus"
+                  label: "_{Attack Bonus}"
+                  # width: large
+                  attack: true
+                  icon: bonus
+                inputs:
+                  - field:
+                    ref: true
+                    label: "_{Ability}"
+                    misc: true
+                  - span: "+"
+                  - field:
+                    control: proficiency
+                    label: "_{Proficiency}"
+              - field: "#{id}attack-#{i}-damage"
+                border: full
+                label: "_{Damage}"
+                width: small
+                icon: damage
+                control: compound
+                parts:
+                  - subid: ndice
+                    suffix: "_{d}"
+                  - subid: die
+                    suffix: "+"
+                  - subid: extra
+          - row:
+            contents:
+              - field: "#{id}attack-#{i}-critical"
+                frame: none
+                width: stretch
+                align: left
+                unlined: true
+                merge-bottom: true
+                
+  - copy: weapon-small-with-ammo
+    params:
+      id: ''
+      i: 0
+      max: 20
+    contents:
+      - g:
+        contents:
+          - row:
+            contents:
+              - field: "#{id}attack-#{i}"
+                width: stretch
+                frame: none
+                align: left
+                size: large
+                icon: bow
+          - row:
+            contents:
+              - calc:
+                output:
+                  field: "#{id}attack-#{i}-bonus"
+                  label: "_{Attack Bonus}"
+                  # width: large
+                  attack: true
+                  icon: bonus
+                inputs:
+                  - field:
+                    ref: true
+                    label: "_{Ability}"
+                    misc: true
+                  - span: "+"
+                  - field:
+                    control: proficiency
+                    label: "_{Proficiency}"
+              - field: "#{id}attack-#{i}-damage"
+                border: full
+                label: "_{Damage}"
+                width: small
+                icon: damage
+                control: compound
+                parts:
+                  - subid: ndice
+                    suffix: "_{d}"
+                  - subid: die
+                    suffix: "+"
+                  - subid: extra
+          - row:
+            contents:
+              - field: "#{id}ammo-#{i}"
+                # frame: h-label
+                frame: none
+                unlined: true
+                width: small
+                size: huge
+                underlay: "#"
+                merge-bottom: true
+              - field: "#{id}ammo-#{i}-count"
+                frame: none
+                control: checkgrid
+                max: "#{max}"
+                depth: 3
+              - vr:
+              - field: "#{id}attack-#{i}-critical"
+                frame: none
+                width: stretch
+                align: left
+                unlined: true
+                merge-bottom: true
+
   - copy: ammo
     params:
       i: 0

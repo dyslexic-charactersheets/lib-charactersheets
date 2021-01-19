@@ -4,6 +4,7 @@ export let hr = {
   name: 'hr',
   defaults: {
     swash: false,
+    dotted: false,
     light: false,
     blk: true,
   },
@@ -13,7 +14,7 @@ export let hr = {
       return `<div${cls}><div class='inner'></div></div>`;
     }
 
-    const cls = elementClass('hr', null, args, ['swash', 'light', 'blk']);
+    const cls = elementClass('hr', null, args, ['swash', 'light', 'dotted', 'blk']);
     return `<hr${cls}>`;
   }
 }
@@ -32,7 +33,11 @@ export let tail = {
 
 export let vr = {
   name: 'vr',
-  render: () => {
-    return '<span class="vr"></span>';
+  defaults: {
+    dotted: false,
+  },
+  render: (args) => {
+    const cls = elementClass('vr', null, args, ['dotted']);
+    return `<span${cls}></span>`;
   }
 }

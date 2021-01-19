@@ -121,21 +121,28 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
       return;
     }
 
-    switch (key) {
-      // global attributes that don't need a prefix
-      case 'align':
-      case 'valign':
-      case 'lp':
-      case 'rb':
-      case 'icon':
-      case 'size':
-      case 'flex':
-        cls.push(`${key}_${value}`);
-        break;
-      default:
-        cls.push(`${prefix}--${key}_${value}`);
-        break;
-    }
+    const values = ("" +value).split(/ +/);
+    values.forEach(value => {
+      if (isEmpty(value)) {
+        return;
+      }
+      
+      switch (key) {
+        // global attributes that don't need a prefix
+        case 'align':
+        case 'valign':
+        case 'lp':
+        case 'rb':
+        case 'icon':
+        case 'size':
+        case 'flex':
+          cls.push(`${key}_${value}`);
+          break;
+        default:
+          cls.push(`${prefix}--${key}_${value}`);
+          break;
+      }
+    });
   });
 
   // the class attr, if needed
