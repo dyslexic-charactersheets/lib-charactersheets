@@ -34,43 +34,59 @@ inc:
                       - section: "_{Attributes}"
                         id: "##/attributes"
                         contents:
-                          - layout: 3e
-                            gutter: none
+                          - g:
+                            pad: true
                             contents:
-                              - repeat: 6
-                                rows:
-                                  - name: "_{Strength}"
-                                    short: "_{STR}"
-                                    code: STR
-                                  - name: "_{Dexterity}"
-                                    short: "_{DEX}"
-                                    code: DEX
-                                  - name: "_{Constitution}"
-                                    short: "_{CON}"
-                                    code: CON
-                                  - name: "_{Intelligence}"
-                                    short: "_{INT}"
-                                    code: INT
-                                  - name: "_{Wisdom}"
-                                    short: "_{WIS}"
-                                    code: WIS
-                                  - name: "_{Charisma}"
-                                    short: "_{CHA}"
-                                    code: CHA
+                              - layout: 3e
+                                gutter: none
                                 contents:
-                                  - g:
-                                    valign: top
+                                  - repeat: 6
+                                    rows:
+                                      - name: "_{Strength}"
+                                        short: "_{STR}"
+                                        code: STR
+                                      - name: "_{Dexterity}"
+                                        short: "_{DEX}"
+                                        code: DEX
+                                      - name: "_{Constitution}"
+                                        short: "_{CON}"
+                                        code: CON
+                                      - name: "_{Intelligence}"
+                                        short: "_{INT}"
+                                        code: INT
+                                      - name: "_{Wisdom}"
+                                        short: "_{WIS}"
+                                        code: WIS
+                                      - name: "_{Charisma}"
+                                        short: "_{CHA}"
+                                        code: CHA
                                     contents:
-                                      - row: center
+                                      - g:
+                                        valign: top
                                         contents:
-                                          - spacer:
-                                          - field: "npc-#{code}"
-                                            label: "#{name}"
-                                            border: circle
-                                            size: huge
-                                            underlay: "#{short}"
-                                            eq: "(%{#{code}-score}-10)/2"
-                                          - spacer:
+                                          - row: center
+                                            contents:
+                                              - spacer:
+                                              - field: "npc-#{code}"
+                                                label: "#{name}"
+                                                border: circle
+                                                size: huge
+                                                underlay: "#{short}"
+                                                eq: "(%{#{code}-score}-10)/2"
+                                              - spacer:
+
+
+                      - section: "_{Speed}"
+                        contents:
+                          - row: split
+                            contents:
+                              - field: npc/speed
+                                legend: "_{Speed}"
+                                control: speed
+                                border: full
+                              - field: npc/speed-alt
+                                label: "_{Speed in Armour}"
+                                control: speed
 
                       - section: "_{Feats}"
                         contents:
@@ -83,12 +99,26 @@ inc:
                                 reduce: 1
                                 contents:
                                   - article:
-                                    lines: 3
+                                    lines: 2
+
                       - section: "_{Notes}"
                         flex: none
                         contents:
+                          - row:
+                            contents:
+                              - h6: "&nbsp;_{Helpful}"
+                              - icon: hp
+                              - span: " "
+                              - field: "##:#{id}/attitude"
+                                control: checkgrid
+                                max: 5
+                                depth: 1
+                                frame: none
+                                border: none
+                              - icon: evil
+                              - h6: "&nbsp;_{Hostile}"
                           - field: npc/notes
-                            repeat: 7
+                            repeat: 8
                             width: stretch
                             frame: none
                             merge-bottom: true
@@ -330,21 +360,56 @@ inc:
                                       - action: template
                                         contents:
                                           - article:
-                                            lines: 3
+                                            lines: 2
                                             reduce: 1
 
-
-                          - section: "_{Speed}"
+                          - section: "_{Saving Throws}"
+                            id: saving-throws
                             contents:
-                              - row: split
-                                contents:
-                                  - field: npc/speed
-                                    legend: "_{Speed}"
-                                    control: speed
-                                    border: full
-                                  - field: npc/speed-alt
-                                    label: "_{Speed in Armour}"
-                                    control: speed
+                              - table:
+                                columns:
+                                  - 
+                                  - 
+                                  - 
+                                  -
+                                rows:
+                                  - save: fortitude
+                                    legend: "_{Fortitude}"
+                                    short: "_{FORT}"
+                                    ability: "_{CON}"
+                                    abilityref: CON
+                                  - save: reflex
+                                    legend: "_{Reflex}"
+                                    short: "_{REF}"
+                                    ability: "_{DEX}"
+                                    abilityref: DEX
+                                  - save: will
+                                    legend: "_{Will}"
+                                    short: "_{WILL}"
+                                    ability: "_{WIS}"
+                                template:
+                                  - calc:
+                                    output:
+                                      field: "npc/#{save}"
+                                      legend: "#{legend}"
+                                      icon: bonus
+                                      border: full
+                                      width: large
+                                      underlay: "#{short}"
+                                    inputs:
+                                      - field:
+                                        label: "#{ability}"
+                                        underlay: "#{ability}"
+                                        ref: "#{abilityref}"
+                                      - field: "npc/#{save}-proficiency"
+                                        control: proficiency
+                                        value: trained
+                              - field: npc/saving-throws-conditional
+                                frame: none
+                                align: left
+                                merge-bottom: true
+                                width: stretch
+
 
                       - g:
                         contents:
@@ -474,37 +539,6 @@ inc:
                                   - field:
                                     misc: true
                                     label: "_{Misc}"
-                                      
-                              # - row:
-                              #   contents:
-                              #     - spacer:
-
-                              #     - field: npc/unarmoured-proficiency
-                              #       control: proficiency-icon
-                              #       frame: right
-                              #       has-bonus: false
-                              #       border: none
-                              #       label: "_{Unarmoured}"
-                              #     - field: npc/light-armour-proficiency
-                              #       control: proficiency-icon
-                              #       frame: right
-                              #       has-bonus: false
-                              #       border: none
-                              #       label: "_{Light}"
-                              #     - field: npc/medium-armour-proficiency
-                              #       control: proficiency-icon
-                              #       frame: right
-                              #       has-bonus: false
-                              #       border: none
-                              #       label: "_{Medium}"
-                              #     - field: npc/heavy-armour-proficiency
-                              #       control: proficiency-icon
-                              #       frame: right
-                              #       has-bonus: false
-                              #       border: none
-                              #       label: "_{Heavy}"
-
-                              # - hr:
 
                               - row:
                                 contents:
@@ -542,53 +576,6 @@ inc:
                       - g:
                         contents:
                         
-                          - section: "_{Saving Throws}"
-                            id: saving-throws
-                            contents:
-                              - table:
-                                columns:
-                                  - 
-                                  - 
-                                  - 
-                                  - "_{Proficiency}"
-                                rows:
-                                  - save: fortitude
-                                    legend: "_{Fortitude}"
-                                    short: "_{FORT}"
-                                    ability: "_{CON}"
-                                    abilityref: CON
-                                  - save: reflex
-                                    legend: "_{Reflex}"
-                                    short: "_{REF}"
-                                    ability: "_{DEX}"
-                                    abilityref: DEX
-                                  - save: will
-                                    legend: "_{Will}"
-                                    short: "_{WILL}"
-                                    ability: "_{WIS}"
-                                template:
-                                  - calc:
-                                    output:
-                                      field: "npc/#{save}"
-                                      legend: "#{legend}"
-                                      icon: bonus
-                                      border: full
-                                      width: large
-                                      underlay: "#{short}"
-                                    inputs:
-                                      - field:
-                                        label: "#{ability}"
-                                        underlay: "#{ability}"
-                                        ref: "#{abilityref}"
-                                      - field: "npc/#{save}-proficiency"
-                                        control: proficiency
-                                        value: trained
-                              - field: npc/saving-throws-conditional
-                                label: "_{Conditional}"
-                                align: left
-                                merge-bottom: true
-                                width: stretch
-
                           - g:
                             cut: top left
                             contents:
@@ -621,7 +608,7 @@ inc:
                                 collapse: true
                                 field_frame: none
                                 contents:
-                                  - repeat: 7
+                                  - repeat: 14
                                     contents:
                                       - row:
                                         contents:

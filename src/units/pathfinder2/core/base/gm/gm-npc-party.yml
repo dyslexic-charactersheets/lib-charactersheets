@@ -1,5 +1,5 @@
-unit: gm/party
-name: "_{Party}"
+unit: gm/npc-party
+name: "_{NPC Party}"
 group: "_{Core Rulebook}"
 
 inc:
@@ -7,8 +7,8 @@ inc:
     add:
 
       - page: party
-        name: "_{Party}"
-        order: 10
+        name: "_{NPC Party}"
+        order: 20
         flex: true
         landscape: true
         numbered: false
@@ -41,10 +41,21 @@ inc:
                                         width: stretch
                                   - row:
                                     contents:
+                                      - icon: hp
+                                      - span: " "
+                                      - field: "##:#{id}/attitude"
+                                        control: checkgrid
+                                        max: 5
+                                        depth: 1
+                                        # frame: none
+                                        label: "_{Attitude}"
+                                        border: none
+                                      - icon: evil
                                       - field: char-#{i}-name
                                         label: "_{Notes}"
                                         align: left
                                         misc: true
+                                        width: stretch
                                         merge-bottom: true
 
                           - g:
@@ -115,9 +126,8 @@ inc:
                                     width: stretch
                                     merge-bottom: true
                                   - vr:
-                                  - field: char-#{i}-background
-                                    label: "_{Background}"
-                                    width: stretch
-                                    merge-bottom: true
+                                  - field: '#{id}-ref'
+                                    control: ref
+                                    label: "_{Source}"
 
           - tail:
