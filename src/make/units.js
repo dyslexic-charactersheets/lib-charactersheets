@@ -80,6 +80,11 @@ module.exports = {
     var unitsBase = __dirname + '/../units/' + system;
     var debugDir = __dirname + '/../../test/debug/' + system;
 
+    if (!fs.existsSync(unitsBase)) {
+      warn("units", "System not found:", systemName);
+      return;
+    }
+
     // load units
     var systemUnits = [];
 
