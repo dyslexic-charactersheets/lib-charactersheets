@@ -1,5 +1,7 @@
 import { GM_Instance } from "./GM_Instance";
 import { isEmpty, isNull } from '../util';
+import { log, warn } from '../log';
+import { has } from "../util/objects";
 
 function parseGM_Party(primary, request) {
   // attributes
@@ -60,10 +62,16 @@ function parseGM_Party(primary, request) {
   }
 
   // game-specific settings
-  // switch (attr.game) {
-  //   case 'pathfinder2':
-  //     break;
-  // }
+  switch (attr.game) {
+    case 'pathfinder2':
+      [ "party", "npc-party", "npc" ].forEach(option => {
+        let optionKey = "option-gm-"+option;
+        if (has(attr, optionKey) && optionKey) {
+          gm.units.push("option/gm/"+option);
+        }
+      });
+      break;
+  }
 
   // included assets
   ["printLogo", "printBackground"].forEach(field => {

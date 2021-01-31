@@ -18,6 +18,7 @@ export let page = {
     landscape: false,
     half: false,
     background: 'yes',
+    fill: false,
     contents: []
   },
   render(args, reg, doc) {
@@ -26,7 +27,7 @@ export let page = {
       args.background = 'no';
 
     const id = elementID('page', args.id);
-    const cls = elementClass('page', null, args, ['flex', 'landscape', 'no-bg']);
+    const cls = elementClass('page', null, args, ['flex', 'landscape', 'no-bg', 'fill']);
 
     const pageNumber = args.numbered ? `<div class='page__number'>${doc.nextPageNumber()}</div>` : '';
     let copyrightAttribution = paizoCopyrightAttribution;
@@ -47,9 +48,14 @@ export let page = {
         background = `<div class='page__background page__background--background_${args.background}'></div>`;
     }
 
+    let fill = '';
+    if (args.fill) {
+      fill = `<div class='page__fill page__fill--fill_${args.fill}'></div>`;
+    }
+
     const watermark = doc.watermark ? `<div class='page__watermark'><div class='page__watermark__inner'>${doc.watermark}</div></div>` : '';
 
-    return `<div${id}${cls}>${background}
+    return `<div${id}${cls}>${background}${fill}
       ${copyrightAttribution}${pageNumber}${watermark}
       <div class='page__contents'>${reg.render(args.contents, doc)}</div>
       </div>

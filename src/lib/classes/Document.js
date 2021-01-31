@@ -407,6 +407,7 @@ export class Document {
       if (css == "")
         return;
 
+      // log("Document", "CSS part for unit:", unit.id);
       const template = Handlebars.compile(css);
       let rendered = template({});
       if (unit.id != "document")

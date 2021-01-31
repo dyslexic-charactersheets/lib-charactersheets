@@ -1,8 +1,9 @@
-import { log } from '../log';
+import { log, warn } from '../log';
 
 import { Character } from './Character';
 import { Party } from './Party';
 import { GM_Party } from './GM_Party';
+import { GM_Maps } from './GM_Maps';
 import { Build } from './Build';
 import { events } from './Events';
 import { isArray } from '../util';
@@ -81,6 +82,7 @@ export class Request {
     });
 
     return primaries.map(primary => {
+      // log("Request", "Primary", primary);
       switch (primary.type) {
         case 'character':
           return new Character(primary, this, registry);
@@ -90,8 +92,12 @@ export class Request {
 
         case 'gm':
           switch(primary.attributes['gm']) {
-            case 'party':
+            case 'characters':
               return new GM_Party(primary, this, registry);
+            case 'maps':
+              return new GM_Maps(primary, this, registry);
+            default:
+              warn("Request", "No valid primary in GM request");
           }
 
         case 'quick':
@@ -101,6 +107,7 @@ export class Request {
           }
 
         default:
+          warn("Request", "No valid primary in request");
           return null;
       }
     });

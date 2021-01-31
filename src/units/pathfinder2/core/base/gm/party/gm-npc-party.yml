@@ -1,0 +1,133 @@
+unit: option/gm/npc-party
+name: "_{NPC Party}"
+group: "_{Core Rulebook}"
+
+inc:
+  - at: '@pages'
+    add:
+
+      - page: party
+        name: "_{NPC Party}"
+        order: 20
+        flex: true
+        landscape: true
+        numbered: false
+        contents:
+          - hr:
+          - list:
+            hr: true
+            zebra: true
+            contents:
+              - repeat: 9
+                contents:
+                  - color: "#{i}"
+                    contents:
+                      - layout: 3e
+                        contents:
+                          - layout: indent-l
+                            contents:
+                              - g:
+                                contents:
+                                  - row:
+                                    contents:
+                                      - span: "#{i}"
+                              - g:
+                                contents:
+                                  - row:
+                                    contents:
+                                      - field: char-#{i}-name
+                                        label: "_{Name}"
+                                        size: large
+                                        width: stretch
+                                  - row:
+                                    contents:
+                                      - icon: hp
+                                      - span: " "
+                                      - field: "##:#{id}/attitude"
+                                        control: checkgrid
+                                        max: 5
+                                        depth: 1
+                                        # frame: none
+                                        label: "_{Attitude}"
+                                        border: none
+                                      - icon: evil
+                                      - field: char-#{i}-name
+                                        label: "_{Notes}"
+                                        align: left
+                                        misc: true
+                                        width: stretch
+                                        merge-bottom: true
+
+                          - g:
+                            contents:
+                              - row:
+                                contents:
+                                  - field: char-#{i}-perception
+                                    label: "_{Perception}"
+                                    icon: bonus
+                                  - field: char-#{i}-stealth
+                                    label: "_{Stealth}"
+                                    icon: bonus
+                                  # - vr:
+                                  - field: char-#{i}-class-dc
+                                    label: "_{Class DC}"
+                                    icon: dc
+                                    underlay: "_{DC}"
+                                  # - field: char-#{i}-spell-dc
+                                  #   label: "_{Spell DC}"
+                                  #   icon: dc
+                                  - field: char-#{i}-ac
+                                    label: "_{Armour Class}"
+                                    underlay: "_{AC}"
+                                    icon: shield
+                                    border: full
+                                  - field: char-#{i}-hp
+                                    label: "_{Hit Points}"
+                                    suffix: "_{hp}"
+                                    icon: hp
+                                    border: full
+                              - row:
+                                contents:
+                                  - spacer:
+                                  - h6: "_{Saving throws}:&nbsp;"
+                                  - field: char-#{i}-fortitude
+                                    label: "_{Fortitude}"
+                                    icon: bonus
+                                    underlay: "_{FORT}"
+                                    merge-bottom: true
+                                    width: large
+                                  - field: char-#{i}-reflex
+                                    label: "_{Reflex}"
+                                    icon: bonus
+                                    underlay: "_{REF}"
+                                    merge-bottom: true
+                                    width: large
+                                  - field: char-#{i}-will
+                                    label: "_{Will}"
+                                    icon: bonus
+                                    underlay: "_{WILL}"
+                                    merge-bottom: true
+                                    width: large
+
+                          - g:
+                            contents:
+                              - row:
+                                contents:
+                                  - field: char-#{i}-class
+                                    label: "_{Class}"
+                                    width: stretch
+                                  - field: char-#{i}-level
+                                    label: "_{Level}"
+                                    border: full
+                              - row:
+                                contents:
+                                  - field: char-#{i}-ancestry
+                                    label: "_{Ancestry} / _{Heritage}"
+                                    width: stretch
+                                    merge-bottom: true
+                                  - vr:
+                                  - field: '#{id}-ref'
+                                    control: ref
+                                    label: "_{Source}"
+
+          - tail:

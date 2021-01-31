@@ -1,5 +1,6 @@
 import { Instance } from './Instance';
 import { isEmpty } from '../util';
+import { log, warn } from '../log';
 import { has } from '../util/objects';
 import { ready as systemsReady, getSystem } from './System';
 import { replaceColours, adjustColour, vibrantColour } from '../util/colours';
@@ -80,9 +81,7 @@ export class GM_Instance extends Instance {
           
           let units = system.getUnits(data.units);
           units = system.inferUnits(units);
-          units.forEach(unit => document.addUnit(unit));
-          document.composeDocument(self.registry);
-
+          
           // make the element tree
           units.forEach(unit => document.addUnit(unit));
           document.composeDocument(self.registry);
@@ -99,14 +98,14 @@ export class GM_Instance extends Instance {
 
             events.emit('render', {
               data: data,
-              title: "Party",
+              title: document.title,
               mimeType: "text/html",
               request: self.request
             });
 
             resolve({
               data: data,
-              filename: "Party.html",
+              filename: document.title+".html",
               mimeType: "text/html"
             });
           });
