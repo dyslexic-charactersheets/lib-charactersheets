@@ -3,6 +3,7 @@ import { isEmpty, isNull } from '../util';
 import { replaceColours, adjustColour, vibrantColour } from '../util/colours';
 import { log, warn } from '../log';
 import { has } from "../util/objects";
+import { parse } from "handlebars";
 
 function parseGM_Maps(primary, request) {
   // attributes
@@ -92,6 +93,7 @@ export class GM_Maps extends GM_Instance {
   constructor(primary, request, registry) {
     super(request, registry);
     this.data = parseGM_Maps(primary, request);
+    this.parseGM_Instance(primary, request);
   }
 
   completeDocument(document) {

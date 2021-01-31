@@ -14,6 +14,17 @@ export class GM_Instance extends Instance {
     this.request = request;
   }
 
+  parseGM_Instance(primary, request) {
+    let attr = {
+      optionPermission: false,
+      ...primary.attributes
+    };
+
+    if (attr.optionPermission) {
+      this.data.units.push("option/permission");
+    }
+  }
+
   render() {
     const self = this;
     const data = this.data;

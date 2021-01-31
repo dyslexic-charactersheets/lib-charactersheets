@@ -93,6 +93,7 @@ export class GM_Party extends GM_Instance {
   constructor(primary, request, registry) {
     super(request, registry);
     this.data = parseGM_Party(primary, request);
+    this.parseGM_Instance(primary, request);
   }
 
   completeDocument(document) {
