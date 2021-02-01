@@ -39,6 +39,7 @@ function parseCharacter(primary, request) {
     printLarge: false,
     printHighContrast: false,
     printDyslexic: false,
+    printDyslexie: false,
 
     miniSize: 'medium',
 
@@ -84,6 +85,7 @@ function parseCharacter(primary, request) {
     printLarge: attr.printLarge,
     printHighContrast: attr.printHighContrast,
     printDyslexic: attr.printDyslexic,
+    printDyslexie: attr.printDyslexie,
 
     printColour: attr.printColour,
     accentColour: attr.accentColour,
@@ -128,7 +130,11 @@ function parseCharacter(primary, request) {
     char.units.push('high-contrast');
   }
   if (attr.printDyslexic) {
-    char.units.push('dyslexic');
+    if (attr.printDyslexie) {
+      char.units.push('dyslexie');
+    } else {
+      char.units.push('dyslexic');
+    }
   }
 
   // game-specific settings

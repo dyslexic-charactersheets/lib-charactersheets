@@ -15,6 +15,7 @@ function parseGM_Maps(primary, request) {
       printLarge: false,
       printHighContrast: false,
       printDyslexic: false,
+      printDyslexie: false,
 
       mapView: "2d",
 
@@ -36,6 +37,7 @@ function parseGM_Maps(primary, request) {
     printLarge: attr.printLarge,
     printHighContrast: attr.printHighContrast,
     printDyslexic: attr.printDyslexic,
+    printDyslexie: attr.printDyslexie,
 
     mapView: attr.mapView,
 
@@ -64,7 +66,11 @@ function parseGM_Maps(primary, request) {
     gm.units.push('high-contrast');
   }
   if (attr.printDyslexic) {
-    gm.units.push('dyslexic');
+    if (attr.printDyslexie) {
+      char.units.push('dyslexie');
+    } else {
+      char.units.push('dyslexic');
+    }
   }
 
   // included assets

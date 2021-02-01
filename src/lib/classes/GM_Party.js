@@ -13,6 +13,7 @@ function parseGM_Party(primary, request) {
     printLarge: false,
     printHighContrast: false,
     printDyslexic: false,
+    printDyslexie: false,
 
     printColour: '#707070',
     accentColour: '',
@@ -32,6 +33,7 @@ function parseGM_Party(primary, request) {
     printLarge: attr.printLarge,
     printHighContrast: attr.printHighContrast,
     printDyslexic: attr.printDyslexic,
+    printDyslexie: attr.printDyslexie,
 
     printColour: attr.printColour,
     accentColour: attr.accentColour,
@@ -58,7 +60,11 @@ function parseGM_Party(primary, request) {
     gm.units.push('high-contrast');
   }
   if (attr.printDyslexic) {
-    gm.units.push('dyslexic');
+    if (attr.printDyslexie) {
+      char.units.push('dyslexie');
+    } else {
+      char.units.push('dyslexic');
+    }
   }
 
   // game-specific settings
