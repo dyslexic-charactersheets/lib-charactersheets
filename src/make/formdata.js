@@ -112,10 +112,10 @@ module.exports = {
         unit.form.forEach(item => {
           var key = Object.keys(item)[0];
           if (key == "select") {
-            item.base = unit.id == "base";
+            item.base = (_.has(item, "base") && item.base) || (unit.id == "base");
             baseSelects.push(item);
           } else if (key == "option") {
-            item.base = unit.id == "base";
+            item.base = (_.has(item, "base") && item.base) || (unit.id == "base");
             baseOptions.push(item);
           }
         });
