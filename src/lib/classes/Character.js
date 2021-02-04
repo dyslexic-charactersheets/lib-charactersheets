@@ -326,6 +326,9 @@ export class Character extends Instance {
           if (data.printHighContrast) {
             document.highContrast = true;
           }
+          if (data.printDyslexic && data.printDyslexie) {
+            document.skipOptional = true;
+          }
 
           // Load assets
           if (data.favicon) {

@@ -67,9 +67,9 @@ function parseGM_Maps(primary, request) {
   }
   if (attr.printDyslexic) {
     if (attr.printDyslexie) {
-      char.units.push('dyslexie');
+      gm.units.push('dyslexie');
     } else {
-      char.units.push('dyslexic');
+      gm.units.push('dyslexic');
     }
   }
 

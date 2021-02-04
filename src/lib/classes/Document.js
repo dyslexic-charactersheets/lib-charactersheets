@@ -25,6 +25,7 @@ export class Document {
 
     this.browserTarget = false;
     this.largePrint = false;
+    this.skipOptional = false;
     this.highContrast = false;
     this.printColour = '#808080';
     this.accentColour = '#808080';
@@ -219,6 +220,7 @@ export class Document {
       zones: this.zones,
       templates: this.templates,
       largePrint: this.largePrint,
+      skipOptional: this.skipOptional,
       locale: this.language,
 
       hasVar(varname) {

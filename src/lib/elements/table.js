@@ -21,7 +21,7 @@ export let table = {
   },
   render(args, reg, doc) {
     // get headings
-    if (doc.isLargePrint) {
+    if (doc.largePrint || doc.skipOptional) {
       args.columns = args.columns.filter(col => !(has(col, "optional") && col.optional));
     }
 
@@ -104,7 +104,7 @@ export let table = {
       return [row];
     });
 
-    if (doc.isLargePrint) {
+    if (doc.largePrint ) {
       rows = rows.filter(row => !(has(row, "optional") && row.optional));
     }
 
