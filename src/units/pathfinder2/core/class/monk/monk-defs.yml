@@ -1,0 +1,180 @@
+unit: class/monk/defs
+group: "_{Core Rulebook}"
+name: "_{Monk}"
+
+inc:
+  - copy: monk/stance
+    params:
+      id:
+      title:
+      ability:
+    contents:
+      - article: monk/stance/#{id}
+        title: "#{title}"
+        cat: "_{Feat}"
+        merge-bottom: false
+        contents:
+          - action:
+            contents:
+              - item:
+
+  - copy: monk/stance-attack
+    param:
+      id:
+      name:
+      dmg:
+      type:
+    contents:
+      - row:
+        contents:
+          - field: monk/stance/#{id}/attack
+            icon: fist
+            label: "_{Attack}"
+            width: stretch
+          - calc:
+            output:
+              field: monk/stance/#{id}/attack-bonus
+              label: "_{Attack Bonus}"
+              width: large
+              attack: true
+              icon: bonus
+            inputs:
+              - field:
+                ref: true
+                misc: true
+                label: "_{Ability}"
+              - span: "+"
+              - field: unarmed-attack-proficiency
+                control: proficiency
+                label: "_{Proficiency}"
+          - field: monk/stance/#{id}/damage
+            border: full
+            label: "_{Damage}"
+            width: huge
+            icon: damage
+            control: compound
+            parts:
+              - subid: ndice
+                width: tiny
+                align: right
+              - label: "_{d}"
+              - subid: die
+                width: tiny
+                align: left
+              - label: "+"
+              - subid: extra
+                width: tiny
+          - field: monk/stance/#{id}/damage-type
+            label: "_{Type}"
+            width: tiny
+            # control: value
+            # value: "#{type}"
+      - row:
+        contents:
+          # - item:
+          - field: monk/stance/#{id}/attack-detail
+            width: stretch
+            frame: none
+
+  - copy: monk/stance-attack/str
+    param:
+      id:
+      name:
+      dmg:
+      type:
+    contents:
+      - row:
+        contents:
+          - icon: fist
+          - h6: "#{name}"
+          - calc:
+            output:
+              field: monk/stance/#{id}/attack-bonus
+              label: "_{Attack Bonus}"
+              width: large
+              attack: true
+              icon: bonus
+            inputs:
+              - field:
+                ref: STR
+                label: "_{STR}"
+                underlay: "_{STR}"
+              - span: "+"
+              - field: unarmed-attack-proficiency
+                control: proficiency
+                label: "_{Proficiency}"
+          - field: monk/stance/#{id}/damage
+            border: full
+            label: "_{Damage}"
+            width: huge
+            icon: damage
+            control: compound
+            parts:
+              - subid: ndice
+                width: tiny
+                align: right
+              - label: "#{dmg} +"
+              - subid: extra
+                width: tiny
+          - field: monk/stance/#{id}/damage-type
+            label: "_{Type}"
+            width: tiny
+            control: value
+            value: "#{type}"
+      - row:
+        contents:
+          - item:
+          - field: monk/stance/#{id}/attack-detail
+            width: stretch
+            frame: none
+            
+  - copy: monk/stance-attack/dex
+    param:
+      id:
+      name:
+    contents:
+      - row:
+        contents:
+          - icon: fist
+          - h6: "#{name}"
+          - calc:
+            output:
+              field: monk/stance/#{id}/attack-bonus
+              label: "_{Attack Bonus}"
+              width: large
+              attack: true
+              icon: bonus
+            inputs:
+              - field:
+                ref: DEX
+                label: "_{DEX}"
+                underlay: "_{DEX}"
+              - span: "+"
+              - field: unarmed-attack-proficiency
+                control: proficiency
+                label: "_{Proficiency}"
+          - field: monk/stance/#{id}/damage
+            border: full
+            label: "_{Damage}"
+            width: huge
+            icon: damage
+            control: compound
+            parts:
+              - subid: ndice
+                width: tiny
+                align: right
+              - label: "#{dmg} +"
+              - subid: extra
+                width: tiny
+          - field: monk/stance/#{id}/damage-type
+            label: "_{Type}"
+            width: tiny
+            control: value
+            value: "#{type}"
+      - row:
+        contents:
+          - item:
+          - field: monk/stance/#{id}/attack-detail
+            width: stretch
+            frame: none
+

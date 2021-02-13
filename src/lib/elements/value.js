@@ -8,7 +8,9 @@ export let value = {
     frame: 'none',
     control: 'value',
     width: 'tiny',
+    label: "",
     size: 'medium',
+    flex: 'tiny',
   },
   transform(args, ctx) {
     return [{

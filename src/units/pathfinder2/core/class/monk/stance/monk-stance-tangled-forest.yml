@@ -6,6 +6,48 @@ name: "_{Tangled Forest Stance}"
 
 inc:
 
+  - copy: monk/stance/tangled-forest
+    contents:
+      - g:
+        name: "_{Tangled Forest Stance}"
+        contents:
+          - selectable: monk/stance/tangled-forest
+            contents:
+              - paste: monk/stance
+                params:
+                  id: tangled-forest
+                  title: "_{Tangled Forest Stance}"
+                contents:
+                  - p: "_{Enemies that move away from you must make a Reflex save, Acrobatics or Athletics check against your class DC or be immobilised this round.}"
+
+          - paste: monk/stance-attack/dex
+            params:
+              id: falling-stone
+              name: "_{Falling Stone Attack}"
+              dmg: "_{d8}"
+              type: "_{S}"
+            contents:
+              - flags:
+                  - "_{Agile}"
+                  - "_{Finesse}"
+                  - "_{Nonlethal}"
+                  - "_{Unarmed}"
+
+          - selectable: monk/stance/tangled-forest/rake
+            contents:
+              - article:
+                title: "_{Tangled Forest Rake}"
+                cat: "_{Feat}"
+                contents:
+                  - action:
+                    contents:
+                      - p: "_{Make a lashing branch attack. If it hits, force the enemy to move 5ft into a space within your reach.}"
+
+  - at: '@monk/stances'
+    add:
+      - paste: monk/stance/tangled-forest
+
+
   - at: '@actions'
     add:
       - action:
@@ -41,42 +83,3 @@ inc:
       - finesse
       - nonlethal
       - unarmed
-
-  - at: '@monk/stance'
-    add:
-      - list:
-        zebra: true
-        hr: true
-        light: true
-        contents:
-          - action:
-            contents:
-              - article:
-                title: "_{Tangled Forest Stance}"
-                contents:
-                  - p: "_{Enemies that move away from you must make a Reflex save, Acrobatics or Athletics check against your class DC or be immobilised this round.}"
-          
-          - action:
-            contents:
-              - article:
-                title: "_{Lashing Branch Attack}"
-                contents:
-                  - field: lashing-branch-damage
-                    label: "_{Slashing}"
-                    frame: right
-                    control: value
-                    value: "d8"
-                  - flags:
-                      - "_{Agile}"
-                      - "_{Finesse}"
-                      - "_{Non-lethal}"
-                      - "_{Unarmed}"
-
-          - selectable: monk/stance/tangled-forest/rake
-            contents:
-              - action:
-                contents:
-                  - article:
-                    title: "_{Tangled Forest Rake}"
-                    contents:
-                      - p: "_{Make a lashing branch attack. If it hits, force the enemy to move 5ft into a space within your reach.}"

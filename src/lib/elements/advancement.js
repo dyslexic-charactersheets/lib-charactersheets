@@ -15,6 +15,7 @@ export let advancement = {
     shade: true,
     elide: false,
     flip: false,
+    rotate: false,
     advances: [],
     index: "_{Level}",
     labels: [],
@@ -168,7 +169,7 @@ export let advancement = {
     let columns = [{
       type: "label",
       label: args.index,
-      rotate: args.flip,
+      rotate: args.flip ^ args.rotate,
       valign: "middle"
     }];
     let template = [{
@@ -180,7 +181,7 @@ export let advancement = {
       columns.push({
         type: "label",
         label: "",
-        rotate: args.flip,
+        rotate: args.flip ^ args.rotate,
         valign: "middle"
       });
       template.push({
@@ -200,7 +201,7 @@ export let advancement = {
       columns.push({
         type: "label",
         label: args.title,
-        rotate: args.flip,
+        rotate: args.flip ^ args.rotate,
         align: "left",
         valign: "bottom"
       });
@@ -227,7 +228,7 @@ export let advancement = {
       columns.push({
         type: "label",
         label: field.name,
-        rotate: args.flip,
+        rotate: args.flip ^ args.rotate,
         align: "center",
         valign: "bottom",
         shade: field.shade

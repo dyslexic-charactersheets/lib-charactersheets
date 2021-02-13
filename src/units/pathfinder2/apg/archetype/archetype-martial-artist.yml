@@ -3,6 +3,23 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Martial Artist}"
 
+form:
+  - select: monk/stance
+    name: "_{Monk Stance}"
+    max: 6
+
+require:
+  - unit: class/monk/defs
+  - unit: feat/monk/brawling-focus
+
+  # - unit: monk/stance/crane
+  # - unit: monk/stance/dragon
+  # - unit: monk/stance/gorilla
+  # - unit: monk/stance/mountain
+  # - unit: monk/stance/stumbling
+  # - unit: monk/stance/tiger
+  # - unit: monk/stance/wolf
+
 inc:
   - at: '@archetypes'
     add:
@@ -15,7 +32,6 @@ inc:
         name: "_{Martial Artist}"
         order: 26
         flex: true
-        half: true
         contents:
           - layout: 2l
             contents:
@@ -33,9 +49,11 @@ inc:
                   - section: "_{Dedication}"
                     primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
-                        icon: proficiency-trained
-                      - hr:
+                      - value-block: "_{d6}"
+                        content: "_{Unarmed damage with your fists}"
+                      - p: "_{Don't take the -2 penalty when making a lethal attack with a nonlethal unarmed attack.}"
+                      - p: "_{Whenever you become expert or better in any weapon, become the same in unarmed attacks.}"
+                      
 
                   - section: "_{Follow-Up Strike}"
                     contents:
@@ -51,6 +69,35 @@ inc:
                         contents:
                           - action: 2
                             contents:
+                              - p: "_{Make an unarmed melee Strike. This counts as two attacks for MAP.}"
+                              - p: "_{Deal two extra damage dice.}"
+                              - calc:
+                                output:
+                                  field:
+                                  legend: "_{Resistance}"
+                                  border: full
+                                  width: large
+                                inputs:
+                                  - field:
+                                    ref: level
+                                    label: "_{Level}"
+
+                          - level: 18
+                            contents:
+                              - g:
+                                pad: true
+                                contents:
+                                  - field: "##/grievous-blow/damage"
+                                    border: full
+                                    label: "_{Damage}"
+                                    width: huge
+                                    icon: damage
+                                    control: compound
+                                    parts:
+                                      - label: "3d8 +"
+                                      - subid: extra
+                                        width: tiny
+
 
                   - section: "_{Path of Iron}"
                     contents:
@@ -58,107 +105,55 @@ inc:
                         contents:
                           - action: 3
                             contents:
+                              - p: "_{Stride; this doesn't trigger reactions.}"
+                              - p: "_{Strike up three enemies during this movement.}"
+
+                  - section: "_{Feats}"
+                    contents:
+                      - selectable: feat/monk/brawling-focus
+                        contents:
+                          - paste: feat/monk/brawling-focus
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
-
-                  - section: "_{Stance}"
+                  - section: "_{Stances}"
                     contents:
                       - list:
                         hr: true
+                        zebra: true
                         contents:
-                          - list:
-                            hr: true
-                            light: true
+                          - sort: name
                             contents:
-                              - selectable: feat/monk/stance/crane
+                              - slots:
+                                min: 5
+                                max: 5
                                 contents:
-                                  - paste: feat/monk/stance/crane
-                                  
-                              - selectable: feat/monk/crane-flutter
-                                contents:
-                                  - paste: feat/monk/crane-flutter
-                              
-                          - list:
-                            hr: true
-                            light: true
-                            contents:
-                              - selectable: feat/monk/stance/dragon
-                                contents:
-                                  - paste: feat/monk/stance/dragon
-                                  
-                              - selectable: feat/monk/dragon-roar
-                                contents:
-                                  - paste: feat/monk/dragon-roar
-                                  
-                          - list:
-                            hr: true
-                            light: true
-                            contents:
-                              - selectable: feat/monk/stance/gorilla
-                                contents:
-                                  - paste: feat/monk/stance/gorilla
-                                  
-                              - selectable: feat/monk/gorilla-pound
-                                contents:
-                                  - paste: feat/monk/gorilla-pound
-                              
-                          - list:
-                            hr: true
-                            light: true
-                            contents:
-                              - selectable: feat/monk/stance/mountain
-                                contents:
-                                  - paste: feat/monk/stance/mountain
-                                  
-                              - selectable: feat/monk/mountain-stronghold
-                                contents:
-                                  - paste: feat/monk/mountain-stronghold
-                              
-                          - list:
-                            hr: true
-                            light: true
-                            contents:
-                              - selectable: feat/monk/stance/stumbling
-                                contents:
-                                  - paste: feat/monk/stance/stumbling
-                                  
-                              - selectable: feat/monk/stumbling-feint
-                                contents:
-                                  - paste: feat/monk/stumbling-feint
-                                  
-                          - list:
-                            hr: true
-                            light: true
-                            contents:
-                              - selectable: feat/monk/stance/tiger
-                                contents:
-                                  - paste: feat/monk/stance/tiger
-                                  
-                              - selectable: feat/monk/tiger-slash
-                                contents:
-                                  - paste: feat/monk/tiger-slash
-                              
-                          - list:
-                            hr: true
-                            light: true
-                            contents:
-                              - selectable: feat/monk/stance/wolf
-                                contents:
-                                  - paste: feat/monk/stance/wolf
-                                  
-                              - selectable: feat/monk/wolf-drag
-                                contents:
-                                  - paste: feat/monk/wolf-drag
-
-                  - section: "_{Feats}"
-                    contents:
-                      - selectable: feat/monk/brawling-focus
-                        contents:
-                          - paste: feat/monk/brawling-focuse
+                                  - zone: '@monk/stances'
+                                    contents:
+                                placeholder:
+                                  - g:
+                                    order: 99
+                                    contents:
+                                      - selectable: '##/stance/#{i}'
+                                        contents:
+                                          - action:
+                                            contents:
+                                              - article: '##/stance/#{i}'
+                                                cat: "_{Feat}"
+                                                lines: 1
+                                                no-header-line: true
+                                                merge-bottom: false
+                                      - paste: monk/stance-attack
+                                      - selectable: '##/stance/#{i}/further'
+                                        contents:
+                                          - action: template
+                                            contents:
+                                              - article: '##/stance/#{i}/further'
+                                                cat: "_{Feat}"
+                                                lines: 1
+                                                no-header-line: true
 
                   - tail:
-                  - spacer:

@@ -5,6 +5,78 @@ group: "_{Core Rulebook}"
 name: "_{Ironblood Stance}"
 
 inc:
+  - copy: monk/stance/ironblood
+    contents:
+      - g:
+        name: "_{Ironblood Stance}"
+        contents:
+          - selectable: monk/stance/ironblood
+            contents:
+              - paste: monk/stance
+                params:
+                  id: dragon
+                  title: "_{Ironblood Stance}"
+                contents:
+                  - advancement:
+                    zebra: false
+                    shade: false
+                    elide: true
+                    flip: true
+                    rotate: true
+                    fields:
+                      - name: "_{Damage\nResistance}"
+                        key: resistance
+                        format: string
+                    advances:
+                      - level: 8
+                        resistance: 2
+                      - level: 12
+                        resistance: 3
+                      - level: 16
+                        resistance: 4
+                      - level: 20
+                        resistance: 5
+
+          - paste: monk/stance-attack/str
+            params:
+              id: dragon-tail
+              name: "_{Iron Sweep Attack}"
+              dmg: "_{d8}"
+              type: "_{B}"
+            contents:
+              - flags:
+                  - "_{Parry}"
+                  - "_{Sweep}"
+                  - "_{Nonlethal}"
+                  - "_{Unarmed}"
+              
+          - selectable: monk/stance/ironblood/surge
+            contents:
+              - article:
+                title: "_{Ironblood Surge}"
+                cat: "_{Feat}"
+                contents:
+                  - action:
+                    contents:
+                      - p: "_{Prepare for an attack this round.}"
+                      - layout: 2e
+                        contents:
+                          - field: 
+                            label: "_{AC Bonus (parry)}"
+                            frame: right
+                            control: value
+                            value: "_{+1}"
+                          - field: 
+                            label: "_{Damage resistance}"
+                            frame: right
+                            ref: STR
+                            underlay: "_{STR}"
+
+
+  - at: '@monk/stances'
+    add:
+      - paste: monk/stance/ironblood
+
   - at: '@actions'
     add:
       - action:
@@ -36,72 +108,8 @@ inc:
             
   - at: '@reference/weapon-traits'
     add:
-      - backswing
+      - parry
+      - sweep
       - nonlethal
       - unarmed
 
-  - at: '@monk/stance'
-    add:
-      - list:
-        zebra: true
-        hr: true
-        light: true
-        contents:
-          - action:
-            contents:
-              - article:
-                title: "_{Ironblood Stance}"
-                contents:
-                  - advancement:
-                    zebra: false
-                    shade: false
-                    elide: true
-                    flip: true
-                    fields:
-                      - name: "_{Damage\nResistance}"
-                        key: resistance
-                        format: string
-                    advances:
-                      - level: 8
-                        resistance: 2
-                      - level: 12
-                        resistance: 3
-                      - level: 16
-                        resistance: 4
-                      - level: 20
-                        resistance: 5
-          
-          - action:
-            contents:
-              - article:
-                title: "_{Iron Sweep Attack}"
-                contents:
-                  - field: dragon-tail-damage
-                    label: "_{Bludgeoning}"
-                    frame: right
-                    control: value
-                    value: "d8"
-                  - flags:
-                      - "_{Non-lethal}"
-                      - "_{Parry}"
-                      - "_{Sweep}"
-                      - "_{Unarmed}"
-
-          - selectable: monk/stance/ironblood/surge
-            contents:
-              - action:
-                contents:
-                  - article:
-                    title: "_{Ironblood Surge}"
-                    contents:
-                      - p: "_{Prepare for an attack this round.}"
-                      - field: 
-                        label: "_{AC Bonus (parry)}"
-                        frame: right
-                        control: value
-                        value: "_{+1}"
-                      - field: 
-                        label: "_{Damage resistance}"
-                        frame: right
-                        ref: STR
-                        underlay: "_{STR}"

@@ -6,6 +6,94 @@ name: "_{Tiger Stance}"
 
 inc:
 
+  - copy: monk/stance/tiger
+    contents:
+      - g:
+        name: "_{Tiger Stance}"
+        contents:
+          - selectable: monk/stance/tiger
+            contents:
+              - paste: monk/stance
+                params:
+                  id: tiger
+                  title: "_{Tiger Stance}"
+                contents:
+                  - row:
+                    contents:
+                      - field: monk/stance/tiger/step
+                        label: "_{Step}"
+                        # frame: right
+                        control: value
+                        value: "10ft"
+                      - p: "_{As long as your mvoe is at leat 20ft, take a 10ft step}"
+                      - spacer:
+
+          - paste: monk/stance-attack/dex
+            params:
+              id: tiger-claw
+              name: "_{Tiger Claw Attack}"
+              dmg: "_{d8}"
+              type: "_{S}"
+            contents:
+              - flags:
+                  - "_{Agile}"
+                  - "_{Finesse}"
+                  - "_{Nonlethal}"
+                  - "_{Unarmed}"
+              - p: "_{On a critical hit, deal d4 persistent bleed damage.}"
+
+          - selectable: monk/stance/tiger/slash
+            contents:
+              - article:
+                title: "_{Tiger Slash}"
+                cat: "_{Feat}"
+                contents:
+                  - action: 2
+                    contents:
+                      - row:
+                        contents:
+                          - p: "_{Make a Tiger Claw attack. If it hits, push the target away 5ft.} _{On a critical hit, add your strength to the bleed damage.}"
+                          - field: monk/stance/tiger/slash/damage
+                            border: full
+                            label: "_{Damage}"
+                            width: huge
+                            icon: damage
+                            control: compound
+                            parts:
+                              - label: "3d8 +"
+                              - subid: extra
+                                width: tiny
+                          - field: monk/stance/tiger/slash/damage-type
+                            label: "_{Type}"
+                            width: tiny
+                            control: value
+                            value: "S"
+                      - level: 14
+                        contents:
+                          - row:
+                            contents:
+                              - spacer:
+                              - field: monk/stance/tiger/slash/damage/14
+                                border: full
+                                label: "_{Damage}"
+                                width: huge
+                                icon: damage
+                                control: compound
+                                parts:
+                                  - label: "4d8 +"
+                                  - subid: extra
+                                    width: tiny
+                              - field: monk/stance/tiger/slash/damage-type/14
+                                label: "_{Type}"
+                                width: tiny
+                                control: value
+                                value: "S"
+
+  - at: '@monk/stances'
+    add:
+      - paste: monk/stance/tiger
+
+
   - at: '@actions'
     add:
       - action:
@@ -41,66 +129,3 @@ inc:
       - finesse
       - nonlethal
       - unarmed
-
-  - at: '@monk/stance'
-    add:
-      - list:
-        zebra: true
-        hr: true
-        light: true
-        contents:
-          - action:
-            contents:
-              - article:
-                title: "_{Tiger Stance}"
-                contents:
-                  - field: monk/stance/tiger/step
-                    label: "_{Step}"
-                    frame: right
-                    control: value
-                    value: "10ft"
-          
-          - action:
-            contents:
-              - article:
-                title: "_{Tiger Claw Attack}"
-                contents:
-                  - field: tiger-claw-damage
-                    label: "_{Slashing}"
-                    frame: right
-                    control: value
-                    value: "d8"
-                  - flags:
-                      - "_{Agile}"
-                      - "_{Finesse}"
-                      - "_{Non-lethal}"
-                      - "_{Unarmed}"
-                  - field: tiger-claw-damage
-                    label: "_{Bleed on a critical hit}"
-                    frame: right
-                    control: value
-                    value: "d4"
-
-          - selectable: monk/tiger-stance/tiger-slash
-            contents:
-              - action: 2
-                contents:
-                  - article:
-                    title: "_{Tiger Slash}"
-                    contents:
-                      - p: "_{Make a Tiger Claw attack. If it hits, push the target away 5ft.}"
-                      - p: "_{On a critical hit, add your strength to the bleed damage.}"
-                      - indent:
-                        contents:
-                          - field: tiger-claw-damage
-                            label: "_{Slashing}"
-                            frame: right
-                            control: value
-                            value: "3d8"
-                      - level: 14
-                        contents:
-                          - field: tiger-claw-damage
-                            label: "_{Slashing}"
-                            frame: right
-                            control: value
-                            value: "4d8"

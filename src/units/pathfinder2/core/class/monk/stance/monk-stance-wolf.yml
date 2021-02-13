@@ -6,6 +6,57 @@ name: "_{Wolf Stance}"
 
 inc:
 
+  - copy: monk/stance/wolf
+    contents:
+      - g:
+        name: "_{Wolf Stance}"
+        contents:
+          - selectable: monk/stance/wolf
+            contents:
+              - paste: monk/stance
+                params:
+                  id: wolf
+                  title: "_{Wolf Stance}"
+                contents:
+                  - p: "_{While flanking, Wolf Jaw Attack gains Trip}"
+
+          - paste: monk/stance-attack/dex
+            params:
+              id: tiger-claw
+              name: "_{Wolf Jaw Attack}"
+              dmg: "_{d8}"
+              type: "_{P}"
+            contents:
+              - flags:
+                  - "_{Agile}"
+                  - "_{Backstabber}"
+                  - "_{Finesse}"
+                  - "_{Nonlethal}"
+                  - "_{Unarmed}"
+              - p: "_{While flanking:}"
+              - flags:
+                  - "_{Trip}"
+
+          - selectable: monk/stance/wolf/drag
+            contents:
+              - article:
+                title: "_{Wolf Drag}"
+                cat: "_{Feat}"
+                contents:
+                  - action: 2
+                    contents:
+                      - row:
+                        contents:
+                          - p: "_{Make a wolf jaw attack. If it hits, knock your target prone.}"
+                          - flags:
+                              - "_{Fatal} _{d12}"
+
+
+  - at: '@monk/stances'
+    add:
+      - paste: monk/stance/wolf
+
+
   - at: '@actions'
     add:
       - action:
@@ -22,7 +73,7 @@ inc:
               - p:
                 title: "_{Wolf Jaw Attack}"
                 content: "_{Unarmed attack that deals piercing damage.}"
-              - field: lashing-branch-damage
+              - field: wolf-jaw-damage
                 label: "_{Damage}"
                 control: value
                 value: "d8"

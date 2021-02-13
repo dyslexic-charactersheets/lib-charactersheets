@@ -5,8 +5,62 @@ group: "_{Core Rulebook}"
 name: "_{Dragon Stance}"
 
 inc:
+  - copy: monk/stance/dragon
+    contents:
+      - g:
+        name: "_{Dragon Stance}"
+        contents:
+          - selectable: monk/stance/crane
+            contents:
+              - paste: monk/stance
+                params:
+                  id: dragon
+                  title: "_{Dragon Stance}"
+                contents:
+                  - p: "_{Ignore the first square of difficult terrain.}"
 
-  - at: '@actions'
+          - paste: monk/stance-attack/str
+            params:
+              id: dragon-tail
+              name: "_{Dragon Tail Attack}"
+              dmg: "_{d10}"
+              type: "_{B}"
+            contents:
+              - flags:
+                  - "_{Backswing}"
+                  - "_{Nonlethal}"
+                  - "_{Unarmed}"
+              
+          - selectable: monk/stance/dragon/dragon-roar
+            contents:
+              - article:
+                title: "_{Dragon Roar}"
+                cat: "_{Feat}"
+                contents:
+                  - action:
+                    contents:
+                      - row:
+                        contents:
+                          - value: "_{15ft}"
+                            label: "_{Range}"
+                            frame: above
+                          - p: "_{Will vs your Intimidation DC}"
+                          - paste: inline-save
+                            params:
+                              failure: "_{Frightened 1}"
+                              critical_failure: "2"
+                      - row:
+                        contents:
+                          - value: "+4"
+                            # label: "_{Damage Bonus}"
+                            # frame: above
+                          - p: "_{To your first attack against a frightened creature the same turn.}"
+
+  - at: '@monk/stances'
+    add:
+      - paste: monk/stance/dragon
+      
+  - at: '@monk/stance-actions'
     add:
       - action:
         order: 2
@@ -41,57 +95,68 @@ inc:
       - nonlethal
       - unarmed
 
-  - at: '@monk/stance'
-    add:
-      - list:
-        zebra: true
-        hr: true
-        light: true
-        contents:
-          - action:
-            contents:
-              - article:
-                title: "_{Dragon Stance}"
-                contents:
-                  - p: "_{Ignore the first square of difficult terrain.}"
-          
-          - action:
-            contents:
-              - article:
-                title: "_{Dragon Tail Attack}"
-                contents:
-                  - field: dragon-tail-damage
-                    label: "_{Bludgeoning}"
-                    frame: right
-                    control: value
-                    value: "d10"
-                  - flags:
-                      - "_{Backswing}"
-                      - "_{Non-lethal}"
-                      - "_{Unarmed}"
 
-          - selectable: monk/dragon-stance/dragon-roar
-            contents:
-              - action:
-                contents:
-                  - article:
-                    title: "_{Dragon Roar}"
-                    contents:
-                      - field: dragon-roar-range
-                        label: "_{Range}"
-                        frame: right
-                        control: value
-                        value: "_{15ft}"
-                      - p: "_{Will vs your Intimidation DC}"
-                      - paste: save
-                        params:
-                          failure: "_{Frightened 1}"
-                          critical_failure: "2"
-                      - hr:
-                        light: yes
-                      - field: dragon-roar-damage
-                        label: "_{Damage Bonus}"
-                        control: value
-                        value: "_{+4}"
-                        frame: right
-                      - p: "_{To your first attack against a frightened creature the same turn.}"
+      # - list:
+      #   zebra: true
+      #   hr: true
+      #   light: true
+      #   contents:
+      #     - action:
+      #       contents:
+      #         - article:
+      #           title: "_{Dragon Stance}"
+      #           contents:
+      #             - p: "_{Ignore the first square of difficult terrain.}"
+          
+      #     - paste: monk/stance-attack/dex
+      #       params:
+      #         id: dragon-tail
+      #         name: "_{Dragon Tail Attack}"
+      #         dmg: "_{d10}"
+      #         type: "_{B}"
+      #       contents:
+      #         - flags:
+      #             - "_{Backswing}"
+      #             # - "_{Non-lethal}"
+      #             # - "_{Unarmed}"
+              
+      #     # - action:
+      #     #   contents:
+      #     #     - article:
+      #     #       title: "_{Dragon Tail Attack}"
+      #     #       contents:
+      #     #         - field: dragon-tail-damage
+      #     #           label: "_{Bludgeoning}"
+      #     #           frame: right
+      #     #           control: value
+      #     #           value: "d10"
+      #     #         - flags:
+      #     #             - "_{Backswing}"
+      #     #             - "_{Non-lethal}"
+      #     #             - "_{Unarmed}"
+
+      #     - selectable: monk/dragon-stance/dragon-roar
+      #       contents:
+      #         - action:
+      #           contents:
+      #             - article:
+      #               title: "_{Dragon Roar}"
+      #               contents:
+      #                 - field: dragon-roar-range
+      #                   label: "_{Range}"
+      #                   frame: right
+      #                   control: value
+      #                   value: "_{15ft}"
+      #                 - p: "_{Will vs your Intimidation DC}"
+      #                 - paste: save
+      #                   params:
+      #                     failure: "_{Frightened 1}"
+      #                     critical_failure: "2"
+      #                 - hr:
+      #                   light: yes
+      #                 - field: dragon-roar-damage
+      #                   label: "_{Damage Bonus}"
+      #                   control: value
+      #                   value: "_{+4}"
+      #                   frame: right
+      #                 - p: "_{To your first attack against a frightened creature the same turn.}"

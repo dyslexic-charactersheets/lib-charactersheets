@@ -138,11 +138,38 @@ function parseCharacter(primary, request) {
   }
 
   // game-specific settings
+  const system = getSystem(attr.game);
+  function getUnitOptions(unitName) {
+    let unit = system.getUnit(unitName);
+    if (isNull(unit) || !has(unit, "form")) {
+      return;
+    }
+    // log("Character", "Options for", unitName);
+    unit.form.forEach(formOption => {
+      var optionSelect = formOption.select;
+      if (has(attr, optionSelect)) {
+        // log("Character", "Option", optionSelect);
+        if (isArray(attr[optionSelect])) {
+          attr[optionSelect].forEach(optionValue => {
+            // log("Character", "Adding multi option", optionValue);
+            char.units.push(optionValue);
+          })
+        } else {
+          // log("Character", "Adding single option", attr[optionSelect]);
+          char.units.push(attr[optionSelect]);
+        }
+      }
+    });
+  }
+
+  // log("Character", "System", system);
   switch (attr.game) {
     case 'pathfinder2':
       if (attr.ancestry) {
-        char.units.push('ancestry/' + attr.ancestry.replace(/^ancestry[\/-]/, ''));
-        char.ancestry = attr.ancestry.replace(/^ancestry-/, '');
+        let ancestryName = 'ancestry/' + attr.ancestry.replace(/^ancestry[\/-]/, '');
+        char.units.push(ancestryName);
+        char.ancestry = ancestryName;
+        getUnitOptions(ancestryName);
 
         if (attr.heritage && attr.heritage != "none") {
           char.units.push('heritage/' + attr.heritage.replace(/^heritage[\/-]/, ''));
@@ -165,6 +192,8 @@ function parseCharacter(primary, request) {
         let classPrefix = toCamelCase('class ' + classShortName);
         // log("Character", "Class name", className, ", prefix", classPrefix);
 
+        getUnitOptions('class/' + className);
+
         let classFeatsKey = classPrefix + 'Feats';
         if (attr[classFeatsKey]) {
           char.classFeats = parseFeats(attr[classFeatsKey]);
@@ -174,33 +203,33 @@ function parseCharacter(primary, request) {
           });
         }
 
-        Object.keys(attr).forEach(key => {
-          // log("Character", key);
-          // let value = attr[key];
+        // Object.keys(attr).forEach(key => {
+        //   // log("Character", key);
+        //   // let value = attr[key];
 
-          if (key.startsWith(classPrefix) && !key.endsWith('Feats')) {
-            // let selname = toKebabCase(key.replace(classPrefix, ''));
-            let selname = key;
-            log("Character", "Class selector", selname);
-            if (isArray(attr[key])) {
-              attr[key].forEach(selvalue => {
-                // selvalue = toKebabCase(selvalue);
-                // log("Character", "Class option", key, selname, "=", selvalue);
-                // const unitname = classShortName + '/' + selname + '/' + selvalue;
-                const unitname = selvalue;
-                log("Character", "Subclass unit name", unitname);
-                char.units.push(unitname);
-              });
-            } else if (isString(attr[key])) {
-              // let selvalue = toKebabCase(attr[key]);
-              // log("Character", "Class option", key, selname, "=", selvalue);
-              // const unitname = classShortName + '/' + selname + '/' + selvalue;
-              const unitname = attr[key];
-              log("Character", "Class option unit", unitname);
-              char.units.push(unitname);
-            }
-          }
-        });
+        //   if (key.startsWith(classPrefix) && !key.endsWith('Feats')) {
+        //     // let selname = toKebabCase(key.replace(classPrefix, ''));
+        //     let selname = key;
+        //     log("Character", "Class selector", selname);
+        //     if (isArray(attr[key])) {
+        //       attr[key].forEach(selvalue => {
+        //         // selvalue = toKebabCase(selvalue);
+        //         // log("Character", "Class option", key, selname, "=", selvalue);
+        //         // const unitname = classShortName + '/' + selname + '/' + selvalue;
+        //         const unitname = selvalue;
+        //         log("Character", "Subclass unit name", unitname);
+        //         char.units.push(unitname);
+        //       });
+        //     } else if (isString(attr[key])) {
+        //       // let selvalue = toKebabCase(attr[key]);
+        //       // log("Character", "Class option", key, selname, "=", selvalue);
+        //       // const unitname = classShortName + '/' + selname + '/' + selvalue;
+        //       const unitname = attr[key];
+        //       log("Character", "Class option unit", unitname);
+        //       char.units.push(unitname);
+        //     }
+        //   }
+        // });
 
         // attr.feats.forEach(key => {
         //   let flag = toKebabCase(key);
@@ -230,9 +259,12 @@ function parseCharacter(primary, request) {
       if (attr.archetypes && isArray(attr.archetypes)) {
         attr.archetypes.forEach(archetype => {
           if (isString(archetype)) {
-            char.archetypes.push(archetype);
-            char.units.push('archetype/' + archetype.replace(/^archetype[\/-]/, ''));
+            let archetypeName = 'archetype/' + archetype.replace(/^archetype[\/-]/, '');
+            char.units.push(archetypeName);
+            char.archetypes.push(archetypeName);
             // log("Character", "Archetype:", "archetype/"+archetype);
+
+            getUnitOptions(archetypeName);
           }
         });
       }
@@ -287,7 +319,13 @@ export class Character extends Instance {
     super();
     this.registry = registry;
     this.request = request;
-    this.data = parseCharacter(primary, request);
+    
+    this.promise = new Promise((resolve, reject) => {
+      systemsReady(() => {
+        this.data = parseCharacter(primary, request);
+        resolve(this.data);
+      });
+    });
   }
 
   /**
@@ -296,8 +334,10 @@ export class Character extends Instance {
    */
   render() {
     const self = this;
-    const data = this.data;
+    // const data = this.data;
+    const promise = this.promise;
     return new Promise((resolve, reject) => {
+      promise.then((data) => {
       // log("Character", "Render character");
       // log("Character", `Name: ${this.data.name}, game: ${this.data.game}`);
       log("Character", `Units: ${this.data.units}`);
@@ -449,6 +489,7 @@ export class Character extends Instance {
         }
       });
     });
+  });
   }
 }
 
@@ -484,7 +525,7 @@ function pathfinder2Title(units, doc, data) {
   let archetypes = getUnits("archetype");
   if (!isEmpty(archetypes)) {
     parts["archetypes"] = archetypes.map(arch => __(arch.name, doc)).join(" ");
-    log("Character", "Archetypes:", parts["archetypes"]);
+    // log("Character", "Archetypes:", parts["archetypes"]);
   }
 
   let template = isEmpty(parts.name) ? "_{#{ancestry} #{class} #{archetypes}}" : "_{#{name}, #{ancestry} #{class} #{archetypes}}";

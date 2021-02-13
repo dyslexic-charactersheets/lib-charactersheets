@@ -6,19 +6,22 @@ name: "_{Monk}"
 form:
   - select: monk/stance
     name: "_{Monk Stance}"
-    max: 2
+    max: 3
   - select: feat/monk
     name: "_{Monk Feats}"
     max: 8
     levels: [ 2, 4, 6, 8, 10, 14, 16, 18, 20 ]
 
 require:
+  - unit: class/monk/defs
   - unit: weapon-spec/fast
   - with: option/reference
     unit: class/monk/reference
   - deny: archetype/monk
+  
 
 inc:
+
   - set: class
     value: "_{Monk}"
   - set: hp-class
@@ -31,6 +34,8 @@ inc:
   - set: monk-class-dc-proficiency
     value: trained
   - set: perception-proficiency
+    value: trained
+  - set: unarmed-attack-proficiency
     value: trained
 
   - set: fortitude-proficiency
@@ -96,6 +101,7 @@ inc:
           - p:
             title: "_{Flurry of Blows}"
             content: "_{Make two unarmed Strikes. If both hit the same creature, combine their damage and enhancements.}"
+      - zone: '@monk/stance-actions'
 
   - at: '@focus-points'
     replace:
@@ -138,9 +144,7 @@ inc:
                                 frame: left
                                 control: radio
                                 label: "_{Divine}"
-                              # - icon: good
-                              - span: "&nbsp;"
-                              # - icon: evil
+                              # - span: "&nbsp;"
                               - field: ki-spells
                                 value: occult
                                 frame: right
@@ -163,7 +167,7 @@ inc:
                             frame: none
                             merge-bottom: true
                             width: stretch
-                            repeat: 6
+                            repeat: 5
 
                   - section: "_{Incredible Movement}"
                     contents:
@@ -192,6 +196,44 @@ inc:
                                       - level-marker: '#{level}'
                                       - span: '#{speed}'
                                   - p: "_{Bonus to Speed when not wearing armor.}"
+
+                  - section: "_{Unarmed}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        avoid-shade: true
+                        contents:
+                          - zone: '@monk-unarmed'
+                            contents:
+                              - article:
+                                header:
+                                  - h5: "_{Powerful Fist}"
+                                contents:
+                                  - value-block: "_{d6}"
+                                    content: "_{Unarmed damage with your fists}"
+                                  - p: "_{Don't take the -2 penalty when making a lethal attack with a nonlethal unarmed attack.}"
+                              - level: 3
+                                contents:
+                                  - article:
+                                    header:
+                                      - h5: "_{Mystic Strikes}"
+                                    contents:
+                                      - p: "_{Your unarmed attacks become magical, allowing them to bypass resistances.}"
+                              - level: 9
+                                contents:
+                                  - article:
+                                    header:
+                                      - h5: "_{Metal Strikes}"
+                                    contents:
+                                      - p: "_{Your unarmed attacks are treated as cold iron and silver.}"
+                              - level: 17
+                                contents:
+                                  - article:
+                                    header:
+                                      - h5: "_{Adamantine Strikes}"
+                                    contents:
+                                      - p: "_{Your unarmed attacks are treated as adamantine.}"
 
                   - section: "_{Path to Perfection}"
                     contents:
@@ -238,107 +280,64 @@ inc:
                           - p: "_{On the first attack of your turn, any roll below 10 becomes 10.}"
 
                   - tail:
-                  - spacer:
 
               - g:
                 contents:
-                  - zone: '@monk-stance'
-                    contents:
-                      - section: "_{Stances}"
-                        # primary: true
-                        contents:
-                          - list:
-                            hr: true
-                            collapse: true
-                            contents:
-                              - layout: 2e
-                                contents:
-                                  - slots:
-                                    min: 2
-                                    max: 2
-                                    contents:
-                                      - zone: '@monk/stance'
-                                    placeholder:
-                                      - list:
-                                        zebra: true
-                                        hr: true
-                                        light: true
-                                        contents:
-                                          - action:
-                                            contents:
-                                              - h5: "_{Stance}"
-                                                optional: true
-                                              - article: stance-#{i}
-                                                lines: 3
-                                                reduce: 2
-                                          - action:
-                                            contents:
-                                              - h5: "_{Attack}"
-                                                optional: true
-                                              - article: stance-#{i}-pt2
-                                                lines: 3
-                                                reduce: 2
-                                          - selectable:
-                                            contents:
-                                              - action: template
-                                                contents:
-                                                  - article: stance-#{i}-pt3
-                                                    lines: 3
-                                                    reduce: 2
-                              - layout: 2e
-                                contents:
-                                  - selectable:
-                                    contents:
-                                      - action: free
-                                        contents:
-                                          - h5: "_{Stance Savant}"
-                                          - p: "_{When you roll initiative, enter a stance as a free action}"
-                                  - selectable:
-                                    contents:
-                                      - action: free
-                                        contents:
-                                          - h5: "_{Master of Many Styles}"
-                                          - p: "_{At the start of your turn, enter a stance as a free action}"
-
-                  - section: "_{Unarmed}"
+                  - section: "_{Stances}"
+                    primary: true
+                    flex: large
                     contents:
                       - list:
-                        hr: true
                         zebra: true
-                        avoid-shade: true
+                        hr: true
                         contents:
-                          - zone: '@monk-unarmed'
+                          - sort: name
                             contents:
-                              - article:
-                                header:
-                                  - h5: "_{Powerful Fist}"
+                              - slots:
+                                min: 3
+                                max: 3
                                 contents:
-                                  - value-block: "_{d6}"
-                                    content: "_{Unarmed damage with your fists}"
-                                  - p: "_{Don't take the -2 penalty when making a lethal attack with a nonlethal unarmed attack.}"
-                              - level: 3
-                                contents:
-                                  - article:
-                                    header:
-                                      - h5: "_{Mystic Strikes}"
+                                  - zone: '@monk/stances'
                                     contents:
-                                      - p: "_{Your unarmed attacks become magical, allowing them to bypass resistances.}"
-                              - level: 9
-                                contents:
-                                  - article:
-                                    header:
-                                      - h5: "_{Metal Strikes}"
+                                placeholder:
+                                  - g:
+                                    order: 99
                                     contents:
-                                      - p: "_{Your unarmed attacks are treated as cold iron and silver.}"
-                              - level: 17
+                                      - selectable: monk/stance/#{i}
+                                        contents:
+                                          - action:
+                                            contents:
+                                              - article: monk/stance/#{i}
+                                                cat: "_{Feat}"
+                                                lines: 1
+                                                no-header-line: true
+                                                merge-bottom: false
+                                      - paste: monk/stance-attack
+                                      - selectable: monk/stance/#{i}/further
+                                        contents:
+                                          - action: template
+                                            contents:
+                                              - article: monk/stance/#{i}/further
+                                                cat: "_{Feat}"
+                                                lines: 1
+                                                no-header-line: true
+                          - layout: 2e
+                            contents:
+                              - selectable:
                                 contents:
-                                  - article:
-                                    header:
-                                      - h5: "_{Adamantine Strikes}"
+                                  - action: free
                                     contents:
-                                      - p: "_{Your unarmed attacks are treated as adamantine.}"
+                                      - h5: "_{Stance Savant}"
+                                      - p: "_{When you roll initiative, enter a stance as a free action}"
+                              - selectable:
+                                contents:
+                                  - action: free
+                                    contents:
+                                      - h5: "_{Master of Many Styles}"
+                                      - p: "_{At the start of your turn, enter a stance as a free action}"
 
                   - section: "_{Flurry of Blows}"
+                    flex: small
                     contents:
                       - list:
                         hr: true
@@ -355,16 +354,6 @@ inc:
                                         optional: true
                                     contents:
                                       - p: "_{Once per round, make two unarmed Strikes. If both hit the same creature, combine their damage and enhancements for the purpose of resistances and weaknesses.}"
-                          - zone: '@monk/perfected-form'
-                            contents:
-                              - level: 19
-                                contents:
-                                  - article:
-                                    header:
-                                      - h5: "_{Perfected Form}"
-                                    contents:
-                                      - p: "_{When you make an unarmed Strike, you can treat any dice whose roll was lower than 10 as if you had rolled a 10. If you do, your Strike gains the fortune trait.}"
-
 
                   - paste: class-feats
                     params:
@@ -375,4 +364,3 @@ inc:
                       lines: 1
 
                   - tail:
-                  # - spacer:

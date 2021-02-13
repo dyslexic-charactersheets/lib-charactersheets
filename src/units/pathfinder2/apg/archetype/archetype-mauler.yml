@@ -3,6 +3,13 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Mauler}"
 
+require:
+  - unit: feat/fighter/knockdown
+  - unit: feat/fighter/improved-knockdown
+  - unit: feat/fighter/power-attack
+  - unit: feat/fighter/brutal-finish
+  - unit: feat/barbarian/unbalancing-sweep
+
 inc:
   - at: '@archetypes'
     add:
@@ -33,18 +40,80 @@ inc:
                   - section: "_{Dedication}"
                     primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
+                      - p: "_{Trained in simple and martial melee weapons that rquire two hands to wield or have the two-hand trait.}"
                         icon: proficiency-trained
-                      - hr:
+                      - p: "_{Whenever you become expert or better in any weapon, become the same in these weapons.}"
+                      - p: "_{When you become expert in any of these weapons, gain the critical specialisation.}"
 
-                  - section: "_{Contortionist}"
+                  - section: "_{Clear The Way}"
                     contents:
-                      - selectable: "##:contortionist"
+                      - selectable: "##:clear-the-way"
                         contents:
-                          - ...
+                          - action: 2
+                            contents:
+                              - p: "_{Attempt to shove up to 5 creatures adjacent to you. Make a separate Athelitics check for each, then Stride up to half you speed.}"
+
+                  - section: "_{Shoving Sweep}"
+                    contents:
+                      - selectable: "##:shoving-sweep"
+                        contents:
+                          - action: reaction
+                            contents:
+                              - p: ...
+
+                  - section: "_{Hammer Quake}"
+                    contents:
+                      - selectable: "##:hammer-quake"
+                        contents:
+                          - action: 3
+                            contents:
+                              - p: ...
+
+                  - section: "_{Avalance Strike}"
+                    contents:
+                      - selectable: "##:avalanche-strike"
+                        contents:
+                          - action: 3
+                            contents:
+                              - p: ...
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+
+                  - section: "_{Feats}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+
+                          - list:
+                            hr: true
+                            light: true
+                            contents:
+
+                              - selectable: feat/fighter/knockdown
+                                contents:
+                                  - paste: feat/fighter/knockdown
+
+                              - selectable: feat/fighter/improved-knockdown
+                                contents:
+                                  - paste: feat/fighter/improved-knockdown
+
+                          - selectable: feat/fighter/power-attack
+                            contents:
+                              - paste: feat/fighter/power-attack
+
+                          - selectable: feat/fighter/brutal-finish
+                            contents:
+                              - paste: feat/fighter/brutal-finish
+
+                          - selectable: feat/barbarian/unbalancing-sweep
+                            contents:
+                              - paste: feat/barbarian/unbalancing-sweep
+
+                  - tail:
+                  - spacer:

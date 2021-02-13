@@ -4,9 +4,64 @@ level: 1
 group: "_{Core Rulebook}"
 name: "_{Crane Stance}"
 
-inc:
+require:
+  - unit: class/monk/defs
 
-  - at: '@actions'
+inc:
+  - copy: monk/stance/crane
+    contents:
+      - g:
+        name: "_{Crane Stance}"
+        contents:
+          - selectable: monk/stance/crane
+            contents:
+              - paste: monk/stance
+                params:
+                  id: crane
+                  title: "_{Crane Stance}"
+                contents:
+                  - row:
+                    contents:
+                      - field: crane-stance-ac
+                        label: "_{AC Bonus}"
+                        control: value
+                        value: "+1"
+                      - p: "_{Reduce DC for high and long jump by 5; leap an extra 5ft, or 2ft up.}"
+
+          - paste: monk/stance-attack/dex
+            params:
+              id: crane-wing
+              name: "_{Crane Wing Attack}"
+              dmg: "_{d6}"
+              type: "_{B}"
+            contents:
+              - flags:
+                  - "_{Agile}"
+                  - "_{Finesse}"
+                  - "_{Nonlethal}"
+                  - "_{Unarmed}"
+              
+          - selectable: monk/stance/crane/crane-flutter
+            contents:
+              - article:
+                title: "_{Crane Flutter}"
+                cat: "_{Feat}"
+                contents:
+                  - action: reaction
+                    contents:
+                      - row:
+                        contents:
+                          - field: crane-flutter-ac
+                            label: "_{AC Bonus (melee)}"
+                            control: value
+                            value: "+3"
+                          - p: "_{If a melee attack against you misses, immediately make a crane wing strike at -2, even if the enemy is out of range.}"
+
+  - at: '@monk/stances'
+    add:
+      - paste: monk/stance/crane
+      
+  - at: '@monk/stance-actions'
     add:
       - action:
         order: 2
@@ -27,7 +82,7 @@ inc:
                 control: value
                 value: "d6"
 
-  - at: '@reference/actions'
+  - at: '@monk/reference/actions'
     add:
       - action:
         contents:
@@ -41,52 +96,3 @@ inc:
       - finesse
       - nonlethal
       - unarmed
-
-  - at: '@monk/stance'
-    add:
-      - list:
-        zebra: true
-        hr: true
-        light: true
-        contents:
-          - action:
-            contents:
-              - article:
-                title: "_{Crane Stance}"
-                contents:
-                  - p: "_{Reduce DC for high and long jump by 5; leap an extra 5ft, or 2ft up.}"
-                  - field: crane-stance-ac
-                    label: "_{AC Bonus}"
-                    frame: right
-                    control: value
-                    value: "+1"
-          
-          - action:
-            contents:
-              - article:
-                title: "_{Crane Wing Attack}"
-                contents:
-                  - field: crane-wing-damage
-                    label: "_{Bludgeoning}"
-                    frame: right
-                    control: value
-                    value: "d6"
-              - flags:
-                  - "_{Agile}"
-                  - "_{Finesse}"
-                  - "_{Non-lethal}"
-                  - "_{Unarmed}"
-
-          - selectable: monk/crane-stance/crane-flutter
-            contents:
-              - action: reaction
-                contents:
-                  - article:
-                    title: "_{Crane Flutter}"
-                    contents:
-                      - field: crane-flutter-ac
-                        label: "_{AC Bonus (melee)}"
-                        frame: right
-                        control: value
-                        value: "+3"
-                      - p: "_{If a melee attack against you misses, immediately make a crane wing strike at -2, even if the enemy is out of range.}"
