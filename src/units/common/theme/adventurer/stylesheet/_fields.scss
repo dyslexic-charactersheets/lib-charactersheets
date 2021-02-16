@@ -110,6 +110,91 @@
   }
 }
 
+.field.field--control_ability {
+  $width: 2.75rem;
+  $border: 0.2rem;
+  $inner_width: $width - ($border * 2);
+
+  flex: 0 0 auto !important;
+  width: 2.75rem;
+
+  .field__frame {
+    padding: 0.5rem 0.3rem 1rem 0.3rem;
+    min-width: $width;
+  }
+
+  .field__box {
+    border-style: solid;
+    border-width: $border;
+    border-color: --c-accent;
+    border-radius: 0.6rem;
+    border-top-left-radius: 0;
+    
+    padding-top: 0.1rem;
+    padding-bottom: 1rem;
+
+    flex-direction: column;
+    position: relative;
+
+    width: $inner_width;
+    background: rgba(255,255,255,0.85);
+  }
+
+  .field__control {
+    display: flex;
+    flex-direction: row;
+    width: $inner_width;
+    height: 1.75rem;
+
+    &.field__control--control_radio {
+      display: block;
+      position: absolute;
+      top: -0.4rem;
+      left: -0.4rem;
+      width: 1.2rem;
+      height: 1.2rem;
+
+      label {
+        border-width: 0.09rem;
+      }
+    }
+
+    input {
+      flex: 1 1 auto;
+      padding: 0;
+      width: $inner_width;
+      font-size: 1.5rem;
+      line-height: 1.75rem;
+      height: 1.75rem;
+    }
+
+    &:last-child {
+      $border: 0.09rem;
+      $inset: 0.25rem;
+
+      position: absolute;
+      bottom: -0.8rem;
+      left: $inset;
+      right: $inset;
+      width: auto;
+      height: 1.5rem;
+
+      border: $border solid $colour_main;
+      border-radius: 0.4rem;
+      border-bottom-width: 0.13rem;
+
+      background: white;
+
+      input {
+        width: $inner_width - ($border * 2) - ($inset * 2);
+        font-size: 1rem;
+        line-height: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+  }
+}
+
 table.table--collapse .field {
   margin-top: -0.38 * $pt;
   margin-bottom: -0.38 * $pt;
@@ -339,6 +424,7 @@ article header .field__box {
 
   .field__grid {
     position: absolute;
+    cursor: pointer;
 
     background-image: url('{{{dataurl "images/alignment-grid.svg"}}}');
     background-position: center;
@@ -352,6 +438,34 @@ article header .field__box {
     left: $padding;
     width: $inner-size;
     height: $inner-size;
+
+    &--alignment_lg {
+      background-image: url('{{{dataurl "images/alignment-lg.svg"}}}');
+    }
+    &--alignment_ln {
+      background-image: url('{{{dataurl "images/alignment-ln.svg"}}}');
+    }
+    &--alignment_le {
+      background-image: url('{{{dataurl "images/alignment-le.svg"}}}');
+    }
+    &--alignment_ng {
+      background-image: url('{{{dataurl "images/alignment-ng.svg"}}}');
+    }
+    &--alignment_nn {
+      background-image: url('{{{dataurl "images/alignment-nn.svg"}}}');
+    }
+    &--alignment_ne {
+      background-image: url('{{{dataurl "images/alignment-ne.svg"}}}');
+    }
+    &--alignment_cg {
+      background-image: url('{{{dataurl "images/alignment-cg.svg"}}}');
+    }
+    &--alignment_cn {
+      background-image: url('{{{dataurl "images/alignment-cn.svg"}}}');
+    }
+    &--alignment_ce {
+      background-image: url('{{{dataurl "images/alignment-ce.svg"}}}');
+    }
   }
 
   label.field__good,
@@ -419,6 +533,12 @@ article header .field__box {
 
   .field__control {
     display: none;
+  }
+}
+
+.field.field--control_enum {
+  &, input {
+    cursor: pointer;
   }
 }
 

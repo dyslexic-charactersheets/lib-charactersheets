@@ -187,12 +187,13 @@ inc:
                               field: alchemist-infused-reagents-per-day
                               legend: "_{Infused Reagents\nPer Day}"
                               width: large
+                              eq: "%{level}+%{INT}"
                             inputs:
                               - field:
                                 ref: level
                                 label: "_{Level}"
                               - span: "+"
-                              - field:
+                              - field: 
                                 ref: INT
                                 label: "_{INT}"
                                 underlay: "_{INT}"
@@ -217,18 +218,19 @@ inc:
                         contents:
                           - calc:
                             output:
-                              field: attack-#{i}-bonus
+                              field: class/alchemist/throw-bomb
                               legend: "_{Throw Bomb}"
                               width: large
                               attack: true
                               icon: bonus
+                              eq: "%{DEX}+%{class/alchemist/throw-bomb-proficiency-bonus}"
                             inputs:
                               - field:
                                 ref: DEX
                                 label: "_{DEX}"
                                 underlay: "_{DEX}"
                               - span: "+"
-                              - field: attack-#{i}-proficiency
+                              - field: class/alchemist/throw-bomb-proficiency
                                 control: proficiency
                                 label: "_{Proficiency}"
                           - spacer:

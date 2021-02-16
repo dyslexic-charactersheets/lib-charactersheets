@@ -4,23 +4,26 @@ import { isArray, isNull, isBoolean } from '../util';
 import { elementClass } from '../util/elements';
 import { chunk } from '../util/arrays';
 import { has } from '../util/objects';
-import { __, _e } from '../i18n';
+import { toKebabCase } from '../util/strings';
+import { __, _e, esc } from '../i18n';
 
 function defaultControlRender (args, reg, doc) {
   args = Object.assign({
     align: "center",
     width: "medium",
     editable: true,
+    eq: null,
     prefix: false,
     suffix: false,
     underlay: false,
   }, args);
 
   const ident = fieldIdent(args.id);
-  const cls = elementClass("field", "control", args, [], { "align": "centre", "width": "" });
+  const cls = elementClass("field", "control", args, [ "damage-die" ], { "align": "centre", "width": "" });
   const value = (args.value == '') ? '' : ` value='${_e(args.value, doc)}'`;
-  const attr = (args.editable ? '' : 'readonly');
-  const input = `<input${ident.ident}${value}${attr}>`;
+  const readonly = (args.editable && !(args.eg && doc.isCalc) ? '' : 'readonly');
+  const ref = (args.ref ? ` ref='${args.ref}'` : '');
+  const input = `<input${ident.ident}${ref}${value}${readonly}>`;
 
   const underlay = args.underlay ? `<u>${__(args.underlay, doc)}</u>` : '';
 
@@ -51,6 +54,13 @@ function renderCompoundControl(args, reg, doc) {
       return reg.renderItem(part, doc);
 
     part = fieldDefaults(part, reg);
+    if (has(part, "subid")) {
+      if (part.subid == "") {
+        part.id = args.id;
+      } else {
+        part.id = args.id + "-" + part.subid;
+      }
+    }
     part.type = 'control:' + part.control;
 
     return reg.renderItem(part, doc);
@@ -244,6 +254,27 @@ export let field_control_weight = {
   }
 }
 
+export let field_control_enum = {
+  name: 'control:enum',
+  defaults: {
+    options: [],
+    default: '',
+    value: '',
+    border: 'bottom',
+    typeHint: 'string',
+  },
+  render(args, reg, doc) {
+    let options = args.options.map(opt => {
+      let menuId = 'enum-menu-'+args.id;
+      let slug = toKebabCase(opt.replace(/_\{(.*?(#\{.*?\}.*?)*)\}/gs, (m, p) => p));
+      let title = __(opt, doc);
+      return `<label for='${menuId}-${slug}'><input type='radio' name='${menuId}' value='${slug}' data-value='${_e(opt, doc)}' id='${menuId}-${slug}'> ${__(title, doc)}</label>`;
+    });
+    args.editable = false;
+    return defaultControlRender(args, reg, doc)+`<div class='field--control_enum__options'>${options.join('')}</div>`;
+  }
+}
+
 export let field_control_radio = {
   name: 'control:radio',
   defaults: {
@@ -380,14 +411,19 @@ export let field_control_alignment = {
     value: '',
   },
   render(args, reg, doc) {
-    const radios = ["lg", "ll", "le", "ng", "nn", "ne", "cg", "cn", "ce"].map(al => {
-      const radioIdent = fieldRadioIdent(args.id, args.value);
+    const radios = ["lg", "ln", "le", "ng", "nn", "ne", "cg", "cn", "ce"].map(al => {
+      const radioIdent = fieldRadioIdent(args.id, al);
       const checked = (args.value == al) ? ' checked' : '';
       return `<div class='field__control field__control-${al}'><input type='radio'${radioIdent.ident}${checked}></div>`;
     });
 
+    let fieldGridCls = "";
+    if (args.value) {
+      fieldGridCls = "field__grid--alignment_"+args.value;
+    }
+
     return `
-      <i class='field__grid'></i>
+      <i class='field__grid ${fieldGridCls}'></i>
       <i class='icon icon_good'></i>
       <i class='icon icon_evil'></i>
       <i class='icon icon_lawful'></i>
@@ -416,6 +452,30 @@ export let field_control_icon = {
     const cls = elementClass("field", "control", args, [], {"control": ""});
     const iconcls = elementClass("icon", null, { icon: args.icon }, [], {"icon": "", "width": ""});
     return `<div${cls}><i${iconcls}></i></div>`;
+  }
+}
+
+export let field_control_counter = {
+  name: 'control:counter',
+  defaults: {
+    value: 0,
+    max: 3,
+    typeHint: 'number',
+  },
+  render(args, reg, doc) {
+    const cls = elementClass("field", "control", { control: "counter" }, [], { control: "input" });
+    
+    let value = args.value;
+    switch (value) {
+      case "none": case 0: case false: case "": value = "0"; break;
+      default: value = parseInt(value);
+    }
+    let icon = `icon_counter-${value}`;
+
+    return `<div${cls}>
+      <input type='hidden'${fieldIdent(args.id, "rank").ident} class='field--control_counter__number' value='${value}'> `+
+      `<i class='icon field--control_counter__icon ${icon}'></i>
+    </div>`;
   }
 }
 
@@ -448,8 +508,10 @@ export let field_control_proficiency = {
           id: args.id
         },
         {
+          subid: 'bonus',
           control: "input",
-          id: args.id + "-bonus"
+          // id: args.id + "-bonus",
+          editable: !doc.isLoggedIn,
         }
       ];
     } else {
@@ -483,14 +545,53 @@ export let field_control_proficiency_icon = {
     }
     let icon = `icon_proficiency-${value}`;
 
-    // TODO checkboxes? radio buttons?
     return `<div${cls}>
-      <input type='checkbox'${fieldIdent(args.id, "trained").ident} class='field--proficiency__trained'${args.value > 0 ? ' checked="checked"' : ''}>
-      <input type='checkbox'${fieldIdent(args.id, "expert").ident} class='field--proficiency__expert'${args.value > 1 ? ' checked="checked"' : ''}>
-      <input type='checkbox'${fieldIdent(args.id, "master").ident} class='field--proficiency__master'${args.value > 2 ? ' checked="checked"' : ''}>
-      <input type='checkbox'${fieldIdent(args.id, "legendary").ident} class='field--proficiency__legendary'${args.value > 3 ? ' checked="checked"' : ''}>
-      <i class='icon field--proficiency__icon ${icon}'></i>
+      <input type='hidden'${fieldIdent(args.id, "rank").ident} class='field--control_proficiency__rank' value='${value}'> `+
+      `<i class='icon field--control_proficiency__icon ${icon}'></i>
     </div>`;
+  }
+}
+
+export let field_control_action_icon = {
+  name: 'control:action-icon',
+  defaults: {
+    value: "template",
+    border: "none",
+  },
+  render(args) {
+    const cls = elementClass("field", "control", { control: "icon" }, [], { "control": "input" });
+
+    let icon = 'action-template';
+    let layout = 'indent-l';
+    switch (args.value) {
+      case 1: icon = 'action'; break;
+      case 2: icon = 'action2'; break;
+      case 3: icon = 'action3'; layout = 'indent-lw'; break;
+      case 13: icon = 'action13'; layout = 'indent-lw'; break;
+      case '2nd': icon = 'action2nd'; break;
+      case '3rd': icon = 'action3rd'; layout = 'indent-lw'; break;
+      case 'reaction': icon = 'reaction'; break;
+      case 'free': icon = 'free-action'; break;
+      case 'template': icon = 'action-template'; layout = 'indent-lw'; break;
+    }
+
+    return `<div${cls}>
+    <input type='hidden'${fieldIdent(args.id).ident} class='field--control_action-icon__icon' value='${args.value}'> `+
+    `<i class='icon field--control_action-icon__icon icon_${icon}'></i>
+    </div>`;
+  }
+}
+
+export let field_control_ref_switch = {
+  name: 'control:ref-switch',
+  defaults: {
+    value: '',
+    border: 'bottom',
+    typeHint: 'string',
+  },
+  render(args) {
+    let hidden = `<input type='hidden'${fieldIdent(args.id, "ref").ident} class='field--control_ref-switch__ref'>`;
+    return hidden + defaultControlRender(args);
   }
 }
 
@@ -535,6 +636,28 @@ export let field_control_compound = {
   defaults: {
     multibox: false,
     parts: [],
+  },
+  render: renderCompoundControl
+}
+
+export let field_control_ability = {
+  name: 'control:ability',
+  defaults: {
+    parts: [
+      // {
+      //   subid: "key-ability",
+      //   control: "radio"
+      // },
+      // {
+      //   subid: "modifier",
+      //   size: "huge",
+      //   width: ""
+      // },
+      // {
+      //   subid: "score",
+      //   width: ""
+      // }
+    ]
   },
   render: renderCompoundControl
 }

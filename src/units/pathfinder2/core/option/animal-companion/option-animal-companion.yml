@@ -3,6 +3,12 @@ name: "_{Animal Companion}"
 group: "_{Core Rulebook}"
 inc:
 
+  - set: animal-companion/unarmoured-proficiency
+    value: true
+
+  - set: animal-companion/light-barding-proficiency
+    value: true
+
   - at: '@pages'
     add:
       - page: animal-companion
@@ -52,16 +58,28 @@ inc:
                                   - g:
                                     valign: top
                                     contents:
-                                      - row: center
-                                        contents:
-                                          - spacer:
-                                          - field: "animal-#{code}"
-                                            label: "#{name}"
-                                            border: circle
+                                      - field: "animal-companion/#{code}"
+                                        label: "#{name}"
+                                        control: ability
+                                        width: ""
+                                        parts:
+                                          - subid: ""
                                             size: huge
+                                            eq: "floor((minmax(%{animal-companion/#{code}-score},4,30)-10)/2)"
+                                            width: ""
                                             underlay: "#{short}"
-                                            eq: "(%{#{code}-score}-10)/2"
-                                          - spacer:
+                                          - subid: "score"
+                                            width: ""
+                                      # - row: center
+                                      #   contents:
+                                      #     - spacer:
+                                      #     - field: "animal-companion/#{code}"
+                                      #       label: "#{name}"
+                                      #       border: circle
+                                      #       size: huge
+                                      #       underlay: "#{short}"
+                                      #       eq: "(%{#{code}-score}-10)/2"
+                                      #     - spacer:
 
                       - section: "_{Abilities}"
                         contents:
@@ -191,9 +209,10 @@ inc:
                               - field: "animal-companion/#{skill}-bonus"
                                 border: full
                                 icon: bonus
+                                eq: "%{animal-companion/#{skill}-ability}+%{animal-companion/#{skill}-proficiency}-%{animal-companion/#{skill}-acp}"
                               - span: "="
-                              - field:
-                                ref: "#{ability}"
+                              - field: "animal-companion/#{skill}-ability"
+                                ref: "animal-companion/#{abilityref}"
                                 underlay: "#{ability}"
                                 frame: h-label
                                 label: "#{ability}"
@@ -212,8 +231,9 @@ inc:
                               icon: bonus
                               legend: "_{Perception}"
                               width: large
+                              eq: "%{animal-companion/WIS}+%{animal-companion/perception-proficiency}+%{animal-companion/perception-item}+%{animal-companion/perception-misc}"
                             inputs:
-                              - field:
+                              - field: 
                                 ref: animal-companion/WIS
                                 underlay: "_{WIS}"
                                 label: "_{WIS}"
@@ -221,9 +241,9 @@ inc:
                                 label: "_{Proficiency}"
                                 control: proficiency
                                 value: trained
-                              - field:
+                              - field: animal-companion/perception-item
                                 label: "_{Item}"
-                              - field:
+                              - field: animal-companion/perception-misc
                                 misc: true
                                 label: "_{Misc}"
                           - row:
@@ -263,11 +283,11 @@ inc:
                                       - action:
                                         contents:
                                           - p: "_{Spend an action to command your animal companion.}"
-                                          - p: "_{Otherwise they will act as they please.}"
                                       - layout: indent-r
                                         contents:
                                           - p: "_{Animals get two actions which they take on your turn, and no reactions.}"
                                           - icon: action2
+                                      - p: "_{Otherwise they act as they please.}"
                                   - action:
                                     contents:
                                       - article:
@@ -331,13 +351,14 @@ inc:
                                                   # width: large
                                                   attack: true
                                                   icon: bonus
+                                                  eq: "%{animal-companion/attack-#{i}-ability}+%{animal-companion/attack-#{i}-proficiency}"
                                                 inputs:
-                                                  - field:
+                                                  - field: animal-companion/attack-#{i}-ability
                                                     ref: true
                                                     label: "_{Ability}"
                                                     misc: true
                                                   - span: "+"
-                                                  - field:
+                                                  - field: animal-companion/attack-#{i}-proficiency
                                                     control: proficiency
                                                     label: "_{Proficiency}"
                                               - field: animal-companion/attack-#{i}-damage
@@ -378,19 +399,19 @@ inc:
                                       icon: hp
                                       suffix: "_{hp}"
                                       width: large
+                                      eq: "%{animal-companion/type-hp}+((6+%{animal-companion/CON})*%{level}"
                                     inputs:
-                                      - field:
+                                      - field: animal-companion/type-hp
                                         label: "_{Animal\nType}"
-                                      - span: "+ ("
+                                      - span: "+ (6 +"
                                       - field:
                                         label: "_{CON}"
                                         underlay: "_{CON}"
-                                        ref: CON
-                                      - span: "&times;"
+                                        ref: animal-companion/CON
+                                      - span: ") &times;"
                                       - field:
                                         ref: level
                                         label: "_{Level}"
-                                      - span: ")"
 
                               - row:
                                 contents:
@@ -452,18 +473,19 @@ inc:
                                   icon: shield
                                   border: full
                                   underlay: "_{AC}"
+                                  eq: "10+%{animal-companion/DEX}+%{animal-companion/ac-proficiency}+%{animal-companion/barding-bonus}+%{animal-companion/ac-misc}"
                                 inputs:
                                   - span: "10 +"
                                   - field:
-                                    ref: DEX
+                                    ref: animal-companion/DEX
                                     label: "_{DEX}"
                                     underlay: "_{DEX}"
                                   - field: "animal-companion/ac-proficiency"
                                     control: proficiency
                                     label: "_{Proficiency}"
-                                  - field: armour-bonus
+                                  - field: animal-companion/barding-bonus
                                     label: "_{Barding\nBonus}"
-                                  - field:
+                                  - field: animal-companion/ac-misc
                                     misc: true
                                     label: "_{Misc}"
                                       
@@ -477,13 +499,13 @@ inc:
                                     has-bonus: false
                                     border: none
                                     label: "_{Unarmoured}"
-                                  - field: animal-companion/light-armour-proficiency
+                                  - field: animal-companion/light-barding-proficiency
                                     control: proficiency-icon
                                     frame: right
                                     has-bonus: false
                                     border: none
                                     label: "_{Light}"
-                                  - field: animal-companion/heavy-armour-proficiency
+                                  - field: animal-companion/heavy-barding-proficiency
                                     control: proficiency-icon
                                     frame: right
                                     has-bonus: false
@@ -563,11 +585,12 @@ inc:
                                       border: full
                                       width: large
                                       underlay: "#{short}"
+                                      eq: "%{animal-companion/#{abilityref}}+%{animal-companion/#{save}-proficiency}"
                                     inputs:
                                       - field:
                                         label: "#{ability}"
                                         underlay: "#{ability}"
-                                        ref: "#{abilityref}"
+                                        ref: "animal-companion/#{abilityref}"
                                       - field: "animal-companion/#{save}-proficiency"
                                         control: proficiency
                                         value: trained

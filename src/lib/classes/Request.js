@@ -8,6 +8,7 @@ import { Build } from './Build';
 import { events } from './Events';
 import { isArray } from '../util';
 import { has } from '../util/objects';
+import { Custom } from './Custom';
 
 function randomID() {
   return Math.random().toString(16).substring(2, 9)
@@ -105,6 +106,9 @@ export class Request {
             case 'build':
               return new Build(primary, this, registry);
           }
+
+        case 'custom':
+          return new Custom(primary, this, registry);
 
         default:
           warn("Request", "No valid primary in request");

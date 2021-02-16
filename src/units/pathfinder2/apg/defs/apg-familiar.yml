@@ -1,0 +1,196 @@
+unit: apg/option/familiar
+group: "_{Advanced Player's Guide}"
+name: "_{Familiar}"
+
+inc:
+
+  - at: '@familiar/familiar-abilities'
+    add:
+      - each:
+        contents:
+          - code: focused-regeneration
+            title: "_{Focused Regeneration}"
+            content: "_{When you refocus, your familiar heals 1hp}"
+          - code: toolbearer
+            title: "_{Toolbearer}"
+            content: "_{Familiar can carry a set of tools up to light Bulk}"
+          - code: touch-telepathy
+            title: "_{Touch Telepathy}"
+            content: "_{Familar can communicate with you via touch. If it has Speech, it can communicate via touch with any creatures that share its language.}"
+          - code: tough
+            title: "_{Tough}"
+            content: "_{+2hp per level}"
+          - code: valet
+            title: "_{Valet}"
+            content: "_{Familiar can use each of its actions to retrieve a worn item for you}"
+        template:
+          - selectable: "apg/familiar/familiar-ability/#{code}"
+            order: "#{title}"
+            contents:
+              - p:
+                title: "#{title}"
+                content: "#{content}"
+
+      - selectable: apg/familiar/familiar-ability/independent
+        order: "_{Independent}"
+        contents:
+          - layout: indent-r
+            contents:
+              - p:
+                title: "_{Independent}"
+                content: "_{Familiar gets one action even if you don't command it.}"
+              - icon: action
+
+      - selectable: apg/familiar/familiar-ability/masters-form
+        order: "_{Master's Form}"
+        contents:
+          - action:
+            contents:
+              - p:
+                title: "_{Master's Form}"
+                content: "_{Transforms into your ancestry, age, gender and build, though with some remnant of its nature}"
+          - p: "_{Must have Manual Dexterity and Speech to select this}"
+
+      - selectable: apg/familiar/familiar-ability/partner-in-crime
+        order: "_{Partner in Crime}"
+        contents:
+          - layout: indent-r
+            contents:
+              - g:
+                contents:
+                  - p:
+                    title: "_{Partner in Crime}"
+                    content: "_{Familiar gains a reaction which can only be used to Aid you in Deception or Thievery. Always succeeds on Aid checks.}"
+                  - p: "_{If you're a master of the skill, familiar always critically succeeds on Aid checks}"
+                    icon: proficiency-master
+              - icon: reaction
+              
+      - selectable: apg/familiar/familiar-ability/plant-form
+        order: "_{Plant Form}"
+        contents:
+          - action:
+            contents:
+              - p:
+                title: "_{Plant Form}"
+                content: "_{Transforms into a Tiny plant}"
+
+      - selectable: apg/familiar/familiar-ability/poison-reservoir
+        order: "_{Poison Reservoir}"
+        contents:
+          - p:
+            title: "_{Poison Reservoir}"
+          - field: apg/familiar/familiar-ability/poison-reservoir/poison
+            label: "_{Poison}"
+            width: stretch
+          - layout: 2e
+            contents:
+              - action: 2
+                contents:
+                  - p: "_{Supply and instill the poison}"
+              - action:
+                contents:
+                  - p: "_{Apply the weapon to an ally's weapon}"
+
+      - selectable: apg/familiar/familiar-abilities/resistance
+        order: "_{Resistance}"
+        contents:
+          - p:
+            title: "_{Resistance}"
+            content: "_{Against two damage types}"
+          - layout: 3e
+            contents:
+              - sort: label
+                contents:
+                  - field: apg/familiar/familiar-abilities/resistance/acid
+                    control: checkbox
+                    frame: right
+                    label: "_{Acid}"
+                  - field: apg/familiar/familiar-abilities/resistance/cold
+                    control: checkbox
+                    frame: right
+                    label: "_{Cold}"
+                  - field: apg/familiar/familiar-abilities/resistance/electricity
+                    control: checkbox
+                    frame: right
+                    label: "_{Electricity}"
+                  - field: apg/familiar/familiar-abilities/resistance/fire
+                    control: checkbox
+                    frame: right
+                    label: "_{Fire}"
+                  - field: apg/familiar/familiar-abilities/resistance/poison
+                    control: checkbox
+                    frame: right
+                    label: "_{Poison}"
+                  - field: apg/familiar/familiar-abilities/resistance/sonic
+                    control: checkbox
+                    frame: right
+                    label: "_{Sonic}"
+          - calc:
+            output:
+              field: apg/familiar/familiar-abilities/resistance/bonus
+              legend: "_{Resistance}"
+              width: large
+              eq: "floor(%{level}/2)"
+            inputs:
+              - field:
+                ref: level
+                label: "_{Level}"
+              - span: "&divide; 2"
+
+      - selectable: apg/familiar/familiar-abilities/skilled
+        order: "_{Skilled}"
+        contents:
+          - p:
+            title: "_{Skilled}"
+            content: "_{Your bonus in one skill is equal to your level + key ability modifier}"
+          - field: apg/familiar/familiar-abilities/skilled/skill
+            label: "_{Skill}"
+            width: stretch
+
+      - selectable: apg/familiar/familiar-abilities/spellcasting
+        order: "_{Spellcasting}"
+        contents:
+          - level: 11
+            contents:
+              - p:
+                title: "_{Spellcasting}"
+                content: "_{Familiar can cast a spell up to 5 level below your top slot}"
+              - row:
+                contents:
+                  - field: apg/familiar/familiar-abilities/level
+                    label: "_{Level}"
+                    border: full
+                  - field: apg/familiar/familiar-abilities/spellcasting/spell
+                    label: "_{Spell}"
+                    width: stretch
+
+
+
+
+
+
+  - at: '@familiar/master-abilities'
+    add:
+      - selectable: apg/familiar/familiar-ability/innate-surge
+        order: "_{Innate Surge}"
+        contents:
+          - layout: indent-r
+            contents:
+              - p:
+                title: "_{Innate Surge}"
+                content: "_{Once a day, recast an innate spell from an ancestry feat}"
+              - g:
+                contents:
+                  - field: "familiar/familiar-ability/innate-surge/today"
+                    control: checkbox
+                    label: "_{Today}"
+      
+      - selectable: apg/familiar/familiar-ability/shared-sense
+        order: "_{Shared Senses}"
+        contents:
+          - p:
+            action: 1
+            title: "_{Shared Senses}"
+            content: "_{Once every 10 minutes, project your senses into your familiar for up to 1 minute}"
+
+

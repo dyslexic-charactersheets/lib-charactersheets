@@ -17,36 +17,24 @@ export let table = {
     template: [],
     width: '',
     blk: false,
+    zebra: false,
+    collapse: false,
+    fixed: false,
+    layout: false,
     'merge-bottom': false,
   },
-  render(args, reg, doc) {
+  transform(args, ctx) {
+    if (has(args, "_direct") && args._direct) {
+      return false;
+    }
+    if (!has(args, "template") && !has(args, "repeat") /*&& !has(args, "columns")*/ && (!has(args, "reduce") || !args.reduce)) {
+      return false;
+    }
+
     // get headings
-    if (doc.largePrint || doc.skipOptional) {
+    if (ctx.largePrint || ctx.skipOptional) {
       args.columns = args.columns.filter(col => !(has(col, "optional") && col.optional));
     }
-
-/*
-    // is this a direct cells table?
-    if (has(args, "cells") && isEmpty(args.template)) {
-      log("table", "Direct cells", args, args.cells);
-
-      let ncols = 0;
-      let rows = [];
-      args.cells.forEach(row => {
-        if (row.contents.length > ncols) ncols = row.contents.length;
-        rows.push(row.contents);
-      });
-      let headings = new Array(ncols).fill(null);
-
-      // render
-      // return renderTableBasic(headings, rows);
-      if (args.flip) {
-        return renderTableFlipped(args, reg, doc, headings, rows);
-      } else {
-        return renderTableBasic(args, reg, doc, headings, rows);
-      }
-    }
-    */
 
     const headings = args.columns.map(col => {
       if (isNull(col)) {
@@ -82,7 +70,7 @@ export let table = {
       }
       
       let repeat = has(row, "repeat") ? row.repeat : 1;
-      if (doc.largePrint && row.reduce > 0)
+      if (ctx.largePrint && row.reduce > 0)
         repeat -= row.reduce;
       if (repeat > 1) {
         // log("table", `Repeating row ${rep} times:`, row);
@@ -104,14 +92,14 @@ export let table = {
       return [row];
     });
 
-    if (doc.largePrint ) {
+    if (ctx.largePrint) {
       rows = rows.filter(row => !(has(row, "optional") && row.optional));
     }
 
     // repeat the whole set
     if (has(args, "repeat")) {
       let repeat = args.repeat;
-      if (doc.largePrint && args.reduce > 0)
+      if (ctx.largePrint && args.reduce > 0)
         rep -= args.reduce;
       if (args.repeat > 1) {
         let rows2 = Array(rows.length * repeat);
@@ -154,7 +142,7 @@ export let table = {
         let cells = templateCells.map((cell, i) => {
           // let params = {...args, ...row};
           // log("table", "Interpolating cell", cell, row);
-          cell = interpolate(cell, row, doc);
+          cell = interpolate(cell, row, ctx);
           // log("table", "Cell", cell);
           if (cell === null) {
             return null;
@@ -181,7 +169,7 @@ export let table = {
             return { type: 'label', label: '', ...col, colspan: 1, rowspan: 1, ...cell, ...levelat };
           }
         });
-        // cells = interpolate(cells, {...args, ...row}, doc);
+        // cells = interpolate(cells, {...args, ...row}, ctx);
         return { params: row, cells: cells };
       });
     } else {
@@ -206,28 +194,44 @@ export let table = {
     }
 
     // apply transformations to cells
-    rows = rows.map(row => {
-      row.cells = row.cells.map(cell => {
-        let replace = doc.composeElement(cell, reg);
-        // log("table", "Cell, composed", replace);
-        if (isEmpty(replace)) {
-          return { type: 'g', contents: [] };
-        }
-        if (replace.length > 1) {
-          return { type: 'g', contents: replace };
-        }
-        return replace[0];
-      });
-      return row;
-    })
+    // rows = rows.map(row => {
+    //   row.cells = row.cells.map(cell => {
+    //     let replace = doc.composeElement(cell, reg);
+    //     // log("table", "Cell, composed", replace);
+    //     if (isEmpty(replace)) {
+    //       return { type: 'g', contents: [] };
+    //     }
+    //     if (replace.length > 1) {
+    //       return { type: 'g', contents: replace };
+    //     }
+    //     return replace[0];
+    //   });
+    //   return row;
+    // })
     // log("table", `${headings.length} columns, ${rows.length} rows`);
 
+    return [{
+      type: "table",
+      rows: rows,
+      flip: args.flip,
+      width: args.width,
+      blk: args.blk,
+      'merge-bottom': args['merge-bottom'],
+      zebra: args.zebra,
+      collapse: args.collapse,
+      fixed: args.fixed,
+      layout: args.layout,
+      _headings: headings,
+      _direct: true,
+    }];
+  },
+  render(args, reg, doc) {
     // render
     // return renderTableBasic(headings, rows);
     if (args.flip) {
-      return renderTableFlipped(args, reg, doc, headings, rows);
+      return renderTableFlipped(args, reg, doc, args._headings, args.rows);
     } else {
-      return renderTableBasic(args, reg, doc, headings, rows);
+      return renderTableBasic(args, reg, doc, args._headings, args.rows);
     }
   }
 }

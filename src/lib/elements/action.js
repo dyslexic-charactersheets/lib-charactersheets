@@ -3,6 +3,7 @@ export let action = {
   key: 'action',
   defaults: {
     action: 1,
+    id: false,
     blk: false,
     order: 1,
     contents: [],
@@ -22,6 +23,26 @@ export let action = {
       case 'template': icon = 'action-template'; layout = 'indent-lw'; break;
     }
 
+    let iconPart = {
+      type: "g",
+      contents: [
+        {
+          type: "icon",
+          icon: icon
+        }
+      ]
+    };
+
+    if (args.action == "template") {
+      iconPart = {
+        type: "field",
+        id: args.id+"-action",
+        control: "action-icon",
+        value: 'template',
+        frame: "none"
+      };
+    }
+
     return [
       {
         type: "layout",
@@ -29,15 +50,7 @@ export let action = {
         blk: args.blk,
         order: args.order,
         contents: [
-          {
-            type: "g",
-            contents: [
-              {
-                type: "icon",
-                icon: icon
-              }
-            ]
-          },
+          iconPart,
           {
             type: "g",
             contents: args.contents
@@ -59,6 +72,7 @@ export let selectable = {
     selected: false,
     style: '',
     radio: false,
+    order: null,
     contents: []
   },
   transform(args) {
@@ -105,6 +119,7 @@ export let selectable = {
         type: "layout",
         layout: "indent-l",
         blk: args.blk,
+        order: args.order,
         contents: [
           {
             type: "g",

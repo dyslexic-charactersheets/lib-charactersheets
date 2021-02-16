@@ -5,11 +5,17 @@ import { applyContext } from '../context';
 import { isArray, isEmpty, isString, isNull } from '../util';
 import { replaceColours } from '../util/colours';
 import { has, cloneDeep, interpolate } from '../util/objects';
-import { esc, _e } from '../i18n';
+import { esc, _e, __, translate } from '../i18n';
+
+// Set up the template engine for JS and CSS
+Handlebars.registerHelper('embedJson', function (data, options) {
+  return JSON.stringify(data);
+});
 
 export class Document {
   constructor(baseUnit, id) {
     this.nextPage = 1;
+    this.primary = {};
 
     const baseDocument = baseUnit.contents[0];
     // log("Document", "Base document", baseDocument);
@@ -217,6 +223,8 @@ export class Document {
   getContext() {
     const self = this;
     return {
+      isLoggedIn: this.isLoggedIn,
+      isCalc: this.isLoggedIn,
       zones: this.zones,
       templates: this.templates,
       largePrint: this.largePrint,
@@ -401,6 +409,119 @@ export class Document {
     // log("Document", " - Pages", this.doc.contents.map(page => `${page.id}: ${page.name}`));
   }
 
+  getCalculations() {
+    let fields = [];
+    let dependencies = {};
+    // let references = [];
+    let formats = {};
+
+    function pushDependency(ref, id) {
+      if (!has(dependencies, ref)) {
+        dependencies[ref] = [];
+      }
+      dependencies[ref].push(id);
+    }
+
+    function findCalculationFields(element) {
+      function transformCalculation(id, eq) {
+        let fields = [];
+        eq = eq.replace(/#\{(.*?)\}/g, (match, field) => {
+          log("Document", "Transform calculation: Unknown interpolation", field);
+          return 0;
+        });
+        eq = eq.replace(/_\{(.*?)\}/g, (match, string) => {
+          return `"${string}"`;
+        });
+        // log("Document", "Transform calculation", eq);
+        eq = eq.replace('default(', 'defaultValue(');
+        eq = eq.replace(/%\{(.*?)\}/g, (match, field) => {
+          pushDependency(field, id);
+          // var found = field.match(/(.*)\|(.*)/);
+          // if (found !== null) {
+          //   var fieldPart = found[1];
+          //   var defaultPart = found[2];
+          //   return `v('${fieldPart}', ${defaultPart})`;
+          // }
+          var found = field.match(/^[0-9]+$/);
+          if (found !== null) {
+            return found[0];
+          }
+          fields.push(`'${field}'`);
+          return `v('${field}')`;
+        });
+        return `(v) => req([${fields.join(',')}],${eq})`;
+      }
+
+      // fields
+      if (has(element, "type") && element.type == "field") {
+        // log("Document", `Field: id = ${element.id}, ref = ${element.ref}`);
+        if (has(element, "eq")) {
+          fields.push({
+            id: element.id,
+            eq: transformCalculation(element.id, element.eq)
+          });
+        }
+        if (has(element, "format")) {
+          formats[element.id] = element.format;
+        }
+        if (has(element, "parts")) {
+          element.parts.forEach(part => {
+            if (has(part, "eq") && has(part, "subid")) {
+              let id = (part.subid == "") ? element.id : element.id+'-'+part.subid;
+              fields.push({
+                id: id,
+                eq: transformCalculation(id, part.eq)
+              });
+              if (has(part, "format")) {
+                formats[id] = part.format;
+              }
+            }
+          });
+        }
+        switch (element.control) {
+          case 'speed':
+            fields.push({
+              id: element.id+'--sq',
+              eq: transformCalculation(element.id+'--sq', `floor(%{${element.id}--ft}/5)`)
+            });
+        }
+      }
+
+      // calculations
+      if (has(element, "type") && element.type == "calc") {
+        if (has(element, "output")) {
+          findCalculationFields(element.output);
+        }
+        if (has(element, "inputs")) {
+          element.inputs.forEach(elem => findCalculationFields(elem));
+        }
+      }
+
+      // tables
+      if (has(element, "type") && element.type == "table") {
+        element.rows.forEach(row => row.cells.forEach(elem => findCalculationFields(elem)));
+      }
+
+      // other
+      if (has(element, "contents")) {
+        element.contents.forEach(elem => findCalculationFields(elem));
+      }
+    }
+
+    findCalculationFields(this.doc);
+    // log("Document", "Calculation fields", fields);
+
+    let calculations = '{'+fields.map(field => `'${field.id}': ${field.eq}`).join(",\n")+'}';
+
+    Object.keys(dependencies).forEach((key) => {
+      dependencies[key] = [...new Set(dependencies[key])];
+    });
+    delete dependencies[0];
+    // references = [...new Set(references)];
+    
+    return {calculations, formats, dependencies};
+  }
+
   getFavicon() {
     return '';
   }
@@ -455,10 +576,30 @@ export class Document {
   }
 
   getJavascript() {
+    let doc = this;
     let jsParts = [];
 
+    let {calculations, formats, dependencies} = this.getCalculations();
+
+    let templateData = {
+      title: this.doc.title,
+      fieldValues: {
+        level: 2,
+        foo: "bar",
+      },
+      request: JSON.stringify(this.request),
+      calculations: calculations,
+      dependencies: JSON.stringify(dependencies),
+      formats: JSON.stringify(formats)
+    };
+
     function processJS(js) {
-      return js.replace(/\/\*.*?\*\//g, '');
+      const template = Handlebars.compile(js);
+      js = template(templateData);
+      return __(js, doc);
+
+
+      // return js; // .replace(/\/\*.*?\*\//g, '');
     }
 
     this.units.forEach(unit => {
@@ -469,7 +610,7 @@ export class Document {
 
     // custom extras
     this.jsParts.forEach(js => {
-      this.jsParts.push(processJS(js));
+      jsParts.push(processJS(js));
     });
 
     return jsParts.join("\n");
@@ -487,6 +628,91 @@ export class Document {
     if (this.browserTarget) {
       htmlClasses.push("html--"+this.browserTarget);
     }
+
+    let isLoggedIn = this.isLoggedIn;
+
+    let controlMenus = `
+<nav id='proficiency-menu' class='control-menu'><div>
+<label for='proficiency-menu-untrained'><input type='radio' name='proficiency-menu' value='untrained' id='proficiency-menu-untrained'> <i class="icon icon_proficiency-untrained"></i> ${__('Untrained')}</label>
+<label for='proficiency-menu-trained'><input type='radio' name='proficiency-menu' value='trained' id='proficiency-menu-trained'> <i class="icon icon_proficiency-trained"></i> ${__('Trained')}</label>
+<label for='proficiency-menu-expert'><input type='radio' name='proficiency-menu' value='expert' id='proficiency-menu-expert'> <i class="icon icon_proficiency-expert"></i> ${__('Expert')}</label>
+<label for='proficiency-menu-master'><input type='radio' name='proficiency-menu' value='master' id='proficiency-menu-master'> <i class="icon icon_proficiency-master"></i> ${__('Master')}</label>
+<label for='proficiency-menu-legendary'><input type='radio' name='proficiency-menu' value='legendary' id='proficiency-menu-legendary'> <i class="icon icon_proficiency-legendary"></i> ${__('Legendary')}</label>
+</div></nav>
+
+<nav id='action-menu' class='control-menu'><div>
+<label for='action-menu-template'><input type='radio' name='action-menu' value='template' id='action-menu-template'> <i class="icon icon_action-template"></i> ${__('')}</label>
+<label for='action-menu-1'><input type='radio' name='action-menu' value='1' id='action-menu-1'> <i class="icon icon_action"></i> ${__('One action')}</label>
+<label for='action-menu-2'><input type='radio' name='action-menu' value='2' id='action-menu-2'> <i class="icon icon_action2"></i> ${__('Two actions')}</label>
+<label for='action-menu-3'><input type='radio' name='action-menu' value='3' id='action-menu-3'> <i class="icon icon_action3"></i> ${__('Three actions')}</label>
+<label for='action-menu-reaction'><input type='radio' name='action-menu' value='reaction' id='action-menu-reaction'> <i class="icon icon_reaction"></i> ${__('Reaction')}</label>
+<label for='action-menu-free'><input type='radio' name='action-menu' value='free' id='action-menu-free'> <i class="icon icon_free-action"></i> ${__('Free action')}</label>
+</div></nav>
+
+<nav id='counter-menu' class='control-menu'><div>
+<label for='counter-menu-0'><input type='radio' name='counter-menu' value='0' id='counter-menu-0'> <i class="icon icon_counter-0"></i> ${__('None')}</label>
+<label for='counter-menu-1'><input type='radio' name='counter-menu' value='1' id='counter-menu-1'> <i class="icon icon_counter-1"></i> ${__('1')}</label>
+<label for='counter-menu-2'><input type='radio' name='counter-menu' value='2' id='counter-menu-2'> <i class="icon icon_counter-2"></i> ${__('2')}</label>
+<label for='counter-menu-3'><input type='radio' name='counter-menu' value='3' id='counter-menu-3'> <i class="icon icon_counter-3"></i> ${__('3')}</label>
+</div></nav>
+
+<nav id='ref-switch-menu' class='control-menu'><div>
+<table><tr>
+
+<td><label for='ref-switch-STR'><input type='radio' name='ref-switch' value='STR' id='ref-switch-STR'></label></td>
+<td>
+<div id="field-ref-switch-STR" class="field field--ref field--frame_above field--width_medium"><div class="field__frame"><label for='ref-switch-STR' class="label align_centre">${__('STR')}</label><div class="field__box"><div class="field__control field__control--width_medium"><input ref="STR" readonly></div></div></div></div>
+</td>
+
+<td><label for='ref-switch-DEX'><input type='radio' name='ref-switch' value='DEX' id='ref-switch-DEX'></label></td>
+<td>
+<div id="field-ref-switch-DEX" class="field field--ref field--frame_above field--width_medium"><div class="field__frame"><label for='ref-switch-DEX' class="label align_centre">${__('DEX')}</label><div class="field__box"><div class="field__control field__control--width_medium"><input ref="DEX" readonly></div></div></div></div>
+</td>
+
+<!--
+<div id="field-ability-str" class="field field--ref field--frame_above field--width_medium field--control_ability"><div class="field__frame"><label class="label align_centre">${__('CON')}</label><div class="field__box"><div class="field__control field__control--width_medium"><input ref="CON" readonly></div></div></div></div>
+<div id="field-ability-str" class="field field--ref field--frame_above field--width_medium field--control_ability"><div class="field__frame"><label class="label align_centre">${__('INT')}</label><div class="field__box"><div class="field__control field__control--width_medium"><input ref="INT" readonly></div></div></div></div>
+<div id="field-ability-str" class="field field--ref field--frame_above field--width_medium field--control_ability"><div class="field__frame"><label class="label align_centre">${__('WIS')}</label><div class="field__box"><div class="field__control field__control--width_medium"><input ref="WIS" readonly></div></div></div></div>
+<div id="field-ability-str" class="field field--ref field--frame_above field--width_medium field--control_ability"><div class="field__frame"><label class="label align_centre">${__('CHA')}</label><div class="field__box"><div class="field__control field__control--width_medium"><input ref="CHA" readonly></div></div></div></div>
+-->
+
+</tr></table>
+</div></nav>
+
+<nav id='alignment-menu' class='control-menu'><div>
+<table>
+<tr><td></td>
+  <th colspan='3' class='control-menu__col-head'><i class="icon icon_lawful"></i></th></tr>
+
+<tr><th rowspan='3' class='control-menu__row-head'><i class="icon icon_good"></i></th>
+  <td><label for='alignment-menu-lg'><input type='radio' name='alignment-menu' value='lg' id='alignment-menu-lg'> ${__('Lawful Good')}</label></td>
+  <td><label for='alignment-menu-ln'><input type='radio' name='alignment-menu' value='ln' id='alignment-menu-ln'> ${__('Lawful Neutral')}</label></td>
+  <td><label for='alignment-menu-le'><input type='radio' name='alignment-menu' value='le' id='alignment-menu-le'> ${__('Lawful Evil')}</label></td>
+  <th rowspan='3' class='control-menu__row-head'><i class="icon icon_evil"></i></th></tr>
+  
+<tr>
+  <td><label for='alignment-menu-ng'><input type='radio' name='alignment-menu' value='ng' id='alignment-menu-ng'> ${__('Neutral Good')}</label></td>
+  <td><label for='alignment-menu-nn'><input type='radio' name='alignment-menu' value='nn' id='alignment-menu-nn'> ${__('True Neutral')}</label></td>
+  <td><label for='alignment-menu-ne'><input type='radio' name='alignment-menu' value='ne' id='alignment-menu-ne'> ${__('Neutral Evil')}</label></td>
+  </tr>
+
+<tr>
+  <td><label for='alignment-menu-cg'><input type='radio' name='alignment-menu' value='cg' id='alignment-menu-cg'> ${__('Chaotic Good')}</label></td>
+  <td><label for='alignment-menu-cn'><input type='radio' name='alignment-menu' value='cn' id='alignment-menu-cn'> ${__('Chaotic Neutral')}</label></td>
+  <td><label for='alignment-menu-ce'><input type='radio' name='alignment-menu' value='ce' id='alignment-menu-ce'> ${__('Chaotic Evil')}</label></td>
+  </tr>
+
+<tr><td></td>
+  <th colspan='3' class='control-menu__col-head'><i class="icon icon_chaotic"></i></th></tr>
+
+<tr><td></td>
+  <td><label for='alignment-menu-none'><input type='radio' name='alignment-menu' value='' id='alignment-menu-none'> ${__('None')}</label></td></tr>
+
+</table>
+</div></nav>
+
+<nav id='enum-menu' class='control-menu'><div id='enum-menu__holder'></div></nav>`;
+
 
     return `<!DOCTYPE html>
 <html lang='${this.language}' class='${htmlClasses.join(" ")}'>
@@ -510,8 +736,13 @@ ${registry.render(this.doc.contents, this)}
 <p>If printing on Safari, please deselect "Print headers and footers".</p>
 </div>
 <nav id='screen-buttons'>
-<button id='button--print' onclick="window.print();return false;">Print</button>
+<button id='button--print' onclick="window.print();return false;"><i></i> ${__('Print')}</button>
+${isLoggedIn ? `<button id='button--save-data' class="btn button--disabled"><i></i> ${__('Save')}</button>` : ''}
+
 </nav>
+
+${controlMenus}
+
 <script type='text/javascript'>
 ${javascript}
 </script>

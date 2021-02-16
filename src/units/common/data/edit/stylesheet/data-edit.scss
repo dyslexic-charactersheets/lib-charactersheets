@@ -1,0 +1,117 @@
+@mixin edit-hover {
+  border-radius: 2px;
+  box-shadow: 0 0 2px --c-accent, inset 0 0 5px --c-accent;
+}
+
+.field--control_proficiency {
+  .icon.field--control_proficiency__icon {
+    cursor: pointer;
+  }
+  
+  .field--control_proficiency__rank {
+    display: none;
+  }
+}
+
+.field--control_counter {
+  &, &.field.field--width_medium {
+    width: 1.3rem;
+  }
+
+  .field__box {
+    border-bottom: 0 none;
+  }
+
+  .icon.field--control_counter__icon {
+    cursor: pointer;
+  }
+  
+  .field--control_counter__number {
+    display: none;
+  }
+}
+
+.field--control_proficiency, .field--control_counter, .field--control_ref-switch, .field--control_enum {
+  .field__box:hover {
+    @include edit-hover;
+  }
+}
+
+.field--control_alignment {
+  .field__frame:hover {
+    @include edit-hover;
+  }
+}
+
+
+.control-menu {
+  $bgcolour: rgba(64,64,64,0.75);
+  $textcolour: rgb(64,64,64);
+  $fillcolour: rgba(250,250,250,0.75);
+  $shadowcolour: rgba(0,0,0,0.6);
+
+  display: none;
+  position: fixed;
+  background: $bgcolour;
+  box-shadow: 0 0.6rem 1.2rem $shadowcolour;
+  border-radius: 0.6rem;
+  padding: 0.6rem;
+  z-index: 100;
+
+  min-width: 50px;
+  min-height: 30px;
+
+  > div {
+    background: $fillcolour;
+    padding: 0.1rem 1.2rem 0.8rem 0.5rem;
+    border-radius: 0.3rem;
+    box-shadow: inset 0 0.1rem 0.3rem $bgcolour;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: -1rem;
+    left: 2.8rem;
+    border-left: 1rem solid transparent;
+    border-right: 1rem solid transparent;
+    border-bottom: 1rem solid $bgcolour;
+  }
+
+  label {
+    display: block;
+    padding: 0.2rem 0;
+
+    color: $textcolour;
+    cursor: pointer;
+    text-align: left;
+    font-size: 1rem;
+  }
+
+  .field {
+    label {
+      text-align: center;
+    }
+  }
+
+  p {
+    label {
+      display: inline-block;
+      min-width: 12rem;
+    }
+  }
+
+  i {
+    position: relative;
+    top: 0.3rem;
+    margin-right: 0.3rem;
+  }
+
+  .control-menu__col-head {
+    text-align: center;
+  }
+  
+  .control-menu__row-head {
+    vertical-align: middle;
+  }
+}

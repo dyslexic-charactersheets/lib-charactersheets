@@ -24,14 +24,14 @@ inc:
                       - h4: "_{Step One}"
                       - p: "_{Increase your level by 1 and subtract 1000 XP.}"
 
-                      - g:
-                        pad: true
-                        optional: true
-                        contents:
-                          - field: level
-                            label: "_{Level}"
-                            border: circle
-                            frame: right
+                      # - g:
+                      #   pad: true
+                      #   optional: true
+                      #   contents:
+                      #     - field: level
+                      #       label: "_{Level}"
+                      #       border: circle
+                      #       frame: right
 
                   - g:
                     pad: true
@@ -50,7 +50,6 @@ inc:
                               prefix: "+"
                               suffix: "_{hp}"
                               width: large
-                              eq: '%{hp-ancestry}+((%{hp-class}+%{CON})*%{level})'
                             inputs:
                               - field: hp-class
                                 label: "_{Class}"
@@ -118,6 +117,8 @@ inc:
                         contents:
                           - h6: "_{Skill feats}"
 
+                      - zone: '@option/level-up/feats'
+
                   - g:
                     pad: true
                     contents:
@@ -162,28 +163,24 @@ inc:
                             control: proficiency
                             value: trained
                             ruby: "_{Level}\n+2"
-                            eq: "%{level}+2"
                           - field: proficiency-expert
                             label: "_{Expert}"
                             border: full
                             control: proficiency
                             value: expert
                             ruby: "_{Level}\n+4"
-                            eq: "%{level}+4"
                           - field: proficiency-master
                             label: "_{Master}"
                             border: full
                             control: proficiency
                             value: master
                             ruby: "_{Level}\n+6"
-                            eq: "%{level}+6"
                           - field: proficiency-legendary
                             label: "_{Legendary}"
                             border: full
                             control: proficiency
                             value: legendary
                             ruby: "_{Level}\n+8"
-                            eq: "%{level}+8"
 
                       - p: "_{Increase any statistics that changed as a result of ability boosts or other abilities.}"
                             
@@ -227,7 +224,38 @@ inc:
                           - levels: [ 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
                             skill-increase: true
                           - levels: [ 5, 10, 15, 20 ]
-                            gain: "_{Ability boost}"
+                            gain: "_{Ability boost} &times; 4"
+                            # contents:
+                            #   - layout: indent-l
+                            #     contents:
+                            #       - g:
+                            #       - row:
+                            #         contents:
+                            #           - field: "advancement-#{level}-boost-str"
+                            #             control: checkbox
+                            #             down: false
+                            #             label: "_{STR}"
+                            #           - field: "advancement-#{level}-boost-dex"
+                            #             control: checkbox
+                            #             down: false
+                            #             label: "_{DEX}"
+                            #           - field: "advancement-#{level}-boost-con"
+                            #             control: checkbox
+                            #             down: false
+                            #             label: "_{CON}"
+                            #           - field: "advancement-#{level}-boost-int"
+                            #             control: checkbox
+                            #             down: false
+                            #             label: "_{INT}"
+                            #           - field: "advancement-#{level}-boost-wis"
+                            #             control: checkbox
+                            #             down: false
+                            #             label: "_{WIS}"
+                            #           - field: "advancement-#{level}-boost-cha"
+                            #             control: checkbox
+                            #             down: false
+                            #             label: "_{CHA}"
+
                           - zone: '@advancement'
                         fields:
                           - zone: '@advancement-fields'

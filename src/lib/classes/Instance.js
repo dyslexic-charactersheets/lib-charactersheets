@@ -39,6 +39,14 @@ export class Instance {
     }
   }
 
+  getDataUnits(isLoggedIn) {
+    if (isLoggedIn) {
+      return [ "data/edit", "data/calc", "data/save", "data/roll" ];
+    } else {
+      return [ "data/edit" ];
+    }
+  }
+
   /**
    * Render this instance as a file or files.
    * @returns {Promise} Promise representing the character sheet(s).

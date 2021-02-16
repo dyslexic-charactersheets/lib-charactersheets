@@ -104,6 +104,8 @@ export let indent = {
     let contents = args.contents;
 
     switch (layout) {
+      case null:
+      case '':
       case 'left':
         layout = 'indent-l';
         contents = [
@@ -137,6 +139,7 @@ export let indent = {
         ];
     }
 
+    // log("layout", "Indent", args.layout, "=>", layout);
     return [
       {
         type: 'layout',

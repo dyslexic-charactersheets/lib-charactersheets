@@ -24,7 +24,7 @@ export let repeat = {
         repeat = 1;
     }
     if (ctx.largePrint && args.reduce > 0)
-      repeat -= args.reduce;
+      repeat -= parseInt(args.reduce);
 
     let start = parseInt(args.start);
     let end = start + repeat;

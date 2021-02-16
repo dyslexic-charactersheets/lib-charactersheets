@@ -50,6 +50,8 @@ function parseCharacter(primary, request) {
     printPortrait: false,
     animalPortrait: false,
     printBackground: false,
+    
+    isLoggedIn: false,
     ...primary.attributes
   };
 
@@ -96,10 +98,12 @@ function parseCharacter(primary, request) {
     printBackground: attr.printBackground,
     printWatermark: attr.printWatermark,
 
+    isLoggedIn: attr.isLoggedIn,
     debug: primary.debug,
     instances: {},
   };
 
+  log("Character", "Is logged in?", attr.isLoggedIn, char.isLoggedIn);
   // log("Character", "Request attributes", attr);
 
   // log("Character", "Print intensity", char.printIntensity);
@@ -329,6 +333,7 @@ export class Character extends Instance {
     this.promise = new Promise((resolve, reject) => {
       systemsReady(() => {
         this.data = parseCharacter(primary, request);
+        this.data.units = [...this.data.units, ...this.getDataUnits(this.data.isLoggedIn)];
         resolve(this.data);
       });
     });
@@ -360,6 +365,7 @@ export class Character extends Instance {
           // start with a document
           const documentUnit = system.getUnit("document");
           const document = new Document(documentUnit, data.id);
+          document.request = this.request;
 
           // language
           document.language = data.language;
@@ -447,6 +453,7 @@ export class Character extends Instance {
           // log("Character", "Document vars", document.vars);
 
           // load units
+          document.isLoggedIn = data.isLoggedIn;
           let units = system.getUnits(data.units);
           units = system.inferUnits(units);
           // log("Character", "Inferred units:", units.map(unit => unit.id).sort());

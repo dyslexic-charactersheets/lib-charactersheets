@@ -1,5 +1,5 @@
 import { isArray, isString, isNull, toBoolean } from '../util';
-import { elementID, elementClass, getRubyHeight } from '../util/elements';
+import { elementID, elementName, elementClass, getRubyHeight } from '../util/elements';
 import { has, interpolate } from '../util/objects';
 import { __, _e } from '../i18n';
 import { log } from '../log';
@@ -17,12 +17,15 @@ export let field = {
     editable: true,
     flex: false,
     'merge-bottom': false,
+    format: 'string',
     label: false,
     indent: false,
     value: null,
     blk: false,
     ruby: false,
     overprint: false,
+    eq: false,
+    ref: false,
   },
   expect: ['icon'],
   // transform(args, ctx) {
@@ -50,8 +53,12 @@ export let field = {
     if (args.ruby) {
       args.rb = getRubyHeight(args);
     }
+    if (args.eq || args.ref) {
+      args.editable = false;
+    }
 
     const id = elementID('field', args.id);
+    const name = elementName('field', args.id);
     const cls = elementClass('field', null, args,
       ["icon", "ref", "misc", "temp", "indent", "blk", "overprint"],
       { "frame": "normal", "width": "", "align": "centre", "size": "medium", "control": "input", "shift": 0, "rb": 0, "border": "bottom", "flex": false });
@@ -59,7 +66,7 @@ export let field = {
     const frameArgs = Object.assign({}, args, { type: 'frame:' + args.frame });
     const frame = reg.renderItem(frameArgs, doc);
     const ruby = args.ruby ? `<label class='field__ruby-text'>${_e(args.ruby, doc)}</label>` : '';
-    return `<div${id}${cls}>${frame}${ruby}</div>`;
+    return `<div${id}${name}${cls}>${frame}${ruby}</div>`;
   }
 }
 
@@ -134,7 +141,7 @@ export function fieldRadioIdent(fieldid = '', value = '') {
   }
 
   const id = fieldid + '--' + value;
-  const ident = ` id='${id}' name='${fieldid}'`;
+  const ident = ` id='${id}' name='${fieldid}' value='${value}'`;
   const forid = ` for='${id}'`;
   return { id: id, name: fieldid, for: forid, ident: ident };
 };
@@ -157,7 +164,7 @@ export function fieldInner(args, reg, doc, decoration) {
 
     for (let i = 0; i < args.repeat; i++) {
       const value = i >= values.length ? null : values[i];
-      const controlArgs = Object.assign({}, args, { value: value });
+      const controlArgs = Object.assign({}, args, { value: value, id: `${args.id}[${i+1}]` });
       const control = reg.renderItem(controlArgs, doc);
       if (i == args.repeat - 1 && merge_bottom && boxargs['border'] == 'bottom')
         boxargs['border'] = 'none';

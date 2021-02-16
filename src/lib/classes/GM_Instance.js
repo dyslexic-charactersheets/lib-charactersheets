@@ -17,12 +17,16 @@ export class GM_Instance extends Instance {
   parseGM_Instance(primary, request) {
     let attr = {
       optionPermission: false,
+      isLoggedIn: false,
       ...primary.attributes
     };
 
     if (attr.optionPermission) {
       this.data.units.push("option/permission");
     }
+    
+    this.data.isLoggedIn = attr.isLoggedIn;
+    this.data.units = [...this.data.units, ...this.getDataUnits(attr.isLoggedIn)];
   }
 
   render() {
@@ -70,7 +74,6 @@ export class GM_Instance extends Instance {
           
           if (data.printBackground) {
             const printBackground = data.printBackground;
-            // log("GM", "Background:", printBackground);
             const bgColours = {
               magnolia: '#F4E9D8',
             };
@@ -85,7 +88,7 @@ export class GM_Instance extends Instance {
             }
           }
 
-          // TODO set character parameters
+          // set character parameters
           document.printColour = data.printColour;
           document.printIntensity = data.printIntensity;
           document.accentColour = data.accentColour;
@@ -93,6 +96,7 @@ export class GM_Instance extends Instance {
           
           self.completeDocument(document);
           
+          document.isLoggedIn = data.isLoggedIn;
           let units = system.getUnits(data.units);
           units = system.inferUnits(units);
           

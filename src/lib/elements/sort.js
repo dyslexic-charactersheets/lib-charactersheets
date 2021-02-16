@@ -1,6 +1,6 @@
 import { isString, isNumber } from '../util';
 import { has } from '../util/objects';
-// import { log } from '../log';
+import { log } from '../log';
 
 export let sort = {
   name: 'sort',
@@ -14,6 +14,7 @@ export let sort = {
   transform(args, ctx) {
     const key = args.orderby;
     // log("sort", `Sorting ${args.contents.length} items by ${key}`);
+    // log("sort", JSON.stringify(args.contents, null, 2));
 
     let defaultValue = false;
     if (args.orderby == 'level' || args.orderby == 'order') {

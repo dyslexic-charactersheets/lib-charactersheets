@@ -1,6 +1,6 @@
 import { isEmpty, isArray } from '../util';
 import { toKebabCase } from '../util/strings';
-import { has } from '../util/objects';
+import { cloneDeep, has, interpolate } from '../util/objects';
 import { log, warn } from '../log';
 
 export let advancement = {
@@ -50,8 +50,9 @@ export let advancement = {
       }
 
       let keys = Object.keys(advance);
+      // log("advancement", "Placing keys", keys);
       keys.forEach(key => {
-        if (!isArray(advance[key])) {
+        if (!isArray(advance[key]) || key == "contents") {
           advance[key] = Array(levels.length).fill(advance[key]);
         }
       });
@@ -64,7 +65,7 @@ export let advancement = {
         });
         if (!has(itemsByLevel, level))
           warn("advancement", "Unknown level:", level);
-        itemsByLevel[level].push(item);
+        itemsByLevel[level].push(cloneDeep(item));
       });
     });
 
@@ -78,6 +79,7 @@ export let advancement = {
       let flags = {};
       let advances = [];
       let gains = [];
+      let contents = [];
       let icons = [];
       let proficiencyAdvances = {
         trained: [],
@@ -106,6 +108,14 @@ export let advancement = {
         } else if (has(item, "gain")) {
           gains.push(item.gain);
           has_labels = true;
+        }
+        if (has(item, "contents")) {
+          let rowContents = cloneDeep(item.contents);
+          log("advancement", `Item contents at level ${lv}`, rowContents);
+          if (!isArray(rowContents))
+            rowContents = [rowContents];
+          rowContents = interpolate(rowContents, {level: lv});
+          contents = [...contents, ...rowContents];
         }
         // if (has(item, "icon")) {
         //   icons.push(item.icon);
@@ -170,7 +180,7 @@ export let advancement = {
         icon: icons.join(","),
         item: {
           type: "g",
-          contents: [...proficiencyItems, ...iconItems, ...items]
+          contents: [...proficiencyItems, ...iconItems, ...items, ...contents]
         }
       });
     }

@@ -22,12 +22,12 @@ inc:
                 contents:
                   - layout: alignment
                     contents:
-                      - field: build-concept
+                      - field: build/concept
                         legend: "_{Character concept}"
                         width: stretch
                         merge-bottom: true
                         repeat: 2
-                      - field: build-alignment
+                      - field: build/alignment
                         frame: none
                         control: alignment
 
@@ -53,20 +53,20 @@ inc:
                         contents:
                           - row:
                             contents:
-                              - field: build-ancestry
+                              - field: build/ancestry
                                 width: stretch
                                 align: left
                                 label: "_{Ancestry}"
                           - row:
                             contents:
-                              - field: build-ancestry-hp
+                              - field: build/ancestry-hp
                                 label: "_{Hit Points}"
                                 icon: hp
                                 suffix: "_{hp}"
-                              - field: build-ancestry-size
+                              - field: build/ancestry-size
                                 label: "_{Size}"
                                 icon: size
-                              - field: build-ancestry-speed
+                              - field: build/ancestry-speed
                                 label: "_{Speed}"
                                 control: speed
                                 width: large
@@ -74,14 +74,14 @@ inc:
                         contents:
                           - row:
                             contents:
-                              - field: build-ancestry-heritage
+                              - field: build/ancestry-heritage
                                 width: stretch
                                 align: left
                                 label: "_{Heritage}"
                                 merge-bottom: true
                           - level: 1
                             contents:
-                              - field: build-ancestry-feat
+                              - field: build/ancestry-feat
                                 width: stretch
                                 align: left
                                 label: "_{Ancestry feat}"
@@ -104,14 +104,14 @@ inc:
                     contents:
                       - row:
                         contents:
-                          - field: build-background
+                          - field: build/background
                             label: "_{Background}"
                             width: stretch
                             align: left
                             merge-bottom: true
                       - level: 1
                         contents:
-                          - field: build-background-skill-feat
+                          - field: build/background-skill-feat
                             label: "_{Skill Feat}"
                             width: stretch
                             align: left
@@ -137,30 +137,30 @@ inc:
                     contents:
                       - row:
                         contents:
-                          - field: build-class
+                          - field: build/class
                             label: "_{Class}"
                             width: stretch
                       - row:
                         contents:
-                          - field: build-class-hp
+                          - field: build/class-hp
                             label: "_{Hit Points}"
                             icon: hp
                             suffix: "_{hp}"
                             width: large
-                          - field: build-class-key-ability
+                          - field: build/class-key-ability
                             label: "_{Key Ability}"
                             width: stretch
-                          - field: build-class-level
+                          - field: build/level
                             label: "_{Level}"
                             underlay: 1
                             border: full
                   - layout: 2e
                     contents:
-                      - field: build-class-specialisation
+                      - field: build/class-specialisation
                         label: "_{Subclass}"
                         width: stretch
                         merge-bottom: true
-                      - field: build-deity
+                      - field: build/deity
                         label: "_{Deity}"
                         width: stretch
                         merge-bottom: true
@@ -212,7 +212,7 @@ inc:
                       - "_{Ability Score}"
                       - ""
                       - "_{Ability Modifier}"
-                      - "_{Key Ability}"
+                      - "_{Key\nAbility}"
                     rows:
                       - ability: "_{Strength}"
                         short: "_{STR}"
@@ -235,25 +235,27 @@ inc:
                     template:
                       - h6: "#{ability}"
                       - span: 10 +
-                      - field: build-boost-#{code}-ancestry
+                      - field: build/boost-#{code}-ancestry
                         control: boost
-                      - field: build-boost-#{code}-background
-                        control: boost
-                        down: false
-                      - field: build-boost-#{code}-class
+                      - field: build/boost-#{code}-background
                         control: boost
                         down: false
-                      - field: build-boost-#{code}-free
+                      - field: build/boost-#{code}-class
+                        control: boost
+                        down: false
+                      - field: build/boost-#{code}-free
                         control: boost
                         down: false
                       - span: "&rArr;"
-                      - field: build-#{code}-score
+                      - field: build/#{code}-score
+                        eq: "10+(%{build/boost-#{code}-ancestry[up]}*2)-(%{build/boost-#{code}-ancestry[down]}*2)+(%{build/boost-#{code}-background[up]}*2)+(%{build/boost-#{code}-class[up]}*2)+(%{build/boost-#{code}-free[up]}*2)"
                       - span: "&rArr;"
-                      - field: build-#{code}-modifier
+                      - field: build/#{code}
                         icon: dc
                         border: full
                         underlay: "#{short}"
-                      - field: build__key-ability
+                        eq: "floor((minmax(%{build/#{code}-score},4,30)-10)/2)"
+                      - field: build/key-ability
                         control: radio
                         value: "#{code}"
           - layout: 2l
@@ -273,26 +275,26 @@ inc:
                   - hr:
                   - calc:
                     output:
-                      field: build-hp
+                      field: build/hp
                       legend: "_{Hit Points}"
                       icon: hp
                       suffix: "_{hp}"
                       width: large
                     inputs:
                       - field:
-                        ref: build-ancestry-hp
+                        ref: build/ancestry-hp
                         label: "_{Ancestry}"
                       - span: "+ ("
                       - field:
-                        ref: build-class-hp
+                        ref: build/class-hp
                         label: "_{Class}"
                       - span: "+"
                       - field:
-                        ref: CON
+                        ref: build/CON
                         underlay: "_{CON}"
                       - span: ") &times;"
                       - field:
-                        ref: level
+                        ref: build/level
                         label: "_{Level}"
                         underlay: "1"
 
@@ -315,11 +317,11 @@ inc:
                     output:
                       label: "_{Additional Skills}"
                     inputs:
-                      - field:
+                      - field: build/skills-class
                         label: "_{Class}"
                       - span: "+"
                       - field:
-                        ref: INT
+                        ref: build/INT
                         label: "_{INT}"
                         underlay: "_{INT}"
                   - p: "_{If two sources give you training in the same skill, they don't add up. You may be able to spend the training elsewhere.}"
@@ -332,7 +334,7 @@ inc:
                       - row:
                         # valign: top
                         contents:
-                          - field: proficiency-untrained
+                          - field: build/proficiency-untrained
                             label: "_{Untrained}"
                             output: true
                             control: value
@@ -340,30 +342,30 @@ inc:
                             border: full
                             value: 0
                             ruby: "_{None}\n"
-                          - field: proficiency-trained
+                          - field: build/proficiency-trained
                             label: "_{Trained}"
-                            output: true
-                            control: proficiency
-                            value: trained
+                            icon: proficiency-trained
                             ruby: "_{Level}\n+2"
-                          - field: proficiency-expert
+                            eq: "minmax(%{build/level},1,20)+2"
+                            border: full
+                          - field: build/proficiency-expert
                             label: "_{Expert}"
-                            output: true
-                            control: proficiency
-                            value: expert
+                            icon: proficiency-expert
                             ruby: "_{Level}\n+4"
-                          - field: proficiency-master
+                            eq: "minmax(%{build/level},1,20)+4"
+                            border: full
+                          - field: build/proficiency-master
                             label: "_{Master}"
-                            output: true
-                            control: proficiency
-                            value: master
+                            icon: proficiency-master
                             ruby: "_{Level}\n+6"
-                          - field: proficiency-legendary
+                            eq: "minmax(%{build/level},1,20)+6"
+                            border: full
+                          - field: build/proficiency-legendary
                             label: "_{Legendary}"
-                            output: true
-                            control: proficiency
-                            value: legendary
+                            icon: proficiency-legendary
                             ruby: "_{Level}\n+8"
+                            eq: "minmax(%{build/level},1,20)+8"
+                            border: full
                           - spacer:
                   - hr:
                   - layout: 4e
@@ -393,7 +395,7 @@ inc:
                             valign: middle
                             contents:
                               - icon: proficiency
-                              - field: proficiency-skill-1
+                              - field: build/proficiency-skill-background
                                 frame: none
                                 width: stretch
                           - h5: "_{Lore Skill}"
@@ -401,7 +403,7 @@ inc:
                             valign: middle
                             contents:
                               - icon: proficiency
-                              - field: proficiency-skill-1
+                              - field: build/proficiency-skill-lore
                                 frame: none
                                 width: stretch
                                 merge-bottom: true
@@ -412,21 +414,21 @@ inc:
                             valign: middle
                             contents:
                               - icon: proficiency
-                              - field: proficiency-skill-1
+                              - field: build/proficiency-skill-1
                                 frame: none
                                 width: stretch
                           - row:
                             valign: middle
                             contents:
                               - icon: proficiency
-                              - field: proficiency-skill-2
+                              - field: build/proficiency-skill-2
                                 frame: none
                                 width: stretch
                           - row:
                             valign: middle
                             contents:
                               - icon: proficiency
-                              - field: proficiency-skill-3
+                              - field: build/proficiency-skill-3
                                 frame: none
                                 width: stretch
                                 merge-bottom: true
@@ -436,21 +438,21 @@ inc:
                             valign: middle
                             contents:
                               - icon: proficiency
-                              - field: proficiency-skill-1
+                              - field: build/proficiency-skill-1
                                 frame: none
                                 width: stretch
                           - row:
                             valign: middle
                             contents:
                               - icon: proficiency
-                              - field: proficiency-skill-2
+                              - field: build/proficiency-skill-2
                                 frame: none
                                 width: stretch
                           - row:
                             valign: middle
                             contents:
                               - icon: proficiency
-                              - field: proficiency-skill-3
+                              - field: build/proficiency-skill-3
                                 frame: none
                                 width: stretch
                                 merge-bottom: true
@@ -470,7 +472,7 @@ inc:
                   - row:
                     layout: split
                     contents:
-                      - field: build-starting-money
+                      - field: build/starting-money
                         legend: "_{Starting Money}"
                         suffix: "_{sp}"
                         value: '150'
@@ -480,7 +482,7 @@ inc:
                         digits: 4
                         editable: false
                       - spacer:
-                      - field: build-remaining-money
+                      - field: build/remaining-money
                         label: "_{Remaining Money}"
                         control: money
                         denomination: silver
@@ -510,9 +512,9 @@ inc:
                       - h6: "#{name}"
                       - row:
                         contents:
-                          - field: "equipment-#{id}"
+                          - field: "build/equipment-#{id}"
                             width: stretch
-                          - field: "cost-#{id}"
+                          - field: "build/cost-#{id}"
                             control: money
                             denomination: silver
                             digits: 4

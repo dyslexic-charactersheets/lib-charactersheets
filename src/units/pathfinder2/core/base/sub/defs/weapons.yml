@@ -45,6 +45,7 @@ inc:
         contents:
           - h6: "#{name}"
           - spacer:
+          - icon: icon
           - value: "#{damage}"
             width: small
           - if: "#{type}!="
@@ -70,6 +71,7 @@ inc:
           - subid: die
             width: tiny
             align: left
+            damage-die: true
           - label: "+"
           - subid: extra
             width: tiny
@@ -80,8 +82,7 @@ inc:
         width: tiny
       - field: attack-#{i}-striking
         label: "_{Striking}"
-        control: icon
-        icon: runes
+        control: counter
       - field: attack-#{i}-type
         label: "_{Misc}"
         misc: true
@@ -110,18 +111,21 @@ inc:
                   width: huge
                   attack: true
                   icon: bonus
+                  eq: "%{attack-#{i}-ability}+%{attack-#{i}-proficiency-bonus}+%{attack-#{i}-potency[rank]}"
+                  format: modifier
                 inputs:
-                  - field:
+                  - field: attack-#{i}-ability
                     ref: true
                     misc: true
                     label: "_{Ability}"
+                    control: ref-switch
+                    abilities: "str,dex"
                   - field: attack-#{i}-proficiency
                     control: proficiency
                     label: "_{Proficiency}"
                   - field: attack-#{i}-potency
-                    control: icon
+                    control: counter
                     label: "_{Potency}"
-                    icon: runes
               - large-print:
                 contents:
                   - field: attack-#{i}-more
@@ -182,18 +186,19 @@ inc:
                   width: huge
                   attack: true
                   icon: bonus
+                  format: modifier
                 inputs:
                   - field:
-                    ref: true
                     misc: true
                     label: "_{Ability}"
+                    control: ref-switch
+                    ref: "str,dex"
                   - field: attack-#{i}-proficiency
                     control: proficiency
                     label: "_{Proficiency}"
                   - field: attack-#{i}-potency
-                    control: icon
+                    control: counter
                     label: "_{Potency}"
-                    icon: runes
               - large-print:
                 contents:
                   - field: attack-#{i}-details
@@ -265,11 +270,13 @@ inc:
                   # width: large
                   attack: true
                   icon: bonus
+                  format: modifier
                 inputs:
                   - field:
-                    ref: true
                     label: "_{Ability}"
                     misc: true
+                    control: ref-switch
+                    ref: "str,dex"
                   - span: "+"
                   - field: "#{id}-attack-#{i}-proficiency"
                     control: proficiency
@@ -333,11 +340,13 @@ inc:
                   # width: large
                   attack: true
                   icon: bonus
+                  format: modifier
                 inputs:
                   - field:
-                    ref: true
                     label: "_{Ability}"
                     misc: true
+                    control: ref-switch
+                    ref: "str,dex"
                   - span: "+"
                   - field: "#{id}-attack-#{i}-proficiency"
                     control: proficiency

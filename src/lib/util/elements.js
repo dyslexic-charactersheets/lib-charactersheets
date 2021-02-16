@@ -48,6 +48,20 @@ export function elementID(element, id = null) {
   return ` id='${element}-${id}'`;
 }
 
+export function elementName(element, id, subid = null) {
+  if (isEmpty(id)) {
+    return '';
+  }
+  let name = id;
+  if (!isEmpty(element)) {
+    name = `${element}-${id}`;
+  }
+  if (!isEmpty(subid)) {
+    name = `${name}__${subid}`;
+  }
+  return ` name='${name}'`;
+}
+
 export function elementClass(block, element = null, args = {}, modKeys = [], attribDefs = {}) {
   let cls = [];
 

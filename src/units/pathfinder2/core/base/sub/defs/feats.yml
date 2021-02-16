@@ -57,6 +57,7 @@ inc:
                   legend: "_{Bonus Hit Points}"
                   width: huge
                   suffix: "_{hp}"
+                  eq: "3*%{#{class-id}-feats}"
                 inputs:
                   - span: "3 &times;"
                   - field: "#{class-id}-feats"
@@ -99,6 +100,7 @@ inc:
                 inline: true
                 output:
                   label: "#{class-level}"
+                  eq: "floor(%{level}/2)"
                 inputs:
                   - label: "_{Character\nLevel}"
                   - span: "&divide; 2"
@@ -190,16 +192,17 @@ inc:
                           field: "#{tradition}-spell-attack"
                           legend: "#{tradition-spell-attack}"
                           icon: bonus
+                          eq: "%{#{ability}}+%{#{tradition}-spell-proficiency-bonus}+%{#{tradition}-spell-attack-misc}"
                         inputs:
                           - field:
                             ref: "#{ability}"
                             label: "#{ability-name}"
                             underlay: "#{ability-name}"
-                          - field: "#{tradition}-spell-attack-proficiency"
+                          - field: "#{tradition}-spell-proficiency"
                             label: "_{Proficiency}"
                             control: proficiency
                             value: trained
-                          - field:
+                          - field: "#{tradition}-spell-attack-misc"
                             label: "_{Misc}"
                             misc: true
                       - calc:
@@ -207,17 +210,18 @@ inc:
                           field: "#{tradition}-spell-dc"
                           legend: "#{tradition-spell-dc}"
                           icon: dc
+                          eq: "10+%{#{ability}}+%{#{tradition}-spell-proficiency-bonus}+%{#{tradition}-spell-dc-misc}"
                         inputs:
                           - span: "10 +"
                           - field:
                             ref: "#{ability}"
                             label: "#{ability-name}"
                             underlay: "#{ability-name}"
-                          - field: "#{tradition}-spell-dc-proficiency"
+                          - field: "#{tradition}-spell-proficiency"
                             label: "_{Proficiency}"
                             control: proficiency
                             value: trained
-                          - field:
+                          - field: "#{tradition}-spell-dc-misc"
                             label: "_{Misc}"
                             misc: true
 
