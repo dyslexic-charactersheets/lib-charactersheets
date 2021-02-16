@@ -7,6 +7,11 @@ import { replaceColours } from '../util/colours';
 import { has, cloneDeep, interpolate } from '../util/objects';
 import { esc, _e } from '../i18n';
 
+// Set up the template engine for JS and CSS
+Handlebars.registerHelper('embedJson', function (data, options) {
+  return JSON.stringify(data);
+});
+
 export class Document {
   constructor(baseUnit, id) {
     this.nextPage = 1;
@@ -453,8 +458,19 @@ export class Document {
   getJavascript() {
     let jsParts = [];
 
+    let templateData = {
+      title: this.doc.title,
+      fieldValues: {
+        level: 2,
+        foo: "bar",
+      }
+    };
+
     function processJS(js) {
-      return js.replace(/\/\*.*?\*\//g, '');
+      const template = Handlebars.compile(js);
+      return template(templateData);
+
+      // return js; // .replace(/\/\*.*?\*\//g, '');
     }
 
     this.units.forEach(unit => {
@@ -465,7 +481,7 @@ export class Document {
 
     // custom extras
     this.jsParts.forEach(js => {
-      this.jsParts.push(processJS(js));
+      jsParts.push(processJS(js));
     });
 
     return jsParts.join("\n");
@@ -506,7 +522,8 @@ ${registry.render(this.doc.contents, this)}
 <p>If printing on Safari, please deselect "Print headers and footers".</p>
 </div>
 <nav id='screen-buttons'>
-<button id='button--print' onclick="window.print();return false;">Print</button>
+<button id='button--print' onclick="window.print();return false;"><i></i> Print</button>
+<button id='button--save-data' class="btn button--disabled"><i></i> Save</button>
 </nav>
 <script type='text/javascript'>
 ${javascript}

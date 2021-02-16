@@ -447,6 +447,7 @@ export class Character extends Instance {
           // log("Character", "Document vars", document.vars);
 
           // load units
+          data.units.push("data");
           let units = system.getUnits(data.units);
           units = system.inferUnits(units);
           // log("Character", "Inferred units:", units.map(unit => unit.id).sort());

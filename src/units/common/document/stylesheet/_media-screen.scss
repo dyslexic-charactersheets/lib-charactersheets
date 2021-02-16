@@ -4,7 +4,8 @@ $page_height: 27cm;
 $colour_screen_bg: #e0e0e0;
 $colour_screen_bg2: #c0c0c0;
 
-$colour_screen_print_button: #2020d0;
+$colour_screen_print_button_hi: #3030e0;
+$colour_screen_print_button_lo: #1c1ccc;
 
 
 /* Screen styles */
@@ -40,8 +41,12 @@ body {
     padding: 0.5cm;
     box-shadow: 0 0 1cm rgba(0,0,0,0.3);
 
-    text-align: center;
+    // text-align: center;
     z-index: 100;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 
     #left-buttons {
         position: absolute;
@@ -66,43 +71,66 @@ body {
 }
 
 button {
-    $button_size: 24px;
+    $button_size: 32px;
+    $icon_size: 20px;
+    
+    height: $button_size;
+    line-height: $button_size;
+    cursor: pointer;
 
     &#button--print {
-        background: $colour_screen_print_button;
+        background: linear-gradient($colour_screen_print_button_hi, $colour_screen_print_button_lo);
         color: white !important;
         font-weight: bold;
         width: 4cm;
-        padding: 5pt;
+        // padding: 5pt;
         border: 0 none;
         border-radius: 2pt;
-        cursor: pointer;
         box-shadow: 0 2pt 10pt rgba(0,0,0,0.4);
-    }
-
-    &.btn {
         height: $button_size;
         line-height: $button_size;
 
+        i {
+            background-image: url('{{{dataurl "images/print.svg"}}}');
+        }
+    }
+
+    &#button--save-data {
+        background: linear-gradient(#fcfcfc, #d8d8d8);
+        color: #303030;
+        font-weight: bold;
+        margin-left: 1rem;
+        border: 1px solid #c0c0c0;
+        border-radius: 2pt;
+        width: 4cm;
+        box-shadow: 0 2pt 10pt rgba(0,0,0,0.4);
+
+        i {
+            background-image: url('{{{dataurl "images/save.svg"}}}');
+        }
+    }
+
+    &.btn {
         padding: 0 0 0;
         border-style: none;
         background-color: transparent;
 
-        display: flex;
-        flex-direction: row;
-        justify-items: center;
+        // display: flex;
+        // flex-direction: row;
+        // justify-items: center;
+    }
 
-        i {
-            display: inline;
-            height: $button_size;
-            width: $button_size;
+    i {
+        display: inline-block;
+        height: $icon_size;
+        width: $icon_size;
 
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-            background-position: center;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-position: center;
 
-            margin-right: 0.2cm;
-        }
+        margin-right: 0.2cm;
+        vertical-align: middle;
     }
 
     &#button--large {
