@@ -3,11 +3,34 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Scroll Trickster}"
 
+require:
+  - unit: option/spellbook
+  - unit: feat/trick-magic-item
+
 inc:
   - at: '@archetypes'
     add:
       - name: "_{Scroll Trickster}"
         num-feats: 3
+
+  - copy: "##:spell"
+    params:
+      level: 1
+    contents:
+      - row:
+        contents:
+          - field:
+            width: stretch
+            frame: none
+            merge-bottom: true
+          - value: "#{level}"
+
+  - at: "@feat/trick-magic-item/save"
+    replace:
+      - paste: save
+        params:
+          success: "_{Can use the item this turn.}"
+          failure: "_{Cannot use the item this turn.}"
 
   - at: '@pages'
     add:
@@ -17,7 +40,7 @@ inc:
         flex: true
         half: true
         contents:
-          - layout: 2l
+          - layout: 2e
             contents:
               - g:
                 contents:
@@ -36,15 +59,99 @@ inc:
                       - p: "_{Trained in Society, and one other skill}"
                         icon: proficiency-trained
                       - hr:
+                      - paste: feat/trick-magic-item
+                      - value-block: "+2"
+                        content: "_{To trick scrolls}"
 
-                  - section: "_{Contortionist}"
+                  - section: "_{Skim Scroll}"
                     contents:
-                      - selectable: "##:contortionist"
+                      - selectable: "##:skim-scroll"
                         contents:
-                          - ...
+                          - action:
+                            contents:
+                              - p: "_{Draw a scroll and use Trick Magic Item on it.}"
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+
+                  - section: "_{Scroll Cache}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - g:
+                            contents:
+                              - p: "_{Prepare spells each day:}"
+                              - ul:
+                                contents:
+                                  - li: "_{Common spells from the Core Rulebook}"
+                                  - li: "_{Learned spells}"
+                              - p: "_{Must be trained in the appropriate skill to prepare a spell.}"
+
+
+                          - selectable: "##:basic-scroll-cache"
+                            contents:
+                              - row:
+                                contents:
+                                  - h5: "_{Basic Scroll Cache}"
+                                  - spacer:
+                                  - label: "_{Spell Level}"
+                              - list:
+                                hr: true
+                                light: true
+                                contents:
+                                  - level: 6
+                                    contents:
+                                      - paste: "##:spell"
+                                        params:
+                                          level: "_{1st}"
+                                  - level: 8
+                                    contents:
+                                      - paste: "##:spell"
+                                        params:
+                                          level: "_{2nd}"
+                          - selectable: "##:expert-scroll-cache"
+                            contents:
+                              - h5: "_{Expert Scroll Cache}"
+                              - list:
+                                hr: true
+                                light: true
+                                contents:
+                                  - level: 12
+                                    contents:
+                                      - paste: "##:spell"
+                                        params:
+                                          level: "_{3rd}"
+                                  - level: 14
+                                    contents:
+                                      - paste: "##:spell"
+                                        params:
+                                          level: "_{4th}"
+                                  - level: 16
+                                    contents:
+                                      - paste: "##:spell"
+                                        params:
+                                          level: "_{5th}"
+                          - selectable: "##:master-scroll-cache"
+                            contents:
+                              - h5: "_{Master Scroll Cache}"
+                              - list:
+                                hr: true
+                                light: true
+                                contents:
+                                  - level: 18
+                                    contents:
+                                      - paste: "##:spell"
+                                        params:
+                                          level: "_{6rd}"
+                                  - level: 20
+                                    contents:
+                                      - paste: "##:spell"
+                                        params:
+                                          level: "_{7th}"
+
+                  - tail:
+                  - spacer:

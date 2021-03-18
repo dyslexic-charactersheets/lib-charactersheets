@@ -17,7 +17,7 @@ inc:
         flex: true
         half: true
         contents:
-          - layout: 2l
+          - layout: 2e
             contents:
               - g:
                 contents:
@@ -33,18 +33,149 @@ inc:
                   - section: "_{Dedication}"
                     primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
+                      - p: "_{Expert in Medicine}"
                         icon: proficiency-trained
+
+                  - section: "_{Medicine}"
+                    contents:
+                      - list:
+                        hr: true
+                        light: true
+                        contents:
+                          - action:
+                            contents:
+                              - h5: "_{Battle Medicine}"
+                              - p: "_{Attempt a Medicine check to heal.}"
+                              - p: "_{Target is temporarily immune to your Battle Medicine for 1 day.}"
+
+                          - paste: 10mins
+                            contents:
+                              - h5: "_{Treat Wounds}"
+                              - p: "_{Attempt a Medicine check to heal and remove the Wounded condition.}"
+                              - p: "_{Target is temporarily immune to Treat Wounds actions for 1 hour (inclusive).}"
+
+                          - paste: 1hour
+                            contents:
+                              - h5: "_{Treat Wounds}"
+                              - p: "_{Heal double the Hit Points.}"
+
+                          - g:
+                            contents:
+                              - row:
+                                contents:
+                                  - p: "_{Once a day, treat a patient who's immune.}"
+                                  - spacer:
+                                  - field: "##:fabricated-connections/make-an-impression-today"
+                                    control: checkbox
+                                    label: "_{Today}"
+                              - p: "_{Once you're master in Medicine, can treat a patien who's immune once per hour.}"
+                                icon: proficiency-master
+
                       - hr:
 
-                  - section: "_{Contortionist}"
-                    contents:
-                      - selectable: "##:contortionist"
-                        contents:
-                          - ...
+                      - table:
+                        flip: true
+                        columns:
+                          - "_{Medicine\nProficiency}"
+                          - "_{DC}"
+                          - "_{Bonus Healing}"
+                        rows:
+                          - icon: trained
+                            dc: 15
+                            heal: ""
+                          - icon: expert
+                            dc: 20
+                            heal: "+15&nbsp;"
+                          - icon: master
+                            dc: 30
+                            heal: "+30&nbsp;"
+                          - icon: legendary
+                            dc: 40
+                            heal: "+65&nbsp;"
+                        template:
+                          - icon: "proficiency-#{icon}"
+                          - value: "#{dc}"
+                          - value: "#{heal}"
+
+                      - paste: save
+                        params:
+                          critical_success: "_{4d8 healing}"
+                          success: "_{2d8 healing}"
+                          critical_failure: "_{1d8 damage}"
+
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+
+                  - section: "_{Doctor's Visitation}"
+                    contents:
+                      - selectable: "##:doctors-visitation"
+                        contents:
+                          - list:
+                            hr: true
+                            light: true
+                            contents:
+                              - action:
+                                contents:
+                                  - p: "_{Stride then use Battle Medicine or Treat Poison.}"
+                              - action: 2
+                                contents:
+                                  - p: "_{Stride then use Administer First Aid or Treat a Condition.}"
+
+                  - section: "_{Treat Condition}"
+                    contents:
+                      - list:
+                        zebra: true
+                        avoid-shade: true
+                        hr: true
+                        contents:
+                          - selectable: "##:treat-condition"
+                            contents:
+                              - list:
+                                hr: true
+                                light: true
+                                contents:
+                                  - action: 2
+                                    contents:
+                                      - p: "_{Attempt to counteract one condition with a Medicine check:}"
+                                      - ul:
+                                        contents:
+                                          - li: "_{clumsy}"
+                                          - li: "_{enfeebled}"
+                                          - li: "_{sickened}"
+                                      - paste: save
+                                        params:
+                                          critical_success: "_{Reduce by 2}"
+                                          success: "_{Reduce by 1}"
+                                          critical_failure: "_{Increase by 1}"
+                                  - g:
+                                    contents:
+                                      - p: "_{If you have Legendary Medic, can treat a condition whose cause is above level 20.}"
+                                        icon: proficiency-legendary
+
+                          - selectable: "##:holistic-care"
+                            contents:
+                              - h5: "_{Holistic Care}"
+                              - p: "_{May also treat:}"
+                              - ul:
+                                contents:
+                                  - li: "_{frightened}"
+                                  - li: "_{stupefied}"
+                                  - li: "_{stunned}"
+                          
+                  - section: "_{Resuscitate}"
+                    contents:
+                      - selectable: "##:resuscitate"
+                        contents:
+                          - action: 3
+                            contents:
+                              - p: "_{Attempt a DC40 Medicine check to revive a creature that has been dead for up to 3 rounds.}"
+                          - p: "_{They return to life with 1hp, no spells prepared or spell slots available, no points in any pools or any other daily resources, and still with any long-term debilitations of the old body. They are clumsy 2, drained 2, and enfeebled 2 for 1 week.}"
+                          - p: "_{They gain wounded 1, in addition to previous wounds.}"
+                          - p: "_{They are immune to Rescuscitate for 1 day.}"
+
+                  - tail:
+                  - spacer:

@@ -53,7 +53,7 @@ export class GM_Instance extends Instance {
           if (data.printHighContrast) {
             document.highContrast = true;
           }
-          if (data.printDyslexic && data.printDyslexie) {
+          if (data.printDyslexic && (data.printDyslexicFont == 'dyslexie' || data.printDyslexicFont == 'lexend')) {
             document.skipOptional = true;
           }
           

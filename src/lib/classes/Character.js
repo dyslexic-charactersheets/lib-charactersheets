@@ -39,7 +39,7 @@ function parseCharacter(primary, request) {
     printLarge: false,
     printHighContrast: false,
     printDyslexic: false,
-    printDyslexie: false,
+    printDyslexicFont: 'sans',
 
     miniSize: 'medium',
 
@@ -85,7 +85,7 @@ function parseCharacter(primary, request) {
     printLarge: attr.printLarge,
     printHighContrast: attr.printHighContrast,
     printDyslexic: attr.printDyslexic,
-    printDyslexie: attr.printDyslexie,
+    printDyslexicFont: attr.printDyslexicFont,
 
     printColour: attr.printColour,
     accentColour: attr.accentColour,
@@ -130,10 +130,17 @@ function parseCharacter(primary, request) {
     char.units.push('high-contrast');
   }
   if (attr.printDyslexic) {
-    if (attr.printDyslexie) {
-      char.units.push('dyslexie');
-    } else {
-      char.units.push('dyslexic');
+    log("Character", "Dyslexic font", attr.printDyslexicFont);
+    switch(attr.printDyslexicFont) {
+      case 'dyslexie':
+        char.units.push('dyslexie');
+        break;
+      case 'lexend':
+        char.units.push('lexend');
+        break;
+      default:
+        char.units.push('dyslexic');
+        break;
     }
   }
 
@@ -366,7 +373,7 @@ export class Character extends Instance {
           if (data.printHighContrast) {
             document.highContrast = true;
           }
-          if (data.printDyslexic && data.printDyslexie) {
+          if (data.printDyslexic && (data.printDyslexicFont == 'dyslexie' || data.printDyslexicFont == 'lexend')) {
             document.skipOptional = true;
           }
 

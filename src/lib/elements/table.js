@@ -127,6 +127,9 @@ export let table = {
 
     // number rows
     for (let i = 0; i < rows.length; i++) {
+      if (!isObject(rows[i])) {
+        warn("table", "Row is not an object", rows[i]);
+      }
       rows[i].i = i + 1;
     }
 

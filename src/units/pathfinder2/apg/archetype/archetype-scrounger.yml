@@ -3,6 +3,9 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Scrounger}"
 
+require:
+  - unit: option/formula-book
+
 inc:
   - at: '@archetypes'
     add:
@@ -17,7 +20,7 @@ inc:
         flex: true
         half: true
         contents:
-          - layout: 2l
+          - layout: 2e
             contents:
               - g:
                 contents:
@@ -33,18 +36,55 @@ inc:
                   - section: "_{Dedication}"
                     primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
-                        icon: proficiency-trained
-                      - hr:
-
-                  - section: "_{Contortionist}"
-                    contents:
-                      - selectable: "##:contortionist"
+                      - paste: 10mins
                         contents:
-                          - ...
+                          - p: "_{Craft a temporary item: common, non-magical, 1st level or lower.}"
+                          - ul:
+                            contents:
+                              - li: "_{Weapon}"
+                              - li: "_{Armour}"
+                              - li: "_{Non-consumable gear}"
+                              - li: "_{10 &times; ammunition}"
+                          - value-block: "_{1d4}"
+                            content: "_{hours before falling apart (GM rolls)}"
+                      - hr:
+                        light: true
+                      - value-block: "-2"
+                        content: "_{Craft without tools}"
+                      - value-block: "-5"
+                        content: "_{Craft using unsuitable materials}"
+                      - value-block: "-10"
+                        content: "_{Craft using very unsuitable materials}"
 
-                  - tail:
+                  # - tail:
                   - spacer:
 
               - g:
                 contents:
+
+                  - section: "_{Reverse Engineering}"
+                    contents:
+                      - selectable: "##:reverse-engineering"
+                        contents:
+                          - value-block: "+2"
+                            content: "_{Craft check to reverse engineer a formula from an item.}"
+                      
+                          - paste: save
+                            params:
+                              - critical_success: "_{Reassemble original as well as creating formula.}"
+                
+                  - section: "_{High-Quality Scrounger}"
+                    contents:
+                      - selectable: "##:high-quality-scrounger"
+                        contents:
+                          - p: "_{Craft a temporary item up to 3rd level.}"
+                          - p: "_{Can craft an item for somebody else.}"
+                          
+                  - section: "_{Expert Disassemblky}"
+                    contents:
+                      - selectable: "##:expert-disassembly"
+                        contents:
+                          - p: "_{Use Crafting instead of Thievery to Disable a Device or Pick a Lock.}"
+
+                  - tail:
+                  - spacer:

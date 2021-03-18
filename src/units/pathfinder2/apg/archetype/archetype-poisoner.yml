@@ -3,6 +3,18 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Poisoner}"
 
+require:
+  - unit: apg/defs/archetypes
+  
+  - unit: "feat/alchemist/poison-resistance"
+  - unit: "feat/alchemist/subtle-delivery"
+  - unit: "feat/rogue/poison-weapon"
+  - unit: "feat/rogue/improved-poison-weapon"
+  - unit: "feat/alchemist/tenacious-toxins"
+  - unit: "feat/alchemist/sticky-poison"
+  - unit: "feat/alchemist/pinpoint-poisoner"
+  - unit: "feat/alchemist/chemical-contagion"
+
 inc:
   - at: '@archetypes'
     add:
@@ -15,7 +27,6 @@ inc:
         name: "_{Poisoner}"
         order: 26
         flex: true
-        half: true
         contents:
           - layout: 2l
             contents:
@@ -30,21 +41,123 @@ inc:
                         params:
                           page-ref: "_{APG p186}"
 
-                  - section: "_{Dedication}"
-                    primary: true
+                  # - section: "_{Dedication}"
+                  #   primary: true
+                  #   contents:
+                  - paste: archetype-basic-alchemy
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
-                        icon: proficiency-trained
-                      - hr:
+                      - p: "_{Only applies to alchemical poisons.}"
 
-                  - section: "_{Contortionist}"
+                  - section: "_{Expert Poisoner}"
                     contents:
-                      - selectable: "##:contortionist"
+                      - selectable: "##:expert-poisoner"
                         contents:
-                          - ...
+                          - g:
+                            pad: true
+                            contents:
+                              - calc:
+                                output:
+                                  field: "##:expert-poisoner/advanced-alchemy-level"
+                                  legend: "_{Advanced Alchemy Level}"
+                                  width: large
+                                  border: full
+                                inputs:
+                                  - field:
+                                    ref: level
+                                    label: "_{Level}"
+                                  - span: "- 3"
+                          
+                  - section: "_{Poison Coat}"
+                    contents:
+                      - selectable: "##:poison-coat"
+                        contents:
+                          - paste: 10mins
+                            contents:
+                              - p: "_{Apply a dose of poison to your clothing in advance.}"
+                          - action: reaction
+                            contents:
+                              - p: "_{When a creature hits you with a melee Strike, they are exposed to the poison.}"
+
+                  - section: "_{Acquired Tolerance}"
+                    contents:
+                      - selectable: "##:acquired-tolerance"
+                        contents:
+                          - action: reaction
+                            contents:
+                              - p: "_{When you fail a save against a poison, roll again.}"
+                          - p: "_{Once used, can continue to use it against the same type of poison today, but no other type.}"
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+
+                  - section: "_{Poisoner's Twist}"
+                    contents:
+                      - selectable: "##:poisoners-twist"
+                        contents:
+                          - list:
+                            hr: true
+                            light: true
+                            contents:
+                              - action:
+                                contents:
+                                  - p: "_{After a successful melee Strike against a poisoned target, and you know the poison, deal extra damage.}"
+                                  - value-block: "_{1d6}"
+                                    content: "_{Bonus damage of the weapon's type}"
+                                  - value-block: "_{1d6}"
+                                    content: "_{Bonus poison damage}"
+                              - level: 18
+                                contents:
+                                  - value-block: "_{2d6}"
+                                    content: "_{Bonus damage of the weapon's type}"
+                                  - value-block: "_{2d6}"
+                                    content: "_{Bonus poison damage}"
+
+                  - section: "_{Feats}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - selectable: "feat/alchemist/poison-resistance"
+                            contents:
+                              - paste: "feat/alchemist/poison-resistance"
+
+                          - selectable: "feat/alchemist/subtle-delivery"
+                            contents:
+                              - paste: "feat/alchemist/subtle-delivery"
+
+                          - g:
+                            contents:
+                              - list:
+                                hr: true
+                                light: true
+                                contents:
+                                  - selectable: "feat/rogue/poison-weapon"
+                                    contents:
+                                      - paste: "feat/rogue/poison-weapon"
+                                      
+                                  - selectable: "feat/rogue/improved-poison-weapon"
+                                    contents:
+                                      - paste: "feat/rogue/improved-poison-weapon"
+
+                          - selectable: "feat/alchemist/tenacious-toxins"
+                            contents:
+                              - paste: "feat/alchemist/tenacious-toxins"
+
+                          - selectable: "feat/alchemist/sticky-poison"
+                            contents:
+                              - paste: "feat/alchemist/sticky-poison"
+
+                          - selectable: "feat/alchemist/pinpoint-poisoner"
+                            contents:
+                              - paste: "feat/alchemist/pinpoint-poisoner"
+
+                          - selectable: "feat/alchemist/chemical-contagion"
+                            contents:
+                              - paste: "feat/alchemist/chemical-contagion"
+
+                  - tail:
+                  - spacer:

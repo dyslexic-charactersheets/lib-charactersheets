@@ -3,11 +3,25 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Ritualist}"
 
+require:
+  - unit: option/spellbook
+
 inc:
   - at: '@archetypes'
     add:
       - name: "_{Ritualist}"
         num-feats: 3
+
+  - copy: "##:ritual"
+    params:
+      id:
+    contents:
+      - row:
+        contents:
+          - field: "##:ritual/#{id}"
+            frame: none
+            width: stretch
+          - field: "##:ritual/#{id}/level"
 
   - at: '@pages'
     add:
@@ -17,7 +31,7 @@ inc:
         flex: true
         half: true
         contents:
-          - layout: 2l
+          - layout: 2e
             contents:
               - g:
                 contents:
@@ -33,18 +47,93 @@ inc:
                   - section: "_{Dedication}"
                     primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
-                        icon: proficiency-trained
+                      - value-block: "+2"
+                        content: "_{All checks to perform a ritual}"
                       - hr:
-
-                  - section: "_{Contortionist}"
-                    contents:
-                      - selectable: "##:contortionist"
+                      - g:
                         contents:
-                          - ...
+                          - row:
+                            contents:
+                              - h5: "_{Rituals}"
+                              - spacer:
+                              - label: "_{Level}"
+                          - paste: "##:ritual"
+                          - paste: "##:ritual"
+                      - level: 8
+                        contents:
+                          - paste: "##:ritual"
+                      - level: 12
+                        contents:
+                          - paste: "##:ritual"
+                      - level: 16
+                        contents:
+                          - paste: "##:ritual"
+                      - level: 20
+                        contents:
+                          - paste: "##:ritual"
+                
+                  - section: "_{Efficient Rituals}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - selectable: "##:efficient-rituals"
+                            contents:
+                              - p: "_{Perform rituals more quickly.}"
+                              - row:
+                                contents:
+                                  - cost: '1'
+                                    unit: "_{day}"
+                                  - span: "&rarr;"
+                                  - cost: '4'
+                                    unit: "_{hours}"
+                              - row:
+                                contents:
+                                  - cost: 'n'
+                                    unit: "_{days}"
+                                  - span: "&rarr;"
+                                  - ruby-round-down:
+                                    contents:
+                                      - label: "_{Ritual\ndays}"
+                                      - span: "&divide; 2"
+
+
+                          - selectable: "##:speedy-rituals"
+                            contents:
+                              - h5: "_{Speedy Rituals}"
+                              - p: "_{Perform rituals even more quickly.}"
+                              - row:
+                                contents:
+                                  - cost: 'n'
+                                    unit: "_{days}"
+                                  - span: "&rarr;"
+                                  - cost: 'n'
+                                    unit: "_{hours}"
+                              - p: "_{A ritual that still takes more than 8 hours should be split over several days.}"
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+
+                  - section: "_{Flexible Ritualist}"
+                    contents:
+                      - selectable: "##:flexible-ritualist"
+                        contents:
+                          - p: "_{Can perform two aspects of a ritual yourself. Must fulfill all requirements and make both checks.}"
+
+                  - section: "_{Resourceful Ritualist}"
+                    contents:
+                      - selectable: "##:resourceful-ritualist"
+                        contents:
+                          - p: "_{Can attempt a ritual that requies proficiency one step above your own.}"
+
+                  - section: "_{Assured Ritualist}"
+                    contents:
+                      - selectable: "##:assured-ritualist"
+                        contents:
+                          - p: "_{If a secondary caster rolled a failure or critical failure, treat the result as one degree better.}"
+
+                  - tail:
+                  - spacer:

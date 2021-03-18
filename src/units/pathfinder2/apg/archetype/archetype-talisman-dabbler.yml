@@ -3,7 +3,17 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Talisman Dabbler}"
 
+require:
+  - unit: feat/rapid-affixture
+  - unit: option/formula-book
+
 inc:
+  - copy: affix-a-talisman
+    contents:
+      - p:
+        title: "_{Affix a Talisman}"
+        content: "_{Use a repair kit to affix a talisman to an item, or remove it.}"
+
   - at: '@archetypes'
     add:
       - name: "_{Talisman Dabbler}"
@@ -17,7 +27,7 @@ inc:
         flex: true
         half: true
         contents:
-          - layout: 2l
+          - layout: 2e
             contents:
               - g:
                 contents:
@@ -33,18 +43,222 @@ inc:
                   - section: "_{Dedication}"
                     primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
-                        icon: proficiency-trained
-                      - hr:
-
-                  - section: "_{Contortionist}"
-                    contents:
-                      - selectable: "##:contortionist"
+                      - p: "_{Each day, make 2 talismans.}"
+                      - repeat: 4
+                        merge-bottom: true
                         contents:
-                          - ...
+                          - row:
+                            contents:
+                              - field: "##:talismans/#{i}/used"
+                                frame: none
+                                control: checkbox
+                              - field: "##:talismans/#{i}"
+                                frame: none
+                                width: stretch
+                      - hr:
+                      - paste: 10mins
+                        contents:
+                          - paste: affix-a-talisman
+                          - p: "_{If more than one talisman is affixed to an item, neither can be activated.}"
+                          - p: "_{Affix or remove up to 4 talismans in 10 minutes.}"
+
+                  - section: "_{Quick Fix}"
+                    contents:
+                      - selectable: "##:quick-fix"
+                        contents:
+                          - list:
+                            hr: true
+                            contents:
+                              - g:
+                                contents:
+                                  - paste: feat/rapid-affixture
+                                  - hr:
+                                    light: true
+                                  - p: "_{Affix or remove up to 4 talismans in 1 minute.}"
+                              - level: 12
+                                contents:
+                                  - action: 3
+                                    contents:
+                                      - p: "_{Affix a talisman as 3 actions.}"
+                          
+                  - section: "_{Deeper Dabbler}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - selectable: "##:deeper-dabbler"
+                            contents:
+                              - p: "_{Make 4 talismans each day}"
+                          - selectable: "##:deeper-dabbler/2"
+                            contents:
+                              - p: "_{Make 6 talismans each day}"
+                          
+                  - section: "_{Talismanic Sage}"
+                    contents:
+                      - selectable: "##:talismanic-sage"
+                        contents:
+                          - p: "_{Can affix two active talismans to an item.}"
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+                  - section: "_{Talismans}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - level: 1
+                            contents:
+                              - list:
+                                columns: 2
+                                contents:
+                                  - sort: title
+                                    contents:
+                                      - h6: "_{Owlbear Claw}"
+                                      - h6: "_{Potency Crystal}"
+                                      - h6: "_{Wolf Fang}"
+                          - level: 2
+                            contents:
+                              - list:
+                                columns: 2
+                                contents:
+                                  - sort: title
+                                    contents:
+                                      - h6: "_{Bronze Bull Pendant}"
+                                      - h6: "_{Crying Angel Pendant}"
+                                      - h6: "_{Effervescent Ampoule}"
+                                      - h6: "_{Hunter's Bane}"
+                                      - h6: "_{Jade Cat}"
+                                      - h6: "_{Mesmerising Opal}"
+                                      - h6: "_{Monkey Pin}"
+                                      - h6: "_{Onyx Panther}"
+                                      - h6: "_{Savior Spike}"
+                          - level: 3
+                            contents:
+                              - list:
+                                columns: 2
+                                contents:
+                                  - sort: title
+                                    contents:
+                                      - h6: "_{Feather Step Stone}"
+                          - level: 4
+                            contents:
+                              - list:
+                                columns: 2
+                                contents:
+                                  - sort: title
+                                    contents:
+                                      - h6: "_{Dragon Turtle Scale}"
+                                      - h6: "_{Bloodseeker Beak}"
+                                      - h6: "_{Fear Gem}"
+                          - level: 5
+                            contents:
+                              - list:
+                                columns: 2
+                                contents:
+                                  - sort: title
+                                    contents:
+                                      - h6: "_{Emerald Grasshopper}"
+                                      - h6: "_{Shark Tooth Charm}"
+                                      - h6: "_{Sneaky Key}"
+                                      - h6: "_{Tiger Menuki}"
+                          - level: 6
+                            contents:
+                              - list:
+                                columns: 2
+                                contents:
+                                  - sort: title
+                                    contents:
+                                      - h6: "_{Iron Cube}"
+                                      - h6: "_{Swift Block Cabochon}"
+                          - level: 7
+                            contents:
+                              - list:
+                                columns: 2
+                                contents:
+                                  - sort: title
+                                    contents:
+                                      - h6: "_{Grim Trophy}"
+                                      - h6: "_{Murderer's Knot}"
+                          - level: 8
+                            contents:
+                              - list:
+                                columns: 2
+                                contents:
+                                  - sort: title
+                                    contents:
+                                      - h6: "_{Gallows Tooth}"
+                                      - h6: "_{Jade Bauble}"
+                          # - level: 9
+                          #   contents:
+                          - level: 10
+                            contents:
+                              - list:
+                                columns: 2
+                                contents:
+                                  - sort: title
+                                    contents:
+                                      - h6: "_{Iron Medallion}"
+                                      - h6: "_{Mummified Bat}"
+                                      - h6: "_{Vanishing Coin}"
+                          # - level: 11
+                          #   contents:
+                          - level: 12
+                            contents:
+                              - list:
+                                columns: 2
+                                contents:
+                                  - sort: title
+                                    contents:
+                                      - h6: "_{Eye of Apprehension}"
+                                      - h6: "_{Fade Band}"
+                                      - h6: "_{Iron Equaliser}"
+                          - level: 13
+                            contents:
+                              - list:
+                                columns: 2
+                                contents:
+                                  - sort: title
+                                    contents:
+                                      - h6: "_{Mending Lattice}"
+                          - level: 14
+                            contents:
+                              - list:
+                                columns: 2
+                                contents:
+                                  - sort: title
+                                    contents:
+                                      - h6: "_{Dazing Coil}"
+                                      - h6: "_{Iron Cudgel}"
+                                      - h6: "_{Viper's Fang}"
+                          # - level: 15
+                          #   contents:
+                          - level: 16
+                            contents:
+                              - list:
+                                columns: 2
+                                contents:
+                                  - sort: title
+                                    contents:
+                                      - h6: "_{Flame Navette}"
+                                      - h6: "_{Ghost Dust}"
+                          - level: 17
+                            contents:
+                              - list:
+                                columns: 2
+                                contents:
+                                  - sort: title
+                                    contents:
+                                      - h6: "_{Dispelling Sliver}"
+                          # - level: 18
+                          #   contents:
+                          # - level: 19
+                          #   contents:
+                          # - level: 20
+                          #   contents:
+
+                  - tail:
+                  # - spacer:

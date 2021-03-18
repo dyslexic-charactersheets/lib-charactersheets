@@ -3,11 +3,46 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Snarecrafter}"
 
+require:
+  - unit: feat/ranger/quick-snares
+  - unit: feat/ranger/lightning-snares
+  - unit: feat/ranger/powerful-snares
+
 inc:
   - at: '@archetypes'
     add:
       - name: "_{Snarecrafter}"
         num-feats: 3
+
+  - copy: archetype/apg/snarecrafter/prepared-snares
+    params:
+      crafting:
+      number:
+    contents:
+      - layout: indent-l
+        contents:
+          - icon: "proficiency-#{crafting}"
+          - g:
+            contents:
+              - list:
+                hr: true
+                light: true
+                zebra: true
+                contents:
+                  - repeat: "#{number}"
+                    contents:
+                      - row:
+                        contents:
+                          - field: "##:snares-#{crafting}-#{i}"
+                            frame: none
+                            width: stretch
+                            repeat: 2
+                            reduce: 1
+                            merge-bottom: true
+                          - field: "##:snares-#{crafting}-#{i}-checked"
+                            label: "_{Used}"
+                            control: checkbox
+                            align: center
 
   - at: '@pages'
     add:
@@ -17,7 +52,7 @@ inc:
         flex: true
         half: true
         contents:
-          - layout: 2l
+          - layout: 2e
             contents:
               - g:
                 contents:
@@ -33,18 +68,126 @@ inc:
                   - section: "_{Dedication}"
                     primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
-                        icon: proficiency-trained
-                      - hr:
-
-                  - section: "_{Contortionist}"
-                    contents:
-                      - selectable: "##:contortionist"
+                      - p: "_{Prepare snares from your formula book each day.}"
+                      - table:
+                        flip: true
+                        columns:
+                          - label: "_{Crafting}"
+                          - label: "_{Snares\nper day}"
+                        rows:
+                          - crafting: trained
+                            crafting-tr: "_{Trained}"
+                            snares: 4
+                          - crafting: master
+                            crafting-tr: "_{Master}"
+                            snares: 6
+                          - crafting: legendary
+                            crafting-tr: "_{Legendary}"
+                            snares: 8
+                        template:
+                          - p: "#{crafting-tr}"
+                            icon: "proficiency-#{crafting}"
+                          - value: "#{snares}"
+                      - action: 3
                         contents:
-                          - ...
+                          - p: "_{Deploy a prepared snare that would usually take 1 minute to craft.}"
+
+
+
+                  - section: "_{Surprise Snare}"
+                    contents:
+                      - selectable: "##:surprise-snare"
+                        contents:
+                          - action: 3
+                            contents:
+                              - p: "_{Deploy one of your snares in a space occupied by an enemy, where it triggers automatically.}"
+                              - value-block: "-2"
+                                content: "_{To snare save DC or attack roll.}"
+                          
+                  - section: "_{Remote Trigger}"
+                    contents:
+                      - selectable: "##:remote-trigger"
+                        contents:
+                          - p: "_{Can Strike a snare to trigger it prematurely. If you crafter the snare, automatically hit; otherwise its AC is the Crafting DC.}"
+                          
+                  - section: "_{Giant Snare}"
+                    contents:
+                      - selectable: "##:giant-snare"
+                        contents:
+                          - p: "_{Create snares 10ft square, that cost two of your daily uses.}"
+                          
+                  - section: "_{Plentiful Snares}"
+                    contents:
+                      - selectable: "##:plentiful-snares"
+                        contents:
+                          - p: "_{Prepare double the number of snares each day.}"
+
+                  - section: "_{Feats}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - list:
+                            hr: true
+                            light: true
+                            contents:
+                              - selectable: feat/ranger/quick-snares
+                                contents:
+                                  - paste: feat/ranger/quick-snares
+                                  
+                              - selectable: feat/ranger/lightning-snares
+                                contents:
+                                  - paste: feat/ranger/lightning-snares
+                              
+                          - selectable: feat/ranger/powerful-snares
+                            contents:
+                              - paste: feat/ranger/powerful-snares
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+                  - section: "_{Snares}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - paste: archetype/apg/snarecrafter/prepared-snares
+                            params:
+                              crafting: trained
+                              number: 4
+                          - paste: archetype/apg/snarecrafter/prepared-snares
+                            params:
+                              crafting: master
+                              number: 2
+                          - paste: archetype/apg/snarecrafter/prepared-snares
+                            params:
+                              crafting: legendary
+                              number: 2
+                          - selectable:
+                            contents:
+                              - h5: "_{Plentiful Snares}"
+                              - list:
+                                hr: true
+                                light: true
+                                zebra: true
+                                contents:
+                                  - repeat: 8
+                                    contents:
+                                      - row:
+                                        contents:
+                                          - field: "##:snares-#{crafting}-#{i}"
+                                            frame: none
+                                            width: stretch
+                                            repeat: 2
+                                            reduce: 1
+                                            merge-bottom: true
+                                          - field: "##:snares-#{crafting}-#{i}-checked"
+                                            label: "_{Used}"
+                                            control: checkbox
+                                            align: center
+
+                  - tail:
+                  - spacer:

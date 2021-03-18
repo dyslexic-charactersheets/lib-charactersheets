@@ -13,7 +13,7 @@ function parseGM_Party(primary, request) {
     printLarge: false,
     printHighContrast: false,
     printDyslexic: false,
-    printDyslexie: false,
+    printDyslexicFont: 'sans',
 
     printColour: '#707070',
     accentColour: '',
@@ -33,7 +33,7 @@ function parseGM_Party(primary, request) {
     printLarge: attr.printLarge,
     printHighContrast: attr.printHighContrast,
     printDyslexic: attr.printDyslexic,
-    printDyslexie: attr.printDyslexie,
+    printDyslexicFont: attr.printDyslexicFont,
 
     printColour: attr.printColour,
     accentColour: attr.accentColour,
@@ -60,10 +60,16 @@ function parseGM_Party(primary, request) {
     gm.units.push('high-contrast');
   }
   if (attr.printDyslexic) {
-    if (attr.printDyslexie) {
-      gm.units.push('dyslexie');
-    } else {
-      gm.units.push('dyslexic');
+    switch(attr.printDyslexicFont) {
+      case 'dyslexie':
+        char.units.push('dyslexie');
+        break;
+      case 'lexend':
+        char.units.push('lexend');
+        break;
+      default:
+        char.units.push('dyslexic');
+        break;
     }
   }
 

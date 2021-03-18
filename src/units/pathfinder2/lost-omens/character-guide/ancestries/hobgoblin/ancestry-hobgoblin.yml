@@ -1,0 +1,44 @@
+unit: ancestry/lost-omens/character-guide/hobgoblin
+in: ancestry
+group: "_{Lost Omens Character Guide}"
+name: "_{Hobgoblin}"
+
+enabled: false
+
+require:
+  
+form:
+  - select: heritage/lost-omens/character-guide/hobgoblin
+    name: "_{Hobgoblin Heritage}"
+    max: 1
+
+inc:
+  - set: ancestry
+    value: "_{Hobgoblin}"
+  - set: hp-ancestry
+    value: 8
+  - set: perception-darkvision
+    value: true
+  - set: build-boost-CON-ancestry
+    value: 1
+  - set: build-boost-INT-ancestry
+    value: 1
+  - set: build-boost-WIS-ancestry
+    value: -1
+  - set: languages
+    value: "_{Common}, _{Goblin}"
+
+  - at: '@ancestry'
+    replace:
+      - article:
+        title: "_{Hobgoblin}"
+        contents:
+          - flags:
+              - "_{Goblin}"
+              - "_{Humanoid}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{25ft}"
+          - paste: darkvision

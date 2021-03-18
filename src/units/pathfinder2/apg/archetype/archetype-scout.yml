@@ -3,11 +3,20 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Scout}"
 
+require:
+  - unit: feat/ranger/scouts-warning
+  - unit: feat/terrain-stalker
+  - unit: feat/ranger/camouflage
+
 inc:
   - at: '@archetypes'
     add:
       - name: "_{Scout}"
         num-feats: 3
+
+  - set: "feat/ranger/scouts-warning:initiative-bonus"
+    value: "+2"
+    priority: low
 
   - at: '@pages'
     add:
@@ -17,7 +26,7 @@ inc:
         flex: true
         half: true
         contents:
-          - layout: 2l
+          - layout: 2e
             contents:
               - g:
                 contents:
@@ -33,18 +42,63 @@ inc:
                   - section: "_{Dedication}"
                     primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
-                        icon: proficiency-trained
-                      - hr:
+                      - paste: feat/ranger/scouts-warning
 
-                  - section: "_{Contortionist}"
+                  - section: "_{Terrain Scout}"
                     contents:
-                      - selectable: "##:contortionist"
+                      - selectable: "##:terrain-scout"
                         contents:
-                          - ...
+                          - p: "_{Terrain Stalker} &times; 2"
+                          - paste: feat/terrain-stalker
+                          - hr:
+                          - p: "_{If you Avoid Notice and an ally is following you, they can gain the benefit of Terrain Scout as well.}"
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+
+                  - section: "_{Scout's Charge}"
+                    contents:
+                      - selectable: "##:scouts-charge"
+                        contents:
+                          - action: 2
+                            contents:
+                              - p: "_{Stride, Feint and then make a Strike against the same enemy.}"
+                              - p: "_{Can use Stealth instead of Deception for the Feint.}"
+
+                  - section: "_{Fleeting Shadow}"
+                    contents:
+                      - selectable: "##:fleeting-shadow"
+                        contents:
+                          - action: 2
+                            contents:
+                              - p: "_{Hide then Sneak twice.}"
+
+                  - section: "_{Scout's Speed}"
+                    contents:
+                      - selectable: "##:scouts-speed"
+                        contents:
+                          - value-block: "+10"
+                            content: "_{Speed bonus}"
+                          - value-block: "+20"
+                            content: "_{Speed bonus for your travel speed}"
+
+                  - section: "_{Scout's Pounce}"
+                    contents:
+                      - selectable: "##:scouts-pounce"
+                        contents:
+                          - action: 2
+                            contents:
+                              - 
+                              - p: "_{Stride up to twice your speed, then Strike twice .}"
+
+                  - section: "_{Feats}"
+                    contents:
+                      - selectable: feat/ranger/camouflage
+                        contents:
+                          - paste: feat/ranger/camouflage
+
+                  - tail:
+                  - spacer:

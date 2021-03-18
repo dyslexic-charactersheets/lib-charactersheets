@@ -3,6 +3,10 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Sentinel}"
 
+require:
+  - unit: feat/champion/sacrifice-armour
+  - unit: feat/champion/greater-interpose
+
 inc:
   - at: '@archetypes'
     add:
@@ -17,7 +21,7 @@ inc:
         flex: true
         half: true
         contents:
-          - layout: 2l
+          - layout: 2e
             contents:
               - g:
                 contents:
@@ -33,18 +37,63 @@ inc:
                   - section: "_{Dedication}"
                     primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
+                      - p: "_{Trained in light and medium armour. If already trained in light and medium, also trained in heavy armour.}"
                         icon: proficiency-trained
+                      - p: "_{Whenever you gain a class feature that improves your proficiency in a given weapon, also gain that proficiency in the weapons listed.}"
                       - hr:
-
-                  - section: "_{Contortionist}"
-                    contents:
-                      - selectable: "##:contortionist"
+                      - level: 13
                         contents:
-                          - ...
+                          - p: "_{Whenever you gain a class feature that grants you expert prorficiency in unarmoured defence, also become expert in these armour types.}"
+
+                  - section: "_{Steel Skin}"
+                    contents:
+                      - selectable: "##:steel-skin"
+                        contents:
+                          - p: "_{Can rest while wearing medium armour.}"
+                          - p: "_{If expert, can rest in heavy armour.}"
+                          
+                  - section: "_{Armour Specialist}"
+                    contents:
+                      - selectable: "##:armour-specialist"
+                        contents:
+                          - p: "_{Gain the armour specialisation effects of medium and heavy armour.}"
+                          
+                  - section: "_{Armoured Rebuff}"
+                    contents:
+                      - selectable: "##:armoured-rebuff"
+                        contents:
+                          - action: reaction
+                            contents:
+                              - p: "_{When an adjacent enemy critically fails a melee attack against you, make an Athletics check to Shove them even if you don't have a hand free. If you succeed, cannot Stride to follow.}"
+                          
+                  - section: "_{Mighty Bulwark}"
+                    contents:
+                      - selectable: "##:mighty-bulwark"
+                        contents:
+                          - flags:
+                              - "_{Bulwark}"
+                          - value-block: "+4"
+                            content: "_{To all reflex saves.}"
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+
+                  - section: "_{Feats}"
+                    contents:
+                      - list:
+                        hr: true
+                        light: true
+                        contents:
+                          - selectable: feat/champion/sacrifice-armour
+                            contents:
+                              - paste: feat/champion/sacrifice-armour
+
+                          - selectable: feat/champion/greater-interpose
+                            contents:
+                              - paste: feat/champion/greater-interpose
+
+                  - tail:
+                  - spacer:

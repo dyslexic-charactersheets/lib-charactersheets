@@ -15,7 +15,7 @@ function parseGM_Maps(primary, request) {
       printLarge: false,
       printHighContrast: false,
       printDyslexic: false,
-      printDyslexie: false,
+      printDyslexicFont: 'sans',
 
       mapView: "2d",
 
@@ -37,7 +37,7 @@ function parseGM_Maps(primary, request) {
     printLarge: attr.printLarge,
     printHighContrast: attr.printHighContrast,
     printDyslexic: attr.printDyslexic,
-    printDyslexie: attr.printDyslexie,
+    printDyslexicFont: attr.printDyslexicFont,
 
     mapView: attr.mapView,
 
@@ -66,10 +66,16 @@ function parseGM_Maps(primary, request) {
     gm.units.push('high-contrast');
   }
   if (attr.printDyslexic) {
-    if (attr.printDyslexie) {
-      gm.units.push('dyslexie');
-    } else {
-      gm.units.push('dyslexic');
+    switch(attr.printDyslexicFont) {
+      case 'dyslexie':
+        char.units.push('dyslexie');
+        break;
+      case 'lexend':
+        char.units.push('lexend');
+        break;
+      default:
+        char.units.push('dyslexic');
+        break;
     }
   }
 

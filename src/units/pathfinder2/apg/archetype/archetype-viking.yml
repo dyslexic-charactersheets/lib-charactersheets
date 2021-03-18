@@ -3,6 +3,11 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Viking}"
 
+require:
+  - unit: feat/fighter/reactive-shield
+  - unit: feat/fighter/shielded-stride
+  - unit: feat/fighter/quick-shield-block
+
 inc:
   - at: '@archetypes'
     add:
@@ -17,7 +22,7 @@ inc:
         flex: true
         half: true
         contents:
-          - layout: 2l
+          - layout: 2e
             contents:
               - g:
                 contents:
@@ -33,18 +38,74 @@ inc:
                   - section: "_{Dedication}"
                     primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
+                      - p: "_{Trained in Sailing Lore.}"
                         icon: proficiency-trained
-                      - hr:
+                      - p: "_{When moving through water using your land speed, ignore difficult terrain from shallow water.}"
+                      - p: "_{Upgraded success on Athletics checks to Swim.}"
 
-                  - section: "_{Contortionist}"
+                  - section: "_{Hurling Charge}"
                     contents:
-                      - selectable: "##:contortionist"
+                      - selectable: "##:hurling-charge"
                         contents:
-                          - ...
+                          - action: 2
+                            contents:
+                              - p: "_{Make a ranged Strike with a thrown weapon, Stride, then draw another weapon.}"
+                          
+                  - section: "_{Viking Weapon Familiarity}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - selectable: "##:viking-weapon-familiarity"
+                            contents:
+                              - p: "_{Trained with the battle axe, hatchet, longsword and shortsword.}"
+                                icon: proficiency-trained
+                              - action: reaction
+                                contents:
+                                  - p:
+                                    title: "_{Shield Block}"
+                                    content: "_{Deduct hardness, then apply remaining damage to both shield and yourself.}"
+                          
+                          - selectable: "##:viking-weapon-specialist"
+                            contents:
+                              - h5: "_{Viking Weapon Specialist}"
+                              - p: "_{Whenever you become expert or greater in any weapon, become the same in the battle axe, hatchet, longsword and shortsword.}"
+                                icon: proficiency-expert
+                              - p: "_{Gain the critical specialisation for these weapons.}"
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+                          
+                  - section: "_{Second Shield}"
+                    contents:
+                      - selectable: "##:second-shield"
+                        contents:
+                          - action: free
+                            contents:
+                              - p: "_{When your shield block causes your shield to break, draw or pick up a shield. Can use an object as an improvised shield.}"
+                              - p: "_{Need to raise the new shield as normal.}"
+
+                  - section: "_{Feats}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - selectable: feat/fighter/reactive-shield
+                            contents:
+                              - paste: feat/fighter/reactive-shield
+                              
+                          - selectable: feat/fighter/shielded-stride
+                            contents:
+                              - paste: feat/fighter/shielded-stride
+                              
+                          - selectable: feat/fighter/quick-shield-block
+                            contents:
+                              - paste: feat/fighter/quick-shield-block
+
+
+                  - tail:
+                  - spacer:

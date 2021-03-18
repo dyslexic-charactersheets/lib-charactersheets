@@ -3,6 +3,13 @@ in: archetype
 group: "_{Advanced Player's Guide}"
 name: "_{Shadowdancer}"
 
+require:
+  - unit: feat/uncanny-dodge
+  - unit: feat/rogue/spring-from-the-shadows
+  - unit: feat/ranger/sense-the-unseen
+  - unit: feat/rogue/cognitive-loophole
+  - unit: option/spellbook
+
 inc:
   - at: '@archetypes'
     add:
@@ -17,7 +24,7 @@ inc:
         flex: true
         half: true
         contents:
-          - layout: 2l
+          - layout: 2e
             contents:
               - g:
                 contents:
@@ -33,18 +40,123 @@ inc:
                   - section: "_{Dedication}"
                     primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
-                        icon: proficiency-trained
+                      - p:
+                        title: "_{Greater darkvision}"
+                        content: "_{Can see even through magical darkness}"
                       - hr:
+                      - value-block: "+2"
+                        content: "_{Stealth when in darkness or dim light}"
 
-                  - section: "_{Contortionist}"
+                  - section: "_{Shadow Magic}"
                     contents:
-                      - selectable: "##:contortionist"
+                      - list:
+                        hr: true
+                        zebra: true
                         contents:
-                          - ...
+                          - g:
+                            contents:
+                              - paste: spell-attack
+                                params:
+                                  id: occult-spell-attack
+                                  legend: "_{Occult Spell\nAttack}"
+
+                              - paste: spell-dc
+                                params:
+                                  id: occult-spell-dc
+                                  legend: "_{Occult Spell\nSave DC}"
+
+                          - selectable: "##:shadow-magic"
+                            contents:
+                              - p: "_{Learn one shadow spell and gain a focus point.}"
+                              - paste: focus
+                                contents:
+                                  - field: "##:shadow-magic/dance-of-darkness"
+                                    control: checkbox
+                                    frame: right
+                                    label: "_{Dance of Darkness}"
+                                  - field: "##:shadow-magic/shadow-illusion"
+                                    control: checkbox
+                                    frame: right
+                                    label: "_{Shadow Illusion}"
+                                  - field: "##:shadow-magic/shadow-jump"
+                                    control: checkbox
+                                    frame: right
+                                    label: "_{Shadow Jump}"
+
+                          - selectable: "##:addition-shadow-magic"
+                            contents:
+                              - h5: "_{Additional Shadow Magic}"
+                              - p: "_{Learn another shadow spell and gain another focus point.}"
+
+                          - selectable: "##:shadow-illusion"
+                            contents:
+                              - h5: "_{Shadow Illusion}"
+                              - p: "_{Learn [i]shadow illusion[/i] and gain another focus point.}"
+                              - p: "_{Expert in occult spells.}"
+                                icon: proficiency-expert
+
+                          - selectable: "##:shadow-power"
+                            contents:
+                              - h5: "_{Shadow Power}"
+                              - paste: daily
+                                contents:
+                                  - p: "_{Cast [i]shadow blast[/i] once a day. Its level is one lower than your focus spells.}"
+                              - p: "_{Expert in occult spells.}"
+                                icon: proficiency-expert
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+                
+                  - section: "_{Shadow Sneak Attack}"
+                    contents:
+                      - selectable: "##:shadow-sneak-attack"
+                        contents:
+                          - row:
+                            contents:
+                              - field: sneak-attack-dmg
+                                legend: "_{Damage Bonus}"
+                                icon: damage
+                                width: large
+                                border: full
+                                control: value
+                                value: "_{1d6}"
+                              - p: "_{Precision damage}"
+                              - spacer:
+                          - p: "_{When you attack a flat-footed opponent with an agile or finesse weapon/unarmed strike, or a ranged weapon.}"
+
+                  - section: "_{Shadow Master}"
+                    contents:
+                      - selectable: "##:shadow-master"
+                        contents:
+                          - p: "_{When in darkness or dim light}"
+                          - value-block: "5"
+                            content: "_{Damage resistance to all damage except force and [i]ghost touch[/i] weapon}"
+                          - p: "_{Take the higher of two Reflex rolls}"
+
+                  - section: "_{Feats}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - selectable: feat/uncanny-dodge
+                            contents:
+                              - paste: feat/uncanny-dodge
+
+                          - selectable: feat/rogue/spring-from-the-shadows
+                            contents:
+                              - paste: feat/rogue/spring-from-the-shadows
+                              
+                          - selectable: feat/ranger/sense-the-unseen
+                            contents:
+                              - paste: feat/ranger/sense-the-unseen
+
+                          - selectable: feat/rogue/cognitive-loophole
+                            contents:
+                              - paste: feat/rogue/cognitive-loophole
+
+                  - tail:
+                  - spacer:

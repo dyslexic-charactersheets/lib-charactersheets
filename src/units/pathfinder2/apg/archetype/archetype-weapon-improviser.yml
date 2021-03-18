@@ -17,7 +17,7 @@ inc:
         flex: true
         half: true
         contents:
-          - layout: 2l
+          - layout: 2e
             contents:
               - g:
                 contents:
@@ -33,18 +33,71 @@ inc:
                   - section: "_{Dedication}"
                     primary: true
                     contents:
-                      - p: "_{Trained in Society, and one other skill}"
-                        icon: proficiency-trained
-                      - hr:
+                      - p: "_{Don't take the normal -2 penalty for improvised weapons.}"
+                      - p: "_{Whenever you become expert or greater in any weapon, become the same in improvised weapons.}"
+                        icon: proficiency-expert
+                      - p: "_{The GM determines the amount and type of damage the attack deals, as well as any weapon traits.}"
 
-                  - section: "_{Contortionist}"
+                  - section: "_{Surprise Strike}"
                     contents:
-                      - selectable: "##:contortionist"
+                      - selectable: "##:surprise-strike"
                         contents:
-                          - ...
+                          - p: "_{When you make an improvised weapon Strike against a creature that hasn't seen you do that, they are flat-footed.}"
+
+                  - section: "_{Improvised Critical}"
+                    contents:
+                      - selectable: "##:improvised-critical"
+                        contents:
+                          - p: "_{Can apply critical specialisation effects to improvised weapons.}"
+                          - p: "_{GM determines the effect.}"
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
+
+                  - section: "_{Improvised Pummel}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - selectable: "##:improvised-pummel"
+                            contents:
+                              - list:
+                                hr: true
+                                light: true
+                                contents:
+                                  - action:
+                                    contents:
+                                      - p: "_{Make a Strike with an improvised weapon.}"
+                                      - value-block: "+1"
+                                        content: "_{To attack}"
+                                      - p: "_{Deal two damage dice.}"
+                                      - p: "_{The weapon breaks on a critical hit unless it has Hardness greater than your level, or is difficult to destroy - an artefact, cursed item, etc - in which case the attack is a hit instead of a critical it.}"
+                                  - level: 12
+                                    contents:
+                                      - value-block: "+2"
+                                        content: "_{To attack}"
+                                  - level: 16
+                                    contents:
+                                      - p: "_{Deal three damage dice.}"
+                       
+                          - selectable: "##:shattering-strike"
+                            contents:
+                              - action: reaction
+                                contents:
+                                  - h5: "_{Shattering Strike}"
+                                  - value-block: "_{3d6}"
+                                    content: "_{Bonus damage when an improvised weapon is destroyed on a critical hit.}"
+
+                  - section: "_{Makeshift Strike}"
+                    contents:
+                      - selectable: "##:makeshift-strike"
+                        contents:
+                          - action:
+                            contents:
+                              - p: "_{Snatch up whatever's nearby and Strike or Improvised Pommel with it.}"
+
+                  - tail:
+                  - spacer:
