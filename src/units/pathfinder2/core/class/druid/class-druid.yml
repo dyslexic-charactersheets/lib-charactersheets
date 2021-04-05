@@ -74,21 +74,44 @@ inc:
       - level: 1
         gain: "_{Druidic Order}"
       - level: 1
+        advance: "_{Wild Empathy}"
+      - level: 1
         advance: "_{Shield Block}"
       - levels: [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
         spell-level: [ "_{1st}", "_{2nd}", "_{3rd}", "_{4th}", "_{5th}", "_{6th}", "_{7th}", "_{8th}", "_{9th}", "_{10th}" ]
+      - level: 19
+        advance: "_{Primal hierophant}"
+
+      - level: 3
+        advance: "_{Fortitude saves}"
+        proficiency: expert
+      - level: 5
+        advance: "_{Reflex saves}"
+        proficiency: expert
+      - level: 7
+        advance: "_{Primal spell attacks and DCs}"
+        proficiency: expert
+      - level: 11
+        advance: "_{Simple weapons}, _{Unarmed attacks}"
+        proficiency: expert
+      - level: 11
+        advance: "_{Will saves}"
+        proficiency: master
+      - level: 13
+        advance: "_{Light armour}, _{Medium armour}, _{Unarmoured defence}"
+        proficiency: expert
+      - level: 15
+        advance: "_{Primal spell attacks and DCs}"
+        proficiency: master
+      - level: 19
+        advance: "_{Primal spell attacks and DCs}"
+        proficiency: legendary
 
   - at: '@advancement-fields'
     add:
       - name: "_{Spell Level}"
         key: spell-level
         format: string
-        
-  - at: '@advancement-every-level'
-    replace:
-      - p:
-        title: "_{Every level}:"
-        content: "_{Proficiencies, hit points, spells}"
 
   - at: '@saving-throws'
     add:
@@ -200,18 +223,18 @@ inc:
                                     frame: none
                                     repeat: 3
 
-                  # - section: "_{Class DC}"
-                  #   contents:
-                  #     - paste: class-dc
-                  #       params:
-                  #         id: druid-class-dc
-                  #         legend: "_{Druid\nClass DC}"
-
                   - section: "_{Spellcasting}"
                     contents:
+                      - paste: spellcasting-prepared
+                        params:
+                          cantrips-text: "_{Prepare 5 cantrips each morning from the primal spell list. Cast them indefinitely.}"
+                          spells-icon: druid
+                          spells-text: "_{Prepare spells each morning from the primal spell list.}"
+
                       - spells-table:
                         prepared: true
                         flip: true
+                        max: 10
                         merge-bottom: false
 
                       - paste: spell-attack

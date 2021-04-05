@@ -227,6 +227,7 @@ export let spells_table = {
     min: 1,
     max: 9,
     'spells-per-day': true,
+    'max-spells-per-day': 6,
     'spells-today': false,
     'expanded': false,
     ordinal: true,
@@ -274,9 +275,10 @@ export let spells_table = {
         type: "field",
         id: "spells-#{level}-today",
         control: "checkgrid",
-        max: 6,
+        max: args['max-spells-per-day'],
         depth: 2,
-        frame: "none"
+        frame: "none",
+        at: args.at.map((item) => ({ level: item.level, max: item['max-spells-per-day'] }))
       });
     }
     if (args.expanded) {

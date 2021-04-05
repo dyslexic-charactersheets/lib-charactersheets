@@ -143,7 +143,7 @@ export let table = {
             type: "span",
             content: "=",
           });
-          const output = Object.assign({ output: true }, cell.output);
+          const output = { ...cell.output, output: true };
           fields.unshift(output);
           return fields;
         }
@@ -160,14 +160,25 @@ export let table = {
             return null;
           } else {
             if (isString(cell)) cell = { type: "label", label: cell };
-            // log("-","Cell:", cell);
+            // log("-","Cell:", cell, "Row:", row);
             if (!has(cell, "type")) {
               return null;
             }
 
+            let levelat = {};
+            if (has(row, "level") && has(cell, "at") && isArray(cell.at)) {
+              let levelats = cell.at.filter(item => item.level == row.level);
+              if (!isEmpty(levelats)) {
+                levelat = levelats[0];
+                delete levelat.type;
+                delete levelat.level;
+                // log("table", "Found at level:", row.level, levelat);
+              }
+            }
+
             const col = {...headings[i], label: '', legend: '' };
             delete col.icon;
-            return { type: 'label', label: '', ...col, colspan: 1, rowspan: 1, ...cell };
+            return { type: 'label', label: '', ...col, colspan: 1, rowspan: 1, ...cell, ...levelat };
           }
         });
         // cells = interpolate(cells, {...args, ...row}, doc);

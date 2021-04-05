@@ -69,21 +69,28 @@ inc:
       - level: 1
         gain: "_{Doctrine}"
       - level: 1
-        advance: "_{Divine Font}"
+        gain: "_{Divine Font}"
       - levels: [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
         spell-level: [ "_{1st}", "_{2nd}", "_{3rd}", "_{4th}", "_{5th}", "_{6th}", "_{7th}", "_{8th}", "_{9th}", "_{10th}" ]
+        
+      - level: 5
+        advance: "_{Perception}"
+        proficiency: expert
+      - level: 9
+        advance: "_{Will saves}"
+        proficiency: master
+      - level: 11
+        advance: "_{Reflex saves}"
+        proficiency: expert
+      - level: 13
+        advance: "_{Unarmoured defence}"
+        proficiency: expert
         
   - at: '@advancement-fields'
     add:
       - name: "_{Spell Level}"
         key: spell-level
         format: string
-
-  - at: '@advancement-every-level'
-    replace:
-      - p:
-        title: "_{Every level}:"
-        content: "_{Proficiencies, hit points, spells}"
         
   - at: '@saving-throws'
     add:
@@ -111,6 +118,8 @@ inc:
                       - field: cleric-deity
                         width: stretch
                         label: "_{Deity}"
+                        frame: annotation
+                        border: none
                         align: center
                         size: huge
 
@@ -154,12 +163,21 @@ inc:
                     flex: small
                     contents:
                       - paste: anathema
+                        params:
+                          lines: 3
 
                   - section: "_{Spellcasting}"
                     id: spellcasting
                     contents:
+                      - paste: spellcasting-prepared
+                        params:
+                          cantrips-text: "_{Prepare 5 cantrips each morning from the divine spell list. Cast them indefinitely.}"
+                          spells-icon: good
+                          spells-text: "_{Prepare spells each morning from the divine spell list.}"
+
                       - spells-table:
                         flip: true
+                        max: 10
                         merge-bottom: false
 
                       - paste: spell-attack
@@ -290,7 +308,7 @@ inc:
                       - spells-list:
                         min: 0
                         max: 0
-                        spells: 7
+                        spells: 5
                         style: spontaneous
 
                   - section: "_{Spells}"
@@ -316,4 +334,4 @@ inc:
                       title: "_{Cleric Feats}"
 
                   - tail:
-                  # - spacer:
+                  - spacer:

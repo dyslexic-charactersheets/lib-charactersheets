@@ -31,17 +31,17 @@ export let layout = {
         case 'alignment':
         case 'indent-l':
         case 'indent-r':
-        case 'indent-lr':
         case 'indent-lw':
         case 'indent-rw':
-        case 'indent-lrw':
         case 'indent-ln':
         case 'indent-rn':
-        case 'indent-lrn':
           columns = 2;
           break;
 
         case '3e':
+        case 'indent-lr':
+        case 'indent-lrw':
+        case 'indent-lrn':
           columns = 3;
           break;
 

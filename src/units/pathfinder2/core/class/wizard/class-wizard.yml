@@ -21,6 +21,8 @@ require:
   - with: option/reference
     unit: class/wizard/reference
   - deny: archetype/wizard
+  - with: option/level-up
+    unit: option/level-up/spell-retraining
 
 inc:
   - set: class
@@ -77,21 +79,53 @@ inc:
       - level: 1
         gain: "_{Arcane School}"
       - level: 1
-        advance: "_{Learn 10 cantrips and 5 first-level spells}"
-      - levels: [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
-        spell-level: [ "_{1st}", "_{2nd}", "_{3rd}", "_{4th}", "_{5th}", "_{6th}", "_{7th}", "_{8th}", "_{9th}", "_{10th}" ]
+        advance: "_{Learn 4 cantrips and a bloodline cantrip}"
+      - levels: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 ]
+        spell-level: [ "_{1st}", "_{1st}", "_{2nd}", "_{2nd}", "_{3rd}", "_{3rd}", "_{4th}", "_{4th}", "_{5th}", "_{5th}", "_{6th}", "_{6th}", "_{7th}", "_{7th}", "_{8th}", "_{8th}", "_{9th}", "_{9th}", "_{10th}" ]
+        spell-num: [ 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 1 ]
+      - levels: [ 1, 3, 5, 7, 9, 11, 13, 15, 17 ]
+        bloodline-spell: true
+      - level: 19
+        advance: "_{Archwizard's Spellcraft}"
+        
+      - level: 5
+        advance: "_{Reflex saves}"
+        proficiency: expert
+      - level: 7
+        advance: "_{Arcane spell attacks and DCs}"
+        proficiency: expert
+      - level: 9
+        advance: "_{Fortitude saves}"
+        proficiency: expert
+      - level: 11
+        advance: "_{Perception}"
+        proficiency: expert
+      - level: 11
+        advance: "_{Club}, _{Crossbow}, _{Dagger}, _{Heavy crossbow}, _{Staff}"
+        proficiency: expert
+      - level: 13
+        advance: "_{Unarmoured defence}"
+        proficiency: expert
+      - level: 15
+        advance: "_{Arcane spell attacks and DCs}"
+        proficiency: master
+      - level: 17
+        advance: "_{Will saves}"
+        proficiency: master
+      - level: 19
+        advance: "_{Arcane spell attacks and DCs}"
+        proficiency: legendary
 
   - at: '@advancement-fields'
     add:
-      - name: "_{Spell Level}"
-        key: spell-level
-        format: string
-
-  - at: '@advancement-every-level'
-    replace:
-      - p:
-        title: "_{Every level}:"
-        content: "_{Proficiencies, hit points, 2 spells of a level you can cast}"
+      - name: "_{Spells}"
+        key: spells
+        format: checkgrid
+        label: "#{spell-level}"
+        max: "#{spell-num}"
+      - name: "_{Bloodline Spell}"
+        key: bloodline-spell
+        format: checkbox
 
   - at: '@saving-throws'
     add:
@@ -185,19 +219,39 @@ inc:
 
                   - section: "_{Spellcasting}"
                     contents:
+                      - paste: spellcasting-prepared
+
                       - spells-table:
                         flip: true
+                        max: 10
                         merge-bottom: false
 
-                      - paste: spell-attack
-                        params:
-                          id: arcane-spell-attack
-                          legend: "_{Arcane Spell\nAttack}"
+                      - g:
+                        pad: true
+                        contents:
+                          - paste: 1hour
+                            contents:
+                              - row:
+                                contents:
+                                  - p:
+                                    title: "_{Learn a Spell}"
+                                    content: "_{Make an Arcana check and pay the cost to learn an extra spell.}"
+                                  - paste: book-ref
+                                    params:
+                                      page-ref: "_{CRB p238}"
 
-                      - paste: spell-dc
-                        params:
-                          id: arcane-spell-dc
-                          legend: "_{Arcane Spell\nSave DC}"
+                          - hr:
+                            light: true
+
+                          - paste: spell-attack
+                            params:
+                              id: arcane-spell-attack
+                              legend: "_{Arcane Spell\nAttack}"
+
+                          - paste: spell-dc
+                            params:
+                              id: arcane-spell-dc
+                              legend: "_{Arcane Spell\nSave DC}"
 
                   - section: "_{Arcane Bond}"
                     contents:
@@ -220,7 +274,7 @@ inc:
                                         label: "_{Used today}"
 
                   - tail:
-                  - spacer:
+                  # - spacer:
 
               - g:
                 contents:

@@ -123,6 +123,7 @@ export let advancement = {
         if (!isEmpty(proficiencyAdvances[tier])) {
           proficiencyItems.push({
             type: "p",
+            // title: tier.charAt(0).toUpperCase() + tier.slice(1),
             blk: false,
             content: proficiencyAdvances[tier].join(", "),
             icon: "proficiency-"+tier

@@ -59,21 +59,52 @@ inc:
       - level: 1
         gain: "_{Mystery}"
       - level: 1
-        advance: "Curse"
+        advance: "_{Curse}"
+      - level: 17
+        advance: "_{Extreme curse}"
+      - level: 11
+        advance: "_{Major curse}"
       - levels: [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
         spell-level: [ "_{1st}", "_{2nd}", "_{3rd}", "_{4th}", "_{5th}", "_{6th}", "_{7th}", "_{8th}", "_{9th}", "_{10th}" ]
+      - level: 19
+        advance: "_{Oracular Clarity}"
+        
+      - level: 7
+        advance: "_{Divine spell attacks and DCs}"
+        proficiency: expert
+      - level: 7
+        advance: "_{Will saves}"
+        proficiency: master
+      - level: 9
+        advance: "_{Fortitude saves}"
+        proficiency: expert
+      - level: 11
+        advance: "_{Perception}"
+        proficiency: expert
+      - level: 11
+        advance: "_{Simple weapons}, _{Unarmed attacks}"
+        proficiency: expert
+      - level: 13
+        advance: "_{Light armour}, _{Unarmoured defence}"
+        proficiency: expert
+      - level: 13
+        advance: "_{Reflex saves}"
+        proficiency: expert
+      - level: 15
+        advance: "_{Divine spell attacks and DCs}"
+        proficiency: master
+      - level: 17
+        advance: "_{Will saves}"
+        proficiency: legendary
+      - level: 19
+        advance: "_{Divine spell attacks and DCs}"
+        proficiency: legendary
 
   - at: '@advancement-fields'
     add:
       - name: "_{Spell Level}"
         key: spell-level
         format: string
-
-  - at: '@advancement-every-level'
-    replace:
-      - p:
-        title: "_{Every level}:"
-        content: "_{Proficiencies, hit points, spells}"
 
   - at: '@saving-throws'
     add:
@@ -150,10 +181,20 @@ inc:
                   - section: "_{Spellcasting}"
                     id: spellcasting
                     contents:
+                    
+                      - paste: spellcasting-spontaneous
+                        params:
+                          spells-icon: oracle
+
                       - spells-table:
                         max: 10
                         pad: true
+                        spells-today: true
+                        max-spells-per-day: 4
                         expanded: "_{Signature Spell}"
+                        at:
+                          - level: 10
+                            max-spells-per-day: 2
 
                       - hr:
                         light: true
@@ -289,12 +330,14 @@ inc:
                         contents:
                           - spells-list:
                             flex: huge
+                            style: spontaneous
                             min: 1
                             max: 9
                             spells: 4
                             contents:
                               - "_{Inspire Courage}"
                           - spells-list:
+                            style: spontaneous
                             flex: tiny
                             min: 10
                             max: 10
