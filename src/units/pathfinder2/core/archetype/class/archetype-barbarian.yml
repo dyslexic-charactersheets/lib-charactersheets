@@ -47,6 +47,95 @@ inc:
                               id: barbarian-class-dc
                               legend: "_{Barbarian\nClass DC}"
 
+                  - section: "[b]_{Rage!}[/b]"
+                    id: barbarian-rage
+                    contents:
+                      - action:
+                        contents:
+                          - row:
+                            contents:
+                              - field: rage-current
+                                legend: "_{[b]Rage![/b]\nDuration}"
+                                control: checkgrid
+                                depth: 3
+                                max: 10
+                              - p: "_{1 minute, until combat ends, or until you fall unconscious.}"
+                              - spacer:
+                          - hr:
+                            light: true
+                          - row:
+                            pad: true
+                            contents:
+                              - calc:
+                                output:
+                                  field: barbarian-rage-temp-hp
+                                  legend: "_{Temporary\nHit Points}"
+                                  suffix: hp
+                                  width: huge
+                                  temp: true
+                                inputs:
+                                  - field:
+                                    ref: CON
+                                    underlay: "_{CON}"
+                                    label: "_{CON}"
+                                  - span: "+"
+                                  - field:
+                                    ref: level
+                                    label: "_{Level}"
+                          - row:
+                            pad: true
+                            contents:
+                              - field: barbarian-rage-damage-bonus
+                                border: full
+                                legend: "_{[b]Rage![/b] Damage Bonus}"
+                                prefix: "+"
+                                width: large
+                              - p: "_{To melee and unarmed strikes}"
+                              - spacer:
+                              - field: barbarian-rage-ac-penalty
+                                legend: "_{AC Penalty}"
+                                # border: full
+                                control: value
+                                width: large
+                                value: "-1"
+                                # underlay: "_{AC}"
+                              - spacer:
+                          - p:
+                            title: "_{Agile}"
+                            content: "_{If using an agile weapon, rage damage bonus is halved.}"
+                          - hr:
+                            light: true
+                          - p:
+                            title: "_{While raging}:"
+                            content: "_{Cannot use actions with the <span class='flag'>Concentrate</span> trait, including cast spells with a verbal component, except for Seek}"
+                          - p:
+                            title: "_{After raging}:"
+                            content: "_{Lose temporary hit points. You cannot rage again for 1 minute.}"
+                            pad: true
+
+                  - section: "_{Barbarian Resiliency}"
+                    contents:
+                      - paste: archetype-resiliency
+                        params:
+                          class-id: barbarian
+                          class-feats: "_{Barbarian Feats}"
+
+                  - section: "_{Juggernaut's Fortitude}"
+                    contents:
+                      - selectable:
+                        contents:
+                          - row:
+                            contents:
+                              - icon: proficiency-expert
+                              - span: "&rarr;"
+                              - icon: proficiency-master
+                          - p: "_{Master in Fortitude saves}"
+                          
+                  - tail:
+
+              - g:
+                contents:
+
                   - section: "_{Instinct}"
                     primary: true
                     contents:
@@ -68,39 +157,18 @@ inc:
                                     params:
                                       id: barbarian/anathema
                                       lines: 3
-                          - selectable:
+                          - zone: '@archetype/barbarian/instinct-ability'
                             contents:
-                              - h5: "_{Instinct Ability}"
-                              - zone: '@barbarian/instinct-ability'
+                              - selectable: 'archetype/barbarian:instinct-ability'
                                 contents:
-                                  - article:
-                                    lines: 5
-                                    reduce: 2
+                                  - zone: '@barbarian/instinct-ability'
+                                    contents:
+                                      - h5: "_{Instinct Ability}"
+                                      - article:
+                                        lines: 6
+                                        reduce: 2
 
-                  - section: "_{Barbarian Resiliency}"
-                    contents:
-                      - paste: archetype-resiliency
-                        params:
-                          class-id: barbarian
-                          class-feats: "_{Barbarian Feats}"
-
-                  - section: "_{Juggernaut's Fortitude}"
-                    contents:
-                      - selectable:
-                        contents:
-                          - row:
-                            contents:
-                              - icon: proficiency-expert
-                              - span: "&rarr;"
-                              - icon: proficiency-master
-                          - p: "_{Master in Fortitude saves}"
-
-                  - tail:
-                  - spacer:
-                    flex: huge
-
-              - g:
-                contents:
+                  - zone: '@archetype/barbarian/rage-power'
 
                   - section: "_{Furies}"
                     mark: barbarian
@@ -111,6 +179,7 @@ inc:
                           class-level: "_{Barbarian\nFeats}"
                           basic-title: "_{Basic Fury}"
                           advanced-title: "_{Advanced Furies}"
+                          lines: 1
 
                   - tail:
 

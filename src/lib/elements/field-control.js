@@ -360,11 +360,13 @@ export let field_control_alignment = {
     value: '',
     border: 'none',
     typeHint: 'string',
+    value: '',
   },
   render(args, reg, doc) {
     const radios = ["lg", "ll", "le", "ng", "nn", "ne", "cg", "cn", "ce"].map(al => {
       const radioIdent = fieldRadioIdent(args.id, args.value);
-      return `<div class='field__control field__control-${al}'><input type='radio'${radioIdent.ident}></div>`;
+      const checked = (args.value == al) ? ' checked' : '';
+      return `<div class='field__control field__control-${al}'><input type='radio'${radioIdent.ident}${checked}></div>`;
     });
 
     return `

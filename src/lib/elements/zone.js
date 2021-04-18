@@ -1,5 +1,5 @@
 import { cloneDeep, has } from '../util/objects';
-import { isNull } from '../util';
+import { isEmpty, isNull } from '../util';
 import { warn } from '../log';
 
 export let zone = {
@@ -10,7 +10,7 @@ export let zone = {
     sort: false,
   },
   transform(args, ctx) {
-    if (isNull(args.zone) || args.zone.charAt(0) != '@') {
+    if (isNull(args.zone) || isEmpty(args.zone) || args.zone.charAt(0) != '@') {
       warn("zone", "Not a zone ID:", args.zone);
     }
     // log("zone", "Zone", args.zone);

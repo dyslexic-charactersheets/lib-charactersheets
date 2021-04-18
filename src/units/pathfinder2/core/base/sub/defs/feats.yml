@@ -173,6 +173,7 @@ inc:
       ability: ""
       ability-name: ""
       breadth: ""
+      spell-dcs-zone-id: ""
     contents:
       - section: "_{Spellcasting}"
         contents:
@@ -182,41 +183,43 @@ inc:
               - item:
               - g:
                 contents:
-                  - calc:
-                    output:
-                      field: "#{tradition}-spell-attack"
-                      legend: "#{tradition-spell-attack}"
-                      icon: bonus
-                    inputs:
-                      - field:
-                        ref: "#{ability}"
-                        label: "#{ability-name}"
-                        underlay: "#{ability-name}"
-                      - field: "#{tradition}-spell-attack-proficiency"
-                        label: "_{Proficiency}"
-                        control: proficiency
-                        value: trained
-                      - field:
-                        label: "_{Misc}"
-                        misc: true
-                  - calc:
-                    output:
-                      field: "#{tradition}-spell-dc"
-                      legend: "#{tradition-spell-dc}"
-                      icon: dc
-                    inputs:
-                      - span: "10 +"
-                      - field:
-                        ref: "#{ability}"
-                        label: "#{ability-name}"
-                        underlay: "#{ability-name}"
-                      - field: "#{tradition}-spell-dc-proficiency"
-                        label: "_{Proficiency}"
-                        control: proficiency
-                        value: trained
-                      - field:
-                        label: "_{Misc}"
-                        misc: true
+                  - zone: '#{spell-dcs-zone-id}'
+                    contents:
+                      - calc:
+                        output:
+                          field: "#{tradition}-spell-attack"
+                          legend: "#{tradition-spell-attack}"
+                          icon: bonus
+                        inputs:
+                          - field:
+                            ref: "#{ability}"
+                            label: "#{ability-name}"
+                            underlay: "#{ability-name}"
+                          - field: "#{tradition}-spell-attack-proficiency"
+                            label: "_{Proficiency}"
+                            control: proficiency
+                            value: trained
+                          - field:
+                            label: "_{Misc}"
+                            misc: true
+                      - calc:
+                        output:
+                          field: "#{tradition}-spell-dc"
+                          legend: "#{tradition-spell-dc}"
+                          icon: dc
+                        inputs:
+                          - span: "10 +"
+                          - field:
+                            ref: "#{ability}"
+                            label: "#{ability-name}"
+                            underlay: "#{ability-name}"
+                          - field: "#{tradition}-spell-dc-proficiency"
+                            label: "_{Proficiency}"
+                            control: proficiency
+                            value: trained
+                          - field:
+                            label: "_{Misc}"
+                            misc: true
 
               - g:
                 contents:
