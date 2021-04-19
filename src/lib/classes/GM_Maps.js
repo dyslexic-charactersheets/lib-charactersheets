@@ -1,9 +1,6 @@
 import { GM_Instance } from "./GM_Instance";
 import { isEmpty, isNull } from '../util';
-import { replaceColours, adjustColour, vibrantColour } from '../util/colours';
-import { log, warn } from '../log';
-import { has } from "../util/objects";
-import { parse } from "handlebars";
+import { adjustColour } from '../util/colours';
 
 function parseGM_Maps(primary, request) {
   // attributes

@@ -1,5 +1,4 @@
 import { log, warn } from '../log';
-import { ready as systemsReady, getSystem } from './System';
 
 import { Character } from './Character';
 import { Party } from './Party';

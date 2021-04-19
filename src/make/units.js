@@ -208,7 +208,7 @@ module.exports = {
                     return match;
                   }
                   if (colour.match(/!important$/)) {
-                    log("units", "Locked colour:", colour);
+                    // log("units", "Locked colour:", colour);
                     return match;
                   }
 

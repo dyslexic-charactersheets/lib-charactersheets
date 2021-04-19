@@ -5,7 +5,6 @@ import { __ } from '../i18n';
 import { ready as systemsReady, getSystem } from './System';
 import { Instance } from './Instance';
 import { Document } from './Document';
-import { LoadQueue } from './LoadQueue';
 import { events } from './Events';
 
 // import { applyContext } from '../context';

@@ -3,7 +3,7 @@ import { isEmpty } from '../util';
 import { log, warn } from '../log';
 import { has } from '../util/objects';
 import { ready as systemsReady, getSystem } from './System';
-import { replaceColours, adjustColour, vibrantColour } from '../util/colours';
+import { replaceColours, vibrantColour } from '../util/colours';
 import { Document } from './Document';
 import { events } from './Events';
 
