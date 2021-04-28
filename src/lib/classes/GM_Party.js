@@ -2,6 +2,7 @@ import { GM_Instance } from "./GM_Instance";
 import { isEmpty, isNull } from '../util';
 import { log, warn } from '../log';
 import { has } from "../util/objects";
+import { adjustColour } from "../util/colours";
 
 function parseGM_Party(primary, request) {
   // attributes
