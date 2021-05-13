@@ -5,7 +5,7 @@ import { applyContext } from '../context';
 import { isArray, isEmpty, isString, isNull } from '../util';
 import { replaceColours } from '../util/colours';
 import { has, cloneDeep, interpolate } from '../util/objects';
-import { esc, _e } from '../i18n';
+import { esc, _e, __ } from '../i18n';
 
 // Set up the template engine for JS and CSS
 Handlebars.registerHelper('embedJson', function (data, options) {
@@ -522,9 +522,25 @@ ${registry.render(this.doc.contents, this)}
 <p>If printing on Safari, please deselect "Print headers and footers".</p>
 </div>
 <nav id='screen-buttons'>
-<button id='button--print' onclick="window.print();return false;"><i></i> Print</button>
-<button id='button--save-data' class="btn button--disabled"><i></i> Save</button>
+<button id='button--print' onclick="window.print();return false;"><i></i> ${__('Print')}</button>
+<button id='button--save-data' class="btn button--disabled"><i></i> ${__('Save')}</button>
 </nav>
+
+<nav id='proficiency-menu'><div>
+<label for='proficiency-menu-untrained'><input type='radio' name='proficiency-menu' value='untrained' id='proficiency-menu-untrained'> <i class="icon icon_proficiency-untrained"></i> ${__('Untrained')}</label>
+<label for='proficiency-menu-trained'><input type='radio' name='proficiency-menu' value='trained' id='proficiency-menu-trained'> <i class="icon icon_proficiency-trained"></i> ${__('Trained')}</label>
+<label for='proficiency-menu-expert'><input type='radio' name='proficiency-menu' value='expert' id='proficiency-menu-expert'> <i class="icon icon_proficiency-expert"></i> ${__('Expert')}</label>
+<label for='proficiency-menu-master'><input type='radio' name='proficiency-menu' value='master' id='proficiency-menu-master'> <i class="icon icon_proficiency-master"></i> ${__('Master')}</label>
+<label for='proficiency-menu-legendary'><input type='radio' name='proficiency-menu' value='legendary' id='proficiency-menu-legendary'> <i class="icon icon_proficiency-legendary"></i> ${__('Legendary')}</label>
+</div></nav>
+
+<nav id='runes-menu'><div>
+<label for='rune-menu-none'><input type='radio' name='runes-menu' value='none' id='runes-menu-none'> <i class="icon icon_runes"></i> ${__('None')}</label>
+<label for='rune-menu-1'><input type='radio' name='runes-menu' value='1' id='runes-menu-1'> <i class="icon icon_runes-1"></i> ${__('1')}</label>
+<label for='rune-menu-2'><input type='radio' name='runes-menu' value='2' id='runes-menu-2'> <i class="icon icon_runes-2"></i> ${__('2')}</label>
+<label for='rune-menu-3'><input type='radio' name='runes-menu' value='3' id='runes-menu-3'> <i class="icon icon_runes-3"></i> ${__('3')}</label>
+</div></nav>
+
 <script type='text/javascript'>
 ${javascript}
 </script>

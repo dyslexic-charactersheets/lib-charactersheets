@@ -51,6 +51,7 @@ function renderCompoundControl(args, reg, doc) {
       return reg.renderItem(part, doc);
 
     part = fieldDefaults(part, reg);
+    part.id = args.id + "-" + part.subid;
     part.type = 'control:' + part.control;
 
     return reg.renderItem(part, doc);
@@ -430,6 +431,10 @@ export let field_control_proficiency = {
           value: args.value,
           id: args.id
         },
+        // {
+        //   control: "hidden",
+        //   id: args.id + "-rank"
+        // },
         {
           control: "input",
           id: args.id + "-bonus"
@@ -468,11 +473,8 @@ export let field_control_proficiency_icon = {
 
     // TODO checkboxes? radio buttons?
     return `<div${cls}>
-      <input type='checkbox'${fieldIdent(args.id, "trained").ident} class='field--proficiency__trained'${args.value > 0 ? ' checked="checked"' : ''}>
-      <input type='checkbox'${fieldIdent(args.id, "expert").ident} class='field--proficiency__expert'${args.value > 1 ? ' checked="checked"' : ''}>
-      <input type='checkbox'${fieldIdent(args.id, "master").ident} class='field--proficiency__master'${args.value > 2 ? ' checked="checked"' : ''}>
-      <input type='checkbox'${fieldIdent(args.id, "legendary").ident} class='field--proficiency__legendary'${args.value > 3 ? ' checked="checked"' : ''}>
-      <i class='icon field--proficiency__icon ${icon}'></i>
+      <input type='hidden'${fieldIdent(args.id, "rank").ident} class='field--control_proficiency__rank' value='${value}'> `+
+      `<i class='icon field--control_proficiency__icon ${icon}'></i>
     </div>`;
   }
 }
