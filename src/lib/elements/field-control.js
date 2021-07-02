@@ -4,6 +4,7 @@ import { isArray, isNull, isBoolean } from '../util';
 import { elementClass } from '../util/elements';
 import { chunk } from '../util/arrays';
 import { has } from '../util/objects';
+import { toKebabCase } from '../util/strings';
 import { __, _e } from '../i18n';
 
 function defaultControlRender (args, reg, doc) {
@@ -20,7 +21,8 @@ function defaultControlRender (args, reg, doc) {
   const cls = elementClass("field", "control", args, [], { "align": "centre", "width": "" });
   const value = (args.value == '') ? '' : ` value='${_e(args.value, doc)}'`;
   const attr = (args.editable ? '' : 'readonly');
-  const input = `<input${ident.ident}${value}${attr}>`;
+  const ref = (args.ref ? ` ref='${args.ref}'` : '');
+  const input = `<input${ident.ident}${ref}${value}${attr}>`;
 
   const underlay = args.underlay ? `<u>${__(args.underlay, doc)}</u>` : '';
 
@@ -51,7 +53,13 @@ function renderCompoundControl(args, reg, doc) {
       return reg.renderItem(part, doc);
 
     part = fieldDefaults(part, reg);
-    part.id = args.id + "-" + part.subid;
+    if (has(part, "subid")) {
+      if (part.subid == "") {
+        part.id = args.id;
+      } else {
+        part.id = args.id + "-" + part.subid;
+      }
+    }
     part.type = 'control:' + part.control;
 
     return reg.renderItem(part, doc);
@@ -245,6 +253,27 @@ export let field_control_weight = {
   }
 }
 
+export let field_control_enum = {
+  name: 'control:enum',
+  defaults: {
+    options: [],
+    default: '',
+    value: '',
+    border: 'bottom',
+    typeHint: 'string',
+  },
+  render(args, reg, doc) {
+    let options = args.options.map(opt => {
+      let menuId = 'enum-menu-'+args.id;
+      let slug = toKebabCase(opt.replace(/_\{(.*?(#\{.*?\}.*?)*)\}/gs, (m, p) => p));
+      let title = __(opt, doc);
+      return `<label for='${menuId}-${slug}'><input type='radio' name='${menuId}' value='${slug}' id='${menuId}-${slug}'> ${title}</label>`;
+    });
+    args.editable = false;
+    return defaultControlRender(args, reg, doc)+`<div class='field--control_enum__options'>${options.join('')}</div>`;
+  }
+}
+
 export let field_control_radio = {
   name: 'control:radio',
   defaults: {
@@ -364,8 +393,8 @@ export let field_control_alignment = {
     value: '',
   },
   render(args, reg, doc) {
-    const radios = ["lg", "ll", "le", "ng", "nn", "ne", "cg", "cn", "ce"].map(al => {
-      const radioIdent = fieldRadioIdent(args.id, args.value);
+    const radios = ["lg", "ln", "le", "ng", "nn", "ne", "cg", "cn", "ce"].map(al => {
+      const radioIdent = fieldRadioIdent(args.id, al);
       const checked = (args.value == al) ? ' checked' : '';
       return `<div class='field__control field__control-${al}'><input type='radio'${radioIdent.ident}${checked}></div>`;
     });
@@ -400,6 +429,30 @@ export let field_control_icon = {
     const cls = elementClass("field", "control", args, [], {"control": ""});
     const iconcls = elementClass("icon", null, { icon: args.icon }, [], {"icon": "", "width": ""});
     return `<div${cls}><i${iconcls}></i></div>`;
+  }
+}
+
+export let field_control_counter = {
+  name: 'control:counter',
+  defaults: {
+    value: 0,
+    max: 3,
+    typeHint: 'number',
+  },
+  render(args, reg, doc) {
+    const cls = elementClass("field", "control", { control: "counter" }, [], { control: "input" });
+    
+    let value = args.value;
+    switch (value) {
+      case "none": case 0: case false: case "": value = "0"; break;
+      default: value = parseInt(value);
+    }
+    let icon = `icon_counter-${value}`;
+
+    return `<div${cls}>
+      <input type='hidden'${fieldIdent(args.id, "rank").ident} class='field--control_counter__number' value='${value}'> `+
+      `<i class='icon field--control_counter__icon ${icon}'></i>
+    </div>`;
   }
 }
 
@@ -471,10 +524,37 @@ export let field_control_proficiency_icon = {
     }
     let icon = `icon_proficiency-${value}`;
 
-    // TODO checkboxes? radio buttons?
     return `<div${cls}>
       <input type='hidden'${fieldIdent(args.id, "rank").ident} class='field--control_proficiency__rank' value='${value}'> `+
       `<i class='icon field--control_proficiency__icon ${icon}'></i>
+    </div>`;
+  }
+}
+
+export let field_control_action_icon = {
+  name: 'control:action-icon',
+  defaults: {
+    value: "template",
+  },
+  render(args) {
+    const cl = elementClass("field", "control", { control: "icon" }, [], { "control": "input" });
+
+    let icon = 'action-template';
+    switch (args.value) {
+      case 1: icon = 'action'; break;
+      case 2: icon = 'action2'; break;
+      case 3: icon = 'action3'; layout = 'indent-lw'; break;
+      case 13: icon = 'action13'; layout = 'indent-lw'; break;
+      case '2nd': icon = 'action2nd'; break;
+      case '3rd': icon = 'action3rd'; layout = 'indent-lw'; break;
+      case 'reaction': icon = 'reaction'; break;
+      case 'free': icon = 'free-action'; break;
+      case 'template': icon = 'action-template'; layout = 'indent-lw'; break;
+    }
+
+    return `<div${cls}>
+    <input type='hidden'${fieldIdent(args.id).ident} class='field--control_action-icon__icon' value='${value}'> `+
+    `<i class='icon field--control_action-icon__icon ${icon}'></i>
     </div>`;
   }
 }
@@ -520,6 +600,28 @@ export let field_control_compound = {
   defaults: {
     multibox: false,
     parts: [],
+  },
+  render: renderCompoundControl
+}
+
+export let field_control_ability = {
+  name: 'control:ability',
+  defaults: {
+    parts: [
+      // {
+      //   subid: "key-ability",
+      //   control: "radio"
+      // },
+      // {
+      //   subid: "modifier",
+      //   size: "huge",
+      //   width: ""
+      // },
+      // {
+      //   subid: "score",
+      //   width: ""
+      // }
+    ]
   },
   render: renderCompoundControl
 }

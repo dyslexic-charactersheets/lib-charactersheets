@@ -22,6 +22,25 @@ export let action = {
       case 'template': icon = 'action-template'; layout = 'indent-lw'; break;
     }
 
+    let iconPart = {
+      type: "g",
+      contents: [
+        {
+          type: "icon",
+          icon: icon
+        }
+      ]
+    };
+
+    if (args.action == "template") {
+      iconPart = {
+        type: "field",
+        control: "action-icon",
+        value: 'template',
+        frame: "none"
+      };
+    }
+
     return [
       {
         type: "layout",
@@ -29,15 +48,7 @@ export let action = {
         blk: args.blk,
         order: args.order,
         contents: [
-          {
-            type: "g",
-            contents: [
-              {
-                type: "icon",
-                icon: icon
-              }
-            ]
-          },
+          iconPart,
           {
             type: "g",
             contents: args.contents

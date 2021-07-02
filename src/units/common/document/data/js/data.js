@@ -4,7 +4,9 @@ var fieldValues = {};
 /* ### END DATA SECTION ### */
 var fieldIds = [];
 var fieldParts = {};
-var calculationFields = {};
+var formats = \{{{ formats }}};
+var calculations = \{{{ calculations }}};
+var dependencies = \{{{ dependencies }}};
 
 // find all the fields and their values
 function initValues() {
@@ -15,9 +17,9 @@ function initValues() {
       continue;
     }
     var fieldId = field.id.replace(/^field-/, '');
-    if (fieldIds.includes(fieldId)) {
-      console.log("[data]          Duplicate field: "+fieldId);
-    }
+    // if (fieldIds.includes(fieldId)) {
+    //   console.log("[data]          Duplicate field: "+fieldId);
+    // }
     fieldIds.push(fieldId);
 
     // get the field parts
@@ -38,6 +40,176 @@ function initValues() {
     fieldParts[fieldId] = parts;
   }
   fieldIds = [...new Set(fieldIds)];
+}
+
+function coerceFieldValue(name, value) {
+  var format = 'int';
+  if (formats.hasOwnProperty(name)) {
+    format = formats[name];
+  }
+
+  switch (format) {
+    case 'int':
+      return parseInt(value);
+    case 'string':
+      return ""+value;
+    default:
+      return value;
+  }
+}
+
+function getFieldValue(name) {
+  for (var input of document.getElementsByName(name)) {
+    var value = input.value;
+    if (value === null || value === "") {
+      continue;
+    }
+    try {
+      return coerceFieldValue(name, value);
+    } catch (x) {
+    }
+  }
+  return null;
+}
+
+function setFieldValue(name, value) {
+  value = coerceFieldValue(name, value);
+  for (var input of document.getElementsByName(name)) {
+    input.value = value;
+    input.dispatchEvent(new Event('change'));
+  }
+}
+
+var knownValues = {};
+function clearValueCache() {
+  knownValues = {};
+}
+function valueOf(fname) {
+  if (!knownValues.hasOwnProperty(fname)) {
+    knownValues[fname] = getFieldValue(fname);
+  }
+  return knownValues[fname];
+};
+
+
+// Calculation utility functions
+function floor(num) {
+  return Math.floor(num);
+}
+
+function ceil(num) {
+  return Math.ceil(num);
+}
+
+function defaultValue(num, def) {
+  if (num === unset || num === null || num === "") {
+    return def;
+  }
+  return num;
+}
+
+function minmax(num, min, max) {
+  if (num < min || num > max) {
+    throw "Out of bounds";
+  }
+  return num;
+}
+
+function recalculateField(name) {
+  if (calculations.hasOwnProperty(name)) {
+    try {
+      var newValue = calculations[name](valueOf);
+      if (isNaN(newValue)) {
+        return;
+      }
+      knownValues[name] = newValue;
+      setFieldValue(name, newValue);
+    } catch (x) {
+    }
+  }
+}
+
+
+function initCalculations() {
+  for (var name in dependencies) {
+    (function (name) {
+      function recalcDerivedFields() {
+        clearValueCache();
+        for (var dep of dependencies[name]) {
+          recalculateField(dep);
+        }
+      }
+
+      for (var input of document.getElementsByName(name)) {
+        input.addEventListener('input', recalcDerivedFields);
+        input.addEventListener('change', recalcDerivedFields);
+      }
+    })(name);
+  }
+
+  for (var proficiency of ['trained', 'expert', 'master', 'legendary']) {
+    for (var input of document.getElementsByName('proficiency-'+proficiency)) {
+      input.addEventListener('change', redoProficiency);
+    }
+  }
+
+  // link all references
+  var references = {};
+  for (var input of document.querySelectorAll("input[ref]")) {
+    var ref = input.getAttribute('ref');
+    references[ref] = true;
+  }
+
+  for (var name of Object.keys(references)) {
+    (function (name) {
+      var refInputs = document.querySelectorAll('input[ref="'+name+'"]');
+      function recalcReferenceFields() {
+        var value = getFieldValue(name);
+        if (value !== null) {
+          for (var input of refInputs) {
+            input.value = value;
+            input.dispatchEvent(new Event('change'));
+          }
+        }
+      }
+
+      for (var input of document.getElementsByName(name)) {
+        input.addEventListener('input', recalcReferenceFields);
+        input.addEventListener('change', recalcReferenceFields);
+      }
+    })(name);
+  }
+}
+
+function redoProficiency() {
+  var bonuses = {
+    untrained: 0
+  };
+  for (var proficiency of ['trained', 'expert', 'master', 'legendary']) {
+    for (var input of document.getElementsByName('proficiency-'+proficiency)) {
+      var bonus = coerceFieldValue('proficiency-'+proficiency, input.value);
+      if (bonus !== null && bonus !== "") {
+        bonuses[proficiency] = bonus;
+      }
+    }
+  }
+
+  for (var field of document.getElementsByClassName('field--control_proficiency')) {
+    var proficiency = 'untrained';
+    for (var control of field.getElementsByClassName('field__control--control_icon')) {
+      for (var input of control.getElementsByTagName('input')) {
+        proficiency = input.value;
+      }
+    }
+    for (var control of field.getElementsByClassName('field__control')) {
+      if (!control.classList.contains('field__control--control_icon')) {
+        for (var input of control.getElementsByTagName('input')) {
+          input.value = bonuses[proficiency];
+          input.dispatchEvent(new Event('change'));
+        }
+      }
+    }
+  }
 }
 
 function pullValues() {
@@ -118,7 +290,8 @@ function saveDocument() {
   document.body.removeChild(anchor);
 }
 
-initValues();
+// initValues();
+initCalculations();
 document.getElementById('button--save-data').onclick = saveDocument;
 
 
@@ -126,60 +299,66 @@ document.getElementById('button--save-data').onclick = saveDocument;
 
 // field interactions: PROFICIENCY
 
-var currentProficiencyFieldId = null;
-var currentProficiencyFieldValue = null;
+
+var menus = {
+  currentFieldId: null,
+  currentValue: null,
+};
 
 function showProficiencyMenu(event) {
-  var icon = event.target;
-  var field = icon.closest('.field');
-  currentProficiencyFieldId = field.id;
-  var rankControl = field.getElementsByClassName('field--control_proficiency__rank')[0];
+  dismissMenus();
+  var field = event.target.closest('.field');
+  showMenu(event, 'proficiency', field.id);
+  updateProficiencyMenu(getProficiencyValue(field.id));
+}
 
-  var rect = icon.getBoundingClientRect();
-  
-  var menu = document.getElementById("proficiency-menu");
-  menu.style.top = (rect.top + 36)+"px";
-  menu.style.left = (rect.left - 30)+"px";
-  menu.style.display = "block";
+function getProficiencyValue(fieldId) {
+  var field = document.getElementById(fieldId);
+  for (var rankControl of field.getElementsByClassName('field--control_proficiency__rank')) {
+    return rankControl.value;
+  }
+  return 'untrained';
+}
 
+function setProficiencyValue(fieldId, value) {
+  var field = document.getElementById(fieldId);
+  if (field !== null) {
+    for (var rankControl of field.getElementsByClassName('field--control_proficiency__rank')) {
+      rankControl.value = value;
+
+      var icon = field.getElementsByClassName('field--control_proficiency__icon')[0];
+      icon.classList.remove('icon_proficiency-untrained');
+      icon.classList.remove('icon_proficiency-trained');
+      icon.classList.remove('icon_proficiency-expert');
+      icon.classList.remove('icon_proficiency-master');
+      icon.classList.remove('icon_proficiency-legendary');
+      icon.classList.add('icon_proficiency-'+value);
+    }
+  }
+}
+
+function updateProficiencyMenu(teml) {
   document.getElementById('proficiency-menu-untrained').checked = false;
   document.getElementById('proficiency-menu-trained').checked = false;
   document.getElementById('proficiency-menu-expert').checked = false;
   document.getElementById('proficiency-menu-master').checked = false;
   document.getElementById('proficiency-menu-legendary').checked = false;
-  var teml = rankControl.value;
-  currentProficiencyFieldValue = teml;
+  menus.currentValue = teml;
   if (teml !== null && teml !== "" && ['untrained', 'trained', 'expert', 'master', 'legendary'].includes(teml)) {
     var radio = document.getElementById('proficiency-menu-'+teml);
     if (radio !== null) {
       radio.checked = true;
     }
   }
-  event.stopPropagation();
 }
 
 for (var teml of ['untrained', 'trained', 'expert', 'master', 'legendary']) {
   (function (teml) {
     document.getElementById('proficiency-menu-'+teml).addEventListener('change', function (event) {
-      if (currentProficiencyFieldId !== null) {
-        if (currentProficiencyFieldValue === null || currentProficiencyFieldValue !== teml) {
-          var field = document.getElementById(currentProficiencyFieldId);
-          if (field !== null) {
-            var rank = field.getElementsByClassName('field--control_proficiency__rank')[0];
-            rank.value = teml;
-
-            var icon = field.getElementsByClassName('field--control_proficiency__icon')[0];
-            icon.classList.remove('icon_proficiency-untrained');
-            icon.classList.remove('icon_proficiency-trained');
-            icon.classList.remove('icon_proficiency-expert');
-            icon.classList.remove('icon_proficiency-master');
-            icon.classList.remove('icon_proficiency-legendary');
-            icon.classList.add('icon_proficiency-'+teml);
-          }
-
-          var menu = document.getElementById("proficiency-menu");
-          menu.style.display = "none";
-          currentProficiencyFieldId = null;
+      if (menus.currentieldId !== null) {
+        if (menus.currentValue === null || menus.currentValue !== teml) {
+          setProficiencyValue(menus.currentFieldId, teml);
+          dismissMenus();
         }
       }
     });
@@ -197,52 +376,263 @@ for (var field of document.getElementsByClassName("field--control_proficiency"))
 }
 
 
-// field interactions: runes
+// field interactions: COUNTERS (ie runes)
 
-var currentRuneFieldId = null;
-var currentRuneFieldValue = null;
-
-function showRunesMenu(event) {
-  var icon = event.target;
-  var field = icon.closest('.field');
-  currentProficiencyFieldId = field.id;
-  var numberControl = field.getElementsByTagName('input')[0];
-
-  var rect = icon.getBoundingClientRect();
-  
-  var menu = document.getElementById("proficiency-menu");
-  menu.style.top = (rect.top + 36)+"px";
-  menu.style.left = (rect.left - 30)+"px";
-  menu.style.display = "block";
+function showCounterMenu(event) {
+  dismissMenus();
+  var field = event.target.closest('.field');
+  showMenu(event, 'counter', field.id);
+  updateCounterMenu(getCounterValue(field.id));
 }
+
+function getCounterValue(fieldId) {
+  var field = document.getElementById(fieldId);
+  for (var numberControl of field.getElementsByTagName('input')) {
+    return ""+numberControl.value;
+  }
+  return "";
+}
+
+function setCounterValue(fieldId, value) {
+  var field = document.getElementById(fieldId);
+  if (field !== null) {
+    for (var numberControl of field.getElementsByClassName('field--control_counter__number')) {
+      numberControl.value = value;
+
+      // update display
+      var icon = field.getElementsByClassName('field--control_counter__icon')[0];
+      icon.classList.remove('icon_counter-0');
+      icon.classList.remove('icon_counter-1');
+      icon.classList.remove('icon_counter-2');
+      icon.classList.remove('icon_counter-3');
+      icon.classList.add('icon_counter-'+value);
+      }
+  }
+}
+
+function updateCounterMenu(value) {
+  document.getElementById('counter-menu-0').checked = false;
+  document.getElementById('counter-menu-1').checked = false;
+  document.getElementById('counter-menu-2').checked = false;
+  document.getElementById('counter-menu-3').checked = false;
+  
+  menus.currentValue = value;
+  if (value !== null && value !== "" && ['0', '1', '2', '3'].includes(value)) {
+    var radio = document.getElementById('counter-menu-'+value);
+    if (radio !== null) {
+      radio.checked = true;
+    }
+  }
+}
+
+// for (var input of document.getElementById('counter-menu').getElementsByTagName('input')) {
+//   input.addEventListener('change', function (event) {
+//     if (menus.currentFieldId !== null) {
+//       if (menus.currentValue === null || menus.currentValue !== number) {
+//         setCounterValue(menus.currentFieldId, number);
+//         dismissMenus();
+//       }
+//     }
+//   });
+// }
 
 for (var number of [1, 2, 3]) {
   (function (number) {
-
+    document.getElementById('counter-menu-'+number).addEventListener('change', function (event) {
+      if (menus.currentFieldId !== null) {
+        if (menus.currentValue === null || menus.currentValue !== number) {
+          setCounterValue(menus.currentFieldId, number);
+          dismissMenus();
+        }
+      }
+    });
   })(number);
 }
 
-//
-
-document.getElementById("runes-menu").addEventListener('click', function (event) {
+document.getElementById("counter-menu").addEventListener('click', function (event) {
   event.stopPropagation();
 });
 
-for (var field of document.getElementsByClassName("field--control_runes")) {
-  for (var icon of field.getElementsByClassName("field__control--control_icon")) {
-    icon.addEventListener('click', showRunesMenu);
+for (var field of document.getElementsByClassName("field--control_counter")) {
+  for (var icon of field.getElementsByClassName("field__control--control_counter")) {
+    icon.addEventListener('click', showCounterMenu);
   }
 }
+
+
+// field interactions: ALIGNMENT
+
+function showAlignmentMenu(event) {
+  dismissMenus();
+  var field = event.target.closest('.field');
+  showMenu(event, 'alignment', field.id);
+  updateAlignmentMenu(getAlignmentValue(field.id));
+}
+
+function getAlignmentValue(fieldId) {
+  var field = document.getElementById(fieldId);
+  var value = '';
+
+  var radios = field.getElementsByTagName('input');
+  for (var radio of radios) {
+    if (radio.checked) {
+      value = radio.value;
+    }
+  }
+  return value;
+}
+
+function setAlignmentValue(fieldId, value) {
+  var field = document.getElementById(fieldId);
+  if (field !== null) {
+    var radios = field.getElementsByTagName('input');
+    for (var radio of radios) {
+      radio.checked = (radio.value == value);
+    }
+
+    // update display
+    var grid = field.getElementsByClassName('field__grid')[0];
+    for (var alignment of ['lg', 'ln', 'le', 'ng', 'nn', 'ne', 'cg', 'cn', 'ce']) {
+      grid.classList.remove('field__grid--alignment_'+alignment);
+    }
+    grid.classList.add('field__grid--alignment_'+value);
+  }
+}
+
+function updateAlignmentMenu(value) {
+  menus.currentValue = value;
+  for (var alignment of ['none', 'lg', 'ln', 'le', 'ng', 'nn', 'ne', 'cg', 'cn', 'ce']) {
+    document.getElementById('alignment-menu-'+alignment).checked = false;
+  }
+  if (value !== null) {
+    if (value == "") {
+      value = "none";
+    }
+    var radio = document.getElementById('alignment-menu-'+value);
+    if (radio !== null) {
+      radio.checked = true;
+    }
+  }
+}
+
+for (var alignment of ['none', 'lg', 'ln', 'le', 'ng', 'nn', 'ne', 'cg', 'cn', 'ce']) {
+  (function (alignment) {
+    document.getElementById('alignment-menu-'+alignment).addEventListener('change', function (event) {
+      if (menus.currentFieldId !== null) {
+        if (menus.currentValue === null || menus.currentValue !== alignment) {
+          if (alignment == "non") {
+            alignment = "";
+          }
+          setAlignmentValue(menus.currentFieldId, alignment);
+          dismissMenus();
+        }
+      }
+    });
+  })(alignment);
+}
+
+
+document.getElementById("alignment-menu").addEventListener('click', function (event) {
+  event.stopPropagation();
+});
+
+for (var field of document.getElementsByClassName("field--control_alignment")) {
+  for (var grid of field.getElementsByClassName("field__frame")) {
+    grid.addEventListener('click', showAlignmentMenu);
+  }
+}
+
+
+
+// field interactions: ENUM
+
+function showEnumMenu(event) {
+  dismissMenus();
+  var field = event.target.closest('.field');
+  showMenu(event, 'enum', field.id);
+  updateEnumMenu(field.id, getEnumValue(field.id));
+
+  // showMenu();
+}
+
+function getEnumValue(fieldId) {
+  var field = document.getElementById(fieldId);
+  for (var input of field.getElementsByTagName('input')) {
+    return input.value;
+  }
+}
+
+function setEnumValue(fieldId, value) {
+  var field = document.getElementById(fieldId);
+  for (var input of field.getElementsByTagName('input')) {
+    input.value = value;
+  }
+}
+
+function updateEnumMenu(fieldId, value) {
+  var field = document.getElementById(fieldId);
+  for (var optionHolder of field.getElementsByClassName('field--control_enum__options')) {
+    var optionHtml = optionHolder.innerHTML;
+    document.getElementById('enum-menu__holder').innerHTML = optionHtml;
+  }
+}
+
+// initMenu('enum', [], )
+
+// for (var field of document.getElementsByClassName("field--control_enum")) {
+//   for (var option of )
+// }
+
+for (var field of document.getElementsByClassName("field--control_enum")) {
+  for (var box of field.getElementsByClassName("field__frame")) {
+    box.addEventListener('click', showEnumMenu);
+  }
+}
+
 
 
 // field interactions: global
 
-function dismissMenus(event) {
-  if (currentProficiencyFieldId !== null) {
-    var menu = document.getElementById("proficiency-menu");
-    menu.style.display = "none";
-    currentProficiencyFieldId = null;
+
+function initMenu(menu, values, setValueCallback) {
+  for (var radio of document.getElementById(menu+'-menu').getElementsByTagName('input')) {
+    (function (radio) {
+      radio.addEventListener('change', function (event) {
+
+      });
+    })(radio);
   }
+}
+
+function showMenu(event, menu, fieldId) {
+  menus.currentFieldId = fieldId;
+
+  var field = document.getElementById(fieldId);
+  var rect = field.getBoundingClientRect();
+  
+  var menu = document.getElementById(menu+'-menu');
+  menu.style.top = (rect.bottom + 15)+"px";
+  menu.style.left = ((rect.left + rect.right) / 2 - 50)+"px";
+  menu.style.display = "block";
+
+  event.stopPropagation();
+}
+
+function dismissMenus(event) {
+  var proficiencyMenu = document.getElementById("proficiency-menu");
+  proficiencyMenu.style.display = "none";
+  
+  var counterMenu = document.getElementById("counter-menu");
+  counterMenu.style.display = "none";
+
+  var alignmentMenu = document.getElementById("alignment-menu");
+  alignmentMenu.style.display = "none";
+
+  var enumMenu = document.getElementById("enum-menu");
+  enumMenu.style.display = "none";
+  
+  menus.currentFieldId = null;
+  menus.currentValue = null;
 }
 
 document.addEventListener('click', dismissMenus);
@@ -261,6 +651,7 @@ function rollDice(number, die, bonus) {
 for (var field of document.getElementsByClassName("field")) {
   for (var icon of field.getElementsByClassName("icon_bonus")) {
     icon.addEventListener('click', function (event) {
+
       if (icon.classList.includes("icon_bonus")) {
         var input = event.target.closest('.field').getElementsByTagName('input')[0];
         var bonus = input.value;
@@ -275,6 +666,7 @@ for (var field of document.getElementsByClassName("field")) {
       } else if (icon.classList.includes("icon_damage")) {
         // ... damage dice ...
       }
+
     });
   }
 

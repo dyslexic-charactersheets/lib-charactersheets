@@ -17,6 +17,7 @@ export let field = {
     editable: true,
     flex: false,
     'merge-bottom': false,
+    format: 'string',
     label: false,
     indent: false,
     value: null,
@@ -134,7 +135,7 @@ export function fieldRadioIdent(fieldid = '', value = '') {
   }
 
   const id = fieldid + '--' + value;
-  const ident = ` id='${id}' name='${fieldid}'`;
+  const ident = ` id='${id}' name='${fieldid}' value='${value}'`;
   const forid = ` for='${id}'`;
   return { id: id, name: fieldid, for: forid, ident: ident };
 };
