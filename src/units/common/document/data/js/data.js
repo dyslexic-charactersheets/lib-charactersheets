@@ -8,6 +8,7 @@ var formats = \{{{ formats }}};
 var calculations = \{{{ calculations }}};
 var dependencies = \{{{ dependencies }}};
 
+/*
 // find all the fields and their values
 function initValues() {
   // find all the fields
@@ -41,14 +42,20 @@ function initValues() {
   }
   fieldIds = [...new Set(fieldIds)];
 }
+*/
+
+function getFieldFormat(name) {
+  if (formats.hasOwnProperty(name)) {
+    return formats[name];
+  }
+  return 'int';
+}
 
 function coerceFieldValue(name, value) {
-  var format = 'int';
-  if (formats.hasOwnProperty(name)) {
-    format = formats[name];
-  }
-
+  var format = getFieldFormat(name);
   switch (format) {
+    case 'checkbox':
+
     case 'int':
       return parseInt(value);
     case 'string':
@@ -60,12 +67,26 @@ function coerceFieldValue(name, value) {
 
 function getFieldValue(name) {
   for (var input of document.getElementsByName(name)) {
-    var value = input.value;
-    if (value === null || value === "") {
-      continue;
-    }
     try {
-      return coerceFieldValue(name, value);
+      switch(input.type) {
+        case 'checkbox':
+          return (input.checked) ? 1 : 0;
+          
+        case 'radio':
+          if (input.checked) {
+            return input.value;
+          } else {
+            continue;
+          }
+
+        default:
+          var value = input.value;
+          if (value === null || value === "") {
+            continue;
+          }
+    
+          return coerceFieldValue(name, value);
+      }
     } catch (x) {
     }
   }
@@ -131,6 +152,40 @@ function recalculateField(name) {
 
 
 function initCalculations() {
+  // find duplicate fields to make sure they change together
+  var knownFieldNames = {};
+  var duplicateFieldNames = {};
+  for (var input of document.getElementsByTagName("input")) {
+    var name = input.name;
+    if (name !== null && name !== "") {
+      if (knownFieldNames.hasOwnProperty(name)) {
+        duplicateFieldNames[name] = true;
+      }
+      knownFieldNames[name] = true;
+    }
+  }
+
+  for (var name in duplicateFieldNames) {
+    (function (name) {
+      var inputs = document.querySelectorAll("input[name='"+name+"']");
+      for (var input of inputs) {
+        input.addEventListener('input', function (evt) {
+          try {
+            var value = coerceFieldValue(name, evt.target.value);
+            if (value !== null && !isNaN(value)) {
+              for (var otherInput of inputs) {
+                otherInput.value = value;
+              }
+            }
+          } catch (x) {
+            
+          }
+        });
+      }
+    })(name);
+  }
+
+  // link up calculations
   for (var name in dependencies) {
     (function (name) {
       function recalcDerivedFields() {
@@ -151,6 +206,12 @@ function initCalculations() {
     for (var input of document.getElementsByName('proficiency-'+proficiency)) {
       input.addEventListener('change', redoProficiency);
     }
+  }
+
+  // do calculations now!
+  clearValueCache();
+  for (var name in calculations) {
+    recalculateField(name);
   }
 
   // link all references
@@ -178,6 +239,30 @@ function initCalculations() {
         input.addEventListener('change', recalcReferenceFields);
       }
     })(name);
+  }
+
+  // add double-click for references to link back to main 
+  for (var input of document.querySelectorAll("input[ref]")) {
+    input.addEventListener('dblclick', function (event) {
+      var input = event.target;
+      var ref = input.getAttribute('ref');
+      if (ref !== null) {
+        for (var dest of document.getElementsByName(ref)) {
+          dest.scrollIntoView({
+            block: 'center',
+            inline: 'center'
+          });
+          var box = dest.closest('.field__box');
+          if (box !== null) {
+            box.classList.add('buzz');
+            setTimeout(function () {
+              box.classList.remove('buzz');
+            }, 100);
+          }
+          break;
+        }
+      }
+    });
   }
 }
 
@@ -212,6 +297,7 @@ function redoProficiency() {
   }
 }
 
+/*
 function pullValues() {
   for (var fieldId of fieldIds) {
     if (fieldParts.hasOwnProperty(fieldId)) {
@@ -263,11 +349,26 @@ function pushValues() {
     }
   }
 }
+*/
 
 function saveDocument() {
   // make the DOM contain all values
-  pullValues();
-  pushValues();
+  for (var input of document.getElementsByTagName("input")) {
+    switch (input.type) {
+      case "checkbox":
+      case "radio":
+        if (input.checked) {
+          input.setAttribute('checked', 'checked');
+        } else {
+          input.removeAttribute('checked');
+        }
+        break;
+
+      default:
+        input.setAttribute('value', input.value);
+        break;
+    }
+  }
 
   // write current data
   // var data = "/" + "* ### START DATA SECTION ### *" + "/\nvar fieldValues = ";
@@ -291,20 +392,91 @@ function saveDocument() {
 }
 
 // initValues();
-initCalculations();
-document.getElementById('button--save-data').onclick = saveDocument;
+window.addEventListener('load', (event) => {
+  initCalculations();
+  document.getElementById('button--save-data').onclick = saveDocument;
+});
 
 
-
-
-// field interactions: PROFICIENCY
-
+// FIELD INTERACTIONS
 
 var menus = {
   currentFieldId: null,
   currentValue: null,
 };
 
+// field interactions: ACTIONS
+
+function showActionMenu(event) {
+  dismissMenus();
+  var field = event.target.closest('.field');
+  showMenu(event, 'action', field.id);
+
+  var value = 'template';
+  for (var input of field.getElementsByTagName('input')) {
+    value = input.value;
+  }
+
+  document.getElementById('action-menu-1').checked = false;
+  document.getElementById('action-menu-2').checked = false;
+  document.getElementById('action-menu-3').checked = false;
+  document.getElementById('action-menu-reaction').checked = false;
+  document.getElementById('action-menu-free').checked = false;
+  document.getElementById('action-menu-template').checked = false;
+  
+  document.getElementById('action-menu-'+value).checked = true;
+}
+
+function setActionValue(fieldId, value) {
+  var field = document.getElementById(fieldId);
+  for (var input of field.getElementsByTagName("input")) {
+    input.value = value;
+  }
+  for (var icon of field.getElementsByClassName('icon')) {
+    icon.classList.remove('icon_action');
+    icon.classList.remove('icon_action2');
+    icon.classList.remove('icon_action3');
+    icon.classList.remove('icon_reaction');
+    icon.classList.remove('icon_action-free');
+    icon.classList.remove('icon_action-template');
+
+    switch (value) {
+      case 1: case "1": value = "action"; break;
+      case 2: case "2": value = "action2"; break;
+      case 3: case "3": value = "action3"; break;
+      case "reaction": value = "reaction"; break;
+      case "free": value = "free-action"; break;
+      case "template": value = "action-template"; break;
+    }
+    icon.classList.add('icon_'+value);
+  }
+}
+
+for (var action of ['1', '2', '3', 'reaction', 'free', 'template']) {
+  (function (action) {
+    document.getElementById('action-menu-'+action).addEventListener('change', function (event) {
+      if (menus.currentFieldId !== null) {
+        if (menus.currentValue === null || menus.currentValue !== teml) {
+          setActionValue(menus.currentFieldId, action);
+          dismissMenus();
+        }
+      }
+    });
+  })(action);
+}
+
+document.getElementById("action-menu").addEventListener('click', function (event) {
+  event.stopPropagation();
+});
+
+for (var field of document.getElementsByClassName("field--control_action-icon")) {
+  for (var icon of field.getElementsByClassName("icon")) {
+    icon.addEventListener('click', showActionMenu);
+  }
+}
+
+
+// field interactions: PROFICIENCY
 function showProficiencyMenu(event) {
   dismissMenus();
   var field = event.target.closest('.field');
@@ -333,6 +505,8 @@ function setProficiencyValue(fieldId, value) {
       icon.classList.remove('icon_proficiency-master');
       icon.classList.remove('icon_proficiency-legendary');
       icon.classList.add('icon_proficiency-'+value);
+
+      redoProficiency();
     }
   }
 }
@@ -355,7 +529,7 @@ function updateProficiencyMenu(teml) {
 for (var teml of ['untrained', 'trained', 'expert', 'master', 'legendary']) {
   (function (teml) {
     document.getElementById('proficiency-menu-'+teml).addEventListener('change', function (event) {
-      if (menus.currentieldId !== null) {
+      if (menus.currentFieldId !== null) {
         if (menus.currentValue === null || menus.currentValue !== teml) {
           setProficiencyValue(menus.currentFieldId, teml);
           dismissMenus();
@@ -619,6 +793,9 @@ function showMenu(event, menu, fieldId) {
 }
 
 function dismissMenus(event) {
+  var actionMenu = document.getElementById("action-menu");
+  actionMenu.style.display = "none";
+
   var proficiencyMenu = document.getElementById("proficiency-menu");
   proficiencyMenu.style.display = "none";
   

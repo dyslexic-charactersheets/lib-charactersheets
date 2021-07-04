@@ -478,7 +478,7 @@
                         },
                         {
                           "type": "field",
-                          "id": "build/class-level",
+                          "id": "level",
                           "label": "_{Level}",
                           "underlay": 1,
                           "border": "full"
@@ -691,7 +691,8 @@
                           "legend": "",
                           "colspan": 1,
                           "rowspan": 1,
-                          "id": "build/STR-score"
+                          "id": "build/STR-score",
+                          "eq": "10+(%{build/boost-STR-ancestry[up]}*2)-(%{build/boost-STR-ancestry[down]}*2)+(%{build/boost-STR-background[up]}*2)+(%{build/boost-STR-class[up]}*2)+(%{build/boost-STR-free[up]}*2)"
                         },
                         {
                           "type": "span",
@@ -722,7 +723,7 @@
                           "legend": "",
                           "colspan": 1,
                           "rowspan": 1,
-                          "id": "build/key-ability",
+                          "id": "key-ability",
                           "control": "radio",
                           "value": "STR"
                         }
@@ -813,7 +814,8 @@
                           "legend": "",
                           "colspan": 1,
                           "rowspan": 1,
-                          "id": "build/DEX-score"
+                          "id": "build/DEX-score",
+                          "eq": "10+(%{build/boost-DEX-ancestry[up]}*2)-(%{build/boost-DEX-ancestry[down]}*2)+(%{build/boost-DEX-background[up]}*2)+(%{build/boost-DEX-class[up]}*2)+(%{build/boost-DEX-free[up]}*2)"
                         },
                         {
                           "type": "span",
@@ -844,7 +846,7 @@
                           "legend": "",
                           "colspan": 1,
                           "rowspan": 1,
-                          "id": "build/key-ability",
+                          "id": "key-ability",
                           "control": "radio",
                           "value": "DEX"
                         }
@@ -935,7 +937,8 @@
                           "legend": "",
                           "colspan": 1,
                           "rowspan": 1,
-                          "id": "build/CON-score"
+                          "id": "build/CON-score",
+                          "eq": "10+(%{build/boost-CON-ancestry[up]}*2)-(%{build/boost-CON-ancestry[down]}*2)+(%{build/boost-CON-background[up]}*2)+(%{build/boost-CON-class[up]}*2)+(%{build/boost-CON-free[up]}*2)"
                         },
                         {
                           "type": "span",
@@ -966,7 +969,7 @@
                           "legend": "",
                           "colspan": 1,
                           "rowspan": 1,
-                          "id": "build/key-ability",
+                          "id": "key-ability",
                           "control": "radio",
                           "value": "CON"
                         }
@@ -1057,7 +1060,8 @@
                           "legend": "",
                           "colspan": 1,
                           "rowspan": 1,
-                          "id": "build/INT-score"
+                          "id": "build/INT-score",
+                          "eq": "10+(%{build/boost-INT-ancestry[up]}*2)-(%{build/boost-INT-ancestry[down]}*2)+(%{build/boost-INT-background[up]}*2)+(%{build/boost-INT-class[up]}*2)+(%{build/boost-INT-free[up]}*2)"
                         },
                         {
                           "type": "span",
@@ -1088,7 +1092,7 @@
                           "legend": "",
                           "colspan": 1,
                           "rowspan": 1,
-                          "id": "build/key-ability",
+                          "id": "key-ability",
                           "control": "radio",
                           "value": "INT"
                         }
@@ -1179,7 +1183,8 @@
                           "legend": "",
                           "colspan": 1,
                           "rowspan": 1,
-                          "id": "build/WIS-score"
+                          "id": "build/WIS-score",
+                          "eq": "10+(%{build/boost-WIS-ancestry[up]}*2)-(%{build/boost-WIS-ancestry[down]}*2)+(%{build/boost-WIS-background[up]}*2)+(%{build/boost-WIS-class[up]}*2)+(%{build/boost-WIS-free[up]}*2)"
                         },
                         {
                           "type": "span",
@@ -1210,7 +1215,7 @@
                           "legend": "",
                           "colspan": 1,
                           "rowspan": 1,
-                          "id": "build/key-ability",
+                          "id": "key-ability",
                           "control": "radio",
                           "value": "WIS"
                         }
@@ -1301,7 +1306,8 @@
                           "legend": "",
                           "colspan": 1,
                           "rowspan": 1,
-                          "id": "build/CHA-score"
+                          "id": "build/CHA-score",
+                          "eq": "10+(%{build/boost-CHA-ancestry[up]}*2)-(%{build/boost-CHA-ancestry[down]}*2)+(%{build/boost-CHA-background[up]}*2)+(%{build/boost-CHA-class[up]}*2)+(%{build/boost-CHA-free[up]}*2)"
                         },
                         {
                           "type": "span",
@@ -1332,7 +1338,7 @@
                           "legend": "",
                           "colspan": 1,
                           "rowspan": 1,
-                          "id": "build/key-ability",
+                          "id": "key-ability",
                           "control": "radio",
                           "value": "CHA"
                         }
@@ -1494,7 +1500,7 @@
                     {
                       "type": "field",
                       "id": null,
-                      "ref": "build/level",
+                      "ref": "level",
                       "label": "_{Level}",
                       "underlay": "1"
                     }
@@ -1608,28 +1614,32 @@
                           "id": "build/proficiency-trained",
                           "label": "_{Trained}",
                           "icon": "proficiency-trained",
-                          "ruby": "_{Level}\n+2"
+                          "ruby": "_{Level}\n+2",
+                          "eq": "minmax(%{level},1,20)+2"
                         },
                         {
                           "type": "field",
                           "id": "build/proficiency-expert",
                           "label": "_{Expert}",
                           "icon": "proficiency-expert",
-                          "ruby": "_{Level}\n+4"
+                          "ruby": "_{Level}\n+4",
+                          "eq": "minmax(%{level},1,20)+4"
                         },
                         {
                           "type": "field",
                           "id": "build/proficiency-master",
                           "label": "_{Master}",
                           "icon": "proficiency-master",
-                          "ruby": "_{Level}\n+6"
+                          "ruby": "_{Level}\n+6",
+                          "eq": "minmax(%{level},1,20)+6"
                         },
                         {
                           "type": "field",
                           "id": "build/proficiency-legendary",
                           "label": "_{Legendary}",
                           "icon": "proficiency-legendary",
-                          "ruby": "_{Level}\n+8"
+                          "ruby": "_{Level}\n+8",
+                          "eq": "minmax(%{level},1,20)+8"
                         },
                         {
                           "type": "spacer"
@@ -3264,13 +3274,13 @@
                           "contents": [
                             {
                               "type": "field",
-                              "id": "cover/class",
+                              "id": "class",
                               "label": "_{Class}",
                               "width": "stretch"
                             },
                             {
                               "type": "field",
-                              "id": "cover/level",
+                              "id": "level",
                               "label": "_{Level}",
                               "border": "full"
                             }
@@ -6436,6 +6446,7 @@
                           "contents": [
                             {
                               "type": "field",
+                              "id": "action-1-action",
                               "control": "action-icon",
                               "value": "template",
                               "frame": "none"
@@ -6491,6 +6502,7 @@
                           "contents": [
                             {
                               "type": "field",
+                              "id": "action-2-action",
                               "control": "action-icon",
                               "value": "template",
                               "frame": "none"
@@ -6546,6 +6558,7 @@
                           "contents": [
                             {
                               "type": "field",
+                              "id": "action-3-action",
                               "control": "action-icon",
                               "value": "template",
                               "frame": "none"
@@ -6626,6 +6639,7 @@
                               "contents": [
                                 {
                                   "type": "field",
+                                  "id": "focus-action-1-action",
                                   "control": "action-icon",
                                   "value": "template",
                                   "frame": "none"
@@ -6664,6 +6678,7 @@
                               "contents": [
                                 {
                                   "type": "field",
+                                  "id": "focus-action-2-action",
                                   "control": "action-icon",
                                   "value": "template",
                                   "frame": "none"
@@ -6702,6 +6717,7 @@
                               "contents": [
                                 {
                                   "type": "field",
+                                  "id": "focus-action-3-action",
                                   "control": "action-icon",
                                   "value": "template",
                                   "frame": "none"
@@ -7551,7 +7567,7 @@
                               "contents": [
                                 {
                                   "type": "field",
-                                  "id": "attack-1",
+                                  "id": "attack-4",
                                   "width": "stretch",
                                   "frame": "none",
                                   "align": "left",
@@ -7560,7 +7576,7 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": "attack-1-range",
+                                  "id": "attack-4-range",
                                   "control": "speed",
                                   "width": "huge",
                                   "frame": "none"
@@ -7575,7 +7591,7 @@
                                   "type": "calc",
                                   "output": {
                                     "type": "field",
-                                    "id": "attack-1-bonus",
+                                    "id": "attack-4-bonus",
                                     "label": "_{Attack Bonus}",
                                     "width": "huge",
                                     "attack": true,
@@ -7591,13 +7607,13 @@
                                     },
                                     {
                                       "type": "field",
-                                      "id": "attack-1-proficiency",
+                                      "id": "attack-4-proficiency",
                                       "control": "proficiency",
                                       "label": "_{Proficiency}"
                                     },
                                     {
                                       "type": "field",
-                                      "id": "attack-1-potency",
+                                      "id": "attack-4-potency",
                                       "control": "counter",
                                       "label": "_{Potency}",
                                       "max": 3
@@ -7606,7 +7622,7 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": "attack-1-damage",
+                                  "id": "attack-4-damage",
                                   "border": "full",
                                   "label": "_{Damage}",
                                   "width": "huge",
@@ -7639,20 +7655,20 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": "attack-1-damage-type",
+                                  "id": "attack-4-damage-type",
                                   "label": "_{Type}",
                                   "width": "tiny"
                                 },
                                 {
                                   "type": "field",
-                                  "id": "attack-1-striking",
+                                  "id": "attack-4-striking",
                                   "label": "_{Striking}",
                                   "control": "counter",
                                   "max": 3
                                 },
                                 {
                                   "type": "field",
-                                  "id": "attack-1-type",
+                                  "id": "attack-4-type",
                                   "label": "_{Misc}",
                                   "misc": true,
                                   "optional": true
@@ -7666,7 +7682,7 @@
                               "contents": [
                                 {
                                   "type": "field",
-                                  "id": "ammo-1",
+                                  "id": "ammo-4",
                                   "frame": "none",
                                   "unlined": true,
                                   "width": "small",
@@ -7676,7 +7692,7 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": "ammo-1-count",
+                                  "id": "ammo-4-count",
                                   "frame": "none",
                                   "control": "checkgrid",
                                   "max": 30,
@@ -7687,7 +7703,7 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": "attack-1-details",
+                                  "id": "attack-4-details",
                                   "label": "_{Weapon Traits}",
                                   "width": "stretch",
                                   "align": "left",
@@ -7695,7 +7711,7 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": "attack-1-critical",
+                                  "id": "attack-4-critical",
                                   "label": "_{Critical}",
                                   "width": "stretch",
                                   "align": "right",
@@ -7703,7 +7719,7 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": "attack-1-critical-unlocked",
+                                  "id": "attack-4-critical-unlocked",
                                   "frame": "none",
                                   "control": "checkbox"
                                 }
@@ -7720,7 +7736,7 @@
                               "contents": [
                                 {
                                   "type": "field",
-                                  "id": "attack-2",
+                                  "id": "attack-5",
                                   "width": "stretch",
                                   "frame": "none",
                                   "align": "left",
@@ -7729,7 +7745,7 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": "attack-2-range",
+                                  "id": "attack-5-range",
                                   "control": "speed",
                                   "width": "huge",
                                   "frame": "none"
@@ -7744,7 +7760,7 @@
                                   "type": "calc",
                                   "output": {
                                     "type": "field",
-                                    "id": "attack-2-bonus",
+                                    "id": "attack-5-bonus",
                                     "label": "_{Attack Bonus}",
                                     "width": "huge",
                                     "attack": true,
@@ -7760,13 +7776,13 @@
                                     },
                                     {
                                       "type": "field",
-                                      "id": "attack-2-proficiency",
+                                      "id": "attack-5-proficiency",
                                       "control": "proficiency",
                                       "label": "_{Proficiency}"
                                     },
                                     {
                                       "type": "field",
-                                      "id": "attack-2-potency",
+                                      "id": "attack-5-potency",
                                       "control": "counter",
                                       "label": "_{Potency}",
                                       "max": 3
@@ -7775,7 +7791,7 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": "attack-2-damage",
+                                  "id": "attack-5-damage",
                                   "border": "full",
                                   "label": "_{Damage}",
                                   "width": "huge",
@@ -7808,20 +7824,20 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": "attack-2-damage-type",
+                                  "id": "attack-5-damage-type",
                                   "label": "_{Type}",
                                   "width": "tiny"
                                 },
                                 {
                                   "type": "field",
-                                  "id": "attack-2-striking",
+                                  "id": "attack-5-striking",
                                   "label": "_{Striking}",
                                   "control": "counter",
                                   "max": 3
                                 },
                                 {
                                   "type": "field",
-                                  "id": "attack-2-type",
+                                  "id": "attack-5-type",
                                   "label": "_{Misc}",
                                   "misc": true,
                                   "optional": true
@@ -7835,7 +7851,7 @@
                               "contents": [
                                 {
                                   "type": "field",
-                                  "id": "ammo-2",
+                                  "id": "ammo-5",
                                   "frame": "none",
                                   "unlined": true,
                                   "width": "small",
@@ -7845,7 +7861,7 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": "ammo-2-count",
+                                  "id": "ammo-5-count",
                                   "frame": "none",
                                   "control": "checkgrid",
                                   "max": 30,
@@ -7856,7 +7872,7 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": "attack-2-details",
+                                  "id": "attack-5-details",
                                   "label": "_{Weapon Traits}",
                                   "width": "stretch",
                                   "align": "left",
@@ -7864,7 +7880,7 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": "attack-2-critical",
+                                  "id": "attack-5-critical",
                                   "label": "_{Critical}",
                                   "width": "stretch",
                                   "align": "right",
@@ -7872,7 +7888,7 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": "attack-2-critical-unlocked",
+                                  "id": "attack-5-critical-unlocked",
                                   "frame": "none",
                                   "control": "checkbox"
                                 }
@@ -20127,8 +20143,7 @@
                           "border": "full",
                           "control": "proficiency",
                           "value": "trained",
-                          "ruby": "_{Level}\n+2",
-                          "eq": "%{level}+2"
+                          "ruby": "_{Level}\n+2"
                         },
                         {
                           "type": "field",
@@ -20137,8 +20152,7 @@
                           "border": "full",
                           "control": "proficiency",
                           "value": "expert",
-                          "ruby": "_{Level}\n+4",
-                          "eq": "%{level}+4"
+                          "ruby": "_{Level}\n+4"
                         },
                         {
                           "type": "field",
@@ -20147,8 +20161,7 @@
                           "border": "full",
                           "control": "proficiency",
                           "value": "master",
-                          "ruby": "_{Level}\n+6",
-                          "eq": "%{level}+6"
+                          "ruby": "_{Level}\n+6"
                         },
                         {
                           "type": "field",
@@ -20157,8 +20170,7 @@
                           "border": "full",
                           "control": "proficiency",
                           "value": "legendary",
-                          "ruby": "_{Level}\n+8",
-                          "eq": "%{level}+8"
+                          "ruby": "_{Level}\n+8"
                         }
                       ]
                     },

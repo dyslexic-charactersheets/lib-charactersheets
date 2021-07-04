@@ -24,6 +24,8 @@ export let field = {
     blk: false,
     ruby: false,
     overprint: false,
+    eq: false,
+    ref: false,
   },
   expect: ['icon'],
   // transform(args, ctx) {
@@ -50,6 +52,9 @@ export let field = {
     }
     if (args.ruby) {
       args.rb = getRubyHeight(args);
+    }
+    if (args.eq || args.ref) {
+      args.editable = false;
     }
 
     const id = elementID('field', args.id);
@@ -158,7 +163,7 @@ export function fieldInner(args, reg, doc, decoration) {
 
     for (let i = 0; i < args.repeat; i++) {
       const value = i >= values.length ? null : values[i];
-      const controlArgs = Object.assign({}, args, { value: value });
+      const controlArgs = Object.assign({}, args, { value: value, id: `${args.id}[${i+1}]` });
       const control = reg.renderItem(controlArgs, doc);
       if (i == args.repeat - 1 && merge_bottom && boxargs['border'] == 'bottom')
         boxargs['border'] = 'none';

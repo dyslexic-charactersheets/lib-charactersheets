@@ -440,7 +440,7 @@ export class Document {
           }
           return `v('${field}')`;
         });
-        return `function (v) { return ${eq}; }`;
+        return `(v) => ${eq}`;
       }
 
       // fields
@@ -504,6 +504,7 @@ export class Document {
     Object.keys(dependencies).forEach((key) => {
       dependencies[key] = [...new Set(dependencies[key])];
     });
+    delete dependencies[0];
     // references = [...new Set(references)];
     
     return {calculations, formats, dependencies};
@@ -612,6 +613,8 @@ export class Document {
       htmlClasses.push("html--"+this.browserTarget);
     }
 
+    let hasData = true;
+
     let navMenus = `
 <nav id='proficiency-menu' class='nav-menu'><div>
 <label for='proficiency-menu-untrained'><input type='radio' name='proficiency-menu' value='untrained' id='proficiency-menu-untrained'> <i class="icon icon_proficiency-untrained"></i> ${__('Untrained')}</label>
@@ -622,12 +625,12 @@ export class Document {
 </div></nav>
 
 <nav id='action-menu' class='nav-menu'><div>
-<label for='action-menu-template'><input type='radio' name='action-menu' value='template' id='action-menu-template'> <a class="icon icon_action-template"></a> ${__('')}</label>
-<label for='action-menu-1'><input type='radio' name='action-menu' value='1' id='action-menu-1'> <a class="icon icon_action"></a> ${__('One action')}</label>
-<label for='action-menu-2'><input type='radio' name='action-menu' value='2' id='action-menu-2'> <a class="icon icon_action-2"></a> ${__('Two actions')}</label>
-<label for='action-menu-3'><input type='radio' name='action-menu' value='3' id='action-menu-3'> <a class="icon icon_action-3"></a> ${__('Three actions')}</label>
-<label for='action-menu-reaction'><input type='radio' name='action-menu' value='reaction' id='action-menu-reaction'> <a class="icon icon_action-reaction"></a> ${__('Reaction')}</label>
-<label for='action-menu-free'><input type='radio' name='action-menu' value='free' id='action-menu-free'> <a class="icon icon_action-free"></a> ${__('Free action')}</label>
+<label for='action-menu-template'><input type='radio' name='action-menu' value='template' id='action-menu-template'> <i class="icon icon_action-template"></i> ${__('')}</label>
+<label for='action-menu-1'><input type='radio' name='action-menu' value='1' id='action-menu-1'> <i class="icon icon_action"></i> ${__('One action')}</label>
+<label for='action-menu-2'><input type='radio' name='action-menu' value='2' id='action-menu-2'> <i class="icon icon_action2"></i> ${__('Two actions')}</label>
+<label for='action-menu-3'><input type='radio' name='action-menu' value='3' id='action-menu-3'> <i class="icon icon_action3"></i> ${__('Three actions')}</label>
+<label for='action-menu-reaction'><input type='radio' name='action-menu' value='reaction' id='action-menu-reaction'> <i class="icon icon_reaction"></i> ${__('Reaction')}</label>
+<label for='action-menu-free'><input type='radio' name='action-menu' value='free' id='action-menu-free'> <i class="icon icon_free-action"></i> ${__('Free action')}</label>
 </div></nav>
 
 <nav id='counter-menu' class='nav-menu'><div>
@@ -695,7 +698,8 @@ ${registry.render(this.doc.contents, this)}
 </div>
 <nav id='screen-buttons'>
 <button id='button--print' onclick="window.print();return false;"><i></i> ${__('Print')}</button>
-<button id='button--save-data' class="btn button--disabled"><i></i> ${__('Save')}</button>
+${hasData ? `<button id='button--save-data' class="btn button--disabled"><i></i> ${__('Save')}</button>` : ''}
+
 </nav>
 
 ${navMenus}

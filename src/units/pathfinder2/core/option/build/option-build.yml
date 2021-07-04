@@ -150,7 +150,7 @@ inc:
                           - field: build/class-key-ability
                             label: "_{Key Ability}"
                             width: stretch
-                          - field: build/class-level
+                          - field: level
                             label: "_{Level}"
                             underlay: 1
                             border: full
@@ -248,13 +248,14 @@ inc:
                         down: false
                       - span: "&rArr;"
                       - field: build/#{code}-score
+                        eq: "10+(%{build/boost-#{code}-ancestry[up]}*2)-(%{build/boost-#{code}-ancestry[down]}*2)+(%{build/boost-#{code}-background[up]}*2)+(%{build/boost-#{code}-class[up]}*2)+(%{build/boost-#{code}-free[up]}*2)"
                       - span: "&rArr;"
                       - field: build/#{code}-modifier
                         icon: dc
                         border: full
                         underlay: "#{short}"
                         eq: "floor((minmax(%{build/#{code}-score},4,30)-10)/2)"
-                      - field: build/key-ability
+                      - field: key-ability
                         control: radio
                         value: "#{code}"
           - layout: 2l
@@ -293,7 +294,7 @@ inc:
                         underlay: "_{CON}"
                       - span: ") &times;"
                       - field:
-                        ref: build/level
+                        ref: level
                         label: "_{Level}"
                         underlay: "1"
 
@@ -345,18 +346,22 @@ inc:
                             label: "_{Trained}"
                             icon: proficiency-trained
                             ruby: "_{Level}\n+2"
+                            eq: "minmax(%{level},1,20)+2"
                           - field: build/proficiency-expert
                             label: "_{Expert}"
                             icon: proficiency-expert
                             ruby: "_{Level}\n+4"
+                            eq: "minmax(%{level},1,20)+4"
                           - field: build/proficiency-master
                             label: "_{Master}"
                             icon: proficiency-master
                             ruby: "_{Level}\n+6"
+                            eq: "minmax(%{level},1,20)+6"
                           - field: build/proficiency-legendary
                             label: "_{Legendary}"
                             icon: proficiency-legendary
                             ruby: "_{Level}\n+8"
+                            eq: "minmax(%{level},1,20)+8"
                           - spacer:
                   - hr:
                   - layout: 4e

@@ -535,11 +535,13 @@ export let field_control_action_icon = {
   name: 'control:action-icon',
   defaults: {
     value: "template",
+    border: "none",
   },
   render(args) {
-    const cl = elementClass("field", "control", { control: "icon" }, [], { "control": "input" });
+    const cls = elementClass("field", "control", { control: "icon" }, [], { "control": "input" });
 
     let icon = 'action-template';
+    let layout = 'indent-l';
     switch (args.value) {
       case 1: icon = 'action'; break;
       case 2: icon = 'action2'; break;
@@ -553,8 +555,8 @@ export let field_control_action_icon = {
     }
 
     return `<div${cls}>
-    <input type='hidden'${fieldIdent(args.id).ident} class='field--control_action-icon__icon' value='${value}'> `+
-    `<i class='icon field--control_action-icon__icon ${icon}'></i>
+    <input type='hidden'${fieldIdent(args.id).ident} class='field--control_action-icon__icon' value='${args.value}'> `+
+    `<i class='icon field--control_action-icon__icon icon_${icon}'></i>
     </div>`;
   }
 }

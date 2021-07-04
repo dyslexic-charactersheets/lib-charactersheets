@@ -3,6 +3,7 @@ export let action = {
   key: 'action',
   defaults: {
     action: 1,
+    id: false,
     blk: false,
     order: 1,
     contents: [],
@@ -35,6 +36,7 @@ export let action = {
     if (args.action == "template") {
       iconPart = {
         type: "field",
+        id: args.id+"-action",
         control: "action-icon",
         value: 'template',
         frame: "none"
