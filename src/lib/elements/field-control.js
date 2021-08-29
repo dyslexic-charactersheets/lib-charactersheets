@@ -321,15 +321,28 @@ export let field_control_checkgrid = {
   render(args) {
     let g = args.group;
     if (args.max < args.group) g = args.max;
+    let depth = args.depth;
+    if (depth == "auto") {
+      if (g <= 3) {
+        depth = 1;
+      } else if (g <= 6) {
+        depth = 2;
+      } else {
+        depth = 3;
+      }
+    } else {
+      depth = parseInt(depth);
+    }
+
     const grouplen = Math.ceil(parseFloat(g) / parseFloat(args.depth));
     if (args.direction == "horizontal") {
       args.dir = "h";
       args.w = grouplen;
-      args.h = args.depth;
+      args.h = depth;
     } else {
       args.dir = "v";
       args.h = grouplen;
-      args.w = args.width;
+      args.w = width;
     }
 
     let checks = [];
@@ -343,7 +356,7 @@ export let field_control_checkgrid = {
     }
 
     const groups = chunk(checks, args.group).map(ch => {
-      const grouplen = Math.ceil(parseFloat(ch.length) / parseFloat(args.depth));
+      const grouplen = Math.ceil(parseFloat(ch.length) / parseFloat(depth));
       let a = { control: 'checkgrid', dir: args.dir, w: args.w, h: args.h, style: args.style };
       a[args.direction == 'horizontal' ? 'w' : 'h'] = grouplen;
       const cls = elementClass("field", "control-group", a, [], {control: '', dir: '', w: '', h: '', style: ''});

@@ -1,0 +1,475 @@
+unit: class/secrets-of-magic/summoner/eidolon
+name: "_{Eidolon}"
+group: "_{Secrets of Magic}"
+
+inc:
+  - set: eidolon/fortitude-proficiency
+    value: expert
+  - set: eidolon/reflex-proficiency
+    value: trained
+  - set: eidolon/will-proficiency
+    value: expert
+
+  - set: eidolon/ac-proficiency
+    value: trained
+
+  - at: '@pages'
+    add:
+
+      - page: eidolon
+        name: "_{Eidolon}"
+        order: 11
+        flex: true
+        landscape: true
+        contents:
+          - layout: 2e
+            contents:
+              - layout: 2l
+                narrow: true
+                contents:
+                  - g:
+                    contents:
+                      - class-icon: eidolon
+                        optional: true
+                      - class-name: "_{Eidolon}"
+
+                      - section: "_{Attributes}"
+                        id: eidolon/attributes
+                        contents:
+                          - layout: 3e
+                            gutter: none
+                            contents:
+                              - repeat: 6
+                                rows:
+                                  - name: "_{Strength}"
+                                    short: "_{STR}"
+                                    code: STR
+                                  - name: "_{Dexterity}"
+                                    short: "_{DEX}"
+                                    code: DEX
+                                  - name: "_{Constitution}"
+                                    short: "_{CON}"
+                                    code: CON
+                                  - name: "_{Intelligence}"
+                                    short: "_{INT}"
+                                    code: INT
+                                  - name: "_{Wisdom}"
+                                    short: "_{WIS}"
+                                    code: WIS
+                                  - name: "_{Charisma}"
+                                    short: "_{CHA}"
+                                    code: CHA
+                                contents:
+                                  - g:
+                                    valign: top
+                                    contents:
+                                      - row: center
+                                        contents:
+                                          - spacer:
+                                          - field: "animal-#{code}"
+                                            label: "#{name}"
+                                            border: circle
+                                            size: huge
+                                            underlay: "#{short}"
+                                            eq: "(%{#{code}-score}-10)/2"
+                                          - spacer:
+
+                      - section: "_{Abilities}"
+                        contents:
+                          - list:
+                            hr: true
+                            contents:
+                              - g:
+                                contents:
+                                  - zone: '@secrets-of-magic/summoner/eidolon/ability'
+                                    contents:
+                                      - article:
+                                        lines: 5
+                                
+                              - level: 7
+                                contents:
+                                  - h5: "_{Eidolon Symbiosis}"
+                                  - zone: '@secrets-of-magic/summoner/eidolon/symbiosis'
+                                    contents:
+                                      - article:
+                                        lines: 5
+                                
+                              - level: 17
+                                contents:
+                                  - h5: "_{Eidolon Transcendence}"
+                                  - zone: '@secrets-of-magic/summoner/eidolon/transcendence'
+                                    contents:
+                                      - article:
+                                        lines: 5
+
+                      - tail:
+
+                  - g:
+                    contents:
+                      - portrait: eidolon
+                        # overprint: true
+                      - g:
+                        contents:
+                          - field: eidolon/name
+                            legend: "_{Name}"
+                            width: stretch
+                            align: left
+                            size: large
+                          - field: eidolon/type
+                            label: "_{Eidolon Type}"
+                            width: stretch
+                            merge-bottom: true
+
+                      - section: "_{Skills}"
+                        contents:
+                          - table:
+                            collapse: true
+                            zebra: true
+                            sort_by: name
+                            width: stretch
+                            field_frame: none
+                            columns:
+                              - label: ""
+                                align: right
+                              - "_{Skill\nBonus}"
+                              - 
+                              - "_{Ability\nModifier}"
+                              - "_{Proficiency}"
+                            rows:
+                              - skill: acrobatics
+                                label: "_{Acrobatics}"
+                                ability: "_{DEX}"
+                                abilityref: DEX
+                                training: trained
+                              - skill: athletics
+                                label: "_{Athletics}"
+                                ability: "_{STR}"
+                                abilityref: STR
+                                training: trained
+                              - skill: deception
+                                label: "_{Deception}"
+                                ability: "_{CHA}"
+                                abilityref: CHA
+                              - skill: intimidation
+                                label: "_{Intimidation}"
+                                ability: "_{CHA}"
+                                abilityref: CHA
+                              - skill: nature
+                                label: "_{Nature}"
+                                ability: "_{WIS}"
+                                abilityref: WIS
+                              - skill: performance
+                                label: "_{Performance}"
+                                ability: "_{CHA}"
+                                abilityref: CHA
+                              - skill: stealth
+                                label: "_{Stealth}"
+                                ability: "_{DEX}"
+                                abilityref: DEX
+                              - skill: survival
+                                label: "_{Survival}"
+                                ability: "_{WIS}"
+                                abilityref: WIS
+                              - skill: thievery
+                                label: "_{Thievery}"
+                                ability: "_{DEX}"
+                                abilityref: DEX
+                            template:
+                              - h6: "#{label}"
+                                fade: "#{fade}"
+                                blk: false
+                              - field: "eidolon/#{skill}-bonus"
+                                border: full
+                                icon: bonus
+                              - span: "="
+                              - field:
+                                ref: "#{ability}"
+                                underlay: "#{ability}"
+                                frame: h-label
+                                label: "#{ability}"
+                              - field: "#{skill}-proficiency"
+                                control: proficiency
+                                value: "#{training}"
+                          - hr:
+                          - calc:
+                            output:
+                              field: eidolon/perception
+                              icon: bonus
+                              legend: "_{Perception}"
+                              width: large
+                            inputs:
+                              - field:
+                                ref: eidolon/WIS
+                                underlay: "_{WIS}"
+                                label: "_{WIS}"
+                              - field: eidolon/perception-proficiency
+                                label: "_{Proficiency}"
+                                control: proficiency
+                                value: trained
+                              - field:
+                                label: "_{Item}"
+                              - field:
+                                misc: true
+                                label: "_{Misc}"
+                          - row:
+                            unlabelled: true
+                            contents:
+                              - field: eidolon/perception-low-light
+                                frame: right
+                                control: checkbox
+                                label: "_{Low-light vision}"
+                              - field: eidolon/perception-darkvision
+                                frame: right
+                                control: checkbox
+                                label: "_{Dark vision}"
+                              - field: eidolon/perception-scent
+                                frame: right
+                                control: checkbox
+                                label: "_{Scent}"
+                      - tail:
+              - g:
+                contents:
+                  - layout: 2l
+                    narrow: true
+                    contents:
+                      - g:
+                        contents:
+                          - section: "_{Actions}"
+                            mark: action
+                            contents:
+                              - list:
+                                zebra: true
+                                flex: true
+                                hr: true
+                                contents:
+                                  - repeat: 3
+                                    contents:
+                                      - action: template
+                                        contents:
+                                          - article:
+                                            lines: 3
+                                            reduce: 1
+
+
+                          - section: "_{Speed}"
+                            contents:
+                              - g:
+                                pad: true
+                                contents:
+                                  - field: eidolon/speed
+                                    legend: "_{Speed}"
+                                    control: speed
+                                    width: huge
+                                    border: full
+                                    
+
+                      - g:
+                        contents:
+                          - section: "_{Attacks}"
+                            mark: sword
+                            contents:
+                              - list:
+                                zebra: true
+                                hr: true
+                                flex: true
+                                contents:
+                                  - repeat: 3
+                                    contents:
+                                      - g:
+                                        contents:
+                                          - row:
+                                            contents:
+                                              - field: eidolon/attack-#{i}
+                                                width: stretch
+                                                frame: none
+                                                align: left
+                                                size: large
+                                                # icon: sword
+                                          - row:
+                                            contents:
+                                              - calc:
+                                                output:
+                                                  field: eidolon/attack-#{i}-bonus
+                                                  label: "_{Attack Bonus}"
+                                                  # width: large
+                                                  attack: true
+                                                  icon: bonus
+                                                inputs:
+                                                  - field:
+                                                    ref: true
+                                                    label: "_{Ability}"
+                                                    misc: true
+                                                  - field:
+                                                    control: proficiency
+                                                    label: "_{Proficiency}"
+                                              - field: eidolon/attack-#{i}-damage
+                                                border: full
+                                                label: "_{Damage}"
+                                                width: small
+                                                icon: damage
+                                                control: compound
+                                                parts:
+                                                  - subid: ndice
+                                                    suffix: "_{d}"
+                                                  - subid: die
+                                                    suffix: "+"
+                                                  - subid: extra
+                                          - row:
+                                            contents:
+                                              - field: eidolon/attack-#{i}-critical
+                                                frame: none
+                                                width: stretch
+                                                align: left
+                                                unlined: true
+                                                merge-bottom: true
+                  - layout: 2r
+                    narrow: true
+                    contents:
+                      - g:
+                        contents:
+                        
+                          - section: "_{Health}"
+                            mark: hp
+                            contents:
+                              - p: "_{You share hit points with your eidolon.}"
+
+                              - hr:
+                              - h5: "_{Effects}"
+                              - row:
+                                merge-bottom: true
+                                contents:
+                                  - field: effect-#{i}
+                                    control: progression
+                                    frame: none
+                                    max: 3
+                                  - field: effect-#{i}
+                                    width: stretch
+                                    frame: none
+                                  - field: effect-#{i}-duration
+                                    frame: none
+                                    underlay: "#"
+                                    suffix: "_{rds}"
+                                  - field:
+                                    control: checkgrid
+                                    frame: none
+                                    max: 6
+                                    depth: 2
+                                
+                          - section: "_{Armour Class}"
+                            mark: shield
+                            contents:
+                              - calc:
+                                output:
+                                  field: "animal-companion-ac"
+                                  legend: "_{Armour Class}"
+                                  icon: shield
+                                  border: full
+                                  width: large
+                                  underlay: "_{AC}"
+                                inputs:
+                                  - span: "10 +"
+                                  - field:
+                                    ref: eidolon/DEX
+                                    label: "_{DEX}"
+                                    underlay: "_{DEX}"
+                                  - span: "+"
+                                  - field: "eidolon/ac-proficiency"
+                                    control: proficiency
+                                    label: "_{Proficiency}"
+                                  - span: "+"
+                                  - field:
+                                    misc: true
+                                    label: "_{Misc}"
+
+                              - field: eidolon/ac-conditional
+                                label: "_{Conditional}"
+                                frame: none
+                                width: stretch
+                                align: left
+                                repeat: 2
+                                merge-bottom: true
+
+                          - section: "_{Evolution Feats}"
+                            mark: eidolon
+                            contents:
+                              - list:
+                                hr: true
+                                zebra: true
+                                columns: 2
+                                contents:
+                                  - level: 1
+                                    contents:
+                                      - article:
+                                        lines: 3
+                                  - repeat: 3
+                                    contents:
+                                      - selectable:
+                                        contents:
+                                          - article:
+                                            lines: 3
+
+                          - tail:
+
+                      - g:
+                        contents:
+                          - section: "_{Saving Throws}"
+                            id: saving-throws
+                            contents:
+                              - table:
+                                columns:
+                                  - 
+                                  - 
+                                  - "_{Ability Modifier}"
+                                  - "_{Proficiency}"
+                                rows:
+                                  - save: fortitude
+                                    legend: "_{Fortitude}"
+                                    short: "_{FORT}"
+                                    ability: "_{CON}"
+                                    abilityref: CON
+                                  - save: reflex
+                                    legend: "_{Reflex}"
+                                    short: "_{REF}"
+                                    ability: "_{DEX}"
+                                    abilityref: DEX
+                                  - save: will
+                                    legend: "_{Will}"
+                                    short: "_{WILL}"
+                                    ability: "_{WIS}"
+                                template:
+                                  - calc:
+                                    output:
+                                      field: "eidolon/#{save}"
+                                      legend: "#{legend}"
+                                      icon: bonus
+                                      border: full
+                                      width: large
+                                      underlay: "#{short}"
+                                    inputs:
+                                      - field:
+                                        label: "#{ability}"
+                                        underlay: "#{ability}"
+                                        ref: "#{abilityref}"
+                                      - field: "eidolon/#{save}-proficiency"
+                                        control: proficiency
+                                        value: trained
+                              - field: eidolon/saving-throws-conditional
+                                label: "_{Conditional}"
+                                align: left
+                                repeat: 2
+                                merge-bottom: true
+                                width: stretch
+
+                          - section: "_{Inventory}"
+                            contents:
+                              - flags:
+                                  - "_{Eidolon}"
+                              - list:
+                                zebra: true
+                                hr: true
+                                contents:
+                                  - repeat: 2
+                                    contents:
+                                      - article:
+                                        lines: 2
+                          - tail:

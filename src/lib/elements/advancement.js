@@ -250,14 +250,14 @@ export let advancement = {
           break;
 
         case 'checkgrid':
-          // log("advancement", `Checkgrid: label = ${field.label}, num = ${field.num}`);
+          // log("advancement", `Checkgrid: label = ${field.label}, max = ${field.max}`);
           template.push({
             type: "field",
             id: table_id + '-#{level}-' + field.key,
             frame: "left",
             label: field.label,
             control: "checkgrid",
-            depth: 1,
+            depth: 'auto',
             max: field.max,
             shade: field.shade,
           });

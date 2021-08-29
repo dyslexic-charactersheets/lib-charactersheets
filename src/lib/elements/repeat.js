@@ -9,6 +9,7 @@ export let repeat = {
     reduce: 0,
     contents: [],
     index: "i",
+    start: 1,
     "merge-bottom": false,
     rows: []
   },
@@ -25,7 +26,9 @@ export let repeat = {
     if (ctx.largePrint && args.reduce > 0)
       repeat -= args.reduce;
 
-    for (let i = 1; i <= repeat; i++) {
+    let start = parseInt(args.start);
+    let end = start + repeat;
+    for (let i = start; i < end; i++) {
       let vars = {};
       if (i <= args.rows.length) {
         vars = args.rows[i - 1];

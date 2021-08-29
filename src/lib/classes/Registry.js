@@ -42,7 +42,7 @@ import { sort } from '../elements/sort';
 import { slots } from '../elements/slots';
 import { spacer } from '../elements/spacer';
 import { span } from '../elements/span';
-import { spells_list, spells_table } from '../elements/spells-list';
+import { spells_list, spells_bundle, spells_table } from '../elements/spells-list';
 import { spells_list2 } from '../elements/spells-list2';
 import { table } from '../elements/table';
 import { copy, paste } from '../elements/template';
@@ -126,6 +126,7 @@ export class Registry {
       spacer,
       span,
       spells_list,
+      spells_bundle,
       spells_table,
       spells_list2,
       table,

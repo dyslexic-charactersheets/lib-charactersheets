@@ -14,7 +14,7 @@ export let action = {
       case 1: icon = 'action'; break;
       case 2: icon = 'action2'; break;
       case 3: icon = 'action3'; layout = 'indent-lw'; break;
-      case 13: icon = 'action13'; layout = 'indent-lw'; break;
+      case 13: case "13": icon = 'action13'; layout = 'indent-lw'; break;
       case '2nd': icon = 'action2nd'; break;
       case '3rd': icon = 'action3rd'; layout = 'indent-lw'; break;
       case 'reaction': icon = 'reaction'; break;

@@ -1,0 +1,428 @@
+unit: class/secrets-of-magic/summoner
+in: class
+group: "_{Secrets of Magic}"
+name: "_{Summoner}"
+
+form:
+  - select: summoner/eidolon
+    name: "_{Eidolon}"
+    max: 1
+
+require:
+  - unit: weapon-spec/fast
+  - with: option/reference
+    unit: class/secrets-of-magic/summoner/reference
+  - unit: class/secrets-of-magic/summoner/eidolon
+  - unit: cantrip/summoner/secrets-of-magic/boost-eidolon
+  - unit: focus/summoner/secrets-of-magic/evolution-surge
+  - unit: option/spellbook
+  - with: option/level-up
+    unit: option/level-up/spell-retraining
+
+inc:
+  - paste: prototype-class
+    params:
+      class: summoner
+      class-name: "_{Summoner}"
+      subclass: summoner-eidolon
+      subclass-name: "_{Eidolon}"
+      hp: 10
+
+      perception: trained
+      unarmoured: trained
+
+      fortitude: expert
+      reflex: trained
+      will: expert
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        gain: "_{Eidolon}"
+        
+      - levels: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 ]
+        spell-level: [ "_{1st}", "_{1st}", "_{2nd}", "_{2nd}", "_{3rd}", "_{3rd}", "_{4th}", "_{4th}", "_{5th}", "_{5th}", "_{6th}", "_{6th}", "_{7th}", "_{7th}", "_{8th}", "_{8th}", "_{9th}", "_{9th}", "_{10th}" ]
+        spell-num: [ 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 1 ]
+
+  - at: '@advancement-fields'
+    add:
+      - name: "_{Spells}"
+        key: spells
+        format: checkgrid
+        label: "#{spell-level}"
+        max: "#{spell-num}"
+
+  - at: '@pages'
+    add:
+      
+      - page: summoner
+        name: "_{Summoner}"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: summoner
+                    optional: true
+                  - class-name: "_{Summoner}"
+
+                  - section: "_{Eidolon}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - list:
+                            hr: true
+                            light: true
+                            contents:
+                              - g:
+                                contents:
+                                  - layout: indent-rw
+                                    contents:
+                                      - g:
+                                        contents:
+                                          - p: "_{Share your 3 actions and multi-attack penalty with your eidolon.}"
+                                      - g:
+                                        contents:
+                                          - icon: action3
+                                          
+                                  - layout: indent-rw
+                                    contents:
+                                      - g:
+                                        contents:
+                                          - p: "_{If riding your eidolon, your total actions are 2.}"
+                                      - g:
+                                        contents:
+                                          - icon: action2
+
+                              - action: 3
+                                contents:
+                                  - article:
+                                    title: "_{Manifest Eidolon}"
+                                    contents:
+                                      - flags:
+                                          - "_{Concentrate}"
+                                      - layout: indent-r
+                                        contents:
+                                          - g:
+                                            contents:
+                                              - p: "_{Your eidolon appears in a space adjacent to you and gets one action.}"
+                                          - g:
+                                            contents:
+                                              - icon: action
+
+                              - action: "13"
+                                contents:
+                                  - article:
+                                    title: "_{Act Together}"
+                                    contents:
+                                      - flags:
+                                          - "_{Tandem}"
+                                      - layout: indent-r
+                                        contents:
+                                          - g:
+                                            contents:
+                                              - p: "_{Either you or your eidolon does one activity taking up to three actions, and the other takes one action.}"
+                                          - g:
+                                            contents:
+                                              - icon: action
+
+                              - action:
+                                contents:
+                                  - article:
+                                    title: "_{Share Senses}"
+                                    contents:
+                                      - flags:
+                                          - "_{Concentrate}"
+                                      - p: "_{Either you or your eidolon projects your senses entirely into the other.}"
+
+                          - level: 7
+                            contents:
+                              - h5: "_{Eidolon Weapon Specialisation}"
+                              - layout: 3e
+                                blk: true
+                                contents:
+                                  - row:
+                                    contents:
+                                      - icon: proficiency-expert
+                                      - field:
+                                        frame: none
+                                        value: "+2"
+                                        control: value
+                                  - row:
+                                    contents:
+                                      - icon: proficiency-master
+                                      - field:
+                                        frame: none
+                                        value: "+3"
+                                        control: value
+                                  - row:
+                                    contents:
+                                      - icon: proficiency-legendary
+                                      - field:
+                                        frame: none
+                                        value: "+4"
+                                        control: value
+
+                          - level: 15
+                            contents:
+                              - h5: "_{Greater Eidolon Specialisation}"
+                              - layout: 3e
+                                blk: true
+                                contents:
+                                  - row:
+                                    contents:
+                                      - icon: proficiency-expert
+                                      - field:
+                                        border: none
+                                        frame: none
+                                        value: "+4"
+                                        control: value
+                                  - row:
+                                    contents:
+                                      - icon: proficiency-master
+                                      - field:
+                                        border: none
+                                        frame: none
+                                        value: "+6"
+                                        control: value
+                                  - row:
+                                    contents:
+                                      - icon: proficiency-legendary
+                                      - field:
+                                        border: none
+                                        frame: none
+                                        value: "+8"
+                                        control: value
+
+                          - level: 19
+                            contents:
+                              - action:
+                                contents:
+                                  - article:
+                                    title: "_{Instant Manifestation}"
+                                    content: "_{Manifest Eidolon as a single action.}"
+
+                  - section: "_{Spellcasting}"
+                    flex: large
+                    contents:
+                      - paste: spellcasting-spontaneous
+
+                      - spells-table:
+                        flip: true
+                        max: 9
+                        merge-bottom: false
+                        # 'spells-today': true
+                        # 'max-spells-per-day': 2
+
+                      - g:
+                        pad: true
+                        contents:
+                          - paste: 1hour
+                            contents:
+                              - row:
+                                contents:
+                                  - p:
+                                    title: "_{Learn a Spell}"
+                                    content: "_{Make an Arcana check and pay the cost to learn an extra spell.}"
+                                  - paste: book-ref
+                                    params:
+                                      page-ref: "_{CRB p238}"
+
+                      - hr:
+                        light: true
+
+                      - zone: '@secrets-of-magic/summoner/spell-dcs'
+                        contents:
+                          - paste: spell-attack
+                          - paste: spell-dc
+
+                      - hr:
+                                      
+                      - level: 3
+                        pad: true
+                        contents:
+                          - h5: "_{Unlimited Signature Spells}"
+                          - p: "_{All your spells automatically heighten.}"
+
+                  # - section: "_{Link Spells}"
+                  #   contents:
+                  #     - h5: "_{Link Cantrips}"
+                  #     - list:
+                  #       hr: true
+                  #       light: true
+                  #       contents:
+                  #         - slots:
+                  #           min: 4
+                  #           max: 6
+                  #           reduce: 1
+                  #           contents:
+                  #             - h6: "_{Boost Eidolon}"
+                  #           placeholder:
+                  #             - field: "secrets-of-magic/summoner/link-cantrip/#{i}"
+                  #               merge-bottom: true
+                  #               width: stretch
+
+                  #     - hr:
+                      
+                  #     - paste: focus
+                  #       contents:
+                  #         - h5: "_{Link Spells}"
+                  #         - p: "_{Cast link spells using focus points.}"
+                      
+                  #     - list:
+                  #       hr: true
+                  #       light: true
+                  #       contents:
+                  #         - slots:
+                  #           min: 4
+                  #           max: 6
+                  #           reduce: 1
+                  #           contents:
+                  #             - h6: "_{Evolution Surge}"
+                  #           placeholder:
+                  #             - field: "secrets-of-magic/summoner/link-spell/#{i}"
+                  #               merge-bottom: true
+                  #               width: stretch
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+                  - section: "_{Eidolon}"
+                    id: eidolon
+                    primary: true
+                    contents:
+                      - field: secrets-of-magic/summoner/eidolon/name
+                        width: stretch
+                        size: huge
+                        label: "_{Name}"
+                        merge-bottom: true
+
+                      - hr:
+                        swash: true
+
+                      - zone: '@secrets-of-magic/summoner/eidolon/details'
+                        contents:
+                          - layout: 2e
+                            contents:
+                              - g:
+                                contents:
+                                  - field: secrets-of-magic/summoner/eidolon
+                                    width: stretch
+                                    label: "_{Eidolon Type}"
+                                    merge-bottom: true
+                              - g:
+                                contents:
+                                  - field: eidolon/tradition
+                                    label: "_{Tradition}"
+                                    width: stretch
+                                    merge-bottom: true
+
+                  - section: "_{Cantrips}"
+                    flex: small
+                    contents:
+                      - spells-list:
+                        min: 0
+                        max: 0
+                        spells: 6
+                        checks: 1
+
+                  - section: "_{Spells}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - repeat: 2
+                            index: i
+                            contents:
+                              - layout: spells-list
+                                contents:
+                                  - list:
+                                    collapse: true
+                                    merge-bottom: true
+                                    contents:
+                                      - repeat: 3
+                                        contents:
+                                          - field: "secrets-of-magic/summoner/spells-level-#{i}/left-#{j}"
+                                            frame: none
+                                            width: stretch
+                                  - g:
+                                    contents:
+                                      - field: "secrets-of-magic/summoner/spells-level-#{i}"
+                                        label: "_{Spell\nLevel}"
+                                        merge-bottom: true
+                                        width: small
+                                        border: full
+                                      - field: "secrets-of-magic/summoner/spells-level-#{i}/today"
+                                        frame: none
+                                        control: checkgrid
+                                        max: 2
+                                        depth: 1
+                                  - g:
+                                    contents:
+                                      - list:
+                                        collapse: true
+                                        merge-bottom: true
+                                        contents:
+                                          - repeat: 3
+                                            contents:
+                                              - field: "secrets-of-magic/summoner/spells-level-#{i}/right-#{j}"
+                                                frame: none
+                                                width: stretch
+
+                  - section: "_{Link Spells}"
+                    contents:
+                      - h5: "_{Link Cantrips}"
+                      - list:
+                        hr: true
+                        light: true
+                        columns: 2
+                        contents:
+                          - slots:
+                            min: 4
+                            max: 4
+                            contents:
+                              - h6: "_{Boost Eidolon}"
+                            placeholder:
+                              - field: "secrets-of-magic/summoner/link-cantrip/#{i}"
+                                merge-bottom: true
+                                width: stretch
+
+                      - hr:
+                      
+                      - paste: focus
+                        contents:
+                          - h5: "_{Link Spells}"
+                          - p: "_{Cast link spells using focus points.}"
+                      
+                      - list:
+                        hr: true
+                        light: true
+                        columns: 2
+                        contents:
+                          - slots:
+                            min: 4
+                            max: 4
+                            contents:
+                              - h6: "_{Evolution Surge}"
+                            placeholder:
+                              - field: "secrets-of-magic/summoner/link-spell/#{i}"
+                                merge-bottom: true
+                                width: stretch
+
+                  - paste: class-feats
+                    params:
+                      id: summoner-feats
+                      title: "_{Summoner Feats}"
+                      slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                      mark: summoner
+                      lines: 3
+
+                  - tail:
+                  - spacer:
+

@@ -1,0 +1,62 @@
+unit: magus/hybrid-study/inexorable-iron
+in: magus/hybrid-study
+group: "_{Secrets of Magic}"
+name: "_{Inexorable Iron}"
+
+require:
+  - unit: focus/magus/thunderous-strike
+
+inc:
+  - at: '@secrets-of-magic/magus/hybrid-study'
+    replace:
+      - h4: "_{Inexorable Iron}"
+
+  - at: '@secrets-of-magic/magus/hybrid-study/details'
+    replace:
+      - p: "_{When you enter Arcane Cascade and at the start of each turn, if wielding a melee weapon in two hands, gain temporary hit points.}"
+      - hr:
+        light: true
+      - calc:
+        output:
+          field: "##/bonus-hp"
+          legend: "_{Temp Hit Points}"
+          suffix: "_{hp}"
+          border: full
+          width: large
+          eq: "floor(%{level}/2)"
+        inputs:
+          - ruby-round-down:
+            contents:
+              - field:
+                ref: level
+                label: "_{Level}"
+              - span: "&divide; 2"
+
+  - at: '@secrets-of-magic/magus/hybrid-study/conflux-spell'
+    replace:
+      - paste: focus/magus/thunderous-strike
+
+  - at: '@secrets-of-magic/magus/studious-spells/7'
+    replace:
+      - field: magus/studious-spells/enlarge
+        control: checkbox
+        frame: right
+        label: "_{Enlarge}"
+
+  - at: '@secrets-of-magic/magus/studious-spells/11'
+    replace:
+      - field: magus/studious-spells/earthbind
+        control: checkbox
+        frame: right
+        label: "_{Earthbind}"
+
+  - at: '@secrets-of-magic/magus/studious-spells/13'
+    replace:
+      - field: magus/studious-spells/dimensional-anchor
+        control: checkbox
+        frame: right
+        label: "_{Dimensional Anchor}"
+
+  - at: '@secrets-of-magic/magus/spellbook/hybrid-study'
+    add:
+      - paste: focus/

@@ -160,6 +160,20 @@ function ordinal(number) {
 }
 
 
+export let spells_bundle = {
+  name: 'spells-bundle',
+  defaults: {
+    level: '',
+    slots: 4,
+    checks: 3,
+    cantrips: false,
+    style: "prepared",
+  },
+  transform(args, ctx) {
+    return [spellLevel(args.level, args.level, args.style, args.checks, args.slots)];
+  }
+}
+
 export let spells_list = {
   name: 'spells-list',
   key: 'style',
@@ -234,6 +248,7 @@ export let spells_table = {
     flip: false,
     pad: false,
     'merge-bottom': true,
+    at: [],
   },
   transform(args) {
     // log("-","[spells] Expanding spells table:", args);
@@ -276,7 +291,7 @@ export let spells_table = {
         id: "spells-#{level}-today",
         control: "checkgrid",
         max: args['max-spells-per-day'],
-        depth: 2,
+        depth: 'auto',
         frame: "none",
         at: args.at.map((item) => ({ level: item.level, max: item['max-spells-per-day'] }))
       });

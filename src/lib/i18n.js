@@ -38,7 +38,7 @@ export function __(str, doc) {
     if (isNumber(str)) {
       return ""+str;
     }
-    throw new Exception("Not a string");
+    throw new Error("Not a string");
   }
   return str.replace(/_\{(.*?(#\{.*?\}.*?)*)\}/gs, (m, p) => translate(p, doc));
 }

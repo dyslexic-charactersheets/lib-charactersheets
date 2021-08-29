@@ -62,6 +62,7 @@ const expansion = {
     spacer: '',
     span: 'content',
     'spells-list': '',
+    'spells-bundle': '',
     'spells-table': '',
     'spells-list2': '',
     table: '',

@@ -1,0 +1,408 @@
+unit: class/secrets-of-magic/magus
+in: class
+group: "_{Secrets of Magic}"
+name: "_{Magus}"
+
+form:
+  - select: magus/hybrid-study
+    name: "_{Hybrid Study}"
+    max: 1
+
+require:
+  - unit: weapon-spec/fast
+  - with: option/reference
+    unit: class/secrets-of-magic/magus/reference
+  - unit: option/spellbook
+  - unit: option/spellbook/custom
+  - with: option/level-up
+    unit: option/level-up/spell-retraining
+  - unit: 'spell/spider-climb'
+  - unit: 'spell/true-strike'
+  - unit: 'spell/water-breathing'
+  - unit: 'spell/haste'
+  - unit: 'spell/fly'
+
+inc:
+  - paste: prototype-class
+    params:
+      class: magus
+      class-name: "_{Magus}"
+      subclass: magus-hybrid-study
+      subclass-name: "_{Hybrid Study}"
+      hp: 8
+
+      skill: arcana
+      arcane: trained
+
+      perception: trained
+      unarmoured: trained
+      light-armour: trained
+      medium-armour: trained
+
+      fortitude: expert
+      reflex: trained
+      will: expert
+
+  # - at: '@cover-class'
+  #   replace:
+  #     - h6: "_{Magus}"
+  #     - field: magus-hybrid-study
+  #       label: "_{Hybrid Study}"
+  #       width: stretch
+  #       align: left
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        gain: "_{Hybrid Study}"
+
+      - levels: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
+        spell-level: [ "_{1st}", "_{1st}", "_{2nd}", "_{2nd}", "_{3rd}", "_{3rd}", "_{4th}", "_{4th}", "_{5th}", "_{5th}", "_{6th}", "_{6th}", "_{7th}", "_{7th}", "_{8th}", "_{8th}", "_{9th}", "_{9th}", "_{9th}", "_{9th}" ]
+        spell-num: [ 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
+        
+      - level: 5
+        advance: "_{Reflex saves}"
+        proficiency: expert
+      - level: 7
+        advance: "_{Simple, martial weapons and unarmed attacks}"
+        proficiency: expert
+      - level: 9
+        advance: "_{Perception}"
+        proficiency: expert
+      - level: 9
+        advance: "_{Arcane spell attacks and DCs}"
+        proficiency: expert
+      - level: 9
+        advance: "_{Will saves}"
+        proficiency: master
+      - level: 11
+        advance: "_{Light, medium armour, unarmoured defence}"
+        proficiency: expert
+      - level: 13
+        advance: "_{Simple, martial weapons and unarmed attacks}"
+        proficiency: master
+        
+      - level: 19
+        advance: "_{Double Spellstrike}"
+
+  - at: '@advancement-fields'
+    add:
+      - name: "_{Spells}"
+        key: spells
+        format: checkgrid
+        label: "#{spell-level}"
+        max: "#{spell-num}"
+
+  - at: '@pages'
+    add:
+
+      - page: magus
+        name: "_{Magus}"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: magus
+                    optional: true
+                  - class-name: "_{Magus}"
+
+                  - section: "_{Spellcasting}"
+                    flex: large
+                    contents:
+                      - paste: spellcasting-prepared
+
+                      - spells-table:
+                        flip: true
+                        max: 9
+                        merge-bottom: false
+
+                      - g:
+                        pad: true
+                        contents:
+                          - paste: 1hour
+                            contents:
+                              - row:
+                                contents:
+                                  - p:
+                                    title: "_{Learn a Spell}"
+                                    content: "_{Make an Arcana check and pay the cost to learn an extra spell.}"
+                                  - paste: book-ref
+                                    params:
+                                      page-ref: "_{CRB p238}"
+
+                      - hr:
+                        light: true
+
+                      - paste: arcane-spell-dcs
+                        
+                  - section: "_{Spellstrike}"
+                    flex: large
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - action: 2
+                            contents:
+                              - layout: indent-rw
+                                contents:
+                                  - g:
+                                    contents:
+                                      - p: "_{Cast a spell that takes one or two actions and requires a spell attack roll.}"
+                                  - row:
+                                    contents:
+                                      - icon: action
+                                      - icon: action2
+
+                              - p: "_{Make a melee Strike with a weapon. This counts as 2 attacks for your multiple attack penalty.}"
+                              - p: "_{The strike does both weapon damage, and the spell effect. It affects only one target, though ancilliary effects may still happen.}"
+
+                          - g:
+                            contents:
+                              - action:
+                                contents:
+                                  - flags:
+                                      - "_{Concentrate}"
+                                  - p: "_{Recharge your spellstrike}"
+                              - p: "_{Your spellstrike is recharged when you cast a conflux spell.}"
+
+                          - level: 19
+                            contents:
+                              - h5: "_{Double Spellstrike}"
+                              - p: "_{Make a second spellstrike with the same spell for up to 1 minute.}"
+                          
+
+                  - section: "_{Arcane Cascade}"
+                    flex: large
+                    contents:
+                      - action:
+                        contents:
+                          - flags:
+                              - "_{Concentrate}"
+                              - "_{Stance}"
+                          - p: "_{Enter this stance after casting a spell or using a Spellstrike.}"
+
+                          - hr:
+                            light: true
+
+                          - row:
+                            contents:
+                              - h6: "_{Damage bonus}:"
+                              - spacer:
+                              - value: "+1"
+                              - spacer:
+                              - vr:
+                              - level-marker: 7
+                              - value: "+2"
+                              - spacer:
+                              - vr:
+                              - level-marker: 15
+                              - value: "+3"
+
+                          - h6: "_{Damage type}:"
+                          - p:
+                            title: "_{Damaging spell}"
+                            content: "_{Spell's damage type}"
+                          - p:
+                            title: "_{Abjuration or Evocation}"
+                            content: "_{Force}"
+                          - p:
+                            title: "_{Conjuration or Transmutation}"
+                            content: "_{Weapon's damage type}"
+                          - p: 
+                            title: "_{Divination, Enchantment, or Illusion}"
+                            content: "_{Mental}"
+                          - p:
+                            title: "_{Necromancy}"
+                            content: "_{Negative}"
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+                  - section: "_{Hybrid Study}"
+                    primary: true
+                    contents:
+                      - zone: '@secrets-of-magic/magus/hybrid-study'
+                        contents:
+                          - field: magus/hybrid-study
+                            frame: none
+                            size: huge
+                            width: stretch
+                            merge-bottom: true
+                      - hr:
+                        swash: true
+                      - layout: 2e
+                        contents:
+                          - g:
+                            contents:
+                              - zone: '@secrets-of-magic/magus/hybrid-study/details'
+                                contents:
+                                  - article:
+                                    lines: 4
+
+                          - g:
+                            contents:
+                              - h5: "_{Conflux Spell}"
+                              - zone: '@secrets-of-magic/magus/hybrid-study/conflux-spell'
+                                contents:
+                                  - article:
+                                    lines: 3
+
+                  - section: "_{Cantrips}"
+                    flex: small
+                    contents:
+                      - spells-list:
+                        min: 0
+                        max: 0
+                        spells: 8
+                        checks: 1
+
+                  - section: "_{Spells}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - repeat: 2
+                            contents:
+                              - layout: spells-list
+                                contents:
+                                  - list:
+                                    collapse: true
+                                    merge-bottom: true
+                                    contents:
+                                      - repeat: 3
+                                        contents:
+                                          - field: "secrets-of-magic/magus/spells-level-#{i}/left-#{j}"
+                                            frame: none
+                                            width: stretch
+                                            control: compound
+                                            parts:
+                                              - control: checkbox
+                                                subid: 1
+                                              - control: checkbox
+                                                subid: 2
+                                              - control:
+                                                width: stretch
+                                  - g:
+                                    contents:
+                                      - field: "secrets-of-magic/magus/spells-level-#{i}"
+                                        label: "_{Spell\nLevel}"
+                                        merge-bottom: true
+                                        width: small
+                                        border: full
+                                  - list:
+                                    collapse: true
+                                    merge-bottom: true
+                                    contents:
+                                      - repeat: 3
+                                        contents:
+                                          - field: "secrets-of-magic/magus/spells-level-#{i}/right-#{j}"
+                                            frame: none
+                                            width: stretch
+                                            control: compound
+                                            parts:
+                                              - control: checkbox
+                                                subid: 1
+                                              - control: checkbox
+                                                subid: 2
+                                              - control:
+                                                width: stretch
+
+                  - section: "_{Studious Spells}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - level: 7
+                            contents:
+                              - layout: 3e
+                                contents:
+                                  - field: magus/studious-spells/spider-climb
+                                    control: checkbox
+                                    frame: right
+                                    label: "_{Spider Climb}"
+                                  - field: magus/studious-spells/true-strike
+                                    control: checkbox
+                                    frame: right
+                                    label: "_{True Strike}"
+                                  - field: magus/studious-spells/water-breathing
+                                    control: checkbox
+                                    frame: right
+                                    label: "_{Water Breathing}"
+                                  - zone: '@secrets-of-magic/magus/studious-spells/7'
+                                    contents:
+                                      - row:
+                                        contents:
+                                          - field: magus/studious-spells/7
+                                            frame: none
+                                            control: checkbox
+                                          - field: magus/studious-spells/7/name
+                                            width: stretch
+                                            merge-bottom: true
+
+                          - level: 11
+                            contents:
+                              - layout: 3e
+                                contents:
+                                  - field: magus/studious-spells/haste
+                                    control: checkbox
+                                    frame: right
+                                    label: "_{Haste}"
+                                  - zone: '@secrets-of-magic/magus/studious-spells/11'
+                                    contents:
+                                      - row:
+                                        contents:
+                                          - field: magus/studious-spells/11
+                                            frame: none
+                                            control: checkbox
+                                          - field: magus/studious-spells/11/name
+                                            width: stretch
+                                            merge-bottom: true
+
+                          - level: 13
+                            contents:
+                              - layout: 3e
+                                contents:
+                                  - field: magus/studious-spells/fly
+                                    control: checkbox
+                                    frame: right
+                                    label: "_{Fly}"
+                                  - zone: '@secrets-of-magic/magus/studious-spells/13'
+                                    contents:
+                                      - row:
+                                        contents:
+                                          - field: magus/studious-spells/13
+                                            frame: none
+                                            control: checkbox
+                                          - field: magus/studious-spells/11/name
+                                            width: stretch
+                                            merge-bottom: true
+                      
+                  - paste: class-feats
+                    params:
+                      id: magus-feats
+                      title: "_{Magus Feats}"
+                      slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                      mark: magus
+                      lines: 3
+
+                  - tail:
+                  - spacer:
+
+  - at: '@spellbook/left/first'
+    add:
+      # - sort: level
+      #   contents:
+      - paste: 'spell/spider-climb'
+      - paste: 'spell/true-strike'
+      - paste: 'spell/water-breathing'
+      - zone: '@secrets-of-magic/magus/spellbook/studious-spells/7'
+      - paste: 'spell/haste'
+      - zone: '@secrets-of-magic/magus/spellbook/studious-spells/11'
+      - paste: 'spell/fly'
+      - zone: '@secrets-of-magic/magus/spellbook/studious-spells/13'
+
