@@ -3,6 +3,11 @@ in: sorcerer/bloodline
 group: "_{Core Rulebook}"
 name: "_{Undead}"
 
+require:
+  - unit: focus/sorcerer/undeaths-blessing
+  - unit: focus/sorcerer/drain-life
+  - unit: focus/sorcerer/grasping-grave
+
 inc:
   - set: intimidation-proficiency
     value: trained
@@ -63,104 +68,15 @@ inc:
 
   - at: '@sorcerer/spellbook/bloodline-spell/initial'
     replace:
-      - article:
-        title: "_{Undeath's Blessing}"
-        cat: "_{Focus} 1"
-        contents:
-          - action: 1
-            contents:
-              - dl:
-                defs:
-                  range: "_{Touch}"
-                  duration: "_{1 minute}"
-              - p: "_{Harm spells heal one target.}"
-          - list:
-            hr: true
-            light: true
-            contents:
-              - g:
-                pad: true
-                contents:
-                  - calc:
-                    output:
-                      field:
-                      legend: "_{Bonus\nhealing}"
-                      width: large
-                      affix: "_{hp}"
-                    inputs:
-                      - span: "1 + ("
-                      - field:
-                        ref: focus-level
-                        label: "_{Focus Level}"
-                      - span: "&times; 2 )"
-              - g:
-                contents:
-                  - p: "_{A target who wishes to refuse the spell makes a will save:}"
-                  - paste: save
-                    params:
-                      critical_success: "_{No effect}"
-                      success: "_{Target heals half as much from heal and takes half as much damage from harm for 1 round.}"
-                      failure: "_{As described}"
+      - paste: focus/sorcerer/undeaths-blessing
 
   - at: '@sorcerer/spellbook/bloodline-spell/advanced'
     replace:
-      - article:
-        title: "_{Drain Life}"
-        cat: "_{Focus} 3"
-        contents:
-          - action: 1
-            contents:
-              - dl:
-                defs:
-                  range: "_{30ft}"
-              - p: "_{Pull life energy from another creature into yourself.}"
-              - calc:
-                output:
-                  field:
-                  legend: "_{Damage}"
-                  width: large
-                  affix: "_{d4}"
-                inputs:
-                  - field:
-                    ref: focus-level
-                    label: "_{Focus Level}"
-              - paste: basic-save
-                params:
-                  save: "_{FORT}"
+     - paste: focus/sorcerer/drain-life
 
   - at: '@sorcerer/spellbook/bloodline-spell/greater'
     replace:
-      - article:
-        title: "_{Grasping Grave}"
-        cat: "_{Focus} 5"
-        contents:
-          - action: 2
-            contents:
-              - dl:
-                defs:
-                  range: "_{60ft}"
-                  area: "_{20ft radius}"
-              - p: "_{Hundreds of skeletal arms erupt from the ground, clawing at creatures within and holding them in place.}"
-          - calc:
-            output:
-              field:
-              legend: "_{Damage}"
-              width: large
-              affix: "_{d6}"
-            inputs:
-              - span: "("
-              - field:
-                ref: focus-level
-                label: "_{Focus Level}"
-              - span: "&times; 2 ) - 4"
-
-          - paste: save
-            params:
-              critical_success: "_{No effect}"
-              success: "_{Half damage}"
-              failure: "_{Full damage, and -10 speed for 1 round}"
-              critical_failure: "_{Double damage, and immobilised for 1 round}"
-              
+      - paste: focus/sorcerer/grasping-grave
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:

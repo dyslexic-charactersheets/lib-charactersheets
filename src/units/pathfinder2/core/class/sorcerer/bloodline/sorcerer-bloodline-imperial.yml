@@ -3,6 +3,11 @@ in: sorcerer/bloodline
 group: "_{Core Rulebook}"
 name: "_{Imperial}"
 
+require:
+  - unit: focus/sorcerer/ancestral-memories
+  - unit: focus/sorcerer/extend-spell
+  - unit: focus/sorcerer/arcane-countermeasure
+
 inc:
   - set: arcana-proficiency
     value: trained
@@ -63,59 +68,15 @@ inc:
 
   - at: '@sorcerer/spellbook/bloodline-spell/initial'
     replace:
-      - article:
-        title: "_{Ancestral Memories}"
-        cat: "_{Focus} 1"
-        contents:
-          - list:
-            hr: true
-            light: true
-            contents:
-              - action: 1
-                contents:
-                  - layout: indent-r
-                    contents:
-                      - g:
-                        contents:
-                          - dl:
-                            defs:
-                              duration: "_{1 minute}"
-                          - p: "_{Be temporarily trained in a non-Lore skill, or a Lore skill related to your ancestry.}"
-                      - icon: proficiency-trained
-              - level: 6
-                marker: "_{Focus Level}"
-                contents:
-                  - layout: indent-r
-                    contents:
-                      - p: "_{Be temporarily expert in a skill.}"
-                      - icon: proficiency-expert
-
+      - paste: focus/sorcerer/ancestral-memories
 
   - at: '@sorcerer/spellbook/bloodline-spell/advanced'
     replace:
-      - article:
-        title: "_{Extend Spell}"
-        cat: "_{Focus} 3"
-        contents:
-          - action: 1
-            contents:
-              - p: "_{Follow this by casting a spell with a duration of 1 minute to extend it to 10 minutes.}"
-              - p: "_{The spell may not be the highest level you can cast. You may only extend one spell at a time.}"
+      - paste: focus/sorcerer/extend-spell
 
   - at: '@sorcerer/spellbook/bloodline-spell/greater'
     replace:
-      - article:
-        title: "_{Arcane Countermeasure}"
-        cat: "_{Focus} 5"
-        contents:
-          - action: reaction
-            contents:
-              - dl:
-                defs:
-                  trigger: "_{You see a creature cast a spell}"
-                  range: "_{120ft}"
-              - p: "_{Undermine the spell, granting +2 to saving throws, skill checks, AC or DC against it.}"
-              - p: "_{Reduce the spell's level by 1, down to its minimum level.}"
+      - paste: focus/sorcerer/arcane-countermeasure
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:

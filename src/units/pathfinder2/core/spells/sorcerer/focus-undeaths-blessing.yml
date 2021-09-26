@@ -1,0 +1,44 @@
+unit: focus/sorcerer/undeaths-blessing
+name: "_{Undeath's Blessing}"
+group: "_{Core Rulebook}"
+
+inc:
+  - copy: focus/sorcerer/undeaths-blessing
+    contents:
+      - article: focus/sorcerer/undeaths-blessing
+        title: "_{Undeath's Blessing}"
+        cat: "_{Focus} 1"
+        contents:
+          - dl:
+              range: "_{Touch}"
+              duration: "_{1 minute}"
+          - action: 1
+            contents:
+              - p: "_{Harm spells heal one target.}"
+          - list:
+            hr: true
+            light: true
+            contents:
+              - g:
+                pad: true
+                contents:
+                  - calc:
+                    output:
+                      field:
+                      legend: "_{Bonus\nhealing}"
+                      width: large
+                      affix: "_{hp}"
+                    inputs:
+                      - span: "1 + ("
+                      - field:
+                        ref: focus-level
+                        label: "_{Focus Level}"
+                      - span: "&times; 2 )"
+              - g:
+                contents:
+                  - p: "_{A target who wishes to refuse the spell makes a will save:}"
+                  - paste: save
+                    params:
+                      critical_success: "_{No effect}"
+                      success: "_{Target heals half as much from heal and takes half as much damage from harm for 1 round.}"
+                      failure: "_{As described}"

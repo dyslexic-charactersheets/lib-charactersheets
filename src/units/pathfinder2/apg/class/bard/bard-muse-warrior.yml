@@ -3,28 +3,22 @@ in: bard/muse
 group: "_{Advanced Player's Guide}"
 name: "_{Warrior}"
 
-inc:
-  - set: bardic-lore-proficiency
-    value: trained
+require:
+  - unit: feat/bard/apg/martial-performance
+  - unit: spell/fear
 
+inc:
   - at: '@bard/muse'
     replace:
-      - field: bard-muse
-        size: huge
-        width: stretch
-        label: "_{Name}"
-      - label: "_{Muse Type}"
-        align: left
       - h4: "_{Warrior}"
         size: small
-      - hr:
-      - h5: "_{Bonus Feat}"
-      - article:
-        title: "_{Martial Performance}"
-        contents:
-          - p: "_{Trained with martial weapons}"
-            icon: proficiency-trained
-          - level: ll
-            contents:
-              - p: "_{Expert with martial weapons}"
-                icon: proficiency-expert
+
+  - at: '@bard/muse/bonus-feat'
+    replace:
+      - paste: feat/bard/apg/martial-performance
+
+  - at: '@spellbook/middle/first'
+    add:
+      - paste: spell/fear
+
+  

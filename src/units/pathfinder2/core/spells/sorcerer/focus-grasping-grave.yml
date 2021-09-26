@@ -1,0 +1,36 @@
+unit: focus/sorcerer/grasping-grave
+name: "_{Grasping Grave}"
+group: "_{Core Rulebook}"
+
+inc:
+  - copy: focus/sorcerer/grasping-grave
+    contents:
+      - article: focus/sorcerer/grasping-grave
+        title: "_{Grasping Grave}"
+        cat: "_{Focus} 5"
+        contents:
+          - dl:
+              range: "_{60ft}"
+              area: "_{20ft radius}"
+          - action: 2
+            contents:
+              - p: "_{Hundreds of skeletal arms erupt from the ground, clawing at creatures within and holding them in place.}"
+          - calc:
+            output:
+              field:
+              legend: "_{Damage}"
+              width: large
+              affix: "_{d6}"
+            inputs:
+              - span: "("
+              - field:
+                ref: focus-level
+                label: "_{Focus Level}"
+              - span: "&times; 2 ) - 4"
+
+          - paste: save
+            params:
+              critical_success: "_{No effect}"
+              success: "_{Half damage}"
+              failure: "_{Full damage, and -10 speed for 1 round}"
+              critical_failure: "_{Double damage, and immobilised for 1 round}"

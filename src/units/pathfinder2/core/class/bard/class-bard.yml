@@ -208,32 +208,15 @@ inc:
                     optional: true
                   - class-name: "_{Bard}"
 
-                  - section: "_{Muse}"
-                    primary: true
-                    contents:
-                      - zone: '@bard/muse'
-                        contents:
-                          - field: bard-muse
-                            size: huge
-                            width: stretch
-                            label: "_{Name}"
-                          - field: bard-muse-type
-                            label: "_{Muse Type}"
-                            width: stretch
-                            size: large
-                            merge-bottom: true
-                          - hr:
-                          - h5: "_{Bonus Feat}"
-                          - article:
-                            lines: 4
-                            reduce: 2
-
                   - section: "_{Spellcasting}"
                     id: spellcasting
                     contents:
                       - paste: spellcasting-spontaneous
                         params:
                           spells-icon: bard
+                      
+                      - hr:
+                        light: true
 
                       - spells-table:
                         max: 10
@@ -306,10 +289,49 @@ inc:
                                         width: stretch
 
                   - tail:
-                  # - spacer:
+                  - spacer:
 
               - g:
                 contents:
+                
+                  - section: "_{Muse}"
+                    primary: true
+                    contents:
+                      - field: bard-muse
+                        size: huge
+                        width: stretch
+                        label: "_{Name}"
+                        merge-bottom: true
+
+                      - hr:
+                        swash: true
+
+                      - layout: 2e
+                        contents:
+                          - g:
+                            contents:
+                              - label: "_{Muse Type}"
+                                align: left
+                              - zone: '@bard/muse'
+                                contents:
+                                  - field: bard-muse-type
+                                    frame: none
+                                    width: stretch
+                                    size: large
+                              - field: bard/muse/details
+                                frame: none
+                                width: stretch
+                                repeat: 4
+                                reduce: 2
+                                merge-bottom: true
+                          - g:
+                            contents:
+                              - h5: "_{Bonus Feat}"
+                              - zone: '@bard/muse/bonus-feat'
+                                contents:
+                                  - article:
+                                    lines: 4
+                                    reduce: 2
 
                   - section: "_{Cantrips}"
                     flex: tiny
@@ -347,4 +369,4 @@ inc:
                       lines: 2
 
                   - tail:
-                  - spacer:
+                  # - spacer:
