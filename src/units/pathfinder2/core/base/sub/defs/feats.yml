@@ -363,3 +363,193 @@ inc:
                   style: "#{style}"
                   num: 1
                   max: 1
+
+
+  - copy: archetype-bounded-spellcasting
+    params:
+      id: ""
+      style: spontaneous
+      tradition: ""
+      tradition-spell-attack: ""
+      tradition-spell-dc: ""
+      ability: ""
+      ability-name: ""
+      breadth: ""
+      spell-dcs-zone-id: ""
+    contents:
+      - section: "_{Spellcasting}"
+        contents:
+          - list:
+            hr: true
+            contents:
+              # - item:
+              
+              - g:
+                contents:
+                  - zone: '#{spell-dcs-zone-id}'
+                    contents:
+                      - calc:
+                        output:
+                          field: "#{tradition}-spell-attack"
+                          legend: "#{tradition-spell-attack}"
+                          icon: bonus
+                        inputs:
+                          - field:
+                            ref: "#{ability}"
+                            label: "#{ability-name}"
+                            underlay: "#{ability-name}"
+                          - field: "#{tradition}-spell-attack-proficiency"
+                            label: "_{Proficiency}"
+                            control: proficiency
+                            value: trained
+                          - field:
+                            label: "_{Misc}"
+                            misc: true
+                      - calc:
+                        output:
+                          field: "#{tradition}-spell-dc"
+                          legend: "#{tradition-spell-dc}"
+                          icon: dc
+                        inputs:
+                          - span: "10 +"
+                          - field:
+                            ref: "#{ability}"
+                            label: "#{ability-name}"
+                            underlay: "#{ability-name}"
+                          - field: "#{tradition}-spell-dc-proficiency"
+                            label: "_{Proficiency}"
+                            control: proficiency
+                            value: trained
+                          - field:
+                            label: "_{Misc}"
+                            misc: true
+
+              - g:
+                contents:
+                  - p: "_{Start with two cantrips.}"
+
+                  - table:
+                    collapse: true
+                    zebra: true
+                    columns:
+                      - ""
+                      - "_{Level}"
+                      - label: "_{Spells}"
+                        colspan: 4
+                      # - "_{Proficiency}"
+                      - "_{Signature\nSpells}"
+                    rows:
+                      - level: 6
+                        feat: "basic"
+                        feat_name: "_{Basic}"
+                        first: "_{1st}"
+                        first_num: 1
+                        second: "_{2nd}"
+                        second_num: 1
+                        proficiency: trained
+                        signature: 1
+                      - level: 10
+                        first: "_{2nd}"
+                        first_num: 1
+                        second: "_{3rd}"
+                        second_num: 1
+                      - level: 12
+                        feat: expert
+                        feat_name: "_{Expert}"
+                        first: "_{2nd}"
+                        first_num: 2
+                        second: "_{3rd}"
+                        second_num: 1
+                        proficiency: expert
+                        signature: 2
+                      - level: 14
+                        first: "_{4th}"
+                        first_num: 2
+                        second: "_{5th}"
+                        second_num: 1
+                      - level: 16
+                        first: "_{5th}"
+                        first_num: 2
+                        second: "_{6th}"
+                        second_num: 1
+                      - level: 18
+                        feat: master
+                        feat_name: "_{Master}"
+                        first: "_{5th}"
+                        first_num: 2
+                        second: "_{6th}"
+                        second_num: 2
+                        proficiency: master
+                      - level: 20
+                        first: "_{6th}"
+                        first_num: 2
+                        second: "_{7th}"
+                        second_num: 2
+
+                    template:
+                      - g:
+                        contents:
+                          - if: "#{feat}!="
+                            then:
+                              - field: "archetype-#{id}-spellcasting-#{feat}"
+                                frame: right
+                                control: checkbox
+                                style: progress
+                                label: "#{feat_name}"
+                      - value: "#{level}"
+                      - span: "#{first}"
+                      - field: "#{id}-spells-lvl-6-#{first}"
+                        control: checkgrid
+                        max: "#{first_num}"
+                        depth: auto
+                        frame: none
+                      - span: "#{second}"
+                      - field: "#{id}-spells-lvl-6-#{second}"
+                        control: checkgrid
+                        max: "#{second_num}"
+                        depth: auto
+                        frame: none
+                      # - g:
+                      #   contents:
+                      #     - if: "#{proficiency}!="
+                      #       then:
+                      #         - icon: "proficiency-#{proficiency}"
+                      - g:
+                        contents:
+                          - if: "#{signature}!="
+                            then:
+                              - value: "#{signature}"
+
+          - section: "_{Spells}"
+            contents:
+              - list:
+                hr: true
+                zebra: true
+                contents:
+                  - paste: archetype-spellcasting-level
+                    params:
+                      level: 0
+                      style: "cantrip"
+                      num: 2
+                      max: 0
+                  - repeat: 2
+                    contents:
+                      - layout: indent-l
+                        contents:
+                          - g:
+                            contents:
+                              - field: "archetype/secrets-of-magic/magus/spells-level-#{i}"
+                                label: "_{Spell\nLevel}"
+                                merge-bottom: true
+                                width: small
+                                border: full
+                          - g:
+                            contents:
+                              - field:
+                                width: stretch
+                                repeat: 3
+                                frame: none
+                                merge-bottom: true
+
+
+

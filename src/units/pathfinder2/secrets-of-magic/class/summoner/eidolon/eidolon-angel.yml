@@ -1,0 +1,75 @@
+unit: summoner/eidolon/angel
+in: summoner/eidolon
+group: "_{Secrets of Magic}"
+name: "_{Angel}"
+
+inc:
+  - at: '@secrets-of-magic/summoner/eidolon/type'
+    replace:
+      - h4: "_{Angel}"
+        size: small
+
+  - at: '@eidolon/type'
+    replace:
+      - h6: "_{Angel}"
+        size: large
+  
+  - at: '@secrets-of-magic/summoner/eidolon/tradition'
+    replace:
+      - h6: "_{Divine}"
+
+  - at: '@secrets-of-magic/summoner/eidolon/ability'
+    replace:
+      - article:
+        title: "_{Hallowed Strikes}"
+        contents:
+          - row:
+            contents:
+              - value: "+1"
+              - p: "_{Good damage}"
+          - p: "_{Can make nonlethal unarmed attacks without penalty.}"
+
+  - at: '@secrets-of-magic/summoner/eidolon/symbiosis'
+    replace:
+      - article:
+        title: "_{Traveller's Aura}"
+        contents:
+          - dl:
+              "_{Aura}": "_{20ft}"
+          - flags:
+              - "_{Abjuration}"
+              - "_{Divine}"
+          - p: "_{Eidolon and allies within aura are protected from severe heat and cold.}"
+          - p: "_{Eidolon is never flat-footed to lower level creatures within aura.}"
+      - hr:
+        light: true
+      - level: 17
+        contents:
+          - p: "_{Protected from all environmental damage.}"
+
+  - at: '@secrets-of-magic/summoner/eidolon/transcendence'
+    replace:
+      - article:
+        title: "_{Angelic Mercy}"
+        contents:
+          - p: "_{Cast once per day:}"
+          - list:
+            contents:
+              - sort:
+                contents:
+                  - each:
+                    contents:
+                      - spell: remove-curse
+                        name: "_{Remove curse}"
+                      - spell: remove-disease
+                        name: "_{Remove disease}"
+                      - spell: remove-fear
+                        name: "_{Remove fear}"
+                      - spell: remove-paralysis
+                        name: "_{Remove paralysis}"
+                    template:
+                      - field: "##:transcendence/#{spell}"
+                        control: checkbox
+                        frame: right
+                        label: "#{name}"
+                

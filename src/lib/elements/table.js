@@ -209,6 +209,7 @@ export let table = {
     rows = rows.map(row => {
       row.cells = row.cells.map(cell => {
         let replace = doc.composeElement(cell, reg);
+        // log("table", "Cell, composed", replace);
         if (isEmpty(replace)) {
           return { type: 'g', contents: [] };
         }

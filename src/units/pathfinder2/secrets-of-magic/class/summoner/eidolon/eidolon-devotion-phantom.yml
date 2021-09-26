@@ -1,0 +1,73 @@
+unit: summoner/eidolon/devotion-phantom
+in: summoner/eidolon
+group: "_{Secrets of Magic}"
+name: "_{Devotion Phantom}"
+
+inc:
+  - at: '@secrets-of-magic/summoner/eidolon/type'
+    replace:
+      - h4: "_{Devotion Phantom}"
+        size: small
+
+  - at: '@eidolon/type'
+    replace:
+      - h6: "_{Devotion Phantom}"
+        size: large
+  
+  - at: '@secrets-of-magic/summoner/eidolon/tradition'
+    replace:
+      - h6: "_{Occult}"
+
+  - at: '@secrets-of-magic/summoner/eidolon/ability'
+    replace:
+      - article:
+        title: "_{Dutiful Retaliation}"
+        contents:
+          - action: reaction
+            contents:
+              - dl:
+                  trigger: "_{An enemy within 15ft hits you and does damage}"
+              - p: "_{Eidolon strikes back at the enemy who hit you.} _{Make an unarmed Strike against the enemy even if they aren't within reach.}"
+
+  - at: '@secrets-of-magic/summoner/eidolon/symbiosis'
+    replace:
+      - article:
+        title: "_{Steadfast Devotion}"
+        contents:
+          - row:
+            contents:
+              - value: "+2"
+              - p: "_{Saves for your eidolon against mental effects, and upgraded success.}"
+          - p: "_{If you have Shared Resolve, reduced failure.}"
+
+  - at: '@secrets-of-magic/summoner/eidolon/transcendence'
+    replace:
+      - article:
+        title: "_{Devotion Aura}"
+        contents:
+          - dl:
+              "_{Aura}": "_{20ft}"
+          - flags:
+              - "_{Abjuration}"
+              - "_{Occult}"
+          - calc:
+            output:
+              field: "##:devotion-aura/damage-reduction"
+              legend: "_{Damage Reduction}"
+              border: full
+              width: large
+            inputs:
+              - field:
+                ref: level
+                label: "_{Level}"
+              - span: "&divide; 2"
+          - p: "_{Damage reduction for allies; you take half that damage.}"
+
+
+  - at: '@reactions'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{Dutiful Retaliation}"
+            content: "_{Eidolon strikes back at the enemy who hit you.}"

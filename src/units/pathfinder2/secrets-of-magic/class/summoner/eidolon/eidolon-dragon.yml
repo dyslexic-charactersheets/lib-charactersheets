@@ -1,0 +1,83 @@
+unit: summoner/eidolon/dragon
+in: summoner/eidolon
+group: "_{Secrets of Magic}"
+name: "_{Dragon}"
+
+inc:
+  - at: '@secrets-of-magic/summoner/eidolon/type'
+    replace:
+      - h4: "_{Dragon}"
+        size: small
+
+  - at: '@eidolon/type'
+    replace:
+      - h6: "_{Dragon}"
+        size: large
+  
+  - at: '@secrets-of-magic/summoner/eidolon/tradition'
+    replace:
+      - h6: "_{Arcane}"
+
+  - at: '@secrets-of-magic/summoner/eidolon/ability'
+    replace:
+      - article:
+        title: "_{Breath Weapon}"
+        contents:
+          - action: 2
+            contents:
+              - row:
+                contents:
+                  - field: "##:breath-weapon/damage-type"
+                    label: "_{Damage type}"
+                    width: stretch
+                  - field: "##:breath-weapon/area"
+                    label: "_{Area}"
+                    width: stretch
+                    control: compound
+                    parts:
+                      - subid: "range"
+                        suffix: "_{ft}"
+                      - subid: "shape"
+              - calc:
+                output:
+                  field: "##:breath-weapon/damage"
+                  legend: "_{Damage}"
+                  border: full
+                  width: large
+                  suffix: "d6"
+                inputs:
+                  - ruby-round-down:
+                    contents:
+                      - field:
+                        ref: level
+                        labe: "_{Level}"
+                      - span: "&divide; 2"
+
+              - row:
+                contents:
+                  - value: "_{1d6}"
+                  - p: "_{Damage}"
+              - row:
+                contents:
+                  - value: "_{1d4}"
+                  - p: "_{rds before you can use breath weapon again}"
+
+  - at: '@secrets-of-magic/summoner/eidolon/symbiosis'
+    replace:
+      - article:
+        title: "_{Draconic Frenzy}"
+        contents:
+          - action: 2
+            contents:
+              - p: "_{Eidolon makes a Strike with their primary unarmed attack and two Strike with their secondary unarmed attack.}"
+              - p: "_{If any of those critically hit, regain your breath weapon.}"
+
+  - at: '@secrets-of-magic/summoner/eidolon/transcendence'
+    replace:
+      - article:
+        title: "_{Wyrm's Breath}"
+        contents:
+          - action: free
+            contents:
+              - p: "_{Once per minute, double the damage dice and area of breath weapon.}"
+                

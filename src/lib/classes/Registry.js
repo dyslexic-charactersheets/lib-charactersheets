@@ -23,6 +23,7 @@ import { hr, tail, vr } from '../elements/hr';
 import { icon } from '../elements/icon';
 import { ifelem } from '../elements/if';
 import { label } from '../elements/label';
+import { large_print } from '../elements/large-print';
 import { layout, place, indent } from '../elements/layout';
 import { level, level_marker, cost } from '../elements/level';
 import { list, join } from '../elements/list';
@@ -106,6 +107,7 @@ export class Registry {
       icon,
       ifelem,
       label,
+      large_print,
       layout, place, indent,
       level, level_marker, cost,
       list, join,
@@ -245,6 +247,8 @@ export class Registry {
       const output = reg.render(item, this, doc);
       this.stack.pop();
       return output;
+    } else if (item.type == "item") {
+      // safe exception
     } else {
       // log("Registry", "Registry elements", Object.keys(this.registry));
       warn("Registry", "Unknown element type:", item.type, "at:", this.stack, item);

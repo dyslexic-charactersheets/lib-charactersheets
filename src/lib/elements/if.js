@@ -1,5 +1,6 @@
 import { interpolate } from '../util/objects';
 import { log } from '../log';
+import { isNumber, isString } from '../util';
 
 function testCondition(condition, ctx) {
   // log("control", "if", args.condition);
@@ -49,8 +50,16 @@ function testCondition(condition, ctx) {
     case 1:
       return true;
 
-    default:
+    case 'false':
+    case 'no':
+    case '0':
+    case false:
+    case 0:
+    case '':
       return false;
+
+    default:
+      return true;
   }
 }
 

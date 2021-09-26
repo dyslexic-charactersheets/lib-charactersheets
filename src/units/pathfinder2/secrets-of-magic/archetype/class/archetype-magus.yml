@@ -1,0 +1,124 @@
+unit: archetype/secrets-of-magic/magus
+in: archetype
+group: "_{Secrets of Magic}"
+name: "_{Magus}"
+multiclass: true
+
+require:
+  - unit: option/spellbook
+
+inc:
+  - set: magus-class-dc-proficiency
+    value: trained
+
+  - set: arcana-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Magus}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-magus
+        name: "_{Magus}"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: magus
+                      - class-name: "_{Magus}"
+
+
+                  - section: "_{Dedication}"
+                    primary: true
+                    contents:
+                      - p: "_{Trained in Arcana and simple weapons}"
+                        icon: proficiency-trained
+                    
+                  - section: "_{Spellstriker}"
+                    contents:
+                      - selectable: "##:spellstriker"
+                        contents:
+                          - dl:
+                              range: "_{Melee}"
+                              target: "_{1 creature}"
+                          - list:
+                            hr: true
+                            contents:
+                              - action: 2
+                                contents:
+                                  - layout: indent-rw
+                                    contents:
+                                      - g:
+                                        contents:
+                                          - p: "_{Cast a spell that takes one or two actions and requires a spell attack roll.}"
+                                      - row:
+                                        contents:
+                                          - icon: action
+                                          - icon: action2
+
+                                  - p: "_{Make a melee Strike with a weapon. This counts as 2 attacks for your multiple attack penalty.}"
+                                  - p: "_{The strike does both weapon damage, and the spell effect. It affects only one target, though ancilliary effects may still happen.}"
+
+                              - paste: 1min
+                                contents:
+                                  - flags:
+                                      - "_{Concentrate}"
+                                  - p: "_{Recharge your spellstrike}"
+                      
+                  - section: "_{Martial Magic}"
+                    mark: magus
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: magus-feats
+                          class-level: "_{Magus\nLevel}"
+                          basic-title: "_{Basic Martial Magic}"
+                          advanced-title: "_{Advanced Martial Magic}"
+                          num: 2
+
+                  - tail:
+                  # - spacer:
+
+              - g:
+                contents:
+
+                  - paste: archetype-bounded-spellcasting
+                    params:
+                      id: magus
+                      style: prepared
+                      tradition: arcane
+                      tradition-spell-attack: "_{Arcane Spell\nAttack}"
+                      tradition-spell-dc: "_{Arcane Spell\nSave DC}"
+                      ability: "INT"
+                      ability-name: "_{INT}"
+                      # breadth: "_{Mysterious Breadth}"
+
+                  - hr:
+
+                  - h5: "_{Signature Spells}"
+                  - field: "##:signature-spells"
+                    width: stretch
+                    repeat: 2
+                    merge-bottom: true
+
+                  - section: "_{Hybrid Study Spell}"
+                    contents:
+                      - selectable: "##:hybrid-study-spell"
+                        contents:
+                          - field: "##:hybrid-study-spell/conflux-spell"
+                            width: stretch
+                            legend: "_{Conflux Spell}"
+                          
+                  - tail:
+                  - spacer:
+

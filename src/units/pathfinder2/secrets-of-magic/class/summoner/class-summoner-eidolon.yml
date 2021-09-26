@@ -13,6 +13,11 @@ inc:
   - set: eidolon/ac-proficiency
     value: trained
 
+  - at: '@advancement'
+    add:
+      - levels: [5, 10, 15, 20]
+        gain: "_{Eidolon ability boost}"
+
   - at: '@pages'
     add:
 
@@ -29,62 +34,73 @@ inc:
                 contents:
                   - g:
                     contents:
-                      - class-icon: eidolon
-                        optional: true
-                      - class-name: "_{Eidolon}"
+                      - section:
+                        untitled: true
+                        contents:
+                          - zone: '@eidolon/class-icon'
+                            contents:
+                              - class-icon: eidolon
+                                optional: true
+                          - class-name: "_{Eidolon}"
 
                       - section: "_{Attributes}"
                         id: eidolon/attributes
                         contents:
-                          - layout: 3e
-                            gutter: none
+                          - g:
+                            pad: true
                             contents:
-                              - repeat: 6
-                                rows:
-                                  - name: "_{Strength}"
-                                    short: "_{STR}"
-                                    code: STR
-                                  - name: "_{Dexterity}"
-                                    short: "_{DEX}"
-                                    code: DEX
-                                  - name: "_{Constitution}"
-                                    short: "_{CON}"
-                                    code: CON
-                                  - name: "_{Intelligence}"
-                                    short: "_{INT}"
-                                    code: INT
-                                  - name: "_{Wisdom}"
-                                    short: "_{WIS}"
-                                    code: WIS
-                                  - name: "_{Charisma}"
-                                    short: "_{CHA}"
-                                    code: CHA
+                              - layout: 3e
+                                gutter: none
                                 contents:
-                                  - g:
-                                    valign: top
+                                  - repeat: 6
+                                    rows:
+                                      - name: "_{Strength}"
+                                        short: "_{STR}"
+                                        code: STR
+                                      - name: "_{Dexterity}"
+                                        short: "_{DEX}"
+                                        code: DEX
+                                      - name: "_{Constitution}"
+                                        short: "_{CON}"
+                                        code: CON
+                                      - name: "_{Intelligence}"
+                                        short: "_{INT}"
+                                        code: INT
+                                      - name: "_{Wisdom}"
+                                        short: "_{WIS}"
+                                        code: WIS
+                                      - name: "_{Charisma}"
+                                        short: "_{CHA}"
+                                        code: CHA
                                     contents:
-                                      - row: center
+                                      - g:
+                                        valign: top
                                         contents:
-                                          - spacer:
-                                          - field: "animal-#{code}"
-                                            label: "#{name}"
-                                            border: circle
-                                            size: huge
-                                            underlay: "#{short}"
-                                            eq: "(%{#{code}-score}-10)/2"
-                                          - spacer:
+                                          - row: center
+                                            contents:
+                                              - spacer:
+                                              - field: "animal-#{code}"
+                                                label: "#{name}"
+                                                border: circle
+                                                size: huge
+                                                underlay: "#{short}"
+                                                eq: "(%{#{code}-score}-10)/2"
+                                              - spacer:
 
                       - section: "_{Abilities}"
                         contents:
                           - list:
                             hr: true
+                            zebra: true
                             contents:
-                              - g:
+                              - zone: '@secrets-of-magic/summoner/eidolon/ability-section'
                                 contents:
-                                  - zone: '@secrets-of-magic/summoner/eidolon/ability'
+                                  - g:
                                     contents:
-                                      - article:
-                                        lines: 5
+                                      - zone: '@secrets-of-magic/summoner/eidolon/ability'
+                                        contents:
+                                          - article:
+                                            lines: 5
                                 
                               - level: 7
                                 contents:
@@ -103,6 +119,8 @@ inc:
                                         lines: 5
 
                       - tail:
+                      - spacer:
+                        flex: tiny
 
                   - g:
                     contents:
@@ -115,10 +133,39 @@ inc:
                             width: stretch
                             align: left
                             size: large
-                          - field: eidolon/type
-                            label: "_{Eidolon Type}"
-                            width: stretch
-                            merge-bottom: true
+                          - layout: alignment
+                            contents:
+                              - g:
+                                contents:
+                                  - zone: '@secrets-of-magic/summoner/eidolon/type'
+                                    contents:
+                                      - field: eidolon/type
+                                        label: "_{Eidolon Type}"
+                                        width: stretch
+                                  - row:
+                                    contents:
+                                      - field: eidolon/home-plane
+                                        label: "_{Home plane}"
+                                        width: stretch
+                                      - field: eidolon/size
+                                        label: "_{Size}"
+                                        icon: size
+                                        width: large
+                                  - label: "_{Traits}"
+                                    align: left
+                                  - row:
+                                    merge-bottom: true
+                                    contents:
+                                      - flags:
+                                          - "_{Eidolon}"
+                                      - field: eidolon/traits
+                                        width: stretch
+                                        frame: none
+                              - field: eidolon/alignment
+                                control: alignment
+                                frame: none
+
+
 
                       - section: "_{Skills}"
                         contents:
@@ -140,12 +187,10 @@ inc:
                                 label: "_{Acrobatics}"
                                 ability: "_{DEX}"
                                 abilityref: DEX
-                                training: trained
                               - skill: athletics
                                 label: "_{Athletics}"
                                 ability: "_{STR}"
                                 abilityref: STR
-                                training: trained
                               - skill: deception
                                 label: "_{Deception}"
                                 ability: "_{CHA}"
@@ -189,7 +234,8 @@ inc:
                                 label: "#{ability}"
                               - field: "#{skill}-proficiency"
                                 control: proficiency
-                                value: "#{training}"
+                          
+                          - p: "_{Eidolon shares your skill proficiencies.}"
                           - hr:
                           - calc:
                             output:
@@ -226,6 +272,7 @@ inc:
                                 frame: right
                                 control: checkbox
                                 label: "_{Scent}"
+
                       - tail:
               - g:
                 contents:
@@ -234,6 +281,13 @@ inc:
                     contents:
                       - g:
                         contents:
+                          - section: "_{Sigil}"
+                            contents:
+                              - g:
+                                pad: true
+                                contents:
+                                  - class-icon: box
+
                           - section: "_{Actions}"
                             mark: action
                             contents:
@@ -242,17 +296,17 @@ inc:
                                 flex: true
                                 hr: true
                                 contents:
-                                  - repeat: 3
+                                  - repeat: 2
                                     contents:
                                       - action: template
                                         contents:
                                           - article:
-                                            lines: 3
+                                            lines: 2
                                             reduce: 1
-
 
                           - section: "_{Speed}"
                             contents:
+                              - spacer:
                               - g:
                                 pad: true
                                 contents:
@@ -261,6 +315,7 @@ inc:
                                     control: speed
                                     width: huge
                                     border: full
+                              - spacer:
                                     
 
                       - g:
@@ -452,7 +507,7 @@ inc:
                                         ref: "#{abilityref}"
                                       - field: "eidolon/#{save}-proficiency"
                                         control: proficiency
-                                        value: trained
+                                        # value: trained
                               - field: eidolon/saving-throws-conditional
                                 label: "_{Conditional}"
                                 align: left

@@ -1,0 +1,161 @@
+unit: summoner/eidolon/anger-phantom
+in: summoner/eidolon
+group: "_{Secrets of Magic}"
+name: "_{Anger Phantom}"
+
+inc:
+  - at: '@secrets-of-magic/summoner/eidolon/type'
+    replace:
+      - h4: "_{Anger Phantom}"
+        size: small
+
+  - at: '@eidolon/type'
+    replace:
+      - h6: "_{Anger Phantom}"
+        size: large
+  
+  - at: '@secrets-of-magic/summoner/eidolon/tradition'
+    replace:
+      - h6: "_{Occult}"
+
+  - at: '@eidolon/class-icon'
+    replace:
+      - nothing:
+
+  - at: '@secrets-of-magic/summoner/eidolon/ability'
+    replace:
+      - article:
+        title: "_{Furious Strike}"
+        contents:
+          - action: 2
+            contents:
+              # - p: "_{Eidolon makes a melee Strike}"
+              - row:
+                pad: true
+                contents:
+                  - h6: "_{Damage}"
+                  - spacer:
+                  - field: "##:furious-strikes/dmg"
+                    control: compound
+                    width: huge
+                    icon: damage
+                    border: full
+                    parts:
+                      - label: "2"
+                      - label: "_{d}"
+                      - subid: die
+                        width: tiny
+                        align: left
+                      - label: "+"
+                      - subid: extra
+                        width: tiny
+                      - label: "+ 1"
+              - level: 10
+                contents:
+                  - row:
+                    contents:
+                      - spacer:
+                      - field: "##:furious-strikes/dmg/10"
+                        control: compound
+                        width: huge
+                        icon: damage
+                        border: full
+                        parts:
+                          - label: "3"
+                          - label: "_{d}"
+                          - subid: die
+                            width: tiny
+                            align: left
+                          - label: "+"
+                          - subid: extra
+                            width: tiny
+                          - label: "+ 2"
+              - level: 18
+                contents:
+                  - row:
+                    contents:
+                      - spacer:
+                      - field: "##:furious-strikes/dmg/10"
+                        control: compound
+                        width: huge
+                        icon: damage
+                        border: full
+                        parts:
+                          - label: "4"
+                          - label: "_{d}"
+                          - subid: die
+                            width: tiny
+                            align: left
+                          - label: "+"
+                          - subid: extra
+                            width: tiny
+                          - label: "+ 3"
+
+
+  - at: '@secrets-of-magic/summoner/eidolon/symbiosis'
+    replace:
+      - article:
+        title: "_{Seething Frenzy}"
+        contents:
+          - action:
+            contents:
+              - flags:
+                  - "_{Concentrate}"
+                  # - "_{Emotion}"
+                  # - "_{Mental}"
+              - dl:
+                  duration: "_{1 minute}"
+              # - p: "_{Your eidolon enters a frenzy.}"
+          - row:
+            contents:
+              - value: "+2"
+              - p: "_{Damage bonus per die}"
+          - row:
+            contents:
+              - calc:
+                output:
+                  field: "##:seething-frenzy/temp-hp"
+                  legend: "_{Temp Hit Points}"
+                  width: large
+                  border: full
+                  suffix: "_{hp}"
+                inputs:
+                  - field:
+                    ref: level
+                    label: "_{Level}"
+              - spacer:
+              - value: "_{-2}"
+                label: "_{AC}"
+          - p: "_{Cannot end the frenzy before 1 minute. Fatigued for 1 minute afterwards.}"
+
+  - at: '@secrets-of-magic/summoner/eidolon/transcendence'
+    replace:
+      - article:
+        title: "_{Anger Aura}"
+        contents:
+          - dl:
+              "_{Aura}": "_{20ft}"
+          # - flags:
+          #     - "_{Emotion}"
+          #     - "_{Enchantment}"
+          #     - "_{Mental}"
+          #     - "_{Occult}"
+          - p: "_{Reduce resistance of [b]all[/b] creatures in aura.}"
+          - calc:
+            output:
+              field: "##:anger-aura/resistance-reduction"
+              legend: "_{Reduction}"
+              width: large
+              border: full
+            inputs:
+              - span: "3 +"
+              - field:
+                ref: eidolon/CON
+                label: "_{CON}"
+                underlay: "_{CON}"
+          - p: "_{Creatures in a rage, seething frenzy etc aren't affected.}"
+          - action:
+            contents:
+              - p: "_{Suppress the aura for 1rd.}"
+
+                

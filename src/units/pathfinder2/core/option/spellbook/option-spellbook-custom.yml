@@ -6,6 +6,27 @@ require:
   - unit: option/spellbook
   
 inc:
+  - copy: spellbook/custom/items
+    params:
+      col-id:
+      zone-id:
+    contents:
+      - list:
+        zebra: true
+        hr: true
+        flex: true
+        contents:
+          - slots:
+            min: 5
+            max: 8
+            reduce: 1
+            contents:
+              - zone: '#{zone-id}'
+            placeholder:
+              paste: spellbook/spell
+              params:
+                id: spellbook-col-#{col-id}-spell-#{j}
+
   - at: '@pages'
     add:
       - page: spellbook
@@ -29,26 +50,26 @@ inc:
                 contents:
                   - zone: '@spellbook/left'
                     contents:
-                      - list:
-                        zebra: true
-                        hr: true
-                        flex: true
-                        contents:
-                          - slots:
-                            min: 5
-                            max: 8
-                            reduce: 1
-                            contents:
-                              - zone: '@spellbook/left/first'
-                            placeholder:
-                              paste: spellbook/spell
-                              params:
-                                id: spellbook-col-0-spell-#{j}
+                      - paste: spellbook/custom/items
+                        params:
+                          zone-id: '@spellbook/left/first'
                       - tail:
                       - spacer:
-              - repeat: 2
+              - g:
                 contents:
-                  - g:
+                  - zone: '@spellbook/middle'
                     contents:
-                      - paste: spellbook/items
+                      - paste: spellbook/custom/items
+                        params:
+                          zone-id: '@spellbook/middle/first'
                       - tail:
+                      - spacer:
+              - g:
+                contents:
+                  - zone: '@spellbook/right'
+                    contents:
+                      - paste: spellbook/custom/items
+                        params:
+                          zone-id: '@spellbook/right/first'
+                      - tail:
+                      - spacer:

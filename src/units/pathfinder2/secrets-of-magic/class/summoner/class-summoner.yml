@@ -52,6 +52,14 @@ inc:
         label: "#{spell-level}"
         max: "#{spell-num}"
 
+  - at: '@actions'
+    add:
+      - action: 3
+        contents:
+          - p:
+            title: "_{Manifest Eidolon}"
+            content: "_{Appears in a space adjacent to you and gets one action.}"
+
   - at: '@pages'
     add:
       
@@ -108,7 +116,7 @@ inc:
                                         contents:
                                           - g:
                                             contents:
-                                              - p: "_{Your eidolon appears in a space adjacent to you and gets one action.}"
+                                              - p: "_{Appears in a space adjacent to you and gets one action.}"
                                           - g:
                                             contents:
                                               - icon: action
@@ -247,46 +255,6 @@ inc:
                           - h5: "_{Unlimited Signature Spells}"
                           - p: "_{All your spells automatically heighten.}"
 
-                  # - section: "_{Link Spells}"
-                  #   contents:
-                  #     - h5: "_{Link Cantrips}"
-                  #     - list:
-                  #       hr: true
-                  #       light: true
-                  #       contents:
-                  #         - slots:
-                  #           min: 4
-                  #           max: 6
-                  #           reduce: 1
-                  #           contents:
-                  #             - h6: "_{Boost Eidolon}"
-                  #           placeholder:
-                  #             - field: "secrets-of-magic/summoner/link-cantrip/#{i}"
-                  #               merge-bottom: true
-                  #               width: stretch
-
-                  #     - hr:
-                      
-                  #     - paste: focus
-                  #       contents:
-                  #         - h5: "_{Link Spells}"
-                  #         - p: "_{Cast link spells using focus points.}"
-                      
-                  #     - list:
-                  #       hr: true
-                  #       light: true
-                  #       contents:
-                  #         - slots:
-                  #           min: 4
-                  #           max: 6
-                  #           reduce: 1
-                  #           contents:
-                  #             - h6: "_{Evolution Surge}"
-                  #           placeholder:
-                  #             - field: "secrets-of-magic/summoner/link-spell/#{i}"
-                  #               merge-bottom: true
-                  #               width: stretch
-
                   - tail:
                   - spacer:
 
@@ -311,16 +279,20 @@ inc:
                             contents:
                               - g:
                                 contents:
-                                  - field: secrets-of-magic/summoner/eidolon
-                                    width: stretch
-                                    label: "_{Eidolon Type}"
-                                    merge-bottom: true
+                                  - zone: '@secrets-of-magic/summoner/eidolon/type'
+                                    contents:
+                                      - field: secrets-of-magic/summoner/eidolon
+                                        width: stretch
+                                        label: "_{Eidolon Type}"
+                                        merge-bottom: true
                               - g:
                                 contents:
-                                  - field: eidolon/tradition
-                                    label: "_{Tradition}"
-                                    width: stretch
-                                    merge-bottom: true
+                                  - zone: '@secrets-of-magic/summoner/eidolon/tradition'
+                                    contents:
+                                      - field: eidolon/tradition
+                                        label: "_{Tradition}"
+                                        width: stretch
+                                        merge-bottom: true
 
                   - section: "_{Cantrips}"
                     flex: small

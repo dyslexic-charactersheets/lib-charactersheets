@@ -16,7 +16,7 @@ export let repeat = {
   transform(args, ctx) {
     let contents = [];
 
-    let repeat = args.repeat;
+    let repeat = parseInt(args.repeat);
     if (!repeat) {
       if (!isEmpty(args.rows))
         repeat = args.rows.length;

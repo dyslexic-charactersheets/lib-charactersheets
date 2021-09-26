@@ -1,0 +1,79 @@
+unit: summoner/eidolon/demon
+in: summoner/eidolon
+group: "_{Secrets of Magic}"
+name: "_{Demon}"
+
+inc:
+  - at: '@secrets-of-magic/summoner/eidolon/type'
+    replace:
+      - h4: "_{Demon}"
+        size: small
+
+  - at: '@eidolon/type'
+    replace:
+      - h6: "_{Demon}"
+        size: large
+  
+  - at: '@secrets-of-magic/summoner/eidolon/tradition'
+    replace:
+      - h6: "_{Divine}"
+
+  - at: '@secrets-of-magic/summoner/eidolon/ability'
+    replace:
+      - article:
+        title: "_{Demonic Strikes}"
+        contents:
+          - p: "_{Unarmed strikes deal extra damage to good creatures.}"
+          - row:
+            contents:
+              - value: "+1"
+              - p: "_{Evil damage}"
+          - hr:
+            light: true
+          - p: "_{One unarmed attack is Versatile for a different damage type.}"
+          - row:
+            contents:
+              - field: "##:demonic-strikes/unarmed-attack"
+                label: "_{Attack}"
+                width: stretch
+              - field: "##:demonic-strikes/damage-type"
+                label: "_{Damage type}"
+                width: stretch
+
+  - at: '@secrets-of-magic/summoner/eidolon/symbiosis'
+    replace:
+      - article:
+        title: "_{Visions of Sin}"
+        contents:
+          - action: 2
+            contents:
+              - flags:
+                  - "_{Emotion}"
+                  - "_{Mental}"
+              - dl:
+                  frequency: "_{Once per 10 mins}"
+                  range: "_{30ft}"
+                  target: "_{1 creature}"
+                  duration: "_{1rd}"
+              - p: "_{Summon images of sin into the mind of the target.}"
+              - paste: save
+                params:
+                  critical_success: "_{No effect}"
+                  success: "_{Can't use reactions}"
+                  failure: "_{Slowed 1}"
+                  critical_failure: "_{Confused for 1rd}"
+              - action:
+                contents:
+                  - p: "_{Extend (up to 1 minute)}"
+
+  - at: '@secrets-of-magic/summoner/eidolon/transcendence'
+    replace:
+      - article:
+        title: "_{Blasphemous Decree}"
+        contents:
+          - row:
+            contents:
+              - p: "_{Once a day, cast Divine Decree.}"
+              - field: "##:blasphemous-decree/today"
+                control: checkbox
+                label: "_{Today}"

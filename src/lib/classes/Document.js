@@ -301,6 +301,10 @@ export class Document {
       case 'lookup':
         element.lookup = this.completeElement(element.lookup, registry);
         break;
+      case 'large-print':
+        element.contents = this.completeElement(element.contents, registry);
+        element.else = this.completeElement(element.else, registry);
+        break;
     }
 
     for (const item_key of ["contents", "placeholder", "header", "inputs", "parts"]) {
@@ -381,7 +385,7 @@ export class Document {
         if (has(block, "params") || has(template, "params")) {
           let params = { ...template.params, ...block.params };
           // log("Document", "Interpolating parameters", params);
-          contents = interpolate(contents, params);
+          contents = interpolate(contents, params, this);
         }
         // log("Document", "Block content", contents);
         contents.forEach(directive => {

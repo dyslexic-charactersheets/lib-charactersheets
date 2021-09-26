@@ -1,0 +1,75 @@
+unit: summoner/eidolon/plant
+in: summoner/eidolon
+group: "_{Secrets of Magic}"
+name: "_{Plant}"
+
+inc:
+  - at: '@secrets-of-magic/summoner/eidolon/type'
+    replace:
+      - h4: "_{Plant}"
+        size: small
+
+  - at: '@eidolon/type'
+    replace:
+      - h6: "_{Plant}"
+        size: large
+  
+  - at: '@secrets-of-magic/summoner/eidolon/tradition'
+    replace:
+      - h6: "_{Primal}"
+
+  - at: '@secrets-of-magic/summoner/eidolon/ability'
+    replace:
+      - article:
+        title: "_{Tendril Strike}"
+        contents:
+          - action:
+            contents:
+              - p: "_{Eidolon makes an unarmed attack at +5ft range.}"
+              - p: "_{Can disarm, shove or trip if the attack has the trait.}"
+
+  - at: '@secrets-of-magic/summoner/eidolon/symbiosis'
+    replace:
+      - article:
+        title: "_{Growing Vines}"
+        contents:
+          - p: "_{All your eidolon's melee unarmed attacks gain the reach trait.}"
+
+  - at: '@secrets-of-magic/summoner/eidolon/transcendence'
+    replace:
+      - article:
+        title: "_{Field of Roots}"
+        contents:
+          - action: 2
+            contents:
+              - p: "_{Eidolon entangles all foes within reach. Enemies make a reflex save:}"
+          - paste: save
+            params:
+              critical_success: "_{No effect}"
+              success: "_{-10 speed penalty}"
+              failure: "_{Take half damage now and at the end of each turn}"
+              critical_failure: "_{Immobilised, and take full damage now and at the end of each turn}"
+          - row:
+            contents:
+              - field: "##:field-of-roots/damage"
+                label: "_{Damage}"
+                border: full
+                control: compound
+                width: huge
+                icon: damage
+                parts:
+                  - subid: ndice
+                    width: tiny
+                    align: right
+                  - label: "_{d}"
+                  - subid: die
+                    width: tiny
+                    align: left
+                  - label: "+"
+                  - subid: extra
+                    width: tiny
+              - spacer:
+
+
+          
+                

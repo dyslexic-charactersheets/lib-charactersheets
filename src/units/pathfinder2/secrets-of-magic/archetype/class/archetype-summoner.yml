@@ -1,0 +1,176 @@
+unit: archetype/secrets-of-magic/summoner
+in: archetype
+group: "_{Secrets of Magic}"
+name: "_{Summoner}"
+multiclass: true
+
+form:
+  - select: summoner/eidolon
+    name: "_{Eidolon}"
+    max: 1
+
+require:
+  - unit: option/spellbook
+  - unit: class/secrets-of-magic/summoner/eidolon
+
+inc:
+  - set: summoner-class-dc-proficiency
+    value: trained
+
+  - set: arcana-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Summoner}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-summoner
+        name: "_{Summoner}"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: summoner
+                      - class-name: "_{Summoner}"
+
+                  - section: "_{Inital Eidolon Ability}"
+                    contents:
+                      - selectable: "##:initial-eidolon-ability"
+                        contents:
+                          - p: "_{Your eidolon gains its initial ability}"
+
+                  - section: "_{Expert Combat Eidolon}"
+                    contents:
+                      - selectable: "##:expert-combat-eidolon"
+                        contents:
+                          - p: "_{Eidolon is expert in unarmed attacks}"
+                            icon: proficiency-expert
+                          - p: "_{If you are expert in unarmoured defence, so is your eidolon}"
+                            icon: proficiency-expert
+                          - p: "_{If you have weapon specialisation, so does your eidolon}"
+
+                  - section: "_{Synergy}"
+                    mark: summoner
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                            
+                          - paste: archetype-feats
+                            params:
+                              id: summoner-feats
+                              class-level: "_{Summoner\nLevel}"
+                              basic-title: "_{Basic Synergy}"
+                              advanced-title: "_{Advanced Synergy}"
+                              num: 2
+
+                          - level: 14
+                            contents:
+                              - h5: "_{Signature Synergy}"
+                              - calc:
+                                inline: true
+                                output:
+                                  label: "_{Summoner\nLevel}"
+                                inputs:
+                                  - label: "_{Character\nLevel}"
+                                  - span: "- 4"
+
+                          - selectable: "##:signature-synergy"
+                            contents:
+                              - label: "_{Evolution feat}"
+                                align: left
+                              - article:
+                                lines: 3
+
+                  - tail:
+                  # - spacer:
+
+              - g:
+                contents:
+                  - section: "_{Eidolon}"
+                    primary: true
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - g:
+                            contents:
+                              - p: "_{Gain an Eidolon.}"
+                              
+                              - layout: 2r
+                                contents:
+                                  - g:
+                                    contents:
+                                      - p: "_{Ability scores of 18 reduced to 16 (before boosts).}"
+                                  - g:
+                                    contents:
+                                      - span: "18 &rarr; 16"
+
+                              - layout: indent-rw
+                                contents:
+                                  - g:
+                                    contents:
+                                      - p: "_{Share your 3 actions and multi-attack penalty with your eidolon.}"
+                                  - g:
+                                    contents:
+                                      - icon: action3
+                      
+                          - action: 3
+                            contents:
+                              - article:
+                                title: "_{Manifest Eidolon}"
+                                contents:
+                                  - flags:
+                                      - "_{Concentrate}"
+                                  - layout: indent-r
+                                    contents:
+                                      - g:
+                                        contents:
+                                          - p: "_{Your eidolon appears in a space adjacent to you and gets one action.}"
+                                      - g:
+                                        contents:
+                                          - icon: action
+
+                          - level: 5
+                            contents:
+                              - layout: 2r
+                                contents:
+                                  - g:
+                                    contents:
+                                      - p: "_{Ability scores reduced to 16 are now 18.}"
+                                  - g:
+                                    contents:
+                                      - span: "16 &rarr; 18"
+
+                  - paste: archetype-bounded-spellcasting
+                    params:
+                      id: summoner
+                      style: prepared
+                      # tradition: arcane
+                      tradition-spell-attack: "_{Spell\nAttack}"
+                      tradition-spell-dc: "_{Spell\nSave DC}"
+                      ability: "CHA"
+                      ability-name: "_{CHA}"
+                
+                  - tail:
+                  - spacer:
+
+  - at: '@secrets-of-magic/summoner/eidolon/ability-section'
+    replace:
+      - selectable: 'secrets-of-magic/summoner/eidolon:ability'
+        contents:
+          - zone: '@secrets-of-magic/summoner/eidolon/ability'
+            contents:
+              - article:
+                lines: 5
