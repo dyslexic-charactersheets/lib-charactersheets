@@ -1,0 +1,32 @@
+unit: heritage/lost-omens/absalom/azarketi/ancestry-guide/inured
+in: heritage/lost-omens/absalom/azarketi
+group: "_{Lost Omens Ancestry Guide}"
+name: "_{Inured Azarketi}"
+
+inc:
+  - set: heritage
+    value: "_{Inured Azarketi}"
+
+  - at: '@ancestry/lost-omens/absalom/azarketi:hydration'
+    replace:
+      - p:
+        title: "_{Hydration}"
+        content: "_{Must return to water once every 24 hours or take -1 to Fortitude saves. After 72 hours you begin to suffocate.}"
+
+
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Inured Azarketi}"
+        contents:
+          - calc:
+            output:
+              field: "##/poison-resistance"
+              legend: "_{Poison Resistance}"
+              border: full
+              width: large
+            inputs:
+              - field:
+                ref: level
+                label: "_{Level}"
+              - span: "&divide; 2"

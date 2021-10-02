@@ -1,0 +1,47 @@
+unit: background/martial-disciple-athletics
+in: background
+group: "_{Core Rulebook}"
+name: "_{Martial Disciple - Athletics}"
+
+require:
+  - unit: feat/quick-jump
+
+inc:
+  - set: char-background
+    value: "_{Martial Disciple - Athletics}"
+  - set: athletics-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Martial Disciple - Athletics}"
+        contents:
+          - p: "_{Trained in Athletics and Warfare Lore}"
+            icon: proficiency-trained
+
+          - field: char-background-details
+            width: stretch
+            repeat: 3
+            reduce: 1
+          
+          - paste: book-ref
+            params:
+              page-ref: "_{CRB p63}"
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/quick-jump
+        params:
+          skill: "#{skill}"
+          skillname: "_{Athletics}"
+          level: 1
+
+  - at: '@lore-skills'
+    add:
+      - skill: lore-warfare
+        name: "_{Warfare Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

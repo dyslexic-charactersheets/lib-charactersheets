@@ -66,7 +66,40 @@ const knownLore = [
   "Warfare",
 ];
 
+const books = {
+  "Core Rulebook": "CRB",
+  "Advanced Player's Guide": "APG",
+}
+
+function preloadUnits(game) {
+  let units = [];
+  let baseDir = `${__dirname}/../units/${game}`;
+
+  function walkFiles(dir) {
+    let files = fs.readdirSync(dir);
+    for (let file of files) {
+      let path = dir + "/" + file;
+      if (fs.statSync(path).isDirectory()) {
+        walkFiles(path);
+      } else if (file.match(/\.yml$/)) {
+        try {
+          let data = fs.readFileSync(path, 'utf-8');
+          let parsed = jsYaml.safeLoad(data);
+          units.push(parsed.unit);
+        } catch (x) {
+          error("make", `Error processing unit file: ${file}`, x);
+        }
+      }
+    }
+  }
+  walkFiles(baseDir);
+  return units;
+}
+
 function generateUnits() {
+
+  let knownUnits = preloadUnits("pathfinder2");
+
   // Backgrounds supplied by Nibrodooh
   // cf https://github.com/Nibrodooh/...
   let filename = `${__dirname}/../data/pathfinder2/backgrounds.yml`;
@@ -81,6 +114,7 @@ function generateUnits() {
         // let id = 'background/'+toKebabCase(value.source)+"/"+toKebabCase(key);
         let id = 'background/'+toKebabCase(value.title);
         let name = value.title;
+        let text = value.text;
         // let description = value.text.replace(/\n/g, '\\n').replace(/\\nChoose .*$/, '');
         let book = value.source;
 
@@ -103,9 +137,16 @@ function generateUnits() {
         let loreskill = knownLore.includes(value.lore) ? `lore-${toKebabCase(value.lore)}` : '';
 
         let feat = "feat/"+toKebabCase(value.feat.replace(/ \(.*\)/, ''));
-        // log("unitGen", `Unit: ${id} - ${name}`);
-        let featExists = false;
+        let featExists = knownUnits.includes(feat);
+        if (!featExists) {
+          warn("make", `Feat does not exist: ${feat} (${name})`);
+        }
 
+        let skillref = `Trained in ${value.skill}`;
+        if (knownLore.includes(value.lore)) {
+          skillref += ` and ${value.lore} Lore`;
+        }
+        let bookref = books[value.source]+" p"+value.page;
 
         let unitfile = path.normalize(__dirname+'/../units/pathfinder2/'+group+'/'+id+'.yml');
         let unitdir = path.dirname(unitfile);
@@ -127,10 +168,32 @@ inc:
     replace:
       - article: char-background
         title: "_{${name}}"
-        lines: 3
-        reduce: 1
+        contents:
+          - p: "_{${skillref}}"
+            icon: proficiency-trained
+
+          - field: char-background-details
+            width: stretch
+            repeat: 3
+            reduce: 1
+          
+          - paste: book-ref
+            params:
+              page-ref: "_{${bookref}}"
 
 `;
+
+        if (featExists) {
+          unitdata += `  - at: '@background-skill-feat'
+    replace:
+      - paste: ${feat}
+        params:
+          skill: "#{skill}"
+          skillname: "_{${value.skill}}"
+          level: 1
+
+`;
+        }
 
         if (lorename != '') {
           unitdata += `  - at: '@lore-skills'
@@ -140,13 +203,7 @@ inc:
         ability: "_{INT}"
         abilityref: INT
         acp: false
-`;
-        }
 
-        if (featExists) {
-          unitdata += `  - at: '@background-skill-feat'
-    add:
-      - paste: ${feat}
 `;
         }
 

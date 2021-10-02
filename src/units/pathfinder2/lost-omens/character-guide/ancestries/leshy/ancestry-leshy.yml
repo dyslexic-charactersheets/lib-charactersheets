@@ -1,0 +1,46 @@
+unit: ancestry/lost-omens/character-guide/leshy
+in: ancestry
+group: "_{Lost Omens Character Guide}"
+name: "_{Leshy}"
+
+require:
+  
+form:
+  - select: heritage/lost-omens/character-guide/leshy
+    name: "_{Leshy Heritage}"
+    max: 1
+
+inc:
+  - set: ancestry
+    value: "_{Leshy}"
+  - set: hp-ancestry
+    value: 8
+  - set: perception-low-light
+    value: true
+  - set: build-boost-CON-ancestry
+    value: 1
+  - set: build-boost-WIS-ancestry
+    value: 1
+  - set: build-boost-INT-ancestry
+    value: -1
+  - set: languages
+    value: "_{Common}, _{Sylvan}"
+
+  - at: '@ancestry'
+    replace:
+      - article:
+        title: "_{Leshy}"
+        contents:
+          - flags:
+              - "_{Leshy}"
+              - "_{Plant}"
+              - "_{Small}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{25ft}"
+          - paste: low-light-vision
+          - p:
+            title: "_{Plant Nourishment}"
+            content: "_{Do not normally need food. If you go without sunlight for a week, you begin to starve.}"

@@ -16,8 +16,26 @@ inc:
     replace:
       - article: char-background
         title: "_{Warrior}"
-        lines: 3
-        reduce: 1
+        contents:
+          - p: "_{Trained in Intimidation and Warfare Lore}"
+            icon: proficiency-trained
+
+          - field: char-background-details
+            width: stretch
+            repeat: 3
+            reduce: 1
+          
+          - paste: book-ref
+            params:
+              page-ref: "_{CRB p64}"
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/intimidating-glare
+        params:
+          skill: "#{skill}"
+          skillname: "_{Intimidation}"
+          level: 1
 
   - at: '@lore-skills'
     add:
@@ -26,3 +44,4 @@ inc:
         ability: "_{INT}"
         abilityref: INT
         acp: false
+

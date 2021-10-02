@@ -16,8 +16,26 @@ inc:
     replace:
       - article: char-background
         title: "_{Artist}"
-        lines: 3
-        reduce: 1
+        contents:
+          - p: "_{Trained in Crafting and Art Lore}"
+            icon: proficiency-trained
+
+          - field: char-background-details
+            width: stretch
+            repeat: 3
+            reduce: 1
+          
+          - paste: book-ref
+            params:
+              page-ref: "_{CRB p60}"
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/specialty-crafting
+        params:
+          skill: "#{skill}"
+          skillname: "_{Crafting}"
+          level: 1
 
   - at: '@lore-skills'
     add:
@@ -26,3 +44,4 @@ inc:
         ability: "_{INT}"
         abilityref: INT
         acp: false
+

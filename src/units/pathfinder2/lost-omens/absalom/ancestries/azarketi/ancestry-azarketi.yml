@@ -2,10 +2,6 @@ unit: ancestry/lost-omens/absalom/azarketi
 in: ancestry
 group: "_{Absalom, City of Lost Omens}"
 name: "_{Azarketi}"
-
-enabled: false
-
-require:
   
 form:
   - select: heritage/lost-omens/absalom/azarketi
@@ -37,16 +33,21 @@ inc:
               - "_{Amphibious}"
               - "_{Azarketi}"
               - "_{Humanoid}"
-          - field: ancestry-speed
-            frame: right
-            label: "_{Speed}"
-            control: value
-            value: "_{20ft}"
-          - field: ancestry-swim-speed
-            frame: right
-            label: "_{Swim speed}"
-            control: value
-            value: "_{30ft}"
-          - p:
-            title: "_{Low-Light Vision}"
-            content: "_{See in dim light.}"
+          - zone: '@ancestry/lost-omens/absalom/azarketi'
+            contents:
+              - field: ancestry-speed
+                frame: right
+                label: "_{Speed}"
+                control: value
+                value: "_{20ft}"
+              - field: ancestry-swim-speed
+                frame: right
+                label: "_{Swim speed}"
+                control: value
+                value: "_{30ft}"
+              - paste: low-light-vision
+              - zone: '@ancestry/lost-omens/absalom/azarketi:hydration'
+                contents:
+                  - p:
+                    title: "_{Hydration}"
+                    content: "_{Must return to water once every 24 hours or take -1 to Fortitude saves. After 48 hours you begin to suffocate.}"

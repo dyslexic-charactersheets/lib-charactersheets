@@ -1,0 +1,40 @@
+unit: feat/assurance
+name: "_{Assurance}"
+group: "_{Core Rulebook}"
+
+inc:
+  - copy: feat/assurance
+    params:
+      num: 1
+      skill: ""
+      skillname: ""
+    contents:
+      - article: feat/assurance/#{skill}
+        title: "_{Assurance}"
+        cat: "_{Feat}"
+        contents:
+          - if: "#{skillname}"
+            then:
+              - label: "_{Skill}"
+                align: left
+              - h6: "#{skillname}"
+              - hr:
+                light: true
+            else:
+              - field:
+                width: stretch
+                label: "_{Skill}"
+          - p: "_{You can forgo rolling a skill check to instead receive:}"
+          - calc:
+            output:
+              field: "feat/assurance/#{skill}:bonus"
+              legend: "_{Skill Roll}"
+              border: full
+              width: large
+              eq:
+            inputs:
+              - span: "10 +"
+              - field:
+                ref: "#{skill}-proficiency"
+                label: "_{Proficiency}"
+                control: proficiency

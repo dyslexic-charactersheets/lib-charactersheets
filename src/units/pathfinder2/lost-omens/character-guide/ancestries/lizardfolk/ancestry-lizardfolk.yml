@@ -1,0 +1,56 @@
+unit: ancestry/lost-omens/character-guide/lizardfolk
+in: ancestry
+group: "_{Lost Omens Character Guide}"
+name: "_{Lizardfolk}"
+  
+form:
+  - select: heritage/lost-omens/character-guide/lizardfolk
+    name: "_{Lizardfolk Heritage}"
+    max: 1
+
+require:
+  - unit: feat/breath-control
+  
+inc:
+  - set: ancestry
+    value: "_{Lizardfolk}"
+  - set: hp-ancestry
+    value: 8
+  - set: perception-darkvision
+    value: true
+  - set: build-boost-STR-ancestry
+    value: 1
+  - set: build-boost-WIS-ancestry
+    value: 1
+  - set: build-boost-INT-ancestry
+    value: -1
+  - set: languages
+    value: "_{Common}, _{Lizardfolk}"
+
+  - at: '@ancestry'
+    replace:
+      - article:
+        title: "_{Lizardfolk}"
+        contents:
+          - flags:
+              - "_{Goblin}"
+              - "_{Humanoid}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{25ft}"
+          
+          - hr:
+            light: true
+          - h6: "_{Claws}"
+          - value-block: "_{1d4}"
+            content: "_{Slashing damge}"
+          # - flags:
+          #     - "_{Agile}"
+          #     - "_{Finesse}"
+
+          - hr:
+            light: true
+          - h6: "_{Aquatic Adaptation}"
+          - paste: feat/breath-control
