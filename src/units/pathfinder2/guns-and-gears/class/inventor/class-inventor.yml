@@ -1,0 +1,199 @@
+unit: class/guns-and-gears/inventor
+in: class
+group: "_{Guns and Gears}"
+name: "_{Inventor}"
+badge: "_{Uncommon}"
+
+form:
+  - select: inventor/innovation
+    name: "_{Innovation}"
+    max: 1
+
+require:
+  - unit: weapon-spec/fast
+  - with: option/reference
+    unit: class/guns-and-gears/inventor/reference
+
+inc:
+  - paste: prototype-class
+    params:
+      class: inventor
+      class-name: "_{Inventor}"
+      subclass: inventor-innovation
+      subclass-name: "_{Innovation}"
+      hp: 8
+
+      skill: crafting
+
+      perception: trained
+      unarmoured: trained
+      light-armour: trained
+      medium-armour: trained
+
+      fortitude: expert
+      reflex: trained
+      will: expert
+
+  - at: '@advancement'
+    add:
+
+
+
+  - at: '@pages'
+    add:
+
+      - page: inventor
+        name: "_{Inventor}"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: inventor
+                    optional: true
+                  - class-name: "_{Inventor}"
+
+                  - section: "_{Overdrive}"
+                    contents:
+                      - action:
+                        contents:
+                          - p: "_{Attempt a Crafting check that has a standard DC for your level.}"
+
+                      - layout: indent-l
+                        contents:
+                          - icon: critical-success
+                          - g:
+                            contents:
+                              - p:
+                                title: "_{Critical Success}"
+
+                              - row:
+                                contents:
+                                  - calc:
+                                    output:
+                                      field:
+                                      legend: "_{Damage Bonus}"
+                                      eq: "%{INT}"
+                                    inputs:
+                                      - field:
+                                        ref: INT
+                                        label: "_{INT}"
+                                        underlay: "_{INT}"
+                                  - value: "1 min"
+                                    label: "_{Duration}"
+                                    frame: above
+                                  - value: "1 min"
+                                    label: "_{Cooldown}"
+                                    frame: above
+                                    
+                      - layout: indent-l
+                        contents:
+                          - icon: success
+                          - g:
+                            contents:
+                              - p:
+                                title: "_{Success}"
+
+                              - row:
+                                contents:
+                                  - calc:
+                                    output:
+                                      field:
+                                      legend: "_{Damage Bonus}"
+                                      eq: "%{INT}/2"
+                                    inputs:
+                                      - field:
+                                        ref: INT
+                                        label: "_{INT}"
+                                        underlay: "_{INT}"
+                                      - span: "&divide; 2"
+                                  - value: "1 min"
+                                    label: "_{Duration}"
+                                    frame: above
+                                  - value: "1 min"
+                                    label: "_{Cooldown}"
+                                    frame: above
+                                    
+                      - layout: indent-l
+                        contents:
+                          - icon: failure
+                          - g:
+                            contents:
+                              - p:
+                                title: "_{Failure}"
+
+                              - span: "_{No effect}"
+                              
+                      - layout: indent-l
+                        contents:
+                          - icon: critical-failure
+                          - g:
+                            contents:
+                              - p:
+                                title: "_{Critical Failure}"
+
+                              - row:
+                                contents:
+                                  - calc:
+                                    output:
+                                      field:
+                                      legend: "_{Damage Bonus}"
+                                      eq: "%{INT}"
+                                    inputs:
+                                      - field:
+                                        ref: INT
+                                        label: "_{INT}"
+                                        underlay: "_{INT}"
+                                  - value: "1 min"
+                                    label: "_{Duration}"
+                                    frame: above
+                                  - value: "1 min"
+                                    label: "_{Cooldown}"
+                                    frame: above
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+                  - section: "_{Innovation}"
+                    primary: true
+                    contents:
+                      - zone: '@inventor/innovation'
+                        contents:
+                          - field: inventor/innovation
+                            frame: none
+                            size: huge
+                            width: stretch
+                            merge-bottom: true
+
+                      - hr:
+                        swash: true
+
+                      - h5: "_{Modifications}"
+                      - list:
+                        zebra: true
+                        columns: 2
+                        flowv: true
+                        hr: true
+                        contents:
+                          - repeat: 10
+                            reduce: 2
+                            extra: "#{extra}"
+                            contents:
+                              - selectable: "##:innovation/modifications/#{i}"
+                                contents:
+                                  - article: "##:innovation/modifications/#{i}"
+
+                  - paste: class-feats
+                    params:
+                      id: inventor-feats
+                      title: "_{Inventor Feats}"
+                      slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                      mark: inventor
+                      lines: 3
+
+                  - tail:
+                  - spacer:
