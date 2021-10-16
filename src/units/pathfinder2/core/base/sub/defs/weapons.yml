@@ -223,6 +223,7 @@ inc:
     params:
       id: ''
       i: 0
+      damage-die: false
     contents:
       - g:
         contents:
@@ -252,18 +253,31 @@ inc:
                   - field:
                     control: proficiency
                     label: "_{Proficiency}"
-              - field: "#{id}attack-#{i}-damage"
-                border: full
-                label: "_{Damage}"
-                width: small
-                icon: damage
-                control: compound
-                parts:
-                  - subid: ndice
-                    suffix: "_{d}"
-                  - subid: die
-                    suffix: "+"
-                  - subid: extra
+              - if: "#{damage-die}"
+                then:
+                  - field: "#{id}attack-#{i}-damage"
+                    border: full
+                    label: "_{Damage}"
+                    width: small
+                    icon: damage
+                    control: compound
+                    parts:
+                      - subid: ndice
+                        suffix: "#{damage-die} +"
+                      - subid: extra
+                else:
+                  - field: "#{id}attack-#{i}-damage"
+                    border: full
+                    label: "_{Damage}"
+                    width: small
+                    icon: damage
+                    control: compound
+                    parts:
+                      - subid: ndice
+                        suffix: "_{d}"
+                      - subid: die
+                        suffix: "+"
+                      - subid: extra
           - row:
             contents:
               - field: "#{id}attack-#{i}-critical"
@@ -307,18 +321,31 @@ inc:
                   - field:
                     control: proficiency
                     label: "_{Proficiency}"
-              - field: "#{id}attack-#{i}-damage"
-                border: full
-                label: "_{Damage}"
-                width: small
-                icon: damage
-                control: compound
-                parts:
-                  - subid: ndice
-                    suffix: "_{d}"
-                  - subid: die
-                    suffix: "+"
-                  - subid: extra
+              - if: "#{damage-die}"
+                then:
+                  - field: "#{id}attack-#{i}-damage"
+                    border: full
+                    label: "_{Damage}"
+                    width: small
+                    icon: damage
+                    control: compound
+                    parts:
+                      - subid: ndice
+                        suffix: "#{damage-die} +"
+                      - subid: extra
+                else:
+                  - field: "#{id}attack-#{i}-damage"
+                    border: full
+                    label: "_{Damage}"
+                    width: small
+                    icon: damage
+                    control: compound
+                    parts:
+                      - subid: ndice
+                        suffix: "_{d}"
+                      - subid: die
+                        suffix: "+"
+                      - subid: extra
           - row:
             contents:
               - field: "#{id}ammo-#{i}"

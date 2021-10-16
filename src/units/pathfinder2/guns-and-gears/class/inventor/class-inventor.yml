@@ -11,8 +11,10 @@ form:
 
 require:
   - unit: weapon-spec/fast
+  - unit: option/formula-book
   - with: option/reference
     unit: class/guns-and-gears/inventor/reference
+  - unit: feat/inventor
 
 inc:
   - paste: prototype-class
@@ -36,6 +38,13 @@ inc:
 
   - at: '@advancement'
     add:
+      - level: 1
+        class-feat: true
+      - level: 1
+        gain: "_{Innovation}"
+
+      - level: 1
+        advance: "_{Champion's reaction}"
 
 
 
@@ -61,107 +70,234 @@ inc:
                         contents:
                           - p: "_{Attempt a Crafting check that has a standard DC for your level.}"
 
-                      - layout: indent-l
+                      - g:
+                        pad: true
                         contents:
-                          - icon: critical-success
-                          - g:
+
+                          - layout: indent-l
                             contents:
+                              - icon: save-crit-succeed
+                              - g:
+                                contents:
+                                  - p:
+                                    title: "_{Critical Success}"
+
+                                  - row:
+                                    contents:
+                                      - calc:
+                                        output:
+                                          field:
+                                          legend: "_{Damage Bonus}"
+                                          eq: "%{INT}"
+                                        inputs:
+                                          - field:
+                                            ref: INT
+                                            label: "_{INT}"
+                                            underlay: "_{INT}"
+                                      - value: "1 min"
+                                        label: "_{Duration}"
+                                        frame: above
+                                        width: large
+                                      - value: "1 min"
+                                        label: "_{Cooldown}"
+                                        frame: above
+                                        width: large
+                                        
+                          - layout: indent-l
+                            contents:
+                              - icon: save-succeed
+                              - g:
+                                contents:
+                                  - p:
+                                    title: "_{Success}"
+
+                                  - row:
+                                    contents:
+                                      - calc:
+                                        output:
+                                          field:
+                                          legend: "_{Damage Bonus}"
+                                          eq: "%{INT}/2"
+                                        inputs:
+                                          - field:
+                                            ref: INT
+                                            label: "_{INT}"
+                                            underlay: "_{INT}"
+                                          - span: "&divide; 2"
+                                      - value: "1 min"
+                                        label: "_{Duration}"
+                                        frame: above
+                                        width: large
+                                      - value: "1 min"
+                                        label: "_{Cooldown}"
+                                        frame: above
+                                        width: large
+                                        
+                          - layout: indent-l
+                            contents:
+                              - icon: save-fail
+                              - g:
+                                contents:
+                                  - p:
+                                    title: "_{Failure}"
+
+                                  - span: "_{No effect}"
+                                  
+                          - layout: indent-l
+                            contents:
+                              - icon: save-crit-fail
+                              - g:
+                                contents:
+                                  - p:
+                                    title: "_{Critical Failure}"
+
+                                  - row:
+                                    contents:
+                                      - calc:
+                                        output:
+                                          field:
+                                          legend: "_{Fire Damage}"
+                                          eq: "%{level}"
+                                        inputs:
+                                          - field:
+                                            ref: level
+                                            label: "_{Level}"
+                                      - value: "1 min"
+                                        label: "_{Duration}"
+                                        frame: above
+                                        width: large
+                                      - value: "1 min"
+                                        label: "_{Cooldown}"
+                                        frame: above
+                                        width: large
+
+                      - hr:
+                        light: true
+
+                      - list:
+                        hr: true
+                        contents:
+                          - action: 
+                            contents:
+                              - p: "_{While under the effect of Overdrive, activate it again.}"
+
                               - p:
+                                icon: save-crit-succeed
                                 title: "_{Critical Success}"
+                                content: "_{Critical overdrive}"
 
-                              - row:
-                                contents:
-                                  - calc:
-                                    output:
-                                      field:
-                                      legend: "_{Damage Bonus}"
-                                      eq: "%{INT}"
-                                    inputs:
-                                      - field:
-                                        ref: INT
-                                        label: "_{INT}"
-                                        underlay: "_{INT}"
-                                  - value: "1 min"
-                                    label: "_{Duration}"
-                                    frame: above
-                                  - value: "1 min"
-                                    label: "_{Cooldown}"
-                                    frame: above
-                                    
-                      - layout: indent-l
-                        contents:
-                          - icon: success
-                          - g:
-                            contents:
                               - p:
-                                title: "_{Success}"
-
-                              - row:
-                                contents:
-                                  - calc:
-                                    output:
-                                      field:
-                                      legend: "_{Damage Bonus}"
-                                      eq: "%{INT}/2"
-                                    inputs:
-                                      - field:
-                                        ref: INT
-                                        label: "_{INT}"
-                                        underlay: "_{INT}"
-                                      - span: "&divide; 2"
-                                  - value: "1 min"
-                                    label: "_{Duration}"
-                                    frame: above
-                                  - value: "1 min"
-                                    label: "_{Cooldown}"
-                                    frame: above
-                                    
-                      - layout: indent-l
-                        contents:
-                          - icon: failure
-                          - g:
-                            contents:
-                              - p:
-                                title: "_{Failure}"
-
-                              - span: "_{No effect}"
-                              
-                      - layout: indent-l
-                        contents:
-                          - icon: critical-failure
-                          - g:
-                            contents:
-                              - p:
+                                icon: save-crit-fail
                                 title: "_{Critical Failure}"
+                                content: "_{End overdrive}"
 
-                              - row:
+                          - level: 3
+                            contents:
+                              - h5: "_{Expert Overdrive}"
+                              - value-block: "+1"
+                                content: "_{Overdrive damage}"
+
+                          - level: 7
+                            contents:
+                              - h5: "_{Master Overdrive}"
+                              - value-block: "+2"
+                                content: "_{Overdrive damage}"
+
+
+                          - level: 15
+                            contents:
+                              - h5: "_{Legendary Overdrive}"
+                              - value-block: "+3"
+                                content: "_{Overdrive damage}"
+
+                  - section: "_{Inventor}"
+                    contents:
+                      - paste: feat/inventor
+
+                  - section: "_{Reconfigure}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - level: 3
+                            contents:
+                              - paste: 1day
                                 contents:
-                                  - calc:
-                                    output:
-                                      field:
-                                      legend: "_{Damage Bonus}"
-                                      eq: "%{INT}"
-                                    inputs:
-                                      - field:
-                                        ref: INT
-                                        label: "_{INT}"
-                                        underlay: "_{INT}"
-                                  - value: "1 min"
-                                    label: "_{Duration}"
-                                    frame: above
-                                  - value: "1 min"
-                                    label: "_{Cooldown}"
-                                    frame: above
+                                  - p: "_{Change one modifications to the same type.}"
+                                  - p: "_{Make a Crafting check at a high DC for your level.}"
 
+                          - level: 13
+                            contents:
+                              - h5: "_{Complete Reconfiguration}"
+                              - paste: 1day
+                                contents:
+                                  - p: "_{Change all modifications to the same type.}"
+
+                          - level: 19
+                            contents:
+                              - h5: "_{Infinite Invention}"
+                              - paste: 1day
+                                contents:
+                                  - p: "_{Change or fix your innovation.}"
+
+                  - section: "_{Offensive Boost}"
+                    contents:
+                      - level: 17
+                        contents:
+                          - zone: '@guns-and-gears/inventor/offensive-boost'
+                            contents:
+                              - p: "_{Add an elemental effect to your invention.}"
+                          - value-block: "_{1d6}"
+                            content: "_{Damage}"
+                      
+                      - hr:
+                        light: true
+
+                      - field: "##:offensive-boost/type"
+                        control: radio
+                        value: cold
+                        frame: right
+                        label: "_{Chill (cold)}"
+                      - field: "##:offensive-boost/type"
+                        control: radio
+                        value: fire
+                        frame: right
+                        label: "_{Ignition (fire)}"
+                      - field: "##:offensive-boost/type"
+                        control: radio
+                        value: electricity
+                        frame: right
+                        label: "_{Jolt (electricity)}"
+                      - field: "##:offensive-boost/type"
+                        control: radio
+                        value: bludgeoning
+                        frame: right
+                        label: "_{Momentum (bludgeoning)}"
+                      - field: "##:offensive-boost/type"
+                        control: radio
+                        value: slashing
+                        frame: right
+                        label: "_{Saws (slashing)}"
+                      - field: "##:offensive-boost/type"
+                        control: radio
+                        value: piercing
+                        frame: right
+                        label: "_{Spike (piercing)}"
+                      - field: "##:offensive-boost/type"
+                        control: radio
+                        value: acid
+                        frame: right
+                        label: "_{Vitriol (acid)}"
+                      
                   - tail:
-                  - spacer:
+                  # - spacer:
 
               - g:
                 contents:
                   - section: "_{Innovation}"
                     primary: true
                     contents:
-                      - zone: '@inventor/innovation'
+                      - zone: '@guns-and-gears/inventor/innovation'
                         contents:
                           - field: inventor/innovation
                             frame: none
@@ -172,20 +308,72 @@ inc:
                       - hr:
                         swash: true
 
-                      - h5: "_{Modifications}"
                       - list:
-                        zebra: true
-                        columns: 2
-                        flowv: true
                         hr: true
                         contents:
-                          - repeat: 10
-                            reduce: 2
-                            extra: "#{extra}"
+                          - g:
                             contents:
-                              - selectable: "##:innovation/modifications/#{i}"
+                              - zone: '@guns-and-gears/inventor/innovation/details'
                                 contents:
-                                  - article: "##:innovation/modifications/#{i}"
+                                  - list:
+                                    columns: 2
+                                    merge-bottom: true
+                                    contents:
+                                      - repeat: 6
+                                        reduce: 2
+                                        contents:
+                                          - field: inventor/innovation/detail/#{I}
+                                            frame: none
+                                            width: stretch
+
+                          - g:
+                            contents:
+                              - h5: "_{Modifications}"
+                              - layout: 2e
+                                contents:
+                                  - level: 1
+                                    contents:
+                                      - article: "##:innovation/modifications/initial"
+                                        lines: 4
+                                        reduce: 1
+                                  - selectable: "##:innovation/modifications/2"
+                                    contents:
+                                      - article: "##:innovation/modifications/2"
+                                        lines: 4
+                                        reduce: 1
+                                            
+                          - g:
+                            contents:
+                              - h5: "_{Breakthrough Modifications}"
+                              - layout: 2e
+                                contents:
+                                  - level: 7
+                                    contents:
+                                      - article: "##:innovation/modifications/breakthrough"
+                                        lines: 4
+                                        reduce: 1
+                                  - selectable: "##:innovation/modifications/breakthrough/2"
+                                    contents:
+                                      - article: "##:innovation/modifications/breakthrough/2"
+                                        lines: 4
+                                        reduce: 1
+
+                          - g:
+                            contents:
+                              - h5: "_{Revolutionary Modifications}"
+                              - layout: 2e
+                                contents:
+                                  - level: 15
+                                    contents:
+                                      - article: "##:innovation/modifications/revolutionary"
+                                        lines: 4
+                                        reduce: 1
+                                  - selectable: "##:innovation/modifications/revolutionary/2"
+                                    contents:
+                                      - article: "##:innovation/modifications/revolutionary/2"
+                                        lines: 4
+                                        reduce: 1
+
 
                   - paste: class-feats
                     params:
@@ -196,4 +384,4 @@ inc:
                       lines: 3
 
                   - tail:
-                  - spacer:
+                  # - spacer:
