@@ -10,6 +10,11 @@ inc:
   - set: construct/will-proficiency
     value: trained
 
+  - set: construct-weapon-attack-1-proficiency
+    value: trained
+  - set: construct-weapon-attack-2-proficiency
+    value: trained
+
   - set: construct/ac-proficiency
     value: trained
 
@@ -34,14 +39,6 @@ inc:
                 contents:
                   - g:
                     contents:
-                      # - section:
-                      #   untitled: true
-                      #   contents:
-                          # - zone: '@construct/class-icon'
-                          #   contents:
-                          #     - class-icon: construct
-                          #       optional: true
-                          # - class-name: "_{Construct}"
 
                       - section: "_{Attributes}"
                         id: construct/attributes
@@ -513,11 +510,18 @@ inc:
                                 contents:
                                   - paste: weapon-small
                                     params:
+                                      id: construct-weapon
+                                      i: 1
                                       damage-die: "_{d8}"
                                   - paste: weapon-small
                                     params:
+                                      id: construct-weapon
+                                      i: 2
                                       damage-die: "_{d6}"
                                   - paste: weapon-small
+                                    params:
+                                      id: construct-weapon
+                                      i: 3
 
                   - layout: 2r
                     narrow: true
@@ -640,7 +644,8 @@ inc:
                                 zebra: true
                                 columns: 2
                                 contents:
-                                  - repeat: 8
+                                  - repeat: 6
+                                    reduce: 2
                                     contents:
                                       - selectable:
                                         contents:
@@ -703,10 +708,10 @@ inc:
                             contents:
                               - list:
                                 zebra: true
-                                hr: true
+                                merge-bottom: true
                                 contents:
-                                  - repeat: 2
+                                  - repeat: 8
                                     contents:
-                                      - article:
-                                        lines: 2
+                                      - field: "construct/inventory/#{i}"
+                                        width: stretch
                           - tail:
