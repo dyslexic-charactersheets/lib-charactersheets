@@ -131,18 +131,27 @@ export let advancement = {
         }
       });
 
-      const items = gains.map((gain) => {
-        let slug = gain.replace(/_\{(.*?)\}/g, '$1');
-        slug = `gain-${lv}-${toKebabCase(slug)}`;
-        return {
-          type: "field",
-          id: slug,
-          control: "checkbox",
-          frame: "right",
-          label: gain,
-          align: "left",
-        };
-      });
+      const items = [];
+      if (!isEmpty(gains)) {
+        gains = gains.map((gain) => {
+          let slug = gain.replace(/_\{(.*?)\}/g, '$1');
+          slug = `gain-${lv}-${toKebabCase(slug)}`;
+          return {
+            type: "field",
+            id: slug,
+            control: "checkbox",
+            frame: "right",
+            label: gain,
+            align: "left",
+          };
+        });
+        items.push({
+          type: "row",
+          wrap: true,
+          blk: false,
+          contents: gains
+        });
+      }
       if (!isEmpty(advances)) {
         items.push({
           type: "p",
