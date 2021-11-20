@@ -35,6 +35,17 @@ inc:
       reflex: trained
       will: expert
 
+  - at: '@advancement'
+    add:
+      - level: 1
+        class-feat: true
+      - level: 1
+        gain: "_{Gunslinger's Way}"
+      
+
+
+
+
   - at: '@pages'
     add:
 
@@ -51,8 +62,75 @@ inc:
                     optional: true
                   - class-name: "_{Gunslinger}"
 
-                  - section: "_{}"
+                  - section: "_{Singular Expertise}"
                     contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - p: "_{Proficiency in unarmed attacks and weapons other than firearms and crossbows can't be higher than trained.}"
+                            icon: proficiency-trained
+                          - level: 5
+                            contents:
+                              - p: "_{Proficiency limit is expert}"
+                                icon: proficiency-expert
+                          - level: 13
+                            contents:
+                              - p: "_{Proficiency limit is master}"
+                                icon: proficiency-master
+
+                  - section: "_{Misfire}"
+                    contents:
+                      - p: "_{If you fire a gun that's been fired a previous day and not cleaned since, roll a check before the attack roll.}"
+                      - value-block: "DC 5"
+                        width: large
+                        content: "_{Flat check}"
+                      - p: "_{If you fail the check, your weapon misfires and jams. The attack is a critical failure.}"
+                      
+                      - hr:
+
+                      - list:
+                        hr: true
+                        light: true
+                        zebra: true
+                        contents:
+                          - repeat: 4
+                            contents:
+                              - row:
+                                contents:
+                                  - field: "##:firearm-#{i}"
+                                    label: "_{Firearm}"
+                                    width: stretch
+                                    merge-bottom: true
+                                  - field: "##:firearm-#{i}/dirty"
+                                    control: checkbox
+                                    label: "_{Used}"
+                                  - field: "##:firearm-#{i}/jam"
+                                    control: checkbox
+                                    label: "_{Jam}"
+
+                      - hr:
+
+                      - action:
+                        contents:
+                          - h6: "_{Clear a jammed weapon}"
+                      - paste: 1hour
+                        contents:
+                          - h6: "_{Clean weapons}"
+                      
+                  - section: "_{Stubborn}"
+                    contents:
+                      - level: 3
+                        contents:
+                          - p: "_{When you fail a Will save against a controlled condition, get a second save at the start of your next turn.}"
+
+                  - section: "_{Shootist's Edge}"
+                    contents:
+                      - level: 17
+                        contents:
+                          - p: "_{When master with a ranged weapon, ignore range penalty up to third range increment.}"
+
+                  - tail:
+                  - spacer:
 
               - g:
                 contents:
@@ -69,3 +147,59 @@ inc:
 
                       - hr:
                         swash: true
+
+                      - layout: 2e
+                        contents:
+                          - g:
+                            contents:
+                              - h5: "_{Slinger's Reload}"
+                              - zone: '@guns-and-gears/gunslinger/way/slingers-reload'
+                                contents:
+                                  - article: 'guns-and-gears/gunslinger/way/slingers-reload'
+                                    lines: 4
+                              - spacer:
+                          - g:
+                            contents:
+                              - h5: "_{Initial Deed}"
+                              - zone: '@guns-and-gears/gunslinger/way/deed/initial'
+                                contents:
+                                  - article: 'guns-and-gears/gunslinger/way/deed/initial'
+                                    lines: 4
+                              - spacer:
+                              
+                      - layout: 2e
+                        contents:
+                          - g:
+                            contents:
+                              - hr:
+                              - level: 9
+                                contents:
+                                  - h5: "_{Advanced Deed}"
+                                  - zone: '@guns-and-gears/gunslinger/way/deed/advanced'
+                                    contents:
+                                      - article: 'guns-and-gears/gunslinger/way/deed/advanced'
+                                        lines: 4
+                              - spacer:
+                          - g:
+                            contents:
+                              - hr:
+                              - level: 15
+                                contents:
+                                  - h5: "_{Greater Deed}"
+                                  - zone: '@guns-and-gears/gunslinger/way/deed/greater'
+                                    contents:
+                                      - article: 'guns-and-gears/gunslinger/way/deed/greater'
+                                        lines: 4
+                              - spacer:
+                          
+
+                  - paste: class-feats
+                    params:
+                      id: gunslinger-feats
+                      title: "_{Gunslinger Feats}"
+                      slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                      mark: gunslinger
+                      lines: 4
+
+                  - tail:
+                  # - spacer:
