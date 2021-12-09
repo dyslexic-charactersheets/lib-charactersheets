@@ -62,6 +62,60 @@ inc:
                     optional: true
                   - class-name: "_{Gunslinger}"
 
+                  - section: "_{Gunslinger's Way}"
+                    primary: true
+                    contents:
+                      - zone: '@guns-and-gears/gunslinger/way'
+                        contents:
+                          - field: gunslinger/way
+                            frame: none
+                            size: huge
+                            width: stretch
+                            merge-bottom: true
+
+                      - hr:
+                        swash: true
+
+                      - list:
+                        hr: true
+                        contents:
+                          - g:
+                            contents:
+                              - h5: "_{Slinger's Reload}"
+                              - zone: '@guns-and-gears/gunslinger/way/slingers-reload'
+                                contents:
+                                  - article: 'guns-and-gears/gunslinger/way/slingers-reload'
+                                    lines: 4
+                                    reduce: 2
+                          - g:
+                            contents:
+                              - h5: "_{Initial Deed}"
+                              - zone: '@guns-and-gears/gunslinger/way/deed/initial'
+                                contents:
+                                  - article: 'guns-and-gears/gunslinger/way/deed/initial'
+                                    lines: 4
+                                    reduce: 2
+                          - g:
+                            contents:
+                              - level: 9
+                                contents:
+                                  - h5: "_{Advanced Deed}"
+                                  - zone: '@guns-and-gears/gunslinger/way/deed/advanced'
+                                    contents:
+                                      - article: 'guns-and-gears/gunslinger/way/deed/advanced'
+                                        lines: 4
+                                        reduce: 2
+                          - g:
+                            contents:
+                              - level: 15
+                                contents:
+                                  - h5: "_{Greater Deed}"
+                                  - zone: '@guns-and-gears/gunslinger/way/deed/greater'
+                                    contents:
+                                      - article: 'guns-and-gears/gunslinger/way/deed/greater'
+                                        lines: 4
+                                        reduce: 2
+
                   - section: "_{Singular Expertise}"
                     contents:
                       - list:
@@ -69,53 +123,34 @@ inc:
                         contents:
                           - p: "_{Proficiency in unarmed attacks and weapons other than firearms and crossbows can't be higher than trained.}"
                             icon: proficiency-trained
-                          - level: 5
+                          - row:
                             contents:
-                              - p: "_{Proficiency limit is expert}"
-                                icon: proficiency-expert
-                          - level: 13
-                            contents:
-                              - p: "_{Proficiency limit is master}"
-                                icon: proficiency-master
-
-                  - section: "_{Misfire}"
-                    contents:
-                      - p: "_{If you fire a gun that's been fired a previous day and not cleaned since, roll a check before the attack roll.}"
-                      - value-block: "DC 5"
-                        width: large
-                        content: "_{Flat check}"
-                      - p: "_{If you fail the check, your weapon misfires and jams. The attack is a critical failure.}"
-                      
-                      - hr:
-
-                      - list:
-                        hr: true
-                        light: true
-                        zebra: true
-                        contents:
-                          - repeat: 4
-                            contents:
-                              - row:
+                              - level: 5
                                 contents:
-                                  - field: "##:firearm-#{i}"
-                                    label: "_{Firearm}"
-                                    width: stretch
-                                    merge-bottom: true
-                                  - field: "##:firearm-#{i}/dirty"
-                                    control: checkbox
-                                    label: "_{Used}"
-                                  - field: "##:firearm-#{i}/jam"
-                                    control: checkbox
-                                    label: "_{Jam}"
+                                  - p: "_{Proficiency limit is expert}"
+                                    icon: proficiency-expert
+                              - vr:
+                              - level: 13
+                                contents:
+                                  - p: "_{Proficiency limit is master}"
+                                    icon: proficiency-master
 
-                      - hr:
+                  # - section: "_{Misfire}"
+                  #   contents:
+                  #     - value-block: "DC 5"
+                  #       width: large
+                  #       content: "_{Flat check when you fire a gun that was fired a previous day and not cleaned since.}"
+                  #     - p: "_{If you fail the check, your weapon misfires and jams. The attack is a critical failure.}"
 
-                      - action:
-                        contents:
-                          - h6: "_{Clear a jammed weapon}"
-                      - paste: 1hour
-                        contents:
-                          - h6: "_{Clean weapons}"
+                  #     - hr:
+                  #       light: true
+
+                  #     - action:
+                  #       contents:
+                  #         - h6: "_{Clear a jammed weapon}"
+                  #     - paste: 1hour
+                  #       contents:
+                  #         - h6: "_{Clean weapons}"
                       
                   - section: "_{Stubborn}"
                     contents:
@@ -134,64 +169,129 @@ inc:
 
               - g:
                 contents:
-                  - section: "_{Gunslinger's Way}"
-                    primary: true
+                  - section: "_{Firearms}"
                     contents:
-                      - zone: '@guns-and-gears/gunslinger/way'
+                      - list:
+                        hr: true
+                        zebra: true
                         contents:
-                          - field: gunslinger/way
-                            frame: none
-                            size: huge
-                            width: stretch
-                            merge-bottom: true
+                          - repeat: 3
+                            contents:
+                            
+                              - g:
+                                contents:
+                                  - row:
+                                    contents:
+                                      - field: firearm-#{i}
+                                        width: stretch
+                                        frame: none
+                                        align: left
+                                        size: large
+                                        icon: gunslinger
+                                      - field: firearm-#{i}-range
+                                        control: speed
+                                        width: huge
+                                        frame: none
+                                  - row:
+                                    contents:
+                                      - calc:
+                                        output:
+                                          field: firearm-#{i}-bonus
+                                          label: "_{Attack Bonus}"
+                                          width: huge
+                                          attack: true
+                                          icon: bonus
+                                        inputs:
+                                          - field:
+                                            ref: DEX
+                                            label: "_{DEX}"
+                                            underlay: "_{DEX}"
+                                          - field: firearm-#{i}-proficiency
+                                            control: proficiency
+                                            label: "_{Proficiency}"
+                                          - field: firearm-#{i}-potency
+                                            control: icon
+                                            label: "_{Potency}"
+                                            icon: runes
+                                      - paste: weapon-damage-block
+                                        params: 
+                                          i: "firearm-#{i}"
+                                  - row:
+                                    flex: huge
+                                    contents:
+                                      - field: firearm-#{i}-loaded
+                                        label: "_{Capacity}"
+                                        size: huge
+                                        underlay: "#"
+                                        border: full
+                                      - field: firearm-#{i}-loaded-count
+                                        frame: none
+                                        control: checkgrid
+                                        max: 10
+                                        depth: 3
 
-                      - hr:
-                        swash: true
+                                      - vr:
+                                      - field: firearm-#{i}-ammo
+                                        label: "_{Ammo}"
+                                        size: huge
+                                        underlay: "#"
+                                      - field: firearm-#{i}-ammo-count
+                                        frame: none
+                                        control: checkgrid
+                                        max: 40
+                                        reduce: 10
+                                        depth: 3
 
-                      - layout: 2e
-                        contents:
+                                      - vr:
+                                        
+                                      - field: firearm-#{i}-reload
+                                        label: "_{Reload}"
+
+                                      - spacer:
+
+                                      - field: firearm-#{i}-used
+                                        control: checkbox
+                                        label: "_{Used}"
+                                      - field: firearm-#{i}-dirty
+                                        control: checkbox
+                                        label: "_{Dirty}"
+                                      - field: firearm-#{i}-broken
+                                        control: checkbox
+                                        label: "_{Jam}"
+
+                                  - row:
+                                    contents:
+                                      - field: firearm-#{i}-details
+                                        label: "_{Weapon Traits}"
+                                        width: stretch
+                                        align: left
+                                        merge-bottom: true
+                                      - g:
+                                        contents:
+                                          - label: "_{Critical}"
+                                            align: right
+                                          - p: "_{Fort save or be stunned 1}"
+                                      - field: firearm-#{i}-critical-unlocked
+                                        frame: none
+                                        control: checkbox
                           - g:
                             contents:
-                              - h5: "_{Slinger's Reload}"
-                              - zone: '@guns-and-gears/gunslinger/way/slingers-reload'
-                                contents:
-                                  - article: 'guns-and-gears/gunslinger/way/slingers-reload'
-                                    lines: 4
-                              - spacer:
-                          - g:
-                            contents:
-                              - h5: "_{Initial Deed}"
-                              - zone: '@guns-and-gears/gunslinger/way/deed/initial'
-                                contents:
-                                  - article: 'guns-and-gears/gunslinger/way/deed/initial'
-                                    lines: 4
-                              - spacer:
+                              - h5: "_{Misfire}"
                               
-                      - layout: 2e
-                        contents:
-                          - g:
-                            contents:
+                              - value-block: "DC 5"
+                                width: large
+                                content: "_{Flat check when you fire a gun that was fired a previous day and not cleaned since.}"
+                              - p: "_{If you fail the check, your weapon misfires and jams. The attack is a critical failure.}"
+
                               - hr:
-                              - level: 9
+                                light: true
+
+                              - action:
                                 contents:
-                                  - h5: "_{Advanced Deed}"
-                                  - zone: '@guns-and-gears/gunslinger/way/deed/advanced'
-                                    contents:
-                                      - article: 'guns-and-gears/gunslinger/way/deed/advanced'
-                                        lines: 4
-                              - spacer:
-                          - g:
-                            contents:
-                              - hr:
-                              - level: 15
+                                  - h6: "_{Clear a jammed weapon}"
+                              - paste: 1hour
                                 contents:
-                                  - h5: "_{Greater Deed}"
-                                  - zone: '@guns-and-gears/gunslinger/way/deed/greater'
-                                    contents:
-                                      - article: 'guns-and-gears/gunslinger/way/deed/greater'
-                                        lines: 4
-                              - spacer:
-                          
+                                  - h6: "_{Clean weapons}"
 
                   - paste: class-feats
                     params:
@@ -199,7 +299,6 @@ inc:
                       title: "_{Gunslinger Feats}"
                       slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
                       mark: gunslinger
-                      lines: 4
+                      lines: 2
 
                   - tail:
-                  # - spacer:

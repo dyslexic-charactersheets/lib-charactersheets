@@ -35,3 +35,18 @@ export let flags = {
     return `<p${cls}>${_e(label, doc)}${reg.render(flags, doc)}${_e(args.content, doc)}</p>`;
   }
 }
+
+export let flag = {
+  name: 'flag',
+  key: 'flag',
+  defaults: {
+    flag: '',
+  },
+  render(args, reg, doc) {
+    return reg.render({
+      type: "span",
+      flag: true,
+      content: args.flag,
+    }, doc);
+  }
+}

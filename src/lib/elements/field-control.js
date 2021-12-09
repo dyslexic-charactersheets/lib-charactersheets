@@ -311,6 +311,7 @@ export let field_control_checkgrid = {
     border: 'none',
     max: 10,
     group: 10,
+    reduce: 0,
     direction: "horizontal",
     style: "",
     flex: "tiny",
@@ -318,8 +319,11 @@ export let field_control_checkgrid = {
     value: 0,
     typeHint: 'number',
   },
-  render(args) {
+  render(args, reg, doc) {
     let g = args.group;
+    if (doc.largePrint && args.reduce > 0) {
+      args.max -= args.reduce;
+    }
     if (args.max < args.group) g = args.max;
     let depth = args.depth;
     if (depth == "auto") {

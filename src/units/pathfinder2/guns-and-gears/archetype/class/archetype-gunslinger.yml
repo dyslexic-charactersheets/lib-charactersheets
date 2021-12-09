@@ -1,0 +1,118 @@
+unit: archetype/guns-and-gears/gunslinger
+in: archetype
+group: "_{Guns and Gears}"
+name: "_{Gunslinger}"
+multiclass: true
+badge: "_{Uncommon}"
+
+form:
+  - select: gunslinger/way
+    name: "_{Gunglinger Ways}"
+    max: 1
+
+inc:
+  - set: gunslinger-class-dc-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Gunslinger}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-gunslinger
+        name: "_{Gunslinger}"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: gunslinger
+                      - class-name: "_{Gunslinger}"
+                      
+                  - section: "_{Dedication}"
+                    primary: true
+                    contents:
+                      - p: "_{Trained in simple and martial crossbows and firearms}"
+                        icon: proficiency-trained
+                      - hr:
+                      - row:
+                        contents:
+                          - paste: class-dc
+                            params:
+                              id: gunslinger-class-dc
+                              legend: "_{Gunslinger\nClass DC}"
+
+                  - section: "_{Gunslinger's Way}"
+                    contents:
+                      - zone: '@guns-and-gears/gunslinger/way'
+                        contents:
+                          - field: gunslinger/way
+                            frame: none
+                            size: huge
+                            width: stretch
+                            merge-bottom: true
+
+                      - hr:
+                        swash: true
+
+                      - list:
+                        hr: true
+                        contents:
+                          - selectable: "##:slingers-readiness"
+                            contents:
+                              - h5: "_{Slinger's Readiness}"
+                              - zone: '@guns-and-gears/gunslinger/way/deed/initial'
+                                contents:
+                                  - article: 'guns-and-gears/gunslinger/way/deed/initial'
+                                    lines: 4
+                                    reduce: 2
+
+                          - selectable: "##:practiced-reloads"
+                            contents:
+                              - h5: "_{Practiced Reloads}"
+                              - zone: '@guns-and-gears/gunslinger/way/slingers-reload'
+                                contents:
+                                  - article: 'guns-and-gears/gunslinger/way/slingers-reload'
+                                    lines: 4
+                                    reduce: 2
+
+                  - section: "_{Eagle Eye}"
+                    contents:
+                      - selectable: "##:eagle-eye"
+                        contents:
+                          - p: "_{Master in Perception}"
+                            icon: proficiency-master
+
+                  - section: "_{Firearm Expert}"
+                    contents:
+                      - selectable: "##:firearm-expert"
+                        contents:
+                          - p: "_{Expert in simple and martial crossbows and firearms}"
+                            icon: proficiency-expert
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+
+                  - section: "_{Shooting}"
+                    mark: gunslinger
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: gunslinger-feats
+                          class-level: "_{Gunslinger\nLevel}"
+                          basic-title: "_{Basic Shooting}"
+                          advanced-title: "_{Advanced Shooting}"
+                          num: 6
+
+                  - tail:

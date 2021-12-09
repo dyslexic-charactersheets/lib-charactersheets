@@ -16,7 +16,7 @@ import { color } from '../elements/color';
 import { dl } from '../elements/dl';
 import { each } from '../elements/each';
 import { embed } from '../elements/embed';
-import { flags } from '../elements/flags';
+import { flag, flags } from '../elements/flags';
 import { g } from '../elements/g';
 import { h1, h2, h3, h4, h5, h6, class_name } from '../elements/headings';
 import { hr, tail, vr } from '../elements/hr';
@@ -100,6 +100,7 @@ export class Registry {
       color,
       each,
       embed,
+      flag,
       flags,
       g,
       h1, h2, h3, h4, h5, h6,

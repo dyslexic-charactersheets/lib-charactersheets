@@ -18,14 +18,21 @@ inc:
         contents:
           - action:
             contents:
+              - p: "_{Reload, then attempt Deception to create a diversion or Intimidation to demoralise.}"
 
   - at: '@guns-and-gears/gunslinger/way/deed/initial'
     replace:
       - article:
         title: "_{Ten Paces}"
         contents:
+          - value-block: "+2"
+            content: "_{Initiative}"
           - action: free
             contents:
+              - p: "_{Draw a one-handed firearm or crossbow}"
+          - action: free
+            contents:
+              - p: "_{As your first action on your first turn, step 10 ft.}"
 
   - at: '@guns-and-gears/gunslinger/way/deed/advanced'
     replace:
@@ -34,6 +41,7 @@ inc:
         contents:
           - action: reaction
             contents:
+              - p: "_{When a foe within weapon range critically fails an attack against you, make a Strike with a one-handed firearm or crossbow.}"
 
   - at: '@guns-and-gears/gunslinger/way/deed/greater'
     replace:
@@ -42,3 +50,8 @@ inc:
         contents:
           - action: 2
             contents:
+              - p: "_{Attempt Deception or Intimidation against the Will DC of enemies within 30ft.}"
+          - paste: save
+            params:
+              critical_success: "_{Frightened 3}; _{fleeing 1rd if lower level than you}"
+              success: "_{Frightened 2}"

@@ -278,32 +278,52 @@ inc:
                   - section: "_{Inventor}"
                     contents:
                       - paste: feat/inventor
-
-                  - section: "_{Reconfigure}"
+                      
+                  - section: "_{Explode}"
                     contents:
                       - list:
                         hr: true
                         contents:
-                          - level: 3
-                            contents:
-                              - paste: 1day
-                                contents:
-                                  - p: "_{Change one modifications to the same type.}"
-                                  - p: "_{Make a Crafting check at a high DC for your level.}"
 
-                          - level: 13
+                          - action: 2
                             contents:
-                              - h5: "_{Complete Reconfiguration}"
-                              - paste: 1day
+                              - p: "_{Deal fire damage with a basic reflex save to all creatures near your innovation.}"
+                              
+                              - row:
                                 contents:
-                                  - p: "_{Change all modifications to the same type.}"
+                                  - value-block: "_{5ft}"
+                                    content: "_{Range}"
 
-                          - level: 19
+                                  - spacer:
+
+                                  - calc:
+                                    output:
+                                      field: "##:explode-damage"
+                                      width: large
+                                      border: full
+                                      suffix: "_{d6}"
+                                      legend: "_{Damage}"
+                                    inputs:
+                                      - ruby: "_{Min 2}"
+                                        contents:
+                                          - field:
+                                            ref: level
+                                            label: "_{Level}"
+
+                          - level: 7
                             contents:
-                              - h5: "_{Infinite Invention}"
-                              - paste: 1day
+                              - row:
                                 contents:
-                                  - p: "_{Change or fix your innovation.}"
+                                  - value: "_{5ft}"
+                                  - value: "_{10ft}"
+
+                          - level: 15
+                            contents:
+                              - row:
+                                contents:
+                                  - value: "_{5ft}"
+                                  - value: "_{10ft}"
+                                  - value: "_{15ft}"
 
                   - section: "_{Offensive Boost}"
                     contents:
@@ -399,12 +419,12 @@ inc:
                                   - level: 1
                                     contents:
                                       - article: "##:innovation/modifications/initial"
-                                        lines: 4
+                                        lines: 3
                                         reduce: 1
                                   - selectable: "##:innovation/modifications/2"
                                     contents:
                                       - article: "##:innovation/modifications/2"
-                                        lines: 4
+                                        lines: 3
                                         reduce: 1
                                             
                           - g:
@@ -415,12 +435,12 @@ inc:
                                   - level: 7
                                     contents:
                                       - article: "##:innovation/modifications/breakthrough"
-                                        lines: 4
+                                        lines: 3
                                         reduce: 1
                                   - selectable: "##:innovation/modifications/breakthrough/2"
                                     contents:
                                       - article: "##:innovation/modifications/breakthrough/2"
-                                        lines: 4
+                                        lines: 3
                                         reduce: 1
 
                           - g:
@@ -431,14 +451,39 @@ inc:
                                   - level: 15
                                     contents:
                                       - article: "##:innovation/modifications/revolutionary"
-                                        lines: 4
+                                        lines: 3
                                         reduce: 1
                                   - selectable: "##:innovation/modifications/revolutionary/2"
                                     contents:
                                       - article: "##:innovation/modifications/revolutionary/2"
-                                        lines: 4
+                                        lines: 3
                                         reduce: 1
 
+                  - section: "_{Reconfigure}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - level: 3
+                            contents:
+                              - paste: 1day
+                                contents:
+                                  - p: "_{Change one modifications to the same type.}"
+                                  - p: "_{Make a Crafting check at a high DC for your level.}"
+
+                          - level: 13
+                            contents:
+                              - h5: "_{Complete Reconfiguration}"
+                              - paste: 1day
+                                contents:
+                                  - p: "_{Change all modifications to the same type.}"
+
+                          - level: 19
+                            contents:
+                              - h5: "_{Infinite Invention}"
+                              - paste: 1day
+                                contents:
+                                  - p: "_{Change or fix your innovation.}"
 
                   - paste: class-feats
                     params:
@@ -446,7 +491,7 @@ inc:
                       title: "_{Inventor Feats}"
                       slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
                       mark: inventor
-                      lines: 3
+                      lines: 2
 
                   - tail:
                   # - spacer:
