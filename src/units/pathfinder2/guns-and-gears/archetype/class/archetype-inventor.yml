@@ -1,0 +1,139 @@
+unit: archetype/guns-and-gears/inventor
+in: archetype
+group: "_{Guns and Gears}"
+name: "_{Inventor}"
+multiclass: true
+badge: "_{Uncommon}"
+
+form:
+  - select: inventor/innovation
+    name: "_{Innovation}"
+    max: 1
+
+inc:
+  - set: inventor-class-dc-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Inventor}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-inventor
+        name: "_{Inventor}"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: inventor
+                      - class-name: "_{Inventor}"
+                      
+                  - section: "_{Dedication}"
+                    primary: true
+                    contents:
+                      - p: "_{Trained in Crafting}"
+                        icon: proficiency-trained
+                      - hr:
+                      - row:
+                        contents:
+                          - paste: class-dc
+                            params:
+                              id: inventor-class-dc
+                              legend: "_{Inventor\nClass DC}"
+
+                  - section: "_{Innovation}"
+                    contents:
+                      - zone: '@guns-and-gears/inventor/innovation'
+                        contents:
+                          - field: inventor/innovation
+                            frame: none
+                            size: huge
+                            width: stretch
+                            merge-bottom: true
+
+                      - hr:
+                        swash: true
+
+                      - selectable: "##:basic-modification"
+                        contents:
+                          - h5: "_{Basic Modification}"
+                          - article: "##:basic-modification-mod"
+                            lines: 4
+                            reduce: 2
+
+                  - section: "_{Brilliant Crafter}"
+                    contents:
+                      - selectable: "##:brilliant-crafter"
+                        contents:
+                          - list:
+                            hr: true
+                            light: true
+                            contents:
+                              - p: "_{Expert in Crafting}"
+                                icon: proficiency-expert
+                              - level: 7
+                                contents:
+                                  - p: "_{Master in Crafting}"
+                                    icon: proficiency-master
+                              - level: 15
+                                contents:
+                                  - p: "_{Legendary in Crafting}"
+                                    icon: proficiency-legendary
+                                  - p: "_{Expert in Inventor Class DC}"
+                                    icon: proficiency-expert
+
+                  - section: "_{Explosion}"
+                    contents:
+
+                      - action: 2
+                        contents:
+                          - p: "_{Deal fire damage with a basic reflex save to all creatures near your innovation.}"
+                          
+                          - row:
+                            contents:
+                              - value-block: "_{5ft}"
+                                content: "_{Range}"
+
+                              - spacer:
+
+                              - calc:
+                                output:
+                                  field: "##:explode-damage"
+                                  width: large
+                                  border: full
+                                  suffix: "_{d6}"
+                                  legend: "_{Damage}"
+                                inputs:
+                                  - ruby: "_{Min 2}"
+                                    contents:
+                                      - field:
+                                        ref: level
+                                        label: "_{Level}"
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+
+                  - section: "_{Breakthrough}"
+                    mark: inventor
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: inventor-feats
+                          class-level: "_{Inventor\nLevel}"
+                          basic-title: "_{Basic Breakthrough}"
+                          advanced-title: "_{Advanced Breakthrough}"
+                          num: 6
+
+                  - tail:

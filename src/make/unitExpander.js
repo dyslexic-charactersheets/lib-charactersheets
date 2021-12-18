@@ -18,6 +18,7 @@ const expansion = {
     each: '',
     embed: 'src',
     field: 'id',
+    flag: 'flag',
     flags: 'flags',
     g: 'contents',
     h1: 'title',

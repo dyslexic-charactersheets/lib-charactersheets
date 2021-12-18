@@ -1,0 +1,717 @@
+unit: class/guns-and-gears/inventor/construct
+name: "_{Construct}"
+group: "_{Guns and Gears}"
+
+inc:
+  - set: construct/fortitude-proficiency
+    value: trained
+  - set: construct/reflex-proficiency
+    value: trained
+  - set: construct/will-proficiency
+    value: trained
+
+  - set: construct-weapon-attack-1-proficiency
+    value: trained
+  - set: construct-weapon-attack-2-proficiency
+    value: trained
+
+  - set: construct/ac-proficiency
+    value: trained
+
+  - at: '@advancement'
+    add:
+      - levels: [5, 10, 15, 20]
+        gain: "_{Construct ability boost}"
+
+  - at: '@pages'
+    add:
+
+      - page: construct
+        name: "_{Construct}"
+        order: 11
+        flex: true
+        landscape: true
+        contents:
+          - layout: 2e
+            contents:
+              - layout: 2l
+                narrow: true
+                contents:
+                  - g:
+                    contents:
+
+                      - section: "_{Attributes}"
+                        id: construct/attributes
+                        contents:
+                          - g:
+                            pad: true
+                            contents:
+                              - layout: 3e
+                                gutter: none
+                                contents:
+                                  - repeat: 6
+                                    rows:
+                                      - name: "_{Strength}"
+                                        short: "_{STR}"
+                                        code: STR
+                                      - name: "_{Dexterity}"
+                                        short: "_{DEX}"
+                                        code: DEX
+                                      - name: "_{Constitution}"
+                                        short: "_{CON}"
+                                        code: CON
+                                      - name: "_{Intelligence}"
+                                        short: "_{INT}"
+                                        code: INT
+                                      - name: "_{Wisdom}"
+                                        short: "_{WIS}"
+                                        code: WIS
+                                      - name: "_{Charisma}"
+                                        short: "_{CHA}"
+                                        code: CHA
+                                    contents:
+                                      - g:
+                                        valign: top
+                                        contents:
+                                          - row: center
+                                            contents:
+                                              - spacer:
+                                              - field: "animal-#{code}"
+                                                label: "#{name}"
+                                                border: circle
+                                                size: huge
+                                                underlay: "#{short}"
+                                                eq: "(%{#{code}-score}-10)/2"
+                                              - spacer:
+
+                      - section: "_{Abilities}"
+                        contents:
+                          - list:
+                            hr: true
+                            zebra: true
+                            contents:
+                              - g:
+                                contents:
+                                  - row:
+                                    contents:
+                                      - field: construct/stage
+                                        control: radio
+                                        value: "prototype"
+                                        frame: right
+                                        label: "_{Prototype}"
+                                        width: tiny
+                                      - spacer:
+                                      - value:
+                                        control: icon
+                                        icon: "proficiency-trained"
+                                        label: "_{Fortitude}"
+                                        frame: above
+                                      - value:
+                                        control: icon
+                                        icon: "proficiency-trained"
+                                        label: "_{Reflex}"
+                                        frame: above
+                                      - value:
+                                        control: icon
+                                        icon: "proficiency-trained"
+                                        label: "_{Will}"
+                                        frame: above
+
+                                  - layout: 6e
+                                    contents:
+                                      - value: "+3"
+                                        label: "_{STR}"
+                                        frame: above
+                                      - value: "+3"
+                                        label: "_{DEX}"
+                                        frame: above
+                                      - value: "+2"
+                                        label: "_{CON}"
+                                        frame: above
+                                      - value: "-4"
+                                        label: "_{INT}"
+                                        frame: above
+                                      - value: "+1"
+                                        label: "_{WIS}"
+                                        frame: above
+                                      - value: "0"
+                                        label: "_{CHA}"
+                                        frame: above
+
+                                  - p: "_{Trained in Perception, Acrobatics, and Athletics}"
+                                    icon: proficiency-trained
+
+                                  - value-block: "_{1d_}"
+                                    content: "_{Unarmed damage}"
+
+                              - g:
+                                contents:
+                                  - row:
+                                    contents:
+                                      - field: construct/stage
+                                        control: radio
+                                        value: "advanced"
+                                        frame: right
+                                        label: "_{Advanced}"
+                                        width: tiny
+                                      - spacer:
+                                      - value:
+                                        control: icon
+                                        icon: "proficiency-expert"
+                                        label: "_{Fortitude}"
+                                        frame: above
+                                      - value:
+                                        control: icon
+                                        icon: "proficiency-expert"
+                                        label: "_{Reflex}"
+                                        frame: above
+                                      - value:
+                                        control: icon
+                                        icon: "proficiency-expert"
+                                        label: "_{Will}"
+                                        frame: above
+
+                                  - layout: 6e
+                                    contents:
+                                      - value: "+4"
+                                        label: "_{STR}"
+                                        frame: above
+                                      - value: "+4"
+                                        label: "_{DEX}"
+                                        frame: above
+                                      - value: "+3"
+                                        label: "_{CON}"
+                                        frame: above
+                                      - value: "-4"
+                                        label: "_{INT}"
+                                        frame: above
+                                      - value: "+2"
+                                        label: "_{WIS}"
+                                        frame: above
+                                      - value: "0"
+                                        label: "_{CHA}"
+                                        frame: above
+
+                                  - p: "_{Expert in Perception}"
+                                    icon: proficiency-expert
+                                    
+                                  - p: "_{Trained (or upgrade to expert) in Intimidation, Stealth and Survival}"
+                                    icon: proficiency-trained
+
+                                  - value-block: "_{2d_}"
+                                    content: "_{Unarmed damage}"
+
+                              - g:
+                                contents:
+                                  - row:
+                                    contents:
+                                      - field: construct/stage
+                                        control: radio
+                                        value: "incredible"
+                                        frame: right
+                                        label: "_{Incredible}"
+                                        width: tiny
+
+                                  - layout: 6e
+                                    contents:
+                                      - value: "+5"
+                                        label: "_{STR}"
+                                        frame: above
+                                      - value: "+5"
+                                        label: "_{DEX}"
+                                        frame: above
+                                      - value: "+4"
+                                        label: "_{CON}"
+                                        frame: above
+                                      - value: "-4"
+                                        label: "_{INT}"
+                                        frame: above
+                                      - value: "+3"
+                                        label: "_{WIS}"
+                                        frame: above
+                                      - value: "0"
+                                        label: "_{CHA}"
+                                        frame: above
+                                        
+                                  - p: "_{Expert in Acrobatics, and Athletics}"
+                                    icon: proficiency-expert
+
+                                  - value-block: "_{2d_} + 2"
+                                    width: huge
+                                    content: "_{Unarmed damage}"
+
+                              - g:
+                                contents:
+                                  - row:
+                                    contents:
+                                      - field: construct/stage
+                                        control: radio
+                                        value: "paragon"
+                                        frame: right
+                                        label: "_{Paragon}"
+                                        width: tiny
+                                      - spacer:
+                                      - value:
+                                        control: icon
+                                        icon: "proficiency-master"
+                                        label: "_{Fortitude}"
+                                        frame: above
+                                      - value:
+                                        control: icon
+                                        icon: "proficiency-master"
+                                        label: "_{Reflex}"
+                                        frame: above
+                                      - value:
+                                        control: icon
+                                        icon: "proficiency-master"
+                                        label: "_{Will}"
+                                        frame: above
+
+                                  - layout: 6e
+                                    contents:
+                                      - value: "+6"
+                                        label: "_{STR}"
+                                        frame: above
+                                      - value: "+6"
+                                        label: "_{DEX}"
+                                        frame: above
+                                      - value: "+5"
+                                        label: "_{CON}"
+                                        frame: above
+                                      - value: "-4"
+                                        label: "_{INT}"
+                                        frame: above
+                                      - value: "+4"
+                                        label: "_{WIS}"
+                                        frame: above
+                                      - value: "0"
+                                        label: "_{CHA}"
+                                        frame: above
+
+                                  - p: "_{Master in Perception, Acrobatics, and Athletics}"
+                                    icon: proficiency-master
+
+                                  - p: "_{Expert in unarmed attacks and unarmoured defence}"
+                                    icon: proficiency-expert
+
+                                  - value-block: "_{3d_} + 4"
+                                    width: huge
+                                    content: "_{Unarmed damage}"
+
+                      - tail:
+                      # - spacer:
+                      #   flex: tiny
+
+                  - g:
+                    contents:
+                      - class-name: "_{Construct}"
+                      - portrait: construct
+                        # overprint: true
+                      - g:
+                        contents:
+                          - layout: alignment
+                            contents:
+                              - g:
+                                contents:
+                                  - row:
+                                    contents:
+                                      - field: construct/name
+                                        legend: "_{Name}"
+                                        width: stretch
+                                        align: left
+                                        size: large
+                                      - field: construct/size
+                                        label: "_{Size}"
+                                        icon: size
+                                        width: large
+                                  - label: "_{Traits}"
+                                    align: left
+                                  - row:
+                                    merge-bottom: true
+                                    contents:
+                                      - flags:
+                                          - "_{Construct}"
+                                      - field: construct/traits
+                                        width: stretch
+                                        frame: none
+                              - field: construct/alignment
+                                control: alignment
+                                frame: none
+
+
+                      - section: "_{Skills}"
+                        contents:
+                          - table:
+                            collapse: true
+                            zebra: true
+                            sort_by: name
+                            width: stretch
+                            field_frame: none
+                            columns:
+                              - label: ""
+                                align: right
+                              - "_{Skill\nBonus}"
+                              - 
+                              - "_{Ability\nModifier}"
+                              - "_{Proficiency}"
+                            rows:
+                              - skill: acrobatics
+                                label: "_{Acrobatics}"
+                                ability: "_{DEX}"
+                                abilityref: DEX
+                              - skill: athletics
+                                label: "_{Athletics}"
+                                ability: "_{STR}"
+                                abilityref: STR
+                              # - skill: deception
+                              #   label: "_{Deception}"
+                              #   ability: "_{CHA}"
+                              #   abilityref: CHA
+                              - skill: intimidation
+                                label: "_{Intimidation}"
+                                ability: "_{CHA}"
+                                abilityref: CHA
+                              # - skill: nature
+                              #   label: "_{Nature}"
+                              #   ability: "_{WIS}"
+                              #   abilityref: WIS
+                              # - skill: performance
+                              #   label: "_{Performance}"
+                              #   ability: "_{CHA}"
+                              #   abilityref: CHA
+                              - skill: stealth
+                                label: "_{Stealth}"
+                                ability: "_{DEX}"
+                                abilityref: DEX
+                              - skill: survival
+                                label: "_{Survival}"
+                                ability: "_{WIS}"
+                                abilityref: WIS
+                              # - skill: thievery
+                              #   label: "_{Thievery}"
+                              #   ability: "_{DEX}"
+                              #   abilityref: DEX
+                              - skill: ""
+                                label: ""
+                                ability: ""
+                                abilityref: ""
+                              - skill: ""
+                                label: ""
+                                ability: ""
+                                abilityref: ""
+                              - skill: ""
+                                label: ""
+                                ability: ""
+                                abilityref: ""
+                              - skill: ""
+                                label: ""
+                                ability: ""
+                                abilityref: ""
+                            template:
+                              - h6: "#{label}"
+                                fade: "#{fade}"
+                                blk: false
+                              - field: "construct/#{skill}-bonus"
+                                border: full
+                                icon: bonus
+                              - span: "="
+                              - field:
+                                ref: "#{ability}"
+                                underlay: "#{ability}"
+                                frame: h-label
+                                label: "#{ability}"
+                              - field: "#{skill}-proficiency"
+                                control: proficiency
+                          
+                          - hr:
+                          - calc:
+                            output:
+                              field: construct/perception
+                              icon: bonus
+                              legend: "_{Perception}"
+                              width: large
+                            inputs:
+                              - field:
+                                ref: construct/WIS
+                                underlay: "_{WIS}"
+                                label: "_{WIS}"
+                              - field: construct/perception-proficiency
+                                label: "_{Proficiency}"
+                                control: proficiency
+                                value: trained
+                              - field:
+                                label: "_{Item}"
+                              - field:
+                                misc: true
+                                label: "_{Misc}"
+                          - row:
+                            unlabelled: true
+                            contents:
+                              - field: construct/perception-low-light
+                                frame: right
+                                control: checkbox
+                                label: "_{Low-light vision}"
+                              - field: construct/perception-darkvision
+                                frame: right
+                                control: checkbox
+                                label: "_{Dark vision}"
+                              - field: construct/perception-scent
+                                frame: right
+                                control: checkbox
+                                label: "_{Scent}"
+
+                      - tail:
+              - g:
+                contents:
+                  - layout: 2l
+                    narrow: true
+                    contents:
+                      - g:
+                        contents:
+                          - section: "_{Actions}"
+                            mark: action
+                            contents:
+                              - list:
+                                zebra: true
+                                flex: true
+                                hr: true
+                                contents:
+                                  - repeat: 3
+                                    contents:
+                                      - action: template
+                                        contents:
+                                          - article:
+                                            lines: 2
+                                            reduce: 1
+
+                          - section: "_{Speed}"
+                            contents:
+                              - spacer:
+                              - g:
+                                pad: true
+                                contents:
+                                  - field: construct/speed
+                                    legend: "_{Speed}"
+                                    control: speed
+                                    width: huge
+                                    border: full
+                              - spacer:
+                                    
+
+                      - g:
+                        contents:
+                          - section: "_{Attacks}"
+                            mark: sword
+                            contents:
+                              - list:
+                                zebra: true
+                                hr: true
+                                flex: true
+                                contents:
+                                  - paste: weapon-small
+                                    params:
+                                      id: construct-weapon
+                                      i: 1
+                                      damage-die: "_{d8}"
+                                  - paste: weapon-small
+                                    params:
+                                      id: construct-weapon
+                                      i: 2
+                                      damage-die: "_{d6}"
+                                  - paste: weapon-small
+                                    params:
+                                      id: construct-weapon
+                                      i: 3
+
+                  - layout: 2r
+                    narrow: true
+                    contents:
+                      - g:
+                        contents:
+                        
+                          - section: "_{Health}"
+                            mark: hp
+                            contents:
+                              - row:
+                                contents:
+                                  - calc:
+                                    output:
+                                      field: construct/hp
+                                      legend: "_{Hit Points}"
+                                      icon: hp
+                                      suffix: "_{hp}"
+                                      width: large
+                                    inputs:
+                                      - span: "10 + ("
+                                      - field:
+                                        label: "_{CON}"
+                                        underlay: "_{CON}"
+                                        ref: CON
+                                      - span: "+ 6 ) &times;"
+                                      - field:
+                                        ref: level
+                                        label: "_{Level}"
+
+                              - row:
+                                contents:
+                                  - field: construct/current-hp
+                                    label: "_{Current Hit Points}"
+                                    border: full
+                                    temp: true
+                                    icon: hp
+                                    suffix: "_{hp}"
+                                    width: stretch
+                                    
+                                  - field: construct/dying
+                                    control: compound
+                                    label: "_{Broken}"
+                                    border: none
+                                    flex: none
+                                    width: stretch
+                                    align: center
+                                    parts:
+                                      - id: dying-wounded
+                                        control: checkgrid
+                                        style: progress
+                                        max: 3
+                                        depth: 1
+                                                
+                                  - icon: evil
+                                    size: medium
+                                    optional: true
+
+                              - hr:
+                              - h5: "_{Effects}"
+                              - row:
+                                merge-bottom: true
+                                contents:
+                                  - field: effect-#{i}
+                                    control: progression
+                                    frame: none
+                                    max: 3
+                                  - field: effect-#{i}
+                                    width: stretch
+                                    frame: none
+                                  - field: effect-#{i}-duration
+                                    frame: none
+                                    underlay: "#"
+                                    suffix: "_{rds}"
+                                  - field:
+                                    control: checkgrid
+                                    frame: none
+                                    max: 6
+                                    depth: 2
+                                
+                          - section: "_{Armour Class}"
+                            mark: shield
+                            contents:
+                              - calc:
+                                output:
+                                  field: "animal-companion-ac"
+                                  legend: "_{Armour Class}"
+                                  icon: shield
+                                  border: full
+                                  width: large
+                                  underlay: "_{AC}"
+                                inputs:
+                                  - span: "10 +"
+                                  - field:
+                                    ref: construct/DEX
+                                    label: "_{DEX}"
+                                    underlay: "_{DEX}"
+                                  - span: "+"
+                                  - field: "construct/ac-proficiency"
+                                    control: proficiency
+                                    label: "_{Proficiency}"
+                                  - span: "+"
+                                  - field:
+                                    misc: true
+                                    label: "_{Misc}"
+
+                              - field: construct/ac-conditional
+                                label: "_{Conditional}"
+                                frame: none
+                                width: stretch
+                                align: left
+                                repeat: 2
+                                merge-bottom: true
+
+                          - section: "_{Modifications}"
+                            mark: construct
+                            contents:
+                              - list:
+                                hr: true
+                                zebra: true
+                                columns: 2
+                                contents:
+                                  - repeat: 6
+                                    reduce: 2
+                                    contents:
+                                      - selectable:
+                                        contents:
+                                          - article:
+                                            lines: 1
+
+                          - tail:
+
+                      - g:
+                        contents:
+                          - section: "_{Saving Throws}"
+                            id: saving-throws
+                            contents:
+                              - table:
+                                columns:
+                                  - 
+                                  - 
+                                  - "_{Ability Modifier}"
+                                  - "_{Proficiency}"
+                                rows:
+                                  - save: fortitude
+                                    legend: "_{Fortitude}"
+                                    short: "_{FORT}"
+                                    ability: "_{CON}"
+                                    abilityref: CON
+                                  - save: reflex
+                                    legend: "_{Reflex}"
+                                    short: "_{REF}"
+                                    ability: "_{DEX}"
+                                    abilityref: DEX
+                                  - save: will
+                                    legend: "_{Will}"
+                                    short: "_{WILL}"
+                                    ability: "_{WIS}"
+                                template:
+                                  - calc:
+                                    output:
+                                      field: "construct/#{save}"
+                                      legend: "#{legend}"
+                                      icon: bonus
+                                      border: full
+                                      width: large
+                                      underlay: "#{short}"
+                                    inputs:
+                                      - field:
+                                        label: "#{ability}"
+                                        underlay: "#{ability}"
+                                        ref: "#{abilityref}"
+                                      - field: "construct/#{save}-proficiency"
+                                        control: proficiency
+                                        # value: trained
+                              - field: construct/saving-throws-conditional
+                                label: "_{Conditional}"
+                                align: left
+                                repeat: 2
+                                merge-bottom: true
+                                width: stretch
+
+                          - section: "_{Inventory}"
+                            contents:
+                              - list:
+                                zebra: true
+                                merge-bottom: true
+                                contents:
+                                  - repeat: 8
+                                    contents:
+                                      - field: "construct/inventory/#{i}"
+                                        width: stretch
+                          - tail:

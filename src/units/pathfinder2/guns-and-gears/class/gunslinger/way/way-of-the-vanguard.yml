@@ -1,0 +1,115 @@
+unit: gunslinger/way/vanguard
+in: gunslinger/way
+group: "_{Guns and Gears}"
+name: "_{Way of the Vanguard}"
+
+inc:
+  - set: subclass
+    value: "_{Way of the Vanguard}"
+  - set: proficiency-acrobatics
+    value: athletics
+
+  - at: '@guns-and-gears/gunslinger/way'
+    replace:
+      - h4: "_{Way of the Vanguard}"
+
+  - at: '@guns-and-gears/gunslinger/way/slingers-reload'
+    replace:
+      - article:
+        title: "_{Clear a Path}"
+        contents:
+          - action:
+            contents:
+              - p: "_{Shove an opponent then reload. Add your weapon's item bonus to the Athletics check.}"
+              - p: "_{If your last action was a ranged Strike, use the same multiple attack penalty.}"
+
+  - at: '@guns-and-gears/gunslinger/way/deed/initial'
+    replace:
+      - article:
+        title: "_{Living Fortification}"
+        contents:
+          - action: free
+            contents:
+              - p: "_{When you roll initiative, draw a firearm or crossbow as a free action.}"
+          - row:
+            contents:
+              - value-block: "+1"
+                content: "_{AC bonus until your first turn}"
+              - vr:
+              - value-block: "+2"
+                contents:
+                  - flags:
+                      - "_{Parry}"
+
+  - at: '@guns-and-gears/gunslinger/way/deed/advanced'
+    replace:
+      - article:
+        title: "_{Spinning Crush}"
+        contents:
+          - action: 3
+            contents:
+              - p: "_{Deal damage to all adjacent creatures.}"
+              - calc:
+                output:
+                  label: "_{Blundgeoning\nDamage}"
+                inputs:
+                  - field: "##:spinning-crush/dice"
+                    width: small
+                  - span: "_{d6} +"
+                  - field:
+                    ref: STR
+                    label: "_{STR}"
+                    underlay: "_{STR}"
+          - row:
+            contents:
+              - span: "_{1d6}"
+              - vr:
+              
+              - field:
+                label: "_{Striking}"
+                control: icon
+                icon: runes1
+              - span: "_{2d6}"
+              - vr:
+              
+              - field:
+                label: "_{Striking}"
+                control: icon
+                icon: runes2
+              - span: "_{3d6}"
+              - vr:
+              
+              - field:
+                label: "_{Striking}"
+                control: icon
+                icon: runes3
+              - span: "_{4d6}"
+          - p: "_{Targets that fail a basic reflex save are pushed 5ft away.}"
+
+  - at: '@guns-and-gears/gunslinger/way/deed/greater'
+    replace:
+      - article:
+        title: "_{Siegebreaker}"
+        contents:
+          - action: 2
+            contents:
+              - p: "_{Leap or Stride, then make a Strike with a firearm or crossbow.}"
+          - row:
+            contents:
+              - value-block: "+_{3d6}"
+                width: large
+                content: "_{Bonus damage}"
+              - value-block: "10"
+                content: "_{Ignore hardness}"
+          - hr:
+            light: true
+          - p: "_{After the Strike you are immobilised until your next turn}"
+          - row:
+            contents:
+              - value-block: "+1"
+                content: "_{AC bonus until your next turn}"
+              - vr:
+              - value-block: "+2"
+                contents:
+                  - flags:
+                      - "_{Parry}"
