@@ -1,0 +1,50 @@
+unit: ancestry/lost-omens/ancestry-guide/sprite
+in: ancestry
+group: "_{Lost Omens Ancestry Guide}"
+name: "_{Sprite}"
+badge: "_{Rare}"
+
+require:
+  - unit: optional-darkvision/trigger
+  - unit: option/size/tiny
+
+form:
+  - select: heritage/lost-omens/ancestry-guide/sprite
+    name: "_{Sprite Heritage}"
+    max: 1
+
+inc:
+  - set: ancestry
+    value: "_{Sprite}"
+  - set: hp-ancestry
+    value: 6
+  - set: perception-low-light
+    value: true
+  - set: build-boost-DEX-ancestry
+    value: 1
+  - set: build-boost-INT-ancestry
+    value: 1
+  - set: build-boost-STR-ancestry
+    value: -1
+  - set: languages
+    value: "_{Common}, _{Sylvan}"
+
+  - at: '@ancestry'
+    replace:
+      - article:
+        title: "_{Sprite}"
+        contents:
+          - flags:
+              - "_{Fey}"
+              - "_{Sprite}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{20ft}"
+          - paste: optional-darkvision
+          - hr:
+            light: true
+          - p:
+            title: "_{Magical Strikes}"
+            content: "_{All your Strikes are magical, whether unarmed or weapons.}"

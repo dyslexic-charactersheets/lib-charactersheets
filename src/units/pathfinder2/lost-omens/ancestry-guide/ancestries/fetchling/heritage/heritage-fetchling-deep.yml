@@ -1,0 +1,41 @@
+unit: heritage/lost-omens/ancestry-guide/fetchling/deep
+in: heritage/lost-omens/ancestry-guide/fetchling
+group: "_{Lost Omens Ancestry Guide}"
+name: "_{Deep Fetchling}"
+
+inc:
+  - set: heritage
+    value: "_{Deep Fetchling}"
+
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Deep Fetchling}"
+        contents:
+          - row:
+            contents:
+              - field: "##:resist"
+                control: radio
+                value: cold
+                label: "_{Cold}"
+                frame: right
+                width: tiny
+              - field: "##:resist"
+                control: radio
+                value: negative
+                label: "_{Negative}"
+                frame: right
+                width: tiny
+          - calc:
+            output:
+              field: "##:resistance"
+              legend: "_{Resistance}"
+              width: large
+              border: full
+            inputs:
+              - ruby: "_{Minimum 1}"
+                contents:
+                  - field:
+                    ref: level
+                    label: "_{Level}"
+                  - span: "&divide; 2"

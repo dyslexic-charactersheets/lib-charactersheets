@@ -4,6 +4,7 @@ group: "_{Lost Omens Character Guide}"
 name: "_{Leshy}"
 
 require:
+  - unit: optional-darkvision/trigger
   
 form:
   - select: heritage/lost-omens/character-guide/leshy
@@ -35,12 +36,16 @@ inc:
               - "_{Leshy}"
               - "_{Plant}"
               - "_{Small}"
-          - field: ancestry-speed
-            frame: right
-            label: "_{Speed}"
-            control: value
-            value: "_{25ft}"
+          - zone: '@ancestry/speed'
+            contents:
+              - field: ancestry-speed
+                frame: right
+                label: "_{Speed}"
+                control: value
+                value: "_{25ft}"
           - paste: low-light-vision
-          - p:
-            title: "_{Plant Nourishment}"
-            content: "_{Do not normally need food. If you go without sunlight for a week, you begin to starve.}"
+          - zone: '@##:plant-nourishment'
+            contents:
+              - p:
+                title: "_{Plant Nourishment}"
+                content: "_{Do not normally need food. If you go without sunlight for a week, you begin to starve.}"

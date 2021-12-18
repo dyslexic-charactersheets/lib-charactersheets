@@ -25,7 +25,7 @@ inc:
   - set: build-boost-INT-ancestry
     value: -1
   - set: languages
-    value: "_{Common}, _{Lizardfolk}"
+    value: "_{Common}, _{Iruxi}"
 
   - at: '@ancestry'
     replace:
@@ -33,7 +33,7 @@ inc:
         title: "_{Lizardfolk}"
         contents:
           - flags:
-              - "_{Goblin}"
+              - "_{Lizardfolk}"
               - "_{Humanoid}"
           - field: ancestry-speed
             frame: right
@@ -41,16 +41,13 @@ inc:
             control: value
             value: "_{25ft}"
           
-          - hr:
-            light: true
-          - h6: "_{Claws}"
-          - value-block: "_{1d4}"
-            content: "_{Slashing damge}"
-          # - flags:
-          #     - "_{Agile}"
-          #     - "_{Finesse}"
+          - paste: natural-weapon
+            params:
+              name: "_{Claws}"
+              damage: "_{1d4}"
+            contents:
+              - flags:
+                  - "_{Agile}"
+                  - "_{Finesse}"
 
-          - hr:
-            light: true
-          - h6: "_{Aquatic Adaptation}"
           - paste: feat/breath-control

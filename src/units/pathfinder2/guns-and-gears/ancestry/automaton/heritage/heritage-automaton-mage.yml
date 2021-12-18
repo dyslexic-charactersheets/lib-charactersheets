@@ -1,0 +1,29 @@
+unit: heritage/guns-and-gears/automaton/mage
+in: heritage/guns-and-gears/automaton
+group: "_{Guns and Gears}"
+name: "_{Mage Automaton}"
+
+inc:
+  - set: heritage
+    value: "_{Mage Automaton}"
+
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Mage Automaton}"
+        contents:
+          - field: "##:cantrip"
+            width: stretch
+            label: "_{Cantrip}"
+          - p: "_{Cast at will}"
+          - calc:
+            output:
+              field: cantrip-level
+              legend: "_{Cantrip Level}"
+            inputs:
+              - ruby-round-up:
+                contents:
+                  - field:
+                    ref: level
+                    label: "_{Level}"
+                  - span: "&divide; 2"

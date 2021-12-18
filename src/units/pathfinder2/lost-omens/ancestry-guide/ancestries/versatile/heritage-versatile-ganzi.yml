@@ -1,0 +1,58 @@
+unit: heritage/lost-omens/ancestry-guide/ganzi
+in: heritage/versatile
+group: "_{Lost Omens Ancestry Guide}"
+name: "_{Ganzi}"
+
+inc:
+  - set: heritage
+    value: "_{Ganzi}"
+
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Ganzi}"
+        contents:
+          - flags:
+              - "_{Ganzi}"
+          - p: "_{Resistance (random each day)}"
+          - row:
+            contents:
+              - field: "##:resistance-type"
+                control: radio
+                value: cold
+                label: "_{Cold}"
+                frame: right
+                width: tiny
+              - field: "##:resistance-type"
+                control: radio
+                value: sonic
+                label: "_{Sonic}"
+                frame: right
+                width: tiny
+          - row:
+            contents:
+              - field: "##:resistance-type"
+                control: radio
+                value: electricity
+                label: "_{Electricity}"
+                frame: right
+                width: tiny
+          - calc:
+            output:
+              field: "##:resistance"
+              legend: "_{Resistance}"
+              width: large
+              border: full
+            inputs:
+              - ruby: "_{Min 1}"
+                contents:
+                  - field:
+                    ref: level
+                    label: "_{Level}"
+                  - span: "&divide; 2"
+          - hr:
+            light: true
+
+          - value-block: "+1"
+            content: "_{Saves against being controlled}"
+

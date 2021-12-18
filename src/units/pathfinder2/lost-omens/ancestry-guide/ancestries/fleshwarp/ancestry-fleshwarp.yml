@@ -1,0 +1,45 @@
+unit: ancestry/lost-omens/ancestry-guide/fleshwarp
+in: ancestry
+group: "_{Lost Omens Ancestry Guide}"
+name: "_{Fleshwarp}"
+badge: "_{Rare}"
+
+form:
+  - select: heritage/lost-omens/ancestry-guide/fleshwarp
+    name: "_{Fleshwarp Heritage}"
+    max: 1
+
+require:
+  - unit: optional-darkvision
+
+inc:
+  - set: ancestry
+    value: "_{Fleshwarp}"
+  - set: hp-ancestry
+    value: 10
+  - set: perception-low-light
+    value: true
+  - set: build-boost-CON-ancestry
+    value: 1
+  - set: languages
+    value: "_{Common}"
+
+  - at: '@ancestry'
+    replace:
+      - article:
+        title: "_{Fleshwarp}"
+        contents:
+          - flags:
+              - "_{Aberration}"
+              - "_{Humanoid}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{25ft}"
+          - paste: optional-darkvision
+          - value-block: "+1"
+            contents:
+              - p:
+                title: "_{Unusual Anatomy}"
+                content: "_{Saves against diseases and poisons}"

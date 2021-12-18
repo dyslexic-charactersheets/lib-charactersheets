@@ -1,0 +1,49 @@
+unit: ancestry/lost-omens/ancestry-guide/strix
+in: ancestry
+group: "_{Lost Omens Ancestry Guide}"
+name: "_{Strix}"
+badge: "_{Rare}"
+
+require:
+  - unit: optional-darkvision/trigger
+
+form:
+  - select: heritage/lost-omens/ancestry-guide/strix
+    name: "_{Strix Heritage}"
+    max: 1
+
+inc:
+  - set: ancestry
+    value: "_{Strix}"
+  - set: hp-ancestry
+    value: 8
+  - set: perception-low-light
+    value: true
+  - set: build-boost-DEX-ancestry
+    value: 1
+  - set: languages
+    value: "_{Common}, _{Strix}"
+
+  - at: '@ancestry'
+    replace:
+      - article:
+        title: "_{Strix}"
+        contents:
+          - flags:
+              - "_{Humanoid}"
+              - "_{Strix}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{25ft}"
+          - paste: optional-darkvision
+          - hr:
+            light: true
+          - p: 
+            title: "_{Wings}"
+          - value-block: "+_{5ft}"
+            width: large
+            content: "_{when leaping horizontally}"
+          - p: "_{High Jump or Long Jump without a runup. Long Jump 10ft further.}"
+          
