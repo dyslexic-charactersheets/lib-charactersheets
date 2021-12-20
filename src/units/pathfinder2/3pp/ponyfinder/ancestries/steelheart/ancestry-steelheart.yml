@@ -1,0 +1,51 @@
+unit: ancestry/3pp/ponyfinder/steelheart
+in: ancestry
+group: "_{Ponyfinder}"
+name: "_{Steelheart}"
+
+require:
+  - unit: 3pp/ponyfinder
+  - unit: optional-darkvision/trigger
+  
+form:
+  - select: heritage/3pp/ponyfinder/steelheart
+    name: "_{Steelheart Heritage}"
+    max: 1
+
+inc:
+  - set: ancestry
+    value: "_{Steelheart}"
+  - set: hp-ancestry
+    value: 10
+  - set: perception-low-light
+    value: true
+  - set: build-boost-CON-ancestry
+    value: 1
+  - set: build-boost-INT-ancestry
+    value: 1
+  - set: build-boost-WIS-ancestry
+    value: -1
+  - set: languages
+    value: "_{Common}"
+
+  - at: '@ancestry'
+    replace:
+      - article:
+        title: "_{Steelheart}"
+        contents:
+          - flags:
+              - "_{Fey}"
+              - "_{Half-Construct}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{25ft}"
+          - paste: ponyfinder/fingerless
+          - p:
+            title: "_{Cold Heart}"
+            content: "_{Steelhearts can only be raised at their factories, with a payment of any costly material components made to the machine priests there to cast an appropriate reviving spell.}"
+
+  - at: '@ethnicity'
+    replace:
+      - nothing:
