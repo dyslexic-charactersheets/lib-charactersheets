@@ -1,0 +1,53 @@
+unit: background/press-ganged
+in: background
+group: "_{Guns and Gears}"
+name: "_{Press-Ganged (G&G)}"
+badge: "_{Uncommon}"
+
+require:
+  - unit: feat/armor-assist
+
+inc:
+  - set: char-background
+    value: "_{Press-Ganged (G&G)}"
+
+  - set: athletics-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Press-Ganged (G&G)}"
+        contents:
+
+          - p: "_{Trained in Athletics and Labor Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{Was it five shots or six? It doesn't really matter in the end, because after those nice folks bought all your drinks, you woke up on the lowest rung of the ladder. Whether a crewmate on a ship, a conscript in an army, or something worse, you've nowhere to go but up. This background generally requires buy-in with the entire group to tell a story allowing you to play a character starting their adventuring due to circumstances outside their own control. However, you can also play a character who was once press-ganged and has since escaped that life. If you do, press-ganged doesn't have the uncommon trait, and it has the same mechanical effects either way.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{Guns & Gears p124}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/armor-assist
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: labor-lore
+        name: "_{Labor Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

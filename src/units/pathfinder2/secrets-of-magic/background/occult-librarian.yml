@@ -1,0 +1,53 @@
+unit: background/occult-librarian
+in: background
+group: "_{Secrets of Magic}"
+name: "_{Occult Librarian}"
+
+
+require:
+  - unit: feat/schooled-in-secrets
+
+inc:
+  - set: char-background
+    value: "_{Occult Librarian}"
+
+  - set: occultism-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Occult Librarian}"
+        contents:
+
+          - p: "_{Trained in Occultism and Academia Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{Hours spent reading numerous compendiums dedicated to various occult topics honed your knowledge of these more obscure magical arts. You might have taken to adventuring to finance your acquisition of rare tomes, to explore occult mysteries that can't be found in the pages of a book, or perhaps to put your skills to the test.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{Secrets of Magic p29}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/schooled-in-secrets
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: academia-lore
+        name: "_{Academia Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

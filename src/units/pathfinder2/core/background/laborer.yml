@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Laborer}"
 
+
 require:
   - unit: feat/hefty-hauler
 
 inc:
   - set: char-background
     value: "_{Laborer}"
+
   - set: athletics-proficiency
     value: trained
 
@@ -17,29 +19,33 @@ inc:
       - article: char-background
         title: "_{Laborer}"
         contents:
+
           - p: "_{Trained in Athletics and Labor Lore}"
             icon: proficiency-trained
+            blk: false
 
-          - field: char-background-details
-            width: stretch
-            repeat: 3
-            reduce: 1
-          
+
+          - p: "_{You’ve spent years performing arduous physical labor. It was a difficult life, but you somehow survived. You may have embraced adventuring as an easier method to make your way in the world, or you might adventure under someone else’s command.}"
+            size: small
+            blk: false
+
+
           - paste: book-ref
             params:
               page-ref: "_{CRB p62}"
+
 
   - at: '@background-skill-feat'
     replace:
       - paste: feat/hefty-hauler
         params:
-          skill: "#{skill}"
-          skillname: "_{Athletics}"
           level: 1
+
 
   - at: '@lore-skills'
     add:
-      - skill: lore-labor
+
+      - skill: labor-lore
         name: "_{Labor Lore}"
         ability: "_{INT}"
         abilityref: INT

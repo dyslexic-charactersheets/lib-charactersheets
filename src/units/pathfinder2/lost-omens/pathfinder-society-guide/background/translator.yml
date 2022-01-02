@@ -1,0 +1,53 @@
+unit: background/translator
+in: background
+group: "_{Lost Omens Pathfinder Society Guide}"
+name: "_{Translator}"
+
+
+require:
+  - unit: feat/multilingual
+
+inc:
+  - set: char-background
+    value: "_{Translator}"
+
+  - set: society-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Translator}"
+        contents:
+
+          - p: "_{Trained in Society and Scribing Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{In your youth, you learned to transcribe books and translate scrolls to preserve knowledge or perhaps to aid wealthy merchants and politicians. Whether you set out to make your own fortune or are drawn to decipher the strangest codes, your linguistic training will guide your discoveries.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{PFS Guide p6}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/multilingual
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: scribing-lore
+        name: "_{Scribing Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

@@ -3,7 +3,8 @@ const path = require('path');
 
 require('./log');
 const units = require('./units');
-const unitGen = require('./unitGen');
+// const unitGen = require('./unitGen');
+// const unitGenAoN = require('./unitGenAoN');
 const formdata = require('./formdata');
 
 const systems = [
@@ -29,7 +30,8 @@ const systems = [
     }
 ];
 
-unitGen.generateUnits();
+// unitGen.generateUnits();
+// unitGenAoN.generateUnits();
 
 systems.forEach(system => {
     log("make", "Building "+system.name);

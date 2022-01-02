@@ -1,0 +1,43 @@
+unit: background/pathfinder-recruiter
+in: background
+group: "_{Lost Omens Pathfinder Society Guide}"
+name: "_{Pathfinder Recruiter}"
+
+
+require:
+  - unit: feat/group-impression
+
+inc:
+  - set: char-background
+    value: "_{Pathfinder Recruiter}"
+
+  - set: diplomacy-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Pathfinder Recruiter}"
+        contents:
+
+          - p: "_{Trained in Diplomacy}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{The Pathfinder Society's always on the lookout for talent, but that talent rarely just stumbles into the Grand Lodge. Whether you're professionally trained to encourage new recruits or the Society's own scouts identified your potential and raised you from childhood, you're committed to expanding the Society's roster.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{PFS Guide p6}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/group-impression
+        params:
+          level: 1
+

@@ -1,0 +1,53 @@
+unit: background/clockwork-researcher
+in: background
+group: "_{Guns and Gears}"
+name: "_{Clockwork Researcher}"
+
+
+require:
+  - unit: feat/eye-for-numbers
+
+inc:
+  - set: char-background
+    value: "_{Clockwork Researcher}"
+
+  - set: society-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Clockwork Researcher}"
+        contents:
+
+          - p: "_{Trained in Society and Engineering Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{New forms of clockwork technology are incredibly interesting to you, and you've been studying examples of them to see where else they might be best put to use. You might eventually develop a new prototype machine or find a way to make related technologies practical enough for everyone to benefit. Though before you do, you must continue your research!}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{Guns & Gears p44}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/eye-for-numbers
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: engineering-lore
+        name: "_{Engineering Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

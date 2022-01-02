@@ -1,0 +1,43 @@
+unit: background/saloon-entertainer
+in: background
+group: "_{Guns and Gears}"
+name: "_{Saloon Entertainer}"
+
+
+require:
+  - unit: feat/virtuosic-performer
+
+inc:
+  - set: char-background
+    value: "_{Saloon Entertainer}"
+
+  - set: performance-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Saloon Entertainer}"
+        contents:
+
+          - p: "_{Trained in Performance}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{All you want to do is entertain the people, but sure enough, bad news seems to follow you. Gunfights, brawls, robberies, and more befall establishments you play at, and word is quick to spread. Keep one town ahead of the gossip, and you just might be able to play a gig, command a stage, or run a table again.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{Guns & Gears p123}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/virtuosic-performer
+        params:
+          level: 1
+

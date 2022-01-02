@@ -1,0 +1,43 @@
+unit: background/cultist
+in: background
+group: "_{Advanced Player's Guide}"
+name: "_{Cultist}"
+
+
+require:
+  - unit: feat/schooled-in-secrets
+
+inc:
+  - set: char-background
+    value: "_{Cultist}"
+
+  - set: occultism-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Cultist}"
+        contents:
+
+          - p: "_{Trained in Occultism}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{You were (or still are) a member of a cult whose rites may involve sacred dances to ensure a strong harvest or dire rituals that call upon dark powers. You might have taken up adventuring to further your cult’s aims, to initiate yourself into the world’s grander mysteries, or to flee unsavory practices or strictures.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{APG p48}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/schooled-in-secrets
+        params:
+          level: 1
+

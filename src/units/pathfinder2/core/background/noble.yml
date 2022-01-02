@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Noble}"
 
+
 require:
   - unit: feat/courtly-graces
 
 inc:
   - set: char-background
     value: "_{Noble}"
+
   - set: society-proficiency
     value: trained
 
@@ -17,23 +19,35 @@ inc:
       - article: char-background
         title: "_{Noble}"
         contents:
-          - p: "_{Trained in Society}"
-            icon: proficiency-trained
 
-          - field: char-background-details
-            width: stretch
-            repeat: 3
-            reduce: 1
-          
+          - p: "_{Trained in Society and Genealogy Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{To the common folk, the life of a noble seems one of idyllic luxury, but growing up as a noble or member of the aspiring gentry, you know the reality: a noble’s lot is obligation and intrigue. Whether you seek to escape your duties by adventuring or to better your station, you have traded silks and pageantry for an adventurer’s life.}"
+            size: small
+            blk: false
+
+
           - paste: book-ref
             params:
               page-ref: "_{CRB p63}"
+
 
   - at: '@background-skill-feat'
     replace:
       - paste: feat/courtly-graces
         params:
-          skill: "#{skill}"
-          skillname: "_{Society}"
           level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: genealogy-lore
+        name: "_{Genealogy Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
 

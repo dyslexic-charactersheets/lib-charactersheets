@@ -1,0 +1,53 @@
+unit: background/sewer-dragon
+in: background
+group: "_{Pathfinder Society}"
+name: "_{Sewer Dragon}"
+
+
+require:
+  - unit: feat/snare-crafting
+
+inc:
+  - set: char-background
+    value: "_{Sewer Dragon}"
+
+  - set: crafting-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Sewer Dragon}"
+        contents:
+
+          - p: "_{Trained in Crafting and Kobold Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{You are one of the Sewer Dragons, born in Absalom's sewers, strengthened by a life defending your territory.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{The Broken Scales p16}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/snare-crafting
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: kobold-lore
+        name: "_{Kobold Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

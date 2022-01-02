@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Barkeep}"
 
+
 require:
   - unit: feat/hobnobber
 
 inc:
   - set: char-background
     value: "_{Barkeep}"
+
   - set: diplomacy-proficiency
     value: trained
 
@@ -17,29 +19,33 @@ inc:
       - article: char-background
         title: "_{Barkeep}"
         contents:
+
           - p: "_{Trained in Diplomacy and Alcohol Lore}"
             icon: proficiency-trained
+            blk: false
 
-          - field: char-background-details
-            width: stretch
-            repeat: 3
-            reduce: 1
-          
+
+          - p: "_{You have five specialties: hefting barrels, drinking, polishing steins, drinking, and drinking. You worked in a bar, where you learned how to hold your liquor and rowdily socialize.}"
+            size: small
+            blk: false
+
+
           - paste: book-ref
             params:
               page-ref: "_{CRB p60}"
+
 
   - at: '@background-skill-feat'
     replace:
       - paste: feat/hobnobber
         params:
-          skill: "#{skill}"
-          skillname: "_{Diplomacy}"
           level: 1
+
 
   - at: '@lore-skills'
     add:
-      - skill: lore-alcohol
+
+      - skill: alcohol-lore
         name: "_{Alcohol Lore}"
         ability: "_{INT}"
         abilityref: INT

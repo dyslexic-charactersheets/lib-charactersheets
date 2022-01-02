@@ -1,0 +1,53 @@
+unit: background/bookkeeper
+in: background
+group: "_{Advanced Player's Guide}"
+name: "_{Bookkeeper}"
+
+
+require:
+  - unit: feat/eye-for-numbers
+
+inc:
+  - set: char-background
+    value: "_{Bookkeeper}"
+
+  - set: society-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Bookkeeper}"
+        contents:
+
+          - p: "_{Trained in Society and Accounting Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{You ran the numbers on a large farm, for a merchant’s endeavors, or with a major guild in the city. You kept track of expenses, payroll, profits, and anything else that had to do with money, for better or worse. If better, you might be adventuring to learn how others ply this trade. If worse, you may be fleeing from impending consequences, in the hope that no one finds you.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{APG p48}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/eye-for-numbers
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: accounting-lore
+        name: "_{Accounting Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

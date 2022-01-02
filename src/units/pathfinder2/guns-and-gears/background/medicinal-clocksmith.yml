@@ -1,0 +1,53 @@
+unit: background/medicinal-clocksmith
+in: background
+group: "_{Guns and Gears}"
+name: "_{Medicinal Clocksmith}"
+
+
+require:
+  - unit: feat/risky-surgery
+
+inc:
+  - set: char-background
+    value: "_{Medicinal Clocksmith}"
+
+  - set: medicine-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Medicinal Clocksmith}"
+        contents:
+
+          - p: "_{Trained in Medicine and Engineering Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{While others might have looked to clockwork as a mechanical innovation, you see the potential in the technology to improve the health of patients. You might be an experienced field medic who reached for a scrapped construct to help a wounded soldier, or a vanguard surgeon who's found replacing organs with clockwork more effective than repairing them. Perhaps you've also worked to “optimize” organic bodies with fine machinery, with or without the permission of your patients.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{Guns & Gears p45}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/risky-surgery
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: engineering-lore
+        name: "_{Engineering Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

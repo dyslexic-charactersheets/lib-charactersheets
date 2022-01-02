@@ -1,0 +1,53 @@
+unit: background/magical-merchant
+in: background
+group: "_{Secrets of Magic}"
+name: "_{Magical Merchant}"
+
+
+require:
+  - unit: feat/crafters-appraisal
+
+inc:
+  - set: char-background
+    value: "_{Magical Merchant}"
+
+  - set: crafting-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Magical Merchant}"
+        contents:
+
+          - p: "_{Trained in Crafting and Mercantile Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{Selling magic items isn't like being an ordinary merchant. The wares you buy and sell are expensive, making each sale rare and lucrative. You've developed knowledge of expert handiwork to ensure you don't fall for a scam, since buying a single counterfeit item can lead to bankruptcy. Whether you went out of business and had to find alternative employment, or took up adventuring to acquire new merchandise, you've taken to adventuring yourself.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{Secrets of Magic p29}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/crafters-appraisal
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: mercantile-lore
+        name: "_{Mercantile Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

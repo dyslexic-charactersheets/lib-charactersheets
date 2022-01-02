@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Warrior}"
 
+
 require:
   - unit: feat/intimidating-glare
 
 inc:
   - set: char-background
     value: "_{Warrior}"
+
   - set: intimidation-proficiency
     value: trained
 
@@ -17,29 +19,33 @@ inc:
       - article: char-background
         title: "_{Warrior}"
         contents:
+
           - p: "_{Trained in Intimidation and Warfare Lore}"
             icon: proficiency-trained
+            blk: false
 
-          - field: char-background-details
-            width: stretch
-            repeat: 3
-            reduce: 1
-          
+
+          - p: "_{In your younger days, you waded into battle as a mercenary, a warrior defending a nomadic people, or a member of a militia or army. You might have wanted to break out from the regimented structure of these forces, or you could have always been as independent a warrior as you are now.}"
+            size: small
+            blk: false
+
+
           - paste: book-ref
             params:
               page-ref: "_{CRB p64}"
+
 
   - at: '@background-skill-feat'
     replace:
       - paste: feat/intimidating-glare
         params:
-          skill: "#{skill}"
-          skillname: "_{Intimidation}"
           level: 1
+
 
   - at: '@lore-skills'
     add:
-      - skill: lore-warfare
+
+      - skill: warfare-lore
         name: "_{Warfare Lore}"
         ability: "_{INT}"
         abilityref: INT

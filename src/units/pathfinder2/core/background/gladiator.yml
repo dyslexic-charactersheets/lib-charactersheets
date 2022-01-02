@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Gladiator}"
 
+
 require:
   - unit: feat/impressive-performance
 
 inc:
   - set: char-background
     value: "_{Gladiator}"
+
   - set: performance-proficiency
     value: trained
 
@@ -17,29 +19,33 @@ inc:
       - article: char-background
         title: "_{Gladiator}"
         contents:
+
           - p: "_{Trained in Performance and Gladiatorial Lore}"
             icon: proficiency-trained
+            blk: false
 
-          - field: char-background-details
-            width: stretch
-            repeat: 3
-            reduce: 1
-          
+
+          - p: "_{The bloody games of the arena taught you the art of combat. Before you attained true fame, you departed—or escaped—the arena to explore the world. Your skill at drawing both blood and a crowd’s attention pay off in a new adventuring life.}"
+            size: small
+            blk: false
+
+
           - paste: book-ref
             params:
               page-ref: "_{CRB p62}"
+
 
   - at: '@background-skill-feat'
     replace:
       - paste: feat/impressive-performance
         params:
-          skill: "#{skill}"
-          skillname: "_{Performance}"
           level: 1
+
 
   - at: '@lore-skills'
     add:
-      - skill: lore-gladiatorial
+
+      - skill: gladiatorial-lore
         name: "_{Gladiatorial Lore}"
         ability: "_{INT}"
         abilityref: INT

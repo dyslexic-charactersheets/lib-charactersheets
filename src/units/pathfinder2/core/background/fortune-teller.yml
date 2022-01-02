@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Fortune Teller}"
 
+
 require:
   - unit: feat/oddity-identification
 
 inc:
   - set: char-background
     value: "_{Fortune Teller}"
+
   - set: occultism-proficiency
     value: trained
 
@@ -17,29 +19,33 @@ inc:
       - article: char-background
         title: "_{Fortune Teller}"
         contents:
+
           - p: "_{Trained in Occultism and Fortune-Telling Lore}"
             icon: proficiency-trained
+            blk: false
 
-          - field: char-background-details
-            width: stretch
-            repeat: 3
-            reduce: 1
-          
+
+          - p: "_{The strands of fate are clear to you, as you have learned many traditional forms by which laypeople can divine the future. You might have used these skills to guide your community, or simply to make money. But even the slightest peek into these practices connects you to the occult mysteries of the universe.}"
+            size: small
+            blk: false
+
+
           - paste: book-ref
             params:
               page-ref: "_{CRB p62}"
+
 
   - at: '@background-skill-feat'
     replace:
       - paste: feat/oddity-identification
         params:
-          skill: "#{skill}"
-          skillname: "_{Occultism}"
           level: 1
+
 
   - at: '@lore-skills'
     add:
-      - skill: lore-fortune-telling
+
+      - skill: fortune-telling-lore
         name: "_{Fortune-Telling Lore}"
         ability: "_{INT}"
         abilityref: INT

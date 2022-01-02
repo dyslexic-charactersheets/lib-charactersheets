@@ -1,0 +1,43 @@
+unit: background/pilgrim
+in: background
+group: "_{Advanced Player's Guide}"
+name: "_{Pilgrim}"
+
+
+require:
+  - unit: feat/pilgrims-token
+
+inc:
+  - set: char-background
+    value: "_{Pilgrim}"
+
+  - set: religion-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Pilgrim}"
+        contents:
+
+          - p: "_{Trained in Religion}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{In your youth, you made several pilgrimages to important shrines and holy sites. You might have been a mendicant friar, a seller of holy relics (real or fraudulent), or just a simple farmer following the dictates of your faith. Whatever the aims of your wanderings now, your faith still protects you on the road.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{APG p49}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/pilgrims-token
+        params:
+          level: 1
+

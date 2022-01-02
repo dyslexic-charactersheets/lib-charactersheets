@@ -1,0 +1,43 @@
+unit: background/junker
+in: background
+group: "_{Guns and Gears}"
+name: "_{Junker}"
+
+
+require:
+  - unit: feat/hefty-hauler
+
+inc:
+  - set: char-background
+    value: "_{Junker}"
+
+  - set: athletics-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Junker}"
+        contents:
+
+          - p: "_{Trained in Athletics}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{You live on the outskirts of civilization, combing through the detritus left behind for interesting trinkets to sell or use in your own crafting. Though you have a preferred terrain to search, you know that the greatest treasures occur where people make greater use of technology.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{Guns & Gears p45}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/hefty-hauler
+        params:
+          level: 1
+

@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Acrobat}"
 
+
 require:
   - unit: feat/steady-balance
 
 inc:
   - set: char-background
     value: "_{Acrobat}"
+
   - set: acrobatics-proficiency
     value: trained
 
@@ -17,29 +19,33 @@ inc:
       - article: char-background
         title: "_{Acrobat}"
         contents:
+
           - p: "_{Trained in Acrobatics and Circus Lore}"
             icon: proficiency-trained
+            blk: false
 
-          - field: char-background-details
-            width: stretch
-            repeat: 3
-            reduce: 1
-          
+
+          - p: "_{In a circus or on the streets, you earned your pay by performing as an acrobat. You might have turned to adventuring when the money dried up, or simply decided to put your skills to better use.}"
+            size: small
+            blk: false
+
+
           - paste: book-ref
             params:
               page-ref: "_{CRB p60}"
+
 
   - at: '@background-skill-feat'
     replace:
       - paste: feat/steady-balance
         params:
-          skill: "#{skill}"
-          skillname: "_{Acrobatics}"
           level: 1
+
 
   - at: '@lore-skills'
     add:
-      - skill: lore-circus
+
+      - skill: circus-lore
         name: "_{Circus Lore}"
         ability: "_{INT}"
         abilityref: INT

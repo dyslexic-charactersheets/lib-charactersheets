@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Gambler}"
 
+
 require:
   - unit: feat/lie-to-me
 
 inc:
   - set: char-background
     value: "_{Gambler}"
+
   - set: deception-proficiency
     value: trained
 
@@ -17,29 +19,33 @@ inc:
       - article: char-background
         title: "_{Gambler}"
         contents:
+
           - p: "_{Trained in Deception and Games Lore}"
             icon: proficiency-trained
+            blk: false
 
-          - field: char-background-details
-            width: stretch
-            repeat: 3
-            reduce: 1
-          
+
+          - p: "_{The thrill of the win drew you into games of chance. This might have been a lucrative sideline that paled in comparison to the real risks of adventuring, or you might have fallen on hard times due to your gambling and pursued adventuring as a way out of a spiral.}"
+            size: small
+            blk: false
+
+
           - paste: book-ref
             params:
               page-ref: "_{CRB p62}"
+
 
   - at: '@background-skill-feat'
     replace:
       - paste: feat/lie-to-me
         params:
-          skill: "#{skill}"
-          skillname: "_{Deception}"
           level: 1
+
 
   - at: '@lore-skills'
     add:
-      - skill: lore-games
+
+      - skill: games-lore
         name: "_{Games Lore}"
         ability: "_{INT}"
         abilityref: INT

@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Barrister}"
 
+
 require:
   - unit: feat/group-impression
 
 inc:
   - set: char-background
     value: "_{Barrister}"
+
   - set: diplomacy-proficiency
     value: trained
 
@@ -17,29 +19,33 @@ inc:
       - article: char-background
         title: "_{Barrister}"
         contents:
+
           - p: "_{Trained in Diplomacy and Legal Lore}"
             icon: proficiency-trained
+            blk: false
 
-          - field: char-background-details
-            width: stretch
-            repeat: 3
-            reduce: 1
-          
+
+          - p: "_{Piles of legal manuals, stern teachers, and experience in the courtroom have instructed you in legal matters. You’re capable of mounting a prosecution or defense in court, and you tend to keep abreast of local laws, as you never can tell when you might need to know them on short notice.}"
+            size: small
+            blk: false
+
+
           - paste: book-ref
             params:
               page-ref: "_{CRB p60}"
+
 
   - at: '@background-skill-feat'
     replace:
       - paste: feat/group-impression
         params:
-          skill: "#{skill}"
-          skillname: "_{Diplomacy}"
           level: 1
+
 
   - at: '@lore-skills'
     add:
-      - skill: lore-legal
+
+      - skill: legal-lore
         name: "_{Legal Lore}"
         ability: "_{INT}"
         abilityref: INT

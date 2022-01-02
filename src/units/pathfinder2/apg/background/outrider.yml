@@ -1,0 +1,53 @@
+unit: background/outrider
+in: background
+group: "_{Advanced Player's Guide}"
+name: "_{Outrider}"
+
+
+require:
+  - unit: feat/express-rider
+
+inc:
+  - set: char-background
+    value: "_{Outrider}"
+
+  - set: nature-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Outrider}"
+        contents:
+
+          - p: "_{Trained in Nature and Plains Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{In your youth, you galloped on horseback over vast prairies, serving as a vanguard for your settlement, an army, or another group. Seeing so many different lands built a thirst in you to adventure and explore the world instead of just racing past it.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{APG p48}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/express-rider
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: plains-lore
+        name: "_{Plains Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Field Medic}"
 
+
 require:
   - unit: feat/battle-medicine
 
 inc:
   - set: char-background
     value: "_{Field Medic}"
+
   - set: medicine-proficiency
     value: trained
 
@@ -17,29 +19,33 @@ inc:
       - article: char-background
         title: "_{Field Medic}"
         contents:
+
           - p: "_{Trained in Medicine and Warfare Lore}"
             icon: proficiency-trained
+            blk: false
 
-          - field: char-background-details
-            width: stretch
-            repeat: 3
-            reduce: 1
-          
+
+          - p: "_{In the chaotic rush of battle, you learned to adapt to rapidly changing conditions as you administered to battle casualties. You patched up soldiers, guards, or other combatants, and learned a fair amount about the logistics of war.}"
+            size: small
+            blk: false
+
+
           - paste: book-ref
             params:
               page-ref: "_{CRB p62}"
+
 
   - at: '@background-skill-feat'
     replace:
       - paste: feat/battle-medicine
         params:
-          skill: "#{skill}"
-          skillname: "_{Medicine}"
           level: 1
+
 
   - at: '@lore-skills'
     add:
-      - skill: lore-warfare
+
+      - skill: warfare-lore
         name: "_{Warfare Lore}"
         ability: "_{INT}"
         abilityref: INT

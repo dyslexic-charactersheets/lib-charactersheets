@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Artist}"
 
+
 require:
   - unit: feat/specialty-crafting
 
 inc:
   - set: char-background
     value: "_{Artist}"
+
   - set: crafting-proficiency
     value: trained
 
@@ -17,29 +19,33 @@ inc:
       - article: char-background
         title: "_{Artist}"
         contents:
+
           - p: "_{Trained in Crafting and Art Lore}"
             icon: proficiency-trained
+            blk: false
 
-          - field: char-background-details
-            width: stretch
-            repeat: 3
-            reduce: 1
-          
+
+          - p: "_{Your art is your greatest passion, whatever form it takes. Adventuring might help you find inspiration, or simply be a way to survive until you become a world-famous artist.}"
+            size: small
+            blk: false
+
+
           - paste: book-ref
             params:
               page-ref: "_{CRB p60}"
+
 
   - at: '@background-skill-feat'
     replace:
       - paste: feat/specialty-crafting
         params:
-          skill: "#{skill}"
-          skillname: "_{Crafting}"
           level: 1
+
 
   - at: '@lore-skills'
     add:
-      - skill: lore-art
+
+      - skill: art-lore
         name: "_{Art Lore}"
         ability: "_{INT}"
         abilityref: INT

@@ -1,0 +1,43 @@
+unit: background/undertaker
+in: background
+group: "_{Guns and Gears}"
+name: "_{Undertaker}"
+
+
+require:
+  - unit: feat/forensic-acumen
+
+inc:
+  - set: char-background
+    value: "_{Undertaker}"
+
+  - set: medicine-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Undertaker}"
+        contents:
+
+          - p: "_{Trained in Medicine}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{People die. This is the unfortunate fact of life on which you've founded your business, because wherever people die, there is a demand for mortuary services. You might be a Pharasmin priest or a secular professional, but your job is seeing to the body, comforting the bereaved, and making sure that the deceased goes to their ultimate reward with all due dignity. Of course, someone in your position sees a lot of strange deaths, and chances are one of them set you on the road to adventure.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{Guns & Gears p123}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/forensic-acumen
+        params:
+          level: 1
+

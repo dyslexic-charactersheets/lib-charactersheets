@@ -1,0 +1,53 @@
+unit: background/printer
+in: background
+group: "_{Guns and Gears}"
+name: "_{Printer}"
+
+
+require:
+  - unit: feat/multilingual
+
+inc:
+  - set: char-background
+    value: "_{Printer}"
+
+  - set: society-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Printer}"
+        contents:
+
+          - p: "_{Trained in Society and Scribing Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{Keeping your finger on the pulse of the city, you write a small news broadsheet to sell on street corners. You rent the use of a printing press to achieve this goal, so you're familiar with such machines. However, people and their stories are your main focus, and you adventure to chase the latest scoop.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{Guns & Gears p45}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/multilingual
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: scribing-lore
+        name: "_{Scribing Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

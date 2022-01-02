@@ -1,0 +1,43 @@
+unit: background/refugee
+in: background
+group: "_{Advanced Player's Guide}"
+name: "_{Refugee}"
+
+
+require:
+  - unit: feat/streetwise
+
+inc:
+  - set: char-background
+    value: "_{Refugee}"
+
+  - set: society-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Refugee}"
+        contents:
+
+          - p: "_{Trained in Society}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{You come from a land very distant from the one you now find yourself in, driven by war, plague, or simply in the pursuit of opportunity. Regardless of your origin or the reason you left your home, you find yourself an outsider in this new land. Adventuring is a way to support yourself while offering hope to those who need it most.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{APG p49}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/streetwise
+        params:
+          level: 1
+

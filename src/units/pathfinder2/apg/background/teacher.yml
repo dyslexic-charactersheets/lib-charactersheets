@@ -1,0 +1,68 @@
+unit: background/teacher
+in: background
+group: "_{Advanced Player's Guide}"
+name: "_{Teacher}"
+
+
+require:
+  - unit: feat/experienced-professional
+
+inc:
+  - set: char-background
+    value: "_{Teacher}"
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Teacher}"
+        contents:
+
+          - layout: indent-l
+            contents:
+              - icon: proficiency-trained
+              - g:
+                contents:
+
+                  - field: "##:skill"
+                    control: radio
+                    value: performance
+                    label: "_{Performance}"
+                    frame: right
+                    width: tiny
+
+                  - field: "##:skill"
+                    control: radio
+                    value: society
+                    label: "_{Society}"
+                    frame: right
+                    width: tiny
+
+                  - p: "_{Academia Lore}"
+
+
+          - p: "_{You are incredibly knowledgeable, skilled, and perhaps even trained to teach children and adults about the world and its wonders. From books to classes, you’re committed to imparting knowledge to all. Not everything can be taught or learned from a book, though, so you’ve become an adventurer to learn subjects more directly and bring that wisdom back to your students.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{APG p49}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/experienced-professional
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: academia-lore
+        name: "_{Academia Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

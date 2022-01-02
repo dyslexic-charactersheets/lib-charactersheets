@@ -1,0 +1,53 @@
+unit: background/sheriff
+in: background
+group: "_{Guns and Gears}"
+name: "_{Sheriff}"
+badge: "_{Uncommon}"
+
+require:
+  - unit: feat/group-coercion
+
+inc:
+  - set: char-background
+    value: "_{Sheriff}"
+
+  - set: intimidation-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Sheriff}"
+        contents:
+
+          - p: "_{Trained in Intimidation and Hunting Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{You hold an official title of sheriff or deputy in a small community. Those that would do harm to others flee your gaze, for they know it brings the promise of castigation. You protect your town, watch over those who have placed their trust in you, and make sure those that would do others harm are brought to justice.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{Guns & Gears p124}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/group-coercion
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: hunting-lore
+        name: "_{Hunting Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

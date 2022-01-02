@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Entertainer}"
 
+
 require:
   - unit: feat/fascinating-performance
 
 inc:
   - set: char-background
     value: "_{Entertainer}"
+
   - set: performance-proficiency
     value: trained
 
@@ -17,29 +19,33 @@ inc:
       - article: char-background
         title: "_{Entertainer}"
         contents:
+
           - p: "_{Trained in Performance and Theater Lore}"
             icon: proficiency-trained
+            blk: false
 
-          - field: char-background-details
-            width: stretch
-            repeat: 3
-            reduce: 1
-          
+
+          - p: "_{Through an education in the arts or sheer dogged practice, you learned to entertain crowds. You might have been an actor, a dancer, a musician, a street magician, or any other sort of performer.}"
+            size: small
+            blk: false
+
+
           - paste: book-ref
             params:
               page-ref: "_{CRB p61}"
+
 
   - at: '@background-skill-feat'
     replace:
       - paste: feat/fascinating-performance
         params:
-          skill: "#{skill}"
-          skillname: "_{Performance}"
           level: 1
+
 
   - at: '@lore-skills'
     add:
-      - skill: lore-theater
+
+      - skill: theater-lore
         name: "_{Theater Lore}"
         ability: "_{INT}"
         abilityref: INT

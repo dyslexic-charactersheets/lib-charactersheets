@@ -1,0 +1,43 @@
+unit: background/wandering-preacher
+in: background
+group: "_{Guns and Gears}"
+name: "_{Wandering Preacher}"
+
+
+require:
+  - unit: feat/pilgrims-token
+
+inc:
+  - set: char-background
+    value: "_{Wandering Preacher}"
+
+  - set: religion-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Wandering Preacher}"
+        contents:
+
+          - p: "_{Trained in Religion}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{While you once spoke to a small congregation in a ramshackle church, those days are behind you now. Your church was destroyed, your congregants scattered, and now you meander the lands holding a worn copy of your religious text in one hand, and a fiery conviction in the other.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{Guns & Gears p123}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/pilgrims-token
+        params:
+          level: 1
+

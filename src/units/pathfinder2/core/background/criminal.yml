@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Criminal}"
 
+
 require:
   - unit: feat/experienced-smuggler
 
 inc:
   - set: char-background
     value: "_{Criminal}"
+
   - set: stealth-proficiency
     value: trained
 
@@ -17,29 +19,33 @@ inc:
       - article: char-background
         title: "_{Criminal}"
         contents:
+
           - p: "_{Trained in Stealth and Underworld Lore}"
             icon: proficiency-trained
+            blk: false
 
-          - field: char-background-details
-            width: stretch
-            repeat: 3
-            reduce: 1
-          
+
+          - p: "_{As an unscrupulous independent or as a member of an underworld organization, you lived a life of crime. You might have become an adventurer to seek redemption, to escape the law, or simply to get access to bigger and better loot.}"
+            size: small
+            blk: false
+
+
           - paste: book-ref
             params:
               page-ref: "_{CRB p61}"
+
 
   - at: '@background-skill-feat'
     replace:
       - paste: feat/experienced-smuggler
         params:
-          skill: "#{skill}"
-          skillname: "_{Stealth}"
           level: 1
+
 
   - at: '@lore-skills'
     add:
-      - skill: lore-underworld
+
+      - skill: underworld-lore
         name: "_{Underworld Lore}"
         ability: "_{INT}"
         abilityref: INT

@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Hunter}"
 
+
 require:
   - unit: feat/survey-wildlife
 
 inc:
   - set: char-background
     value: "_{Hunter}"
+
   - set: survival-proficiency
     value: trained
 
@@ -17,29 +19,33 @@ inc:
       - article: char-background
         title: "_{Hunter}"
         contents:
+
           - p: "_{Trained in Survival and Tanning Lore}"
             icon: proficiency-trained
+            blk: false
 
-          - field: char-background-details
-            width: stretch
-            repeat: 3
-            reduce: 1
-          
+
+          - p: "_{You stalked and took down animals and other creatures of the wild. Skinning animals, harvesting their flesh, and cooking them were also part of your training, all of which can give you useful resources while you adventure.}"
+            size: small
+            blk: false
+
+
           - paste: book-ref
             params:
               page-ref: "_{CRB p62}"
+
 
   - at: '@background-skill-feat'
     replace:
       - paste: feat/survey-wildlife
         params:
-          skill: "#{skill}"
-          skillname: "_{Survival}"
           level: 1
+
 
   - at: '@lore-skills'
     add:
-      - skill: lore-tanning
+
+      - skill: tanning-lore
         name: "_{Tanning Lore}"
         ability: "_{INT}"
         abilityref: INT
