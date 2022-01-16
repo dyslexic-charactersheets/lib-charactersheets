@@ -1,0 +1,53 @@
+unit: background/magical-misfit
+in: background
+group: "_{Secrets of Magic}"
+name: "_{Magical Misfit}"
+
+
+require:
+  - unit: feat/trick-magic-item
+
+inc:
+  - set: char-background
+    value: "_{Magical Misfit}"
+
+  - set: arcana-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Magical Misfit}"
+        contents:
+
+          - p: "_{Trained in Arcana and Underworld Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{You don't understand folks who claim that magical talent is some sort of burden or great responsibility; you've always used your magic to cause trouble and to escape the consequences. Whether becoming an adventurer is your attempt to make amends or just a new way to make some mischief, you're excited to see where it takes you, and you still delight in using your skills to get out of trouble.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{Secrets of Magic p29}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/trick-magic-item
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: underworld-lore
+        name: "_{Underworld Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

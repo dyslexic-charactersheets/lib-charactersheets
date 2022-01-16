@@ -1,0 +1,35 @@
+unit: heritage/3pp/ponyfinder/pony/unicorn
+in: heritage/3pp/ponyfinder/pony
+group: "_{Ponyfinder}"
+name: "_{Unicorn}"
+    
+inc:
+  - set: heritage
+    value: "_{Unicorn}"
+  - set: build-boost-CON-ancestry
+    value: 1
+  - set: build-boost-INT-ancestry
+    value: 1
+  - set: build-boost-DEX-ancestry
+    value: -1
+
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Unicorn}"
+        contents:
+          - label: "_{Cantrips}"
+            align: left
+          - h6: "_{Mage hand}, _{Light}"
+
+          - calc:
+            output:
+              field: cantrip-level
+              legend: "_{Cantrip Level}"
+            inputs:
+              - ruby-round-up:
+                contents:
+                  - field:
+                    ref: level
+                    label: "_{Level}"
+                  - span: "&divide; 2"

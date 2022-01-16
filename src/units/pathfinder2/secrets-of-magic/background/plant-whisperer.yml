@@ -1,0 +1,53 @@
+unit: background/plant-whisperer
+in: background
+group: "_{Secrets of Magic}"
+name: "_{Plant Whisperer}"
+
+
+require:
+  - unit: feat/natural-medicine
+
+inc:
+  - set: char-background
+    value: "_{Plant Whisperer}"
+
+  - set: nature-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Plant Whisperer}"
+        contents:
+
+          - p: "_{Trained in Nature and Plant Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{You've always had a green thumb, allowing you to care for plants that others found too difficult to grow and tend with a skill that borders on the magical. As you travel, you encounter all sorts of new plants and plant creatures, allowing you to expand your horizons and deepen your understanding of flora.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{Secrets of Magic p29}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/natural-medicine
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: plant-lore
+        name: "_{Plant Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

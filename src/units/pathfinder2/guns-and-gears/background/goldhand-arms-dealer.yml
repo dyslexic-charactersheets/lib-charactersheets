@@ -1,0 +1,53 @@
+unit: background/goldhand-arms-dealer
+in: background
+group: "_{Guns and Gears}"
+name: "_{Goldhand Arms Dealer}"
+badge: "_{Uncommon}"
+
+require:
+  - unit: feat/group-impression
+
+inc:
+  - set: char-background
+    value: "_{Goldhand Arms Dealer}"
+
+  - set: diplomacy-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Goldhand Arms Dealer}"
+        contents:
+
+          - p: "_{Trained in Diplomacy and Mercantile Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{You're a dwarven agent of the Goldhand Lodge, a collection of dwarven merchants based out of Dongun Hold who seeks to sell guns far and wide. High King Anong Arunak hasn't expressed approval for such a method of distribution yet, but in the meantime you're still out and about, talking up your wares and occasionally providing visceral demonstrations of the overwhelming stopping power of your firearms. These demonstrations and sales have given you a taste for adventure, and the constant threat of piracy has convinced you of the importance of adventuring with a group.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{Guns & Gears p124}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/group-impression
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: mercantile-lore
+        name: "_{Mercantile Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

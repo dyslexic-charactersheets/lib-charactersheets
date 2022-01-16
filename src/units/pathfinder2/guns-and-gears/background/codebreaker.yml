@@ -1,0 +1,53 @@
+unit: background/codebreaker
+in: background
+group: "_{Guns and Gears}"
+name: "_{Codebreaker}"
+
+
+require:
+  - unit: feat/glean-contents
+
+inc:
+  - set: char-background
+    value: "_{Codebreaker}"
+
+  - set: society-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Codebreaker}"
+        contents:
+
+          - p: "_{Trained in Society and Cryptography Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{Whether you're employed by a military organization to decipher coded messages sent by enemy factions or work independently to crack an enigma created by a past civilization, you have a head for patterns and linguistics. You might even use new clockwork devices to aid you in your efforts.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{Guns & Gears p44}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/glean-contents
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: cryptography-lore
+        name: "_{Cryptography Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

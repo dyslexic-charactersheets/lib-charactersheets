@@ -2,19 +2,23 @@ unit: ancestry/3pp/rogue-genius/loamling
 in: ancestry
 group: "_{Rogue Genius}"
 name: "_{Loamling}"
-
-enabled: false
+badge: "_{Uncommon}"
 
 form:
   - select: heritage/3pp/rogue-genius/loamling
     name: "_{Loamling Heritage}"
     max: 1
 
+require:
+  - unit: option/ancestry-alt-layout
+
 inc:
   - set: ancestry
     value: "_{Loamling}"
   - set: hp-ancestry
     value: 8
+  - set: perception-scent
+    value: true
   - set: build-boost-CON-ancestry
     value: 1
   - set: build-boost-WIS-ancestry
@@ -37,8 +41,40 @@ inc:
             label: "_{Speed}"
             control: value
             value: "_{20ft}"
+
+          - zone: '@##:scent'
+            contents:
+              - value-block: "_{60ft}"
+                width: large
+                content: "_{Scent}"
+          - p: "_{Can only see clearly out to 10ft. Can use scent to target a spell.}"
+          - p: "_{Immune to gaze effects and other visual effects beyond 10ft.}"
+
+          - hr:
+            light: true
           - field: ancestry-burrow-speed
             frame: right
             label: "_{Burrow speed}"
             control: value
             value: "_{10ft}"
+          - p: "_{Choose whether the tunnel collapses behind you or stays open, allowing Small creatures, and Medium creatures who Squeeze, to Crawl through.
+              With no other air source, you must hold your breath or begin suffocating.}"
+          - p: "_{Your burrows can be Tracked as easily as a creature walking.}"
+          
+          - hr:
+            light: true
+          - zone: '@##:claws'
+            contents:
+              - paste: natural-weapon
+                params:
+                  name: "_{Claws}"
+                  damage: "_{1d4}"
+                  type: "_{Slashing}"
+              - flags:
+                  - "_{Agile}"
+                  - "_{Finesse}"
+                  - "_{Brawling}"
+
+  - at: '@ethnicity'
+    replace:
+      - nothing:

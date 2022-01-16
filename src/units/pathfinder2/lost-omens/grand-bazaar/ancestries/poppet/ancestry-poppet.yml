@@ -1,0 +1,70 @@
+unit: ancestry/lost-omens/grand-bazaar/poppet
+in: ancestry
+group: "_{Lost Omens Grand Bazaar}"
+name: "_{Poppet}"
+badge: "_{Rare}"
+
+form:
+  - select: heritage/lost-omens/grand-bazaar/poppet
+    name: "_{Poppet Heritage}"
+    max: 1
+
+inc:
+  - set: ancestry
+    value: "_{Poppet}"
+  - set: hp-ancestry
+    value: 6
+  - set: perception-darkvision
+    value: true
+  - set: build-boost-CON-ancestry
+    value: 1
+  - set: build-boost-CHA-ancestry
+    value: 1
+  - set: build-boost-DEX-ancestry
+    value: -1
+  - set: languages
+    value: "_{Common}"
+
+  - at: '@ancestry'
+    replace:
+      - article:
+        title: "_{Poppet}"
+        contents:
+          - flags:
+              - "_{Construct}"
+              - "_{Humanoid}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{25ft}"
+          - paste: perception-darkvision
+
+          - hr:
+            light: true
+          - p:
+            title: "_{Constructed}"
+            content: "_{Healed by positive energy, harmed by negative energy}"
+          - value-block: "+1"
+            content: "_{Saves against death effects, disease, poison and being drained, paralysed or sickened.}"
+
+          - hr:
+            light: true
+          - p:
+            title: "_{Flammable}"
+          - calc:
+            output:
+              field: "##:flammable/fire-weakness"
+              legend: "_{Weakness to Fire}"
+              width: large
+            inputs:
+              - ruby: "_{Min 1}"
+                contents:
+                  - field:
+                    ref: level
+                    label: "_{Level}"
+                  - span: "&divide; 3"
+
+  - at: '@ethnicity'
+    replace:
+      - spacer:

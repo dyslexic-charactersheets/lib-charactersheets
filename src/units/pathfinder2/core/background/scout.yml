@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Scout}"
 
+
 require:
   - unit: feat/forager
 
 inc:
   - set: char-background
     value: "_{Scout}"
+
   - set: survival-proficiency
     value: trained
 
@@ -16,6 +18,26 @@ inc:
     replace:
       - article: char-background
         title: "_{Scout}"
-        lines: 3
-        reduce: 1
+        contents:
+
+          - p: "_{Trained in Survival}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{You called the wilderness home as you found trails and guided travelers. Your wanderlust could have called you to the adventuring life, or perhaps you served as a scout for soldiers and found you liked battle.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{CRB p64}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/forager
+        params:
+          level: 1
 

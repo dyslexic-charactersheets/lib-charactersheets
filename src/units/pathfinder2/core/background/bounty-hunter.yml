@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Bounty Hunter}"
 
+
 require:
   - unit: feat/experienced-tracker
 
 inc:
   - set: char-background
     value: "_{Bounty Hunter}"
+
   - set: survival-proficiency
     value: trained
 
@@ -16,13 +18,36 @@ inc:
     replace:
       - article: char-background
         title: "_{Bounty Hunter}"
-        lines: 3
-        reduce: 1
+        contents:
+
+          - p: "_{Trained in Survival and Legal Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{Bringing in lawbreakers lined your pockets. Maybe you had an altruistic motive and sought to bring in criminals to make the streets safer, or maybe the coin was motivation enough. Your techniques for hunting down criminals transfer easily to the life of an adventurer.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{CRB p61}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/experienced-tracker
+        params:
+          level: 1
+
 
   - at: '@lore-skills'
     add:
-      - skill: lore-legal
+
+      - skill: legal-lore
         name: "_{Legal Lore}"
         ability: "_{INT}"
         abilityref: INT
         acp: false
+

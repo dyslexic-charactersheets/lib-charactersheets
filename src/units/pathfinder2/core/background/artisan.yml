@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Artisan}"
 
+
 require:
   - unit: feat/specialty-crafting
 
 inc:
   - set: char-background
     value: "_{Artisan}"
+
   - set: crafting-proficiency
     value: trained
 
@@ -16,13 +18,36 @@ inc:
     replace:
       - article: char-background
         title: "_{Artisan}"
-        lines: 3
-        reduce: 1
+        contents:
+
+          - p: "_{Trained in Crafting and Guild Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{As an apprentice, you practiced a particular form of building or crafting, developing specialized skill. You might have been a blacksmith’s apprentice toiling over the forge for countless hours, a young tailor sewing garments of all kinds, or a shipwright shaping the hulls of ships.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{CRB p60}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/specialty-crafting
+        params:
+          level: 1
+
 
   - at: '@lore-skills'
     add:
-      - skill: lore-guild
+
+      - skill: guild-lore
         name: "_{Guild Lore}"
         ability: "_{INT}"
         abilityref: INT
         acp: false
+

@@ -1,0 +1,45 @@
+unit: ancestry/3pp/ponyfinder/sun-cat
+in: ancestry
+group: "_{Ponyfinder}"
+name: "_{Sun Cat}"
+
+require:
+  - unit: 3pp/ponyfinder
+  - unit: optional-darkvision/trigger
+  
+form:
+  - select: heritage/3pp/ponyfinder/sun-cat
+    name: "_{Sun Cat Heritage}"
+    max: 1
+
+inc:
+  - set: ancestry
+    value: "_{Sun Cat}"
+  - set: hp-ancestry
+    value: 8
+  - set: perception-low-light
+    value: true
+  - set: build-boost-STR-ancestry
+    value: 1
+  - set: build-boost-WIS-ancestry
+    value: 1
+  - set: build-boost-INT-ancestry
+    value: -1
+  - set: languages
+    value: "_{Common}"
+
+  - at: '@ancestry'
+    replace:
+      - article:
+        title: "_{Sun Cat}"
+        contents:
+          - flags:
+              - "_{Fey}"
+              - "_{Sun Cat}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{30ft}"
+          - paste: low-light-vision
+          - paste: ponyfinder/fingerless

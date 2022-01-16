@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Nomad}"
 
+
 require:
   - unit: feat/assurance
 
 inc:
   - set: char-background
     value: "_{Nomad}"
+
   - set: survival-proficiency
     value: trained
 
@@ -16,6 +18,26 @@ inc:
     replace:
       - article: char-background
         title: "_{Nomad}"
-        lines: 3
-        reduce: 1
+        contents:
+
+          - p: "_{Trained in Survival}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{Traveling far and wide, you picked up basic tactics for surviving on the road and in unknown lands, getting by with few supplies and even fewer comforts. As an adventurer, you travel still, often into even more dangerous places.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{CRB p63}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/assurance
+        params:
+          level: 1
 

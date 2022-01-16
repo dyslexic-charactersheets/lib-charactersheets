@@ -3,8 +3,10 @@ in: ancestry
 group: "_{Ponyfinder}"
 name: "_{Pony}"
 
-enabled: false
-
+require:
+  - unit: 3pp/ponyfinder
+  - unit: optional-darkvision/trigger
+  
 form:
   - select: heritage/3pp/ponyfinder/pony
     name: "_{Pony Heritage}"
@@ -29,17 +31,15 @@ inc:
   - at: '@ancestry'
     replace:
       - article:
-        title: "_{Azarketi}"
+        title: "_{Pony}"
         contents:
           - flags:
-              - "_{Amphibious}"
-              - "_{Azarketi}"
-              - "_{Humanoid}"
+              - "_{Fey}"
+              - "_{Ponykind}"
           - field: ancestry-speed
             frame: right
             label: "_{Speed}"
             control: value
             value: "_{30ft}"
-          - p:
-            title: "_{Fingerless}"
-            content: "_{Cannot use two-handed weapons.}"
+          - paste: low-light-vision
+          - paste: ponyfinder/fingerless

@@ -1,0 +1,53 @@
+unit: background/insurgent
+in: background
+group: "_{Advanced Player's Guide}"
+name: "_{Insurgent}"
+
+
+require:
+  - unit: feat/lengthy-diversion
+
+inc:
+  - set: char-background
+    value: "_{Insurgent}"
+
+  - set: deception-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Insurgent}"
+        contents:
+
+          - p: "_{Trained in Deception and Warfare Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{You were more than a rebel; you were a revolutionary, fighting for the promise of a new or better country. You may or may not still believe in the cause, or perhaps victory or exile has led you on this new journey to trumpet your glory... or to escape the consequences of your defeat.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{APG p48}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/lengthy-diversion
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: warfare-lore
+        name: "_{Warfare Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

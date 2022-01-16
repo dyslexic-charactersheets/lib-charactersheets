@@ -1,0 +1,43 @@
+unit: background/eidolon-contact
+in: background
+group: "_{Secrets of Magic}"
+name: "_{Eidolon Contact}"
+
+
+require:
+  - unit: feat/dubious-knowledge
+
+inc:
+  - set: char-background
+    value: "_{Eidolon Contact}"
+
+  - set: arcana-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Eidolon Contact}"
+        contents:
+
+          - p: "_{Trained in Arcana}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{You've come into contact with a disembodied being of magical essence known as an eidolon . You might have forged a powerful conduit with that eidolon, allowing you to manifest it as a summoner, but it's much more likely that you lost contact over time, though not before learning a few half-remembered secrets. If you lost contact, you might have become an adventurer to try to reach the eidolon again, or to be sure that you're rid of it forever.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{Secrets of Magic p28}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/dubious-knowledge
+        params:
+          level: 1
+

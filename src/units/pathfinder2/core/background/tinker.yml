@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Tinker}"
 
+
 require:
   - unit: feat/specialty-crafting
 
 inc:
   - set: char-background
     value: "_{Tinker}"
+
   - set: crafting-proficiency
     value: trained
 
@@ -16,13 +18,36 @@ inc:
     replace:
       - article: char-background
         title: "_{Tinker}"
-        lines: 3
-        reduce: 1
+        contents:
+
+          - p: "_{Trained in Crafting and Engineering Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{Creating all sorts of minor inventions scratches your itch for problem-solving. Your engineering skills take a particularly creative bent, and no one know what you’ll come up with next. It might be a genius device with tremendous potential... or it might explode.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{CRB p64}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/specialty-crafting
+        params:
+          level: 1
+
 
   - at: '@lore-skills'
     add:
-      - skill: lore-engineering
+
+      - skill: engineering-lore
         name: "_{Engineering Lore}"
         ability: "_{INT}"
         abilityref: INT
         acp: false
+

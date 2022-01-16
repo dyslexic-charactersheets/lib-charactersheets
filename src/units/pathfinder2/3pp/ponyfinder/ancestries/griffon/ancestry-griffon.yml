@@ -1,0 +1,52 @@
+unit: ancestry/3pp/ponyfinder/griffon
+in: ancestry
+group: "_{Ponyfinder}"
+name: "_{Griffon}"
+
+require:
+  - unit: 3pp/ponyfinder
+  - unit: optional-darkvision/trigger
+  
+form:
+  - select: heritage/3pp/ponyfinder/griffon
+    name: "_{Griffon Heritage}"
+    max: 1
+
+inc:
+  - set: ancestry
+    value: "_{Griffon}"
+  - set: hp-ancestry
+    value: 6
+  - set: perception-low-light
+    value: true
+  - set: build-boost-STR-ancestry
+    value: 1
+  - set: build-boost-WIS-ancestry
+    value: 1
+  - set: build-boost-CHA-ancestry
+    value: -1
+  - set: languages
+    value: "_{Common}"
+
+  - at: '@ancestry'
+    replace:
+      - article:
+        title: "_{Griffon}"
+        contents:
+          - flags:
+              - "_{Fey}"
+              - "_{Griffon}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{25ft}"
+          - paste: low-light-vision
+          - hr:
+            light: true
+          - action: reaction
+            contents:
+              - p:
+                title: "_{Glider}"
+                content: "_{Arrest a Fall}"
+          - p: "_{Fly at half speed while in a safe fall.}"

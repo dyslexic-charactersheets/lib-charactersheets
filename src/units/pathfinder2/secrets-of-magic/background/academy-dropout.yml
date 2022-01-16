@@ -1,0 +1,53 @@
+unit: background/academy-dropout
+in: background
+group: "_{Secrets of Magic}"
+name: "_{Academy Dropout}"
+
+
+require:
+  - unit: feat/dubious-knowledge
+
+inc:
+  - set: char-background
+    value: "_{Academy Dropout}"
+
+  - set: arcana-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Academy Dropout}"
+        contents:
+
+          - p: "_{Trained in Arcana and Academia Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{You were enrolled at a prestigious magical academy, but you've since dropped out. Maybe there was a momentous incident, maybe you had to return to other responsibilities, or perhaps it was just too much for you. Whatever the case, your exit from the academy has shaped your life as much as your entrance and led you to a life of adventure.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{Secrets of Magic p28}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/dubious-knowledge
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: academia-lore
+        name: "_{Academia Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

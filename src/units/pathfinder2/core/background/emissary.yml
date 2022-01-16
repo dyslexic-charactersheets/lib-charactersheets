@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Emissary}"
 
+
 require:
   - unit: feat/multilingual
 
 inc:
   - set: char-background
     value: "_{Emissary}"
+
   - set: society-proficiency
     value: trained
 
@@ -16,6 +18,26 @@ inc:
     replace:
       - article: char-background
         title: "_{Emissary}"
-        lines: 3
-        reduce: 1
+        contents:
+
+          - p: "_{Trained in Society}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{As a diplomat or messenger, you traveled to lands far and wide. Communicating with new people and forming alliances were your stock and trade.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{CRB p61}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/multilingual
+        params:
+          level: 1
 

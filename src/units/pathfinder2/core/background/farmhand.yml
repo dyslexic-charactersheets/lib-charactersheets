@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Farmhand}"
 
+
 require:
   - unit: feat/assurance
 
 inc:
   - set: char-background
     value: "_{Farmhand}"
+
   - set: athletics-proficiency
     value: trained
 
@@ -16,13 +18,36 @@ inc:
     replace:
       - article: char-background
         title: "_{Farmhand}"
-        lines: 3
-        reduce: 1
+        contents:
+
+          - p: "_{Trained in Athletics and Farming Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{With a strong back and an understanding of seasonal cycles, you tilled the land and tended crops. Your farm could have been razed by invaders, you could have lost the family tying you to the land, or you might have simply tired of the drudgery, but at some point you became an adventurer.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{CRB p62}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/assurance
+        params:
+          level: 1
+
 
   - at: '@lore-skills'
     add:
-      - skill: lore-farming
+
+      - skill: farming-lore
         name: "_{Farming Lore}"
         ability: "_{INT}"
         abilityref: INT
         acp: false
+

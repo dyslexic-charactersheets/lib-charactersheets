@@ -1,0 +1,43 @@
+unit: background/tax-collector
+in: background
+group: "_{Advanced Player's Guide}"
+name: "_{Tax Collector}"
+
+
+require:
+  - unit: feat/quick-coercion
+
+inc:
+  - set: char-background
+    value: "_{Tax Collector}"
+
+  - set: intimidation-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Tax Collector}"
+        contents:
+
+          - p: "_{Trained in Intimidation}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{Reviled but required, you were sent when taxes were due. Performing your job might have required travel and persuasion, or perhaps you were responsible for collecting taxes on trade. Either way, it sometimes meant dirty hands, and adventuring seemed the next logical step to you.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{APG p49}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/quick-coercion
+        params:
+          level: 1
+

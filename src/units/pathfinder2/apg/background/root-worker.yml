@@ -1,0 +1,53 @@
+unit: background/root-worker
+in: background
+group: "_{Advanced Player's Guide}"
+name: "_{Root Worker}"
+
+
+require:
+  - unit: feat/root-magic
+
+inc:
+  - set: char-background
+    value: "_{Root Worker}"
+
+  - set: occultism-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Root Worker}"
+        contents:
+
+          - p: "_{Trained in Occultism and Herbalism Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{Some ailments can’t be cured by herbs alone. You learned ritual remedies as well, calling on nature spirits to soothe aches and ward off the evil eye. Taking up with adventurers has given you company on the road, as well as protection from those who would brand you a fake—or worse.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{APG p49}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/root-magic
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: herbalism-lore
+        name: "_{Herbalism Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

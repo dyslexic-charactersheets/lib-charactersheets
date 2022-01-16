@@ -1,0 +1,37 @@
+unit: feat/trick-magic-item
+name: "_{Trick Magic Item}"
+group: "_{Advanced Player's Guide}"
+
+inc:
+  - copy: feat/trick-magic-item
+    contents:
+      - article: feat/trick-magic-item
+        title: "_{Trick Magic Item}"
+        cat: "_{Feat}"
+        contents:
+          - action:
+            contents:
+              - p: "_{Fool a magic item you couldn't normally use. Attempt a check with any suitable skill, against a DC suitable for the spell's level.}"
+          - table:
+            flip: true
+            rows:
+              - sort: tradition
+                contents:
+                  - tradition: "_{Arcane}"
+                    skill: "_{Arcana}"
+                  - tradition: "_{Divine}"
+                    skill: "_{Religion}"
+                  - tradition: "_{Occult}"
+                    skill: "_{Occultism}"
+                  - tradition: "_{Primal}"
+                    skill: "_{Nature}"
+            template:
+              - p: "#{tradition}"
+              - p: "#{skill}"
+          - zone: "@feat/trick-magic-item/save"
+            contents:
+              - paste: save
+                params:
+                  success: "_{Can use the item this turn.}"
+                  failure: "_{Cannot use the item this turn.}"
+                  critical_failure: "_{Cannot try to trick the item again until the next day.}"

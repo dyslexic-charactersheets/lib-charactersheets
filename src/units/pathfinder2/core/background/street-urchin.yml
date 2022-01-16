@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Street Urchin}"
 
+
 require:
   - unit: feat/pickpocket
 
 inc:
   - set: char-background
     value: "_{Street Urchin}"
+
   - set: thievery-proficiency
     value: trained
 
@@ -16,6 +18,26 @@ inc:
     replace:
       - article: char-background
         title: "_{Street Urchin}"
-        lines: 3
-        reduce: 1
+        contents:
+
+          - p: "_{Trained in Thievery}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{You eked out a living by picking pockets on the streets of a major city, never knowing where you’d find your next meal. While some folk adventure for the glory, you do so to survive.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{CRB p64}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/pickpocket
+        params:
+          level: 1
 

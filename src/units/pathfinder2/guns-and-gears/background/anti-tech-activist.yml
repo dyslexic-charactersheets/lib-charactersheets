@@ -1,0 +1,53 @@
+unit: background/anti-tech-activist
+in: background
+group: "_{Guns and Gears}"
+name: "_{Anti-Tech Activist}"
+
+
+require:
+  - unit: feat/group-coercion
+
+inc:
+  - set: char-background
+    value: "_{Anti-Tech Activist}"
+
+  - set: intimidation-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Anti-Tech Activist}"
+        contents:
+
+          - p: "_{Trained in Intimidation and Guild Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{You've seen the sorts of things that technology brings— polluted environments, workers put out of their jobs or horribly injured, and the slow erosion of society—and you've vowed to inform the larger world of these ills. You do so with long, impassioned speeches on street corners and village squares and by talking personally with the heads of various guilds. Adventuring into the wider world could help spread your message even farther.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{Guns & Gears p44}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/group-coercion
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: guild-lore
+        name: "_{Guild Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

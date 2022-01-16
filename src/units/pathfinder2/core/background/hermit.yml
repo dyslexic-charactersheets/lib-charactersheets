@@ -3,19 +3,56 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Hermit}"
 
+
 require:
   - unit: feat/dubious-knowledge
 
 inc:
   - set: char-background
     value: "_{Hermit}"
-  - set: -proficiency
-    value: trained
 
   - at: '@background'
     replace:
       - article: char-background
         title: "_{Hermit}"
-        lines: 3
-        reduce: 1
+        contents:
+
+          - layout: indent-l
+            contents:
+              - icon: proficiency-trained
+              - g:
+                contents:
+
+                  - field: "##:skill"
+                    control: radio
+                    value: nature
+                    label: "_{Nature}"
+                    frame: right
+                    width: tiny
+
+                  - field: "##:skill"
+                    control: radio
+                    value: occultism
+                    label: "_{Occultism}"
+                    frame: right
+                    width: tiny
+
+                  - p: "_{}"
+
+
+          - p: "_{In an isolated place—like a cave, remote oasis, or secluded mansion—you lived a life of solitude. Adventuring might represent your first foray out among other people in some time. This might be a welcome reprieve from solitude or an unwanted change, but in either case, you’re likely still rough around the edges.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{CRB p62}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/dubious-knowledge
+        params:
+          level: 1
 

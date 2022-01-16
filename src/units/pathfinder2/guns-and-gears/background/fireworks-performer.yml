@@ -1,0 +1,53 @@
+unit: background/fireworks-performer
+in: background
+group: "_{Guns and Gears}"
+name: "_{Fireworks Performer}"
+
+
+require:
+  - unit: feat/fascinating-performance
+
+inc:
+  - set: char-background
+    value: "_{Fireworks Performer}"
+
+  - set: performance-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Fireworks Performer}"
+        contents:
+
+          - p: "_{Trained in Performance and Engineering Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{Few celebrations in Tian-Xia are complete without a show of fireworks, and your job is to make sure they go off without a hitch. You load the fireworks, set the fuses, and choreograph the performance, bringing the show together in a finale of lights and explosions. Then it's time to pack up your gear and move on to the next civic holiday or religious festival. Of course, someone who travels the roads with a pack full of high explosives is bound to run into an adventure or two along the way, and so over time, your fireworks have been spent in support of that life.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{Guns & Gears p122}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/fascinating-performance
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: engineering-lore
+        name: "_{Engineering Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

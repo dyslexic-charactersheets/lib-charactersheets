@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Guard}"
 
+
 require:
   - unit: feat/quick-coercion
 
 inc:
   - set: char-background
     value: "_{Guard}"
+
   - set: intimidation-proficiency
     value: trained
 
@@ -16,6 +18,36 @@ inc:
     replace:
       - article: char-background
         title: "_{Guard}"
-        lines: 3
-        reduce: 1
+        contents:
+
+          - p: "_{Trained in Intimidation and Legal Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{You served in the guard, out of either patriotism or the need for coin. Either way, you know how to get a difficult suspect to talk. However you left the guard, you might think of adventuring as a way to use your skills on a wider stage.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{CRB p62}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/quick-coercion
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: legal-lore
+        name: "_{Legal Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
 

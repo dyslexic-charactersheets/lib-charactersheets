@@ -1,0 +1,52 @@
+unit: ancestry/lost-omens/ancestry-guide/kitsune
+in: ancestry
+group: "_{Lost Omens Ancestry Guide}"
+name: "_{Kitsune}"
+badge: "_{Rare}"
+
+require:
+  - unit: optional-darkvision/trigger
+
+form:
+  - select: heritage/lost-omens/ancestry-guide/kitsune
+    name: "_{Kitsune Heritage}"
+    max: 1
+
+inc:
+  - set: ancestry
+    value: "_{Kitsune}"
+  - set: hp-ancestry
+    value: 8
+  - set: perception-low-light
+    value: true
+  - set: build-boost-CHA-ancestry
+    value: 1
+  - set: languages
+    value: "_{Common}"
+
+  - at: '@ancestry'
+    replace:
+      - article:
+        title: "_{Kitsune}"
+        contents:
+          - flags:
+              - "_{Kitsune}"
+              - "_{Humanoid}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{25ft}"
+          - paste: optional-darkvision
+          - hr:
+            light: true
+          - action:
+            contents:
+              - p:
+                title: "_{Change Shape}"
+                content: "_{Transform into your alternate form.}"
+          - field: "##:alternate-form"
+            width: stretch
+            label: "_{Alternate form}"
+            merge-bottom: true
+              

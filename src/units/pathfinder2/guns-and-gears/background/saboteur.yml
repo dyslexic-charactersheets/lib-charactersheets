@@ -1,0 +1,53 @@
+unit: background/saboteur
+in: background
+group: "_{Guns and Gears}"
+name: "_{Saboteur}"
+
+
+require:
+  - unit: feat/concealing-legerdemain
+
+inc:
+  - set: char-background
+    value: "_{Saboteur}"
+
+  - set: thievery-proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Saboteur}"
+        contents:
+
+          - p: "_{Trained in Thievery and Engineering Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{Whether you do it for personal enjoyment or at the behest of a mercenary company or military organization, you have a knack for destroying things. You have a sense for an object or structure's weak spots and know where to deliver a hammer strike or alchemical bomb. You adventure to hone your skills or complete a particular mission.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{Guns & Gears p45}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/concealing-legerdemain
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: engineering-lore
+        name: "_{Engineering Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

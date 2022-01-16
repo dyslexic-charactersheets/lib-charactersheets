@@ -33,18 +33,19 @@
   },
   "scripts": {
     "build": "npm run build:units && npm run build:assets && npm run build:bundle && npm run build:compile",
-    "build:units": "nodejs src/make/make.js",
+    "build:units": "node src/make/make.js",
     "build:assets": "src/make/assets.sh",
     "build:bundle": "rollup src/lib/lib.js --file src/lib-charactersheets.js --format cjs --external fs",
     "build:compile": "babel src/lib-charactersheets.js -d lib",
+    "build:unitgen": "node src/make/unitGenAoN.js",
     "docs": "npm run docs:contrib && npm run docs:jsdoc",
     "docs:jsdoc": "npx jsdoc -d docs/api src/lib",
     "docs:contrib": "npx gitbook build src/docs docs",
     "test:lint": "npx eslint src/lib; npx eslint src/make",
-    "test:i18n": "nodejs test/i18n.js",
+    "test:i18n": "node test/i18n.js",
     "test:i18n:clean": "rm -r test/out/i18n",
-    "test:preview": "nodejs test/test-preview.js",
-    "test": "npm run build && nodejs test/test.js"
+    "test:preview": "node test/test-preview.js",
+    "test": "npm run build && node test/test.js"
   },
   "license": "Artistic-2.0",
   "dependencies": {
@@ -55,6 +56,7 @@
     "@babel/cli": "^7.13.14",
     "@babel/core": "^7.13.15",
     "@babel/preset-env": "^7.13.15",
+    "cheerio": "^1.0.0-rc.10",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
@@ -62,7 +64,8 @@
     "js-yaml": "^3.14.1",
     "jsdoc": "^3.6.6",
     "lodash": "^4.17.21",
-    "node-sass": "^4.14.1",
+    "node-fetch": "^2.6.1",
+    "node-sass": "^7.0.0",
     "rollup": "^1.32.1"
   }
 }

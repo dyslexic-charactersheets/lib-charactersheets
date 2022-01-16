@@ -1,0 +1,33 @@
+unit: heritage/dwarf/lost-omens/character-guide/elemental-heart
+in: heritage/dwarf
+group: "_{Lost Omens Character Guide}"
+name: "_{Elemental Heart Dwarf}"
+
+inc:
+  - set: heritage
+    value: "_{Elemental Heart Dwarf}"
+
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Elemental Heart Dwarf}"
+        contents:
+          - field: "##/damage-type"
+            label: "_{Damage type}"
+            width: stretch
+          - action: 2
+            contents:
+              - p: "_{A burst does damage to adjacent creatures.}"
+          - calc:
+            output:
+              field: "##/damage"
+              legend: "_{Damage}"
+              border: full
+              width: large
+              suffix: "_{d6}"
+            inputs:
+              - field:
+                ref: level
+                label: "_{Level}"
+              - span: "&divide; 2"
+          - p: "_{Targets make a basic reflex save.}"

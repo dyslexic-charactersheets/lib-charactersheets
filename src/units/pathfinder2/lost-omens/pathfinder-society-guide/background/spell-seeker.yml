@@ -1,0 +1,68 @@
+unit: background/spell-seeker
+in: background
+group: "_{Lost Omens Pathfinder Society Guide}"
+name: "_{Spell Seeker}"
+
+
+require:
+  - unit: feat/recognize-spell
+
+inc:
+  - set: char-background
+    value: "_{Spell Seeker}"
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Spell Seeker}"
+        contents:
+
+          - layout: indent-l
+            contents:
+              - icon: proficiency-trained
+              - g:
+                contents:
+
+                  - field: "##:skill"
+                    control: radio
+                    value: arcana
+                    label: "_{Arcana}"
+                    frame: right
+                    width: tiny
+
+                  - field: "##:skill"
+                    control: radio
+                    value: occultism
+                    label: "_{Occultism}"
+                    frame: right
+                    width: tiny
+
+                  - p: "_{Library Lore}"
+
+
+          - p: "_{Conventional magic can only hold your attention for so long. Instead, you've devoted yourself to understanding truly esoteric spells, which invariably draws you to explore the world and all its eldritch traditions.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{PFS Guide p6}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/recognize-spell
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: library-lore
+        name: "_{Library Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

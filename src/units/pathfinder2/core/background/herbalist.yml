@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Herbalist}"
 
+
 require:
   - unit: feat/natural-medicine
 
 inc:
   - set: char-background
     value: "_{Herbalist}"
+
   - set: nature-proficiency
     value: trained
 
@@ -16,13 +18,36 @@ inc:
     replace:
       - article: char-background
         title: "_{Herbalist}"
-        lines: 3
-        reduce: 1
+        contents:
+
+          - p: "_{Trained in Nature and Herbalism Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{As a formally trained apothecary or a rural practitioner of folk medicine, you learned the healing properties of various herbs. You’re adept at collecting the right natural cures in all sorts of environments and preparing them properly.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{CRB p62}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/natural-medicine
+        params:
+          level: 1
+
 
   - at: '@lore-skills'
     add:
-      - skill: lore-herbalism
+
+      - skill: herbalism-lore
         name: "_{Herbalism Lore}"
         ability: "_{INT}"
         abilityref: INT
         acp: false
+

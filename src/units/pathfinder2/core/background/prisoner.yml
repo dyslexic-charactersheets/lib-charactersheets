@@ -3,12 +3,14 @@ in: background
 group: "_{Core Rulebook}"
 name: "_{Prisoner}"
 
+
 require:
   - unit: feat/experienced-smuggler
 
 inc:
   - set: char-background
     value: "_{Prisoner}"
+
   - set: stealth-proficiency
     value: trained
 
@@ -16,13 +18,36 @@ inc:
     replace:
       - article: char-background
         title: "_{Prisoner}"
-        lines: 3
-        reduce: 1
+        contents:
+
+          - p: "_{Trained in Stealth and Underworld Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: "_{You might have been imprisoned for crimes (whether you were guilty or not), or enslaved for some part of your upbringing. In your adventuring life, you take full advantage of your newfound freedom.}"
+            size: small
+            blk: false
+
+
+          - paste: book-ref
+            params:
+              page-ref: "_{CRB p63}"
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/experienced-smuggler
+        params:
+          level: 1
+
 
   - at: '@lore-skills'
     add:
-      - skill: lore-underworld
+
+      - skill: underworld-lore
         name: "_{Underworld Lore}"
         ability: "_{INT}"
         abilityref: INT
         acp: false
+
