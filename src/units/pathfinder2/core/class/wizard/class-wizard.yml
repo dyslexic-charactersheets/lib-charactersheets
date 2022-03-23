@@ -83,8 +83,6 @@ inc:
       - levels: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 ]
         spell-level: [ "_{1st}", "_{1st}", "_{2nd}", "_{2nd}", "_{3rd}", "_{3rd}", "_{4th}", "_{4th}", "_{5th}", "_{5th}", "_{6th}", "_{6th}", "_{7th}", "_{7th}", "_{8th}", "_{8th}", "_{9th}", "_{9th}", "_{10th}" ]
         spell-num: [ 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1 ]
-      - levels: [ 1, 3, 5, 7, 9, 11, 13, 15, 17 ]
-        bloodline-spell: true
       - level: 19
         advance: "_{Archwizard's Spellcraft}"
         
@@ -123,9 +121,6 @@ inc:
         format: checkgrid
         label: "#{spell-level}"
         max: "#{spell-num}"
-      - name: "_{Bloodline Spell}"
-        key: bloodline-spell
-        format: checkbox
 
   - at: '@saving-throws'
     add:
@@ -160,7 +155,7 @@ inc:
                   - section: "_{Thesis}"
                     primary: true
                     contents:
-                      - field: wizard-thesis-title
+                      - field: wizard:thesis/title
                         size: large
                         width: stretch
                         align: left
@@ -174,13 +169,13 @@ inc:
                         contents:
                           - zone: '@wizard/thesis'
                             contents:
-                              - field: wizard-thesis
+                              - field: wizard:thesis
                                 size: large
                                 width: stretch
                                 align: left
                                 label: "_{Thesis Type}"
                                 merge-bottom: true
-                              - field: wizard-thesis-details
+                              - field: wizard:thesis/details
                                 width: stretch
                                 align: left
                                 frame: none
@@ -191,7 +186,7 @@ inc:
 
                   - section: "_{Arcane School}"
                     contents:
-                      - field: wizard-school
+                      - field: wizard:school
                         legend: "_{School}"
                         width: stretch
                         align: left
@@ -204,7 +199,7 @@ inc:
                             contents:
                               - zone: '@wizard/school'
                                 contents:
-                                  - field: wizard-school-bonus-spell
+                                  - field: wizard:school/bonus-spell
                                     label: "_{Extra Spell}"
                                     width: stretch
                                     align: left
@@ -212,7 +207,7 @@ inc:
                         contents:
                           - paste: focus
                             contents:
-                              - field: wizard-school-spell
+                              - field: wizard:school/spell
                                 legend: "_{School Spell}"
                                 width: stretch
                                 merge-bottom: true
@@ -255,7 +250,7 @@ inc:
 
                   - section: "_{Arcane Bond}"
                     contents:
-                      - field: wizard-arcane-focus-item
+                      - field: wizard:arcane-focus-item
                         label: "_{Bonded Item}"
                         width: stretch
                         align: left
@@ -269,7 +264,7 @@ inc:
                                   - layout: indent-r
                                     contents:
                                       - p: "_{Expend the power stored in your arcane bond to cast one spell you prepared and cast today, without spending a spell slot.}"
-                                      - field: wizard-drain-bonded-item-today
+                                      - field: wizard:drain-bonded-item/today
                                         control: checkbox
                                         label: "_{Used today}"
 
@@ -286,7 +281,7 @@ inc:
                       - spells-list:
                         min: 0
                         max: 0
-                        spells: 10
+                        spells: 12
                         checks: 1
 
                   - section: "_{Spells}"
@@ -326,7 +321,7 @@ inc:
                       mark: wizard
                       
                   - tail:
-                  - spacer:
+                  # - spacer:
 
       - page: 'wizard-thesis'
         order: 11
@@ -340,7 +335,7 @@ inc:
                   - spacer:
                   - layout: 1e
                     contents:
-                      - field: wizard-thesis-title
+                      - field: wizard:thesis/title
                         width: stretch
                         size: huge
                         align: center
@@ -357,7 +352,7 @@ inc:
                   - spacer:
                   - layout: 1n
                     contents:
-                      - field: wizard-thesis-abstract
+                      - field: wizard:thesis/abstract
                         width: stretch
                         legend: "_{Abstract}"
                         repeat: 10
@@ -368,11 +363,11 @@ inc:
                       - g:
                         contents:
                           - h6: "_{Introduction}"
-                          - field: wizard-thesis-p1-left
+                          - field: wizard:thesis/p1-left
                             width: stretch
                             repeat: 10
                             frame: none
-                      - field: wizard-thesis-p1-right
+                      - field: wizard:thesis/p1-right
                         width: stretch
                         repeat: 11
                         frame: none
@@ -384,7 +379,7 @@ inc:
                       - g:
                         contents:
                           - hr:
-                          - field: wizard-thesis-p2-left-high
+                          - field: wizard:thesis/p2-left-high
                             width: stretch
                             frame: none
                             repeat: 8
@@ -393,14 +388,14 @@ inc:
                           - spacer:
                           - p: "_{Fig. 1}"
                           - hr:
-                          - field: wizard-thesis-p2-left-low
+                          - field: wizard:thesis/p2-left-low
                             width: stretch
                             frame: none
                             repeat: 16
                       - g:
                         contents:
                           - hr:
-                          - field: wizard-thesis-p2-right-high
+                          - field: wizard:thesis/p2-right-high
                             width: stretch
                             frame: none
                             repeat: 16
@@ -409,7 +404,14 @@ inc:
                           - spacer:
                           - p: "_{Fig. 2}"
                           - hr:
-                          - field: wizard-thesis-p2-right-low
+                          - field: wizard:thesis/p2-right-low
                             width: stretch
                             frame: none
                             repeat: 8
+
+  - at: '@spellbook/left/first'
+    replace:
+      - g:
+        contents:
+          - h5: "_{School Spell}"
+          - zone: '@spellbook/wizard/school'

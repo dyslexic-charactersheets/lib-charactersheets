@@ -26,6 +26,7 @@ inc:
             border: full
             width: medium
             underlay: -5
+            format: int
           - spacer:
           - icon: action3rd
           - field: map-3
@@ -34,7 +35,25 @@ inc:
             border: full
             width: medium
             underlay: -10
+            format: int
 
+  - copy: damage-type-field
+    params:
+      id:
+    contents:
+      - field: attack-#{i}-damage-type
+        label: "_{Type}"
+        width: small
+        control: enum
+        value: ""
+        options:
+          - ""
+          - "_{P}"
+          - "_{S}"
+          - "_{B}"
+          - "_{P}/_{S}"
+          - "_{P}/_{B}"
+          - "_{S}/_{B}"
 
   - copy: natural-weapon
     params:
@@ -67,19 +86,20 @@ inc:
           - subid: ndice
             width: tiny
             align: right
+            format: int
           - label: "_{d}"
           - subid: die
             width: tiny
             align: left
             damage-die: true
+            format: int
           - label: "+"
           - subid: extra
             width: tiny
-      #- field: attack-#{i}-weapon-spec
-      #  label: "_{Weap Spec}"
-      - field: attack-#{i}-damage-type
-        label: "_{Type}"
-        width: tiny
+            format: int
+      - paste: damage-type-field
+        params:
+          id: attack-#{i}-damage-type
       - field: attack-#{i}-striking
         label: "_{Striking}"
         control: counter
@@ -87,6 +107,7 @@ inc:
         label: "_{Misc}"
         misc: true
         optional: true
+        format: int
 
   - copy: weapon
     params:
@@ -187,8 +208,9 @@ inc:
                   attack: true
                   icon: bonus
                   format: modifier
+                  eq: "%{attack-#{i}-ability}+%{attack-#{i}-proficiency-bonus}+%{attack-#{i}-potency[rank]}"
                 inputs:
-                  - field:
+                  - field: attack-#{i}-ability
                     misc: true
                     label: "_{Ability}"
                     control: ref-switch
@@ -212,13 +234,14 @@ inc:
           - row:
             flex: huge
             contents:
-              - field: ammo-#{i}
-                frame: none
+              - field: "ammo-#{i}"
+                label: "_{Ammo}"
                 unlined: true
                 width: small
                 size: huge
                 underlay: "#"
                 merge-bottom: true
+                format: int
               - field: ammo-#{i}-count
                 frame: none
                 control: checkgrid
@@ -271,8 +294,9 @@ inc:
                   attack: true
                   icon: bonus
                   format: modifier
+                  eq: "%{attack-#{i}-ability}+%{attack-#{i}-proficiency-bonus}"
                 inputs:
-                  - field:
+                  - field: "#{id}-attack-#{i}-ability"
                     label: "_{Ability}"
                     misc: true
                     control: ref-switch
@@ -292,7 +316,9 @@ inc:
                     parts:
                       - subid: ndice
                         suffix: "#{damage-die} +"
+                        format: int
                       - subid: extra
+                        format: int
                 else:
                   - field: "#{id}-attack-#{i}-damage"
                     border: full
@@ -303,9 +329,12 @@ inc:
                     parts:
                       - subid: ndice
                         suffix: "_{d}"
+                        format: int
                       - subid: die
                         suffix: "+"
+                        format: int
                       - subid: extra
+                        format: int
           - row:
             contents:
               - field: "#{id}-attack-#{i}-critical"
@@ -341,8 +370,9 @@ inc:
                   attack: true
                   icon: bonus
                   format: modifier
+                  eq: "%{attack-#{i}-ability}+%{attack-#{i}-proficiency-bonus}+%{attack-#{i}-potency[rank]}"
                 inputs:
-                  - field:
+                  - field: "#{id}-attack-#{i}-ability"
                     label: "_{Ability}"
                     misc: true
                     control: ref-switch
@@ -362,7 +392,9 @@ inc:
                     parts:
                       - subid: ndice
                         suffix: "#{damage-die} +"
+                        format: int
                       - subid: extra
+                        format: int
                 else:
                   - field: "#{id}-attack-#{i}-damage"
                     border: full
@@ -373,19 +405,24 @@ inc:
                     parts:
                       - subid: ndice
                         suffix: "_{d}"
+                        format: int
                       - subid: die
                         suffix: "+"
+                        format: int
                       - subid: extra
+                        format: int
           - row:
             contents:
               - field: "#{id}-ammo-#{i}"
                 # frame: h-label
-                frame: none
+                label: "_{Ammo}"
+                # frame: none
                 unlined: true
                 width: small
                 size: huge
                 underlay: "#"
                 merge-bottom: true
+                format: int
               - field: "#{id}ammo-#{i}-count"
                 frame: none
                 control: checkgrid
@@ -424,6 +461,7 @@ inc:
             size: huge
             underlay: "#"
             # label: "_{Charges}"
+            format: int
             merge-bottom: "#{merge-bottom}"
           - field: ammo-#{i}-count
             frame: none

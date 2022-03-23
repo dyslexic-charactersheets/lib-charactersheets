@@ -6,6 +6,7 @@ inc:
     params:
       id: class-dc
       legend: "_{Class DC}"
+      ability: ''
     contents:
       - calc:
         output:
@@ -14,27 +15,37 @@ inc:
           underlay: "_{DC}"
           width: large
           icon: dc
-          eq: "10+%{#{key-ability}}+%{level}+%{#{id}-item-bonus}"
+          eq: "10+%{#{id}-ability}+%{#{id}-proficiency-bonus}+%{#{id}-misc}"
         inputs:
           - span: 10 +
-          - zone: '@key-ability-field'
-            contents:
-              - field:
+          - if: "#{ability}=="
+            then:
+              - field: "#{id}-ability"
                 label: "_{Key Ability}"
                 ref: "=key-ability"
+                misc: true
+            else:
+              - field: "#{id}-ability"
+                label: "_{#{ability}}"
+                underlay: "_{#{ability}}"
+                ref: "#{ability}"
                 misc: true
           - span: "+"
           - field: "#{id}-proficiency"
             label: "_{Proficiency}"
             control: proficiency
-          # - span: "+"
-          # - field: "#{id}-item-bonus"
-          #   label: "_{Item}"
+          - span: "+"
+            optional: true
+          - field: "#{id}-misc"
+            label: "_{Misc}"
+            misc: true
+            optional: true
 
   - copy: spell-attack
     params:
       id: spell-attack
       legend: "_{Spell\nAttack}"
+      ability: ""
     contents:
       - calc:
         output:
@@ -43,27 +54,37 @@ inc:
           width: large
           overprint: true
           icon: bonus
-          eq: '%{#{key-ability}}+%{#{id}-proficiency}+%{#{id}-misc}'
+          format: modifier
+          eq: '%{#{id}-ability}+%{#{id}-proficiency-bonus}+%{#{id}-misc}'
         inputs:
-          - zone: '@key-ability-field'
-            contents:
-              - field:
+          - if: "#{ability}=="
+            then:
+              - field: "#{id}-ability"
                 label: "_{Key Ability}"
                 ref: "=key-ability"
+                misc: true
+            else:
+              - field: "#{id}-ability"
+                label: "_{#{ability}}"
+                underlay: "_{#{ability}}"
+                ref: "#{ability}"
                 misc: true
           - span: "+"
           - field: "#{id}-proficiency"
             label: "_{Proficiency}"
             control: proficiency
           - span: "+"
+            optional: true
           - field: "#{id}-misc"
             label: "_{Misc}"
             misc: true
+            optional: true
 
   - copy: spell-dc
     params:
       id: spell-dc
       legend: "_{Spell Save DC}"
+      ability: ""
     contents:
       - calc:
         output:
@@ -73,60 +94,88 @@ inc:
           width: large
           overprint: true
           icon: dc
-          eq: '10+%{#{key-ability}}+%{level}+%{#{id}-item-bonus}'
+          eq: '10+%{#{id}-ability}+%{#{id}-proficiency-bonus}+%{#{id}-misc}'
         inputs:
           - span: 10 +
-          - zone: '@key-ability-field'
-            contents:
-              - field:
+          - if: "#{ability}=="
+            then:
+              - field: "#{id}-ability"
                 label: "_{Key Ability}"
                 ref: "=key-ability"
+                misc: true
+            else:
+              - field: "#{id}-ability"
+                label: "_{#{ability}}"
+                underlay: "_{#{ability}}"
+                ref: "#{ability}"
                 misc: true
           - span: "+"
           - field: "#{id}-proficiency"
             label: "_{Proficiency}"
             control: proficiency
+          - span: "+"
+            optional: true
+          - field: "#{id}-misc"
+            label: "_{Misc}"
+            misc: true
+            optional: true
 
   - copy: arcane-spell-dcs
+    params:
+      ability: ''
     contents:
       - paste: spell-attack
         params:
           id: arcane-spell-attack
           legend: "_{Arcane Spell\nAttack}"
+          ability: "#{ability}"
       - paste: spell-dc
         params:
           id: arcane-spell-save-dc
           legend: "_{Arcane Spell\nSave DC}"
+          ability: "#{ability}"
           
   - copy: divine-spell-dcs
+    params:
+      ability: ''
     contents:
       - paste: spell-attack
         params:
           id: divine-spell-attack
           legend: "_{Divine Spell\nAttack}"
+          ability: "#{ability}"
       - paste: spell-dc
         params:
           id: divine-spell-save-dc
           legend: "_{Divine Spell\nSave DC}"
+          ability: "#{ability}"
           
   - copy: occult-spell-dcs
+    params:
+      ability: ''
     contents:
       - paste: spell-attack
         params:
           id: occult-spell-attack
           legend: "_{Occult Spell\nAttack}"
+          ability: "#{ability}"
       - paste: spell-dc
         params:
           id: occult-spell-save-dc
           legend: "_{Occult Spell\nSave DC}"
+          ability: "#{ability}"
           
   - copy: primal-spell-dcs
+    params:
+      ability: ''
     contents:
       - paste: spell-attack
         params:
           id: primal-spell-attack
           legend: "_{Primal Spell\nAttack}"
+          ability: "#{ability}"
       - paste: spell-dc
         params:
           id: primal-spell-save-dc
           legend: "_{Primal Spell\nSave DC}"
+          ability: "#{ability}"

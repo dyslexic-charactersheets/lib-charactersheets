@@ -7,155 +7,163 @@ $colour_screen_bg2: #c0c0c0;
 $colour_screen_print_button_hi: #3030e0;
 $colour_screen_print_button_lo: #1c1ccc;
 
+$colour_screen_save_button_hi: #fcfcfc;
+$colour_screen_save_button_lo: #d8d8d8;
 
 /* Screen styles */
 body {
-    background: $colour_screen_bg;
-    background: linear-gradient(to right, $colour_screen_bg2 0%, $colour_screen_bg 50%, $colour_screen_bg2 100%);
-    padding-bottom: 2cm;
+  background: $colour_screen_bg;
+  background: linear-gradient(to right, $colour_screen_bg2 0%, $colour_screen_bg 50%, $colour_screen_bg2 100%);
+  padding-bottom: 2cm;
 }
 
 .page {
-    width: $page_width;
-    height: $page_height;
-    box-shadow: 0 0 1cm rgba(0,0,0,0.1);
-    background: white;
-    margin: 1cm auto;
+  width: $page_width;
+  height: $page_height;
+  box-shadow: 0 0 1cm rgba(0, 0, 0, 0.1);
+  background: white;
+  margin: 1cm auto;
 
-    &--landscape {
-        width: $page_height;
-        height: $page_width;
-    }
+  &--landscape {
+    width: $page_height;
+    height: $page_width;
+  }
 }
-
 
 /* Non-printing elements */
 
 #screen-buttons {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
 
-    background: rgba(255,255,255,0.7);
-    padding: 0.5cm;
-    box-shadow: 0 0 1cm rgba(0,0,0,0.3);
+  background: rgba(240, 240, 240, 0.7);
+  padding: 0.5cm;
+  box-shadow: 0 0 1cm rgba(0, 0, 0, 0.3);
 
-    // text-align: center;
-    z-index: 100;
+  // text-align: center;
+  z-index: 100;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  #left-buttons {
+    position: absolute;
+    top: 0.52cm;
+    left: 0.52cm;
+    text-align: left;
 
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-items: center;
 
-    #left-buttons {
-        position: absolute;
-        top: 0.52cm;
-        left: 0.52cm;
-        text-align: left;
-        
-        display: flex;
-        flex-direction: row;
-        justify-items: center;
+    button {
+      margin-right: 0.5cm;
+      cursor: pointer;
 
-        button {
-            margin-right: 0.5cm;
-            cursor: pointer;
-
-            color: black;
-            span {
-                color: black;
-            }
-        }
+      color: black;
+      span {
+        color: black;
+      }
     }
+  }
 }
 
 button {
-    $button_size: 32px;
-    $icon_size: 20px;
-    
+  $button_size: 32px;
+  $icon_size: 20px;
+
+  height: $button_size;
+  line-height: $button_size;
+  cursor: pointer;
+
+  &#button--print {
+    background: linear-gradient($colour_screen_print_button_hi, $colour_screen_print_button_lo);
+    color: white !important;
+    font-weight: bold;
+    width: 4cm;
+    // padding: 5pt;
+    border: 0 none;
+    border-radius: 2pt;
+    box-shadow: 0 2pt 10pt rgba(0, 0, 0, 0.4);
     height: $button_size;
     line-height: $button_size;
-    cursor: pointer;
-
-    &#button--print {
-        background: linear-gradient($colour_screen_print_button_hi, $colour_screen_print_button_lo);
-        color: white !important;
-        font-weight: bold;
-        width: 4cm;
-        // padding: 5pt;
-        border: 0 none;
-        border-radius: 2pt;
-        box-shadow: 0 2pt 10pt rgba(0,0,0,0.4);
-        height: $button_size;
-        line-height: $button_size;
-
-        i {
-            background-image: url('{{{dataurl "images/print.svg"}}}');
-        }
-    }
-
-    &#button--save-data {
-        background: linear-gradient(#fcfcfc, #d8d8d8);
-        color: #303030;
-        font-weight: bold;
-        margin-left: 1rem;
-        border: 1px solid #c0c0c0;
-        border-radius: 2pt;
-        width: 4cm;
-        box-shadow: 0 2pt 10pt rgba(0,0,0,0.4);
-
-        i {
-            background-image: url('{{{dataurl "images/save.svg"}}}');
-        }
-    }
-
-    &.btn {
-        padding: 0 0 0;
-        border-style: none;
-        background-color: transparent;
-
-        // display: flex;
-        // flex-direction: row;
-        // justify-items: center;
-    }
 
     i {
-        display: inline-block;
-        height: $icon_size;
-        width: $icon_size;
+      background-image: url('{{{dataurl "images/print.svg"}}}');
+    }
+  }
 
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        background-position: center;
+  &#button--save {
+    cursor: inherit;
+    opacity: 0.4;
+    background: rgba(255,255,255,0.3);
+    color: #303030;
+    font-weight: bold;
+    margin-left: 1rem;
+    border: 1px solid #c0c0c0;
+    border-radius: 2pt;
+    width: 4cm;
+    box-shadow: 0 2pt 10pt rgba(0, 0, 0, 0.4);
 
-        margin-right: 0.2cm;
-        vertical-align: middle;
+    i {
+      background-image: url('{{{dataurl "images/save.svg"}}}');
     }
 
-    &#button--large {
-        i {
-            background-image: url('{{{dataurl "images/text-height.svg"}}}');
-        }
+    body.body--changed & {
+      opacity: 1.0;
+      background: linear-gradient($colour_screen_save_button_hi, $colour_screen_save_button_lo);
+      cursor: pointer;
     }
+  }
 
-    &#button--high-contrast {
-        i {
-            background-image: url('{{{dataurl "images/adjust.svg"}}}');
-        }
+  &.btn {
+    padding: 0 0 0;
+    border-style: none;
+    background-color: transparent;
+
+    // display: flex;
+    // flex-direction: row;
+    // justify-items: center;
+  }
+
+  i {
+    display: inline-block;
+    height: $icon_size;
+    width: $icon_size;
+
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    margin-right: 0.2cm;
+    vertical-align: middle;
+  }
+
+  &#button--large {
+    i {
+      background-image: url('{{{dataurl "images/text-height.svg"}}}');
     }
+  }
+
+  &#button--high-contrast {
+    i {
+      background-image: url('{{{dataurl "images/adjust.svg"}}}');
+    }
+  }
 }
-
 
 .screen-message {
   display: none;
   position: fixed;
   bottom: 100px;
   left: 30px;
-  
-  background: rgba(255,255,255,0.7);
+
+  background: rgba(255, 255, 255, 0.7);
   padding: 8px 16px;
-  box-shadow: 0 0.1cm 0.2cm rgba(0,0,0,0.3);
+  box-shadow: 0 0.1cm 0.2cm rgba(0, 0, 0, 0.3);
 
   p {
     font-size: 16px;

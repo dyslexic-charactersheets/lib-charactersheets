@@ -35,8 +35,10 @@ inc:
                                             legend: "_{Kit}"
                                           - field: inventory-kit-value
                                             label: "_{Value}"
+                                            format: int
                                           - field: inventory-kit-weight
                                             label: "_{Weight}"
+                                            format: int
                                           # - field: inventory-kit-checked
                                           #   control: checkbox
                                           #   label: "_{Ready}"
@@ -71,8 +73,10 @@ inc:
                                                 frame: none
                                               - field: inventory-item-large-#{i}-value
                                                 frame: none
+                                                format: int
                                               - field: inventory-item-large-#{i}-weight
                                                 frame: none
+                                                format: int
                                               - field: inventory-item-large-#{i}-checked
                                                 frame: none
                                                 control: checkbox
@@ -88,13 +92,15 @@ inc:
                                         contents:
                                           - row:
                                             contents:
-                                              - field: inventory-item-#{i}
-                                                width: stretch
-                                              - field: inventory-item-#{i}-value
-                                              - field: inventory-item-#{i}-weight
                                               - field: inventory-item-#{i}-checked
                                                 frame: none
                                                 control: checkbox
+                                              - field: inventory-item-#{i}
+                                                width: stretch
+                                              - field: inventory-item-#{i}-value
+                                                format: int
+                                              - field: inventory-item-#{i}-weight
+                                                format: int
                               # - row:
                               #   contents:
                               - row:
@@ -123,7 +129,9 @@ inc:
                                           - field: inventory-backpack-#{i}
                                             width: stretch
                                           - field: inventory-backpack-#{i}-value
+                                            format: int
                                           - field: inventory-backpack-#{i}-weight
+                                            format: int
                                           # - field: inventory-#{i}-checked
                                           #   frame: none
                                           #   control: checkbox
@@ -176,6 +184,7 @@ inc:
                                           label: "_{Encumberance}"
                                           suffix: "_{B}"
                                           width: large
+                                          eq: "5+%{STR}"
                                         inputs:
                                           - span: "5 +"
                                           - field:
@@ -190,6 +199,7 @@ inc:
                                           label: "_{Carry Limit}"
                                           suffix: "_{B}"
                                           width: large
+                                          eq: "10+%{STR}"
                                         inputs:
                                           - span: "10 +"
                                           - field:
@@ -220,12 +230,14 @@ inc:
                                         width: stretch
                                       - field: armour-bulk
                                         label: "_{Bulk}"
+                                        format: int
                                   - row:
                                     contents:
                                       - field: ac-armour-bonus
                                         label: "_{AC Bonus}"
                                         icon: armour
                                         border: full
+                                        format: int
                                       - field: ac-armour-potency
                                         control: counter
                                         label: "_{Potency}"
@@ -241,16 +253,31 @@ inc:
                                         width: stretch
                                       - field: armour-dex-cap
                                         label: "_{DEX\nCap}"
+                                        format: int
                                       - field: armour-str-rating
                                         label: "_{STR\nRating}"
+                                        format: int
                                       - field: armour-acp
                                         label: "_{Check\nPenalty}"
+                                        border: full
+                                        prefix: "&ndash;"
+                                        format: int
+                                      - field: armour-speed-penalty
+                                        label: "_{Speed\nPenalty}"
+                                        width: large
+                                        prefix: "&ndash;"
+                                        suffix: "_{ft}"
+                                        format: int
                                   - field: armour-properties
                                     width: stretch
                                     label: "_{Armour Traits}"
-                                    repeat: 3
+                                    repeat: 2
                                     reduce: 1
-                                    merge-bottom: true
+                                    # merge-bottom: true
+                                  - field: armour-flexible
+                                    control: checkbox
+                                    frame: right
+                                    label: "_{Flexible}"
 
                               - section: "_{Shield}"
                                 mark: shield
@@ -264,16 +291,19 @@ inc:
                                         width: stretch
                                       - field: shield-bulk
                                         label: "_{Bulk}"
+                                        format: int
                                   - row:
                                     contents:
                                       - field: shield-ac
                                         label: "_{AC Bonus}"
                                         icon: shield
                                         border: full
+                                        format: int
                                       - field: shield-hardness
                                         label: "_{Hardness}"
                                         width: large
                                         suffix: "_{hp}"
+                                        format: int
                                       # - spacer:
                                       - field: shield-bt
                                         label: "_{Broken}"
@@ -281,16 +311,18 @@ inc:
                                         prefix: "&le;"
                                         width: large
                                         optional: true
+                                        eq: "floor(%{shield-hp}/2)"
                                       # - spacer:
-                                      - field: shield-hp-total
+                                      - field: shield-hp
                                         label: "_{Hit Points}"
                                         icon: hp
                                         border: full
                                         suffix: "_{hp}"
+                                        format: int
                                   - field: shield-properties
                                     width: stretch
                                     label: "_{Shield Traits}"
-                                    repeat: 3
+                                    repeat: 2
                                     reduce: 1
                                     merge-bottom: true
 
@@ -340,6 +372,7 @@ inc:
                                         denomination: copper
                                         digits: 9
                                         decimal: 1
+                                        eq: "(%{money-platinum}*1000)+(%{money-gold}*100)+(%{money-silver}*10)+%{money-copper}"
                                   - p: "_{1000 coins = 1 bulk}"
                                     optional: true
                               - section: "_{Scrolls}"
@@ -404,6 +437,7 @@ inc:
                                           - field: inventory-potion-#{i}-count
                                             underlay: "#"
                                             frame: none
+                                            format: int
                                           - field: inventory-potion-#{i}-use
                                             frame: none
                                             control: checkgrid

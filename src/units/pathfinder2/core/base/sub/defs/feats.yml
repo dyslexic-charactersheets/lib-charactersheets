@@ -23,11 +23,29 @@ inc:
             contents:
               - each:
                 template:
-                  - level: "#{level}"
-                    contents:
-                      - item:
+                  - if: "#{level}"
+                    then:
+                      - level: "#{level}"
+                        contents:
+                          - item:
+                    else:
+                      - layout: indent-l
+                        contents:
+                          - g:
+                            contents:
+                              - label: "_{Level}"
+                              - field: "#{id}-#{i}-level"
+                                width: small
+                                border: full
+                          - g:
+                            contents:
+                              - item:
+                  # - level: "#{level}"
+                  #   contents:
+                  #     - item:
                 contents:
                   - slots: "#{slots}"
+                    key: level
                     min: 1
                     max: 1
                     even: true
@@ -44,7 +62,7 @@ inc:
       class-feats:
       hp: 8
     contents:
-      - selectable:
+      - selectable: "##:resiliency"
         contents:
           - p:
             title: "_{Prerequisite}"
@@ -87,7 +105,7 @@ inc:
             contents:
               - h5: "#{basic-title}"
               - p: "_{1st or 2nd level feat}"
-          - selectable:
+          - selectable: "#{id}:basic-feats"
             flex: small
             contents:
               - article:
@@ -108,7 +126,7 @@ inc:
             reduce: 1
             flex: large
             contents:
-              - selectable:
+              - selectable: "#{id}:advanced-feat/#{i}"
                 contents:
                   - article:
                     lines: "#{lines}"
@@ -130,7 +148,7 @@ inc:
               - repeat: "#{num}"
                 merge-bottom: true
                 contents:
-                  - field:
+                  - field: "archetype-spells-#{level}"
                     width: stretch
                     frame: none
                     control: compound
@@ -144,7 +162,7 @@ inc:
                     contents:
                       - g:
                         contents:
-                          - field:
+                          - field: "archetype-spells-#{level}"
                             width: stretch
                             repeat: "#{num}"
                             frame: none
@@ -159,7 +177,7 @@ inc:
                 else:
                   - g:
                     contents:
-                      - field:
+                      - field: "archetype-spells-#{level}"
                         width: stretch
                         repeat: "#{num}"
                         frame: none
@@ -228,7 +246,7 @@ inc:
               - g:
                 contents:
                   - p: "_{Start with two cantrips.}"
-                  - table:
+                  - table: "#{id}:spellcasting"
                     collapse: true
                     columns:
                       - ""
@@ -304,7 +322,7 @@ inc:
 
               - if: "#{breadth}"
                 then:
-                  - selectable:
+                  - selectable: "#{id}:breadth"
                     contents:
                       - h5: "#{breadth}"
                       - if: "#{style}==prepared"
@@ -406,7 +424,7 @@ inc:
                             label: "_{Proficiency}"
                             control: proficiency
                             value: trained
-                          - field:
+                          - field: "#{tradition}-spell-attack-misc"
                             label: "_{Misc}"
                             misc: true
                       - calc:
@@ -424,7 +442,7 @@ inc:
                             label: "_{Proficiency}"
                             control: proficiency
                             value: trained
-                          - field:
+                          - field: "#{tradition}-spell-dc-misc"
                             label: "_{Misc}"
                             misc: true
 
@@ -432,7 +450,7 @@ inc:
                 contents:
                   - p: "_{Start with two cantrips.}"
 
-                  - table:
+                  - table: "#{id}:spells"
                     collapse: true
                     zebra: true
                     columns:
@@ -542,14 +560,14 @@ inc:
                         contents:
                           - g:
                             contents:
-                              - field: "archetype/secrets-of-magic/magus/spells-level-#{i}"
+                              - field: "archetype/spells-#{i}-level"
                                 label: "_{Spell\nLevel}"
                                 merge-bottom: true
                                 width: small
                                 border: full
                           - g:
                             contents:
-                              - field:
+                              - field: "archetype/spells-#{i}"
                                 width: stretch
                                 repeat: 3
                                 frame: none

@@ -1,7 +1,7 @@
 import { isNull } from '../util';
 import { elementClass, mergeBottom } from '../util/elements';
 import { has } from '../util/objects';
-// import { log, warn } from '../log';
+import { warn } from '../log';
 // import { mergeBottom } from '../classes/Registry';
 
 // Standard table
@@ -32,6 +32,11 @@ export function renderTableBasic(args, reg, doc, headings, rows) {
   // cells
   // log("table", "Rows", rows);
   const trows = rows.map(row => {
+    if (!has(row, "cells")) {
+      error("table-basic", "No cells in table row", row);
+      return '';
+    }
+
     const cells = row.cells.map((cell, h) => {
       if (h < headings.length) {
         // if (has(headings[h], "shade") && headings[h].shade)

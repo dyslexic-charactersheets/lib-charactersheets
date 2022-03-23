@@ -27,6 +27,7 @@ function parseCharacter(primary, request) {
     game: 'pathfinder2',
     theme: 'adventurer',
     language: 'en',
+    units: '',
 
     ancestry: false,
     heritage: false,
@@ -62,6 +63,7 @@ function parseCharacter(primary, request) {
     game: attr.game,
     units: ['core', 'base', 'base/character', 'theme/' + attr.theme],
     language: attr.language,
+    measurementUnits: attr.units,
     description: attr.description,
 
     ancestry: false,
@@ -369,6 +371,7 @@ export class Character extends Instance {
 
           // language
           document.language = data.language;
+          document.setMeasurementUnits(data.measurementUnits);
           document.setVar('character-name', data.name);
           document.setVar('description', data.description);
 
@@ -456,16 +459,19 @@ export class Character extends Instance {
           document.isLoggedIn = data.isLoggedIn;
           let units = system.getUnits(data.units);
           units = system.inferUnits(units);
-          // log("Character", "Inferred units:", units.map(unit => unit.id).sort());
+          // log("Character", "Inferred units:", units.map(unit => unit.id).sort().join(", "));
 
           // infer the title from the units
           let title = __("Character");
+          let summary = __("Character");
           switch (system.code) {
             case 'pathfinder2':
-              title = pathfinder2Title(units, document, data);
+              title = pathfinder2Title(units, document, data, true);
+              summary = pathfinder2Title(units, document, data, false);
               break;
           }
           document.title = title;
+          document.summary = summary;
 
           // make the element tree
           units.forEach(unit => document.addUnit(unit));
@@ -475,6 +481,7 @@ export class Character extends Instance {
             events.emit('createElementTree', {
               elementTree: document.doc,
               title: document.title,
+              summary: summary,
               request: self.request
             });
 
@@ -484,6 +491,7 @@ export class Character extends Instance {
             events.emit('render', {
               data: data,
               title: document.title,
+              summary: summary,
               mimeType: "text/html",
               request: self.request
             });
@@ -506,9 +514,9 @@ export class Character extends Instance {
   }
 }
 
-function pathfinder2Title(units, doc, data) {
+function pathfinder2Title(units, doc, data, includeName) {
   let parts = {
-    name: data.name,
+    name: includeName ? data.name : '',
     ancestry: '',
     class: '',
     archetypes: '',

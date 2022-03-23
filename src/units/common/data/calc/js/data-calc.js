@@ -18,6 +18,10 @@ function ceil(num) {
   return res;
 }
 
+function min1(num) {
+  return Math.max(num, 1);
+}
+
 function defaultValue(num, def) {
   if (num === unset || num === null || num === "") {
     return def;
@@ -26,8 +30,9 @@ function defaultValue(num, def) {
 }
 
 function minmax(num, min, max) {
+  num = 0+num;
   if (isNaN(num)) {
-    return 0;
+    return "NaN";
   }
   if (num < min || num > max) {
     throw "Out of bounds";
@@ -35,16 +40,18 @@ function minmax(num, min, max) {
   return num;
 }
 
-function modifier(num) {
-  num = ""+num;
-  if (num.charAt(0) == "-") {
-    return num;
+function threshold(num, thresholds) {
+  var result = '';
+  for (var i = 0; i < thresholds.length; i += 2) {
+    if (num >= thresholds[i]) {
+      result = thresholds[i+1];
+    }
   }
-  return "+"+num;
+  return result;
 }
 
 function req(fields, result) {
-  if (isNaN(result) || result === "NaN") {
+  if (result === null || isNaN(result) || result === "NaN" || result === "+NaN") {
     return '';
   }
   var has = false;
@@ -92,7 +99,7 @@ function initCalculations() {
       for (var input of inputs) {
         input.addEventListener('input', function (evt) {
           try {
-            var value = coerceFieldValue(name, evt.target.value, true);
+            var value = coerceFieldValue(name, evt.target.value, false);
             if (value !== null && !isNaN(value)) {
               for (var otherInput of inputs) {
                 otherInput.value = value;
@@ -126,6 +133,15 @@ function initCalculations() {
   for (var proficiency of ['trained', 'expert', 'master', 'legendary']) {
     for (var input of document.getElementsByName('proficiency-'+proficiency)) {
       input.addEventListener('change', redoProficiency);
+    }
+  }
+
+  // make all calculation outputs non-editable
+  for (var name in calculations) {
+    for (var output of document.getElementsByName(name)) {
+      output.classList.add('calc-output');
+      output.setAttribute('readonly', true);
+      output.setAttribute('tabindex', -1);
     }
   }
 
@@ -203,18 +219,20 @@ function redoKeyAbility() {
     return;
   }
   var value = getFieldValue(keyAbility);
-  if (value === null || value === "") {
-    return;
-  }
 
   for (var input of document.querySelectorAll("input[ref='=key-ability']")) {
-    input.value = value;
-    input.dispatchEvent(new Event('change'));
+    // update the field label
     var field = input.closest('.field');
     for (var label of field.getElementsByTagName('label')) {
       label.innerText = keyAbility;
     }
     field.classList.remove('field--misc');
+
+    // set the value
+    if (value !== null && value !== "") {
+      input.value = value;
+      input.dispatchEvent(new Event('change'));
+    }
   }
 }
 

@@ -76,7 +76,7 @@ inc:
                                           - row: center
                                             contents:
                                               - spacer:
-                                              - field: "animal-#{code}"
+                                              - field: "construct/#{code}"
                                                 label: "#{name}"
                                                 border: circle
                                                 size: huge
@@ -416,11 +416,11 @@ inc:
                                 icon: bonus
                               - span: "="
                               - field:
-                                ref: "#{ability}"
+                                ref: "construct/#{abilityref}"
                                 underlay: "#{ability}"
                                 frame: h-label
                                 label: "#{ability}"
-                              - field: "#{skill}-proficiency"
+                              - field: "construct/#{skill}-proficiency"
                                 control: proficiency
                           
                           - hr:
@@ -439,9 +439,9 @@ inc:
                                 label: "_{Proficiency}"
                                 control: proficiency
                                 value: trained
-                              - field:
+                              - field: construct/perception-item
                                 label: "_{Item}"
-                              - field:
+                              - field: construct/perception-misc
                                 misc: true
                                 label: "_{Misc}"
                           - row:
@@ -585,18 +585,18 @@ inc:
                               - row:
                                 merge-bottom: true
                                 contents:
-                                  - field: effect-#{i}
+                                  - field: construct/effect-#{i}
                                     control: progression
                                     frame: none
                                     max: 3
-                                  - field: effect-#{i}
+                                  - field: construct/effect-#{i}
                                     width: stretch
                                     frame: none
-                                  - field: effect-#{i}-duration
+                                  - field: construct/effect-#{i}-duration
                                     frame: none
                                     underlay: "#"
                                     suffix: "_{rds}"
-                                  - field:
+                                  - field: construct/effect-#{i}-rounds
                                     control: checkgrid
                                     frame: none
                                     max: 6
@@ -624,7 +624,7 @@ inc:
                                     control: proficiency
                                     label: "_{Proficiency}"
                                   - span: "+"
-                                  - field:
+                                  - field: construct/ac-misc
                                     misc: true
                                     label: "_{Misc}"
 
@@ -680,6 +680,7 @@ inc:
                                     legend: "_{Will}"
                                     short: "_{WILL}"
                                     ability: "_{WIS}"
+                                    abilityref: WIS
                                 template:
                                   - calc:
                                     output:
@@ -690,7 +691,7 @@ inc:
                                       width: large
                                       underlay: "#{short}"
                                     inputs:
-                                      - field:
+                                      - field: "construct/#{abilityref}"
                                         label: "#{ability}"
                                         underlay: "#{ability}"
                                         ref: "#{abilityref}"

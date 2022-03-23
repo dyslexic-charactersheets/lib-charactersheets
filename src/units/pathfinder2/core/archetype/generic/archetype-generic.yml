@@ -1,0 +1,95 @@
+unit: option/archetype-generic
+group: "_{Core Rulebook}"
+name: "_{Generic Archetype}"
+
+require:
+
+inc:
+  - at: '@pages'
+    add:
+      - page: archetype-generic
+        name: "_{Generic Archetype}"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: box
+                        optional: true
+                      - field: "##:name"
+                        width: stretch
+                        label: "_{Archetype}"
+                        align: center
+                        size: huge
+
+                  - section: "_{Dedication}"
+                    contents:
+                      - row:
+                        contents:
+                          - field: "##:dedication/proficiency-value"
+                            control: proficiency
+                            has-bonus: false
+                          - field: "##:dedication/proficiency-name"
+                            frame: none
+                            width: stretch
+                            align: left
+                      - article: "##:dedication"
+                        lines: 3
+                  - section: "_{Feats}"
+                    flex: large
+                    contents:
+                      - list:
+                        zebra: true
+                        hr: true
+                        contents:
+                          - repeat: 2
+                            contents:
+                              - list:
+                                hr: true
+                                light: true
+                                contents:
+                                  # - field: "##:#{i}/group"
+                                  #   width: stretch
+                                  #   merge-bottom: true
+                                  - repeat: 3
+                                    index: j
+                                    contents:
+                                      - selectable: "##:#{i}/#{j}"
+                                        contents:
+                                          - article: "##:#{i}/#{j}/feat"
+                                            lines: 3
+                  - tail:
+
+              - g:
+                contents:
+                  - section: "_{Feats}"
+                    contents:
+                      - list:
+                        zebra: true
+                        hr: true
+                        contents:
+                          - repeat: 3
+                            index: i
+                            start: 3
+                            contents:
+                              - list:
+                                hr: true
+                                light: true
+                                contents:
+                                  # - field: "##:#{i}/group"
+                                  #   width: stretch
+                                  #   merge-bottom: true
+                                  - repeat: 3
+                                    index: j
+                                    contents:
+                                      - selectable: "##:#{i}/#{j}"
+                                        contents:
+                                          - article: "##:#{i}/#{j}/feat"
+                                            lines: 3
+                  - tail:

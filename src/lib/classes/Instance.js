@@ -41,7 +41,7 @@ export class Instance {
 
   getDataUnits(isLoggedIn) {
     if (isLoggedIn) {
-      return [ "data/edit", "data/calc", "data/save", "data/roll" ];
+      return [ "data/edit", "data/calc", "data/save" ]; //, "data/roll" ];
     } else {
       return [ "data/edit" ];
     }

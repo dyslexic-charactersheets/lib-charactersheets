@@ -303,6 +303,7 @@ export let advancement = {
     // log("advancement", "Template", template);
 
     const table = {
+      id: args.id,
       type: 'table',
       zebra: args.zebra,
       flip: args.flip,

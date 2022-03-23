@@ -14,3 +14,10 @@ export function error(area, message, ...args) {
   const prefix = `[${area}] `.padEnd(16).red.bold;
   console.log(`${prefix}${message}`, ...args);
 }
+
+export function trace(registry, area, message, ...args) {
+  // log("log", "Registry", registry);
+  const prefix = `[${area}] `.padEnd(16).yellow;
+  const trace = JSON.stringify(registry.stack).orange;
+  console.log(`${prefix}${trace}\n                ${message}`, ...args);
+}

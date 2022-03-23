@@ -219,6 +219,7 @@ inc:
                               field: divine-font-per-day
                               legend: "_{Uses per day}"
                               width: huge
+                              eq: "1+%{CHA}"
                             inputs:
                               - span: "1 +"
                               - field:
@@ -231,7 +232,7 @@ inc:
                             depth: 2
                             max: 10
                         
-                      - table:
+                      - table: "##:actions"
                         collapse: true
                         columns:
                           - label:
@@ -257,8 +258,9 @@ inc:
                                       - field:
                                         size: small
                                         ruby: "_{Level}"
+                                        ref: level
                                       - span: "_{d}"
-                                      - field:
+                                      - subid: die
                                         size: tiny
                                         underlay: "8"
                                     width: huge
@@ -286,7 +288,9 @@ inc:
 
                       - calc:
                         output:
+                          field: "##:divine-font/damage"
                           label: "_{Healing/\ndamage\ndice}"
+                          eq: "floor(%{level}/2)"
                         inputs:
                           - ruby-round-up:
                             contents:

@@ -3,6 +3,20 @@ name: "_{Build A Character}"
 group: "_{Core Rulebook}"
 
 inc:
+  - copy: '##:proficiency'
+    params:
+      id:
+      label:
+    contents:
+      - row:
+        contents:
+          - field: "build/#{id}"
+            control: proficiency
+            has-bonus: false
+            frame: none
+          - p: "#{label}"
+          - spacer:
+
   - at: '@pages'
     add:
       - page: build
@@ -13,7 +27,7 @@ inc:
         numbered: false
         contents:
           - layout: 2l
-            flex: large
+            # flex: large
             contents:
               - g:
                 contents:
@@ -59,7 +73,7 @@ inc:
                                 label: "_{Ancestry}"
                           - row:
                             contents:
-                              - field: build/ancestry-hp
+                              - field: build/hp-ancestry
                                 label: "_{Hit Points}"
                                 icon: hp
                                 suffix: "_{hp}"
@@ -142,18 +156,15 @@ inc:
                             width: stretch
                       - row:
                         contents:
-                          - field: build/class-hp
+                          - field: build/hp-class
                             label: "_{Hit Points}"
                             icon: hp
                             suffix: "_{hp}"
                             width: large
+                            ruby: "_{per level}"
                           - field: build/class-key-ability
                             label: "_{Key Ability}"
                             width: stretch
-                          - field: build/level
-                            label: "_{Level}"
-                            underlay: 1
-                            border: full
                   - layout: 2e
                     contents:
                       - field: build/class-specialisation
@@ -196,7 +207,7 @@ inc:
                   - spacer:
               - section: "_{Ability Scores}"
                 contents:
-                  - table:
+                  - table: "##:abilities"
                     field_frame: none
                     collapse: true
                     zebra: true
@@ -255,11 +266,12 @@ inc:
                         border: full
                         underlay: "#{short}"
                         eq: "floor((minmax(%{build/#{code}-score},4,30)-10)/2)"
+                        format: modifier
                       - field: build/key-ability
                         control: radio
                         value: "#{code}"
           - layout: 2l
-            flex: large
+            # flex: large
             contents:
               - g:
                 valign: top
@@ -280,13 +292,14 @@ inc:
                       icon: hp
                       suffix: "_{hp}"
                       width: large
+                      eq: '%{build/hp-ancestry}+((%{build/hp-class}+%{build/CON})*%{build/level})+%{build/hp-misc}'
                     inputs:
                       - field:
-                        ref: build/ancestry-hp
+                        ref: build/hp-ancestry
                         label: "_{Ancestry}"
                       - span: "+ ("
                       - field:
-                        ref: build/class-hp
+                        ref: build/hp-class
                         label: "_{Class}"
                       - span: "+"
                       - field:
@@ -299,23 +312,86 @@ inc:
                         underlay: "1"
 
           - layout: 2l
-            flex: large
             contents:
               - g:
                 valign: top
                 contents:
                   - h4: "_{Step Five}"
+                  - p: "_{Your proficiency bonuses at level 1 are: 0, 3, 5, 7 and 9. They increase as you level up.}"
+
+              - g:
+                valign: top
+                contents:
+                  - section: "_{Proficiency}"
+                    contents:
+                      - layout: 2ll
+                        contents:
+                          - g:
+                            contents:
+                              - field: build/level
+                                label: "_{Level}"
+                                border: circle
+                                format: int
+                                size: huge
+                                underlay: 1
+                          
+                          - row:
+                            contents:
+                              - h6: "&rarr;"
+                              - spacer:
+                              - field: build/proficiency-untrained
+                                label: "_{Untrained}"
+                                output: true
+                                control: value
+                                icon: proficiency
+                                border: full
+                                value: 0
+                                ruby: "_{None}\n"
+                                format: modifier
+                              - field: build/proficiency-trained
+                                label: "_{Trained}"
+                                icon: proficiency-trained
+                                ruby: "_{Level}\n+2"
+                                eq: "minmax(%{build/level},1,20)+2"
+                                border: full
+                                format: modifier
+                              - field: build/proficiency-expert
+                                label: "_{Expert}"
+                                icon: proficiency-expert
+                                ruby: "_{Level}\n+4"
+                                eq: "minmax(%{build/level},1,20)+4"
+                                border: full
+                                format: modifier
+                              - field: build/proficiency-master
+                                label: "_{Master}"
+                                icon: proficiency-master
+                                ruby: "_{Level}\n+6"
+                                eq: "minmax(%{build/level},1,20)+6"
+                                border: full
+                                format: modifier
+                              - field: build/proficiency-legendary
+                                label: "_{Legendary}"
+                                icon: proficiency-legendary
+                                ruby: "_{Level}\n+8"
+                                eq: "minmax(%{build/level},1,20)+8"
+                                border: full
+                                format: modifier
+                              - spacer:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
                   - paste: book-ref
                     params:
                       page-ref: "_{CRB p68}"
                     contents:
                       - p: "_{Gain proficiencies from your background and class.}"
-                  - p: "_{Your proficiency bonuses at level 1 are: 0, 3, 5, 7 and 9. They increase as you level up.}"
                   - p: "_{Become trained in a number of skills based on your class.}"
                   - calc:
+                    pad: true
                     inline: true
                     output:
-                      label: "_{Additional Skills}"
+                      label: "_{Additional\nSkills}"
                     inputs:
                       - field: build/skills-class
                         label: "_{Class}"
@@ -326,66 +402,42 @@ inc:
                         underlay: "_{INT}"
                   - p: "_{If two sources give you training in the same skill, they don't add up. You may be able to spend the training elsewhere.}"
                   - spacer:
+
               - g:
-                valign: top
                 contents:
-                  - section: "_{Proficiency}"
-                    contents:
-                      - row:
-                        # valign: top
-                        contents:
-                          - field: build/proficiency-untrained
-                            label: "_{Untrained}"
-                            output: true
-                            control: value
-                            icon: proficiency
-                            border: full
-                            value: 0
-                            ruby: "_{None}\n"
-                          - field: build/proficiency-trained
-                            label: "_{Trained}"
-                            icon: proficiency-trained
-                            ruby: "_{Level}\n+2"
-                            eq: "minmax(%{build/level},1,20)+2"
-                            border: full
-                          - field: build/proficiency-expert
-                            label: "_{Expert}"
-                            icon: proficiency-expert
-                            ruby: "_{Level}\n+4"
-                            eq: "minmax(%{build/level},1,20)+4"
-                            border: full
-                          - field: build/proficiency-master
-                            label: "_{Master}"
-                            icon: proficiency-master
-                            ruby: "_{Level}\n+6"
-                            eq: "minmax(%{build/level},1,20)+6"
-                            border: full
-                          - field: build/proficiency-legendary
-                            label: "_{Legendary}"
-                            icon: proficiency-legendary
-                            ruby: "_{Level}\n+8"
-                            eq: "minmax(%{build/level},1,20)+8"
-                            border: full
-                          - spacer:
                   - hr:
                   - layout: 4e
+                    gutter: none
                     contents:
                       - h6: "_{Saving Throws}:"
-                      - proficiency:
-                        content: "_{Fortitude}"
-                      - proficiency:
-                        content: "_{Reflex}"
-                      - proficiency:
-                        content: "_{Will}"
+                      - paste: '##:proficiency'
+                        params:
+                          id: fortitude
+                          label: "_{Fortitude}"
+                      - paste: '##:proficiency'
+                        params:
+                          id: reflex
+                          label: "_{Reflex}"
+                      - paste: '##:proficiency'
+                        params:
+                          id: will
+                          label: "_{Will}"
                   - layout: 4e
+                    gutter: none
                     contents:
                       - h6: "_{Proficiencies}:"
-                      - proficiency:
-                        content: "_{Perception}"
-                      - proficiency:
-                        content: "_{Class DC}"
-                      - proficiency:
-                        content: "_{Spell Attack/DC}"
+                      - paste: '##:proficiency'
+                        params:
+                          id: perception
+                          label: "_{Perception}"
+                      - paste: '##:proficiency'
+                        params:
+                          id: class-dc
+                          label: "_{Class DC}"
+                      - paste: '##:proficiency'
+                        params:
+                          id: spell-dc
+                          label: "_{Spell Attack/DC}"
                   - layout: 3e
                     contents:
                       - g:
@@ -394,7 +446,9 @@ inc:
                           - row:
                             valign: middle
                             contents:
-                              - icon: proficiency
+                              - field: build/proficiency-skill-background-value
+                                control: proficiency
+                                has-bonus: false
                               - field: build/proficiency-skill-background
                                 frame: none
                                 width: stretch
@@ -402,7 +456,9 @@ inc:
                           - row:
                             valign: middle
                             contents:
-                              - icon: proficiency
+                              - field: build/proficiency-skill-lore-value
+                                control: proficiency
+                                has-bonus: false
                               - field: build/proficiency-skill-lore
                                 frame: none
                                 width: stretch
@@ -413,21 +469,27 @@ inc:
                           - row:
                             valign: middle
                             contents:
-                              - icon: proficiency
+                              - field: build/proficiency-skill-1-value
+                                control: proficiency
+                                has-bonus: false
                               - field: build/proficiency-skill-1
                                 frame: none
                                 width: stretch
                           - row:
                             valign: middle
                             contents:
-                              - icon: proficiency
+                              - field: build/proficiency-skill-2-value
+                                control: proficiency
+                                has-bonus: false
                               - field: build/proficiency-skill-2
                                 frame: none
                                 width: stretch
                           - row:
                             valign: middle
                             contents:
-                              - icon: proficiency
+                              - field: build/proficiency-skill-3-value
+                                control: proficiency
+                                has-bonus: false
                               - field: build/proficiency-skill-3
                                 frame: none
                                 width: stretch
@@ -437,28 +499,34 @@ inc:
                           - row:
                             valign: middle
                             contents:
-                              - icon: proficiency
-                              - field: build/proficiency-skill-1
+                              - field: build/proficiency-skill-4-value
+                                control: proficiency
+                                has-bonus: false
+                              - field: build/proficiency-skill-4
                                 frame: none
                                 width: stretch
                           - row:
                             valign: middle
                             contents:
-                              - icon: proficiency
-                              - field: build/proficiency-skill-2
+                              - field: build/proficiency-skill-5-value
+                                control: proficiency
+                                has-bonus: false
+                              - field: build/proficiency-skill-5
                                 frame: none
                                 width: stretch
                           - row:
                             valign: middle
                             contents:
-                              - icon: proficiency
-                              - field: build/proficiency-skill-3
+                              - field: build/proficiency-skill-6-value
+                                control: proficiency
+                                has-bonus: false
+                              - field: build/proficiency-skill-6
                                 frame: none
                                 width: stretch
                                 merge-bottom: true
               
           - layout: 2l
-            flex: large
+            flex: tiny
             contents:
               - g:
                 valign: top
@@ -479,22 +547,24 @@ inc:
                         border: full
                         control: money
                         denomination: silver
-                        digits: 4
+                        digits: 5
                         editable: false
                       - spacer:
                       - field: build/remaining-money
                         label: "_{Remaining Money}"
                         control: money
                         denomination: silver
-                        digits: 4
+                        digits: 5
+                        eq: "%{build/starting-money}-%{build/cost-kit}-%{build/cost-weapons}-%{build/cost-ammo}-%{build/cost-armour}-%{build/cost-gear}-%{build/cost-other}"
                   - spacer:
               - section: "_{Equipment}"
                 contents:
-                  - table:
+                  - table: "##:equipment"
                     blk: false
                     collapse: true
                     field_frame: none
                     width: stretch
+                    merge-bottom: true
                     rows:
                       - id: kit
                         name: "_{Kit}"
@@ -510,12 +580,13 @@ inc:
                         name: "_{Other}"
                     template:
                       - h6: "#{name}"
-                      - row:
-                        contents:
-                          - field: "build/equipment-#{id}"
-                            width: stretch
-                          - field: "build/cost-#{id}"
-                            control: money
-                            denomination: silver
-                            digits: 4
+                      - field: "build/equipment-#{id}"
+                        width: stretch
+                      - span: "&nbsp;"
+                      - field: "build/cost-#{id}"
+                        control: money
+                        denomination: silver
+                        digits: 5
+                  - spacer:
+                    flex: small
                   - tail:

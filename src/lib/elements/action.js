@@ -78,7 +78,7 @@ export let selectable = {
   transform(args) {
     let checkboxes = [];
     if (args.max > 1) {
-      let depth = args.max > 6 ? 3 : (args.max > 3 ? 2 : 1);
+      let depth = args.max > 6 ? 3 : (args.max > 2 ? 2 : 1);
       checkboxes = [
         {
           type: "field",

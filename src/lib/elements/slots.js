@@ -15,11 +15,12 @@ export let slots = {
     min: false,
     reduce: 0,
     extra: 0,
+    index: 'i',
     even: false,
     contents: [],
   },
   transform(args, ctx) {
-    // log("slots", "Slots:", args.slots);
+    // log("slots", "Args slots:", args.slots);
 
     let placeholder = args.placeholder;
     if (!isArray(placeholder))
@@ -30,13 +31,16 @@ export let slots = {
       args.max -= args.reduce;
     }
 
-    function slotItems(items) {
-      // log("slots", "Items", items);
+    function slotItems(items, slotValues) {
+      // log("slots", "Slot items", items, slotValues);
       if (args.min && items.length < args.min) {
         const n = args.min - items.length;
         for (let i = 0; i < n; i++) {
-          // log("slots","Placeholder", args.placeholder);
-          let placeholder = interpolate(cloneDeep(args.placeholder), {i: i + 1});
+          let values = cloneDeep(slotValues);
+          values[args.index] = i;
+          // log("slots", "Placeholder slot", values);
+
+          let placeholder = interpolate(cloneDeep(args.placeholder), values);
           items = items.concat(placeholder);
         }
       }
@@ -48,9 +52,8 @@ export let slots = {
     }
 
     if (args.slots === null || args.slots == []) {
-      // log("slots", "Slots item:", args);
       // log("slots","Single slot");
-      let contents = slotItems(args.contents);
+      let contents = slotItems(args.contents, {});
       if (args['merge-bottom']) {
         contents = mergeBottom(contents);
       }
@@ -65,13 +68,16 @@ export let slots = {
         warn("slots", "Not a list of slots:", args.slots);
       }
     }
+    let i = 1;
     args.slots.forEach(s => {
       slots[s] = {
         key: s,
         contents: []
       };
       slots[s][args.key] = s;
+      slots[s][args.index] = i++;
     });
+
     // log("slots","Filled", slots);
     args.contents.forEach(item => {
       if (!has(item, args.key))
@@ -82,12 +88,12 @@ export let slots = {
     });
     for (const [n, s] of Object.entries(slots)) {
       // log("slots","Slot", s.key);
-      s.contents = slotItems(s.contents);
+      s.contents = slotItems(s.contents, s);
       s.contents.forEach(item => item[args.key] = s.key);
       // log("slots","Slot", s.key, "items", s.contents);
     };
 
-    // log("slots", "Final slots:", slots);
+    // log("slots", "Final slots:", JSON.stringify(slots, null, 2));
     let contents = Object.values(slots).flatMap(s => s.contents);
 
     //let blank = {};
@@ -95,16 +101,29 @@ export let slots = {
     const blank = {
       [args.key]: ''
     };
-    for (let i = 0; i < args.extra; i++) {
+
+    // 'extra' slots: add a fixed number of placeholders
+    for (let j = 0; j < args.extra; j++) {
+      let values = cloneDeep(blank);
+      values[args.index] = 'extra-'+i++;
+      log("slots", "Extra slots", values);
+
       let add = cloneDeep(args.placeholder);
-      add = interpolate(add, blank);
+      add = interpolate(add, values);
       contents = contents.concat(add);
     }
+
+    // 'balance' slot: if the list isn't even, add one more to balance them up
     if (args.even && contents.length % 2 != 0) {
+      let values = cloneDeep(blank);
+      values[args.index] = 'extra-'+i++;
+      log("slots", "Balance slot", values);
+
       let add = cloneDeep(args.placeholder);
-      add = interpolate(add, blank);
+      add = interpolate(add, values);
       contents = contents.concat(add);
     }
+
     // log("slots", contents);
     if (args['merge-bottom']) {
       contents = mergeBottom(contents);

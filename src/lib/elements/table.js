@@ -8,6 +8,7 @@ import { log, warn } from '../log';
 
 export let table = {
   name: 'table',
+  key: 'id',
   defaults: {
     rows: [{}],
     columns: [],
@@ -153,6 +154,17 @@ export let table = {
               return null;
             }
 
+            // transform the cell
+            // let replace = ctx.composeElement(cell, reg);
+            // log("table", "Cell, composed", replace);
+            // if (isEmpty(replace)) {
+            //   cell = { type: 'g', contents: [] };
+            // }
+            // if (replace.length > 1) {
+            //   cell = { type: 'g', contents: replace };
+            // }
+            // cell = replace[0];
+
             let levelat = {};
             if (has(row, "level") && has(cell, "at") && isArray(cell.at)) {
               let levelats = cell.at.filter(item => item.level == row.level);
@@ -169,7 +181,22 @@ export let table = {
             return { type: 'label', label: '', ...col, colspan: 1, rowspan: 1, ...cell, ...levelat };
           }
         });
+
+        // apply transformations so the contents of cells can compose
+        // cells = cells.map(cell => {
+        //   let replace = ctx.composeElement(cell, reg);
+        //   // log("table", "Cell, composed", replace);
+        //   if (isEmpty(replace)) {
+        //     return { type: 'g', contents: [] };
+        //   }
+        //   if (replace.length > 1) {
+        //     return { type: 'g', contents: replace };
+        //   }
+        //   return replace[0];
+        // });
+        
         // cells = interpolate(cells, {...args, ...row}, ctx);
+        // log("table", "Templated row cells", row, cells);
         return { params: row, cells: cells };
       });
     } else {
@@ -211,6 +238,7 @@ export let table = {
     // log("table", `${headings.length} columns, ${rows.length} rows`);
 
     return [{
+      id: args.id,
       type: "table",
       rows: rows,
       flip: args.flip,

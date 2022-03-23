@@ -130,7 +130,7 @@ inc:
 
   - at: '@focus-points'
     replace:
-      - field: monk-ki-spells-focus
+      - field: monk:ki-spells/focus
         label: "_{Ki Spells}"
 
   - at: '@pages'
@@ -164,13 +164,13 @@ inc:
 
                           - row: center
                             contents:
-                              - field: ki-spells
+                              - field: monk:ki-spells/type
                                 value: divine
                                 frame: left
                                 control: radio
                                 label: "_{Divine}"
                               # - span: "&nbsp;"
-                              - field: ki-spells
+                              - field: monk:ki-spells/type
                                 value: occult
                                 frame: right
                                 control: radio
@@ -188,11 +188,11 @@ inc:
                                   id: ki-spell-save-dc
                                   legend: "_{Ki Spell\nSave DC}"
                           
-                          - field: ki-spells
+                          - field: monk:ki-spells
                             frame: none
                             merge-bottom: true
                             width: stretch
-                            repeat: 5
+                            repeat: 4
 
                   - section: "_{Incredible Movement}"
                     contents:
@@ -204,21 +204,27 @@ inc:
                             contents:
                               - g:
                                 contents:
-                                  - table:
+                                  - table: "##:incredible-movement"
                                     flip: true
+                                    columns:
+                                      - label: "_{Level}"
+                                        rotate: true
+                                      - label: "_{Speed}"
+                                        rotate: true
                                     rows:
-                                      - level: 3
+                                      - lv: 3
                                         speed: "+10ft"
-                                      - level: 7
+                                      - lv: 7
                                         speed: "+15ft"
-                                      - level: 11
+                                      - lv: 11
                                         speed: "+20ft"
-                                      - level: 15
+                                      - lv: 15
                                         speed: "+25ft"
-                                      - level: 19
+                                      - lv: 19
                                         speed: "+30ft"
                                     template:
-                                      - level-marker: '#{level}'
+                                      - level-marker: '#{lv}'
+                                        marker: ''
                                       - span: '#{speed}'
                                   - p: "_{Bonus to Speed when not wearing armor.}"
 
@@ -348,13 +354,13 @@ inc:
                                                 no-header-line: true
                           - layout: 2e
                             contents:
-                              - selectable:
+                              - selectable: monk/stance-savant
                                 contents:
                                   - action: free
                                     contents:
                                       - h5: "_{Stance Savant}"
                                       - p: "_{When you roll initiative, enter a stance as a free action}"
-                              - selectable:
+                              - selectable: monk/master-of-many-styles
                                 contents:
                                   - action: free
                                     contents:

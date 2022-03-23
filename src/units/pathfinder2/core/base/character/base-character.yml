@@ -72,6 +72,7 @@ inc:
                             border: circle
                             size: huge
                             suffix: "3"
+                            format: int
 
                       - row:
                         contents:
@@ -84,6 +85,7 @@ inc:
                             underlay: "_{XP}"
                             width: large
                             border: full
+                            format: int
 
                       - zone: '@player-header'
                   - hr:
@@ -199,6 +201,7 @@ inc:
                                                 format: modifier
                                               - subid: "score"
                                                 width: ""
+                                                format: int
 
                               - field: ability-note
                                 width: stretch
@@ -305,7 +308,7 @@ inc:
                           - g:
                             flex: tiny
                             contents:
-                              - table:
+                              - table: archetypes
                                 merge-bottom: true
                                 width: stretch
                                 rows:
@@ -341,11 +344,12 @@ inc:
                                     width: tiny
                                     underlay: "3"
                                     value: "#{num-feats}"
+                                    format: int
 
                   - section: "_{Skills}"
                     id: skills
                     contents:
-                      - table:
+                      - table: skills
                         collapse: true
                         zebra: true
                         field_frame: none
@@ -369,6 +373,7 @@ inc:
                             width: medium
                         rows:
                           - slots:
+                            index: i
                             min: 20
                             max: 24
                             reduce: 2
@@ -382,6 +387,7 @@ inc:
                                         ability: "_{DEX}"
                                         abilityref: DEX
                                         acp: true
+                                        acp_flexible: true
                                       - skill: arcana
                                         name: "_{Arcana}"
                                         ability: "_{INT}"
@@ -392,6 +398,7 @@ inc:
                                         ability: "_{STR}"
                                         abilityref: STR
                                         acp: true
+                                        acp_flexible: true
                                       - skill: crafting
                                         name: "_{Crafting}"
                                         ability: "_{INT}"
@@ -442,6 +449,7 @@ inc:
                                         ability: "_{INT}"
                                         abilityref: INT
                                         acp: false
+                                        acp_flexible: false
                                       - skill: stealth
                                         name: "_{Stealth}"
                                         ability: "_{DEX}"
@@ -452,6 +460,7 @@ inc:
                                         ability: "_{WIS}"
                                         abilityref: WIS
                                         acp: false
+                                        acp_flexible: false
                                       - skill: thievery
                                         name: "_{Thievery}"
                                         ability: "_{DEX}"
@@ -461,8 +470,9 @@ inc:
                                   - slots:
                                     min: 1
                                     max: 3
+                                    index: j
                                     placeholder:
-                                      - skill: lore-#{i}
+                                      - skill: "lore-#{j}"
                                         name: "_{Lore}:"
                                         ability: "_{INT}"
                                         abilityref: INT
@@ -473,7 +483,7 @@ inc:
                                       - zone: '@lore-skills'
                                         contents:
                             placeholder:
-                              skill: 'skill-#{i}'
+                              skill: 'extra-skill-#{i}'
                               name: ''
                               ability: ''
                               acp: false
@@ -492,7 +502,7 @@ inc:
                                     blk: false
                               - if: "#{blank}"
                                 then:
-                                  - field: "skill-#{i}-detail"
+                                  - field: "#{skill}-detail"
                                     frame: none
                                     width: stretch
                                     merge-bottom: true
@@ -518,11 +528,22 @@ inc:
                           - field: "#{skill}-misc"
                             misc: true
                             width: medium
-                          - field: "#{skill}-acp"
-                            ref: armour-acp
-                            border: full
-                            exists: "#{acp}"
-                            prefix: "&ndash;"
+                            format: int
+                          - if: "#{acp}"
+                            then:
+                              - if: "#{acp_flexible}"
+                                then:
+                                  - field: "#{skill}-acp"
+                                    eq: "%{armour-flexible}?'':%{armour-acp}"
+                                    ref: true
+                                    border: full
+                                    exists: "#{acp}"
+                                    prefix: "&ndash;"
+                                else:
+                                  - field: "#{skill}-acp"
+                                    ref: armour-acp
+                                    border: full
+                                    prefix: "&ndash;"
 
                       - p:
                         title: "_{Assurance}"
@@ -586,10 +607,12 @@ inc:
                               - span: "+"
                               - field: perception-item-bonus
                                 label: "_{Item}"
+                                format: int
                               - span: "+"
                               - field: perception-misc
                                 misc: true
                                 label: "_{Misc}"
+                                format: int
                           - spacer:
                           - zone: '@perception-misc'
                       - p: "_{Perception DC = 10 + Perception Bonus}"
@@ -655,6 +678,11 @@ inc:
                                 label: "_{Speed in Armour}"
                                 control: speed
                                 width: stretch
+                                eq: "%{speed}-%{armour-speed-penalty}"
+                                # eq:
+                                #   ft: "%{speed}-%{armour-speed-penalty}"
+                                #   m: "%{speed}-%{armour-speed-penalty}"
+                                
 
                       - row:
                         contents:
@@ -760,16 +788,20 @@ inc:
                                     width: stretch
                                     parts:
                                       - control: checkgrid
+                                        subid: total
                                         depth: 1
                                         max: 3
                                         ruby: "_{Total}"
                                         border: none
+                                        style: progress
                                       - type: vr
                                       - control: checkgrid
+                                        subid: current
                                         depth: 1
                                         max: 3
                                         ruby: "_{Current}"
                                         border: none
+                                        style: progress
 
                                   - spacer:
                                   - field: refocus
@@ -780,6 +812,7 @@ inc:
                                     underlay: "1"
                                     suffix: "_{pt}"
                                     ruby: "_{Once only}"
+                                    format: int
 
                   - zone: '@weapon-spec-section'
 
@@ -811,35 +844,39 @@ inc:
                                       - icon: action2nd
                                       - large-print:
                                         contents:
-                                          - field:
+                                          - field: map/2nd
                                             frame: none
                                             border: full
                                             width: medium
                                             underlay: -5
+                                            format: int
                                         else:
-                                          - field:
+                                          - field: map/2nd
                                             frame: left
                                             label: "_{2nd}"
                                             border: full
                                             width: medium
                                             underlay: -5
+                                            format: int
                                       - spacer:
 
                                       - icon: action3rd
                                       - large-print:
                                         contents:
-                                          - field:
+                                          - field: map/3rd
                                             frame: none
                                             border: full
                                             width: medium
                                             underlay: -10
+                                            format: int
                                         else:
-                                          - field:
+                                          - field: map/3rd
                                             frame: left
                                             label: "_{3rd}"
                                             border: full
                                             width: medium
                                             underlay: -10
+                                            format: int
 
                                       - spacer:
 
@@ -855,35 +892,39 @@ inc:
                                       - icon: action2nd
                                       - large-print:
                                         contents:
-                                          - field:
+                                          - field: map/agile/2nd
                                             frame: none
                                             border: full
                                             width: medium
                                             underlay: -4
+                                            format: int
                                         else:
-                                          - field:
+                                          - field: map/agile/2nd
                                             frame: left
                                             label: "_{2nd}"
                                             border: full
                                             width: medium
                                             underlay: -4
+                                            format: int
                                       - spacer:
 
                                       - icon: action3rd
                                       - large-print:
                                         contents:
-                                          - field:
+                                          - field: map/agile/3rd
                                             frame: none
                                             border: full
                                             width: medium
                                             underlay: -8
+                                            format: int
                                         else:
-                                          - field:
+                                          - field: map/agile/3rd
                                             frame: left
                                             label: "_{3rd}"
                                             border: full
                                             width: medium
                                             underlay: -8
+                                            format: int
 
                                       - spacer:
 
@@ -945,6 +986,7 @@ inc:
                                 label: "_{Misc}"
                                 optional: true
                                 misc: true
+                                format: int
 
                       - row:
                         contents:
@@ -963,6 +1005,7 @@ inc:
                             suffix: "_{hp}"
                             width: huge
                             blk: true
+                            format: int
 
                           - field: dying
                             control: compound
@@ -1020,11 +1063,13 @@ inc:
                               - span: +
                               - field: ac-items
                                 label: "_{Items}"
+                                format: int
                               - span: +
                               - field: ac-misc
                                 label: "_{Misc}"
                                 misc: true
                                 optional: true
+                                format: int
                           - spacer:
                           - zone: '@ac-extra'
                       - row:
@@ -1038,6 +1083,7 @@ inc:
                             underlay: "_{AC}"
                             prefix: "+"
                             width: large
+                            format: int
                           - zone: '@temp-ac'
                           - spacer:
 
@@ -1098,6 +1144,7 @@ inc:
                                             underlay: "_{AC}"
                                             prefix: "+"
                                             width: large
+                                            format: int
                                   - g:
                                     contents:
                                       - action: reaction
@@ -1130,11 +1177,13 @@ inc:
                                                 ruby: "_{Total}"
                                                 border: full
                                                 suffix: "_{hp}"
+                                                format: int
                                               - field: shield-hp-current
                                                 ruby: "_{Current}"
                                                 border: full
                                                 temp: true
                                                 suffix: "_{hp}"
+                                                format: int
 
                           - section:
                             untitled: true
@@ -1183,7 +1232,7 @@ inc:
                   - section: "_{Saving Throws}"
                     id: saving-throws
                     contents:
-                      - table:
+                      - table: saving-throws
                         width: stretch
                         columns:
                           -
@@ -1231,6 +1280,7 @@ inc:
                               - field: "#{save}-item-bonus"
                               - field: "#{save}-misc"
                                 misc: true
+                                format: int
                       - p: "_{Save DC = 10 + Save Bonus}"
                         optional: true
                       - slots:
@@ -1272,6 +1322,7 @@ inc:
                                         affix: "_{rds}"
                                         width: small
                                         merge-bottom: true
+                                        format: int
                                       - field: effect-#{i}-rounds
                                         control: checkgrid
                                         frame: none
@@ -1281,7 +1332,7 @@ inc:
                   - tail:
 
       - page: feats
-        name: "_{Advancement}"
+        name: "_{Feats}"
         order: 8
         flex: true
         contents:
@@ -1289,7 +1340,7 @@ inc:
             contents:
               - g:
                 contents:
-                  - zone: '@advancement/ancestry-section'
+                  - zone: '@ancestry-section'
                     contents:
                       - section: "_{Ancestry}"
                         contents:
@@ -1333,12 +1384,13 @@ inc:
                                           - item: yes
                                     contents:
                                       - slots: [ 1, 5, 9, 13, 17 ]
+                                        key: level
                                         min: 1
                                         max: 1
                                         contents:
                                           - zone: '@ancestry-feats'
                                         placeholder:
-                                          article: 'ancestry-feat-#{i}'
+                                          article: 'ancestry-feat-#{level}'
                                           lines: 3
 
                       - section: "_{Background}"
@@ -1368,18 +1420,21 @@ inc:
                                 zebra: true
                                 contents:
                                   - each:
+                                    index: j
                                     template:
                                       - level: '#{level}'
                                         contents:
                                           - item: yes
                                     contents:
                                       - slots: [ 3, 7, 11, 15, 19 ]
+                                        key: level
+                                        index: i
                                         min: 1
                                         max: 1
                                         contents:
                                           - zone: '@general-feats'
                                         placeholder:
-                                          article: 'general-feat-#{i}'
+                                          article: 'general-feat-#{level}'
                                           lines: 3
                               - tail:
                               # - spacer:
@@ -1406,6 +1461,8 @@ inc:
                                       - item: yes
                                 contents:
                                   - slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                                    key: level
+                                    index: i
                                     min: 1
                                     max: 1
                                     placeholder:
@@ -1448,8 +1505,8 @@ inc:
                               - row:
                                 contents:
                                   - field: "proficiency-#{i}-value"
-                                    control: icon
-                                    icon: proficiency
+                                    control: proficiency
+                                    has-bonus: false
                                   - field: "proficiency-#{i}-name"
                                     frame: none
                                     width: stretch

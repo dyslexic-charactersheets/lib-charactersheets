@@ -1,16 +1,19 @@
 const Handlebars = require('handlebars');
 
-import { log, warn, error } from '../log';
+import { log, warn, error, trace } from '../log';
 import { applyContext } from '../context';
 import { isArray, isEmpty, isString, isNull } from '../util';
 import { replaceColours } from '../util/colours';
 import { has, cloneDeep, interpolate } from '../util/objects';
 import { esc, _e, __, translate } from '../i18n';
+import { table } from '../elements/table';
 
 // Set up the template engine for JS and CSS
 Handlebars.registerHelper('embedJson', function (data, options) {
   return JSON.stringify(data);
 });
+
+const controlMenus = '';
 
 export class Document {
   constructor(baseUnit, id) {
@@ -22,6 +25,7 @@ export class Document {
     this.doc = cloneDeep(baseDocument);
     this.id = id;
     this.language = 'en';
+    this.measurementUnits = '';
     this.units = [baseUnit];
     this.zones = {};
     this.templates = {};
@@ -67,6 +71,34 @@ export class Document {
 
   set largePrint(large) {
     this.doc.largePrint = large;
+  }
+
+  setMeasurementUnits(units) {
+    if (isEmpty(units)) {
+      switch (this.language) {
+        case 'en':
+        case 'jp':
+          units = "imperial";
+          break;
+        
+        case 'fr':
+        case 'it':
+        case 'pl':
+        case 'pt':
+        case 'de':
+        case 'es':
+        case 'ru':
+        case 'nl':
+        case 'no':
+          units = "metric";
+          break;
+
+        case 'zh':
+          units = "chinese";
+          break;
+      }
+    }
+    this.measurementUnits = units;
   }
 
   nextPageNumber() {
@@ -230,6 +262,7 @@ export class Document {
       largePrint: this.largePrint,
       skipOptional: this.skipOptional,
       locale: this.language,
+      measurementUnits: this.measurementUnits,
 
       hasVar(varname) {
         return self.hasVar(varname);
@@ -244,15 +277,19 @@ export class Document {
   completeElement(element, registry) {
     const ctx = this.getContext();
 
-    if (isArray(element))
+    if (isArray(element)) {
       return element.flatMap(el => this.completeElement(el, registry));
-    if (!has(element, "type"))
+    }
+    if (!has(element, "type")) {
       return [element];
+    }
 
     switch (element.type) {
       case 'zone':
       case 'sort':
       case 'slots':
+      case 'if':
+      case 'large-print':
         const reg = registry.get(element.type);
 
         if (reg && reg.transform) {
@@ -260,10 +297,10 @@ export class Document {
             element.contents = this.completeElement(element.contents, registry);
           }
 
-          // log("compose", "Applying transformation to", element.type);
+          // log("compose", "Applying transformation to", element.type, (element.type == "zone" ? element.zone : (has(element, "id") ? element.id : '')));
           // log("Document", "Large print?", self.largePrint);
           const args = Object.assign({}, reg.defaults, element);
-          let newelements = reg.transform(args, ctx);
+          let newelements = reg.transform(args, ctx, reg);
           if (newelements === false)
             return element;
 
@@ -284,14 +321,21 @@ export class Document {
       return [];
     }
     if (isArray(element)) {
-      return element.map(e => this.composeElement(e, registry));
+      // log("compose", "Composing array of", element.length, "items");
+      return element.flatMap((e) => this.composeElement(e, registry));
     }
     if (isString(element)) {
       return [element];
     }
     if (!has(element, "type")) {
-      // warn("Document", "Untyped element", element);
-      return [element];
+      if (has(element, "cells")) {
+        // log("compose", "Table row:", element.cells);
+        element.cells = element.cells.flatMap((e) => this.completeElement(e, registry));
+        // log("compose", "Table row transformed:", element.cells);
+      } else {
+        // warn("Document", "Untyped element", element);
+        return [element];
+      }
     }
 
     // if (element.type == 'table') log("Document", "Compose item", element);
@@ -303,11 +347,22 @@ export class Document {
         element.fields = this.completeElement(element.fields, registry);
         break;
       case 'table':
-        element.rows = this.completeElement(element.rows, registry);
-        element.columns = this.completeElement(element.columns, registry);
+        // log("compose", "Adjusting", (element._direct ? "direct table" : "table"), (has(element, "id") ? element.id : ''), "cells", has(element, "id") ? element.id : '');
+        if (has(element, "rows") && !isEmpty(element.rows)) {
+          element.rows = this.composeElement(element.rows, registry);
+        }
+        if (has(element, "columns") && !isEmpty(element.columns)) {
+          element.columns = this.completeElement(element.columns, registry);
+        }
+        // log("compose", `Adjusted ${(element._direct ? "direct table" : "table")} ${has(element, "id") ? element.id : ''}: ${has(element, "rows") ? element.rows.length : 'no'} rows, ${has(element, "columns") ? element.columns.length : 'no'} columns`);
         break;
       case 'lookup':
         element.lookup = this.completeElement(element.lookup, registry);
+        break;
+      case 'if':
+        // log("compose", "if", element.condition)
+        element.then = this.completeElement(element.then, registry);
+        element.else = this.completeElement(element.else, registry);
         break;
       case 'large-print':
         element.contents = this.completeElement(element.contents, registry);
@@ -330,7 +385,7 @@ export class Document {
       case 'slots':
         if (has(element, "contents")) {
           element.contents = element.contents.flatMap(subelement => {
-            if (subelement.type == "reduce") {
+            if (has(subelement, "type") && subelement.type == "reduce") {
               let reduce = has(subelement, "reduce") ? subelement.reduce : 1;
               if (isEmpty(reduce)) reduce = 1;
               // log("Document", "Reducing slots", subelement.reduce, `min = ${element.min}, max = ${element.max}`);
@@ -351,11 +406,11 @@ export class Document {
     if (reg && reg.transform) {
       // log("compose", "Applying transformation to", element.type);
       const args = Object.assign({}, reg.defaults, element);
-      let newelements = reg.transform(args, ctx);
+      let newelements = reg.transform(args, ctx, reg);
       if (newelements === false)
         return element;
 
-      // log("compose", "Transformed", element.type, (element.type == "zone" ? element.zone : ''), "into", newelements.length, "elements");
+      // log("compose", "Transformed", element.type, (element.type == "zone" ? element.zone : (has(element, "id") ? element.id : ((has(element, "template") && isString(element.template)) ? element.template : ''))), "into", newelements.length, "elements");
       newelements = newelements.flatMap(el => this.composeElement(el, registry));
       return newelements;
     }
@@ -409,11 +464,12 @@ export class Document {
     // log("Document", " - Pages", this.doc.contents.map(page => `${page.id}: ${page.name}`));
   }
 
-  getCalculations() {
+  getCalculations(registry) {
     let fields = [];
     let dependencies = {};
-    // let references = [];
     let formats = {};
+
+    let doc = this;
 
     function pushDependency(ref, id) {
       if (!has(dependencies, ref)) {
@@ -424,9 +480,9 @@ export class Document {
 
     function findCalculationFields(element) {
       function transformCalculation(id, eq) {
-        let fields = [];
+        let requiredFields = [];
         eq = eq.replace(/#\{(.*?)\}/g, (match, field) => {
-          log("Document", "Transform calculation: Unknown interpolation", field);
+          warn("Document", "Transform calculation: Unknown interpolation", field, element);
           return 0;
         });
         eq = eq.replace(/_\{(.*?)\}/g, (match, string) => {
@@ -446,44 +502,76 @@ export class Document {
           if (found !== null) {
             return found[0];
           }
-          fields.push(`'${field}'`);
+          if (!field.match(/-misc$/)) {
+            requiredFields.push(`'${field}'`);
+          }
           return `v('${field}')`;
         });
-        return `(v) => req([${fields.join(',')}],${eq})`;
+        return `(v) => req([${requiredFields.join(',')}],${eq})`;
       }
 
       // fields
       if (has(element, "type") && element.type == "field") {
         // log("Document", `Field: id = ${element.id}, ref = ${element.ref}`);
-        if (has(element, "eq")) {
-          fields.push({
-            id: element.id,
-            eq: transformCalculation(element.id, element.eq)
-          });
+        if (!has(element, "id") && !has(element, "ref")) {
+          warn("Document", "Field with no ID or reference", element);
         }
+
+        if (has(element, "eq")) {
+          // og("Document", `Field ${element.id} = ${element.eq}`);
+          switch (element.control) {
+            case 'speed':
+              let subid = element.units == 'metric' ? element.id+'--m' : element.id+'--ft';
+              let affix = element.units == 'metric' ? '--m' : '--ft';
+              let eq = element.eq.replaceAll(/%\{(.*speed)\}/g, "%{$1"+affix+"}");
+              fields.push({
+                id: subid,
+                eq: transformCalculation(subid, eq)
+              });
+              break;
+
+            default:
+              fields.push({
+                id: element.id,
+                eq: transformCalculation(element.id, element.eq)
+              });
+              break;
+          }
+        }
+
         if (has(element, "format")) {
           formats[element.id] = element.format;
         }
         if (has(element, "parts")) {
           element.parts.forEach(part => {
             if (has(part, "eq") && has(part, "subid")) {
-              let id = (part.subid == "") ? element.id : element.id+'-'+part.subid;
+              let partid = (part.subid == "") ? element.id : element.id+'-'+part.subid;
+              // log("Document", "Sub-field calculation", partid, part.eq);
               fields.push({
-                id: id,
-                eq: transformCalculation(id, part.eq)
+                id: partid,
+                eq: transformCalculation(partid, part.eq)
               });
               if (has(part, "format")) {
-                formats[id] = part.format;
+                formats[partid] = part.format;
               }
             }
           });
         }
         switch (element.control) {
           case 'speed':
-            fields.push({
-              id: element.id+'--sq',
-              eq: transformCalculation(element.id+'--sq', `floor(%{${element.id}--ft}/5)`)
-            });
+            if (doc.measurementUnits == "metric") {
+              fields.push({
+                id: element.id+'--sq',
+                eq: transformCalculation(element.id+'--sq', `floor(%{${element.id}--m}/1.5)`)
+              });
+              formats[element.id+'--m'] = 'decimal';
+            } else {
+              fields.push({
+                id: element.id+'--sq',
+                eq: transformCalculation(element.id+'--sq', `floor(%{${element.id}--ft}/5)`)
+              });
+            }
+            break;
         }
       }
 
@@ -499,7 +587,30 @@ export class Document {
 
       // tables
       if (has(element, "type") && element.type == "table") {
-        element.rows.forEach(row => row.cells.forEach(elem => findCalculationFields(elem)));
+        // log("Document", "Calculation fields: table");
+        element.rows.forEach((row) => {
+          if (has(row, "cells")) {
+            row.cells.forEach((elem) => {
+              // log("Document", "Calculation fields: blank element");
+              if (isNull(elem)) {
+                return;
+              }
+              // log("Document", `Calculation fields: table cell: ${elem.type} ${elem.id}`);
+              findCalculationFields(elem);
+            });
+          }
+        });
+      }
+
+      // if
+      if (has(element, "type") && element.type == "if") {
+        // log("Document", `Calculation fields: if ${element.condition}`);
+        if (has(element, "then")) {
+          element.then.forEach((elem) => findCalculationFields(elem));
+        }
+        if (has(element, "else")) {
+          element.else.forEach((elem) => findCalculationFields(elem));
+        }
       }
 
       // other
@@ -517,7 +628,6 @@ export class Document {
       dependencies[key] = [...new Set(dependencies[key])];
     });
     delete dependencies[0];
-    // references = [...new Set(references)];
     
     return {calculations, formats, dependencies};
   }
@@ -575,14 +685,15 @@ export class Document {
     return cssParts.join("");
   }
 
-  getJavascript() {
+  getJavascript(registry) {
     let doc = this;
     let jsParts = [];
 
-    let {calculations, formats, dependencies} = this.getCalculations();
+    let {calculations, formats, dependencies} = this.getCalculations(registry);
 
     let templateData = {
       title: this.doc.title,
+      summary: this.summary,
       fieldValues: {
         level: 2,
         foo: "bar",
@@ -622,7 +733,7 @@ export class Document {
     const documentId = this.id;
     const favicon = this.faviconURL ? `<link id="favicon" rel="shortcut icon" type="image/png" href='${this.faviconURL}' />` : ''
     const stylesheet = this.getStylesheet();
-    const javascript = this.getJavascript();
+    const javascript = this.getJavascript(registry);
 
     let htmlClasses = [];
     if (this.browserTarget) {
@@ -638,6 +749,10 @@ export class Document {
 <label for='proficiency-menu-expert'><input type='radio' name='proficiency-menu' value='expert' id='proficiency-menu-expert'> <i class="icon icon_proficiency-expert"></i> ${__('Expert')}</label>
 <label for='proficiency-menu-master'><input type='radio' name='proficiency-menu' value='master' id='proficiency-menu-master'> <i class="icon icon_proficiency-master"></i> ${__('Master')}</label>
 <label for='proficiency-menu-legendary'><input type='radio' name='proficiency-menu' value='legendary' id='proficiency-menu-legendary'> <i class="icon icon_proficiency-legendary"></i> ${__('Legendary')}</label>
+<hr/>
+<div id='proficiency-menu__level-hint' class='row valign_center'><div class='row__inner'>
+<span>=</span><span id='proficiency-menu__ref-level'></span><label>Level</label> <span>+</span> <span id='proficiency-menu__plus'></span><span class='spacer'></span>
+</div></div>
 </div></nav>
 
 <nav id='action-menu' class='control-menu'><div>
@@ -668,13 +783,6 @@ export class Document {
 <td>
 <div id="field-ref-switch-DEX" class="field field--ref field--frame_above field--width_medium"><div class="field__frame"><label for='ref-switch-DEX' class="label align_centre">${__('DEX')}</label><div class="field__box"><div class="field__control field__control--width_medium"><input ref="DEX" readonly></div></div></div></div>
 </td>
-
-<!--
-<div id="field-ability-str" class="field field--ref field--frame_above field--width_medium field--control_ability"><div class="field__frame"><label class="label align_centre">${__('CON')}</label><div class="field__box"><div class="field__control field__control--width_medium"><input ref="CON" readonly></div></div></div></div>
-<div id="field-ability-str" class="field field--ref field--frame_above field--width_medium field--control_ability"><div class="field__frame"><label class="label align_centre">${__('INT')}</label><div class="field__box"><div class="field__control field__control--width_medium"><input ref="INT" readonly></div></div></div></div>
-<div id="field-ability-str" class="field field--ref field--frame_above field--width_medium field--control_ability"><div class="field__frame"><label class="label align_centre">${__('WIS')}</label><div class="field__box"><div class="field__control field__control--width_medium"><input ref="WIS" readonly></div></div></div></div>
-<div id="field-ability-str" class="field field--ref field--frame_above field--width_medium field--control_ability"><div class="field__frame"><label class="label align_centre">${__('CHA')}</label><div class="field__box"><div class="field__control field__control--width_medium"><input ref="CHA" readonly></div></div></div></div>
--->
 
 </tr></table>
 </div></nav>
@@ -737,7 +845,7 @@ ${registry.render(this.doc.contents, this)}
 </div>
 <nav id='screen-buttons'>
 <button id='button--print' onclick="window.print();return false;"><i></i> ${__('Print')}</button>
-${isLoggedIn ? `<button id='button--save-data' class="btn button--disabled"><i></i> ${__('Save')}</button>` : ''}
+${isLoggedIn ? `<button id='button--save' class="btn button--disabled"><i></i> ${__('Save')}</button>` : ''}
 
 </nav>
 

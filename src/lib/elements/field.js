@@ -60,7 +60,7 @@ export let field = {
     const id = elementID('field', args.id);
     const name = elementName('field', args.id);
     const cls = elementClass('field', null, args,
-      ["icon", "ref", "misc", "temp", "indent", "blk", "overprint"],
+      ["icon", "ref", "misc", "temp", "indent", "blk", "overprint", "no-icon-indent"],
       { "frame": "normal", "width": "", "align": "centre", "size": "medium", "control": "input", "shift": 0, "rb": 0, "border": "bottom", "flex": false });
 
     const frameArgs = Object.assign({}, args, { type: 'frame:' + args.frame });
@@ -96,17 +96,14 @@ export function fieldDefaults(args, reg, doc) {
     icon: false,
   }, control.defaults, frame.defaults, args);
 
-  // if (args.frame == "none" || args.frame == "annotation") {
-  //   args.lp = 0;
-  //   // log("field", "Frameless, no label padding");
-  // } else {
-  //   args.lp = getLabelHeight(args);
-  //   // log("field", `Frame ${args.frame}, label padding ${args.lp}`);
-  // }
-
   // Special fields
   if (args.control == "money") {
     args.width = "";
+  }
+  if (args.control == "proficiency" && !args['has-bonus']) {
+    args.width = "tiny";
+    args.border = "none";
+    args.icon = false;
   }
 
   args = interpolate(args, {}, doc);

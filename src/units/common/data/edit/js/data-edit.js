@@ -15,8 +15,19 @@ function getFieldFormat(name) {
   return 'int';
 }
 
+function modifier(num) {
+  num = ""+num;
+  if (num == "") {
+    num = "0";
+  }
+  if (num.charAt(0) == "-") {
+    return num;
+  }
+  return "+"+num;
+}
+
 function coerceFieldValue(name, value, incalc) {
-  if (value == '') {
+  if (value === '') {
     return '';
   }
   var format = getFieldFormat(name);
@@ -25,6 +36,18 @@ function coerceFieldValue(name, value, incalc) {
 
     case 'int':
       return parseInt(value);
+    case 'decimal':
+      var tailDecimal = !!value.match(/\.$/);
+      value = parseFloat(value).toFixed(2);
+      if (!incalc) {
+        if (value.match(/\./)) {
+          value = (""+value).replace(/0*$/, '').replace(/\.$/, '');
+        }
+        if (tailDecimal) {
+          value = value+".";
+        }
+      }
+      return value;
     case 'modifier':
       value = parseInt(value);
       if (incalc) {
@@ -39,7 +62,7 @@ function coerceFieldValue(name, value, incalc) {
   }
 }
 
-function getFieldValue(name) {
+function getFieldValue(name, incalc = false) {
   for (var input of document.getElementsByName(name)) {
     try {
       switch(input.type) {
@@ -59,7 +82,7 @@ function getFieldValue(name) {
             continue;
           }
     
-          return coerceFieldValue(name, value, false);
+          return coerceFieldValue(name, value, incalc);
       }
     } catch (x) {
     }
@@ -97,7 +120,7 @@ function clearValueCache() {
 }
 function valueOf(fname) {
   if (!knownValues.hasOwnProperty(fname)) {
-    knownValues[fname] = getFieldValue(fname);
+    knownValues[fname] = getFieldValue(fname, true);
   }
   return fixValue(knownValues[fname]);
 };
@@ -197,12 +220,34 @@ function showProficiencyMenu(event) {
   document.getElementById('proficiency-menu-master').checked = false;
   document.getElementById('proficiency-menu-legendary').checked = false;
 
+  var hint = document.getElementById('proficiency-menu__level-hint');
+  hint.classList.add('row--fade');
   if (teml !== null && teml !== "" && ['untrained', 'trained', 'expert', 'master', 'legendary'].includes(teml)) {
     var radio = document.getElementById('proficiency-menu-'+teml);
     if (radio !== null) {
       radio.checked = true;
     }
+
+    var bonuses = {
+      'untrained': 0,
+      'trained': 2,
+      'expert': 4,
+      'master': 6,
+      'legendary': 8
+    };
+    document.getElementById('proficiency-menu__plus').innerText = bonuses[teml];
+    if (teml != 'untrained') {
+      hint.classList.remove('row--fade');
+    }
   }
+  
+  // level hint
+  var level = '';
+  for (var levelInput of document.getElementsByName('level')) {
+    level = levelInput.value;
+  }
+  var output = document.getElementById('proficiency-menu__ref-level');
+  output.innerHTML = level;
 }
 
 function getProficiencyValue(fieldId) {
@@ -546,6 +591,7 @@ function getEnumValue(fieldId) {
 function setEnumValue(field, slug, value) {
   for (var input of field.getElementsByTagName('input')) {
     input.value = value;
+    input.dispatchEvent(new Event("change"));
   }
 }
 
@@ -591,3 +637,90 @@ for (var menu of document.getElementsByClassName("control-menu")) {
 
 document.addEventListener('click', dismissMenus);
 document.addEventListener('scroll', dismissMenus);
+
+
+// Mutating dice icon
+
+for (var icon of document.getElementsByClassName("icon_damage")) {
+  for (var dieControl of icon.closest('.field__frame').getElementsByClassName('field__control--damage-die')) {
+    for (var dieInput of dieControl.getElementsByTagName('input')) {
+      ((icon, dieInput) => {
+        dieInput.addEventListener('change', function (event) {
+          var cls = "";
+          switch (dieInput.value) {
+            case 4:
+            case "4":
+              cls = "icon_d4";
+              break;
+            case 6:
+            case "6":
+              cls = "icon_d6";
+              break;
+            case 8:
+            case "8":
+              cls = "icon_d8";
+              break;
+            case 10:
+            case "10":
+              cls = "icon_d10";
+              break;
+            case 12:
+            case "12":
+              cls = "icon_d12";
+              break;
+            case 20:
+            case "20":
+              cls = "icon_d20";
+              break;
+            default:
+              return;
+          }
+          icon.classList.remove("icon_d4");
+          icon.classList.remove("icon_d6");
+          icon.classList.remove("icon_d8");
+          icon.classList.remove("icon_d10");
+          icon.classList.remove("icon_d12");
+          icon.classList.remove("icon_d20");
+          icon.classList.add(cls);
+        });
+      })(icon, dieInput);
+    }
+  }
+}
+
+
+// SET THE TITLE
+function updatePageTitle() {
+  var characterName = '';
+  for (var input of document.getElementsByName('character-name')) {
+    if (input.value !== "") {
+      characterName = input.value;
+    }
+  }
+  var level = '';
+  for (var input of document.getElementsByName('level')) {
+    if (input.value !== "") {
+      level = parseInt(input.value);
+    }
+  }
+
+  var title = "\{{ summary }}";
+  if (characterName !== "") {
+    title = characterName+", "+title;
+  }
+  if (level !== "") {
+    title = title+", Level "+level;
+  }
+
+  document.title = title;
+  filename = title+".html";
+}
+
+for (var input of document.getElementsByName('character-name')) {
+  input.addEventListener('change', updatePageTitle);
+}
+for (var input of document.getElementsByName('level')) {
+  input.addEventListener('change', updatePageTitle);
+}
+
+updatePageTitle();

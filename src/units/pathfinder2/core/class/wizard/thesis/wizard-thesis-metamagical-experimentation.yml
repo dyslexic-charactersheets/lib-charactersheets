@@ -30,13 +30,21 @@ inc:
           - article:
             lines: 3
             merge-bottom: false
-          - calc:
-            output:
-              field: wizard-metamagical-experimentation-feat-level
-              legend: "_{Feat Level}"
-              width: large
-            inputs:
-              - field:
-                ref: level
-                label: "_{Level}"
-              - "&divide; 2"
+          - row:
+            pad: true
+            contents:
+              - h5: "_{Feat\nLevel}"
+                align: right
+              - calc:
+                output:
+                  field: wizard-metamagical-experimentation-feat-level
+                  # legend: "_{Feat Level}"
+                  width: large
+                  eq: "floor(%{level}/2)"
+                  # frame: left
+                  frame: none
+                inputs:
+                  - field:
+                    ref: level
+                    label: "_{Level}"
+                  - span: "&divide; 2"

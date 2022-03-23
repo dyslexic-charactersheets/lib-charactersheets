@@ -85,7 +85,6 @@ import {
 } from '../elements/field-control';
 import { value, value_block } from '../elements/value';
 
-
 export class Registry {
   constructor() {
     this.registry = {};

@@ -73,12 +73,14 @@ export class System {
 
             const newunit = this.getUnit(req.unit);
             if (!isNull(newunit)) {
+              // log("Character", `Infer units: ${unit.id} -> ${newunit.id}`);
               moreunits.push(newunit);
               more = true; // let's do this again
             }
           });
         }
       });
+      // log("Character", `Infer units: #${i} = ${more}`);
       units = units.concat(moreunits).filter(unit => !denyunits.includes(unit.id));
     }
     units = [...new Set(units)];

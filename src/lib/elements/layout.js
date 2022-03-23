@@ -72,9 +72,14 @@ export let layout = {
       // log("layout", "Split render", items);
       return reg.render(items, doc);
     }
+
+    // wrap layout
+    let contents = args.contents.map(elem => {
+      return `<div class='layout__inner'>${reg.render([elem], doc)}</div>`;
+    });
     
     const cls = elementClass('layout', null, args, ['no-flex', 'blk', 'unblk', 'vr'], { 'layout': '', 'gutter': '', 'flex': false });
-    return `<div${cls}>${reg.render(args.contents, doc)}</div>`;
+    return `<div${cls}>${contents.join('')}</div>`;
   }
 }
 

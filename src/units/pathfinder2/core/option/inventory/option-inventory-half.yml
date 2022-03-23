@@ -43,8 +43,10 @@ inc:
                                                     legend: "_{Kit}"
                                                   - field: inventory-kit-value
                                                     label: "_{Value}"
+                                                    format: int
                                                   - field: inventory-kit-weight
                                                     label: "_{Weight}"
+                                                    format: int
                                               - repeat: 2
                                                 reduce: 1
                                                 merge-bottom: true
@@ -72,8 +74,10 @@ inc:
                                                     frame: none
                                                   - field: inventory-item-#{i}-value
                                                     frame: none
+                                                    format: int
                                                   - field: inventory-item-#{i}-bulk
                                                     frame: none
+                                                    format: int
                                             lines: 1
                                       - list:
                                         zebra: true
@@ -88,7 +92,9 @@ inc:
                                                   - field: inventory-#{i}
                                                     width: stretch
                                                   - field: inventory-#{i}-value
+                                                    format: int
                                                   - field: inventory-#{i}-bulk
+                                                    format: int
                                   # - row:
                                   #   contents:
                                   - field: bulk-total
@@ -114,7 +120,9 @@ inc:
                                               - field: inventory-backpack-#{i}
                                                 width: stretch
                                               - field: inventory-backpack-#{i}-value
+                                                format: int
                                               - field: inventory-backpack-#{i}-bulk
+                                                format: int
                                   - row:
                                     contents:
                                       - field: weight-backpack-ignore
@@ -188,6 +196,7 @@ inc:
                                     denomination: copper
                                     digits: 10
                                     decimal: 1
+                                    eq: "(%{money-platinum}*1000)+(%{money-gold}*100)+(%{money-silver}*10)+%{money-copper}"
                                   - p: "_{1000 coins = 1 bulk}"
                       - tail:
 
@@ -221,10 +230,12 @@ inc:
                                 width: stretch
                               - field: armour-bulk
                                 label: "_{Bulk}"
+                                format: int
                               - field: ac-armour-bonus
                                 label: "_{AC Bonus}"
                                 icon: armour
                                 border: full
+                                format: int
                               - field: ac-armour-potency
                                 control: counter
                                 label: "_{Potency}"
@@ -236,10 +247,21 @@ inc:
                                 width: stretch
                               - field: armour-dex-cap
                                 label: "_{DEX\nCap}"
+                                format: int
                               - field: armour-str-rating
                                 label: "_{STR\nRating}"
+                                format: int
                               - field: armour-acp
                                 label: "_{Check\nPenalty}"
+                                border: full
+                                prefix: "&ndash;"
+                                format: int
+                              - field: armour-speed-penalty
+                                label: "_{Speed\nPenalty}"
+                                width: large
+                                prefix: "&ndash;"
+                                suffix: "_{ft}"
+                                format: int
                           - field: armour-properties
                             width: stretch
                             label: "_{Armour Traits}"
@@ -247,6 +269,10 @@ inc:
                             repeat: 2
                             reduce: 1
                             merge-bottom: true
+                          - field: armour-flexible
+                            control: checkbox
+                            frame: right
+                            label: "_{Flexible}"
 
                       - section: "_{Shield}"
                         contents:
@@ -259,22 +285,26 @@ inc:
                                 width: stretch
                               - field: shield-bulk
                                 label: "_{Bulk}"
+                                format: int
                               - field: shield-ac
                                 label: "_{AC Bonus}"
                                 icon: shield
                                 border: full
+                                format: int
                           - row:
                             contents:
                               - field: shield-hardness
                                 label: "_{Hardness}"
                                 width: large
                                 suffix: "_{hp}"
+                                format: int
                               - spacer:
                               - field: shield-bt
                                 label: "_{Broken}"
                                 suffix: "_{hp}"
                                 prefix: "&le;"
                                 width: large
+                                eq: "floor(%{shield-hp-total}/2)"
                               - spacer:
                               - field: shield-hp
                                 label: "_{Hit Points}"
@@ -282,6 +312,7 @@ inc:
                                 border: full
                                 width: large
                                 suffix: "_{hp}"
+                                format: int
                           - field: shield-properties
                             width: stretch
                             label: "_{Shield Traits}"

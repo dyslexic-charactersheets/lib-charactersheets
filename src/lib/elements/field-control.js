@@ -1,6 +1,6 @@
 import { fieldIdent, fieldRadioIdent, fieldDefaults } from './field';
 import { log, warn, error } from '../log';
-import { isArray, isNull, isBoolean } from '../util';
+import { isArray, isNull, isBoolean, isEmpty } from '../util';
 import { elementClass } from '../util/elements';
 import { chunk } from '../util/arrays';
 import { has } from '../util/objects';
@@ -21,7 +21,7 @@ function defaultControlRender (args, reg, doc) {
   const ident = fieldIdent(args.id);
   const cls = elementClass("field", "control", args, [ "damage-die" ], { "align": "centre", "width": "" });
   const value = (args.value == '') ? '' : ` value='${_e(args.value, doc)}'`;
-  const readonly = (args.editable && !(args.eg && doc.isCalc) ? '' : 'readonly');
+  const readonly = (args.editable ? '' : 'readonly');
   const ref = (args.ref ? ` ref='${args.ref}'` : '');
   const input = `<input${ident.ident}${ref}${value}${readonly}>`;
 
@@ -141,13 +141,12 @@ export let field_control_ref = {
 export let field_control_speed = {
   name: 'control:speed',
   defaults: {
-    units: "imperial",
     value: '',
     width: 'large',
     typeHint: 'number',
   },
   render(args, reg, doc) {
-    switch (args.units) {
+    switch (doc.measurementUnits) {
       case "imperial": {
         const ftIdent = fieldIdent(args.id, "ft");
         const sqIdent = fieldIdent(args.id, "sq");
@@ -178,15 +177,16 @@ export let field_control_speed = {
       }
 
       case "metric": {
-        const ftIdent = fieldIdent(args.id, "m");
+        const mIdent = fieldIdent(args.id, "m");
         const sqIdent = fieldIdent(args.id, "sq");
 
         args.parts = [
           {
             type: "field",
-            id: ftIdent.id,
+            id: mIdent.id,
             align: "right",
-            width: "small"
+            width: "small",
+            format: "decimal"
           },
           {
             type: "label",
@@ -377,7 +377,7 @@ export let field_control_checkgrid = {
     } else {
       args.dir = "v";
       args.h = grouplen;
-      args.w = width;
+      args.w = depth;
     }
 
     let checks = [];
@@ -498,29 +498,27 @@ export let field_control_proficiency = {
       default: args.value = 0;
     }
 
-
     if (args['has-bonus']) {
       args.parts = [
         {
-          type: "field",
+          id: args.id,
           control: "proficiency-icon",
+          'no-bonus': false,
           value: args.value,
-          id: args.id
         },
         {
           subid: 'bonus',
           control: "input",
-          // id: args.id + "-bonus",
           editable: !doc.isLoggedIn,
         }
       ];
     } else {
       args.parts = [
         {
-          type: "field",
+          id: args.id,
           control: "proficiency-icon",
+          'no-bonus': true,
           value: args.value,
-          id: args.id
         }
       ]
     }
@@ -531,8 +529,12 @@ export let field_control_proficiency = {
 
 export let field_control_proficiency_icon = {
   name: 'control:proficiency-icon',
+  defaults: {
+    'no-bonus': true,
+    width: 'small',
+  },
   render(args) {
-    const cls = elementClass("field", "control", { control: "icon" }, [], { "control": "input" });
+    const cls = elementClass("field", "control", { control: "icon", 'no-bonus': args['no-bonus'] }, [ "no-bonus" ], { "control": "input" });
 
     let value = args.value;
     switch (value) {

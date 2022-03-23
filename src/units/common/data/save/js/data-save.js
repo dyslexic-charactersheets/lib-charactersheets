@@ -1,5 +1,24 @@
+// dirty flag
+var documentDirty = false;
+
+function documentChanged() {
+  documentDirty = true;
+  for (var body of document.getElementsByTagName('body')) {
+    body.classList.add('body--changed');
+  }
+}
+
 
 function saveDocument() {
+  // don't save a document repeatedly.
+  if (!documentDirty) {
+    return;
+  }
+
+  for (var body of document.getElementsByTagName('body')) {
+    body.classList.add('body--changed');
+  }
+
   // make the DOM contain all values
   for (var input of document.getElementsByTagName("input")) {
     switch (input.type) {
@@ -16,28 +35,61 @@ function saveDocument() {
         input.setAttribute('value', input.value);
         break;
     }
+
+    // gray out the button again
+    documentDirty = false;
+    for (var body of document.getElementsByTagName('body')) {
+      body.classList.remove('body--changed');
+    }
   }
 
   // write current data
   // var data = "/" + "* ### START DATA SECTION ### *" + "/\nvar fieldValues = ";
   // data = data + JSON.stringify(fieldValues);
   // data = data + ";\n/" + "* ### END DATA SECTION ### *" + "/";
-  
+
   // // replace the data section
   // var dataSectionRegex = new RegExp("\\\/" + "\\\* ### START DATA SECTION ### \\\*" + "\\\/[^]*\\\/" + "\\\* ### END DATA SECTION ### \\\*" + "\\\/");
   var source = "<!DOCTYPE html>\n<html lang='en'>\n" + document.documentElement.innerHTML + "</html>";
   // source = source.replace(dataSectionRegex, data);
 
+  if (!!window.showSaveFilePicker) {
+    saveWithDialog(filename, source);
+    return;
+  }
+
   // generate the download
   var anchor = document.createElement("a");
   anchor.setAttribute('href', 'data:text/html;charset=utf-8,' + encodeURIComponent(source));
   anchor.setAttribute('download', filename);
-  
+
   anchor.style.display = 'none';
   document.body.appendChild(anchor);
   anchor.click();
   document.body.removeChild(anchor);
 }
+
+window.addEventListener('load', () => {
+  document.getElementById('button--save').addEventListener('click', saveDocument);
+  
+  window.addEventListener("beforeunload", function (e) {
+    if (!documentDirty) {
+      return false;
+    }
+
+    var confirmationMessage = "You have unsaved changed. Do you want to abandon them?";
+    (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+    return confirmationMessage;
+  });
+  
+  // trigger on any change event
+  setTimeout(function () {
+    for (var input of document.getElementsByTagName("input")) {
+      input.addEventListener('change', documentChanged);
+    }
+  }, 1);
+});
+
 
 
 /*
@@ -94,7 +146,17 @@ function pushValues() {
 }
 */
 
-
-window.addEventListener('load', (event) => {
-  document.getElementById('button--save-data').onclick = saveDocument;
-});
+async function saveWithDialog(filename, source) {
+  const handle = await window.showSaveFilePicker({
+    suggestedName: filename,
+    types: [
+      {
+        description: 'Character Sheet',
+        accept: {'text/html': ['.html']}
+      }
+    ]
+  });
+  const stream = await handle.createWritable();
+  await stream.write(source);
+  await stream.close();
+}

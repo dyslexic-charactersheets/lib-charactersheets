@@ -1,5 +1,5 @@
 import { interpolate } from '../util/objects';
-import { log } from '../log';
+import { warn } from '../log';
 import { isNumber, isString } from '../util';
 
 function testCondition(condition, ctx) {
@@ -85,6 +85,7 @@ export let ifelem = {
     }
   },
   render(args, reg, doc) {
+    warn("if", "Late evaluation of if condition:", args.condition)
     let ok = testCondition(args.condition, doc);
     if (ok) {
       return reg.render(args.then, doc);
