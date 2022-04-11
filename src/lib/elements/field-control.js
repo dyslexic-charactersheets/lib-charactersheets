@@ -21,7 +21,7 @@ function defaultControlRender (args, reg, doc) {
   const ident = fieldIdent(args.id);
   const cls = elementClass("field", "control", args, [ "damage-die" ], { "align": "centre", "width": "" });
   const value = (args.value == '') ? '' : ` value='${_e(args.value, doc)}'`;
-  const readonly = (args.editable ? '' : 'readonly');
+  const readonly = (args.editable ? '' : ' readonly');
   const ref = (args.ref ? ` ref='${args.ref}'` : '');
   const input = `<input${ident.ident}${ref}${value}${readonly}>`;
 
@@ -77,7 +77,7 @@ export let field_control_input = {
   defaults: {
     value: '',
     border: 'bottom',
-    typeHint: 'string',
+    format: 'string',
   },
   render: defaultControlRender
 }
@@ -87,7 +87,7 @@ export let field_control_value = {
   defaults: {
     value: '',
     border: 'none',
-    typeHint: 'string',
+    format: 'int',
   },
   render(args, reg, doc) {
     const cls = elementClass("field", "control", args, [], { "control": "", "align": "centre", "width": "" });
@@ -113,7 +113,6 @@ export let field_control_ref = {
   defaults: {
     icon: "book",
     width: "huge",
-    typeHint: 'string',
   },
   render(args, reg, doc) {
     let id = args.id;
@@ -143,7 +142,7 @@ export let field_control_speed = {
   defaults: {
     value: '',
     width: 'large',
-    typeHint: 'number',
+    format: 'int',
   },
   render(args, reg, doc) {
     switch (doc.measurementUnits) {
@@ -217,7 +216,7 @@ export let field_control_weight = {
   defaults: {
     schema: "bulk",
     width: "huge",
-    typeHint: 'number',
+    format: 'decimal',
   },
   render(args, reg, doc) {
     switch (args.schema) {
@@ -261,7 +260,7 @@ export let field_control_enum = {
     default: '',
     value: '',
     border: 'bottom',
-    typeHint: 'string',
+    format: 'string',
   },
   render(args, reg, doc) {
     let options = args.options.map(opt => {
@@ -280,7 +279,7 @@ export let field_control_radio = {
   defaults: {
     value: false,
     border: 'none',
-    typeHint: 'string',
+    format: 'radio',
   },
   render(args) {
     const ident = fieldRadioIdent(args.id, args.value);
@@ -296,7 +295,7 @@ export let field_control_checkbox = {
     border: 'none',
     width: 'tiny',
     style: '',
-    typeHint: 'boolean',
+    format: 'checkbox',
   },
   render(args) {
     const ident = fieldIdent(args.id);
@@ -317,7 +316,7 @@ export let field_control_boost = {
     up: true,
     down: true,
     border: 'none',
-    typeHint: 'boolean',
+    format: 'int',
   },
   render(args) {
     let up = '';
@@ -348,7 +347,6 @@ export let field_control_checkgrid = {
     flex: "tiny",
     depth: 3,
     value: 0,
-    typeHint: 'number',
   },
   render(args, reg, doc) {
     let g = args.group;
@@ -407,7 +405,7 @@ export let field_control_alignment = {
   defaults: {
     value: '',
     border: 'none',
-    typeHint: 'string',
+    format: 'string',
     value: '',
   },
   render(args, reg, doc) {
@@ -446,7 +444,6 @@ export let field_control_icon = {
     border: 'none',
     icon: '',
     width: '',
-    typeHint: 'string',
   },
   render(args) {
     const cls = elementClass("field", "control", args, [], {"control": ""});
@@ -460,7 +457,7 @@ export let field_control_counter = {
   defaults: {
     value: 0,
     max: 3,
-    typeHint: 'number',
+    format: 'int',
   },
   render(args, reg, doc) {
     const cls = elementClass("field", "control", { control: "counter" }, [], { control: "input" });
@@ -485,7 +482,7 @@ export let field_control_proficiency = {
     value: 0,
     icon: true,
     'has-bonus': true,
-    typeHint: 'number',
+    format: 'string',
   },
   render(args, reg, doc) {
     switch (args.value) {
@@ -589,7 +586,7 @@ export let field_control_ref_switch = {
   defaults: {
     value: '',
     border: 'bottom',
-    typeHint: 'string',
+    format: 'int',
   },
   render(args) {
     let hidden = `<input type='hidden'${fieldIdent(args.id, "ref").ident} class='field--control_ref-switch__ref'>`;
@@ -606,7 +603,7 @@ export let field_control_money = {
     decimal: 0,
     denomination: "copper",
     value: '',
-    typeHint: 'number',
+    format: 'decimal',
   },
   render(args, reg, doc) {
     let unit = '';
@@ -669,7 +666,7 @@ export let field_control_progression = {
   defaults: {
     max: 1,
     border: "none",
-    typeHint: 'number',
+    format: 'int',
   },
   // transform(args, doc) {
   //   let parts = [];

@@ -47,15 +47,15 @@ export let field = {
     args = fieldDefaults(args, reg, doc);
 
     if (isNull(args.value)) {
-      args.value = doc.getVar(args.id, args.typeHint);
+      args.value = doc.getVar(args.id, args.format);
       // if (args.value) log("field", "Value:", args.id, "=", args.value);
     }
     if (args.ruby) {
       args.rb = getRubyHeight(args);
     }
-    if (args.eq || args.ref) {
-      args.editable = false;
-    }
+    // if (args.eq || args.ref) {
+    //   args.editable = false;
+    // }
 
     const id = elementID('field', args.id);
     const name = elementName('field', args.id);

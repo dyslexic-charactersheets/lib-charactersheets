@@ -198,82 +198,52 @@ inc:
 
                   - class-name: "_{Sorcerer}"
 
-                  - section: "_{Spellcasting}"
-                    contents:
-                      - paste: spellcasting-spontaneous
-                        params:
-                          spells-icon: sorcerer
-
-                      - spells-table:
-                        max: 10
-                        spells-today: true
-                        max-spells-per-day: 4
-                        expanded: "_{Signature Spell}"
-                        at:
-                          - level: 10
-                            max-spells-per-day: 2
-                        
-                      - hr:
-                        light: true
-                        
-                      - zone: '@sorcerer/dcs'
-                        contents:
-                          - paste: spell-attack
-                            params:
-                              ability: "CHA"
-                          - paste: spell-dc
-                            params:
-                              ability: "CHA"
-
-                      - hr:
-                      - level: 3
-                        contents:
-                          - p: "_{Signature spells can be heightened without learning separately.}"
-                      
-                  - paste: class-feats
-                    params:
-                      id: sorcerer-feats
-                      title: "_{Sorcerer Feats}"
-                      mark: sorcerer
-                      extra: 0
-                      columns: 1
-                      lines: 1
-
-                  - tail:
-                  # - spacer:
-
-              - g:
-                contents:
-
                   - section: "_{Bloodline}"
                     primary: true
                     contents:
-                      - layout: 2e
+                      - zone: '@sorcerer/bloodline'
                         contents:
-                          - g:
-                            pad: true
-                            contents:
-                              - zone: '@sorcerer/bloodline'
-                                contents:
-                                  - field: sorcerer-bloodline
-                                    size: large
-                                    width: stretch
-                                    frame: none
+                          - field: sorcerer-bloodline
+                            size: large
+                            width: stretch
+                            frame: none
 
-                          - g:
-                            pad: true
-                            contents:
-                              - field: spell-list
-                                label: "_{Tradition}"
-                                width: stretch
-
-                      - zone: '@sorcerer/bloodline-extra'
-                        
                       - hr:
                         swash: true
-                      - layout: 2e
+
+                      - zone: '@sorcerer/bloodline-extra'
+
+                      - list:
+                        hr: true
                         contents:
+
+                          - field: spell-list
+                            label: "_{Tradition}"
+                            width: stretch
                             
+                          - g:
+                            pad: true
+                            contents:
+                              - list:
+                                hr: true
+                                contents:
+                                  - zone: '@sorcerer/bloodline/extra'
+                                  - g:
+                                    contents:
+                                      - h5: "_{Blood Magic}"
+                                        pad: true
+                                      - p: "_{Triggers when you cast a bloodline spell or a spell granted by your bloodline.}"
+                                      - hr:
+                                        light: true
+                                      - h6: "_{Effect}"
+                                      - zone: '@sorcerer/blood-magic'
+                                        contents:
+                                          - field: blood-magic
+                                            frame: none
+                                            repeat: 1
+                                            width: stretch
+                                            merge-bottom: true
+                                            
                           - g:
                             contents:
                               - paste: focus
@@ -315,32 +285,49 @@ inc:
                                             width: stretch
                                             repeat: 2
                                             reduce: 1
-                              - spacer:
+                              # - spacer:
 
-                          - g:
-                            pad: true
-                            contents:
-                              - list:
-                                hr: true
-                                contents:
-                                  - zone: '@sorcerer/bloodline/extra'
-                                  - g:
-                                    contents:
-                                      - h5: "_{Blood Magic}"
-                                        pad: true
-                                      - p: "_{Triggers when you cast a bloodline spell or a spell granted by your bloodline.}"
-                                      - hr:
-                                        light: true
-                                      - h6: "_{Effect}"
-                                      - zone: '@sorcerer/blood-magic'
-                                        contents:
-                                          - field: blood-magic
-                                            frame: none
-                                            repeat: 1
-                                            width: stretch
-                                            merge-bottom: true
 
-                              - spacer:
+                  - section: "_{Spellcasting}"
+                    contents:
+                      - paste: spellcasting-spontaneous
+                        params:
+                          spells-icon: sorcerer
+
+                      - hr:
+                        light: true
+
+                      - spells-table:
+                        max: 10
+                        spells-today: true
+                        max-spells-per-day: 4
+                        expanded: "_{Signature Spell}"
+                        at:
+                          - level: 10
+                            max-spells-per-day: 2
+                        
+                      - hr:
+                        light: true
+                        
+                      - zone: '@sorcerer/dcs'
+                        contents:
+                          - paste: spell-attack
+                            params:
+                              ability: "CHA"
+                          - paste: spell-dc
+                            params:
+                              ability: "CHA"
+
+                      - hr:
+                      - level: 3
+                        contents:
+                          - p: "_{Signature spells can be heightened without learning separately.}"
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
 
                   - section: "_{Cantrips}"
                     contents:
@@ -373,7 +360,15 @@ inc:
                             style: spontaneous
                             flex: tiny
 
+                  - paste: class-feats
+                    params:
+                      id: sorcerer-feats
+                      title: "_{Sorcerer Feats}"
+                      mark: sorcerer
+                      extra: 0
+                      lines: 2
+
                   - tail:
-                  - spacer:
+                  # - spacer:
 
 

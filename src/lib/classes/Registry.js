@@ -219,16 +219,20 @@ export class Registry {
     }, item);
 
     // check if the item actually exists
-    if (isString(item.exists))
+    if (isString(item.exists)) {
       item.exists = item.exists.replace(/#{.*?}/g, '');
-    if (!item.exists || item.exists === "false")
+    }
+    if (!item.exists || item.exists === "false") {
       return '';
+    }
 
-    if ((doc.largePrint || doc.skipOptional) && has(item, "optional") && item.optional)
+    if ((doc.largePrint || doc.skipOptional) && has(item, "optional") && item.optional) {
       return '';
+    }
 
-    if (item.type == "unit")
+    if (item.type == "unit") {
       item.type = item["unit-type"];
+    }
 
     // log("Registry", "renderItem", item.type);
     if (has(this.registry, item.type)) {
@@ -240,11 +244,13 @@ export class Registry {
           delete item[key];
       });
       item = Object.assign({}, reg.defaults, item);
-      if (item.type == "slots")
+      if (item.type == "slots") {
         log("Registry", item);
+      }
 
-      if (item['merge-bottom'])
+      if (item['merge-bottom']) {
         item = mergeBottom(item);
+      }
 
       let row = [item.type];
       ["id", "title", "layout"].forEach(key => {
@@ -253,6 +259,14 @@ export class Registry {
         }
       });
       this.stack.push(row.join(":"));
+      
+      // warn about stray fields
+      if (item.type == "field") {
+        if (!has(item, "id") && !has(item, "ref")) {
+          trace(this, "Registry", "Field with no ID or reference", element);
+        }
+      }
+
       // this.stack.push(item.type + ((item.id == null) ? '' : ":" + item.id) + ((item.title == null) ? '' : ':' + item.title));
       const output = reg.render(item, this, doc);
       this.stack.pop();

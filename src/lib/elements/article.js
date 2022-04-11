@@ -48,6 +48,7 @@ export let article = {
             id: args.id,
             frame: 'none',
             align: 'left',
+            format: 'string',
             size: args['header-size'],
             width: 'stretch'
           });
@@ -119,6 +120,7 @@ export let article = {
             id: args.id + '-details',
             frame: 'none',
             align: 'left',
+            format: 'string',
             repeat: args.lines,
             width: 'stretch',
             'merge-bottom': args['merge-bottom']

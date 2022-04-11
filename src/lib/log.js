@@ -18,6 +18,11 @@ export function error(area, message, ...args) {
 export function trace(registry, area, message, ...args) {
   // log("log", "Registry", registry);
   const prefix = `[${area}] `.padEnd(16).yellow;
-  const trace = JSON.stringify(registry.stack).orange;
+  const trace = JSON.stringify(registry.stack, function (key, value) {
+    if (value === undefined) {
+      return '<undefined>';
+    }
+    return value;
+  }).orange;
   console.log(`${prefix}${trace}\n                ${message}`, ...args);
 }

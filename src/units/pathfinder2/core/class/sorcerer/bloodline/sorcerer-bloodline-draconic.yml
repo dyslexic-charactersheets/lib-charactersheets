@@ -3,6 +3,11 @@ in: sorcerer/bloodline
 group: "_{Core Rulebook}"
 name: "_{Draconic}"
 
+form:
+  - select: sorcerer/bloodline/draconic/type
+    name: "_{Dragon Type}"
+    max: 1
+
 require:
   - unit: focus/sorcerer/dragon-claws
   - unit: focus/sorcerer/dragon-breath
@@ -31,7 +36,7 @@ inc:
         params:
           ability: CHA
 
-  - at: '@sorcerer/bloodline/extra'
+  - at: '@sorcerer/bloodline-extra'
     add:
       - field: sorcerer/bloodline/draconic/dragon-type
         width: stretch
@@ -78,27 +83,29 @@ inc:
     add:
       - g:
         contents:
-          - field: sorcerer/bloodline/draconic/dragon-type
-            width: stretch
-            legend: "_{Dragon Type}"
-          - row:
-            merge-bottom: true
+          - zone: '@sorcerer/bloodline/draconic:type'
             contents:
-              - field: sorcerer/bloodline/draconic/breath-area
-                label: "_{Breath weapon area}"
-                control: compound
-                parts:
-                  - subid: range
-                    align: right
-                  - label: "_{ft}"
-                  - subid: shape
+              - field: sorcerer/bloodline/draconic/dragon-type
+                width: stretch
+                legend: "_{Dragon Type}"
+              - row:
+                merge-bottom: true
+                contents:
+                  - field: sorcerer/bloodline/draconic/breath-area
+                    label: "_{Breath weapon area}"
+                    control: compound
+                    parts:
+                      - subid: range
+                        align: right
+                      - label: "_{ft}"
+                      - subid: shape
+                        align: left
+                  - field: sorcerer/bloodline/draconic/breath-damage
+                    label: "_{Damage type}"
                     align: left
-              - field: sorcerer/bloodline/draconic/breath-damage
-                label: "_{Damage type}"
-                align: left
-              - field: sorcerer/bloodline/draconic/save
-                label: "_{Saving throw}"
-                align: left
+                  - field: sorcerer/bloodline/draconic/save
+                    label: "_{Saving throw}"
+                    align: left
 
   - at: '@sorcerer/spellbook/bloodline-spell/initial'
     replace:

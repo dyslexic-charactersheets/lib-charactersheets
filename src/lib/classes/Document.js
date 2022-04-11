@@ -123,10 +123,10 @@ export class Document {
     });
   }
 
-  getVar(varname, typeHint = null) {
+  getVar(varname, format = null) {
     if (!has(this.vars, varname)) {
-      if (!isNull(typeHint)) {
-        switch (typeHint) {
+      if (!isNull(format)) {
+        switch (format) {
           case 'string': return '';
           case 'number': return 0;
           case 'boolean': return false;
@@ -267,8 +267,8 @@ export class Document {
       hasVar(varname) {
         return self.hasVar(varname);
       },
-      getVar(varname, typeHint = null) {
-        return self.getVar(varname, typeHint);
+      getVar(varname, format = null) {
+        return self.getVar(varname, format);
       }
     };
   }
@@ -514,7 +514,7 @@ export class Document {
       if (has(element, "type") && element.type == "field") {
         // log("Document", `Field: id = ${element.id}, ref = ${element.ref}`);
         if (!has(element, "id") && !has(element, "ref")) {
-          warn("Document", "Field with no ID or reference", element);
+          trace(registry, "Document", "Field with no ID or reference", element);
         }
 
         if (has(element, "eq")) {
