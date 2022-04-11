@@ -529,7 +529,7 @@ export class Document {
                 let subid = element.units == 'metric' ? element.id+'--m' : element.id+'--ft';
                 let affix = element.units == 'metric' ? '--m' : '--ft';
                 log("Document", "Speed eq", element.eq);
-                let eq = element.eq.replaceAll(/%\{(.*speed)\}/g, "%{$1"+affix+"}");
+                let eq = element.eq.replace(/%\{(.*speed)\}/g, "%{$1"+affix+"}");
                 fields.push({
                   id: subid,
                   eq: transformCalculation(subid, eq)
