@@ -520,25 +520,28 @@ export class Document {
         if (has(element, "eq")) {
           if (!isString(element.eq)) {
             trace(reg, "Document", "eq value not a string", element);
-          }
-          // og("Document", `Field ${element.id} = ${element.eq}`);
-          switch (element.control) {
-            case 'speed':
-              let subid = element.units == 'metric' ? element.id+'--m' : element.id+'--ft';
-              let affix = element.units == 'metric' ? '--m' : '--ft';
-              let eq = element.eq.replaceAll(/%\{(.*speed)\}/g, "%{$1"+affix+"}");
-              fields.push({
-                id: subid,
-                eq: transformCalculation(subid, eq)
-              });
-              break;
+          } else if (element.eq == "") {
+            trace(reg, "Document", "eq value empty", element);
+          } else {
+            // og("Document", `Field ${element.id} = ${element.eq}`);
+            switch (element.control) {
+              case 'speed':
+                let subid = element.units == 'metric' ? element.id+'--m' : element.id+'--ft';
+                let affix = element.units == 'metric' ? '--m' : '--ft';
+                let eq = element.eq.replaceAll(/%\{(.*speed)\}/g, "%{$1"+affix+"}");
+                fields.push({
+                  id: subid,
+                  eq: transformCalculation(subid, eq)
+                });
+                break;
 
-            default:
-              fields.push({
-                id: element.id,
-                eq: transformCalculation(element.id, element.eq)
-              });
-              break;
+              default:
+                fields.push({
+                  id: element.id,
+                  eq: transformCalculation(element.id, element.eq)
+                });
+                break;
+            }
           }
         }
 
