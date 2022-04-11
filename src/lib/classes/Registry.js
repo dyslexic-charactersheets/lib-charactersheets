@@ -259,13 +259,6 @@ export class Registry {
         }
       });
       this.stack.push(row.join(":"));
-      
-      // warn about stray fields
-      if (item.type == "field") {
-        if (!has(item, "id") && !has(item, "ref")) {
-          trace(this, "Registry", "Field with no ID or reference", element);
-        }
-      }
 
       // this.stack.push(item.type + ((item.id == null) ? '' : ":" + item.id) + ((item.title == null) ? '' : ':' + item.title));
       const output = reg.render(item, this, doc);

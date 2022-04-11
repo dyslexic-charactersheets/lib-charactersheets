@@ -518,6 +518,9 @@ export class Document {
         }
 
         if (has(element, "eq")) {
+          if (!isString(element.eq)) {
+            trace(reg, "Document", "eq value not a string", element);
+          }
           // og("Document", `Field ${element.id} = ${element.eq}`);
           switch (element.control) {
             case 'speed':

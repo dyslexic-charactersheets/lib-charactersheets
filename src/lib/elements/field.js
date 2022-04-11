@@ -1,8 +1,8 @@
-import { isArray, isString, isNull, toBoolean } from '../util';
+import { isArray, isString, isNull, toBoolean, isEmpty } from '../util';
 import { elementID, elementName, elementClass, getRubyHeight } from '../util/elements';
 import { has, interpolate } from '../util/objects';
 import { __, _e } from '../i18n';
-import { log } from '../log';
+import { log, trace, warn } from '../log';
 // import { render, renderItem } from '../classes/Registry';
 
 
@@ -56,6 +56,10 @@ export let field = {
     // if (args.eq || args.ref) {
     //   args.editable = false;
     // }
+
+    if (isEmpty(args.id) && isEmpty(args.ref)) {
+      trace(reg, "field", "No ID or reference", args);
+    }
 
     const id = elementID('field', args.id);
     const name = elementName('field', args.id);

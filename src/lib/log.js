@@ -23,6 +23,6 @@ export function trace(registry, area, message, ...args) {
       return '<undefined>';
     }
     return value;
-  }).orange;
+  });
   console.log(`${prefix}${trace}\n                ${message}`, ...args);
 }
