@@ -117,7 +117,7 @@ export let slots = {
     if (args.even && contents.length % 2 != 0) {
       let values = cloneDeep(blank);
       values[args.index] = 'extra-'+i++;
-      log("slots", "Balance slot", values);
+      // log("slots", "Balance slot", values);
 
       let add = cloneDeep(args.placeholder);
       add = interpolate(add, values);
