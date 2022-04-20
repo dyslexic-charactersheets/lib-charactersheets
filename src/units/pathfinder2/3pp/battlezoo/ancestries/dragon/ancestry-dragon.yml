@@ -1,0 +1,46 @@
+unit: ancestry/3pp/battlezoon/dragon
+in: ancestry
+group: "_{Battlezoo}"
+name: "_{Dragon}"
+
+enabled: false
+
+require:
+  # - unit: 3pp/battlezoo
+  # - unit: optional-darkvision/trigger
+  
+form:
+  - select: heritage/3pp/battlezoo/dragon
+    name: "_{Dragon Heritage}"
+    max: 1
+
+inc:
+  - set: ancestry
+    value: "_{Dragon}"
+  - set: hp-ancestry
+    value: 7
+  - set: perception-low-light
+    value: true
+  # - set: build-boost-CON-ancestry
+  #   value: 1
+  # - set: build-boost-CHA-ancestry
+  #   value: 1
+  # - set: build-boost-WIS-ancestry
+  #   value: -1
+  - set: languages
+    value: "_{Common, Draconic}"
+
+  - at: '@ancestry'
+    replace:
+      - article:
+        title: "_{Cloven}"
+        contents:
+          - flags:
+              - "_{Fey}"
+              - "_{Cloven}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{30ft}"
+          - paste: ponyfinder/fingerless

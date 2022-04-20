@@ -43,7 +43,8 @@ export class Instance {
     if (isLoggedIn) {
       return [ "data/edit", "data/calc", "data/save" ]; //, "data/roll" ];
     } else {
-      return [ "data/edit" ];
+      // return [ "data/edit" ];
+      return [ "data/no-edit" ];
     }
   }
 
