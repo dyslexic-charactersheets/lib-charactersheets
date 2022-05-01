@@ -67,12 +67,12 @@ inc:
                                           - row: center
                                             contents:
                                               - spacer:
-                                              - field: "npc-#{code}"
+                                              - field: "npc/#{code}"
                                                 label: "#{name}"
                                                 border: circle
                                                 size: huge
                                                 underlay: "#{short}"
-                                                eq: "(%{#{code}-score}-10)/2"
+                                                eq: "(%{npc/#{code}-score}-10)/2"
                                               - spacer:
 
 
@@ -309,6 +309,7 @@ inc:
                               icon: bonus
                               legend: "_{Perception}"
                               width: large
+                              eq: "%{npc/WIS}+%{npc/perception-proficiency-bonus}+%{npc/perception-item}+%{npc/perception-misc}"
                             inputs:
                               - field:
                                 ref: npc/WIS
@@ -396,8 +397,9 @@ inc:
                                       border: full
                                       width: large
                                       underlay: "#{short}"
+                                      eq: "%{npc/#{save}-ability}+%{npc/#{save}-proficiency}"
                                     inputs:
-                                      - field:
+                                      - field: npc/#{save}-ability
                                         label: "#{ability}"
                                         underlay: "#{ability}"
                                         ref: "#{abilityref}"
@@ -449,14 +451,15 @@ inc:
                                       icon: hp
                                       suffix: "_{hp}"
                                       width: large
+                                      eq: "%{npc/hp-animal-type}+(%{npc/CON}*%{level})"
                                     inputs:
-                                      - field: npc/animal-type
+                                      - field: npc/hp-animal-type
                                         label: "_{Animal\nType}"
                                       - span: "+ ("
                                       - field:
                                         label: "_{CON}"
                                         underlay: "_{CON}"
-                                        ref: CON
+                                        ref: npc/CON
                                       - span: "&times;"
                                       - field:
                                         ref: level
@@ -525,10 +528,11 @@ inc:
                                   icon: shield
                                   border: full
                                   underlay: "_{AC}"
+                                  eq: "10+%{DEX}+"
                                 inputs:
                                   - span: "10 +"
                                   - field:
-                                    ref: DEX
+                                    ref: npc/DEX
                                     label: "_{DEX}"
                                     underlay: "_{DEX}"
                                   - field: "npc/ac-proficiency"

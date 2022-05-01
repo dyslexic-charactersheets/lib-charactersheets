@@ -8,11 +8,12 @@ export let span = {
     content: '',
     'field-separator': false,
     'article-cat': false,
+    'nowrap': false,
     value: false,
     size: 'medium',
   },
   render(args, reg, doc) {
-    const cls = elementClass('span', null, args, ['field-separator', 'article-cat', 'value'], {'size': 'medium'});
+    const cls = elementClass('span', null, args, ['field-separator', 'article-cat', 'nowrap', 'value'], {'size': 'medium'});
     return `<span${cls}>${_e(args.content, doc)}</span>`;
   }
 }

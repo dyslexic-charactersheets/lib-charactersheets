@@ -121,6 +121,7 @@ inc:
                                                   # width: large
                                                   attack: true
                                                   icon: bonus
+                                                  eq: "%{wild-shape-attack-#{i}-ability}+%{wild-shape-attack-#{i}-proficiency-bonus}"
                                                 inputs:
                                                   - field: wild-shape-attack-#{i}-ability
                                                     ref: true
@@ -164,6 +165,7 @@ inc:
                                   icon: hp
                                   suffix: "_{hp}"
                                   width: large
+                                  eq: "%{wild-shape-hp-ancestry}+((%{CON}+%{wild-shape-hp-per-level})*%{level})"
                                 inputs:
                                   - field: wild-shape-hp-ancestry
                                     label: "_{Ancestry}"
@@ -202,12 +204,13 @@ inc:
                             contents:
                               - calc:
                                 output:
-                                  field: "wild-shape-ac"
+                                  field: "wild-shape/ac"
                                   legend: "_{Armour Class}"
                                   icon: "ac"
                                   border: full
                                   width: large
                                   underlay: "_{AC}"
+                                  eq: "10+%{DEX}+%{wild-shape/ac-proficiency-bonus}+%{wild-shape/armour-bonus}"
                                 inputs:
                                   - span: "10 +"
                                   - field:
@@ -216,12 +219,12 @@ inc:
                                     # frame: h-label
                                     underlay: "_{DEX}"
                                   - span: "+"
-                                  - field: "wild-shape-ac-proficiency"
+                                  - field: "wild-shape/ac-proficiency"
                                     control: proficiency
                                     label: "_{Proficiency}"
                                     width: small
                                   - span: "+"
-                                  - field: armour-bonus
+                                  - field: wild-shape/armour-bonus
                                     label: "_{Barding\nBonus}"
                                   # - field:
                                   #   misc: true
@@ -265,18 +268,19 @@ inc:
                                 template:
                                   - calc:
                                     output:
-                                      field: "wild-shape-#{save}"
+                                      field: "wild-shape/#{save}"
                                       legend: "#{legend}"
                                       icon: bonus
                                       border: full
                                       width: large
                                       underlay: "#{short}"
+                                      eq: "%{wild-shape/#{save}-ability}+%{wild-shape/#{save}-proficiency-bonus}"
                                     inputs:
-                                      - field:
+                                      - field: "wild-shape/#{save}-ability"
                                         label: "#{ability}"
                                         underlay: "#{ability}"
                                         ref: "#{abilityid}"
-                                      - field: "wild-shape-#{save}-proficiency"
+                                      - field: "wild-shape/#{save}-proficiency"
                                         control: proficiency
                                       # - field:
                                       #   id: "#{save}-misc-bonus"

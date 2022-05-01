@@ -1,0 +1,131 @@
+.page__note {
+  position: absolute;
+  width: 30rem;
+
+  $gap: 2.5rem;
+  $notch: 0.75rem;
+  $border-color: #aaa;
+
+  opacity: 0.2;
+  transition: opacity 0.3s;
+
+  &:hover {
+    opacity: 1;
+    transition: opacity 0.1s;
+  }
+
+  &.page__note--filled {
+    opacity: 1;
+  }
+  
+  &.page__note--left {
+    right: 100%;
+    
+    .page__note__add {
+      right: -1rem;
+    }
+    .page__note__notch {
+      right: $gap - $notch;
+      border-left: $notch solid $border-color;
+      &:after {
+        right: 0.1rem;
+        border-left: $notch solid white;
+      }
+    }
+  }
+  
+  &.page__note--right {
+    left: 100%;
+    .page__note__add {
+      left: -1rem;
+    }
+    .page__note__notch {
+      left: $gap - $notch;
+      border-right: $notch solid $border-color;
+      &:after {
+        left: 0.1rem;
+        border-right: $notch solid white;
+      }
+    }
+  }
+
+  @for $i from 1 through 16 {
+    &.page__note--num-#{$i} {
+      top: 1% + ($i * 10.3%);
+    }
+  }
+/*
+  .page__note__add {
+    $btn: 2rem;
+    display: block;
+    position: absolute;
+    top: 0.45rem;
+    width: $btn;
+    height: $btn;
+    border-radius: $btn;
+
+    // opacity: 0;
+    background: #2a2;
+    border: 0.1rem solid white;
+    box-shadow: 0 0.2rem 0.3rem black;
+
+    &:before {
+      content: "+";
+      color: white;
+      font-size: 2rem;
+      font-weight: bold;
+      line-height: $btn;
+
+      display: block;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+    }
+  }
+*/
+  .page__note__field {
+    position: absolute;
+    top: 0;
+    right: $gap;
+    left: $gap;
+    min-height: 2rem;
+    display: block;
+    background: white;
+    border: 1px solid $border-color;
+    border-radius: 0.2rem;
+    // box-shadow: 0 0.1rem 0.2rem rgba(0,0,0,0.3);
+  }
+
+  .page__note__notch {
+    position: absolute;
+    display: block;
+    top: 0.7rem;
+    width: 0;
+    height: 0;
+    border-top: $notch solid transparent;
+    border-bottom: $notch solid transparent;
+
+    &:after {
+      position: absolute;
+      top: -$notch;
+      display: block;
+      width: 0;
+      height: 0;
+      content: "";
+      border-top: $notch solid transparent;
+      border-bottom: $notch solid transparent;
+    }
+  }
+
+  .page__note__control {
+    border: 0 none;
+    width: 99%;
+    resize: none;
+    background: none;
+    padding: 0.5rem;
+    overflow: auto;
+
+    font-size: 1.2rem;
+  }
+}

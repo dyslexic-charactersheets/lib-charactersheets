@@ -24,6 +24,7 @@ inc:
               legend: "_{Damage Resistance}"
               border: full
               width: large
+              eq: "2+floor(%{level}/2)"
             inputs:
               - span: "2 + ("
               - field:
@@ -56,6 +57,7 @@ inc:
                   legend: "_{Fire Damage}"
                   border: full
                   width: large
+                  eq: "%{focus-level}*4"
                 inputs:
                   - field:
                     label: "_{Spell Level}"
@@ -110,11 +112,14 @@ inc:
                   legend: "_{Bridge\nLength}"
                   border: full
                   width: large
+                  suffix: "_{ft}"
+                  eq: "%{focus-level}*20"
+                  eq_metric: "%{focus-level}*6"
                 inputs:
                   - field:
                     label: "_{Spell\nLevel}"
                     ref: focus-level
-                  - span: "&times; 20ft"
+                  - span: "&times; _{20ft}"
               - p: "_{The bridge is 10ft wide, and up to 45&deg; up or down.}"
               - p: "_{Non-allies cannot walk on the bridge.}"
 

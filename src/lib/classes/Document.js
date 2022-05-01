@@ -73,6 +73,10 @@ export class Document {
     this.doc.largePrint = large;
   }
 
+  hasUnit(id) {
+    return this.units.map((unit) => unit.id).includes(id)
+  }
+
   setMeasurementUnits(units) {
     if (isEmpty(units)) {
       switch (this.language) {
@@ -528,7 +532,7 @@ export class Document {
               case 'speed':
                 let subid = element.units == 'metric' ? element.id+'--m' : element.id+'--ft';
                 let affix = element.units == 'metric' ? '--m' : '--ft';
-                log("Document", "Speed eq", element.eq);
+                // log("Document", "Speed eq", element.eq);
                 let eq = element.eq.replace(/%\{(.*speed)\}/g, "%{$1"+affix+"}");
                 fields.push({
                   id: subid,
@@ -734,6 +738,20 @@ export class Document {
     return jsParts.join("\n");
   }
 
+  // getAsset(unitid, file) {
+  //   this.units.forEach(unit => {
+  //     if (unit.id == unitid) {
+  //     }
+  //   });
+  // }
+
+  // getAssetParts(file) {
+  //   let parts = [];
+  //   this.units.forEach((unit) => {
+  //   });
+  //   return parts;
+  // }
+
   renderDocument(registry) {
     // log("Document", "Pages", this.doc.contents.map(page => `${page.id}: ${page.name}`));
 
@@ -749,7 +767,10 @@ export class Document {
 
     let isLoggedIn = this.isLoggedIn;
 
-    let controlMenus = `
+    // edit
+    let controlMenus = '';
+    if (this.hasUnit('data/edit')) {
+      controlMenus = `
 <nav id='proficiency-menu' class='control-menu'><div>
 <label for='proficiency-menu-untrained'><input type='radio' name='proficiency-menu' value='untrained' id='proficiency-menu-untrained'> <i class="icon icon_proficiency-untrained"></i> ${__('Untrained')}</label>
 <label for='proficiency-menu-trained'><input type='radio' name='proficiency-menu' value='trained' id='proficiency-menu-trained'> <i class="icon icon_proficiency-trained"></i> ${__('Trained')}</label>
@@ -827,7 +848,7 @@ export class Document {
 </div></nav>
 
 <nav id='enum-menu' class='control-menu'><div id='enum-menu__holder'></div></nav>`;
-
+    }
 
     return `<!DOCTYPE html>
 <html lang='${this.language}' class='${htmlClasses.join(" ")}'>

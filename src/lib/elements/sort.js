@@ -9,6 +9,8 @@ export let sort = {
     orderby: '',
     order: 'ASC',
     unique: false,
+    group: false,
+    group_hr: false,
     contents: []
   },
   transform(args, ctx) {
@@ -40,6 +42,43 @@ export let sort = {
 
     if (args.order == 'DESC') {
       contents = contents.reverse();
+    }
+
+    if (args.group) {
+      let groupkeys = contents.map((item) => item[args.group]);
+      groupkeys = [...new Set(groupkeys)];
+      switch (args.group) {
+        case 'abilityref':
+          groupkeys = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA'].filter((ability) => groupkeys.includes(ability));
+      }
+      log("sort", `Group by ${args.group}`, groupkeys);
+
+      // group the items by group key
+      let itemsbygroup = {};
+      for (let group of groupkeys) {
+        itemsbygroup[group] = [];
+      }
+      for (let item of contents) {
+        let group = item[args.group];
+        itemsbygroup[group].push(item);
+      }
+      log("sort", "Items by group", itemsbygroup);
+
+      // add hr to the last item in each group
+      if (args.group_hr) {
+        for (let group of groupkeys) {
+          itemsbygroup[group][itemsbygroup[group].length - 1].hr = true;
+        }
+      }
+
+      // put them back together
+      contents = [];
+      for (let group of groupkeys) {
+        for (let item of itemsbygroup[group]) {
+          contents.push(item);
+        }
+      }
+      log("sort", "Items", contents);
     }
 
     // log("sort", "Sorted items", contents);

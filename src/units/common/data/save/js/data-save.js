@@ -77,7 +77,7 @@ window.addEventListener('load', () => {
       return false;
     }
 
-    var confirmationMessage = "You have unsaved changed. Do you want to abandon them?";
+    var confirmationMessage = "You have unsaved changes. Do you want to abandon them?";
     (e || window.event).returnValue = confirmationMessage; //Gecko + IE
     return confirmationMessage;
   });

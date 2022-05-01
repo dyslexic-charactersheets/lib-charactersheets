@@ -176,6 +176,46 @@ module.exports = {
         _units[unitid] = unitdata;
         _assets[unitid] = {};
 
+        // Lint! Look for things to fix
+        function walkElement(elem) {
+          if (Array.isArray(elem)) {
+            _.each(elem, (sub) => {
+              walkElement(sub);
+            });
+            return;
+          }
+
+          if (_.has(elem, "type")) {
+            switch (elem.type) {
+              case "calc":
+                var output = elem.output;
+                if (output.type == "field" && !_.has(output, "eq") && output.control != "compound") {
+                  warn("units", `${unitdata.id}: Calculation without eq`);
+                }
+                break;
+              case "field":
+                if (!_.has(elem, "id") && !_.has(elem, "ref")) {
+                  warn("units", `${unitdata.id}: Field without ID or reference`, elem);
+                }
+                break;
+            }
+
+            if (_.has(elem, "contents")) {
+              walkElement(elem.contents);
+            }
+          }
+        }
+
+        if (_.has(unitdata, "inc")) {
+          _.each(unitdata.inc, (inc) => {
+            if (_.has(inc, "add")) {
+              walkElement(inc.add);
+            } else if(_.has(inc, "replace")) {
+              walkElement(inc.replace);
+            }
+          })
+        }
+
         // Load unit stylesheet
         var stylesheetfile = `${unitsBase}/${unitdir}/stylesheet/${shortfile.replace(/\.yml$/, '.scss')}`;
 

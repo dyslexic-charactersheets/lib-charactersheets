@@ -55,9 +55,28 @@ export let page = {
 
     const watermark = doc.watermark ? `<div class='page__watermark'><div class='page__watermark__inner'>${doc.watermark}</div></div>` : '';
 
+    let pageNotes = ''
+    if (doc.hasUnit('data/note')) {
+      function note(num) {
+        let line = Math.ceil(num / 2);
+        let leftright = (num % 2) ? 'left' : 'right';
+        return `<div class='page__note page__note--num-${line} page__note--${leftright}' id='${id}__note-${num}'>
+  <!-- <button class='page__note__add'></button> -->
+  <div class='page__note__field'>
+    <textarea class='page__note__control'></textarea>
+  </div>
+  <div class='page__note__notch'></div>
+</div>`;
+      }
+      for (let i = 1; i <= 16; i++) {
+        pageNotes = pageNotes+note(i);
+      }
+    }
+
     return `<div${id}${cls}>${background}${fill}
       ${copyrightAttribution}${pageNumber}${watermark}
       <div class='page__contents'>${reg.render(args.contents, doc)}</div>
+      ${pageNotes}
       </div>
       `;
   }

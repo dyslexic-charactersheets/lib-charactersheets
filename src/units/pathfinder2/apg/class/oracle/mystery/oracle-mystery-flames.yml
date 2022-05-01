@@ -57,9 +57,10 @@ inc:
                   legend: "_{Damage}"
                   width: large
                   suffix: "_{d4}"
+                  eq: "2+%{##:incendiary-aura/heighten}"
                 inputs:
                   - span: "_{2d4} +"
-                  - field:
+                  - field: "##:incendiary-aura/heighten"
                     label: "_{Heighten}"
                     ref: true
                   - span: "&times; _{1d4}"
@@ -70,6 +71,8 @@ inc:
                   legend: "_{Area}"
                   width: large
                   suffix: "_{ft}"
+                  eq: "10+(%{##:incendiary-aura/heighten}*5)"
+                  eq_metric: "3+(%{##:incendiary-aura/heighten}*1.5)"
                 inputs:
                   - span: "_{10ft} +"
                   - field: "##:incendiary-aura/heighten"
@@ -101,6 +104,7 @@ inc:
                   legend: "_{Damage}"
                   width: large
                   suffix: "_{d6}"
+                  eq: "5+(%{##:whirling-flames/heighten}*3)"
                 inputs:
                   - span: "_{5d6} +"
                   - field: "##:whirling-flames/heighten"
@@ -114,6 +118,7 @@ inc:
                   border: full
                   width: large
                   suffix: "_{sq}"
+                  eq: "1+%{##:whirling-flames/heighten}"
                 inputs:
                   - span: "_{1sq} +"
                   - field: "##:whirling-flames/heighten"
@@ -148,6 +153,7 @@ inc:
                           suffix: "_{d4}"
                           width: large
                           legend: "_{Damage}"
+                          eq: "%{focus}"
                         inputs:
                           - field:
                             label: "_{Focus Level}"
