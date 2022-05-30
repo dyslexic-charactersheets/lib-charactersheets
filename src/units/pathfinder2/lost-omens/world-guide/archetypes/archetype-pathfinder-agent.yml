@@ -16,7 +16,7 @@ inc:
 
   - at: '@lore-skills'
     add:
-      - skill: lore-pathfinder
+      - skill: pathfinder-lore
         name: "_{Pathfinder Lore}"
         ability: "_{INT}"
         abilityref: INT
@@ -33,7 +33,7 @@ inc:
             contents:
               - g:
                 contents:
-                  - class-icon: pathfinder-agent
+                  # - class-icon: pathfinder-agent
                   - class-name: "_{Pathfinder Agent}"
 
                   - section: "_{Dedication}"
@@ -44,63 +44,349 @@ inc:
                       - p: "_{Trained in Pathfinder Lore, and trained in a skill of your choice or expert in a skill you were already trained in}"
                         icon: proficiency-trained
 
-                  - section: "_{Careful Explorer}"
-                    contents:
-                      - selectable: pathfinder-agent/careful-explorer
-                        contents:
-                          - p: "_{Always get a check for traps, even if you aren't searching for them.}"
-
                   - section: "_{Wayfinder}"
                     contents:
-                      - selectable: pathfinder-agent/wayfinder-resonance-tinkerer
+                      - list:
+                        hr: true
+                        light: true
                         contents:
-                          - h5: "_{Wayfinder Resonance Tinkerer}"
-                          - list:
-                            hr: true
+                          - selectable: pathfinder-agent/wayfinder-resonance-tinkerer
                             contents:
-                              - g:
+                              - article: pathfinder-agent/wayfinder-resonance-tinkerer
+                                title: "_{Wayfinder Resonance Tinkerer}"
+                                cat: "_{Feat} 4"
                                 contents:
-                                  - label: "_{Cantrip}"
-                                    align: left
-                                  - article:
-                                    lines: 3
-                                  - p: "_{Cast this cantrip at will using your wayfinder}"
-                              - g:
+                                  - list:
+                                    hr: true
+                                    light: true
+                                    contents:
+                                      - g:
+                                        contents:
+                                          - p: "_{Cast a cantrip at will using your wayfinder}"
+                                          - article:
+                                            lines: 2
+                                            cat: "_{Cantrip}"
+                                      - g:
+                                        contents:
+                                          - action:
+                                            contents:
+                                              - p: "_{Transform your wayfinder into a nondescript pin or broach for 1 hour.}"
+
+                          - selectable: pathfinder-agent/wayfinder-resonance-infiltrator
+                            contents:
+                              - article: pathfinder-agent/wayfinder-resonance-infiltrator
+                                title: "_{Wayfinder Resonance Infiltrator}"
+                                cat: "_{Feat} 8"
+                                contents:
+                                  - list:
+                                    hr: true
+                                    light: true
+                                    contents:
+                                      - layout: indent-r
+                                        contents:
+                                          - action: 2
+                                            contents:
+                                              - p: "_{Once a day, cast [i]illusory disguise[/i] at level 2 to disguise yourself as another creature, including voice and scent.}"
+                                          - field: pathfinder-agent/wayfinder-resonance-infiltrator/illusory-disguise/today
+                                            label: "_{Today}"
+                                            control: checkbox
+                                      - layout: indent-r
+                                        contents:
+                                          - action:
+                                            contents:
+                                              - p: "_{Once a day, transform your Wayfinder into a similarly sized badge of membership. Lasts for 1 hour.}"
+                                          - field: pathfinder-agent/wayfinder-resonance-infiltrator/transform/today
+                                            label: "_{Today}"
+                                            control: checkbox
+ 
+                  - section: "_{Traps}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - selectable: pathfinder-agent/careful-explorer
+                            contents:
+                              - article: pathfinder-agent/careful-explorer
+                                title: "_{Careful Explorer}"
+                                cat: "_{Feat} 4"
+                                contents:
+                                  - p: "_{Always get a check for traps, even if you aren't searching for them.}"
+
+                          - selectable: pathfinder-agent/everyone-duck
+                            contents:
+                              - article: pathfinder-agent/everyone-duck
+                                title: "_{Everyone, Duck!}"
+                                cat: "_{Feat} 10"
+                                contents:
+                                  - action: reaction
+                                    contents:
+                                      - dl:
+                                          trigger: "_{You fail (not critically) to Disable Device on a trap}"
+                                          duration: "_{2rds}"
+                                      - p: "_{Reduced success on the trap's attack roll, reduced failure on saving throws against the trap for your allies.}"
+                                        icon: save-crit-succeed
+
+                  - section: "_{Exploration}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - selectable: pathfinder-agent/dead-reckoning
+                            contents:
+                              - article: pathfinder-agent/dead-reckoning
+                                title: "_{Dead Reckoning}"
+                                cat: "_{Feat} 4"
+                                contents:
+                                  - action: 2
+                                    contents:
+                                      - p: "_{Intuit which direction is north.}"
+
+                          - selectable: pathfinder-agent/environmental-explorer
+                            contents:
+                              - article: pathfinder-agent/environmental-explorer
+                                title: "_{Environmental Explorer}"
+                                cat: "_{Feat} 4"
+                                contents:
+                                  - p: "_{Even if you aren't Searching, you can check for environmental hazards while exploring.}"
+
+                          - selectable: pathfinder-agent/observant-explorer
+                            contents:
+                              - article: pathfinder-agent/observant-explorer
+                                title: "_{Observant Explorer}"
+                                cat: "_{Feat} 4"
+                                contents:
+                                  - p: "_{Even if you aren't Searching, you can check for hidden creatures while exploring.}"
+
+                          - selectable: pathfinder-agent/spiritual-explorer
+                            contents:
+                              - article: pathfinder-agent/spiritual-explorer
+                                title: "_{Spiritual Explorer}"
+                                cat: "_{Feat} 4"
+                                contents:
+                                  - p: "_{Even if you aren't Searching, you can check for haunts while exploring.}"
+
+                  - section: "_{Forced Entry}"
+                    contents:
+                      - selectable: pathfinder-agent/forced-entry
+                        contents:
+                          - article: pathfinder-agent/forced-entry
+                            title: "_{Forced Entry}"
+                            cat: "_{Feat} 6"
+                            contents:
+                              - p: "_{No penalty and upgraded success to Force Open doors etc without a crowbar}"
+                                icon: save-crit-succeed
+
+                  - section: "_{Swap Investment}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - selectable: pathfinder-agent/swap-investment
+                            contents:
+                              - article: pathfinder-agent/swap-investment
+                                title: "_{Swap Investment}"
+                                cat: "_{Feat} 12"
+                                contents:
+                                  - layout: indent-r
+                                    contents:
+                                      - p: "_{One a day, swap one invested item for another.}"
+                                      - field: pathfinder-agent/swap-investment/today
+                                        label: "_{Today}"
+                                        control: checkbox
+
+                  - tail:
+
+              - g:
+                contents:
+                  - section: "_{Cooperation}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - selectable: pathfinder-agent/deft-cooperation
+                            contents:
+                              - article: pathfinder-agent/deft-cooperation
+                                title: "_{Deft Cooperation}"
+                                cat: "_{Feat} 4"
+                                contents:
+                                  - action: reaction
+                                    contents:
+                                      - dl:
+                                          trigger: "_{You successfully aid an ally's attack roll or AC against an enemy}"
+                                      - value-block: "+1"
+                                        content: "_{To that attack or AC against that enemy respectively until the end of your next turn.}"
+
+                          - selectable: pathfinder-agent/archaeologists-warning
+                            contents:
+                              - article: pathfinder-agent/archaeologists-warning
+                                title: "_{Archaeologist's Warning}"
+                                cat: "_{Feat} 6"
+                                contents:
+                                  - action: free
+                                    contents:
+                                      - dl:
+                                          trigger: "_{You are about to roll Perception, Sopciety or Thievery for initiative}"
+                                      - value-block: "+1"
+                                        content: "_{To initiative for allies if you warn them.}"
+
+                          - selectable: pathfinder-agent/snap-out-of-it
+                            contents:
+                              - article: pathfinder-agent/snap-out-of-it
+                                title: "_{Snap Out Of It!}"
+                                cat: "_{Feat} 8"
+                                contents:
+                                  - action: 2
+                                    contents:
+                                      - p: "_{Attempt Medicine on an ally who is fascinated, frightened, stunned or stupefied.}"
+                                      - paste: save
+                                        params:
+                                          critical_success: "-2 _{to one condition, or end fascinated}"
+                                          success: "-1 _{to one condition, or end fascinated}"
+                                          critical_failure: "+1 _{to one condition, or increase duration of fascinated 1rd}"
+
+
+                  - section: "_{Knowledge}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - selectable: pathfinder-agent/thorough-reports
+                            contents:
+                              - article: pathfinder-agent/thorough-reports
+                                title: "_{Thorough Reports}"
+                                cat: "_{Feat} 4"
+                                contents:
+                                  - value-block: "+2"
+                                    content: "_{Bonus to recall knowledge about a creature after previously succeeding at a knowledge check against that creature type.}"
+
+                                  - g:
+                                    contents:
+                                      - label: "_{Creature types}"
+                                        align: left
+                                      - list:
+                                        zebra: true
+                                        columns: 2
+                                        merge-bottom: true
+                                        contents:
+                                          - repeat: 6
+                                            contents:
+                                              - field: pathfinder-agent-creature-type-"#{i}"
+                                                width: stretch
+                                                frame: none
+
+                          - selectable: pathfinder-agent/remember-your-training
+                            contents:
+                              - article: pathfinder-agent/remember-your-training
+                                title: "Remember Your Training"
+                                cat: "_{Feat} 4"
                                 contents:
                                   - action:
                                     contents:
-                                      - p: "_{Transform your wayfinder into a nondescript pin or broach for 1 hour.}"
+                                      - layout: indent-r
+                                        contents:
+                                          - g:
+                                            contents:
+                                              - p: "_{Once a day, Recall Knowledge about a creature you can see, adding your level instead of 0 if you're untrained. A failure roll becomes success.}"
+                                          - field: pathfinder-agent/remember-your-training/today
+                                            label: "_{Today}"
+                                            control: checkbox
 
-                  - tail:
-                  - spacer:
-              - g:
-                contents:
-                  - section: "_{Deft Cooperation}"
-                    contents:
-                      - selectable: pathfinder-agent/deft-cooperation
-                        contents:
-                          - action: reaction
+                          - selectable: pathfinder-agent/recongise-threat
                             contents:
-                              - p: "_{When you successfully aid an ally's attack roll or AC against an enemy, gain +1 to that attack or AC against that enemy respectively until the end of your next turn.}"
-
-                  - section: "_{Thorough Reports}"
-                    contents:
-                      - selectable: pathfinder-agent/thorough-reports
-                        contents:
-                          - value-block: "+2"
-                            content: "_{Bonus to recall knowledge about a creature after previously succeeding at a knowledge check against that creature type.}"
-
-                          - g:
-                            contents:
-                              - h5: "_{Creature types}"
-                              - list:
-                                zebra: true
+                              - article: pathfinder-agent/recongise-threat
+                                title: "_{Recognise Threat}"
+                                cat: "_{Feat} 8"
                                 contents:
-                                  - repeat: 10
+                                  - action: free
                                     contents:
-                                      - field: pathfinder-agent-creature-type-"#{i}"
+                                      - layout: indent-r
+                                        contents:
+                                          - p: "_{On your first turn of an encounter, if you're master in a knowledge skill relevant to a creature you can see, attempt to recall knowledge as a free action.}"
+                                          - icon: proficiency-master
+
+                          - selectable: pathfinder-agent/diverse-recognition
+                            contents:
+                              - article: pathfinder-agent/diverse-recognition
+                                title: "_{Diverse Recognition}"
+                                cat: "_{Feat} 8"
+                                contents:
+                                  - action: free
+                                    contents:
+                                      - layout: indent-r
+                                        contents:
+                                          - dl:
+                                              trigger: "_{You successfully Recall Knowledge about a creature you can see, using a skill you are master in}"
+                                          - icon: proficiency-master
+                                      - p: "_{Once a round, Recall Knowledge about another creature with the same skill as a free action.}"
+
+                          - selectable: pathfinder-agent/educated-assessment
+                            contents:
+                              - article: pathfinder-agent/educated-assessment
+                                title: "_{Educated Assessment}"
+                                cat: "_{Feat} 12"
+                                contents:
+                                  - action:
+                                    contents:
+                                      - p: "_{GM uses your Recall Knowledge secret roll vs the target's Deception or Stealth DC}"
+                                      - h5: "_{Battle Assessment}"
+                                      - layout: 2e
+                                        contents:
+                                          - p:
+                                            title: "_{Critical success}"
+                                            content: "_{2 pieces of information}"
+                                            icon: save-crit-succeed
+                                          - p: 
+                                            title: "_{Success}"
+                                            content: "1 piece of information"
+                                            icon: save-succeed
+                                      - p: "_{Highest weakness, lowest save, one immunity, highest resistance}"
+                                      
+                  - section: "_{Skills}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - selectable: pathfinder-agent/watch-and-learn
+                            contents:
+                              - article: pathfinder-agent/watch-and-learn
+                                title: "_{Watch and Learn}"
+                                cat: "_{Feat} 4"
+                                contents:
+                                  - action: reaction
+                                    contents:
+                                      - dl:
+                                          trigger: "_{You see an ally succeed at a STR or DEX skill check.}"
+                                          duration: "_{1min}"
+                                      - p: "_{Add your level rather than 0 as proficiency bonus to copy them.}"
+                                      - p: "_{Does not allow you to use trained actions.}"
+
+                          - selectable: pathfinder-agent/eidetic-memorization
+                            contents:
+                              - article: pathfinder-agent/eidetic-memorization
+                                title: "_{Eidetic Memorization}"
+                                cat: "_{Feat} 10"
+                                contents:
+                                  - action: 3
+                                    contents:
+                                      - p: "_{Memorize a piece of writing up to one page, and reproduce it later. You don't need to understand the writing or identify the language.}"
+                                      - field: pathfinder-agent/eidetic-memorization/memory
+                                        label: "_{Current memory}"
                                         width: stretch
-                                        frame: none
+                                      - p: "_{Remember one page at a time. It lasts until your next daily preparations.}"
+
+                          - selectable: pathfinder-agent/craft-facsimile
+                            contents:
+                              - article: pathfinder-agent/craft-facsimile
+                                title: "_{Craft Facsimile}"
+                                cat: "_{Feat} 6"
+                                contents:
+                                  - paste: 1min
+                                    contents:
+                                      - p: "_{Assemble a replica of an object.}"
 
                   - tail:
-                  - spacer:

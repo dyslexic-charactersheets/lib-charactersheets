@@ -5,19 +5,26 @@ name: "_{Living Monolith}"
 
 enabled: false
 
+require:
+  - unit: spell/enlarge
+  - unit: spell/meld-into-stone
+  - unit: spell/zone-of-truth
+  - unit: spell/talking-corpse
+  - unit: spell/stone-tell
+
 inc:
   - at: '@archetypes'
     add:
       - name: "_{Living Monolith}"
         num-feats: 3
 
-  - set: undead-lore-proficiency
+  - set: ancient-osirion-lore-proficiency
     value: trained
 
   - at: '@lore-skills'
     add:
-      - skill: lore-undead
-        name: "_{Undead Lore}"
+      - skill: ancient-osirion-lore
+        name: "_{Ancient Osirion Lore}"
         ability: "_{INT}"
         abilityref: INT
         acp: false
@@ -28,55 +35,204 @@ inc:
         name: "Living Monolith (Archetype)"
         order: 26
         flex: true
-        half: true
         contents:
-          - layout: 2e
+          - layout: 2l
             contents:
               - g:
                 contents:
-                  - class-icon: living-monolith
+                  # - class-icon: living-monolith
                   - class-name: "_{Living Monolith}"
 
                   - section: "_{Dedication}"
                     contents:
-                      - p: "_{}"
+                      - p: "_{You have delved into ancient sphinx magic to imbue your body and soul with the patience and strength of stone, as you work to create a special magic [i]ka stone[/i] to finalise your oaths.}"
                         size: large
 
                       - list:
                         hr: true
                         light: true
                         contents:
-                          - p: "_{Trained in Athletics and Undead Lore}"
-                            icon: proficiency-trained
+                          - g:
+                            contents:
+                              - dl:
+                                  "_{Language}": "_{Ancient Osirion}"
+                              - p: "_{Trained in Athletics and Osirion Lore}"
+                                icon: proficiency-trained
 
-                  - section: "_{}"
-                    contents:
-                      - selectable: living-monolith/
-                        contents:
-                          - nothing:
+                          - g:
+                            contents:
+                              - layout: indent-r
+                                contents:
+                                  - p: "_{If you fail a dying check, do not increase the dying condition.}"
+                                    icon: save-fail
+                                  - level-marker: "+0"
+                                    marker: "_{Dying}"
 
-                  - section: "_{}"
+                              - layout: indent-r
+                                contents:
+                                  - p: "_{If you critically fail, increase the dying condition by only 1.}"
+                                    icon: save-crit-fail
+                                  - level-marker: "+1"
+                                    marker: "_{Dying}"
+
+                  - section: "_{Ka Stone}"
                     contents:
-                      - selectable: living-monolith/
+                      - list:
+                        hr: true
+                        zebra: true
                         contents:
-                          - nothing:
+                          - g:
+                            contents:
+                              - h6: "_{Activate}"
+                              - row:
+                                contents:
+                                  - calc:
+                                    output:
+                                      field: living-monolith/ka-stone-ritual/per-day
+                                      legend: "_{Uses per day}"
+                                      width: large
+                                      eq: "1+%{living-monolith/ka-stone-ritual}+%{living-monolith/stone-blood}+%{living-monolith/fortified-flesh}+%{living-monolith/attunement-to-stone}+%{living-monolith/judgement-of-the-monolith}+%{living-monolith/stone-communion}"
+                                    inputs:
+                                      - label: "_{Number of\nLiving Monolith\nfeats taken}"
+
+                                  - field: living-monolith/ka-stone-ritual/today
+                                    control: checkgrid
+                                    max: 7
+                                    label: "_{Today}"
+
+                              - layout: indent-l
+                                contents:
+                                  - g:
+                                  - list:
+                                    hr: true
+                                    light: true
+                                    contents:
+                                      - selectable: living-monolith/ka-stone-ritual
+                                        contents:
+                                          - action: 2
+                                            contents:
+                                              - p: "_{Enlarge} (_{yourself})"
+                                      - selectable: living-monolith/attunement-to-stone
+                                        contents:
+                                          - action: 2
+                                            contents:
+                                              - p: "_{Meld into Stone}"
+                                      - selectable: living-monolith/judgement-of-the-monolith
+                                        contents:
+                                          - action: 2
+                                            contents:
+                                              - p: "_{Zone of Truth} (_{one target})"
+                                          - paste: 10mins
+                                            contents:
+                                              - p: "_{Talking corpse}"
+                                      - selectable: living-monolith/stone-communion
+                                        contents:
+                                          - paste: 10mins
+                                            contents:
+                                              - p: "_{Stone tell}"
+
+                          - selectable: living-monolith/ka-stone-ritual
+                            contents:
+                              - article: living-monolith/ka-stone-ritual
+                                title: "_{Ka Stone Ritual}"
+                                cat: "_{Feat} 4"
+                                contents:
+                                  - p: "_{The [i]ka stone[/i] is a permanently invested item. It cannot be taken from you.}"
+
+                                  - p: "_{Bonus to saves against death effects and negative effects.}"
+                                  - table:
+                                    flip: true
+                                    columns:
+                                      - "_{Level}"
+                                      - "_{Bonus}"
+                                    rows:
+                                      - lvl: ""
+                                        bonus: "+1"
+                                      - lvl: 8
+                                        bonus: "+2"
+                                      - lvl: 14
+                                        bonus: "+3"
+                                      - lvl: 20
+                                        bonus: "+4"
+                                    template:
+                                      - level-marker: "#{lvl}"
+                                        marker: ""
+                                      - span: "#{bonus}"
+                                  - p: "_{Activate your ka stone to cast [i]enlarge[/i] on yourself}"
+                                  
+                          - selectable: living-monolith/stone-blood
+                            contents:
+                              - article: living-monolith/stone-blood
+                                title: "_{Stone Blood}"
+                                cat: "_{Feat} 6"
+                                contents:
+                                  - value-block: "10"
+                                    content: "_{DC of flat check to stop bleeding}"
+                                  - action:
+                                    contents:
+                                      - p: "_{Attempt to stop bleeding}"
+                                  - p: "_{Recover from the drained condition twice as quickly as normal.}"
+                                  
+                          - selectable: living-monolith/fortified-flesh
+                            contents:
+                              - article: living-monolith/fortified-flesh
+                                title: "_{Fortified Flesh}"
+                                cat: "_{Feat} 8"
+                                contents:
+                                  - calc:
+                                    output:
+                                      field: living-monolith/fortified-flesh/resistance
+                                      legend: "_{Resistance}"
+                                      width: large
+                                      eq: "1+%{living-monolith/ka-stone-ritual}+%{living-monolith/stone-blood}+%{living-monolith/fortified-flesh}+%{living-monolith/attunement-to-stone}+%{living-monolith/judgement-of-the-monolith}+%{living-monolith/stone-communion}"
+                                    inputs:
+                                      - label: "_{Number of\nLiving Monolith\nfeats taken}"
+                                  - p: "_{Resistance to physical damage (except adamantine)}"
+                                  
+                          - selectable: living-monolith/attunement-to-stone
+                            contents:
+                              - article: living-monolith/attunement-to-stone
+                                title: "_{Attunement to Stone}"
+                                cat: "_{Feat} 10"
+                                contents:
+                                  - p: "_{Activate your ka stone to cast [i]meld into stone[/i]}"
+                                  
+                          - selectable: living-monolith/judgement-of-the-monolith
+                            contents:
+                              - article: living-monolith/judgement-of-the-monolith
+                                title: "_{Judgement of the Monolith}"
+                                cat: "_{Feat} 12"
+                                contents:
+                                  - p: "_{Activate your ka stone to cast [i]zone of truth[/i] on a single target}"
+                                  - p: "_{Take 10 minutes and activate your ka stone to cast [i]talking corpse[/i]}"
+                                  
+                          - selectable: living-monolith/stone-communion
+                            contents:
+                              - article: living-monolith/stone-communion
+                                title: "_{Stone Communion}"
+                                cat: "_{Feat} 14"
+                                contents:
+                                  - dl:
+                                      "_{Language}": "_{Terran}"
+                                  - p: "_{Take 10 minutes and activate your ka stone to cast [i]stone tell[/i]}"
 
                   - tail:
-                  - spacer:
+                  # - spacer:
+
               - g:
                 contents:
 
-                  - section: "_{}"
+                  - section: "_{Spells}"
                     contents:
-                      - selectable: living-monolith/
+                      - list:
+                        hr: true
+                        zebra: true
                         contents:
-                          - nothing:
-                          
-                  - section: "_{}"
-                    contents:
-                      - selectable: living-monolith/
-                        contents:
-                          - nothing:
+                          - paste: spell/enlarge
+                          - paste: spell/meld-into-stone
+                          - paste: spell/zone-of-truth
+                          - paste: spell/talking-corpse
+                          - paste: spell/stone-tell
 
                   - tail:
                   - spacer:

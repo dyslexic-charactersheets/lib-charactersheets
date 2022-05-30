@@ -517,7 +517,7 @@ export class Document {
       // fields
       if (has(element, "type") && element.type == "field") {
         // log("Document", `Field: id = ${element.id}, ref = ${element.ref}`);
-        if (!has(element, "id") && !has(element, "ref")) {
+        if (!has(element, "id") && !has(element, "ref") && element.control != "value") {
           trace(registry, "Document", "Field with no ID or reference", element);
         }
 

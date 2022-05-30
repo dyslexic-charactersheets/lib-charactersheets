@@ -16,7 +16,7 @@ inc:
 
   - at: '@lore-skills'
     add:
-      - skill: lore-undead
+      - skill: undead-lore
         name: "_{Undead Lore}"
         ability: "_{INT}"
         abilityref: INT
@@ -59,17 +59,25 @@ inc:
                     contents:
                       - selectable: lastwall-sentry/eye-of-ozem
                         contents:
-                          - value-block: "+2"
-                            content: "_{Initiative rolls using Perception}"
-                          - value-block: "+2"
-                            content: "_{Bonus to allies' initiative when Scouting (instead of +1)}"
+                          - article: lastwall-sentry/eye-of-ozem
+                            title: "_{Eye of Ozem}"
+                            cat: "_{Feat} 4"
+                            contents:
+                              - value-block: "+2"
+                                content: "_{Initiative rolls using Perception}"
+                              - value-block: "+2"
+                                content: "_{Bonus to allies' initiative when Scouting (instead of +1)}"
 
                   - section: "_{Grave Sense}"
                     contents:
                       - selectable: lastwall-sentry/grave-sense
                         contents:
-                          - p: "_{Sense the presence of the undead like a scent.}"
-                          - p: "_{An undead using a disguise must make a Deception check against your Perception DC to hide its presence from you for one day.}"
+                          - article: lastwall-sentry/grave-sense
+                            title: "_{Grave Sense}"
+                            cat: "_{Feat} 6"
+                            contents:
+                              - p: "_{Sense the presence of the undead like a scent.}"
+                              - p: "_{An undead using a disguise must make a Deception check against your Perception DC to hide its presence from you for one day.}"
 
                   - tail:
                   - spacer:
@@ -80,41 +88,53 @@ inc:
                     contents:
                       - list:
                         hr: true
+                        zebra: true
                         contents:
                           - selectable: lastwall-sentry/necromantic-resistance
                             contents:
-                              - list:
-                                hr: true
-                                light: true
+                              - article: lastwall-sentry/necromantic-resistance
+                                title: "_{Necromantic Resistance}"
+                                cat: "_{Feat} 4"
                                 contents:
-                                  - value-block: "+1"
-                                    content: "_{Circumstance bonus against necromancy effects}"
-                                  - g:
+                                  - list:
+                                    hr: true
+                                    light: true
                                     contents:
-                                      - calc:
-                                        output:
-                                          field: lastwall-sentry/necromantic-resistance
-                                          legend: "_{Damage Reduction}"
-                                          width: large
-                                          eq: "floor(%{level}/2)"
-                                        inputs:
-                                          - field:
-                                            ref: level
-                                            label: "_{Level}"
-                                          - span: "&divide; 2"
-                                      - p: "_{Gain damage reduction against negative damage.}"
+                                      - value-block: "+1"
+                                        content: "_{Circumstance bonus against necromancy effects}"
+                                      - g:
+                                        contents:
+                                          - calc:
+                                            output:
+                                              field: lastwall-sentry/necromantic-resistance
+                                              legend: "_{Damage Reduction}"
+                                              width: large
+                                              eq: "floor(%{level}/2)"
+                                            inputs:
+                                              - field:
+                                                ref: level
+                                                label: "_{Level}"
+                                              - span: "&divide; 2"
+                                          - p: "_{Gain damage reduction against negative damage.}"
 
                           - selectable: lastwall-sentry/necromantic-tenacity
                             contents:
-                              - h5: "_{Necromantic Tenacity}"
-                              - p: "_{Upgraded success and reduced failure on saves against necromantic effects.}"
+                              - article: lastwall-sentry/necromantic-tenacity
+                                title: "_{Necromantic Tenacity}"
+                                cat: "_{Feat} 8"
+                                contents:
+                                  - p: "_{Upgraded success and reduced failure on saves against necromantic effects.}"
 
                   - section: "_{Lastwall Warden}"
                     contents:
                       - selectable: lastwall-sentry/warden
                         contents:
-                          - p: "_{When you have your shield raised, can use your Shield Block reaction to protect an ally.}"
-                          - p: "_{When an undead attacks an ally within 10ft, can Step and use Shield Block as the same reaction.}"
+                          - article: lastwall-sentry/warden
+                            title: "_{Lastwall Warden}"
+                            cat: "_{Feat} 10"
+                            contents:
+                              - p: "_{When you have your shield raised, can use your Shield Block reaction to protect an ally.}"
+                              - p: "_{When an undead attacks an ally within 10ft, can Step and use Shield Block as the same reaction.}"
 
                   - tail:
                   - spacer:

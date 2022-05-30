@@ -57,7 +57,7 @@ export let field = {
     //   args.editable = false;
     // }
 
-    if (isEmpty(args.id) && isEmpty(args.ref)) {
+    if (isEmpty(args.id) && isEmpty(args.ref) && args.control != "value") {
       trace(reg, "field", "No ID or reference", args);
     }
 

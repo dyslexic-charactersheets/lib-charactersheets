@@ -5,8 +5,96 @@ name: "_{Student of Perfection}"
 
 enabled: false
 
+require:
+  - unit: focus/student-of-perfection/perfect-strike
+  - unit: focus/student-of-perfection/unblinking-flame-revelation
+  - unit: focus/student-of-perfection/unbreaking-wave-advance
+  - unit: focus/student-of-perfection/unfolding-wind-rush
+  - unit: focus/student-of-perfection/untwisting-iron-buffer
+
 inc:
   - at: '@archetypes'
     add:
       - name: "_{Student of Perfection}"
         num-feats: 3
+
+  - set: warefare-lore-proficiency
+    value: trained
+
+  - at: '@lore-skills'
+    add:
+      - skill: warfare-lore
+        name: "_{Warfare Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+
+  - at: '@pages'
+    add:
+      - page: archetype-student-of-perfection
+        name: "Student of Perfection (Archetype)"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - class-icon: student-of-perfection
+                  - class-name: "_{Student of Perfection}"
+                  
+                  - section: "_{Dedication}"
+                    contents:
+
+                      - p: "_{You have studied martial arts at Jalmeray's Houses of Perfection.}"
+                        size: large
+
+                      - p: "_{Trained in Acrobatics or Athletics, and Warfare Lore}"
+                        icon: proficiency-trained
+
+                      - p: "_{}"
+
+                  - section: "_{Perfect Strike}"
+                    contents:
+                      - selectable: student-of-perfection/perfect-strike
+                        contents:
+                          - article: student-of-perfection/perfect-strike
+                            title: "_{Perfect Strike}"
+                            cat: "_{Feat} 4"
+                            contents:
+                              - p: "_{Gain the [i]perfect strike[/i] ki spell.}"
+
+                  - section: "_{Perfect Ki Adept}"
+                    contents:
+                      - selectable: student-of-perfection/perfect-ki-adept
+                        contents:
+                          - article: studet-of-perfection/perfect-ki-adept
+                            title: "_{Perfect Ki Adept}"
+                            cat: "_{Feat} 6"
+                            contents:
+                              - table:
+                                columns:
+                                  - "_{School}"
+                                  - "_{Ki spell}"
+                                rows:
+                                  - school: "_{Unblinking Flame}"
+                                    ki-spell: "_{Unblinking flame revelation}"
+                                template:
+                                  - p: "#{school}"
+                                  - p: "#{ki-spell}"
+
+              - g:
+                contents:
+                  - section: "_{Spells}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - unit: focus/student-of-perfection/ki-strike
+                          - unit: focus/student-of-perfection/perfect-strike
+                          - unit: focus/student-of-perfection/unblinking-flame-revelation
+                          - unit: focus/student-of-perfection/unbreaking-wave-advance
+                          - unit: focus/student-of-perfection/unfolding-wind-rush
+                          - unit: focus/student-of-perfection/untwisting-iron-buffer
