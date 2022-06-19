@@ -470,6 +470,7 @@ export class Document {
 
   getCalculations(registry) {
     let fields = [];
+    let calcFields = {};
     let dependencies = {};
     let formats = {};
 
@@ -480,6 +481,20 @@ export class Document {
         dependencies[ref] = [];
       }
       dependencies[ref].push(id);
+    }
+
+    function pushCalculation(id, eq, forgiving = false) {
+      if (has(calcFields, id)) {
+        if (!forgiving && calcFields[id] != eq) {
+          error("Document", `Duplicate calculation ${id.yellow}:`, calcFields[id], eq);
+        }
+      } else {
+        calcFields[id] = eq;
+        fields.push({
+          id: id,
+          eq: eq
+        });
+      }
     }
 
     function findCalculationFields(element) {
@@ -534,17 +549,11 @@ export class Document {
                 let affix = element.units == 'metric' ? '--m' : '--ft';
                 // log("Document", "Speed eq", element.eq);
                 let eq = element.eq.replace(/%\{(.*speed)\}/g, "%{$1"+affix+"}");
-                fields.push({
-                  id: subid,
-                  eq: transformCalculation(subid, eq)
-                });
+                pushCalculation(subid, transformCalculation(subid, eq));
                 break;
 
               default:
-                fields.push({
-                  id: element.id,
-                  eq: transformCalculation(element.id, element.eq)
-                });
+                pushCalculation(element.id, transformCalculation(element.id, element.eq));
                 break;
             }
           }
@@ -558,10 +567,7 @@ export class Document {
             if (has(part, "eq") && has(part, "subid")) {
               let partid = (part.subid == "") ? element.id : element.id+'-'+part.subid;
               // log("Document", "Sub-field calculation", partid, part.eq);
-              fields.push({
-                id: partid,
-                eq: transformCalculation(partid, part.eq)
-              });
+              pushCalculation(partid, transformCalculation(partid, part.eq));
               if (has(part, "format")) {
                 formats[partid] = part.format;
               }
@@ -571,16 +577,12 @@ export class Document {
         switch (element.control) {
           case 'speed':
             if (doc.measurementUnits == "metric") {
-              fields.push({
-                id: element.id+'--sq',
-                eq: transformCalculation(element.id+'--sq', `floor(%{${element.id}--m}/1.5)`)
-              });
+              pushCalculation(`${element.id}--sq`,
+                transformCalculation(element.id+'--sq', `floor(%{${element.id}--m}/1.5)`), true);
               formats[element.id+'--m'] = 'decimal';
             } else {
-              fields.push({
-                id: element.id+'--sq',
-                eq: transformCalculation(element.id+'--sq', `floor(%{${element.id}--ft}/5)`)
-              });
+              pushCalculation(`${element.id}--sq`,
+                transformCalculation(element.id+'--sq', `floor(%{${element.id}--ft}/5)`), true);
             }
             break;
         }
