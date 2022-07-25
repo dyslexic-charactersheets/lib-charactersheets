@@ -30,7 +30,7 @@ export class LoadQueue {
   }
 
   loadEmbed(filename) {
-    if (filename.match(/\.(png|jpg|jpeg)$/)) {
+    if (filename.match(/\.(png|jpg|jpeg|webp)$/)) {
       filename = filename + ".base64";
     }
     return this.loadFile(filename);
