@@ -309,12 +309,14 @@ export function getRubyHeight(args) {
 
     case 'calc': {
       let height = getRubyHeight(args.output);
-      args.inputs.forEach((field) => {
-        const h = getRubyHeight(field);
-        if (h > height) {
-          height = h;
-        }
-      });
+      if (isArray(args.inputs)) {
+        args.inputs.forEach((field) => {
+          const h = getRubyHeight(field);
+          if (h > height) {
+            height = h;
+          }
+        });
+      }
       return height;
     }
 

@@ -1,4 +1,4 @@
-import { isString, isEmpty, isObject } from '../util';
+import { isString, isEmpty, isObject, isArray } from '../util';
 import { elementClass, getLabelHeight, getRubyHeight } from '../util/elements';
 
 export let calc = {
@@ -44,6 +44,10 @@ export let calc = {
       }
       return part;
     })
+
+    if (!isArray(args.inputs) || args.inputs.length == 0) {
+      warn("calc", "No inputs");
+    }
 
     const inputParts = args.inputs.map(part => {
       if (isString(part)) {

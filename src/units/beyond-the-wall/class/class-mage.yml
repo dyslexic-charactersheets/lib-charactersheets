@@ -1,0 +1,192 @@
+unit: class/mage
+in: class
+name: "_{Mage}"
+group: "_{Beyond The Wall}"
+
+require:
+  - unit: option/spellbook
+  
+inc:
+
+  - set: hit-die
+    value: "6"
+
+  - at: '@armour-details'
+    replace:
+      - p: "_{May wear any armor.}"
+
+  - at: '@hit-die'
+    replace:
+      - value: "_{d6}"
+        label: "_{Hit die}"
+        frame: above
+        width: medium
+        icon: d6
+
+  - copy: spell-list
+    params:
+      type:
+      count: 4
+    contents:
+      - list:
+        hr: true
+        light: true
+        zebra: true
+        contents:
+          - repeat: "#{count}"
+            contents:
+              - field: "class/mage:#{type}/#{i}"
+                width: stretch
+                frame: none
+                merge-bottom: true
+
+
+  - at: '@pages'
+    add:
+      - page: mage
+        name: "_{Mage}"
+        order: 6
+        flex: true
+        half: true
+        contents:
+        
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - class-icon: wizard
+                    optional: true
+                  - class-name: "_{Mage}"
+
+                  - section: "_{Sense Magic}"
+                    contents:
+                      - p: "_{Concentrate for a few minutes to determine if a person, place or thing is magical.}"
+
+                  - section: "_{Cantrips}"
+                    contents:
+                      - p: "_{Intelligence or Wisdom check}"
+                        icon: d20
+                      - p: "_{On failing, either:}"
+                      - ul:
+                        contents:
+                          - li:
+                            contents:
+                              - p: "_{Cannot cast spells until you rest}"
+                          - li:
+                            contents:
+                              - p: "_{The magic goes out of control}"
+
+                      - hr:
+                      - paste: spell-list
+                        params:
+                          count: 6
+                          type: cantrip
+
+                  # - tail:
+                  # - spacer:
+                    
+              - g:
+                contents:
+                  - section: "_{Spells}"
+                    contents:
+                      - row:
+                        contents:
+                          - calc:
+                            output:
+                              field: class/mage:spells-per-day
+                              legend: "_{Spells per day}"
+                              border: full
+                              width: large
+                              eq: "%{level}"
+                            inputs:
+                              - field:
+                                ref: level
+                                label: "_{Level}"
+
+                          - spacer:
+                          - field: class/mage:spells-today
+                            control: checkgrid
+                            max: 10
+
+                      - p: "_{Learning a new spell takes a week of study and an Intelligence check}"
+
+                      - hr:
+                      - paste: spell-list
+                        params:
+                          count: 6
+                          type: spell
+
+                  - section: "_{Rituals}"
+                    contents:
+                      - calc:
+                        inline: true
+                        output:
+                          label: "_{Casting\ntime}"
+                          suffix: "_{hrs}"
+                        inputs:
+                          - label: "_{Spell\nlevel}"
+
+                      - p: "_{Wisdom check}"
+                        icon: d20
+                      - p: "_{On failing, the ritual effect has a twist.}"
+                          
+                      - hr:
+                      - paste: spell-list
+                        params:
+                          type: ritual
+
+                  # - tail:
+                  # - spacer:
+
+
+          - section: "_{Advancement}"
+            contents:
+              - advancement: warrior
+                end: 10
+                fields:
+                  - name: "_{Hit Points}"
+                    key: hp
+                    format: string
+                  - name: "_{Base Attack Bonus}"
+                    key: bab
+                    format: string
+                  - name: "_{Poison Save}"
+                    key: poison-save
+                    format: string
+                  - name: "_{Breath Weapon Save}"
+                    key: breath-weapon-save
+                    format: string
+                  - name: "_{Polymorph Save}"
+                    key: polymorph-save
+                    format: string
+                  - name: "_{Spell Save}"
+                    key: spell-save
+                    format: string
+                  - name: "_{Magic Item Save}"
+                    key: magic-item-save
+                    format: string
+                advances:
+                  - level: 1
+                    gain: "_{Weapons Specialisation}"
+                  - levels: [ 1, 3, 6, 9 ]
+                    gain: "_{Knack}"
+
+                  - levels: [ 1, 2 ]
+                    hp: [ "10", "_{d10}" ]
+
+                  - levels: [ 1, 2, 4, 6, 8, 10 ]
+                    bab: [ "+0", "+1", "+2", "+3", "+4", "+5" ]
+                  - levels: [ 1, 6 ]
+                    poison-save: [ "14", "13" ]
+                  - levels: [ 1, 6 ]
+                    breath-weapon-save: [ "15", "13" ]
+                  - levels: [ 1, 6 ]
+                    polymorph-save: [ "13", "11" ]
+                  - levels: [ 1, 6 ]
+                    spell-save: [ "12", "10" ]
+                  - levels: [ 1, 6 ]
+                    magic-item-save: [ "11", "9" ]
+                    
+
+          - tail:
+          - spacer:

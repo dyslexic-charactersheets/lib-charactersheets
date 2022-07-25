@@ -27,7 +27,7 @@ export let advancement = {
 
     // collect items by level
     let itemsByLevel = {};
-    for (let lv = 1; lv <= 20; lv++) {
+    for (let lv = 1; lv <= args.end; lv++) {
       itemsByLevel[lv] = [];
     }
 
@@ -75,7 +75,7 @@ export let advancement = {
     let has_icons = false;
     let has_labels = false;
     let rows = [];
-    for (let lv = 1; lv <= 20; lv++) {
+    for (let lv = 1; lv <= args.end; lv++) {
       let flags = {};
       let advances = [];
       let gains = [];

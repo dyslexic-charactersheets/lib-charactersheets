@@ -1,0 +1,167 @@
+unit: class/warrior
+in: class
+name: "_{Warrior}"
+group: "_{Beyond The Wall}"
+
+inc:
+
+  - set: hit-die
+    value: "10"
+
+  - at: '@armour-details'
+    replace:
+      - p: "_{May wear any armor.}"
+
+  - at: '@hit-die'
+    replace:
+      - value: "_{d10}"
+        label: "_{Hit die}"
+        frame: above
+        width: medium
+        icon: d10
+
+  - at: '@pages'
+    add:
+      - page: warrior
+        name: "_{Warrior}"
+        order: 6
+        flex: true
+        half: true
+        contents:
+        
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - class-icon: fighter
+                    optional: true
+                  - class-name: "_{Warrior}"
+
+                  - section: "_{Weapon Specialisation}"
+                    contents:
+                      - h5: "_{Weapons}"
+                      - repeat: 3
+                        contents:
+                          - row:
+                            contents:
+                              - h5: "#{i}"
+                              - field: "class/warrior:weapon-specialisation/weapon/#{i}"
+                                width: stretch
+                                align: left
+                      - g:
+                        pad: true
+                        contents:
+                          - row:
+                            contents:
+                              - value: "+1"
+                                border: full
+                                width: huge
+                                label: "_{Attack}"
+                                frame: top
+                              - spacer:
+                              - value: "+2"
+                                border: full
+                                width: huge
+                                label: "_{Damage}"
+                                frame: top
+                  - tail:
+                  - spacer:
+                    
+              - g:
+                contents:
+                  - section: "_{Knacks}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - selectable: "class/warrior:knack/defensive-fighter"
+                            contents:
+                              - article:
+                                title: "_{Defensive Fighter}"
+                                contents:
+                                  - value-block: "+1"
+                                    content: "_{Armour Class}"
+
+                          - selectable: "class/warrior:knack/fleet"
+                            contents:
+                              - article:
+                                title: "_{Fleet}"
+                                contents:
+                                  - value-block: "+1"
+                                    content: "_{Initiative}"
+
+                          - selectable: "class/warrior:knack/great-strike"
+                            contents:
+                              - article:
+                                title: "_{Great Strike}"
+                                contents:
+                                  - value-block: "+1"
+                                    content: "_{Damage with all weapons}"
+
+                          - selectable: "class/warrior:knack/resilience"
+                            contents:
+                              - article:
+                                title: "_{Resilience}"
+                                contents:
+                                  - value-block: "+1"
+                                    content: "_{All saving throws}"
+
+                          - selectable: "class/warrior:knack/weapon-specialist"
+                            contents:
+                              - article:
+                                title: "_{Weapon Specialist}"
+                                contents:
+                                  - p: "_{Weapon Specialisation with another weapon}"
+
+          - section: "_{Advancement}"
+            contents:
+              - advancement: warrior
+                end: 10
+                fields:
+                  - name: "_{Hit Points}"
+                    key: hp
+                    format: string
+                  - name: "_{Base Attack Bonus}"
+                    key: bab
+                    format: string
+                  - name: "_{Poison Save}"
+                    key: poison-save
+                    format: string
+                  - name: "_{Breath Weapon Save}"
+                    key: breath-weapon-save
+                    format: string
+                  - name: "_{Polymorph Save}"
+                    key: polymorph-save
+                    format: string
+                  - name: "_{Spell Save}"
+                    key: spell-save
+                    format: string
+                  - name: "_{Magic Item Save}"
+                    key: magic-item-save
+                    format: string
+                advances:
+                  - level: 1
+                    gain: "_{Weapons Specialisation}"
+                  - levels: [ 1, 3, 6, 9 ]
+                    gain: "_{Knack}"
+
+                  - levels: [ 1, 2 ]
+                    hp: [ "10", "_{d10}" ]
+
+                  - levels: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+                    bab: [ "+1", "+2", "+3", "+4", "+5", "+6", "+7", "+8", "+9", "+10" ]
+                  - levels: [ 1, 3, 5, 7, 9 ]
+                    poison-save: [ "14", "13", "11", "10", "8" ]
+                  - levels: [ 1, 3, 5, 7, 9 ]
+                    breath-weapon-save: [ "17", "16", "14", "13", "11" ]
+                  - levels: [ 1, 3, 5, 7, 9 ]
+                    polymorph-save: [ "15", "14", "12", "11", "9" ]
+                  - levels: [ 1, 3, 5, 7, 9 ]
+                    spell-save: [ "17", "14", "12", "11", "9" ]
+                  - levels: [ 1, 3, 5, 7, 9 ]
+                    magic-item-save: [ "16", "15", "13", "12", "10" ]
+                    
+
+          - tail:
+          - spacer:

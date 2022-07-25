@@ -300,6 +300,28 @@ function parseCharacter(primary, request) {
       }
 
       break;
+
+    default:
+      if (attr.class) {
+        let className = attr.class.replace(/^class[\/-]/, '');
+        let classShortName = className.replace(/^.*\//, '');
+        char.units.push('class/' + className);
+        char.classes.push(className);
+        let classPrefix = toCamelCase('class ' + classShortName);
+        // log("Character", "Class name", className, ", prefix", classPrefix);
+
+        getUnitOptions('class/' + className);
+
+        let classFeatsKey = classPrefix + 'Feats';
+        if (attr[classFeatsKey]) {
+          char.classFeats = parseFeats(attr[classFeatsKey]);
+          char.classFeats.forEach(feat => {
+            // log("Character", "Class feat:", feat);
+            char.units.push('feat/' + className + '/' + feat);
+          });
+        }
+      }
+      break;
   }
 
   // included assets

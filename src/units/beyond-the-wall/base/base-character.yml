@@ -1,0 +1,533 @@
+unit: base/character
+name: "_{Character}"
+group: "_{Beyond The Wall}"
+
+form:
+  - select: class
+    name: "_{Class}"
+    max: 1
+
+inc:
+
+  - copy: weapon
+    params:
+      i: ''
+      abilityref: true
+      ability: "_{STR/DEX}"
+      abilityunderlay: ""
+    contents:
+      - field: "weapon-#{i}"
+        width: stretch
+        size: large
+      - row:
+        contents:
+          - calc:
+            output:
+              field: weapon-#{i}-attack-bonus
+              legend: "_{Attack Bonus}"
+              icon: bonus
+              border: full
+              width: large
+              eq: "%{bab}+%{weapon-#{i}-ability}+%{weapon-#{i}-specialisation}+%{weapon-#{i}-attack-misc}"
+            inputs:
+              - field:
+                ref: bab
+                label: "_{Base Attack Bonus}"
+                underlay: "_{BAB}"
+              - span: "+"
+              - field: weapon-#{i}-ability
+                ref: "#{abilityref}"
+                label: "#{ability}"
+                underlay: "#{abilityunderlay}"
+              - span: "+"
+              - field: weapon-#{i}-specialisation
+                label: "_{Weapon\nSpecialisation}"
+              - span: "+"
+              - field: weapon-#{i}-attack-misc
+                misc: true
+                label: "_{Misc}"
+                
+          - spacer:
+
+          - field: weapon-#{i}-damage
+            border: full
+            label: "_{Damage}"
+            width: huge
+            icon: damage
+            control: compound
+            parts:
+              # - subid: ndice
+              #   width: tiny
+              #   align: right
+              #   format: int
+              - label: "_{d}"
+              - subid: die
+                width: tiny
+                align: left
+                damage-die: true
+                format: int
+              - label: "+"
+              - subid: extra
+                width: tiny
+                format: int
+
+          - spacer:
+
+
+  - copy: ammo
+    params:
+      i: ''
+    contents:
+      - field: "ammo-#{i}"
+        label: "_{Ammo}"
+        unlined: true
+        width: small
+        size: huge
+        underlay: "#"
+        merge-bottom: true
+        format: int
+      - field: ammo-#{i}-count
+        frame: none
+        control: checkgrid
+        max: 30
+        depth: 3
+
+
+
+  - at: '@pages'
+    add:
+
+      - page: character
+        name: "_{Character}"
+        order: 5
+        flex: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - logo:
+                    size: large
+
+                  - section:
+                    untitled: true
+                    contents:
+                      - row:
+                        contents:
+                          - field: player-name
+                            label: "_{Player}"
+                            width: stretch
+                            align: left
+                          - zone: '@fortune-points'
+                            contents:
+                              - field: fortune-points
+                                label: "_{Fortune Points}"
+                                border: circle
+                                size: huge
+                                format: int
+                                suffix: "3"
+
+                      - row:
+                        contents:
+                          - field: campaign-name
+                            label: "_{Campaign}"
+                            width: stretch
+                            align: left
+                          - field: xp
+                            label: "_{XP}"
+                            underlay: "_{XP}"
+                            width: large
+                            border: full
+                            format: int
+                  - hr:
+                    swash: true
+
+                  - portrait: personal
+                    copyright: false
+
+                  - section:
+                    id: ident
+                    untitled: true
+                    contents:
+                      - field: character-name
+                        legend: "_{Character Name}"
+                        size: huge
+                        width: stretch
+                        align: left
+                        value: "#{character-name}"
+
+                      - row:
+                        contents:
+                          # - field: playbook
+                          #   label: "_{Playbook}"
+                          #   width: stretch
+                          #   align: left
+                          - field: class
+                            label: "_{Class}"
+                            width: stretch
+                            size: large
+                            align: left
+                          - field: level
+                            legend: "_{Level}"
+                            border: circle
+                            # frame: left
+                            format: int
+                            size: huge
+
+                      - row:
+                        contents:
+                          - field: gender
+                            label: "_{Gender}"
+                            icon: gender
+                            width: large
+                          - spacer:
+                          - field: age
+                            label: "_{Age}"
+                            width: large
+                          - spacer:
+
+                          - icon: lawful
+                          - span: " "
+                          - field: alignment
+                            control: checkgrid
+                            max: 3
+                            depth: 1
+                            label: "_{Alignment}"
+                            border: none
+                          - icon: chaotic
+
+                      - field: languages
+                        label: "_{Languages}"
+                        width: stretch
+                        merge-bottom: true
+
+                  - section: "_{Abilities}"
+                    contents:
+                      - layout: 6e
+                        gutter: none
+                        contents:
+                          - repeat: 6
+                            rows:
+                              - name: "_{Strength}"
+                                short: "_{STR}"
+                                code: STR
+                              - name: "_{Dexterity}"
+                                short: "_{DEX}"
+                                code: DEX
+                              - name: "_{Constitution}"
+                                short: "_{CON}"
+                                code: CON
+                              - name: "_{Intelligence}"
+                                short: "_{INT}"
+                                code: INT
+                              - name: "_{Wisdom}"
+                                short: "_{WIS}"
+                                code: WIS
+                              - name: "_{Charisma}"
+                                short: "_{CHA}"
+                                code: CHA
+                            contents:
+                              - g:
+                                valign: top
+                                contents:
+                                  - field: "#{code}"
+                                    label: "#{name}"
+                                    control: ability
+                                    width: ""
+                                    parts:
+                                      - subid: ""
+                                        size: huge
+                                        eq: "threshold(%{#{code}-score},[1,-4,2,-3,4,-2,6,-1,9,0,13,1,16,2,18,3])"
+                                        underlay: "#{short}"
+                                        format: modifier
+                                      - subid: "score"
+                                        format: int
+
+                      - p:
+                        title: "_{Ability Check}"
+                        content: "_{Roll under ability score}"
+                        icon: bonus
+
+                      - hr:
+                        
+                      - row:
+                        contents:
+                          - calc:
+                            output:
+                              field: initiative
+                              legend: "_{Initiative}"
+                              width: large
+                              border: full
+                              eq: "%{level}+%{DEX}+%{initiative-class}"
+                            inputs:
+                              - field:
+                                ref: level
+                                label: "_{Level}"
+                              - span: "+"
+                              - field:
+                                ref: DEX
+                                label: "_{DEX}"
+                                underlay: "_{DEX}"
+                              - span: "+"
+                              - field: initiative-class
+                                label: "_{Class}"
+                      - p: "_{Initiative order is fixed}"
+
+                  - section: "_{Saving Throws}"
+                    contents:
+                      - row:
+                        contents:
+                          - spacer:
+                          - repeat: 5
+                            rows:
+                              - name: "_{Poison}"
+                                code: poison
+                              - name: "_{Breath Weapon}"
+                                code: breath-weapon
+                              - name: "_{Polymorph}"
+                                code: polymorph
+                              - name: "_{Spell}"
+                                code: spell
+                              - name: "_{Magic Item}"
+                                code: magic-item
+                            contents:
+                              - field: "#{code}"
+                                label: "#{name}"
+                                border: circle
+                              - spacer:
+
+                      - p:
+                        title: "_{Saving Throw}"
+                        content: "_{Roll over}"
+                        icon: bonus
+
+                  - tail:
+
+
+              - g:
+                contents:
+                  - section: "_{Weapons}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - g:
+                            contents:
+                              - g:
+                                blk: true
+                                pad: true
+                                contents:
+                                  - field: bab
+                                    legend: "_{Base Attack Bonus}"
+                                    width: large
+                                    border: full
+                                    prefix: "+"
+                                    frame: right
+                                    underlay: "_{BAB}"
+                          - repeat: 3
+                            contents:
+                              - g:
+                                contents:
+                                  - paste: weapon
+                                    params:
+                                      i: "#{i}"
+                          - g:
+                            contents:
+                              - paste: weapon
+                                params:
+                                  i: "4"
+                                  abilityref: DEX
+                                  ability: "_{DEX}"
+                                  abilityunderlay: "_{DEX}"
+                              - row:
+                                contents:
+                                  - paste: ammo
+                                    params:
+                                      i: "4"
+                                  - vr:
+                                  - field: weapon-#{i}
+                                    width: stretch
+                  
+                  - section: "_{Skills}"
+                    contents:
+                      - table: skills
+                        collapse: true
+                        zebra: true
+                        field_frame: none
+                        width: stretch
+                        merge-bottom: true
+                        columns:
+                          - label: "_{Skill}"
+                            align: left
+                          - label: "_{Skill\nBonus}"
+                            width: medium
+                          -
+                          - label: "_{Ability\nModifier}"
+                            width: medium
+                          - 
+                          - label: "_{Skill\nRanks}"
+                            width: medium
+                          - 
+                          - label: "_{Misc}"
+                            width: medium
+                        rows:
+                          - repeat: 9
+                            contents:
+                              - skill: "#{i}"
+                        template:
+                          - field: "skill-#{skill}"
+                            width: stretch
+                            frame: none
+                            # control: enum
+                            # options:
+                            #   - "_{Alertness}"
+                            #   - "_{Ancient History}"
+                            #   - "_{Animal Lore}"
+                            #   - "_{Athletics}"
+                            #   - "_{Begging}"
+                            #   - "_{Brewing}"
+                            #   - "_{Command}"
+                            #   - "_{Cooking}"
+                            #   - "_{Deceit}"
+                            #   - "_{Drinking}"
+                            #   - "_{Etiquette}"
+                            #   - "_{Farming}"
+                            #   - "_{Fishing}"
+                            #   - "_{Forbidden Knowledge}"
+                            #   - "_{Forgotten Lore}"
+                            #   - "_{Folklore}"
+                            #   - "_{Haggling}"
+                            #   - "_{Healing}"
+                            #   - "_{Herbalism}"
+                            #   - "_{Hunting}"
+                            #   - "_{Intimidate}"
+                            #   - "_{Lockpicking}"
+                            #   - "_{Military History}"
+                            #   - "_{Oratory}"
+                            #   - "_{Pickpocketing}"
+                            #   - "_{Politics}"
+                            #   - "_{Riding}"
+                            #   - "_{Singing}"
+                            #   - "_{Smithing}"
+                            #   - "_{Stealth}"
+                            #   - "_{Survival}"
+                            #   - "_{Tanning}"
+                            #   - "_{Tracking}"
+                            #   - "_{Trapping}"
+                            #   - "_{Weaving}"
+                          - field: "skill-#{skill}-bonus"
+                            border: full
+                            icon: bonus
+                            width: medium
+                            eq: '%{#{skill}-ability}+%{#{skill}-misc}'
+                            format: modifier
+                          - span: "="
+                          - field: 'skill-#{skill}-ability'
+                            ref: true
+                            width: medium
+                          - span: "+"
+                          - field: 'skill-#{skill}-ranks'
+                            frame: none
+                            width: medium
+                          - span: "+"
+                          - field: 'skill-#{skill}-misc'
+                            frame: none
+                            width: medium
+
+                  - section: "_{Defence}"
+                    contents:
+                      - row:
+                        contents:
+                          - calc:
+                            output:
+                              field: ac
+                              legend: "_{Armour Class}"
+                              width: large
+                              border: full
+                              icon: armour
+                              eq: "10+%{DEX}+%{armour-bonus}+%{ac-misc}"
+                            inputs:
+                              - span: "10 +"
+                              - field:
+                                ref: DEX
+                                label: "_{DEX}"
+                                underlay: "_{DEX}"
+                              - span: "+"
+                              - field: armour-bonus
+                                label: "_{Armour Bonus}"
+                              - span: "+"
+                              - field: ac-misc
+                                misc: true
+                                label: "_{Misc}"
+
+                          - spacer:
+                          - span: "+"
+                          - field: ac-shield
+                            label: "_{Shield}"
+                            icon: shield
+                            border: full
+                            width: large
+
+                          - spacer:
+
+                      - zone: '@armour-details'
+                        contents:
+                          - field: armour-details
+                            width: stretch
+                            frame: none
+
+                      - row:
+                        contents:
+                          - zone: '@hit-die'
+                            contents:
+                              - field: hit-die
+                                label: "_{Hit die}"
+                                prefix: "_{d}"
+                                icon: damage
+                                border: full
+                                width: medium
+                          - vr:
+
+                          - field: hp
+                            legend: "_{Hit Points}"
+                            suffix: "_{hp}"
+                            width: large
+                            border: full
+                            icon: hp
+                          - field: hp-current
+                            border: full
+                            temp: true
+                            width: stretch
+                            label: "_{Current Hit Points}"
+                            icon: hp-o
+
+                          - vr:
+                          - icon: evil
+                          - value-block: "-10"
+                            content: "_{hp to die}"
+
+                  - section: "_{Inventory}"
+                    contents:
+                      - list:
+                        zebra: true
+                        columns: 2
+                        merge-bottom: true
+                        contents:
+                          - repeat: 14
+                            contents:
+                              - field: inventory-#{i}
+                                width: stretch
+                      - hr:
+                      - row:
+                        contents:
+                          - field: money
+                            control: money
+                            decimal: 2
+                            digits: 8
+                            frame: right
+                            legend: "_{Money}"
+                            border: full
+
+                  - tail:
+

@@ -1,0 +1,110 @@
+unit: class/rogue
+in: class
+name: "_{Rogue}"
+group: "_{Beyond The Wall}"
+
+inc:
+
+  - set: hit-die
+    value: "8"
+
+  - at: '@fortune-points'
+    contents:
+      - field: fortune-points
+        label: "_{Fortune Points}"
+        border: circle
+        size: huge
+        format: int
+        suffix: "5"
+
+  - at: '@armour-details'
+    replace:
+      - p: "_{May wear any armor lighter than plate.}"
+
+  - at: '@hit-die'
+    replace:
+      - value: "_{d8}"
+        label: "_{Hit die}"
+        frame: above
+        width: medium
+        icon: d8
+
+  - at: '@pages'
+    add:
+      - page: rogue
+        name: "_{Rogue}"
+        order: 6
+        flex: true
+        half: true
+        contents:
+        
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - class-icon: rogue
+                    optional: true
+                  - class-name: "_{Rogue}"
+
+                  - section: "_{Fortune's Favour}"
+                    contents:
+                      - p: "_{Gain 5 fortune points instead of 3.}"
+
+                  - section: "_{Highly Skilled}"
+                    contents:
+                      - p: "_{Two additional skills at first level. Gain an additional skill every odd numbered level}"
+
+                  - tail:
+                  - spacer:
+                
+              - g:
+                contents:
+
+                  # - section: "_{}"
+                  #   contents:
+
+          - section: "_{Advancement}"
+            contents:
+              - advancement: rogue
+                end: 10
+                fields:
+                  - name: "_{Base Attack Bonus}"
+                    key: bab
+                    format: string
+                  - name: "_{Poison Save}"
+                    key: poison-save
+                    format: string
+                  - name: "_{Breath Weapon Save}"
+                    key: breath-weapon-save
+                    format: string
+                  - name: "_{Polymorph Save}"
+                    key: polymorph-save
+                    format: string
+                  - name: "_{Spell Save}"
+                    key: spell-save
+                    format: string
+                  - name: "_{Magic Item Save}"
+                    key: magic-item-save
+                    format: string
+                advances:
+                  - level: 1
+                    gain: "_{Fortune's Favour}"
+                  - level: 1
+                    gain: "_{+2 to two skills}"
+                  - levels: [ 3, 5, 7, 9 ]
+                    gain: "_{+2 to one skill}"
+                  - levels: [ 1, 2, 4, 5, 7, 8, 10 ]
+                    bab: [ "+0", "+1", "+2", "+3", "+4", "+5", "+6" ]
+                  - levels: [ 1, 5, 9 ]
+                    poison-save: [ "13", "12", "11" ]
+                  - levels: [ 1, 5, 9 ]
+                    breath-weapon-save: [ "16", "15", "14" ]
+                  - levels: [ 1, 5, 9 ]
+                    polymorph-save: [ "12", "11", "9" ]
+                  - levels: [ 1, 5, 9 ]
+                    spell-save: [ "15", "13", "11" ]
+                  - levels: [ 1, 5, 9 ]
+                    magic-item-save: [ "14", "12", "10" ]
+
+          - tail:
+          - spacer:
