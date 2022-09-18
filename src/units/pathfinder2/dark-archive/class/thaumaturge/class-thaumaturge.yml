@@ -1,0 +1,386 @@
+unit: class/dark-archive/thaumaturge
+in: class
+group: "_{Dark Archive}"
+name: "_{Thaumaturge}"
+
+form:
+  - select: thaumaturge/implement
+    name: "_{Implement}"
+    max: 3
+
+require:
+  - unit: weapon-spec/fast
+  - with: option/reference
+    unit: class/dark-archive/thaumaturge/reference
+
+inc:
+  - copy: 'thaumaturge/implement'
+    params:
+      num:
+      level: false
+
+    contents:
+      - list:
+        hr: true
+        light: true
+        zebra: true
+        contents:
+          - if: "#{level}"
+            then:
+              - level: "#{level}"
+                contents:
+                  - zone: '@class/dark-archive/thaumaturge:implement/#{num}'
+                    contents:
+                      - field: class/dark-archive/thaumaturge:implement/#{num}
+                        merge-bottom: true
+                        width: stretch
+                        size: large
+            else:
+              - zone: '@class/dark-archive/thaumaturge:implement/#{num}'
+                contents:
+                  - field: class/dark-archive/thaumaturge:implement/#{num}
+                    merge-bottom: true
+                    width: stretch
+                    size: large
+          
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - indent:
+                    contents:
+                      - h5: "_{Initiate Benefit}"
+                  - zone: '@class/dark-archive/thaumaturge:implement/#{num}/initiate-benefit'
+                    contents:
+                      - action: template
+                        contents:
+                          - field: "class/dark-archive/thaumaturge:implement/#{num}/initiate-benefit-detail"
+                            repeat: 4
+                            reduce: 1
+                            width: stretch
+                            merge-bottom: true
+
+              - selectable: class/dark-archive/thaumaturge:implement/#{num}/adept-benefit"
+                contents:
+                  - h5: "_{Adept Benefit}"
+                  - zone: '@class/dark-archive/thaumaturge:implement/#{num}/adept-benefit'
+                    contents:
+                      - field: "class/dark-archive/thaumaturge:implement/#{num}/adept-benefit-detail"
+                        repeat: 4
+                        reduce: 1
+                        width: stretch
+                        merge-bottom: true
+
+          - layout: 2e
+            contents:
+              - level: 9
+                contents:
+                  - h5: "_{Intensify Vulnerability}"
+                  - action:
+                    contents:
+                      - zone: '@class/dark-archive/thaumaturge:implement/#{num}/intensify-vulnerability'
+                        contents:
+                          - field: "class/dark-archive/thaumaturge:implement/#{num}/intensify-vulnerability-detail"
+                            repeat: 4
+                            reduce: 1
+                            width: stretch
+                            merge-bottom: true
+
+              - selectable: class/dark-archive/thaumaturge:implement/#{num}/paragon-benefit"
+                contents:
+                  - h5: "_{Initiate Benefit}"
+                  - zone: '@class/dark-archive/thaumaturge:implement/#{num}/paragon-benefit'
+                    contents:
+                      - field: "class/dark-archive/thaumaturge:implement/#{num}/paragon-benefit-detail"
+                        repeat: 4
+                        reduce: 1
+                        width: stretch
+                        merge-bottom: true
+
+  - paste: prototype-class
+    params:
+      class: thaumaturge
+      class-name: "_{Thaumaturge}"
+      subclass: implement
+      subclass-name: "_{Implement}"
+      hp: 8
+
+      skill: arcana
+      skills: nature
+
+      perception: expert
+      unarmoured: trained
+      light-armour: trained
+      medium-armour: trained
+
+      fortitude: expert
+      reflex: trained
+      will: expert
+
+  - set: occultism-proficiency
+    value: trained
+  - set: religion-proficiency
+    value: trained
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        class-feat: true
+      - level: 1
+        gain: "_{First Implement}"
+      - level: 5
+        gain: "_{Second Implement}"
+      - level: 15
+        gain: "_{Third Implement}"
+        
+      - level: 1
+        advance: "_{Esoteric Lore}"
+        proficiency: trained
+      - level: 3
+        advance: "_{Esoteric Lore}"
+        proficiency: expert
+      - level: 7
+        advance: "_{Esoteric Lore}"
+        proficiency: master
+      - level: 15
+        advance: "_{Esoteric Lore}"
+        proficiency: legendary
+
+  - at: '@skills'
+    add:
+      - skill: esoteric-lore
+        name: "_{Esoteric Lore}"
+        ability: "_{CHA}"
+        abilityref: CHA
+
+  - at: '@pages'
+    add:
+      - page: thaumaturge
+        name: "_{Thaumaturge}"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: thaumaturge
+                    optional: true
+                  - class-name: "_{Thaumaturge}"
+                      
+                  - section: "_{Esoteric Lore}"
+                    flex: tiny
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - g:
+                            contents:
+                              - p: "_{Use Esoteric Lore to Recall Knowledge about haunts, curses and any creatures.}"
+                                icon: proficiency-trained
+
+                  - section: "_{Exploit Vulnerability}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - g:
+                            contents:
+                              - list:
+                                hr: true
+                                light: true
+                                contents:
+                                  - g:
+                                    contents:
+                                      - action:
+                                        contents:
+                                          - p: "_{Roll Esoteric Lore against a creature's DC}"
+
+                                      - paste: save
+                                        params:
+                                          critical_success: "_{Learn all their resistances, weakness and immunities. Exploit either.}"
+                                          success: "_{Learn their highest weakness. Exploit either.}"
+                                          failure: "_{Exploit their personal antithesis only. Strikes are magical.}"
+                                          critical_failure: "_{Flat-footed until your next turn.}"
+
+                                  - table:
+                                    optional: true
+                                    flip: true
+                                    columns:
+                                      - label: "_{Level}"
+                                        rotate: true
+                                      - label: "_{DC}"
+                                        rotate: true
+                                    rows:
+                                      - lvl: 0
+                                        dc: 14
+                                      - lvl: 1
+                                        dc: 15
+                                      - lvl: 2
+                                        dc: 16
+                                      - lvl: 3
+                                        dc: 18
+                                      - lvl: 4
+                                        dc: 19
+                                      - lvl: 5
+                                        dc: 20
+                                      - lvl: 6
+                                        dc: 22
+                                      - lvl: 7
+                                        dc: 23
+                                      - lvl: 8
+                                        dc: 24
+                                      - lvl: 9
+                                        dc: 26
+                                      - lvl: 10
+                                        dc: 27
+                                      - lvl: 11
+                                        dc: 28
+                                      - lvl: 12
+                                        dc: 30
+                                    template:
+                                      - span: "#{lvl}"
+                                      - span: "#{dc}"
+                                      
+                                  - table:
+                                    optional: true
+                                    flip: true
+                                    columns:
+                                      - label: "_{Level}"
+                                        rotate: true
+                                      - label: "_{DC}"
+                                        rotate: true
+                                    rows:
+                                      - lvl: 13
+                                        dc: 31
+                                      - lvl: 14
+                                        dc: 32
+                                      - lvl: 15
+                                        dc: 34
+                                      - lvl: 16
+                                        dc: 35
+                                      - lvl: 17
+                                        dc: 36
+                                      - lvl: 18
+                                        dc: 38
+                                      - lvl: 19
+                                        dc: 39
+                                      - lvl: 20
+                                        dc: 40
+                                      - lvl: 21
+                                        dc: 42
+                                      - lvl: 22
+                                        dc: 44
+                                      - lvl: 23
+                                        dc: 46
+                                      - lvl: 24
+                                        dc: 48
+                                      - lvl: 25
+                                        dc: 50
+                                    template:
+                                      - span: "#{lvl}"
+                                      - span: "#{dc}"
+
+                                  - g:
+                                    contents:
+                                      - p:
+                                        title: "_{Mortal Weakness}"
+                                        content: "_{Strikes activate target's highest weakness, regardless of damage type.}"
+                              
+                                  - g:
+                                    contents:
+                                      - p:
+                                        title: "_{Personal Antithesis}"
+                                        content: "_{Target gains weakness against your Strikes.}"
+                                      - calc:
+                                        output:
+                                          field: "##:exploit-vulnerability/personal-antithesis/weakness"
+                                          legend: "_{Weakness}"
+                                          width: large
+                                        inputs:
+                                          - span: "2 + ("
+                                          - field:
+                                            ref: level
+                                            label: "_{Level}"
+                                          - span: "&divide; 2 )"
+
+                          # - level: 9
+                          #   contents:
+                          #     - h5: "_{Intensify Vulnerability}"
+                          #     - action:
+                          #       contents:
+                          #         - p: "_{While benfiting from Exploit Vulnerability, gain the implement's benefit.}"
+
+                          - level: 19
+                            contents:
+                              - h5: "_{Ultimate Esoterica}"
+                              - action: free
+                                contents:
+                                  - p: "_{Once a round, Exploit Vulnerability or Intensify Vulnerability as a free action.}"
+
+                  - section: "_{Implements}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - indent:
+                            contents:
+
+                              - h5: "_{Implement's Empowerment}"
+                              - value-block: "+2"
+                                content: "_{Damage bonus when holding an implement}"
+
+                          - level: 7
+                            contents:
+                              - h5: "_{Implement Adept}"
+                              - p: "_{Gain the adept benefit of one implement.}"
+                          
+                          - level: 11
+                            contents:
+                              - h5: "_{Second Adept}"
+                              - p: "_{Gain the adept benefit of a second implement.}"
+
+                          - level: 17
+                            contents:
+                              - h5: "_{Implement Paragon}"
+                              - p: "_{Gain the paragon benefit of one implement.}"
+
+                  # - tail:
+                  # - spacer:
+
+              - g:
+                contents:
+                  - section: "_{First Implement}"
+                    primary: true
+                    contents:
+                      - paste: thaumaturge/implement
+                        params:
+                          num: 1
+                          
+                  - section: "_{Second Implement}"
+                    primary: true
+                    contents:
+                      - paste: thaumaturge/implement
+                        params:
+                          num: 2
+                          level: 5
+                          
+                  - section: "_{Third Implement}"
+                    primary: true
+                    contents:
+                      - paste: thaumaturge/implement
+                        params:
+                          num: 3
+                          level: 15
+
+          - paste: class-feats
+            params:
+              id: thaumaturge-feats
+              title: "_{Thaumaturge Feats}"
+              mark: thaumaturge
+              slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+              lines: 2
+              columns: 3
+
+          - tail:

@@ -32,13 +32,13 @@ inc:
                                     rows:
                                       - name: "_{Strength}"
                                         short: "_{STR}"
-                                        id: STR
+                                        id: wild-shape/STR
                                       - name: "_{Dexterity}"
                                         short: "_{DEX}"
-                                        id: DEX
+                                        id: wild-shape/DEX
                                       - name: "_{Constitution}"
                                         short: "_{CON}"
-                                        id: CON
+                                        id: wild-shape/CON
                                     contents:
                                       - g:
                                         valign: top
@@ -46,17 +46,17 @@ inc:
                                           - row: center
                                             contents:
                                               - spacer:
-                                              - field: "#{short}"
+                                              - field: "wild-shape/#{short}"
                                                 label: "#{name}"
                                                 border: circle
                                                 size: huge
                                                 underlay: "#{short}"
-                                                eq: "(%{#{short}-score}-10)/2"
+                                                eq: "(%{wild-shape/#{short}-score}-10)/2"
                                               - spacer:
                                           - row: center
                                             contents:
                                               - spacer:
-                                              - field: "#{short}-score"
+                                              - field: "wild-shape/#{short}-score"
                                                 # width: small
                                                 frame: none
                                               - spacer:
@@ -160,23 +160,23 @@ inc:
                             contents:
                               - calc:
                                 output:
-                                  field: wild-shape-hp
+                                  field: wild-shape/hp
                                   legend: "_{Hit Points}"
                                   icon: hp
                                   suffix: "_{hp}"
                                   width: large
-                                  eq: "%{wild-shape-hp-ancestry}+((%{CON}+%{wild-shape-hp-per-level})*%{level})"
+                                  eq: "%{wild-shape/hp-ancestry}+((%{wild-shape/CON}+%{wild-shape/hp-per-level})*%{level})"
                                 inputs:
-                                  - field: wild-shape-hp-ancestry
+                                  - field: wild-shape/hp-ancestry
                                     label: "_{Ancestry}"
                                     width: small
                                   - span: "+ ("
                                   - field:
-                                    ref: CON
+                                    ref: wild-shape/CON
                                     label: "_{CON}"
                                     underlay: "_{CON}"
                                   - span: "+"
-                                  - field: wild-shape-hp-per-level
+                                  - field: wild-shape/hp-per-level
                                     underlay: "6"
                                     width: tiny
                                   - span: ") &times;"
@@ -186,14 +186,14 @@ inc:
                                     width: small
                               - row:
                                 contents:
-                                  - field: wild-shape-current-hp
+                                  - field: wild-shape/current-hp
                                     label: "_{Current Hit Points}"
                                     border: full
                                     temp: true
                                     icon: hp
                                     suffix: hp
                                     width: stretch
-                                  - field: wild-shape-temp-hp
+                                  - field: wild-shape/temp-hp
                                     label: "_{Temp Hit Points}"
                                     border: full
                                     temp: true
@@ -210,11 +210,11 @@ inc:
                                   border: full
                                   width: large
                                   underlay: "_{AC}"
-                                  eq: "10+%{DEX}+%{wild-shape/ac-proficiency-bonus}+%{wild-shape/armour-bonus}"
+                                  eq: "10+%{wild-shape/DEX}+%{wild-shape/ac-proficiency-bonus}+%{wild-shape/armour-bonus}"
                                 inputs:
                                   - span: "10 +"
                                   - field:
-                                    ref: DEX
+                                    ref: wild-shape/DEX
                                     label: "_{DEX}"
                                     # frame: h-label
                                     underlay: "_{DEX}"
@@ -229,7 +229,7 @@ inc:
                                   # - field:
                                   #   misc: true
                                   #   label: "_{Misc}"
-                              - field: wild-shape-ac-conditional
+                              - field: wild-shape/ac-conditional
                                 label: "_{Conditional}"
                                 width: stretch
                                 align: left
@@ -279,7 +279,7 @@ inc:
                                       - field: "wild-shape/#{save}-ability"
                                         label: "#{ability}"
                                         underlay: "#{ability}"
-                                        ref: "#{abilityid}"
+                                        ref: "wild-shape/#{abilityid}"
                                       - field: "wild-shape/#{save}-proficiency"
                                         control: proficiency
                                       # - field:

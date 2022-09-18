@@ -67,15 +67,20 @@ export class System {
 
             // check if the new unit has dependencies on other units
             if (has(req, "with")) {
-              if (!unitIds.includes(req.with))
+              if (!unitIds.includes(req.with)) {
+                // log("System", `Unfulfilled inference: ${req.with}`);
                 return;
+              }
             }
 
+            // log("Character", `Inferred: ${unit.id} -> ${req.unit}`);
             const newunit = this.getUnit(req.unit);
             if (!isNull(newunit)) {
               // log("Character", `Infer units: ${unit.id} -> ${newunit.id}`);
               moreunits.push(newunit);
               more = true; // let's do this again
+            } else {
+              log("Character", `Required unit not found: ${req.unit}`);
             }
           });
         }
@@ -84,6 +89,7 @@ export class System {
       units = units.concat(moreunits).filter(unit => !denyunits.includes(unit.id));
     }
     units = [...new Set(units)];
+    // log("Character", "Inferred units:", units.map(unit => unit.id));
     return units;
   }
 

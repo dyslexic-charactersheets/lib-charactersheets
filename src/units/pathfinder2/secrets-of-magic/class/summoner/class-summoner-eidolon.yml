@@ -79,12 +79,12 @@ inc:
                                           - row: center
                                             contents:
                                               - spacer:
-                                              - field: "animal-#{code}"
+                                              - field: "eidolon/#{code}"
                                                 label: "#{name}"
                                                 border: circle
                                                 size: huge
                                                 underlay: "#{short}"
-                                                eq: "(%{#{code}-score}-10)/2"
+                                                eq: "floor((minmax(%{eidolon/#{code}-score},1,30)-10)/2)"
                                               - spacer:
 
                       - section: "_{Abilities}"
@@ -226,9 +226,10 @@ inc:
                               - field: "eidolon/#{skill}-bonus"
                                 border: full
                                 icon: bonus
+                                eq: "%{eidolon/#{skillref}-ability}+%{eidolon/#{skillref}-proficiency-bonus}-%{eidolon/#{skillref}-acp}"
                               - span: "="
-                              - field:
-                                ref: "#{ability}"
+                              - field: eidolon/#{skillref}-ability
+                                ref: "#{abilityref}"
                                 underlay: "#{ability}"
                                 frame: h-label
                                 label: "#{ability}"

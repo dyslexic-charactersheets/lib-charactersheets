@@ -1,4 +1,4 @@
-import { isString, isNumber } from '../util';
+import { isString, isNumber, isArray } from '../util';
 import { has } from '../util/objects';
 import { log } from '../log';
 
@@ -14,7 +14,12 @@ export let sort = {
     contents: []
   },
   transform(args, ctx) {
-    const key = args.orderby;
+    let key = args.orderby;
+    let isEmbedKey = false;
+    if (key != null && key.charAt(0) == '.') {
+      isEmbedKey = true;
+      key = key.substring(1);
+    }
     // log("sort", `Sorting ${args.contents.length} items by ${key}`);
     // log("sort", JSON.stringify(args.contents, null, 2));
 
@@ -26,6 +31,22 @@ export let sort = {
     let contents = args.contents;
     if (args.unique) {
       contents = [...new Set(contents)];
+    }
+
+    function elementSortValue(elem) {
+      if (isString(elem)) {
+        return elem;
+      }
+      if (has(elem, key)) {
+        return elem[key];
+      }
+      if (isEmbedKey && has(elem, "contents") && isArray(elem.contents) && elem.contents.length > 0) {
+        let subelem = elem.contents[0];
+        if (has(subelem, key)) {
+          return subelem[key];
+        }
+      }
+      return defaultValue;
     }
     
     contents = contents.sort((a, b) => {

@@ -1,0 +1,54 @@
+unit: thaumaturge/implement/amulet
+in: thaumaturge/implement
+group: "_{Dark Archive}"
+name: "_{Amulet}"
+
+inc:
+  - set: subclass
+    value: "_{Amulet}"
+    
+  - at: '@class/dark-archive/thaumaturge:implement/1'
+    replace:
+      - h4: "_{Amulet}"
+
+  - at: '@class/dark-archive/thaumaturge:implement/1/initiate-benefit'
+    replace:
+      - action: reaction
+        contents:
+          - article:
+            title: "_{Amulet's Abeyance}"
+            contents:
+              - calc:
+                output:
+                  field: 'thaumaturge/implement/amulet:initiate-benefit/resistance'
+                  legend: "_{Resistance}"
+                  border: full
+                  width: large
+                inputs:
+                  - span: "2 +"
+                  - field:
+                    ref: level
+                    label: "_{Level}"
+              - p: "_{You or an ally within 15ft gain resistance to damage to one attack from the target of Exploit Vulnerability.}"
+
+  - at: '@class/dark-archive/thaumaturge:implement/1/adept-benefit'
+    replace:
+      - list:
+        hr: true
+        light: true
+        contents:
+          - value-block: "5"
+            content: "_{When you use Amulet's Abeyance, gain damage resistance against that damage type until your next turn.}"
+          - level: 15
+            contents:
+              - value-block: "10"
+                content: "_{Damage resistance}"
+
+  - at: '@class/dark-archive/thaumaturge:implement/1/intensify-vulnerability'
+    replace:
+      - value-block: "2"
+        content: "_{AC against the target of Exploit Vulnerability}"
+  
+  - at: '@class/dark-archive/thaumaturge:implement/1/paragon-benefit'
+    replace:
+      - p: "_{You and all allies within 15ft gain both the initial resistance and the lingering resistance}"
