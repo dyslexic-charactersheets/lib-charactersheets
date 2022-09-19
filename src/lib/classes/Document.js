@@ -704,6 +704,10 @@ export class Document {
 
     let {calculations, formats, dependencies} = this.getCalculations(registry);
 
+    if (isEmpty(this.request)) {
+      warn("Document", "Request is unset", this.doc.title);
+      this.request = {};
+    }
     let templateData = {
       title: this.doc.title,
       summary: this.summary,

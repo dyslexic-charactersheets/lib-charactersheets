@@ -204,6 +204,9 @@ export let field_control_speed = {
         ];
         break;
       }
+      
+      default:
+        warn("field", "Unknown measurement units");
     }
 
     // log("field", "Speed field", args);

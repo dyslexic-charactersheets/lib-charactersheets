@@ -181,7 +181,9 @@ function initCalculations() {
   
   for (var name of ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA']) {
     var input = document.getElementById(name);
-    input.addEventListener('change', redoKeyAbility);
+    if (input !== null) {
+      input.addEventListener('change', redoKeyAbility);
+    }
   }
   for (var input of document.getElementsByName('key-ability')) {
     input.addEventListener('change', redoKeyAbility);
@@ -275,5 +277,6 @@ function redoProficiency() {
 
 
 window.addEventListener('load', (event) => {
+  console.log("Initialising calculation");
   initCalculations();
 });

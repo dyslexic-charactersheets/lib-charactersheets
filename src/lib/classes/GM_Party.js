@@ -30,6 +30,7 @@ function parseGM_Party(primary, request) {
     game: attr.game,
     units: ['core', 'base', 'base/gm/party', 'theme/' + attr.theme],
     language: attr.language,
+    measurementUnits: attr.units,
 
     printLarge: attr.printLarge,
     printHighContrast: attr.printHighContrast,
@@ -75,14 +76,20 @@ function parseGM_Party(primary, request) {
   }
 
   // game-specific settings
+  // log("GM", "Attributes", attr);
   switch (attr.game) {
     case 'pathfinder2':
       [ "party", "npc-party", "npc" ].forEach(option => {
         let optionKey = "option-gm-"+option;
-        if (has(attr, optionKey) && optionKey) {
+        // log("GM", "Option", option, attr[option]);
+        if (has(attr, optionKey) && attr[optionKey]) {
           gm.units.push("option/gm/"+option);
         }
       });
+
+      gm.isParty = has(attr, "option-gm-party") && attr["option-gm-party"];
+      gm.isNPC = has(attr, "option-gm-npc") && attr["option-gm-npc"];
+      gm.isNPCParty = has(attr, "option-gm-npc-party") && attr["option-gm-npc-party"];
       break;
   }
 
@@ -99,6 +106,7 @@ function parseGM_Party(primary, request) {
     }
   });
 
+  // log("GM", "GM data", gm);
   return gm;
 }
 
@@ -110,7 +118,15 @@ export class GM_Party extends GM_Instance {
   }
 
   completeDocument(document) {
-    document.title = "Party";
+    if (this.data.isParty) {
+      document.title = "Party";
+    } else if (this.data.isNPCParty) {
+      document.title = "NPC Party";
+    } else if (this.data.isNPC) {
+      document.title = "NPC";
+    } else  {
+      document.title = "GM";
+    }
 
     // log("GM", "Colors", this.data.colors);
     this.data.colors.forEach((color, i) => {

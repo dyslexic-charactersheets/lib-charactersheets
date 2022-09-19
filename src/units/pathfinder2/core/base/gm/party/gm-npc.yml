@@ -66,13 +66,25 @@ inc:
                                         contents:
                                           - row: center
                                             contents:
+                                            
                                               - spacer:
                                               - field: "npc/#{code}"
                                                 label: "#{name}"
-                                                border: circle
-                                                size: huge
-                                                underlay: "#{short}"
-                                                eq: "(%{npc/#{code}-score}-10)/2"
+                                                control: ability
+                                                width: ""
+                                                parts:
+                                                  - id: "key-ability"
+                                                    control: radio
+                                                    value: "npc/#{code}"
+                                                  - subid: ""
+                                                    size: huge
+                                                    eq: "floor((minmax(%{npc/#{code}-score},4,30)-10)/2)"
+                                                    width: ""
+                                                    underlay: "#{short}"
+                                                    format: modifier
+                                                  - subid: "score"
+                                                    width: ""
+                                                    format: int
                                               - spacer:
 
 
@@ -84,9 +96,11 @@ inc:
                                 legend: "_{Speed}"
                                 control: speed
                                 border: full
+                                width: stretch
                               - field: npc/speed-alt
                                 label: "_{Speed in Armour}"
                                 control: speed
+                                width: stretch
 
                       - section: "_{Feats}"
                         contents:
@@ -98,7 +112,7 @@ inc:
                               - repeat: 4
                                 reduce: 1
                                 contents:
-                                  - article:
+                                  - article: "npc/feats/#{i}"
                                     lines: 2
 
                       - section: "_{Notes}"
@@ -118,7 +132,8 @@ inc:
                               - icon: evil
                               - h6: "&nbsp;_{Hostile}"
                           - field: npc/notes
-                            repeat: 8
+                            repeat: 6
+                            reduce: 2
                             width: stretch
                             frame: none
                             merge-bottom: true
@@ -300,7 +315,7 @@ inc:
                                 contents:
                                   - action: template
                                     contents:
-                                      - article:
+                                      - article: npc/skill-action/#{i}
                                         lines: 1
                           - hr:
                           - calc:
@@ -360,7 +375,7 @@ inc:
                                     contents:
                                       - action: template
                                         contents:
-                                          - article:
+                                          - article: npc/action/#{i}
                                             lines: 2
                                             reduce: 1
 
@@ -427,11 +442,11 @@ inc:
                                     contents:
                                       - paste: weapon-small
                                         params:
-                                          id: "npc/"
+                                          id: "npc"
                                           i: "#{i}"
                                   - paste: weapon-small-with-ammo
                                     params:
-                                      id: "npc/"
+                                      id: "npc"
                                       i: 3
                   - layout: 2r
                     narrow: true
@@ -451,10 +466,10 @@ inc:
                                       icon: hp
                                       suffix: "_{hp}"
                                       width: large
-                                      eq: "%{npc/hp-animal-type}+(%{npc/CON}*%{level})"
+                                      eq: "%{npc/hp-ancestry}+(%{npc/CON}*%{level})"
                                     inputs:
-                                      - field: npc/hp-animal-type
-                                        label: "_{Animal\nType}"
+                                      - field: npc/hp-ancestry
+                                        label: "_{Ancestry}"
                                       - span: "+ ("
                                       - field:
                                         label: "_{CON}"
@@ -528,7 +543,7 @@ inc:
                                   icon: shield
                                   border: full
                                   underlay: "_{AC}"
-                                  eq: "10+%{DEX}+"
+                                  eq: "10+%{npc/DEX}+%{npc/ac-proficiency-bonus}+%{npc/armour-misc}"
                                 inputs:
                                   - span: "10 +"
                                   - field:

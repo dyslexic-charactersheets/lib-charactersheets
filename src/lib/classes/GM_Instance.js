@@ -1,6 +1,6 @@
 import { Instance } from './Instance';
 import { isEmpty } from '../util';
-import { log, warn } from '../log';
+import { log, warn, error } from '../log';
 import { has } from '../util/objects';
 import { ready as systemsReady, getSystem } from './System';
 import { replaceColours, vibrantColour } from '../util/colours';
@@ -39,7 +39,7 @@ export class GM_Instance extends Instance {
         try {
           const system = getSystem(data.game);
           if (system === null) {
-            error("Character", "System not found:", data.game);
+            error("GM", "System not found:", data.game);
             reject();
             return;
           }
@@ -50,6 +50,7 @@ export class GM_Instance extends Instance {
 
           // language
           document.language = data.language;
+          document.setMeasurementUnits(data.measurementUnits);
           
           if (data.printLarge) {
             document.largePrint = true;
@@ -128,7 +129,7 @@ export class GM_Instance extends Instance {
             });
           });
         } catch (err) {
-          error("Character", "Error:", err);
+          error("GM", "Error:", err);
           reject({
             error: err
           });
