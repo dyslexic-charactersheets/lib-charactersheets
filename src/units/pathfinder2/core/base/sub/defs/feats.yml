@@ -45,7 +45,7 @@ inc:
                   #   contents:
                   #     - item:
                 contents:
-                  - log: "EVEN: #{even}"
+                  # - log: "EVEN: #{even}"
                   - slots: "#{slots}"
                     key: level
                     min: 1
@@ -110,7 +110,7 @@ inc:
           - selectable: "#{id}:basic-feats"
             flex: small
             contents:
-              - article:
+              - article: "#{id}/#{i}"
                 lines: "#{lines}"
                 reduce: 1
           - level: "#{advanced-level}"
@@ -192,6 +192,7 @@ inc:
       tradition: ""
       tradition-spell-attack: ""
       tradition-spell-dc: ""
+      cantrips: 2
       ability: ""
       ability-name: ""
       breadth: ""
@@ -247,19 +248,24 @@ inc:
 
               - g:
                 contents:
-                  - p: "_{Start with two cantrips.}"
+                  - switch: "#{cantrips}"
+                    case:
+                      "1":
+                        - p: "_{Start with one cantrip.}"
+                      "2":
+                        - p: "_{Start with two cantrips.}"
                   - table: "#{id}:spellcasting"
                     collapse: true
-                    columns:
-                      - ""
-                      - ""
-                      - ""
-                      - ""
-                      - ""
-                      - ""
-                      - ""
-                      - ""
-                      - ""
+                    # columns:
+                    #   - ""
+                    #   - ""
+                    #   - ""
+                    #   - ""
+                    #   - ""
+                    #   - ""
+                    #   - ""
+                    #   - ""
+                    #   - ""
                     rows:
                       - contents:
                           - g:
@@ -327,11 +333,15 @@ inc:
                   - selectable: "#{id}:breadth"
                     contents:
                       - h5: "#{breadth}"
-                      - if: "#{style}==prepared"
+                      - if: "#{breadth-text}"
                         then:
-                          - p: "_{Gain an extra spell slot, and learn an extra spell, at each spell level except your highest two.}"
+                          - p: "#{breadth-text}"
                         else:
-                          - p: "_{Learn an extra spell at each spell level except your highest two.}"
+                          - if: "#{style}==prepared"
+                            then:
+                              - p: "_{Gain an extra spell slot, and learn an extra spell, at each spell level except your highest two.}"
+                            else:
+                              - p: "_{Learn an extra spell at each spell level except your highest two.}"
 
       - section: "_{Spells}"
         contents:

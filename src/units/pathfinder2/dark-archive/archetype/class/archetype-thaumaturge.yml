@@ -1,0 +1,124 @@
+unit: archetype/dark-archive/thaumaturge
+in: archetype
+group: "_{Dark Archive}"
+name: "_{Thaumaturge}"
+multiclass: true
+
+form:
+  - unit: option/spellbook
+  
+inc:
+  - at: '@pages'
+    add:
+      - page: archetype-thaumaturge
+        name: "_{Thaumaturge}"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: thaumaturge
+                      - class-name: "_{Thaumaturge}"
+
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Trained in one of: Arcana, Nature, Occultism, Religion.}"
+                        icon: proficiency-trained
+                      - hr:
+                      - row:
+                        contents:
+                          - paste: class-dc
+                            params:
+                              id: thaumaturge-class-dc
+                              legend: "_{Thaumaturge\nClass DC}"
+                              misc: false
+                      - hr:
+                      - action:
+                        contents:
+                          - p:
+                            title: "_{Glimpse Vulnerability}"
+                            content: "_{Once a round, pick a target you can see. Lasts until you next glimpse vulnerability.}"
+                          - value-block: "2"
+                            contents: "_{Weakness against your Strikes}"
+                            
+                  - section: "_{Implement}"
+                    primary: true
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - zone: '@class/dark-archive/thaumaturge:implement/1'
+                            contents:
+                              - field: "##:implement"
+                                merge-bottom: true
+                                width: stretch
+                                size: large
+
+                          - selectable: "##:implement-initiate"
+                            contents:
+                              - article:
+                                title: "_{Implement Initiate}"
+                                cat: "_{Feat} 6"
+                                contents:
+                                  - h6: "_{Initiate Benefit}"
+                                  - zone: '@class/dark-archive/thaumaturge:implement/1/initiate-benefit'
+                                    contents:
+                                      - action: template
+                                        contents:
+                                          - field: "class/dark-archive/thaumaturge:implement/1/initiate-benefit-detail"
+                                            repeat: 4
+                                            reduce: 1
+                                            width: stretch
+                                            merge-bottom: true
+
+                  - section: "_{Magical Knowledge}"
+                    contents:
+                      - selectable: "##:magical-knowledge"
+                        contents:
+                          - article: "##:magical-knowledge"
+                            title: "_{Magical Knowledge}"
+                            cat: "_{Feat} 8"
+                            contents:
+                              - p: "_{Master in one of: Arcana, Nature, Occultism, Religion.}"
+                                icon: proficiency-master
+                              - p: "_{Expert in one skill.}"
+                                icon: proficiency-expert
+                              - h5: "_{Skill Feat}"
+                              - article: "##:magical-knowledge/skill-feat"
+                                lines: 3
+
+                  - section: "_{Resolute}"
+                    contents:
+                      - selectable: "##:resolute"
+                        contents:
+                          - article: "##:resolute"
+                            title: "_{Resolute}"
+                            cat: "_{Feat} 12"
+                            contents:
+                              - p: "_{Master in will saves.}"
+                                icon: proficiency-master
+
+                  - tail:
+                  # - spacer:
+
+              - g:
+                contents:
+
+                  - section: "_{Thaumaturgy}"
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: thaumaturge-feats
+                          class-level: "_{Thaumaturge\nLevel}"
+                          basic-title: "_{Basic Thaumaturgy}"
+                          advanced-title: "_{Advanced Thaumaturgy}"
+                          num: 6
+
+                  - tail:
+                  # - spacer:

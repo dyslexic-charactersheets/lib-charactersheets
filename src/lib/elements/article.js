@@ -1,7 +1,7 @@
 import { isEmpty } from '../util';
 import { elementID, elementClass, embed } from '../util/elements';
 import { __ } from '../i18n';
-import { log } from '../log';
+import { log, warn } from '../log';
 
 export let article = {
   name: 'article',
@@ -30,6 +30,9 @@ export let article = {
     action: false,
   },
   transform(args, ctx) {
+    // if (isEmpty(args.id)) {
+    //   warn("article", "Missing article ID:", args);
+    // }
     let emptyHeader = false;
     if (isEmpty(args.header) || isEmpty(args.contents)) {
       let header = args.header;

@@ -333,7 +333,7 @@ export class Document {
     }
     if (!has(element, "type")) {
       if (has(element, "cells")) {
-        // log("compose", "Table row:", element.cells);
+        // log("compose", (element._direct ? "Direct table" : "Table"), "row:", element.cells);
         element.cells = element.cells.flatMap((e) => this.completeElement(e, registry));
         // log("compose", "Table row transformed:", element.cells);
       } else {
@@ -354,6 +354,15 @@ export class Document {
         // log("compose", "Adjusting", (element._direct ? "direct table" : "table"), (has(element, "id") ? element.id : ''), "cells", has(element, "id") ? element.id : '');
         if (has(element, "rows") && !isEmpty(element.rows)) {
           element.rows = this.composeElement(element.rows, registry);
+          
+          if (has(element, "_direct") && element._direct && !has(element, "template")) {
+            element.rows = element.rows.map(row => {
+              if (has(row, "cells")) {
+                row.cells = row.cells.flatMap((e) => this.composeElement(e, registry));
+              }
+              return row;
+            });
+          }
         }
         if (has(element, "columns") && !isEmpty(element.columns)) {
           element.columns = this.completeElement(element.columns, registry);

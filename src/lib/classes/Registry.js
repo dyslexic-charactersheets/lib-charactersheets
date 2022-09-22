@@ -21,7 +21,7 @@ import { g } from '../elements/g';
 import { h1, h2, h3, h4, h5, h6, class_name } from '../elements/headings';
 import { hr, tail, vr } from '../elements/hr';
 import { icon } from '../elements/icon';
-import { ifelem } from '../elements/if';
+import { ifelem, switchelem } from '../elements/if';
 import { label } from '../elements/label';
 import { large_print } from '../elements/large-print';
 import { layout, place, indent } from '../elements/layout';
@@ -110,7 +110,7 @@ export class Registry {
       h1, h2, h3, h4, h5, h6,
       hr, tail, vr,
       icon,
-      ifelem,
+      ifelem, switchelem,
       label,
       large_print,
       layout, place, indent,

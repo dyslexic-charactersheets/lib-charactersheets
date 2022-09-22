@@ -21,11 +21,11 @@ export function renderTableBasic(args, reg, doc, headings, rows) {
 
   // take care of the 'hr'
   rows.forEach((row, i) => {
-    if (has(row.params, 'hr') && row.params.hr) {
+    if (has(row, "params") && has(row.params, 'hr') && row.params.hr) {
       mergeBottom(rows[i - 1].cells, true);
     }
   });
-  if (args['merge-bottom']) {
+  if (args['merge-bottom'] && has(rows[rows.length - 1], "cells")) {
     mergeBottom(rows[rows.length - 1].cells, true);
   }
 

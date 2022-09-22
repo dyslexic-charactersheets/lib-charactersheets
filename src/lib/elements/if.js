@@ -1,6 +1,6 @@
 import { interpolate } from '../util/objects';
-import { warn } from '../log';
-import { isNumber, isString } from '../util';
+import { log, warn } from '../log';
+import { isEmpty, isNumber, isString } from '../util';
 
 function testCondition(condition, ctx) {
   // log("control", "if", args.condition);
@@ -92,5 +92,35 @@ export let ifelem = {
     } else {
       return reg.render(args.else, doc);
     }
+  }
+}
+
+export let switchelem = {
+  name: 'switch',
+  key: 'on',
+  defaults: {
+    on: '',
+    case: {},
+    default: []
+  },
+  transform(args, ctx) {
+    log("switch", "Evaluating switch:", args.on);
+    for (let key in args.values) {
+      let value = args.values[key];
+      if (testCondition(`${args.on}==${key}`, ctx)) {
+        return value;
+      }
+    }
+    return args.default;
+  },
+  render(args, reg, doc) {
+    warn("switch", "Late evaluation of switch:", args.on);
+    for (let key in args.values) {
+      let value = args.values[key];
+      if (testCondition(`${args.on}==${key}`, doc)) {
+        return reg.render(value, doc);
+      }
+    }
+    return reg.render(args.default, doc);
   }
 }

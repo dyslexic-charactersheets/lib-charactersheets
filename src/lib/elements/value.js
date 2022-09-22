@@ -1,5 +1,6 @@
 import { isEmpty } from '../util';
-import { log } from '../log';
+import { log, error } from '../log';
+import { render } from 'node-sass';
 
 export let value = {
   name: 'value',
@@ -13,10 +14,15 @@ export let value = {
     flex: 'tiny',
   },
   transform(args, ctx) {
+    log("value", "Making field from value:", args.value);
     return [{
       ...args,
       type: 'field'
     }];
+  },
+  render(args) {
+    error("value", "Untransformed value:", args.value);
+    return "";
   }
 }
 

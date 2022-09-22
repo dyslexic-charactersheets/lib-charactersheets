@@ -190,7 +190,7 @@ module.exports = {
               case "calc":
                 var output = elem.output;
                 if (output.type == "field" && !_.has(output, "eq") && output.control != "compound") {
-                  warn("units", `${unitdata.id}: Calculation without eq`);
+                  warn("units", `${unitdata.id}: Calculation without eq: ${output.id}`);
                 }
                 break;
               case "field":

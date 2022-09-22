@@ -7,6 +7,7 @@ inc:
       id: class-dc
       legend: "_{Class DC}"
       ability: ''
+      misc: true
     contents:
       - calc:
         output:
@@ -31,15 +32,18 @@ inc:
                 ref: "#{ability}"
                 misc: true
           - span: "+"
+            optional: true
           - field: "#{id}-proficiency"
             label: "_{Proficiency}"
             control: proficiency
-          - span: "+"
-            optional: true
-          - field: "#{id}-misc"
-            label: "_{Misc}"
-            misc: true
-            optional: true
+          - if: "#{misc}"
+            then:
+              - span: "+"
+                optional: true
+              - field: "#{id}-misc"
+                label: "_{Misc}"
+                misc: true
+                optional: true
 
   - copy: spell-attack
     params:

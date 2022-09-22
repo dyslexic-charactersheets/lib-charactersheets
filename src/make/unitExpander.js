@@ -68,6 +68,7 @@ const expansion = {
     'spells-bundle': '',
     'spells-table': '',
     'spells-list2': '',
+    switch: 'on',
     table: '',
     tail: '',
     copy: 'template',
