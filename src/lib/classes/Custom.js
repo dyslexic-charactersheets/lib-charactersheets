@@ -22,6 +22,7 @@ function parseCustom(primary, request) {
 
     miniSize: 'medium',
 
+    browserTarget: attr.browserTarget,
     printColour: '#707070',
     accentColour: '',
     printIntensity: 0,
@@ -30,6 +31,8 @@ function parseCustom(primary, request) {
     printPortrait: false,
     animalPortrait: false,
     printBackground: false,
+
+    isNoCalc: attr.browserTarget == "pdf",
     ...primary.attributes
   };
 

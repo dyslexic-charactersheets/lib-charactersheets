@@ -53,6 +53,7 @@ function parseCharacter(primary, request) {
     printBackground: false,
     
     isLoggedIn: false,
+    isNoCalc: false,
     ...primary.attributes
   };
 
@@ -101,11 +102,13 @@ function parseCharacter(primary, request) {
     printWatermark: attr.printWatermark,
 
     isLoggedIn: attr.isLoggedIn,
+    isNoCalc: attr.browserTarget == "pdf",
     debug: primary.debug,
     instances: {},
   };
 
   log("Character", "Is logged in?", attr.isLoggedIn, char.isLoggedIn);
+  log("Character", "Is no calc?", char.isNoCalc, attr.browserTarget);
   // log("Character", "Request attributes", attr);
 
   // log("Character", "Print intensity", char.printIntensity);
@@ -335,7 +338,7 @@ export class Character extends Instance {
     this.promise = new Promise((resolve, reject) => {
       systemsReady(() => {
         this.data = parseCharacter(primary, request);
-        this.data.units = [...this.data.units, ...this.getDataUnits(this.data.isLoggedIn)];
+        this.data.units = [...this.data.units, ...this.getDataUnits(this.data.isLoggedIn, this.data.isNoCalc)];
         resolve(this.data);
       });
     });
@@ -457,6 +460,7 @@ export class Character extends Instance {
 
           // load units
           document.isLoggedIn = data.isLoggedIn;
+          document.isNoCalc = data.isNoCalc;
           let units = system.getUnits(data.units);
           units = system.inferUnits(units);
           // log("Character", "Inferred units:", units.map(unit => unit.id).sort().join(", "));

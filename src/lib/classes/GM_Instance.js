@@ -26,7 +26,12 @@ export class GM_Instance extends Instance {
     }
     
     this.data.isLoggedIn = attr.isLoggedIn;
-    this.data.units = [...this.data.units, ...this.getDataUnits(attr.isLoggedIn)];
+    this.data.isNoCalc = attr.browserTarget == "pdf",
+    
+    log("GM", "Is logged in?", attr.isLoggedIn, char.isLoggedIn);
+    log("GM", "Is no calc?", char.isNoCalc, attr.browserTarget);
+    
+    this.data.units = [...this.data.units, ...this.getDataUnits(attr.isLoggedIn, this.isNoCalc)];
   }
 
   render() {

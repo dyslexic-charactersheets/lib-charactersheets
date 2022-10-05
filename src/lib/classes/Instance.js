@@ -39,9 +39,9 @@ export class Instance {
     }
   }
 
-  getDataUnits(isLoggedIn) {
-    if (isLoggedIn) {
-      return [
+  getDataUnits(isLoggedIn, isNoCalc) {
+    if (isLoggedIn && !isNoCalc) {
+        return [
         "data/edit",
         "data/calc",
         "data/save",

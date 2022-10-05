@@ -260,7 +260,7 @@ export class Document {
     const self = this;
     return {
       isLoggedIn: this.isLoggedIn,
-      isCalc: this.isLoggedIn,
+      isCalc: this.isLoggedIn && !this.noCalc,
       zones: this.zones,
       templates: this.templates,
       largePrint: this.largePrint,
