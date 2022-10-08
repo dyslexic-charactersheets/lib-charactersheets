@@ -80,6 +80,16 @@ export let field_frame_annotation = {
   }
 }
 
+export let field_frame_annotation_box = {
+  name: 'frame:annotation-box',
+  render(args, reg, doc) {
+    const ident = fieldIdent(args.id);
+    const label = args.label ? `<label class='field__annotation'${ident.for}>${_e(args.label, doc)}</label>` : '';
+    const framecls = elementClass('field', 'frame', args, ["merge-bottom"], {});
+    return `<div${framecls}>${label}${fieldInner(args, reg, doc)}</div>`;
+  }
+}
+
 export let field_frame_circle = {
   name: 'frame:circle',
   defaults: {

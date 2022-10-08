@@ -8,7 +8,7 @@ function spellField(lvl, style, checks, n, annotation, value) {
   let label = null;
   // let border = "bottom";
   if (annotation) {
-    frame = "annotation";
+    frame = "annotation-box";
     label = annotation;
     // border = "full";
     // log("spells", "Annotation", annotation);
@@ -188,6 +188,7 @@ export let spells_list = {
     style: "prepared",
     checks: 3,
     ordinal: true,
+    'merge-bottom': true,
   },
   transform(args, ctx) {
     const min = args.min;
@@ -229,6 +230,7 @@ export let spells_list = {
         zebra: true,
         flex: args.flex,
         'avoid-shade': true,
+        'merge-bottom': args['merge-bottom'],
         contents: spell_levels
       }
     ];

@@ -71,16 +71,31 @@ inc:
             contents:
               - g:
                 contents:
-                  - class-icon: psychic
-                    optional: true
+                  # - class-icon: psychic
+                  #   optional: true
                   - class-name: "_{Psychic}"
                       
                   - section: "_{Spellcasting}"
                     id: spellcasting
                     contents:
-                      - paste: spellcasting-spontaneous
+                      # - paste: spellcasting-spontaneous
+                      #   params:
+                      #     spells-icon: psychic
+                      
+                      - paste: spellcasting-cantrips
                         params:
-                          spells-icon: psychic
+                          content: "_{Cast cantrips you know indefinitely.}"
+                      
+                      - indent:
+                        contents:
+                          - paste: focus
+                            contents:
+                              - p: "_{Add an amp to a psi cantrip.}"
+                      
+                      - paste: spellcasting-spells
+                        params:
+                          icon: psychic
+                          content: "_{Cast spells you know using spell slots.}"
 
                       - hr:
                         light: true
@@ -117,6 +132,7 @@ inc:
                 contents:
 
                   - section: "_{Psyche}"
+                    flex: small
                     contents:
                       - article:
                         title: "_{Unleash Psyche}"
@@ -245,21 +261,67 @@ inc:
                           - spacer:
 
                   - section: "_{Psi Cantrips}"
+                    flex: huge
                     contents:
-                      - spells-list:
-                        min: 0
-                        max: 0
-                        spells: 3
-                        style: spontaneous
-                        special: "_{Conscious}"
-
-                      - hr:
-
-                      - paste: focus
+                      - list:
+                        hr: true
+                        light: true
                         contents:
-                          - p: "_{Add an amp to a psi cantrip.}"
+                          - g:
+                            contents:
+                              - zone: '@class/dark-archive/psychic:conscious-mind/psi-cantrips'
+                                contents:
+                                  - layout: 2e
+                                    contents:
+                                      - field: '##:conscious-mind/psi-cantrip-1'
+                                        width: stretch
+                                      - field: '##:conscious-mind/psi-cantrip-2'
+                                        width: stretch
+                              - spells-list:
+                                min: 0
+                                max: 0
+                                spells: 3
+                                style: spontaneous
+
+                          - g:
+                            contents:
+                              - layout: 2e
+                                contents:
+                                  - g:
+                                    contents:
+                                      - h5: "_{Unique Cantrips}"
+                                      - zone: '@class/dark-archive/psychic:conscious-mind/unique-cantrip/surface'
+                                        contents:
+                                          - field: '##:conscious-mind/unique-cantrip/surface'
+                                            width: stretch
+                                            label: "_{Surface}"
+                                            frame: annotation
+                                      - spacer:
+
+                                  - g:
+                                    contents:
+                                      - level: 6
+                                        inline: true
+                                        contents:
+                                          - zone: '@class/dark-archive/psychic:conscious-mind/unique-cantrip/deeper'
+                                            contents:
+                                              - field: '##:conscious-mind/unique-cantrip/deeper'
+                                                width: stretch
+                                                label: "_{Deeper}"
+                                                frame: annotation
+                                      - level: 10
+                                        inline: true
+                                        contents:
+                                          - zone: '@class/dark-archive/psychic:conscious-mind/unique-cantrip/deepest'
+                                            contents:
+                                              - field: '##:conscious-mind/unique-cantrip/deepest'
+                                                width: stretch
+                                                label: "_{Deepest}"
+                                                frame: annotation
+                                                merge-bottom: true
 
                   - section: "_{Spells}"
+                    flex: large
                     contents:
                       - list:
                         hr: true
