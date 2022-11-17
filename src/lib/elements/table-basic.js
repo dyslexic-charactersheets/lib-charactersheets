@@ -1,14 +1,14 @@
-import { isNull } from '../util';
+import { isEmpty, isNull } from '../util';
 import { elementClass, mergeBottom } from '../util/elements';
 import { has } from '../util/objects';
-import { warn } from '../log';
+import { warn, error } from '../log';
 // import { mergeBottom } from '../classes/Registry';
 
 // Standard table
 export function renderTableBasic(args, reg, doc, headings, rows) {
   // headings
   let thead = '';
-  if (!isNull(headings)) {
+  if (!isNull(headings) && !isEmpty(headings)) {
     const tcols = headings.map(col => {
       const colCls = elementClass('th', null, col, ['vr'], { 'width': '' });
       const elem = reg.renderItem(col, doc);

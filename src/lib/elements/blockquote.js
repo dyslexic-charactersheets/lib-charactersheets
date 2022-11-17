@@ -7,6 +7,6 @@ export let blockquote = {
     },
     render (args, reg, doc) {
         let cls = elementClass('blockquote', null, args, ['blk']);
-        return `<blockquote>${reg.render(args.contents, doc)}</blockquote>`;
+        return `<blockquote${cls}>${reg.render(args.contents, doc)}</blockquote>`;
     }
 }

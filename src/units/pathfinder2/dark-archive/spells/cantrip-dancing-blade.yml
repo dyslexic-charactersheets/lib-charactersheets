@@ -1,0 +1,51 @@
+unit: cantrip/dancing-blade
+name: "_{Dancing Blade}"
+group: "_{Dark Archive}"
+
+inc:
+  - copy: cantrip/dancing-blade
+    contents:
+      - article: cantrip/dancing-blade
+        title: "_{Dancing Blade}"
+        cat: "_{Cantrip} 5"
+        contents:
+          - dl:
+              range: "_{30ft}"
+              duration: "_{Sustain up to 1 minute}"
+
+          - action: 2
+            contents:
+              - p: "_{Animate a weapon. It strikes in the first turn, then sticks with its target.}"
+
+          - action:
+            contents:
+              - p:
+                title: "_{Sustain}"
+                content: "_{Weapon either strikes, or flies to a new target within 30ft.}"
+
+          - calc:
+            output:
+              field: "##:damage"
+              legend: "_{Damage}"
+              border: full
+              width: huge
+              control: compound
+              parts:
+                - subid: dice
+                  eq: "2+%{##:heighten}"
+                - span: "_{d6}"
+                - subid: bonus
+                  eq: "%{##:ability}"
+            inputs:
+              - span: "("
+                size: large
+              - span: "2 +"
+              - field: "##:heighten"
+                label: "_{Heighten +2}"
+              - span: ")"
+                size: large
+              - span: "_{d6} +"
+              - field: "##:ability"
+                ref: true
+                label: "_{Spellcasting Ability Modifier}"
+                merge-bottom: false

@@ -1,0 +1,63 @@
+unit: thaumaturge/implement/bell
+in: thaumaturge/implement
+group: "_{Dark Archive}"
+name: "_{Bell}"
+
+inc:
+  - set: subclass
+    value: "_{Bell}"
+    
+  - at: '@class/dark-archive/thaumaturge:implement/1'
+    replace:
+      - h4: "_{Bell}"
+        size: small
+
+  - at: '@class/dark-archive/thaumaturge:implement/1/initiate-benefit'
+    replace:
+      - action: reaction
+        contents:
+          - article:
+            title: "_{Ring Bell}"
+            contents:
+              - p: "_{When the target attacks an ally}"
+              - ul:
+                contents:
+                  - li:
+                    contents:
+                      - p:
+                        title: "_{Spell}"
+                        content: "_{Fort save or stupefied}"
+                  - li:
+                    contents:
+                      - p:
+                        title: "_{Strike}"
+                        content: "_{Will save or either enfeebled or clumsy}"
+              - paste: inline-save
+                params:
+                  failure: "1"
+                  critical_failure: "2"
+
+  - at: '@class/dark-archive/thaumaturge:implement/1/adept-benefit'
+    replace:
+      - p: "_{Ring Bell duration}"
+      - row:
+        contents:
+          - value: "_{1rd}"
+          - span: "&rarr;"
+          - value: "_{3rds}"
+
+  - at: '@class/dark-archive/thaumaturge:implement/1/intensify-vulnerability'
+    replace:
+      - p: "_{When you strike the target, impose a penalty to saves against Ring Bell}"
+      - paste: inline-save
+        params:
+          success: "-2"
+          critical_success: "-3"
+  
+  - at: '@class/dark-archive/thaumaturge:implement/1/paragon-benefit'
+    replace:
+      - p: "_{Increase conditions from Ring Bell}"
+      - paste: inline-save
+        params:
+          failure: "2"
+          critical_failure: "3"

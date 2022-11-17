@@ -1,0 +1,190 @@
+unit: thaumaturge/implement/chalice
+in: thaumaturge/implement
+group: "_{Dark Archive}"
+name: "_{Chalice}"
+
+inc:
+  - set: subclass
+    value: "_{Chalice}"
+    
+  - at: '@class/dark-archive/thaumaturge:implement/1'
+    replace:
+      - h4: "_{Chalice}"
+        size: small
+      
+  - at: '@class/dark-archive/thaumaturge:implement/1/body'
+    replace:
+      - table:
+        _direct: true
+        _headings: []
+          # - ""
+          # - ""
+          # - ""
+        rows:
+          - cells:
+              - g:
+                contents:
+                  - action:
+                    contents:
+                      - article:
+                        title: "_{Drink from the Chalice}"
+                        contents:
+                          - p: ""
+                          # - p:
+                          #   title: "_{Sip}"
+                          #   align: left
+                          #   blk: false
+                          #   content: "_{You or ally gains temp hit points}"
+
+              - g:
+                shade: true
+                contents:
+                  - selectable: "##:adept-benefit"
+                    contents:
+                      - h5: "_{Adept Benefit}"
+                        align: left
+              - g:
+                contents:
+                  - level: 9
+                    contents:
+                      - h5: "_{Intensify Vulnerability}"
+                        align: left
+
+          - cells:
+              - g:
+                contents:
+                  - p:
+                    title: "_{Sip}"
+                    align: left
+                    blk: false
+                    content: "_{You or ally gains temp hp}"
+                    
+              - g:
+                shade: true
+                contents:
+                
+              - g:
+                contents:
+
+          - cells:
+              - row:
+                contents:
+                  - calc:
+                    output:
+                      field: "##:sip/temp-hp"
+                      border: full
+                      legend: "_{Temp HP}"
+                      # frame: none
+                      width: huge
+                      suffix: "_{hp}"
+                      eq: "(%{##:adept-benefit})?(2+floor(%{level}/2)):(2+%{CHA}+%{level})"
+                    inputs:
+                      - span: "2 + ("
+                      - field:
+                        ref: level
+                        label: "_{Level}"
+                      - span: "&divide; 2)"
+                  - spacer:
+
+              - row:
+                shade: true
+                contents:
+                  - calc:
+                    output:
+                    inputs:
+                      - span: "2 +"
+                      - field:
+                        ref: "CHA"
+                        underlay: "_{CHA}"
+                        label: "_{CHA}"
+                      - span: "+"
+                      - field:
+                        ref: level
+                        label: "_{Level}"
+                  - spacer:
+
+              - row:
+                contents:
+                  - row:
+                    contents:
+                      - span: "+"
+                      - field:
+                        ref: level
+                        label: "_{Level}"
+                      - span: "&divide; 2"
+                  - spacer:
+
+          - cells:
+              - g:
+                contents:
+                  - p:
+                    title: "_{Drain}"
+                    align: left
+                    blk: false
+                    content: "_{Heal yourself or ally}"
+
+              - g:
+                shade: true
+                contents:
+
+              - g:
+                contents:
+
+          - cells:
+              - row:
+                contents:
+                  - calc:
+                    output:
+                      field: "##:drain/heal"
+                      border: full
+                      legend: "_{Heal}"
+                      width: huge
+                      suffix: "_{hp}"
+                      eq: "(%{##:adept-benefit})?(3*%{level}):(5*%{level})"
+                    inputs:
+                      - span: "3 &times;"
+                      - field:
+                        ref: level
+                        label: "_{Level}"
+                  - spacer:
+
+              - row:
+                shade: true
+                contents:
+                  - calc:
+                    output:
+                    inputs:
+                      - span: "5 &times;"
+                      - field:
+                        ref: level
+                        label: "_{Level}"
+                  - spacer:
+
+              - row:
+                contents:
+                  - row:
+                    contents:
+                      - span: "+"
+                      - field:
+                        ref: level
+                        label: "_{Level}"
+                      - span: "&divide; 2"
+                  - spacer:
+
+      - selectable: "##:paragon-benefit"
+        contents:
+          - h5: "_{Paragon Benefit}"
+          - p: "_{Drinking reduces conditions by 1: clumsy, enfeebled, frightened, stupefied, stunned.}"
+          # - row:
+          #   contents:
+          - p: "_{Attempt to counteract poisons, diseases and curses.}"
+              # - calc:
+              #   output:
+              #     field: "##:paragon-benefit/counteract-level"
+              #     label: "_{Counteract level}"
+              #   inputs:
+              #     - 
+              # - calc:
+              #   output:
+              #     field: "##:paragon-benefit/counteract-modifier"
+              #   inputs:

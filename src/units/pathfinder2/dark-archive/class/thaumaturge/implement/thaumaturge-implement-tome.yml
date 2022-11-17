@@ -1,0 +1,84 @@
+unit: thaumaturge/implement/tome
+in: thaumaturge/implement
+group: "_{Dark Archive}"
+name: "_{Tome}"
+
+inc:
+  - set: subclass
+    value: "_{Tome}"
+    
+  - at: '@class/dark-archive/thaumaturge:implement/1'
+    replace:
+      - h4: "_{Tome}"
+
+  - at: '@class/dark-archive/thaumaturge:implement/1/initiate-benefit'
+    replace:
+      - value-block: "+1"
+        content: "_{Recall Knowledge}"
+      - p: "_{Each day, trained in two skills}"
+        icon: proficiency-trained
+      - row:
+        contents:
+          - g:
+            valign: center
+            contents:
+              - row:
+                contents:
+                  - icon: proficiency-trained
+                  - icon: proficiency-trained
+          - spacer:
+          - level: 3
+            contents:
+              - row:
+                contents:
+                  - icon: proficiency-expert
+                  - icon: proficiency-trained
+          - spacer:
+          - level: 5
+            contents:
+              - row:
+                contents:
+                  - icon: proficiency-expert
+                  - icon: proficiency-expert
+          - spacer:
+
+
+  - at: '@class/dark-archive/thaumaturge:implement/1/adept-benefit'
+    replace:
+      - p: "_{Make a Recall Knowledge about a creature}"
+      - value-block: "+1"
+        content: "_{to attack this turn}"
+      - hr:
+        light: true
+      - row:
+        contents:
+          - g:
+            valign: center
+            contents:
+              - row:
+                contents:
+                  - icon: proficiency-master
+                  - icon: proficiency-expert
+          - spacer:
+          - level: 9
+            contents:
+              - row:
+                contents:
+                  - icon: proficiency-master
+                  - icon: proficiency-master
+          - spacer:
+
+  - at: '@class/dark-archive/thaumaturge:implement/1/intensify-vulnerability'
+    replace:
+      - row:
+        contents:
+          - field: "##:intensify-vulnerability/roll"
+            border: full
+            legend: "_{Roll}"
+          - p: "_{Roll a d20 in advance. If you Strike your target this turn, you may use that as your attack roll.}"
+  
+  - at: '@class/dark-archive/thaumaturge:implement/1/paragon-benefit'
+    replace:
+      - p: "_{Can roll a skill check for initiative against creatures or haunts}"
+      - value-block: "+3"
+        content: "_{Initiative}"

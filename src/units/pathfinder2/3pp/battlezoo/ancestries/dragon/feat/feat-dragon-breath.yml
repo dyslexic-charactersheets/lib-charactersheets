@@ -1,0 +1,68 @@
+unit: feat/3pp/battlezoo/dragon/breath
+in: feat/3pp/battlezoo/dragon
+group: "_{Core Rulebook}"
+name: "_{Dragon Breath}"
+
+inc:
+  - at: '@ancestry-feats'
+    add:
+      - p: "Foo"
+      - paste: feat/3pp/battlezoo/dragon/breath
+
+  - copy: feat/3pp/battlezoo/dragon/breath
+    contents:
+      - p: "Foo"
+      - article: "##"
+        title: "_{Dragon Breath}"
+        cat: "_{Feat}"
+        contents:
+          - action: 2
+            contents:
+              - p: "_{Breath weapon}"
+
+          - zone: '@feat/3pp/battlezoo/dragon/breath:shape'
+            contents:
+              - row:
+                contents:
+                  - field: "##:shape"
+                    type: radio
+                    value: line
+                    label: "_{30ft line}"
+                  - field: "##:shape"
+                    type: radio
+                    value: cone
+                    label: "_{15ft cone}"
+                  - field: "##:shape"
+                    type: radio
+                    value: burst
+                    label: "_{5ft burst within 30ft}"
+
+          - row:
+            contents:
+              - calc:
+                  field: "##:damage"
+                  border: full
+                  legend: "_{Damage}"
+                  suffix: "_{d4}"
+                inputs:
+                  - ruby-round-up:
+                    contents:
+                      - field:
+                        ref: level
+                        label: "_{Level}"
+                      - span: "&divide; 2"
+              - p: "_{Min 2}"
+
+          - zone: '@feat/3pp/battlezoo/dragon/breath:type'
+            contents:
+              - field: "##:type"
+                label: "_{Damage type}"
+                width: stretch
+
+          - row:
+            contents:
+              - p: "_{Class DC or Spell DC}"
+              - field: "##:dc"
+                label: "_{DC}"
+                underlay: "_{DC}"
+                border: full

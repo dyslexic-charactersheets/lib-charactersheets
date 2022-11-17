@@ -1,0 +1,33 @@
+unit: cantrip/telekinetic-rend
+name: "_{Telekinetic Rend}"
+group: "_{Dark Archive}"
+
+inc:
+  - copy: cantrip/telekinetic-rend
+    contents:
+      - article: cantrip/telekinetic-rend
+        title: "_{Telekinetic Rend}"
+        cat: "_{Cantrip} 1"
+        contents:
+          - dl:
+              range: "_{60ft}"
+              area: "2 &times; _{5ft squares}"
+
+          - action: 2
+            contents:
+              - p: "_{Hurl an object. Make a spell attack roll, and deal bludgeoning, piercing, or slashing damage as appropriate for the object.}"
+              
+          - calc:
+            output:
+              field: "##:damage"
+              legend: "_{Damage}"
+              border: full
+              width: large
+            inputs:
+              - field: "##:spell-level"
+                label: "_{Spell Level}"
+                eq: "ceil(%{level}/2)"
+              - span: "+"
+              - field: "##:ability"
+                ref: true
+                label: "_{Spellcasting Ability Modifier}"

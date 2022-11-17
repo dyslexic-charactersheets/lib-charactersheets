@@ -1,19 +1,18 @@
-unit: ancestry/3pp/battlezoon/dragon
+unit: ancestry/3pp/battlezoo/dragon
 in: ancestry
 group: "_{Battlezoo}"
 name: "_{Dragon}"
 badge: "_{Rare}"
 
-enabled: false
-
-require:
-  # - unit: 3pp/battlezoo
-  # - unit: optional-darkvision/trigger
+# enabled: false
   
 form:
   - select: heritage/3pp/battlezoo/dragon
     name: "_{Dragon Heritage}"
     max: 1
+  - select: feat/3pp/battlezoo/dragon
+    name: "_{Dragon Feats}"
+    max: 5
 
 inc:
   - set: ancestry
@@ -22,26 +21,51 @@ inc:
     value: 8
   - set: perception-low-light
     value: true
-  # - set: build-boost-CON-ancestry
-  #   value: 1
-  # - set: build-boost-CHA-ancestry
-  #   value: 1
-  # - set: build-boost-WIS-ancestry
-  #   value: -1
   - set: languages
     value: "_{Common, Draconic}"
 
   - at: '@ancestry'
     replace:
       - article:
-        title: "_{Cloven}"
+        title: "_{Dragon}"
         contents:
           - flags:
               - "_{Fey}"
-              - "_{Cloven}"
+              - "_{Dragon}"
           - field: ancestry-speed
             frame: right
             label: "_{Speed}"
             control: value
-            value: "_{30ft}"
-          - paste: ponyfinder/fingerless
+            value: "_{25ft}"
+
+          - hr:
+            light: true
+
+          - paste: natural-weapon
+            params:
+              name: "_{Bite}"
+              icon: d6
+              damage: "_{1d6}"
+              type: "_{Piercing}"
+          - flags:
+              - "_{Brawling}"
+              - "_{Unarmed}"
+
+          - hr:
+            light: true
+
+          - paste: natural-weapon
+            params:
+              name: "_{Claw}"
+              icon: d4
+              damage: "_{1d4}"
+              type: "_{Slashing}"
+          - flags:
+              - "_{Agile}"
+              - "_{Finesse}"
+              - "_{Brawling}"
+              - "_{Unarmed}"
+
+  - at: '@ethnicity'
+    replace:
+      - spacer:

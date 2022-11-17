@@ -10,6 +10,7 @@ import { action, selectable } from '../elements/action';
 import { advancement } from '../elements/advancement';
 import { article } from '../elements/article';
 import { blockquote } from '../elements/blockquote';
+import { box } from '../elements/box';
 import { calc } from '../elements/calc';
 import { class_icon } from '../elements/class-icon';
 import { color } from '../elements/color';
@@ -99,6 +100,7 @@ export class Registry {
       advancement,
       article,
       blockquote,
+      box,
       calc,
       class_name,
       class_icon,

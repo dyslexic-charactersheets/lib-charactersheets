@@ -1,0 +1,47 @@
+unit: cantrip/mage-hand
+name: "_{Mage Hand}"
+group: "_{Advanced Player's Guide}"
+
+inc:
+  - copy: cantrip/mage-hand
+    contents:
+      - article: cantrip/mage-hand
+        title: "_{Mage Hand}"
+        cat: "_{Cantrip} 1"
+        contents:
+          - dl:
+              "_{Distance}": "_{20ft}"
+          - action: 2
+            contents:
+              - p: "_{Invisible hand grasps and moves an object}"
+          - p:
+            title: "_{Sustain}"
+            content: "_{Move object again}"
+          - table:
+            flip: true
+            columns:
+              - "_{Spell Level}"
+              - "_{Lift}"
+              - "_{Range}"
+            rows:
+              - sl: 1
+                lift: "L"
+                range: "_{30ft}"
+              - sl: 3
+                lift: 1
+                range: ""
+              - sl: 5
+                lift: 2
+                range: "_{60ft}"
+              - sl: 7
+                lift: 2
+                range: ""
+            template:
+              - span: "#{sl}"
+              - field: "##:mage-hand/#{sl}/lift"
+                value: "#{lift}"
+                suffix: "_{bulk}"
+                border: none
+              - field: "##:mage-hand/#{sl}/range"
+                value: "#{range}"
+                border: none

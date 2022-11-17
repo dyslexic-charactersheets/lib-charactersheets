@@ -26,15 +26,19 @@ inc:
                 contents:
                   - calc:
                     output:
-                      field: investigator/alchemical-sciences/vials
+                      field: "##:vials"
                       legend: "_{Versatile Vials}"
                       width: large
-                      eq: "%{INT}"
+                      eq: "%{INT}+%{##:vials/misc}"
                     inputs:
                       - field:
                         ref: INT
                         label: "_{INT}"
                         underlay: "_{INT}"
+                      - span: "+"
+                      - field: "##:vials/misc"
+                        label: "_{Misc}"
+                        misc: true
                   - spacer:
                   - field: investigator/alchemical-sciences/vials
                     control: checkgrid
@@ -61,12 +65,16 @@ inc:
                   field: "##:formulas-known"
                   legend: "_{Formulas Known}"
                   width: large
-                  eq: "5+%{level}"
+                  eq: "5+%{level}+%{##:formulas-known/misc}"
                 inputs:
                   - span: "5 +"
                   - field:
                     ref: level
                     label: "_{Level}"
+                  - span: "+"
+                  - field: "##:formulas-known/misc"
+                    label: "_{Misc}"
+                    misc: true
               - p: "_{Learn formulas of alchemical items of a level you can create.}"
 
   - at: '@investigator/more'

@@ -1,0 +1,54 @@
+unit: thaumaturge/implement/mirror
+in: thaumaturge/implement
+group: "_{Dark Archive}"
+name: "_{Mirror}"
+
+inc:
+  - set: subclass
+    value: "_{Mirror}"
+    
+  - at: '@class/dark-archive/thaumaturge:implement/1'
+    replace:
+      - h4: "_{Mirror}"
+
+  - at: '@class/dark-archive/thaumaturge:implement/1/initiate-benefit'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Mirror's Reflection}"
+            contents:
+              - dl:
+                  range: "_{15ft}"
+                  duration: "_{1rd}"
+              - p: "_{Create an image of yourself. Act only once, from either position. Suffer effects only once, from either position.}"
+              - p: "_{You may move from either of you; the other disappears.}"
+
+
+  - at: '@class/dark-archive/thaumaturge:implement/1/adept-benefit'
+    replace:
+      - p: "_{When an anemy adjactent to one of you dam  ages you, that one explodes, dealing damage within 5ft.}"
+      - calc:
+        output:
+          field: "##:adept-benefit/damage"
+          legend: "_{Damage}"
+          border: full
+          width: large
+          eq: "2+floor(%{level}/2)"
+        inputs:
+          - span: "2 + ("
+          - field:
+            ref: level
+            label: "_{Level}"
+          - span: "&divide; 2)"
+      - p: "_{Or the damage you received if lower.}"
+
+  - at: '@class/dark-archive/thaumaturge:implement/1/intensify-vulnerability'
+    replace:
+      - p: "_{Become invisible to the target of your Exploit Vulnerability}"
+  
+  - at: '@class/dark-archive/thaumaturge:implement/1/paragon-benefit'
+    replace:
+      - action:
+        contents:
+          - p: "_{Use Mirror's Reflection and immediately Interact, Seek, or Strike.}"

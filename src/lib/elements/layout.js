@@ -39,6 +39,7 @@ export let layout = {
           break;
 
         case '3e':
+        case '3f':
         case 'indent-lr':
         case 'indent-lrw':
         case 'indent-lrn':

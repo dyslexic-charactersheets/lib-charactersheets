@@ -213,7 +213,7 @@ function parseCharacter(primary, request) {
         if (attr[classFeatsKey]) {
           char.classFeats = parseFeats(attr[classFeatsKey]);
           char.classFeats.forEach(feat => {
-            // log("Character", "Class feat:", feat);
+            log("Character", "Class feat:", feat);
             char.units.push('feat/' + className + '/' + feat);
           });
         }

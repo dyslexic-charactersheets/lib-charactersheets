@@ -1,0 +1,146 @@
+unit: thaumaturge/implement/wand
+in: thaumaturge/implement
+group: "_{Dark Archive}"
+name: "_{Wand}"
+
+inc:
+  - set: subclass
+    value: "_{Wand}"
+    
+  - at: '@class/dark-archive/thaumaturge:implement/1'
+    replace:
+      - h4: "_{Wand}"
+        size: small
+
+  - at: '@class/dark-archive/thaumaturge:implement/1/body'
+    replace:
+      - g:
+        contents:
+          - table:
+            _direct: true
+            _headings: []
+            rows:
+              - cells:
+                  - g:
+                    align: left
+                    contents:
+                      - action: 2
+                        contents:
+                          - article:
+                            title: "_{Fling Magic}"
+                            contents:
+                              - dl:
+                                  range: "_{60ft}"
+                                  save: "Basic reflex"
+
+                  - g:
+                    shade: true
+                    align: left
+                    contents:
+                      - level: 9
+                        contents:
+                          - h5: "_{Intensify Vulnerability}"
+              - cells:
+                  - g:
+                    contents:
+                      - calc:
+                        output:
+                          field: "##:fling-magic/damage"
+                          legend: "_{Damage}"
+                          border: full
+                          width: huge
+                          control: compound
+                          parts:
+                            - subid: dice
+                              suffix: "_{d4}"
+                            - subid: bonus
+                              prefix: "+"
+                              eq: "%{CHA}"
+
+                        inputs:
+                          - span: "("
+                          - ruby-round-down:
+                            contents:
+                              - field:
+                                ref: level
+                                label: "_{Level}"
+                              - span: "&divide; 2"
+                          - span: ") &times; _{d4} +"
+                          - field:
+                            ref: CHA
+                            label: "_{CHA}"
+                            underlay: "_{CHA}"
+                    
+                  - g:
+                    shade: true
+                    contents:
+                      - row:
+                        contents:
+                          - span: "+ 1 + ("
+                          - ruby-round-down:
+                            contents:
+                              - field:
+                                ref: level
+                                label: "_{Level}"
+                              - span: "&divide; 2"
+                          - span: ")"
+          - p: "_{Can roll d6 instead; cannot use again for d4 rounds. Recharge on a critical Strike.}"
+            # icon: critical-success
+
+          - layout: 3e
+            vr: true
+            contents:
+              - g:
+                contents:
+                  - field: "##:attuned/cold"
+                    control: checkbox
+                    label: "_{Cold}"
+                    frame: right
+                  - p: 
+                    # title: "_{Chilled}"
+                    content: "_{-10ft speed for 1rd}"
+                  - spacer:
+              - g:
+                contents:
+                  - field: "##:attuned/electricity"
+                    control: checkbox
+                    label: "_{Electricity}"
+                    frame: right
+                  - p: 
+                    # title: "_{Shocked}"
+                    content: "_{Flat-footed until your next turn}"
+                  - spacer:
+              - g:
+                contents:
+                  - field: "##:attuned/fire"
+                    control: checkbox
+                    label: "_{Fire}"
+                    frame: right
+                  - p: 
+                    # title: "_{Catches flame}"
+                    content: "_{d10 persistent fire damage (2d10 on a critical failure)}"
+                  - spacer:
+
+      - g:
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - selectable: "##:adept-benefit"
+                    contents:
+                      - h5: "_{Adept Benefit}"
+                        align: left
+                      - dl:
+                          range: "_{120ft}"
+                      - p: "_{Pick a second damage type.}"
+                      - p: "_{Additional effect on failure}"
+              - g:
+                contents:
+                  - selectable: "##:paragon-benefit"
+                    contents:
+                      - h5: "_{Paragon Benefit}"
+                        align: left
+                      - dl:
+                          range: "_{180ft}"
+                      - p: "_{Pick from all three damage types.}"

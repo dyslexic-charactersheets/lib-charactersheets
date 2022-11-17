@@ -1,0 +1,37 @@
+unit: thaumaturge/implement/weapon
+in: thaumaturge/implement
+group: "_{Dark Archive}"
+name: "_{Weapon}"
+
+inc:
+  - set: subclass
+    value: "_{Weapon}"
+    
+  - at: '@class/dark-archive/thaumaturge:implement/1'
+    replace:
+      - h4: "_{Weapon}"
+
+  - at: '@class/dark-archive/thaumaturge:implement/1/initiate-benefit'
+    replace:
+      - action: reaction
+        contents:
+          - article:
+            title: "_{Implement's Interruption}"
+            contents:
+              - dl:
+                  trigger: "_{Target within your reach (or 10ft if ranged) uses a concentrate, manipulate or move action, or leaves a square.}"
+              - p: "_{Make a Strike with your weapon implement. On a critical hit, disrupt the triggering action.}"
+
+
+  - at: '@class/dark-archive/thaumaturge:implement/1/adept-benefit'
+    replace:
+      - p: "_{On a failure (but not a critical failure), deal 1 damage}"
+
+  - at: '@class/dark-archive/thaumaturge:implement/1/intensify-vulnerability'
+    replace:
+      - value-block: "+2"
+        content: "_{to attack the target of Exploit Vulnerability.}"
+  
+  - at: '@class/dark-archive/thaumaturge:implement/1/paragon-benefit'
+    replace:
+      - p: "_{Disrupt the triggering action on a hit, not only a critical hit.}"
