@@ -1,0 +1,59 @@
+unit: cantrip/glimpse-weakness
+name: "_{Glimpse Weakness}"
+group: "_{Dark Archive}"
+
+inc:
+  - copy: cantrip/glimpse-weakness
+    contents:
+      - article: cantrip/glimpse-weakness
+        title: "_{Glimpse Weakness}"
+        cat: "_{Cantrip} 1"
+        contents:
+          - dl:
+              range: "_{60ft}"
+
+          - action:
+            contents:
+              - p: "_{The next ally who successfully hits the opponent does extra damage.}"
+              
+          - calc:
+            output:
+              field: "##:damage"
+              legend: "_{Damage}"
+              border: full
+              width: large
+              eq: "1+%{##:spell-level}"
+            inputs:
+              - span: "1 +"
+              - field: "##:spell-level"
+                label: "_{Spell Level}"
+                eq: "ceil(%{level}/2)"
+
+  - copy: cantrip/glimpse-weakness/amp
+    contents:
+      - box:
+        contents:
+          - p:
+            title: "_{Amp}"
+          - calc:
+            output:
+              field: "##/amp:damage"
+              legend: "_{Damage}"
+              border: full
+              width: large
+              control: compound
+              parts:
+                - subid: dice
+                  eq: "floor(%{##:spell-level}/2)"
+                  suffix: "d4 +"
+                - subid: bonus
+                  eq: "floor(%{##:spell-level}/2)"
+            inputs:
+              - ruby-round-down:
+                contents:
+                  - span: "("
+                  - field: "##:spell-level"
+                    label: "_{Spell Level}"
+                    eq: "ceil(%{level}/2)"
+                  - span: "&divide; 2)"
+              - span: "&times; (1d4 + 1)"

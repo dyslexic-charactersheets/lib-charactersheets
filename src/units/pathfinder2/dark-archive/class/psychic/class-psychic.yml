@@ -71,8 +71,10 @@ inc:
             contents:
               - g:
                 contents:
-                  - class-icon: psychic
-                    optional: true
+                  - zone: '@class/dark-archive/psychic:class-icon'
+                    contents:
+                      - class-icon: psychic
+                        optional: true
                   - class-name: "_{Psychic}"
                       
                   - section: "_{Subconscious Mind}"
@@ -107,58 +109,51 @@ inc:
                   - section: "_{Conscious Mind}"
                     primary: true
                     contents:
-                      - list:
-                        hr: true
-                        zebra: true
+                      - zone: '@class/dark-archive/psychic:conscious-mind'
                         contents:
-                          - zone: '@class/dark-archive/psychic:conscious-mind'
+                          - field: 'class/dark-archive/psychic:conscious-mind'
+                            width: stretch
+                            size: large
+                            merge-bottom: true
+
+                  - section: "_{Psyche}"
+                    flex: tiny
+                    contents:
+                      - article:
+                        title: "_{Unleash Psyche}"
+                        contents:
+                          - action: free
                             contents:
-                              - field: 'class/dark-archive/psychic:conscious-mind'
-                                width: stretch
-                                size: large
-                                merge-bottom: true
-                          - article: 'class/dark-archive/psychic:conscious-mind/spell1'
+                              - p: "_{At the start of your turn, unleash your psyche. The effect of your unleashed psyche is clearly visible.}"
+                          - layout: indent-l
                             contents:
-                              - action: template
-                                contents:
-                                  - field: 'class/dark-archive/psychic:conscious-mind/spell1-details'
-                                    frame: 'none'
-                                    align: 'left'
-                                    format: 'string'
-                                    repeat: 2
-                                    reduce: 1
-                                    width: 'stretch'
-                                    merge-bottom: false
-                              - p: "[b]_{Amp}[/b]"
-                              - field: 'class/dark-archive/psychic:conscious-mind/spell1-amp'
-                                frame: 'none'
-                                align: 'left'
-                                format: 'string'
-                                repeat: 2
-                                reduce: 1
-                                width: 'stretch'
-                                merge-bottom: true
-                          - article: 'class/dark-archive/psychic:conscious-mind/spell2'
+                              - cost: '2'
+                                unit: "_{rounds}"
+                              - p: "_{After the effect ends, you are stupified 1 and cannot use it again straight away}"
+
+                          - hr:
+                            light: true
+
+                          - row:
+                            blk: false
                             contents:
-                              - action: template
-                                contents:
-                                  - field: 'class/dark-archive/psychic:conscious-mind/spell2-details'
-                                    frame: 'none'
-                                    align: 'left'
-                                    format: 'string'
-                                    repeat: 2
-                                    reduce: 1
-                                    width: 'stretch'
-                                    merge-bottom: false
-                              - p: "[b]_{Amp}[/b]"
-                              - field: 'class/dark-archive/psychic:conscious-mind/spell2-amp'
-                                frame: 'none'
-                                align: 'left'
-                                format: 'string'
-                                repeat: 2
-                                reduce: 1
-                                width: 'stretch'
-                                merge-bottom: true
+                              - p: "_{Can use actions with the psyche trait}"
+                              - spacer:
+                              - flags:
+                                  - "_{Psyche}"
+                          
+
+                          - row:
+                            contents:
+                              - calc:
+                                output:
+                                  label: "_{Damage\nBonus}"
+                                inputs:
+                                  - span: "2 &times;"
+                                  - label: "_{Spell\nLevel}"
+                              - vr:
+                              - p: "_{Bonus when you cast a damaging psychic spell:}"
+                              - spacer:
 
                   - section: "_{Spellcasting}"
                     id: spellcasting
@@ -201,51 +196,13 @@ inc:
 
                   - tail:
                   - spacer:
-                    flex: tiny
 
               - g:
                 contents:
 
-                  - section: "_{Psyche}"
-                    flex: tiny
-                    contents:
-                      - article:
-                        title: "_{Unleash Psyche}"
-                        header:
-                          - row:
-                            blk: false
-                            contents:
-                              - h6: "_{Unleash Psyche}"
-                              - spacer:
-                              - flags:
-                                  - "_{Psyche}"
-                        contents:
-                          - action: free
-                            contents:
-                              - p: "_{At the start of your turn, unleash your psyche. The effect of your unleashed psyche is clearly visible.}"
-                          - layout: indent-l
-                            contents:
-                              - cost: '2'
-                                unit: "_{rounds}"
-                              - p: "_{After the effect ends, you are stupified 1 and cannot use it again straight away}"
-
-                          - hr:
-                            light: true
-
-                          - row:
-                            contents:
-                              - calc:
-                                output:
-                                  label: "_{Damage\nBonus}"
-                                inputs:
-                                  - span: "2 &times;"
-                                  - label: "_{Spell\nLevel}"
-                              - vr:
-                              - p: "_{Bonus when you cast a damaging psychic spell:}"
-                              - spacer:
 
                   - section: "_{Psi Cantrips}"
-                    flex: large
+                    flex: small
                     contents:
                       - list:
                         hr: true
@@ -256,12 +213,13 @@ inc:
                               - zone: '@class/dark-archive/psychic:conscious-mind/psi-cantrips'
                                 contents:
                                   - layout: 2e
-                                    merge-bottom: true
                                     contents:
                                       - field: '##:conscious-mind/psi-cantrip-1'
                                         width: stretch
+                                        merge-bottom: true
                                       - field: '##:conscious-mind/psi-cantrip-2'
                                         width: stretch
+                                        merge-bottom: true
                               - layout: 2e
                                 contents:
                                   - hr:
@@ -273,11 +231,6 @@ inc:
                                 max: 0
                                 spells: 3
                                 style: spontaneous
-                          # - g:
-                          #   contents:
-                          #     - paste: focus
-                          #       contents:
-                          #         - p: "_{Add an amp to a psi cantrip.}"
 
                           - g:
                             contents:
@@ -297,7 +250,6 @@ inc:
                                             frame: none
 
                                   - level: 6
-                                    # inline: true
                                     contents:
                                       - label: "_{Deeper}"
                                         align: left
@@ -308,7 +260,6 @@ inc:
                                             frame: none
                                             
                                   - level: 10
-                                    # inline: true
                                     contents:
                                       - label: "_{Deepest}"
                                         align: left
@@ -333,6 +284,8 @@ inc:
                             spells: 2
                             style: spontaneous
                             special: "_{Conscious}"
+                            special-value:
+                              - zone: '@class/dark-archive/psychic:conscious-mind/granted-spells'
                           - spells-list:
                             min: 10
                             max: 10
@@ -345,7 +298,7 @@ inc:
                           title: "_{Psychic Feats}"
                           mark: psychic
                           extra: 0
-                          lines: 1
+                          lines: 2
 
                   - tail:
 
@@ -361,23 +314,18 @@ inc:
     replace:
       - list:
         hr: true
+        zebra: true
         contents:
-          - g:
+          - slots:
+            min: 2
+            max: 2
             contents:
-              - list:
-                hr: true
-                zebra: true
+              - zone: '@class/dark-archive/psychic:spellbook/cantrips'
                 contents:
-                  - slots:
-                    min: 2
-                    max: 2
-                    contents:
-                      - zone: '@class/dark-archive/psychic:spellbook/cantrips'
-                        contents:
-                    placeholder:
-                      - paste: spellbook/spell
-                        params:
-                          id: psychic/spellbook/cantrip-#{i}
+            placeholder:
+              - paste: spellbook/spell
+                params:
+                  id: psychic/spellbook/cantrip-#{i}
       - tail:
       - spacer:
 
@@ -393,23 +341,18 @@ inc:
     replace:
       - list:
         hr: true
+        zebra: true
         contents:
-          - g:
+          - slots:
+            min: 3
+            max: 3
             contents:
-              - list:
-                hr: true
-                zebra: true
+              - zone: '@class/dark-archive/psychic:spellbook/unique-cantrips'
                 contents:
-                  - slots:
-                    min: 3
-                    max: 3
-                    contents:
-                      - zone: '@class/dark-archive/psychic:spellbook/unique-cantrips'
-                        contents:
-                    placeholder:
-                      - paste: spellbook/spell
-                        params:
-                          id: psychic/spellbook/unique-cantrip-#{i}
+            placeholder:
+              - paste: spellbook/spell
+                params:
+                  id: psychic/spellbook/unique-cantrip-#{i}
 
       - tail:
       - spacer:

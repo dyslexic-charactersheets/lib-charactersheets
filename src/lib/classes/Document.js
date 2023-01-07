@@ -2,7 +2,7 @@ const Handlebars = require('handlebars');
 
 import { log, warn, error, trace } from '../log';
 import { applyContext } from '../context';
-import { isArray, isEmpty, isString, isNull } from '../util';
+import { isArray, isEmpty, isString, isNull, isObject } from '../util';
 import { replaceColours } from '../util/colours';
 import { has, cloneDeep, interpolate } from '../util/objects';
 import { esc, _e, __, translate } from '../i18n';
@@ -241,7 +241,7 @@ export class Document {
     for (const element of elements) {
       if (isNull(element))
         continue;
-      if (replace)
+      if (replace && isObject(element))
         element.replace = true;
       this.zones[zoneId].push(element);
     }
@@ -380,6 +380,11 @@ export class Document {
       case 'large-print':
         element.contents = this.completeElement(element.contents, registry);
         element.else = this.completeElement(element.else, registry);
+        break;
+      case 'spells-list':
+        if (has(element, 'special-value')) {
+          element['special-value'] = this.completeElement(element['special-value'], registry);
+        }
         break;
     }
 

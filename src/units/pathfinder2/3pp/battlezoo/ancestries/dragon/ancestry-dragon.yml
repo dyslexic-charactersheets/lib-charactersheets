@@ -30,13 +30,15 @@ inc:
         title: "_{Dragon}"
         contents:
           - flags:
-              - "_{Fey}"
               - "_{Dragon}"
-          - field: ancestry-speed
-            frame: right
-            label: "_{Speed}"
-            control: value
-            value: "_{25ft}"
+          - zone: '@ancestry/3pp/battlezoon/dragon/speed'
+            contents:
+              - field: ancestry-speed
+                frame: right
+                label: "_{Speed}"
+                control: value
+                value: "_{25ft}"
+          - paste: darkvision
 
           - hr:
             light: true
@@ -69,3 +71,73 @@ inc:
   - at: '@ethnicity'
     replace:
       - spacer:
+
+
+  - copy: dragon-heritage
+    params:
+      damage:
+      shape:
+      spells:
+      attacks:
+    contents:
+      - set: heritage
+        value: "#{name}"
+
+      - switch: "#{damage}"
+        case:
+          acid:
+            - set: dragon-damage-type
+              value: "_{Acid}"
+          blundgeoning:
+            - set: dragon-damage-type
+              value: "_{Bludgeoning}"
+          electricity:
+            - set: dragon-damage-type
+              value: "_{Electricity}"
+          fire:
+            - set: dragon-damage-type
+              value: "_{Fire}"
+          force:
+            - set: dragon-damage-type
+              value: "_{Force}"
+          mental:
+            - set: dragon-damage-type
+              value: "_{Mental}"
+          negative:
+            - set: dragon-damage-type
+              value: "_{Negative}"
+          piercing:
+            - set: dragon-damage-type
+              value: "_{Piercing}"
+          slashing:
+            - set: dragon-damage-type
+              value: "_{Slashing}"
+          sonic:
+            - set: dragon-damage-type
+              value: "_{Sonic}"
+
+      - at: '@feat/3pp/battlezoo/dragon/breath:shape'
+        replace:
+          - switch: "#{shape}"
+            case:
+              line:
+                - value: "_{30ft line}"
+              cone:
+                - value: "_{15ft cone}"
+              burst:
+                - value: "_{5ft burst within 30ft}"
+
+  - copy: dragon-amphibious
+    params:
+      swim-speed: "_{10ft}"
+    contents:
+      - flags:
+          - "_{Amphibious}"
+      - p: "_{Can breathe water or air.}"
+      - field: ancestry-speed
+        frame: right
+        label: "_{Swim Speed}"
+        control: value
+        value: "#{swim-speed}"
+
+

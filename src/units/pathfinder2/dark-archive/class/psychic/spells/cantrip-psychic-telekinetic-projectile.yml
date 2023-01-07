@@ -1,0 +1,40 @@
+unit: cantrip/psychic/telekinetic-projectile
+group: "_{Dark Archive}"
+name: "_{Telekinetic Projectile}"
+
+inc:
+  - copy: cantrip/psychic/telekinetic-projectile
+    contents:
+      - article:
+        title: "_{Telekinetic Projectile}"
+        cat: "_{Cantrip} 1"
+        contents:
+          - dl:
+              range: "_{60ft}"
+          - action: 2
+            contents:
+              - p: "_{Hurl an object. Make a spell attack roll, and deal bludgeoning, piercing, or slashing damage as appropriate for the object.}"
+              
+          - calc:
+            output:
+              field: "##:damage"
+              legend: "_{Damage}"
+              border: full
+              width: large
+            inputs:
+              - field: "##:spell-level"
+                label: "_{Spell Level}"
+                eq: "ceil(%{level}/2)"
+              - span: "+"
+              - field: "##:ability"
+                ref: true
+                label: "_{Spellcasting Ability Modifier}"
+
+          - box:
+            contents:
+              - p:
+                title: "_{Amp}"
+                content: "_{On success, push target 5ft. On critical success, push target 10ft.}"
+              - p:
+                title: "+1"
+                content: "_{[b]2d6[/b] damage}"

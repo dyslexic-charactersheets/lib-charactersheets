@@ -1,0 +1,62 @@
+unit: cantrip/hologram-cage
+name: "_{Hologram Cage}"
+group: "_{Dark Archive}"
+
+inc:
+  - copy: cantrip/hologram-cage
+    contents:
+      - article: cantrip/hologram-cage
+        title: "_{Hologram Cage}"
+        cat: "_{Cantrip} 5"
+        contents:
+          - dl:
+              range: "_{60ft}"
+              duration: "_{1min}"
+              area: "_{20ft cube}"
+
+          - action: 2
+            contents:
+              - p: "_{Create an opaque cube. It sheds bright light 10ft, dim light 20ft, and completely blocks line of sight.}"
+
+          - hr:
+            light: true
+
+          - level: 7
+            contents:
+              - dl:
+                  range: "_{80ft}"
+                  area: "_{25ft cube}"
+
+  - copy: cantrip/hologram-cage/amp
+    contents:
+      - box:
+        contents:
+          - p:
+            title: "_{Amp}"
+            content: "_{The cage has a physical barrier. Each 10ft square has AC 10, and its own hardness and hit points.}"
+
+          - calc:
+            output:
+              field: "##:amp/hardness"
+              legend: "_{Hardness}"
+              width: large
+              eq: "%{##:spell-level}*2"
+            inputs:
+              - field: "##:spell-level"
+                label: "_{Spell Level}"
+                eq: "ceil(%{level}/2)"
+              - span: "&times; 2"
+
+          - calc:
+            output:
+              field: "##:amp/hp"
+              legend: "_{Hit Points}"
+              suffix: "_{hp}"
+              width: large
+              eq: "%{##:spell-level}*4"
+            inputs:
+              - field: "##:spell-level"
+                label: "_{Spell Level}"
+                eq: "ceil(%{level}/2)"
+              - span: "&times; 4"
+

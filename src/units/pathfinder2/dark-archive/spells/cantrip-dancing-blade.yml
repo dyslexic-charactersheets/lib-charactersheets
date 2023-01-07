@@ -21,9 +21,22 @@ inc:
             contents:
               - p:
                 title: "_{Sustain}"
-                content: "_{Weapon either strikes, or flies to a new target within 30ft.}"
+
+              - ul:
+                contents:
+                  - li:
+                    contents:
+                      - p:
+                        title: "_{Change Partners}"
+                        content: "_{Flies to a new target within 30ft.}"
+                  - li:
+                    contents:
+                      - p:
+                        title: "_{Strike}"
+                        content: "_{Use your spell attack roll}"
 
           - calc:
+            merge-bottom: false
             output:
               field: "##:damage"
               legend: "_{Damage}"
@@ -42,10 +55,46 @@ inc:
               - span: "2 +"
               - field: "##:heighten"
                 label: "_{Heighten +2}"
+                width: small
               - span: ")"
                 size: large
               - span: "_{d6} +"
               - field: "##:ability"
                 ref: true
                 label: "_{Spellcasting Ability Modifier}"
+                width: small
+
+  - copy: cantrip/dancing-blade/amp
+    contents:
+      - box:
+        contents:
+          - p:
+            title: "_{Amp}"
+
+          - calc:
+            output:
+              field: "##:damage"
+              legend: "_{Damage}"
+              border: full
+              width: large
+              prefix: "_{2d6} +"
+            inputs:
+              - field: "##:ability"
+                ref: true
+                label: "_{Spellcasting Ability Modifier}"
                 merge-bottom: false
+
+          - action:
+            contents:
+              - ul:
+                contents:
+                  - li:
+                    contents:
+                      - p:
+                        title: "_{Guard}"
+                        content: "_{+2 AC against melee from the target}"
+                  - li:
+                    contents:
+                      - p:
+                        title: "_{Push}"
+                        content: "_{Use spell attack roll to Push}"

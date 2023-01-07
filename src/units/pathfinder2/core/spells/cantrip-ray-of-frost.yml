@@ -1,0 +1,41 @@
+unit: cantrip/ray-of-frost
+name: "_{Ray of Frost}"
+group: "_{Advanced Player's Guide}"
+
+inc:
+  - copy: cantrip/ray-of-frost
+    contents:
+      - article: cantrip/ray-of-frost
+        title: "_{Ray of Frost}"
+        cat: "_{Cantrip} 1"
+        contents:
+          - dl:
+              range: "_{120ft}"
+              target: "_{1 object}"
+
+          - action: 2
+            contents:
+              - p: "_{Make a ranged spell attack.}"
+
+          - calc:
+            output:
+              field: "##:damage"
+              legend: "_{Damage}"
+              control: compound
+              width: huge
+              parts:
+                - subid: dice
+                  suffix: "_{d4}"
+                  eq: "#{##:spell-level}"
+                - subid: bonus
+                  eq: "#{##:ability}"
+            inputs:
+              - field: "##:spell-level"
+                label: "_{Spell Level}"
+              - span: "_{d4} +"
+              - field: "##:ability"
+                ref: true
+                label: "_{Spellcasting Ability Modifier}"
+
+          - p: "_{On a critical hit, deal double damage and target is slowed 10ft for 1rd.}"
+            icon: critical-success

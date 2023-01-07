@@ -31,3 +31,25 @@ inc:
               - field: "##:ability"
                 ref: true
                 label: "_{Spellcasting Ability Modifier}"
+
+  - copy: cantrip/telekinetic-rend/amp
+    contents:
+      - box:
+        contents:
+          - p:
+            title: "_{Amp}"
+            content: "_{Deal both bludgeoning and slashing damage. A target that critically fails its save is also stunned 1.}"
+
+          - calc:
+            output:
+              field: "##:amp/area"
+              legend: "_{Area}"
+              border: full
+              suffix: "_{sq}"
+              width: large
+            inputs:
+              - span: "2 +"
+              - field: "##:spell-level"
+                label: "_{Spell Level}"
+                eq: "ceil(%{level}/2)"
+              - span: "&divide; 2"

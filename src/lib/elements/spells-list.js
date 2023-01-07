@@ -217,8 +217,8 @@ export let spells_list = {
     for (let lvl = min; lvl <= max; lvl++) {
       const ord = args.ordinal ? ordinal(lvl) : lvl;
       let special_value = "";
-      if (args.special && isArray(args["special-value"]) && args["special-value"].length > lvl - args.max) {
-        special_value = args["special-value"][lvl - args.max];
+      if (args.special && isArray(args["special-value"]) && args["special-value"].length > lvl - 1) {
+        special_value = args["special-value"][lvl - 1];
       }
       spell_levels.push(spellLevel(lvl, ord, args.style, args.checks, slots[lvl], args.special, special_value));
     }

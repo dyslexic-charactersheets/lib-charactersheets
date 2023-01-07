@@ -330,6 +330,6 @@ module.exports = {
         let units = _.sortBy(systemUnits, ['id']);
         callback(units);
       });
-    }, 1000);
+    }, 2000);
   }
 }

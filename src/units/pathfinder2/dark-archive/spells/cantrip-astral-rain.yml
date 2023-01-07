@@ -1,0 +1,64 @@
+unit: cantrip/astral-rain
+name: "_{Astral Rain}"
+group: "_{Dark Archive}"
+
+inc:
+  - copy: cantrip/astral-rain
+    contents:
+      - article: cantrip/astral-rain
+        title: "_{Astral Rain}"
+        cat: "_{Cantrip} 3"
+        contents:
+          - dl:
+              range: "_{60ft}"
+              area: "_{5ft cube}"
+
+          - action: 2
+            contents:
+              - p: "_{Creatures in the area or who enter the area this turn make a save or take damage}"
+
+              - flags:
+                  - "_{Bludgeoning}"
+                  - "_{Slashing}"
+
+          - calc:
+            merge-bottom: false
+            output:
+              field: "##:damage"
+              legend: "_{Damage}"
+              border: full
+              width: huge
+              control: compound
+              parts:
+                - subid: dice
+                  eq: "%{##:spell-level}"
+                  suffix: "d8 +"
+                - subid: bonus
+                  eq: "%{##:ability}"
+            inputs:
+              - span: "("
+              - field: "##:spell-level"
+                label: "_{Spell Level}"
+                eq: "ceil(%{level}/2)"
+              - span: "- 1 ) d4 +"
+              - field: "##:ability"
+                label: "_{Spellcasting Ability Modifier}"
+                ref: true
+
+          - paste: basic-save
+            params:
+              save: "_{Reflex}"
+
+  - copy: cantrip/astral-rain/amp
+    contents:
+      - box:
+        contents:
+          - p:
+            title: "_{Amp}"
+            content: "_{The area is a 5ft burst}"
+
+          - action:
+            contents:
+              - p:
+                title: "_{Sustain}"
+                content: "_{Up to 1min. Move the burst up to 20ft.}"

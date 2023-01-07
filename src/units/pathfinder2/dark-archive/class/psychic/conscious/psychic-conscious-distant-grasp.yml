@@ -4,8 +4,8 @@ group: "_{Dark Archive}"
 name: "_{The Distant Grasp}"
 
 require:
-  - unit: cantrip/mage-hand
-  - unit: cantrip/telekinetic-projectile
+  - unit: cantrip/psychic/mage-hand
+  - unit: cantrip/psychic/telekinetic-projectile
   - unit: cantrip/telekinetic-rend
   - unit: cantrip/vector-screen
   - unit: cantrip/dancing-blade
@@ -14,16 +14,16 @@ inc:
   - set: psychic-conscious
     value: "_{The Distant Grasp}"
 
+  - at: '@class/dark-archive/psychic:conscious-mind'
+    replace:
+      - h4: "_{The Distant Grasp}"
+        size: small
+
   - set: class/dark-archive/psychic:conscious-mind/spell1
     value: "_{Mage Hand}"
 
   - set: class/dark-archive/psychic:conscious-mind/spell2
     value: "_{Telekinetic Projectile}"
-
-  - at: '@class/dark-archive/psychic:conscious-mind'
-    replace:
-      - h4: "_{The Distant Grasp}"
-        size: small
 
   - at: '@class/dark-archive/psychic:conscious-mind/psi-cantrips'
     replace:
@@ -44,6 +44,18 @@ inc:
     replace:
       - h6: "_{Dancing Blade}"
 
+  - at: '@class/dark-archive/psychic:conscious-mind/granted-spells'
+    replace:
+      - "_{Kinetic Ram}"
+      - "_{Telekinetic Manoeuvre}"
+      - "_{Levitate}"
+      - "_{Fly}"
+      - "_{Telekinetic Haul}"
+      - "_{Poltergeist's Fury}"
+      - "_{Telekinetic Bombardment}"
+      - "_{Falling Sky}"
+      - "_{Implosion}"
+
 
   # spellbook
 
@@ -53,144 +65,22 @@ inc:
 
   - at: '@class/dark-archive/psychic:spellbook/cantrips'
     replace:
-      - article:
-        title: "_{Mage Hand}"
-        cat: "_{Cantrip} 1"
-        contents:
-          - dl:
-              "_{Distance}": "_{20ft}"
-          - action: 2
-            contents:
-              - p: "_{Invisible hand grasps and moves an object}"
-          - p:
-            title: "_{Sustain}"
-            content: "_{Move object again}"
-          - table:
-            flip: true
-            columns:
-              - "_{Spell Level}"
-              - "_{Lift}"
-              - "_{Range}"
-            rows:
-              - sl: 1
-                lift: "1 _{bulk}"
-                range: "_{30ft}"
-              - sl: 3
-                lift: "2 _{bulk}"
-                range: ""
-              - sl: 5
-                lift: ""
-                range: "_{60ft}"
-              - sl: 7
-                lift: "3 _{bulk}"
-                range: ""
-            template:
-              - span: "#{sl}"
-              - span: "#{lift}"
-              - span: "#{range}"
-
-          - hr:
-            light: true
-          - p:
-            title: "_{Amp}"
-            content: "_{Shove a target. Roll spell attack vs their Fortitude DC. They take -10 ft speed until the spell ends. Sustain to shove again.}"
-          - p:
-            title: "_{4th}"
-            content: "_{Disarm a target and grab it with your mage hand.}"
-
-      - article:
-        title: "_{Telekinetic Projectile}"
-        cat: "_{Cantrip} 1"
-        contents:
-          - dl:
-              range: "_{60ft}"
-          - action: 2
-            contents:
-              - p: "_{Hurl an object. Make a spell attack roll, and deal bludgeoning, piercing, or slashing damage as appropriate for the object.}"
-              
-          - calc:
-            output:
-              field: "##:damage"
-              legend: "_{Damage}"
-              border: full
-              width: large
-            inputs:
-              - field: "##:spell-level"
-                label: "_{Spell Level}"
-                eq: "ceil(%{level}/2)"
-              - span: "+"
-              - field: "##:ability"
-                ref: true
-                label: "_{Spellcasting Ability Modifier}"
-
-          - hr:
-            light: true
-          - p:
-            title: "_{Amp}"
-            content: "_{On success, push target 5ft. On critical success, push target 10ft.}"
-          - p:
-            title: "+1"
-            content: "_{[b]2d6[/b] damage}"
-
+      - paste: cantrip/psychic/mage-hand
+      - paste: cantrip/psychic/telekinetic-projectile
 
   - at: '@class/dark-archive/psychic:spellbook/unique-cantrips'
     add:
       - g:
         contents:
           - paste: cantrip/telekinetic-rend
-          
-          - hr:
-            light: true
-
-          - p:
-            title: "_{Amp}"
-            content: "_{Deal both bludgeoning and slashing damage. A target that critically }"
-
-          - calc:
-            output:
-              field: "##:amp/area"
-              legend: "_{Area}"
-              border: full
-              suffix: "_{sq}"
-              width: large
-            inputs:
-              - span: "2 +"
-              - field: "##:spell-level"
-                label: "_{Spell Level}"
-                eq: "ceil(%{level}/2)"
-              - span: "&divide; 2"
+          - paste: cantrip/telekinetic-rend/amp
 
       - g:
         contents:
           - paste: cantrip/vector-screen
-          
-          - hr:
-            light: true
-          - p:
-            title: "_{Amp}"
-          - dl:
-              duration: "_{1 minute}"
-          - p: "_{Dismiss the spell to cast telekinetic projectile and return all caught ammunition at one creature.}"
+          - paste: cantrip/vector-screen/amp
 
       - g:
         contents:
           - paste: cantrip/dancing-blade
-
-          - hr:
-            light: true
-          - p:
-            title: "_{Amp}"
-            content: "_{}"
-
-          - calc:
-            output:
-              field: "##:damage"
-              legend: "_{Damage}"
-              border: full
-              width: large
-              prefix: "_{2d6} +"
-            inputs:
-              - field: "##:ability"
-                ref: true
-                label: "_{Spellcasting Ability Modifier}"
-                merge-bottom: false
+          - paste: cantrip/dancing-blade/amp

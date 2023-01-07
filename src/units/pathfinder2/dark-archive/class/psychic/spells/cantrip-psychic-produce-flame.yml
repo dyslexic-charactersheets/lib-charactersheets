@@ -1,0 +1,66 @@
+unit: cantrip/psychic/produce-flame
+name: "_{Produce Flame}"
+group: "_{Dark Archive}"
+
+inc:
+  - copy: cantrip/psychic/produce-flame
+    contents:
+      - article: cantrip/psychic/produce-flame
+        title: "_{Produce Flame}"
+        cat: "_{Cantrip} 1"
+        contents:
+          - dl:
+              range: "_{30ft}"
+              target: "_{1 object}"
+
+          - action: 2
+            contents:
+              - p: "_{Make a ranged or melee spell attack.}"
+
+          - calc:
+            output:
+              h5: "_{Ranged\nDamage}"
+            inputs:
+              - field: "##:spell-level"
+                label: "_{Spell Level}"
+                eq: "ceil(%{level}/2)"
+              - span: "d4/d6 +"
+              - field: "##:bonus"
+                ref: true
+                label: "_{Spellcasting Ability Modifier}"
+
+          - row:
+            contents:
+              - p: "_{Melee}"
+              - span: "_{d6}"
+              - vr:
+              - p: "_{Ranged}"
+              - span: "_{d4}"
+
+
+          - p: "_{On a critical hit, deal persistent damage.}"
+            icon: critical-success
+
+          - box:
+            contents:
+              - p:
+                title: "_{Amp}"
+
+              - calc:
+                output:
+                  h5: "_{Ranged\nDamage}"
+                inputs:
+                  - field: "##:amp/spell-level"
+                    label: "_{Spell Level}"
+                    eq: "ceil(%{level}/2)"
+                  - span: "d10/d12 +"
+                  - field: "##:amp/bonus"
+                    label: "_{Spell Level}"
+
+              - row:
+                contents:
+                  - p: "_{Melee}"
+                  - span: "_{d12}"
+                  - vr:
+                  - p: "_{Ranged}"
+                  - span: "_{d10}"

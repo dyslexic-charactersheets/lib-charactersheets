@@ -1,0 +1,82 @@
+unit: cantrip/shatter-mind
+name: "_{Shatter Mind}"
+group: "_{Dark Archive}"
+
+inc:
+  - copy: cantrip/shatter-mind
+    contents:
+      - article: cantrip/shatter-mind
+        title: "_{Shatter Mind}"
+        cat: "_{Cantrip} 3"
+        contents:
+          - dl:
+              area: "_{15ft cone}"
+
+          - action: 2
+            contents:
+              - p: "_{Deal mental damage to all enemies in area.}"
+
+          - calc:
+            output:
+              field: "##:damage"
+              legend: "_{Mental Damage}"
+              width: huge
+              control: compound
+              parts:
+                - subid: dice
+                  eq: "floor((%{##:spell-level}-1)/2)"
+                  suffix: "d4 +"
+                - subid: bonus
+                  eq: "%{##:ability}"
+            inputs:
+              - field: "##:spell-level"
+                label: "_{Spell Level}"
+                ref: true
+                eq: "ceil(%{level}/2)"
+              - span: "_{d4} +"
+              - field: "##:ability"
+                label: "_{Spellcasting Ability Modifier"
+
+          - paste: basic-save
+            params:
+              save: "_{Will}"
+
+  - copy: cantrip/shatter-mind/amp
+    contents:
+      - box:
+        contents:
+          - p:
+            title: "_{Amp}"
+        
+          - dl:
+              area: "_{30ft or 60ft cone}"
+
+          - calc:
+            output:
+              field: "##:damage"
+              legend: "_{Mental Damage}"
+              width: huge
+              control: compound
+              parts:
+                - subid: dice
+                  eq: "floor((%{##:spell-level}-1)/2)"
+                  suffix: "d10 +"
+                - subid: bonus
+                  eq: "%{##:ability}"
+            inputs:
+              - field: "##:spell-level"
+                label: "_{Spell Level}"
+                ref: true
+                eq: "ceil(%{level}/2)"
+              - span: "_{d10} +"
+              - field: "##:ability"
+                label: "_{Spellcasting Ability Modifier"
+
+          - row:
+            contents:  
+              - p: "_{Stupefied 1}"
+                icon: save-fail
+
+              - p: "_{Stupefied 2}"
+                icon: save-crit-fail
+          

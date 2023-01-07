@@ -1,0 +1,40 @@
+unit: feat/additional-lore
+name: "_{Additional Lore}"
+group: "_{Core Rulebook}"
+
+inc:
+  - copy: feat/additional-lore
+    params:
+      lore: ""
+    contents:
+      - article: feat/additional-lore/#{skill}
+        title: "_{Additional Lore}"
+        cat: "_{Feat}"
+        contents:
+          - layout: indent-l
+            contents:
+              - icon: proficiency-trained
+              - g:
+                contents:
+                  - if: "#{lore}"
+                    then:
+                      - label: "_{Skill}"
+                        align: left
+                      - h6: "#{lore}"
+                      - hr:
+                        light: true
+                    else:
+                      - field: "##:skill"
+                        width: stretch
+                        label: "_{Skill}"
+          - row:
+            contents:
+              - level: 3
+                contents:
+                  - icon: proficiency-expert
+              - level: 7
+                contents:
+                  - icon: proficiency-master
+              - level: 15
+                contents:
+                  - icon: proficiency-legendary

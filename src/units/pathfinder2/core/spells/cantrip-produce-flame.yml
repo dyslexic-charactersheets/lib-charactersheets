@@ -1,0 +1,40 @@
+unit: cantrip/produce-flame
+name: "_{Produce Flame}"
+group: "_{Advanced Player's Guide}"
+
+inc:
+  - copy: cantrip/produce-flame
+    contents:
+      - article: cantrip/produce-flame
+        title: "_{Produce Flame}"
+        cat: "_{Cantrip} 1"
+        contents:
+          - dl:
+              range: "_{30ft}"
+              target: "_{1 object}"
+
+          - action: 2
+            contents:
+              - "_{Make a ranged or melee spell attack.}"
+
+          - calc:
+            output:
+              field: "##:damage"
+              legend: "_{Damage}"
+              control: compound
+              parts:
+                - subid: dice
+                  suffix: "_{d4}"
+                  eq: "#{##:spell-level}"
+                - subid: bonus
+                  eq: "#{##:ability}"
+            inputs:
+              - field: "##:spell-level"
+                label: "_{Spell Level}"
+              - span: "d4 +"
+              - field: "##:ability"
+                ref: true
+                label: "_{Spellcasting Ability Modifier}"
+
+          - p: "_{On a critical hit, deal persistent damage.}"
+            icon: critical-success

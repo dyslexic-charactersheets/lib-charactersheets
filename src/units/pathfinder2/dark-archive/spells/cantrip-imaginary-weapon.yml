@@ -1,0 +1,87 @@
+unit: cantrip/imaginary-weapon
+name: "_{Imaginary Weapon}"
+group: "_{Dark Archive}"
+
+inc:
+  - copy: cantrip/imaginary-weapon
+    contents:
+      - article: cantrip/imaginary-weapon
+        title: "_{Imaginary Weapon}"
+        cat: "_{Cantrip} 1"
+        contents:
+          - dl:
+              range: "_{touch}"
+
+          - action: 2
+            contents:
+              - p: "_{Make a melee attack.}"
+
+              - flags:
+                  - "_{Bludgeoning}"
+                  - "_{Slashing}"
+              
+          - calc:
+            merge-bottom: false
+            output:
+              field: "##:damage"
+              legend: "_{Damage}"
+              border: full
+              width: huge
+              control: compound
+              parts:
+                - subid: dice
+                  eq: "%{##:spell-level}"
+                  suffix: "d8 +"
+                - subid: bonus
+                  eq: "%{##:ability}"
+            inputs:
+              - field: "##:spell-level"
+                label: "_{Spell Level}"
+                eq: "ceil(%{level}/2)"
+              - span: "d8 +"
+              - field: "##:ability"
+                label: "_{Spellcasting Ability Modifier}"
+                ref: true
+
+  - copy: cantrip/imaginary-weapon/amp
+    contents:
+      - box:
+        contents:
+          - p:
+            title: "_{Amp}"
+
+          - action: 2
+            contents:
+              - p: "_{Make two melee attacks against different targets.}"
+
+          - calc:
+            output:
+              field: "##:damage"
+              legend: "_{Damage}"
+              border: full
+              width: huge
+              control: compound
+              parts:
+                - subid: dice
+                  eq: "(%{##:spell-level}*2)-1"
+                  suffix: "d8 +"
+                - subid: bonus
+                  eq: "%{##:ability}"
+            inputs:
+              - span: "["
+                size: large
+              - span: "("
+              - field: "##:spell-level"
+                label: "_{Spell Level}"
+                eq: "ceil(%{level}/2)"
+              - span: "&times; 2) - 1"
+              - span: "]"
+                size: large
+              - span: "d8"
+          - row:
+            contents:
+              - spacer:
+              - span: "+"
+              - field: "##:ability"
+                label: "_{Spellcasting Ability Modifier}"
+                ref: true

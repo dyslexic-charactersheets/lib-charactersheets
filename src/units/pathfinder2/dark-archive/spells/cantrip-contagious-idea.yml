@@ -1,0 +1,70 @@
+unit: cantrip/contagious-idea
+name: "_{Contagious Idea}"
+group: "_{Dark Archive}"
+
+inc:
+  - copy: cantrip/contagious-idea
+    contents:
+      - article: cantrip/contagious-idea
+        title: "_{Contagious Idea}"
+        cat: "_{Cantrip} 5"
+        contents:
+          - dl:
+              range: "_{30ft}"
+              target: "_{1 or 2 creatures}"
+
+          - action: 2
+            contents:
+              - p: "_{Place an idea in targets' heads.}"
+
+          - ul:
+            contents:
+              - li:
+                contents:
+                  - p: "_{[b]Pleasant Thought[/b] Target gains temp hp that last for 1min}"
+                  - calc:
+                    output:
+                      field: "##:temp-hp"
+                      legend: "_{Temp HP}"
+                      width: large
+                      suffix: "_{hp}"
+                      eq: "%{##:spell-level}"
+                    inputs:
+                      - field: "##:spell-level"
+                        label: "_{Spell Level}"
+                        eq: "ceil(%{level}/2)"
+              - li:
+                contents:
+                  - p: "_{[b]Terrifying Thought[/b] Target must make a will save}"
+            
+                  - paste: save
+                    contents:
+                      critical_success: "_{No effect, immune for 1min}"
+                      success: "_{Frightened 1, immune for 1min}"
+                      failure: "_{Frightened 2}"
+                      critical_failure: "_{Frightened 3}"
+
+
+  - copy: cantrip/contagious-idea/amp
+    contents:
+      - box:
+        contents:
+          - p:
+            title: "_{Amp}"
+
+          - dl:
+              range: "_{30ft}"
+              target: "_{1 to 3 creatures}"
+              
+          - calc:
+            output:
+              field: "##:temp-hp"
+              legend: "_{Temp HP}"
+              width: large
+              suffix: "_{hp}"
+              eq: "2*%{##:spell-level}"
+            inputs:
+              - span: "2 &times;"
+              - field: "##:spell-level"
+                label: "_{Spell Level}"
+                eq: "ceil(%{level}/2)"

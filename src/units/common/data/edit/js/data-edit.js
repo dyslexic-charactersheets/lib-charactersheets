@@ -354,7 +354,7 @@ function setCounterValue(fieldId, value) {
   }
 }
 
-for (var number of [1, 2, 3]) {
+for (var number of [0, 1, 2, 3]) {
   (function (number) {
     document.getElementById('counter-menu-'+number).addEventListener('change', function (event) {
       if (menus.currentFieldId !== null) {

@@ -1,0 +1,71 @@
+unit: cantrip/psychic/ray-of-frost
+name: "_{Ray of Frost}"
+group: "_{Dark Archive}"
+
+inc:
+  - copy: cantrip/psychic/ray-of-frost
+    contents:
+      - article: cantrip/psychic/ray-of-frost
+        title: "_{Ray of Frost}"
+        cat: "_{Cantrip} 1"
+        contents:
+          - dl:
+              range: "_{180ft}"
+              target: "_{1 object}"
+
+          - action: 2
+            contents:
+              - p: "_{Make a ranged spell attack.}"
+
+          - calc:
+            output:
+              field: "##:damage"
+              legend: "_{Damage}"
+              control: compound
+              width: huge
+              parts:
+                - subid: dice
+                  suffix: "_{d4}"
+                  eq: "#{##:spell-level}"
+                - subid: bonus
+                  eq: "#{##:ability}"
+            inputs:
+              - field: "##:spell-level"
+                label: "_{Spell Level}"
+                ref: "cantrip-level"
+                eq: "ceil(%{level}/2)"
+              - span: "_{d4} +"
+              - field: "##:ability"
+                ref: true
+                label: "_{Spellcasting Ability Modifier}"
+
+          - p: "_{On a critical hit, deal double damage and target is slowed 10ft for 1rd.}"
+            icon: critical-success
+
+
+          - box:
+            contents:
+              - p:
+                title: "_{Amp}"
+                
+              - calc:
+                output:
+                  field: "##:damage"
+                  legend: "_{Damage}"
+                  control: compound
+                  width: huge
+                  parts:
+                    - subid: dice
+                      suffix: "_{d10}"
+                      eq: "#{##:spell-level}"
+                    - subid: bonus
+                      eq: "#{##:ability}"
+                inputs:
+                  - field: "##:spell-level"
+                    label: "_{Spell Level}"
+                    ref: "cantrip-level"
+                    eq: "ceil(%{level}/2)"
+                  - span: "_{d10} +"
+                  - field: "##:ability"
+                    ref: true
+                    label: "_{Spellcasting Ability Modifier}"

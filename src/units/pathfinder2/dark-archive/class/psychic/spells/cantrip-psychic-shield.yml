@@ -1,0 +1,68 @@
+unit: cantrip/psychic/shield
+name: "_{Shield}"
+group: "_{Dark Archive}"
+
+inc:
+  - copy: cantrip/psychic/shield
+    contents:
+      - article: cantrip/psychic/shield
+        title: "_{Shield}"
+        cat: "_{Cantrip} 1"
+        contents:
+          - action:
+            contents:
+              - p: "_{Raise a magical shield for yourself or an ally within 30ft}"
+
+              - value-block: "+1"
+                content: "_{AC until your next turn}"
+
+              - action: reaction
+                contents:
+                  - p:
+                    title: "_{Shield Block}"
+                    content: "_{Shield reduces damage up to the shield's Hardness. You and the shield each take any remaining damage. The spell ends and you can't cast it again for 10 minutes.}"
+
+          - table:
+            flip: true
+            columns:
+              - "_{Spell Level}"
+              - "_{Hardness}"
+            rows:
+              - spell-level: 1
+                hardness: 5
+              - spell-level: 3
+                hardness: 10
+              - spell-level: 5
+                hardness: 15
+              - spell-level: 7
+                hardness: 20
+              - spell-level: 9
+                hardness: 25
+            template:
+              - span: "#{spell-level}"
+              - span: "#{hardness}"
+
+          - box:
+            contents:
+              - p:
+                title: "_{Amp}"
+                content: "_{Raise three shields on one target.}"
+
+              - action:
+                contents:
+                  - p:
+                    title: "_{Sustain}"
+                    content: "_{Up to 1 min}"
+
+              - action: reaction
+                contents:
+                  - p:
+                    title: "_{Shield Block}"
+                    content: "_{One shield breaks and you cease to gain the bonus to AC.}"
+
+                  - value-block: "1.5 &times;"
+                    content: "_{Hardness if you drop two shields at once}"
+
+                  - value-block: "2 &times;"
+                    content: "_{Hardness if you drop three sheilds at once}"
+                  

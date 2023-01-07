@@ -1,0 +1,37 @@
+unit: heritage/3pp/battlezoo/dragon/vortex
+in: heritage/3pp/battlezoo/dragon
+group: "_{BattleZoo}"
+name: "_{Vortex Dragon}"
+
+require:
+  - unit: feat/3pp/battlezoo/dragon/star-flight
+
+inc:
+  - set: deception-proficiency
+    value: trained
+
+  - paste: dragon-heritage
+    params:
+      name: "_{Vortex Dragon}"
+      damage: negative
+      shape: cone
+      spells: arcane
+      attacks: [ tail, wing ]
+
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Vortex Dragon}"
+        contents:
+          - selectable: "##:star-flight"
+            contents:
+              - paste: feat/3pp/battlezoo/dragon/star-flight
+              - p: "_{If you take Star Flight, flight takes half as long as other dragons.}"
+
+  - at: '@ancestry/3pp/battlezoon/dragon/speed'
+    replace:
+      - field: ancestry-speed
+        frame: right
+        label: "_{Speed}"
+        control: value
+        value: "_{30ft}"

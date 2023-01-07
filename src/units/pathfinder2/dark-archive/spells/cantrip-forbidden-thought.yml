@@ -1,0 +1,55 @@
+unit: cantrip/forbidden-thought
+name: "_{Forbidden Thoguht}"
+group: "_{Dark Archive}"
+
+inc:
+  - copy: cantrip/forbidden-thought
+    contents:
+      - article: cantrip/forbidden-thought
+        title: "_{Forbidden Thoguht}"
+        cat: "_{Cantrip} 1"
+        contents:
+          - dl:
+              range: "_{30ft}"
+
+          - action: 2
+            contents:
+              - p: "_{Prevent target from performing an action. Choose Strike, Stride, Cast a Spell, or an ability you know they have.}"
+              - p: "_{If target attempts that action on their next turn, they take mental damage}"
+
+          - calc:
+            output:
+              field: "##:damage"
+              legend: "_{Mental Damage}"
+              border: full
+              width: huge
+              control: compound
+              parts:
+                - subid: dice
+                  eq: "floor(%{##:spell-level}/2)"
+                  suffix: "d6 +"
+                - subid: bonus
+                  eq: "%{##:ability}"
+            inputs:
+              - field: "##:spell-level"
+                label: "_{Spell Level}"
+                ref: true
+                eq: "ceil(%{level}/2)"
+              - span: "_{d6} +"
+              - field: "##:ability"
+                label: "_{Spellcasting Ability Modifier"
+
+          - paste: basic-save
+            params:
+              save: "_{Will}"
+
+          - p: "_{Target is immune for 1min.}"
+
+
+  - copy: cantrip/forbidden-thought/amp
+    contents:
+      - box:
+        contents:
+          - p:
+            title: "_{Amp}"
+            content: "_{If target fails save, stunned 1.}"

@@ -1,0 +1,41 @@
+unit: cantrip/thermal-stasis
+name: "_{Thermal Stasis}"
+group: "_{Dark Archive}"
+
+inc:
+  - copy: cantrip/thermal-stasis
+    contents:
+      - article: cantrip/thermal-stasis
+        title: "_{Thermal Stasis}"
+        cat: "_{Cantrip} 1"
+        contents:
+          - dl:
+              range: "_{60ft}"
+              duration: "_{1rd}"
+
+          - action:
+            contents:
+              - p: "_{One target gains fire and cold resistance 2}"
+
+          - calc:
+            output:
+              field: "##:resistance"
+              legend: "_{Resistance}"
+              border: full
+              width: large
+              eq: "2*%{spell-level}"
+            inputs:
+              - span: "2 &times;"
+              - field: "##:spell-level"
+                ref: spell-level
+                label: "_{Spell Level}"
+                eq: "ceil(%{level}/2)"
+
+  - copy: cantrip/thermal-stasis/amp
+    contents:
+      - box:
+        contents:
+          - p:
+            title: "_{Amp}"
+          - dl:
+              duration: "_{1min}"

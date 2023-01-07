@@ -1,0 +1,35 @@
+unit: cantrip/daze
+name: "_{Daze}"
+group: "_{Advanced Player's Guide}"
+
+inc:
+  - copy: cantrip/daze
+    contents:
+      - article: cantrip/daze
+        title: "_{Daze}"
+        cat: "_{Cantrip} 1"
+        contents:
+          - dl:
+              range: "_{60ft}"
+              duration: "_{1rd}"
+
+          - action: 2
+            content:
+              - p: "_{Deal mental damage to one target}"
+
+          - calc:
+            output:
+              field: '##:damage'
+              legend: "_{Mental Damage}"
+              width: large
+              eq: "%{##:ability}"
+            inputs:
+              - field: "##:ability"
+                label: "_{Spellcasting Ability Modifier}"
+
+          - paste: basic-save
+            params:
+              save: "_{Will}"
+
+          - p: "_{Stunned} 1"
+            icon: save-crit-fail

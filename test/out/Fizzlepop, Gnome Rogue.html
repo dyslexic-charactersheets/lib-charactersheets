@@ -407,6 +407,8 @@ table td .field { margin-left: 0.2rem; margin-right: 0.2rem; }
 
 .field.field--frame_left.field--control_radio .field__frame .field__box, .field.field--frame_left.field--control_checkbox .field__frame .field__box, .field.field--frame_right.field--control_radio .field__frame .field__box, .field.field--frame_right.field--control_checkbox .field__frame .field__box { width: 1rem; }
 
+.field.field--frame_left.field--control_checkgrid .field__frame .field__box, .field.field--frame_right.field--control_checkgrid .field__frame .field__box { width: auto; }
+
 .field.field--frame_left legend, .field.field--frame_left .field__frame > label { text-align: right; }
 
 .field.field--frame_left label { margin-right: 0.25rem; }
@@ -523,11 +525,15 @@ input[ref] { cursor: pointer; }
 
 .field .field__box.buzz { transition: background-color 0.1s; background: #a6085e !important; }
 
-.box { display: flex; flex-direction: column; justify-content: space-evenly; padding: 0.3rem; margin: 0 -0.2rem; }
+.box { display: flex; flex-direction: column; justify-content: space-evenly; padding: 0.3rem; margin: 0.2rem -0.2rem; }
 
 .box > *:first-child:before { display: none; }
 
 .box > *:last-child:after { display: none; }
+
+.blk + .box { margin-top: 0; }
+
+.box + .blk { margin-top: -0.2rem; }
 
 .class-icon { flex: 0 0 auto; height: 4.8rem; min-width: 4.8rem; background-size: contain; background-repeat: no-repeat; background-position: center center; }
 
@@ -654,6 +660,10 @@ label.label--narrow { max-width: 1rem; }
 .layout--layout_spells-list { grid-template-columns: 1fr 2rem 1fr; grid-template-areas: "a level b"; align-items: center; }
 
 .layout--layout_spells-list .level { grid-area: "level"; }
+
+.layout--layout_spells-list .field { flex: 1 0 auto; }
+
+.layout--layout_spells-list .field__box { flex: 1 1 auto; }
 
 .layout--flex > * { display: flex; flex-direction: column; flex-wrap: nowrap; }
 
@@ -859,7 +869,7 @@ dl dd { display: inline; margin-left: 0.3rem; margin-right: 0.5rem; }
 
 .page .copyright-attribution b { font-size: 0.55rem; font-weight: normal; margin-right: 0.5rem; }
 
-.page .page__contents { z-index: 10; background: rgba(255,255,255,0.3); box-shadow: 0 0 30px rgba(255,255,255,0.6); overflow: hidden; }
+.page .page__contents { z-index: 10; background: rgba(255,255,255,0.3); box-shadow: 0 0 30px rgba(255,255,255,0.6); overflow: hidden; margin: 0 -0.2rem; padding: 0 0.2rem; }
 
 .page--landscape .page__contents { position: relative; }
 
@@ -882,6 +892,14 @@ dl dd { display: inline; margin-left: 0.3rem; margin-right: 0.5rem; }
 .row > .row__inner > * { margin-top: 0; margin-bottom: 0; }
 
 .row > .row__inner > span, .row > .row__inner > .ruby > span { margin: 0 0.2rem; font-family: "Merriweather", Georgia, "Times New Roman", Times, serif; font-weight: bold; font-size: 1.1rem; display: inline-block; height: 1.6rem; line-height: 1.6rem; white-space: nowrap; }
+
+.row > .row__inner > span.size_huge, .row > .row__inner > .ruby > span.size_huge { font-size: 1.4rem; }
+
+.row > .row__inner > span.size_large, .row > .row__inner > .ruby > span.size_large { font-size: 1.3rem; }
+
+.row > .row__inner > span.size_small, .row > .row__inner > .ruby > span.size_small { font-size: 0.9rem; }
+
+.row > .row__inner > span.size_tiny, .row > .row__inner > .ruby > span.size_tiny { font-size: 0.825rem; }
 
 .row > .row__inner p { min-height: 1.5rem !important; line-height: 1.4rem; }
 
@@ -1225,6 +1243,10 @@ h3:first-letter { font-size: 0.98rem; }
 
 hr.hr--tail { border-top: 0 none; height: 0.5rem; margin-top: -0.2rem; background-image: url('data:image/svg+xml,<svg width="auto" height="auto" xmlns="http://www.w3.org/2000/svg"><svg x="0" y="0" width="51%" height="4.6" viewBox="0 0 2000 4.6" preserveAspectRatio="xMinYMid slice"><path fill="%23B085BB" d="M2000.013,4.589H12.073C8.739,0.214,0,4.589,0,4.589l2.697-2.645c0,0,8.708-4.375,12.043,0h1985.272V4.589z"/></svg><svg x="49%" y="0" width="51%" height="4.6" viewBox="0 0 2000 4.6" preserveAspectRatio="xMaxYMid slice"><path fill="%23B085BB" d="M0,4.589h1987.939c3.334-4.375,12.073,0,12.073,0l-2.697-2.645c0,0-8.708-4.375-12.043,0H0V4.589z"/></svg></svg>'); background-position: top; background-repeat: no-repeat; background-size: 100% 1.3rem; }
 
+hr.hr--tail.blk:after { border-top: none; }
+
+.box + hr.hr--tail { margin-top: 0; }
+
 h4 { text-shadow: 0 0 0 #a6085e; color: transparent; font-size: 2rem; line-height: 2.6rem; }
 
 section.section--primary h4 { padding-left: 0.4rem; }
@@ -1259,7 +1281,7 @@ span.span--article-cat { font-weight: bold; text-transform: uppercase; text-alig
 
 span.span--article-cat, article header .row > .row__inner > span.span--article-cat { font-family: "Roboto Condensed", "Arial Narrow", Arial, sans-serif; font-size: 0.9rem; line-height: 1.3rem; height: 1.3rem; }
 
-.box { border: 0.1rem solid #9E79A7; border-radius: 0.2rem; background: rgba(255,255,255,0.6); }
+.box { border: 0.075rem solid #9E79A7; border-radius: 0.2rem; background: rgba(255,255,255,0.6); }
 
 .page-build h4 { margin-top: 0; }
 
@@ -1644,9 +1666,9 @@ article header .field__box { border-bottom-width: 0.05rem; margin-bottom: -0.05r
 
 .field.field--control_boost .field__control--boost_down + .field__control--boost_up { margin-left: -0.2rem; }
 
-.layout.layout--layout_spells-list .field.field--frame_annotation-box .field__box, .layout.layout--layout_2e .field.field--frame_annotation-box .field__box { margin-left: -0.2rem; padding-left: 0.2rem; margin-top: -0.1rem; border-left: 0.04rem solid #61336D; border-right: 0.04rem solid #61336D; }
+.layout.layout--layout_spells-list .field.field--frame_annotation-box .field__box, .layout.layout--layout_2e .field.field--frame_annotation-box .field__box { padding-left: 0.1rem; margin-top: -0.1rem; border-left: 0.04rem solid #61336D; border-right: 0.04rem solid #61336D; }
 
-.layout.layout--layout_spells-list .field.field--frame_annotation-box label, .layout.layout--layout_2e .field.field--frame_annotation-box label { right: 0.2rem; text-shadow: 0 0 0 #C193CD; color: transparent; }
+.layout.layout--layout_spells-list .field.field--frame_annotation-box label, .layout.layout--layout_2e .field.field--frame_annotation-box label { right: 0.2rem; text-shadow: 0 0 0 #C193CD; color: transparent; top: -0.1rem; }
 
 .embed--src_gm-hanger { width: 56.08mm; height: 237.43mm; background-image: url('data:image/svg+xml,<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="158.976px" height="673.018px" viewBox="0 0 158.976 673.018" enable-background="new 0 0 158.976 673.018" xml:space="preserve"><line fill="none" stroke="%2333173A" x1="18.25" y1="40.132" x2="18.25" y2="27.632"/><line fill="none" stroke="%2333173A" x1="18.25" y1="673.018" x2="18.25" y2="660.518"/><line fill="none" stroke="%2333173A" x1="0" y1="652.881" x2="12.5" y2="652.881"/><line fill="none" stroke="%2333173A" x1="139.493" y1="40.132" x2="139.493" y2="27.632"/><line fill="none" stroke="%2333173A" x1="139.493" y1="673.018" x2="139.493" y2="660.518"/><line fill="none" stroke="%2333173A" x1="0" y1="302.338" x2="12.5" y2="302.338"/><line fill="none" stroke="%2333173A" x1="146.476" y1="302.338" x2="158.976" y2="302.338"/><line fill="none" stroke="%2333173A" x1="146.476" y1="652.883" x2="158.976" y2="652.883"/><line fill="none" stroke="%2333173A" x1="0" y1="298.338" x2="12.5" y2="298.338"/><line fill="none" stroke="%2333173A" x1="146.476" y1="298.338" x2="158.976" y2="298.338"/><line fill="none" stroke="%23CFA2DA" stroke-dasharray="1,2" x1="33.275" y1="302.338" x2="126.71" y2="302.338"/><line fill="none" stroke="%23CFA2DA" stroke-dasharray="1,2" x1="33.275" y1="298.338" x2="126.71" y2="298.338"/><g><g><path fill="none" stroke="%23DEBFE6" d="M127.493,299.838v-1.5c0.507,0,1.007-0.031,1.498-0.093"/><path fill="none" stroke="%23DEBFE6" stroke-dasharray="3.035,4.0467" d="M132.85,297.079c3.938-1.969,6.644-6.039,6.644-10.741 V54.829c0-2.847-0.993-5.46-2.65-7.517"/><path fill="none" stroke="%23DEBFE6" d="M135.454,45.855c-0.374-0.332-0.768-0.64-1.181-0.924h0.197l-1.299-0.75"/><line fill="none" stroke="%23DEBFE6" stroke-dasharray="3.0887,4.1183" x1="129.604" y1="42.123" x2="81.454" y2="14.328"/><polyline fill="none" stroke="%23DEBFE6" points="79.67,13.298 78.371,12.548 77.079,13.311 		"/><line fill="none" stroke="%23DEBFE6" stroke-dasharray="3.037,4.0494" x1="73.591" y1="15.368" x2="26.505" y2="43.141"/><path fill="none" stroke="%23DEBFE6" d="M24.761,44.169l-1.292,0.762h0.001c-0.413,0.284-0.808,0.592-1.181,0.924"/><path fill="none" stroke="%23DEBFE6" stroke-dasharray="3.035,4.0467" d="M19.763,48.995c-0.964,1.727-1.513,3.716-1.513,5.834 v231.509c0,5.418,3.591,9.998,8.524,11.488"/><path fill="none" stroke="%23DEBFE6" d="M28.752,298.245c0.491,0.062,0.991,0.093,1.498,0.093v1.5"/><path fill="none" stroke="%23DEBFE6" d="M30.25,300.828v1.5c-0.507,0-1.007,0.031-1.498,0.093"/><path fill="none" stroke="%23DEBFE6" stroke-dasharray="2.999,3.9987" d="M24.935,303.566c-3.961,1.96-6.685,6.043-6.685,10.762 v326.555c0,6.627,5.373,12,12,12h97.243c6.627,0,12-5.373,12-12V314.328c0-5.43-3.607-10.018-8.555-11.498"/><path fill="none" stroke="%23DEBFE6" d="M128.991,302.421c-0.491-0.062-0.991-0.093-1.498-0.093v-1.5"/></g></g><line fill="none" stroke="%2333173A" x1="56.871" y1="0" x2="67.696" y2="6.25"/><line fill="none" stroke="%2333173A" x1="146.476" y1="51.814" x2="157.302" y2="58.064"/><line fill="none" stroke="%2333173A" x1="89.077" y1="6.25" x2="99.903" y2="0"/><polygon fill="%238D7194" points="89.202,25.155 78.377,18.905 78.372,18.914 78.367,18.905 67.541,25.155 69.041,27.753  78.372,22.366 87.702,27.753 "/><line fill="none" stroke="%2333173A" x1="1.674" y1="57.268" x2="12.5" y2="51.018"/></svg>'); }
 
@@ -1950,7 +1972,7 @@ input.calc-output { -moz-user-focus: ignore; user-focus: ignore; cursor: inherit
       <div class='page__contents'><div class='layout unblk layout--layout_2l layout--gutter_medium'><div class='layout__inner'><div class='g'><h1 class='logo'></h1><section class='section--untitled'>
             <div class='section__inner'><div class='row blk'><div class='row__inner'><div id='field-player-name' name='field-player-name' class='field field--frame_above field--width_stretch align_left'><div class='field__frame'><label class='label align_left' for='player-name'>Player</label><div class='field__box'><div class='field__control align_left field__control--width_stretch'><input id='player-name' name='player-name'></div></div></div></div><div id='field-hero-points' name='field-hero-points' class='field field--frame_above field--width_medium size_huge field--border_circle'><div class='field__frame'><label class='label align_centre' for='hero-points'>Hero Points</label><div class='field__box field__box--border_circle'><div class='field__control field__control--width_medium'><input id='hero-points' name='hero-points'></div><span class='field__overlay'>3</span></div></div></div></div></div><div class='row blk'><div class='row__inner'><div id='field-campaign-name' name='field-campaign-name' class='field field--frame_above field--width_stretch align_left'><div class='field__frame'><label class='label align_left' for='campaign-name'>Campaign</label><div class='field__box'><div class='field__control align_left field__control--width_stretch'><input id='campaign-name' name='campaign-name'></div></div></div></div><div id='field-xp' name='field-xp' class='field field--frame_above field--width_large field--border_full'><div class='field__frame'><label class='label align_centre' for='xp'>XP</label><div class='field__box field__box--border_full'><div class='field__control field__control--width_large'><input id='xp' name='xp'><u>XP</u></div></div></div></div></div></div></div>
             </section><div class='hr--swash blk'><div class='inner'></div></div><figure class='portrait portrait--char_personal'><div class='portrait__inner'></div><figcaption>Image &copy; Paizo Publishing</figcaption></figure><section id='section-ident' class='section--untitled'>
-            <div class='section__inner'><div class='list list--zebra list--hr unblk'><div class='g'><div class='row blk'><div class='row__inner'><div id='field-character-name' name='field-character-name' class='field field--frame_above field--width_stretch align_left size_huge'><div class='field__frame'><legend>Character Name</legend><div class='field__box'><div class='field__control align_left field__control--width_stretch'><input id='character-name' name='character-name' value='Fizzlepop'></div></div></div></div><div id='field-level' name='field-level' class='field field--frame_above field--width_medium size_huge field--border_circle'><div class='field__frame'><legend>Level</legend><div class='field__box field__box--border_circle'><div class='field__control field__control--width_medium'><input id='level' name='level'></div></div></div></div></div></div><div class='layout unblk layout--layout_alignment layout--gutter_none'><div class='layout__inner'><div class='g'><div class='row blk'><div class='row__inner'><div id='field-gender' name='field-gender' class='field field--icon field--frame_above field--width_large'><div class='field__frame'><label class='label align_centre' for='gender'>Gender</label><div class='field__box field__box--icon'><i class='icon icon_gender'></i><div class='field__control field__control--width_large'><input id='gender' name='gender'></div></div></div></div><div class='spacer'></div><div id='field-age' name='field-age' class='field field--frame_above field--width_large'><div class='field__frame'><label class='label align_centre' for='age'>Age</label><div class='field__box'><div class='field__control field__control--width_large'><input id='age' name='age'></div></div></div></div><div class='spacer'></div><div id='field-size' name='field-size' class='field field--icon field--frame_above field--width_large field--control_enum'><div class='field__frame'><label class='label align_centre' for='size'>Size</label><div class='field__box field__box--icon'><i class='icon icon_size'></i><div class='field__control field__control--width_large'><input id='size' name='size' value='Medium' readonly></div><div class='field--control_enum__options'><label for='enum-menu-size-tiny'><input type='radio' name='enum-menu-size' value='tiny' data-value='Tiny' id='enum-menu-size-tiny'> Tiny</label><label for='enum-menu-size-small'><input type='radio' name='enum-menu-size' value='small' data-value='Small' id='enum-menu-size-small'> Small</label><label for='enum-menu-size-medium'><input type='radio' name='enum-menu-size' value='medium' data-value='Medium' id='enum-menu-size-medium'> Medium</label><label for='enum-menu-size-large'><input type='radio' name='enum-menu-size' value='large' data-value='Large' id='enum-menu-size-large'> Large</label><label for='enum-menu-size-huge'><input type='radio' name='enum-menu-size' value='huge' data-value='Huge' id='enum-menu-size-huge'> Huge</label></div></div></div></div><div class='spacer'></div></div></div><div id='field-deity' name='field-deity' class='field field--frame_above field--width_stretch align_left'><div class='field__frame'><label class='label align_left' for='deity'>Deity</label><div class='field__box'><div class='field__control align_left field__control--width_stretch'><input id='deity' name='deity'></div></div></div></div></div></div><div class='layout__inner'><div id='field-alignment' name='field-alignment' class='field field--frame_none field--width_medium field--control_alignment field--border_none'><div class='field__frame'><div class='field__box field__box--border_none'>
+            <div class='section__inner'><div class='list list--zebra list--hr unblk'><div class='g'><div class='row blk'><div class='row__inner'><div id='field-character-name' name='field-character-name' class='field field--frame_above field--width_stretch align_left size_huge'><div class='field__frame'><legend>Character Name</legend><div class='field__box'><div class='field__control align_left field__control--width_stretch'><input id='character-name' name='character-name' value='Fizzlepop'></div></div></div></div><div id='field-level' name='field-level' class='field field--frame_above field--width_medium size_huge field--border_circle'><div class='field__frame'><legend>Level</legend><div class='field__box field__box--border_circle'><div class='field__control field__control--width_medium'><input id='level' name='level'></div></div></div></div></div></div><div class='layout unblk layout--layout_alignment layout--gutter_none'><div class='layout__inner'><div class='g'><div class='row blk'><div class='row__inner'><div id='field-gender' name='field-gender' class='field field--icon field--frame_above field--width_large'><div class='field__frame'><label class='label align_centre' for='gender'>Gender</label><div class='field__box field__box--icon'><i class='icon icon_gender'></i><div class='field__control field__control--width_large'><input id='gender' name='gender'></div></div></div></div><div class='spacer'></div><div id='field-age' name='field-age' class='field field--frame_above field--width_large'><div class='field__frame'><label class='label align_centre' for='age'>Age</label><div class='field__box'><div class='field__control field__control--width_large'><input id='age' name='age'></div></div></div></div><div class='spacer'></div><div id='field-size' name='field-size' class='field field--icon field--frame_above field--width_large field--control_enum'><div class='field__frame'><label class='label align_centre' for='size'>Size</label><div class='field__box field__box--icon'><i class='icon icon_size'></i><div class='field__control field__control--width_large'><input id='size' name='size' readonly></div><div class='field--control_enum__options'><label for='enum-menu-size-tiny'><input type='radio' name='enum-menu-size' value='tiny' data-value='Tiny' id='enum-menu-size-tiny'> Tiny</label><label for='enum-menu-size-small'><input type='radio' name='enum-menu-size' value='small' data-value='Small' id='enum-menu-size-small'> Small</label><label for='enum-menu-size-medium'><input type='radio' name='enum-menu-size' value='medium' data-value='Medium' id='enum-menu-size-medium'> Medium</label><label for='enum-menu-size-large'><input type='radio' name='enum-menu-size' value='large' data-value='Large' id='enum-menu-size-large'> Large</label><label for='enum-menu-size-huge'><input type='radio' name='enum-menu-size' value='huge' data-value='Huge' id='enum-menu-size-huge'> Huge</label></div></div></div></div><div class='spacer'></div></div></div><div id='field-deity' name='field-deity' class='field field--frame_above field--width_stretch align_left'><div class='field__frame'><label class='label align_left' for='deity'>Deity</label><div class='field__box'><div class='field__control align_left field__control--width_stretch'><input id='deity' name='deity'></div></div></div></div></div></div><div class='layout__inner'><div id='field-alignment' name='field-alignment' class='field field--frame_none field--width_medium field--control_alignment field--border_none'><div class='field__frame'><div class='field__box field__box--border_none'>
       <i class='field__grid '></i>
       <i class='icon icon_good'></i>
       <i class='icon icon_evil'></i>
@@ -3279,7 +3301,7 @@ function setCounterValue(fieldId, value) {
   }
 }
 
-for (var number of [1, 2, 3]) {
+for (var number of [0, 1, 2, 3]) {
   (function (number) {
     document.getElementById('counter-menu-'+number).addEventListener('change', function (event) {
       if (menus.currentFieldId !== null) {

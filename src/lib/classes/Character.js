@@ -82,6 +82,7 @@ function parseCharacter(primary, request) {
       'spellbook': false
     },
     spellbookStyle: 'normal',
+    archetypeStyle: attr.archetypeStyle,
     skillActions: attr.skillActions,
     miniSize: attr.miniSize,
 
@@ -269,6 +270,14 @@ function parseCharacter(primary, request) {
 
         default:
           char.units.push("option/inventory/half");
+      }
+
+      if (char.units.includes("option/archetype-generic")) {
+        switch (attr.archetypeStyle) {
+          case "full":
+            char.units.push("option/archetype-generic/full");
+            break;
+        }
       }
 
       if (attr.archetypes && isArray(attr.archetypes)) {

@@ -1,0 +1,62 @@
+unit: cantrip/psychic/daze
+name: "_{Daze}"
+group: "_{Dark Archive}"
+
+inc:
+  - copy: cantrip/psychic/daze
+    contents:
+      - article: cantrip/psychic/daze
+        title: "_{Daze}"
+        cat: "_{Cantrip} 1"
+        contents:
+          - dl:
+              range: "_{120ft}"
+              duration: "_{1rd}"
+
+          - action: 2
+            content:
+              - p: "_{Deal mental damage to one target}"
+
+          - calc:
+            output:
+              field: '##:damage'
+              legend: "_{Mental Damage}"
+              width: large
+              eq: "%{##:ability}"
+            inputs:
+              - field: "##:ability"
+                label: "_{Spellcasting Ability Modifier}"
+
+          - paste: basic-save
+            params:
+              save: "_{Will}"
+
+          - p: "_{Stunned} 1"
+            icon: save-crit-fail
+
+          - box:
+            contents:
+              - p:
+                title: "_{Amp}"
+                
+              - calc:
+                output:
+                  field: '##:damage'
+                  legend: "_{Mental Damage}"
+                  width: large
+                  suffix: "_{d10}"
+                  eq: "2*floor(%{##:spell-level}/2)"
+                inputs:
+                  - span: "2 &times;"
+                  - ruby-round-down:
+                    contents:
+                      - span: "("
+                      - field: "##:spell-level"
+                        label: "_{Spell Level}"
+                        eq: "ceil(%{level}/2)"
+                      - span: "&divide; 2 )"
+
+              - p: "_{Weakness 1 mental, -1 Will saves}"
+                icon: save-fail
+              - p: "_{Weakness 3 mental}"
+                icon: save-crit-fail

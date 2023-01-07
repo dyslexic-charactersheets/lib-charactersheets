@@ -1,0 +1,58 @@
+unit: cantrip/redistribute-potential
+name: "_{Redistribute Potential}"
+group: "_{Dark Archive}"
+
+inc:
+  - copy: cantrip/redistribute-potential
+    contents:
+      - article: cantrip/redistribute-potential
+        title: "_{Redistribute Potential}"
+        cat: "_{Cantrip} 5"
+        contents:
+          - dl:
+              range: "_{60ft}"
+              area: "_{2x 5ft squares}"
+              save: "_{Basic fortitude}"
+
+          - action: 2
+            contents:
+              - p: "_{Deal cold damage to one 5ft square, and heat damage to an adjacent square.}"
+
+          - calc:
+            output:
+              field: "##:damage"
+              legend: "_{Damage}"
+              width: large
+              suffix: "_{d4}"
+              eq: "&{##:spell-level}-1"
+            inputs:
+              - field: "##:spell-level"
+                label: "_{Spell Level}"
+                eq: "ceil(%{level}/2)"
+              - span: "- 1"
+                
+          - p: "_{Creatures that fail the basic fortitude save also clumsy 1 (in cold) or enfeebled 1 (in heat) for 1rd.}"
+
+  - copy: cantrip/redistribute-potential/amp
+    contents:
+      - box:
+        contents:
+          - p:
+            title: "_{Amp}"
+            content: "_{Affect two adjacent or overlapping 20ft bursts.}"
+
+          - dl:
+              duration: "_{1min}"
+
+          - calc:
+            output:
+              field: "##:damage"
+              legend: "_{Damage}"
+              width: large
+              suffix: "_{d6}"
+              eq: "%{##:spell-level}+1"
+            inputs:
+              - field: "##:spell-level"
+                label: "_{Spell Level}"
+                eq: "ceil(%{level}/2)"
+              - span: "+ 1"
