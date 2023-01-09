@@ -1,0 +1,72 @@
+unit: cantrip/psychic/phase-bolt
+name: "_{Phase Bolt}"
+group: "_{Dark Archive}"
+
+inc:
+  - copy: cantrip/psychic/phase-bolt
+    contents:
+      - article: cantrip/psychic/phase-bolt
+        title: "_{Phase Bolt}"
+        cat: "_{Cantrip} 1"
+        contents:
+          - dl:
+              range: "_{30ft}"
+              
+          - action: 2
+            contents:
+              - p: "_{Make a ranged spell attack against 1 target. Target's circumstance bonus (shield etc) is reduced by 2.}"
+              - p: "_{On a hit, target's circumstance bonus is reduced by 1 until your next turn.}"
+
+          - calc:
+            output:
+              field: "##:damage"
+              legend: "_{Piercing Damage}"
+              control: compound
+              width: huge
+              parts:
+                - subid: dice
+                  suffix: "_{d4} +"
+                  eq: "#{##:spell-level}"
+                - subid: bonus
+                  eq: "#{##:ability}"
+            inputs:
+              - field: "##:spell-level"
+                label: "_{Spell Level}"
+                eq: "ceil(%{level}/2)"
+              - span: "_{d4} +"
+              - field: "##:ability"
+                ref: true
+                label: "_{Spellcasting Ability Modifier}"
+
+          - box:
+            contents:
+              - p:
+                title: "_{Amp}"
+                content: "_{Target is flat-footed against this attack.}"
+
+              - p: "_{On a critical hit, target cannot teleport this turn.}"
+                  
+              - calc:
+                output:
+                  field: "##:damage"
+                  legend: "_{Piercing Damage}"
+                  control: compound
+                  width: huge
+                  parts:
+                    - subid: dice
+                      suffix: "_{d4} +"
+                      eq: "(#{##:spell-level}*2)-1"
+                    - subid: bonus
+                      eq: "#{##:ability}"
+                inputs: []
+              - row:
+                contents:
+                  - spacer:
+                  - span: "("
+                  - field: "##:spell-level"
+                    label: "_{Spell Level}"
+                    eq: "ceil(%{level}/2)"
+                  - span: "&times; 2 -1 ) _{d4} +"
+                  - field: "##:ability"
+                    ref: true
+                    label: "_{Spellcasting Ability Modifier}"

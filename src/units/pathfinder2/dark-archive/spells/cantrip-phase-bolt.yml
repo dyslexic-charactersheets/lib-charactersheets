@@ -1,26 +1,25 @@
-unit: cantrip/ray-of-frost
-name: "_{Ray of Frost}"
-group: "_{Advanced Player's Guide}"
+unit: cantrip/phase-bolt
+name: "_{Phase Bolt}"
+group: "_{Dark Archive}"
 
 inc:
-  - copy: cantrip/ray-of-frost
+  - copy: cantrip/phase-bolt
     contents:
-      - article: cantrip/ray-of-frost
-        title: "_{Ray of Frost}"
+      - article: cantrip/phase-bolt
+        title: "_{Phase Bolt}"
         cat: "_{Cantrip} 1"
         contents:
           - dl:
-              range: "_{120ft}"
-              target: "_{1 object}"
-
+              range: "_{30ft}"
+              
           - action: 2
             contents:
-              - p: "_{Make a ranged spell attack.}"
+              - p: "_{Make a ranged spell attack against 1 target. Target's circumstance bonus (shield etc) is reduced by 2.}"
 
           - calc:
             output:
               field: "##:damage"
-              legend: "_{Damage}"
+              legend: "_{Piercing Damage}"
               control: compound
               width: huge
               parts:
@@ -32,10 +31,9 @@ inc:
             inputs:
               - field: "##:spell-level"
                 label: "_{Spell Level}"
+                eq: "ceil(%{level}/2)"
               - span: "_{d4} +"
               - field: "##:ability"
                 ref: true
                 label: "_{Spellcasting Ability Modifier}"
-
-          - p: "_{On a critical hit, deal double damage and target is slowed 10ft for 1rd.}"
-            icon: critical-success
+                

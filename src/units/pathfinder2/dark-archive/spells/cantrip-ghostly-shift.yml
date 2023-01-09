@@ -1,0 +1,58 @@
+unit: cantrip/ghostly-shift
+name: "_{Ghostly Shift}"
+group: "_{Dark Archive}"
+
+inc:
+  - copy: cantrip/ghostly-shift
+    contents:
+      - article: cantrip/ghostly-shift
+        title: "_{Ghostly Shift}"
+        cat: "_{Cantrip} 3"
+        contents:
+          - dl:
+              range: "_{30ft}"
+
+          - action:
+            contents:
+              - p: "_{Become insubstantial. Gain resistance to all damage except force}"
+
+              - calc:
+                output:
+                  field: "##:resistance"
+                  legend: "_{Resistance}"
+                  width: large
+                  eq: "ceil(%{##:spell-level}/2)"
+                inputs:
+                  - ruby-round-up:
+                    contents:
+                      - field: "##:spell-level"
+                        label: "_{Spell Level}"
+                        eq: "ceil(%{level}/2)"
+                      - span: "&divide; 2"
+
+          - action:
+            contents:
+              - p:
+                title: "_{Sustain}"
+                content: "_{Up to 1min}"
+
+  - copy: cantrip/ghostly-shift/amp
+    contents:
+      - box:
+        contents:
+          - p:
+            title: "_{Amp}"
+            content: "_{Once a round, pass through another creature, dealing force damage with a basic Fortitude save.}"
+
+          - calc:
+            output:
+              field: "##:amp/damage"
+              legend: "_{Damage}"
+              width: large
+              suffix: "_{d6}"
+              eq: "floor(%{##:spell-level}/2)"
+            inputs:
+              - field: "##:spell-level"
+                label: "_{Spell Level}"
+                eq: "ceil(%{level}/2)"
+              - span: "&divide; 2"
