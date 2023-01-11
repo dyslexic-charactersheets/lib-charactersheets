@@ -1,0 +1,63 @@
+unit: ancestry/dark-archive/skeleton
+in: ancestry
+group: "_{Book of the Dead}"
+name: "_{Skeleton}"
+badge: "_{Rare}"
+  
+require:
+  - unit: optional-darkvision/trigger
+
+form:
+  - select: heritage/dark-archive/skeleton
+    name: "_{Skeleton Heritage}"
+    max: 1
+
+inc:
+  - set: ancestry
+    value: "_{Skeleton}"
+  - set: hp-ancestry
+    value: 6
+  - set: build-boost-DEX-ancestry
+    value: 1
+  - set: build-boost-CHA-ancestry
+    value: 1
+  - set: build-boost-INT-ancestry
+    value: -1
+  - set: perception-low-light
+    value: true
+  - set: languages
+    value: "_{Common}, _{Necril}"
+
+  - at: '@ancestry'
+    replace:
+      - article:
+        title: "_{Skeleton}"
+        contents:
+          - flags:
+              - "_{Skeleton}"
+              - "_{Undead}"
+          - zone: "@##:speed"
+            contents:
+              - field: ancestry-speed
+                frame: right
+                label: "_{Speed}"
+                control: value
+                value: "_{25ft}"
+          - paste: low-light-vision
+          - p:
+            title: "_{Negative healing}"
+            content: "_{You are damaged by positive damage and healed by negative healing.}"
+          - p:
+            title: "_{Immune to death effects}"
+            content: "_{Not immune to other parts of a spell.}"
+          - value-block: "+1"
+            content: "_{Saves against disease and poison}"
+
+  - at: '@ethnicity'
+    replace:
+      - g:
+        contents:
+          - h5: "_{Original ancestry}"
+          - article: original-ancestry
+            lines: 1
+      - spacer:

@@ -1,3 +1,6 @@
+import { isEmpty } from '../util';
+import { warn, trace } from '../log';
+
 export let action = {
   name: 'action',
   key: 'action',
@@ -75,7 +78,11 @@ export let selectable = {
     order: null,
     contents: []
   },
-  transform(args) {
+  transform(args, ctx, reg) {
+    if (isEmpty(args.id)) {
+      trace(reg, 'selectable', 'Empty ID');
+    }
+
     let checkboxes = [];
     if (args.max > 1) {
       let depth = args.max > 6 ? 3 : (args.max > 2 ? 2 : 1);
