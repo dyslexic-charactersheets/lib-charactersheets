@@ -29,7 +29,7 @@ export let page = {
     const id = elementID('page', args.id);
     const cls = elementClass('page', null, args, ['flex', 'landscape', 'no-bg', 'fill']);
 
-    const pageNumber = args.numbered ? `<div class='page__number'>${doc.nextPageNumber()}</div>` : '';
+    const pageNumber = args.numbered ? `<div class='page__number'>${doc.nextPageNumber(args.id)}</div>` : '';
     let copyrightAttribution = paizoCopyrightAttribution;
 
     if (args.id == 'permission')
@@ -73,7 +73,7 @@ export let page = {
       }
     }
 
-    return `<div${id}${cls}>${background}${fill}
+    return `<div${id}${cls} data-page='${args.id}'>${background}${fill}
       ${copyrightAttribution}${pageNumber}${watermark}
       <div class='page__contents'>${reg.render(args.contents, doc)}</div>
       ${pageNotes}
@@ -110,13 +110,16 @@ export let collate_pages = {
           i++;
         }
 
+        let pageNumbered = !has(page, 'numbered') || page.numbered;
+        let nextPageNumbered = !has(page, 'numbered') || nextPage.numbered;
+
         out.push({
           type: 'page',
 
           order: page.order,
           id: id,
           name: name,
-          numbered: page.numbered,
+          numbered: pageNumbered || nextPageNumbered,
           flex: true,
           landscape: true,
           half: false,
@@ -132,6 +135,7 @@ export let collate_pages = {
         // log("page", "Collate: full page", page.id);
         out.push(page);
       }
+      log("page", "Collated:", out);
     }
 
     return out;

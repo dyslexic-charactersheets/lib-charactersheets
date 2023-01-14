@@ -453,6 +453,8 @@ inc:
                               - field: build/proficiency-skill-background
                                 frame: none
                                 width: stretch
+                      - g:
+                        contents:
                           - h5: "_{Lore Skill}"
                           - row:
                             valign: middle
@@ -463,10 +465,9 @@ inc:
                               - field: build/proficiency-skill-lore
                                 frame: none
                                 width: stretch
-                                merge-bottom: true
-
                       - g:
                         contents:
+                          - h5: "_{Skill}"
                           - row:
                             valign: middle
                             contents:
@@ -476,55 +477,93 @@ inc:
                               - field: build/proficiency-skill-1
                                 frame: none
                                 width: stretch
-                          - row:
-                            valign: middle
-                            contents:
-                              - field: build/proficiency-skill-2-value
-                                control: proficiency
-                                has-bonus: false
-                              - field: build/proficiency-skill-2
-                                frame: none
-                                width: stretch
-                          - row:
-                            valign: middle
-                            contents:
-                              - field: build/proficiency-skill-3-value
-                                control: proficiency
-                                has-bonus: false
-                              - field: build/proficiency-skill-3
-                                frame: none
-                                width: stretch
-                                merge-bottom: true
-                      - g:
-                        contents:
-                          - row:
-                            valign: middle
-                            contents:
-                              - field: build/proficiency-skill-4-value
-                                control: proficiency
-                                has-bonus: false
-                              - field: build/proficiency-skill-4
-                                frame: none
-                                width: stretch
-                          - row:
-                            valign: middle
-                            contents:
-                              - field: build/proficiency-skill-5-value
-                                control: proficiency
-                                has-bonus: false
-                              - field: build/proficiency-skill-5
-                                frame: none
-                                width: stretch
-                          - row:
-                            valign: middle
-                            contents:
-                              - field: build/proficiency-skill-6-value
-                                control: proficiency
-                                has-bonus: false
-                              - field: build/proficiency-skill-6
-                                frame: none
-                                width: stretch
-                                merge-bottom: true
+
+                  # - layout: 3e
+                  #   contents:
+                  #     - g:
+                  #       contents:
+                  #         - h5: "_{Background Skill}"
+                  #         - row:
+                  #           valign: middle
+                  #           contents:
+                  #             - field: build/proficiency-skill-background-value
+                  #               control: proficiency
+                  #               has-bonus: false
+                  #             - field: build/proficiency-skill-background
+                  #               frame: none
+                  #               width: stretch
+                  #         - h5: "_{Lore Skill}"
+                  #         - row:
+                  #           valign: middle
+                  #           contents:
+                  #             - field: build/proficiency-skill-lore-value
+                  #               control: proficiency
+                  #               has-bonus: false
+                  #             - field: build/proficiency-skill-lore
+                  #               frame: none
+                  #               width: stretch
+                  #               merge-bottom: true
+
+                  #     - g:
+                  #       contents:
+                  #         - row:
+                  #           valign: middle
+                  #           contents:
+                  #             - field: build/proficiency-skill-1-value
+                  #               control: proficiency
+                  #               has-bonus: false
+                  #             - field: build/proficiency-skill-1
+                  #               frame: none
+                  #               width: stretch
+                  #         - row:
+                  #           valign: middle
+                  #           contents:
+                  #             - field: build/proficiency-skill-2-value
+                  #               control: proficiency
+                  #               has-bonus: false
+                  #             - field: build/proficiency-skill-2
+                  #               frame: none
+                  #               width: stretch
+                  #         - row:
+                  #           valign: middle
+                  #           contents:
+                  #             - field: build/proficiency-skill-3-value
+                  #               control: proficiency
+                  #               has-bonus: false
+                  #             - field: build/proficiency-skill-3
+                  #               frame: none
+                  #               width: stretch
+                  #               merge-bottom: true
+                  #     - g:
+                  #       contents:
+                  #         - row:
+                  #           valign: middle
+                  #           contents:
+                  #             - field: build/proficiency-skill-4-value
+                  #               control: proficiency
+                  #               has-bonus: false
+                  #             - field: build/proficiency-skill-4
+                  #               frame: none
+                  #               width: stretch
+                  #         - row:
+                  #           valign: middle
+                  #           contents:
+                  #             - field: build/proficiency-skill-5-value
+                  #               control: proficiency
+                  #               has-bonus: false
+                  #             - field: build/proficiency-skill-5
+                  #               frame: none
+                  #               width: stretch
+                  #         - row:
+                  #           valign: middle
+                  #           contents:
+                  #             - field: build/proficiency-skill-6-value
+                  #               control: proficiency
+                  #               has-bonus: false
+                  #             - field: build/proficiency-skill-6
+                  #               frame: none
+                  #               width: stretch
+                  #               merge-bottom: true
               
           - layout: 2l
             flex: tiny
@@ -543,20 +582,21 @@ inc:
                     contents:
                       - field: build/starting-money
                         legend: "_{Starting Money}"
-                        suffix: "_{sp}"
-                        value: '150'
+                        suffix: "_{gp}"
+                        value: '15'
                         border: full
                         control: money
-                        denomination: silver
-                        digits: 5
+                        denomination: gold
+                        digits: 2
                         editable: false
                       - spacer:
                       - field: build/remaining-money
                         label: "_{Remaining Money}"
                         control: money
-                        denomination: silver
+                        denomination: copper
                         digits: 5
-                        eq: "%{build/starting-money}-%{build/cost-kit}-%{build/cost-weapons}-%{build/cost-ammo}-%{build/cost-armour}-%{build/cost-gear}-%{build/cost-other}"
+                        decimal: 1
+                        eq: "(%{build/starting-money}*100)-%{build/cost-kit}-%{build/cost-weapons}-%{build/cost-ammo}-%{build/cost-armour}-%{build/cost-gear}-%{build/cost-other}-%{build/cost-other2}"
                   - spacer:
               - section: "_{Equipment}"
                 contents:
@@ -579,6 +619,8 @@ inc:
                         name: "_{Gear}"
                       - id: other
                         name: "_{Other}"
+                      - id: other2
+                        name: "_{Other}"
                     template:
                       - h6: "#{name}"
                       - field: "build/equipment-#{id}"
@@ -586,8 +628,9 @@ inc:
                       - span: "&nbsp;"
                       - field: "build/cost-#{id}"
                         control: money
-                        denomination: silver
+                        denomination: copper
                         digits: 5
+                        decimal: 1
                   - spacer:
                     flex: small
                   - tail:

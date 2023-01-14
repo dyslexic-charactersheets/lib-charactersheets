@@ -1883,7 +1883,12 @@
                               "width": "stretch"
                             }
                           ]
-                        },
+                        }
+                      ]
+                    },
+                    {
+                      "type": "g",
+                      "contents": [
                         {
                           "type": "h5",
                           "title": "_{Lore Skill}"
@@ -1903,8 +1908,7 @@
                               "type": "field",
                               "id": "build/proficiency-skill-lore",
                               "frame": "none",
-                              "width": "stretch",
-                              "merge-bottom": true
+                              "width": "stretch"
                             }
                           ]
                         }
@@ -1913,6 +1917,10 @@
                     {
                       "type": "g",
                       "contents": [
+                        {
+                          "type": "h5",
+                          "title": "_{Skill}"
+                        },
                         {
                           "type": "row",
                           "layout": null,
@@ -1929,108 +1937,6 @@
                               "id": "build/proficiency-skill-1",
                               "frame": "none",
                               "width": "stretch"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "row",
-                          "layout": null,
-                          "valign": "middle",
-                          "contents": [
-                            {
-                              "type": "field",
-                              "id": "build/proficiency-skill-2-value",
-                              "control": "proficiency",
-                              "has-bonus": false
-                            },
-                            {
-                              "type": "field",
-                              "id": "build/proficiency-skill-2",
-                              "frame": "none",
-                              "width": "stretch"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "row",
-                          "layout": null,
-                          "valign": "middle",
-                          "contents": [
-                            {
-                              "type": "field",
-                              "id": "build/proficiency-skill-3-value",
-                              "control": "proficiency",
-                              "has-bonus": false
-                            },
-                            {
-                              "type": "field",
-                              "id": "build/proficiency-skill-3",
-                              "frame": "none",
-                              "width": "stretch",
-                              "merge-bottom": true
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "g",
-                      "contents": [
-                        {
-                          "type": "row",
-                          "layout": null,
-                          "valign": "middle",
-                          "contents": [
-                            {
-                              "type": "field",
-                              "id": "build/proficiency-skill-4-value",
-                              "control": "proficiency",
-                              "has-bonus": false
-                            },
-                            {
-                              "type": "field",
-                              "id": "build/proficiency-skill-4",
-                              "frame": "none",
-                              "width": "stretch"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "row",
-                          "layout": null,
-                          "valign": "middle",
-                          "contents": [
-                            {
-                              "type": "field",
-                              "id": "build/proficiency-skill-5-value",
-                              "control": "proficiency",
-                              "has-bonus": false
-                            },
-                            {
-                              "type": "field",
-                              "id": "build/proficiency-skill-5",
-                              "frame": "none",
-                              "width": "stretch"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "row",
-                          "layout": null,
-                          "valign": "middle",
-                          "contents": [
-                            {
-                              "type": "field",
-                              "id": "build/proficiency-skill-6-value",
-                              "control": "proficiency",
-                              "has-bonus": false
-                            },
-                            {
-                              "type": "field",
-                              "id": "build/proficiency-skill-6",
-                              "frame": "none",
-                              "width": "stretch",
-                              "merge-bottom": true
                             }
                           ]
                         }
@@ -2083,12 +1989,12 @@
                       "type": "field",
                       "id": "build/starting-money",
                       "legend": "_{Starting Money}",
-                      "suffix": "_{sp}",
-                      "value": "150",
+                      "suffix": "_{gp}",
+                      "value": "15",
                       "border": "full",
                       "control": "money",
-                      "denomination": "silver",
-                      "digits": 5,
+                      "denomination": "gold",
+                      "digits": 2,
                       "editable": false
                     },
                     {
@@ -2099,9 +2005,10 @@
                       "id": "build/remaining-money",
                       "label": "_{Remaining Money}",
                       "control": "money",
-                      "denomination": "silver",
+                      "denomination": "copper",
                       "digits": 5,
-                      "eq": "%{build/starting-money}-%{build/cost-kit}-%{build/cost-weapons}-%{build/cost-ammo}-%{build/cost-armour}-%{build/cost-gear}-%{build/cost-other}"
+                      "decimal": 1,
+                      "eq": "(%{build/starting-money}*100)-%{build/cost-kit}-%{build/cost-weapons}-%{build/cost-ammo}-%{build/cost-armour}-%{build/cost-gear}-%{build/cost-other}-%{build/cost-other2}"
                     }
                   ]
                 },
@@ -2158,8 +2065,9 @@
                           "rowspan": 1,
                           "id": "build/cost-kit",
                           "control": "money",
-                          "denomination": "silver",
-                          "digits": 5
+                          "denomination": "copper",
+                          "digits": 5,
+                          "decimal": 1
                         }
                       ]
                     },
@@ -2203,8 +2111,9 @@
                           "rowspan": 1,
                           "id": "build/cost-weapons",
                           "control": "money",
-                          "denomination": "silver",
-                          "digits": 5
+                          "denomination": "copper",
+                          "digits": 5,
+                          "decimal": 1
                         }
                       ]
                     },
@@ -2248,8 +2157,9 @@
                           "rowspan": 1,
                           "id": "build/cost-ammo",
                           "control": "money",
-                          "denomination": "silver",
-                          "digits": 5
+                          "denomination": "copper",
+                          "digits": 5,
+                          "decimal": 1
                         }
                       ]
                     },
@@ -2293,8 +2203,9 @@
                           "rowspan": 1,
                           "id": "build/cost-armour",
                           "control": "money",
-                          "denomination": "silver",
-                          "digits": 5
+                          "denomination": "copper",
+                          "digits": 5,
+                          "decimal": 1
                         }
                       ]
                     },
@@ -2338,8 +2249,9 @@
                           "rowspan": 1,
                           "id": "build/cost-gear",
                           "control": "money",
-                          "denomination": "silver",
-                          "digits": 5
+                          "denomination": "copper",
+                          "digits": 5,
+                          "decimal": 1
                         }
                       ]
                     },
@@ -2383,8 +2295,55 @@
                           "rowspan": 1,
                           "id": "build/cost-other",
                           "control": "money",
-                          "denomination": "silver",
-                          "digits": 5
+                          "denomination": "copper",
+                          "digits": 5,
+                          "decimal": 1
+                        }
+                      ]
+                    },
+                    {
+                      "params": {
+                        "id": "other2",
+                        "name": "_{Other}",
+                        "i": 7
+                      },
+                      "cells": [
+                        {
+                          "type": "h6",
+                          "label": "",
+                          "legend": "",
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "title": "_{Other}"
+                        },
+                        {
+                          "type": "field",
+                          "label": "",
+                          "legend": "",
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "id": "build/equipment-other2",
+                          "width": "stretch"
+                        },
+                        {
+                          "type": "span",
+                          "label": "",
+                          "legend": "",
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "content": "&nbsp;"
+                        },
+                        {
+                          "type": "field",
+                          "label": "",
+                          "legend": "",
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "id": "build/cost-other2",
+                          "control": "money",
+                          "denomination": "copper",
+                          "digits": 5,
+                          "decimal": 1
                         }
                       ]
                     }
@@ -3439,13 +3398,7 @@
                   "contents": []
                 },
                 {
-                  "type": "spacer",
-                  "flex": "tiny"
-                },
-                {
-                  "type": "portrait",
-                  "char": "personal",
-                  "overprint": true
+                  "type": "spacer"
                 }
               ]
             }
@@ -13245,7 +13198,7 @@
       "order": 16,
       "type": "page",
       "id": "inventory",
-      "name": "_{Inventory (full size)}",
+      "name": "_{Inventory}",
       "flex": true,
       "contents": [
         {
@@ -15765,7 +15718,7 @@
       "level": 1,
       "order": 17,
       "type": "page",
-      "id": "inventory",
+      "id": "inventory-more",
       "name": "_{Inventory (extra)}",
       "flex": true,
       "contents": [

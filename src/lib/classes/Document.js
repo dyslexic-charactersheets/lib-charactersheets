@@ -47,6 +47,8 @@ export class Document {
     this.backgroundURL = false;
 
     this.vars = {};
+
+    this.pageNumbers = {};
   }
 
   set title(title) {
@@ -105,8 +107,10 @@ export class Document {
     this.measurementUnits = units;
   }
 
-  nextPageNumber() {
-    return this.nextPage++;
+  nextPageNumber(id) {
+    let number = this.nextPage++;
+    this.pageNumbers[id] = number;
+    return number;
   }
 
   // TODO more parameters
@@ -787,6 +791,26 @@ export class Document {
 
     let isLoggedIn = this.isLoggedIn;
 
+    // the actual content
+    let mainContent = registry.render(this.doc.contents, this);
+
+    // get pages for index
+    let pages = this.doc.contents.filter((elem) => elem.type == 'page');
+    log('Document', 'Pages', pages);
+    log('Document', 'Page numbers', this.pageNumbers);
+    let pageIcons = {
+      permission: "d20"
+    };
+    let indexButtons = `<nav id='index-buttons'>
+  ${pages.map((page) => `<button class='index-button' data-page='${page.id}'>
+    <span class='index-button__page'>
+      <i class='index-button__icon${has(pageIcons, page.id) ? ` icon icon_${pageIcons[page.id]}` : ''}'></i>
+      ${(has(this.pageNumbers, page.id)) ? `<span class='index-button__number'>${this.pageNumbers[page.id]}</span>` : ''}
+    </span>
+    <span class='index-button__label'>${__(page.name, this.doc)}</span>
+  </button>`).join("")}
+</nav>`;
+
     // edit
     let controlMenus = '';
     if (this.hasUnit('data/edit')) {
@@ -883,8 +907,10 @@ ${stylesheet}
 
 <body id='${documentId}'>
 
+${indexButtons}
+
 <main>
-${registry.render(this.doc.contents, this)}
+${mainContent}
 </main>
 
 <div class='screen-message' id='screen-message-safari'>

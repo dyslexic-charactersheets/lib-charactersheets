@@ -71,6 +71,110 @@ body {
   }
 }
 
+#index-buttons {
+  $page-height: 3.6vh;
+  $page-width: $page-height * 0.75;
+
+  position: fixed;
+  left: 0.1cm;
+  top: 0;
+  bottom: 2cm;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  gap: $page-height * 0.3;
+
+  // &.index-buttons--many {
+  //   $many-page-height: 3.3vh;
+  //   $many-page-width: $many-page-height * 0.75;
+
+  //   gap: $many-page-height * 0.3;
+
+  //   button.index-button {
+  //     height: $many-page-height;
+  //     border: $page-height * 0.04 solid #666;
+  //     width: $page-width;
+  //     height: $page-height;
+  //   }
+  // }
+
+  button.index-button {
+    background: none;
+    position: relative;
+    border: 0 none;
+    display: block;
+    height: $page-height;
+
+    .index-button__page {
+      display: inline-block;
+      border: $page-height * 0.04 solid #666;
+      width: $page-width;
+      height: $page-height;
+      display: inline-block;
+      line-height: $page-height;
+      background: rgba(255,255,255,0.7);
+      opacity: 0.5;
+      text-align: center;
+      transition: opacity 0.3s;
+      position: relative;
+    }
+
+    .index-button__icon {
+      display: block;
+      width: $page-width;
+      height: $page-height;
+      line-height: $page-height;
+    }
+
+    .index-button__number {
+      font-style: normal;
+      font-weight: bold;
+      font-size: $page-height * 0.6;
+      line-height: $page-height;
+      
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      text-align: center;
+    }
+
+    .index-button__label {
+      display: none;
+      position: absolute;
+      left: $page-height * 1.2;
+      top: $page-height * 0.05;
+
+      // opacity: 0.1;
+      transition: left 1s;
+      font-size: $page-height * 0.4;
+      line-height: $page-height;
+      color: #666;
+      white-space: nowrap;
+    }
+  }
+
+  &:hover {
+    button.index-button {
+      .index-button__page {
+        opacity: 1;
+      }
+      .index-button__label {
+        display: block;
+      }
+    }
+  }
+
+  button.index-button.index-button--current {
+    .index-button__page {
+      opacity: 1;
+    }
+  }
+}
+
 button {
   $button_size: 32px;
   $icon_size: 20px;
