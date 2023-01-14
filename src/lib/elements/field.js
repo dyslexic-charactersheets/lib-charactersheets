@@ -190,14 +190,14 @@ export function fieldInner(args, reg, doc, decoration) {
       }
 
       const partArgs = {...args, label: '', control: 'input', border: 'full', width: 'medium', ...part, value};
-      partArgs = {...partArgs, type: 'control:' + partArgs.control};
+      partArgs = {...partArgs, id: (has(part, 'subid') ? args.id+'-'+part.subid : args.id), type: 'control:' + partArgs.control};
       const control = reg.renderItem(partArgs, doc);
       
       const boxcls = elementClass('field', 'box', partArgs, ["temp"], { "border": "bottom" });
       const partUnit = (has(partArgs, "unit") && !!args.unit) ? `<label class='field__unit'>${__(args.unit, doc)}</label>` : '';
       
       const ruby = partArgs.ruby ? `<label class='field__ruby-text'>${_e(partArgs.ruby, doc)}</label>` : '';
-      const box = `<div class='field__boxes__inner'><div${boxcls}>${i == 0 ? icon : ''}${control}${partUnit}</div>${ruby}</div>`;
+      const box = `<div class='field__boxes__inner' data-subid='${partArgs.id}'><div${boxcls}>${i == 0 ? icon : ''}${control}${partUnit}</div>${ruby}</div>`;
       boxes.push(box);
     }
     inner = `<div class='field__boxes'>${boxes.join("")}</div>`;
