@@ -693,7 +693,7 @@ export class Document {
 
     // portrait
     if (this.portraitURL) {
-      cssParts.push(`.portrait--char_personal .portrait__inner{background-image:url('${this.portraitURL}');}`);
+      cssParts.push(`.portrait--char_personal .portrait__inner,.index-button[data-page='cover'] .index-button__icon{background-image:url('${this.portraitURL}');}`);
     }
 
     // animal companion portraits
