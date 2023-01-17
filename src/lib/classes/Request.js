@@ -2,6 +2,7 @@ import { log, warn } from '../log';
 
 import { Character } from './Character';
 import { Party } from './Party';
+import { Kingdom } from './Kingdom';
 import { GM_Party } from './GM_Party';
 import { GM_Maps } from './GM_Maps';
 import { Build } from './Build';
@@ -90,6 +91,9 @@ export class Request {
 
         case 'party':
           return new Party(primary, this, registry);
+
+        case 'kingdom':
+          return new Kingdom(primary, this, registry);
 
         case 'gm':
           switch(primary.attributes['gm']) {

@@ -1389,33 +1389,39 @@ inc:
                                 zebra: true
                                 avoid-shade: true
                                 contents:
-                                  - each:
-                                    template:
-                                      - level: '#{level}'
-                                        contents:
-                                          - item: yes
+                                  - var: lines
+                                    value: 4
+                                    decrement: 2
+                                    cutoff: 1
                                     contents:
-                                      - slots: [ 1, 5, 9, 13, 17 ]
-                                        key: level
-                                        min: 1
-                                        max: 1
+                                      - each:
+                                        template:
+                                          - level: '#{level}'
+                                            contents:
+                                              - item: yes
                                         contents:
-                                          - zone: '@ancestry-feats'
-                                        placeholder:
-                                          article: 'ancestry-feat-#{level}'
-                                          lines: 3
+                                          - slots: [ 1, 5, 9, 13, 17 ]
+                                            key: level
+                                            min: 1
+                                            max: 1
+                                            contents:
+                                              - zone: '@ancestry-feats'
+                                            placeholder:
+                                              article: 'ancestry-feat-#{level}'
+                                              lines: "#{lines}"
 
-                      - section: "_{Background}"
-                        contents:
-                          - zone: '@background'
-                            contents:
-                              - article: char-background
-                                lines: 5
-                                reduce: 2
                       - layout: 2e
                         contents:
                           - g:
                             contents:
+                              - section: "_{Background}"
+                                contents:
+                                  - zone: '@background'
+                                    contents:
+                                      - article: char-background
+                                        lines: 5
+                                        reduce: 2
+                                        
                               - hr:
                               - h5: "_{Background Skill Feat}"
                               - zone: '@background-skill-feat'
@@ -1431,27 +1437,29 @@ inc:
                                 hr: true
                                 zebra: true
                                 contents:
-                                  - each:
-                                    index: j
-                                    template:
-                                      - level: '#{level}'
-                                        contents:
-                                          - item: yes
+                                  - var: lines
+                                    value: 4
+                                    decrement: 2
+                                    cutoff: 1
                                     contents:
-                                      - slots: [ 3, 7, 11, 15, 19 ]
-                                        key: level
-                                        index: i
-                                        min: 1
-                                        max: 1
+                                      - each:
+                                        index: j
+                                        template:
+                                          - level: '#{level}'
+                                            contents:
+                                              - item: yes
                                         contents:
-                                          - zone: '@general-feats'
-                                        placeholder:
-                                          article: 'general-feat-#{level}'
-                                          lines: 3
+                                          - slots: [ 3, 7, 11, 15, 19 ]
+                                            key: level
+                                            index: i
+                                            min: 1
+                                            max: 1
+                                            contents:
+                                              - zone: '@general-feats'
+                                            placeholder:
+                                              article: 'general-feat-#{level}'
+                                              lines: "#{lines}"
                               - tail:
-                              # - spacer:
-                  # - spacer:
-
 
               - g:
                 contents:
@@ -1508,8 +1516,8 @@ inc:
                         columns: 2
                         contents:
                           - slots:
-                            min: 12
-                            max: 16
+                            min: 10
+                            max: 14
                             reduce: 2
                             contents:
                               - zone: '@proficiencies'

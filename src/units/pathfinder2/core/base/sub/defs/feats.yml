@@ -19,7 +19,7 @@ inc:
       slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
       columns: 2
       lines: 2
-      boost: 0
+      decrement: 0
       extra: 0
       mark: ''
       even: true
@@ -33,41 +33,46 @@ inc:
             flowv: true
             hr: true
             contents:
-              - each:
-                template:
-                  - if: "#{level}"
-                    then:
-                      - level: "#{level}"
-                        contents:
-                          - item:
-                    else:
-                      - layout: indent-l
-                        contents:
-                          - g:
-                            contents:
-                              - label: "_{Level}"
-                              - field: "#{id}-#{i}-level"
-                                width: small
-                                border: full
-                          - g:
+              - var: article-lines
+                value: "#{lines}"
+                decrement: "#{decrement}"
+                cutoff: 1
+                contents:
+                  - each:
+                    template:
+                      - if: "#{level}"
+                        then:
+                          - level: "#{level}"
                             contents:
                               - item:
-                  # - level: "#{level}"
-                  #   contents:
-                  #     - item:
-                contents:
-                  # - log: "EVEN: #{even}"
-                  - slots: "#{slots}"
-                    key: level
-                    min: 1
-                    max: 1
-                    even: "#{even}"
-                    extra: "#{extra}"
-                    placeholder:
-                      article: "#{id}-level-#{level}"
-                      lines: "#{lines}"
+                        else:
+                          - layout: indent-l
+                            contents:
+                              - g:
+                                contents:
+                                  - label: "_{Level}"
+                                  - field: "#{id}-#{i}-level"
+                                    width: small
+                                    border: full
+                              - g:
+                                contents:
+                                  - item:
+                      # - level: "#{level}"
+                      #   contents:
+                      #     - item:
                     contents:
-                      - zone: '@#{id}'
+                      # - log: "EVEN: #{even}"
+                      - slots: "#{slots}"
+                        key: level
+                        min: 1
+                        max: 1
+                        even: "#{even}"
+                        extra: "#{extra}"
+                        placeholder:
+                          article: "#{id}-level-#{level}"
+                          lines: "#{article-lines}"
+                        contents:
+                          - zone: '@#{id}'
 
   - copy: archetype-resiliency
     params:

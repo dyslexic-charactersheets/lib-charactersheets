@@ -135,7 +135,7 @@ export let collate_pages = {
         // log("page", "Collate: full page", page.id);
         out.push(page);
       }
-      log("page", "Collated:", out);
+      // log("page", "Collated:", out);
     }
 
     return out;

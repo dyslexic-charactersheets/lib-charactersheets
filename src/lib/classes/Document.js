@@ -796,8 +796,8 @@ export class Document {
 
     // get pages for index
     let pages = this.doc.contents.filter((elem) => elem.type == 'page');
-    log('Document', 'Pages', pages);
-    log('Document', 'Page numbers', this.pageNumbers);
+    // log('Document', 'Pages', pages);
+    // log('Document', 'Page numbers', this.pageNumbers);
     let pageIcons = {
       permission: "d20"
     };

@@ -139,6 +139,10 @@ export function isArray(val) {
   return Array.isArray(val);
 }
 
+export function isFunction(val) {
+  return val !== null && (typeof val === 'function' || val instanceof Function);
+}
+
 export function isObject(val) {
   return val instanceof Object;
 }

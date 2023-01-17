@@ -65,36 +65,26 @@ inc:
             flex: huge
             hr: true
             contents:
-              - each:
-                template:
-                  - level: "#{level}"
-                    contents:
-                      - item: yes
+              - var: lines
+                value: 4
+                decrement: 6
+                cutoff: 1
                 contents:
-                  - slots: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
-                    key: level
-                    min: 1
-                    max: 1
-                    placeholder:
-                      article: 'skill-feat-#{level}'
-                      lines: 3
+                  - each:
+                    template:
+                      - level: "#{level}"
+                        contents:
+                          - item: yes
                     contents:
-                      - zone: '@skill-feats'
-
-      - section: "_{Notes}"
-        optional: true
-        contents:
-          - layout: 2e
-            contents:
-              - repeat: 2
-                contents:
-                  - field: skill-notes-#{i}
-                    flex: small
-                    width: stretch
-                    frame: none
-                    repeat: 4
-                    reduce: 4
-                    merge-bottom: true
+                      - slots: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
+                        key: level
+                        min: 1
+                        max: 1
+                        placeholder:
+                          article: 'skill-feat-#{level}'
+                          lines: "#{lines}" # 3
+                        contents:
+                          - zone: '@skill-feats'
 
   - at: '@language-section'
     replace:
@@ -309,7 +299,8 @@ inc:
                       id: rogue-feats
                       title: "_{Rogue Feats}"
                       mark: rogue
-                      lines: 3
+                      lines: 5
+                      decrement: 4
                       slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
 
                   - tail:

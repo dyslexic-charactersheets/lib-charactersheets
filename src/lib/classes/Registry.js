@@ -49,6 +49,7 @@ import { spells_list2 } from '../elements/spells-list2';
 import { table } from '../elements/table';
 import { copy, paste } from '../elements/template';
 import { ul, li } from '../elements/ul';
+import { varelem } from '../elements/var'
 import { zone } from '../elements/zone';
 
 import { field } from '../elements/field';
@@ -142,6 +143,7 @@ export class Registry {
       table,
       copy, paste,
       unit,
+      varelem,
       zone,
 
       field,

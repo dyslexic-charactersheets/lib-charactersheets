@@ -12,9 +12,11 @@ export let each = {
     params: {},
     map: {},
     contents: [],
+    spread: false,
   },
   transform(args) {
     let i = 0;
+
     // log("each", "Items", args.contents);
     return args.contents.flatMap(item => {
       i++;

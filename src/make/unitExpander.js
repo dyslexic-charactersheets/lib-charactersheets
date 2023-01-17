@@ -76,6 +76,7 @@ const expansion = {
     paste: 'template',
     unit: 'id',
     value: 'value',
+    'var': 'varname',
     'value-block': 'value',
     vr: '',
     zone: 'zone',

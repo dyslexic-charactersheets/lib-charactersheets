@@ -1,4 +1,4 @@
-import { isNull, isString, isArray, isObject, isEmpty } from '../util';
+import { isNull, isString, isArray, isObject, isEmpty, isFunction } from '../util';
 import { log } from '../log';
 
 export function has(container, property) {
@@ -43,7 +43,15 @@ export function cloneDeep(original) {
   return original;
 }
 
+// recursively replace #{...} in variables with values
 export function interpolate(template, values, document = null) {
+  function interpolateValue(value, name) {
+    if (isFunction(value)) {
+      value = value();
+    }
+    return value;
+  }
+
   if (isNull(template)) {
     return null;
   }
@@ -52,10 +60,11 @@ export function interpolate(template, values, document = null) {
     return template.replace(/#\{(.*?)\}/g, function (tag) {
       const match = tag.match(/#\{(.*?)\}/);
       const index = match[1];
+
       if (has(values, index)) {
-        return values[index];
+        return interpolateValue(values[index], index);
       } else if (!isNull(document) && document.hasVar(index)) {
-        return document.getVar(index, 'string');
+        return interpolateValue(document.getVar(index, 'string'), index);
       }
       return match[0];
     });
