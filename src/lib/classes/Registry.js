@@ -8,6 +8,7 @@ import { unit } from '../elements/unit';
 
 import { action, selectable } from '../elements/action';
 import { advancement } from '../elements/advancement';
+import { arrow } from '../elements/arrow';
 import { article } from '../elements/article';
 import { blockquote } from '../elements/blockquote';
 import { box } from '../elements/box';
@@ -99,6 +100,7 @@ export class Registry {
       // document,
 
       advancement,
+      arrow,
       article,
       blockquote,
       box,

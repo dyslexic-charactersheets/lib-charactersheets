@@ -504,7 +504,7 @@ export class Document {
     function pushCalculation(id, eq, forgiving = false) {
       if (has(calcFields, id)) {
         if (!forgiving && calcFields[id] != eq) {
-          error("Document", `Duplicate calculation ${id.yellow}:`, calcFields[id], eq);
+          error("Document", `Duplicate calculation ${id}:`, calcFields[id], eq);
         }
       } else {
         calcFields[id] = eq;
@@ -556,9 +556,9 @@ export class Document {
 
         if (has(element, "eq")) {
           if (!isString(element.eq)) {
-            trace(reg, "Document", "eq value not a string", element);
+            trace(registry, "Document", "eq value not a string:", element);
           } else if (element.eq == "") {
-            trace(reg, "Document", "eq value empty", element);
+            trace(registry, "Document", "eq value empty", element);
           } else {
             // og("Document", `Field ${element.id} = ${element.eq}`);
             switch (element.control) {

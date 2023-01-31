@@ -108,8 +108,8 @@ function parseCharacter(primary, request) {
     instances: {},
   };
 
-  log("Character", "Is logged in?", attr.isLoggedIn, char.isLoggedIn);
-  log("Character", "Is no calc?", char.isNoCalc, attr.browserTarget);
+  // log("Character", "Is logged in?", attr.isLoggedIn, char.isLoggedIn);
+  // log("Character", "Is no calc?", char.isNoCalc, attr.browserTarget);
   // log("Character", "Request attributes", attr);
 
   // log("Character", "Print intensity", char.printIntensity);

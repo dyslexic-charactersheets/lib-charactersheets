@@ -555,11 +555,15 @@ input[ref] { cursor: pointer; }
 
 .class-icon.size_tiny { height: 1.8rem; min-width: 1.8rem; }
 
+.class-icon.size_large { height: 6rem; min-width: 6rem; }
+
 .class-name:after { content: ""; display: block; flex: 0 1 1rem; min-height: 0.1rem; }
 
 h1, h2, h3, h4, h5, h6 { flex: 0 0 auto; break-after: avoid; }
 
 h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p { margin-top: 0.1rem; }
+
+h1.h1--rotate, h2.h2--rotate, h3.h3--rotate, h4.h4--rotate, h5.h5--rotate, h6.h6--rotate { writing-mode: vertical-rl; transform: rotate(180deg); }
 
 h6.h6--nowrap { white-space: nowrap; }
 
@@ -572,7 +576,7 @@ h6.h6--nowrap { white-space: nowrap; }
 
 .g.g--galign_center { align-self: center; }
 
-.g.align_center { align-items: center; }
+.g.align_center { align-items: center; display: flex; }
 
 .g.align_center, .g.align_center > label, .g.align_center p, .g.align_center h5, .g.align_center h6 { text-align: center; }
 
@@ -595,17 +599,17 @@ label.label--nowrap { white-space: nowrap; }
 label.label--narrow { max-width: 1rem; }
 
 /* Layout */
-.layout { display: grid; grid-gap: 0 0.5cm; grid-template-rows: 1fr; }
+.layout { display: grid; grid-gap: 0 1.4rem; grid-template-rows: 1fr; }
 
 .layout:last-child { border-bottom: 0; margin-bottom: 0; }
 
-.layout--gutter_small { grid-gap: 0 0.3cm !important; }
+.layout--gutter_small { grid-gap: 0 0.84rem !important; }
 
-.layout--gutter_tiny { grid-gap: 0 0.1cm !important; }
+.layout--gutter_tiny { grid-gap: 0 0.28rem !important; }
 
 .layout--gutter_none { grid-gap: 0 0 !important; }
 
-.layout--layout_1n { padding: 0 2cm; grid-template-columns: 1fr; }
+.layout--layout_1n { padding: 0 5.6rem; grid-template-columns: 1fr; }
 
 .layout--layout_2e { grid-template-columns: 1fr 1fr; grid-template-areas: "a b"; }
 
@@ -621,7 +625,7 @@ label.label--narrow { max-width: 1rem; }
 
 .layout--layout_3x2 { grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr 1fr; grid-template-areas: "top-left top top-right" "bottom-left bottom bottom-right"; }
 
-.layout--layout_alignment { grid-template-columns: auto 1.8cm; grid-template-areas: "a b"; align-items: center; }
+.layout--layout_alignment { grid-template-columns: auto 5.04rem; grid-template-areas: "a b"; align-items: center; }
 
 .layout--layout_3e { grid-template-columns: 1fr 1fr 1fr; grid-template-areas: "a b c"; }
 
@@ -879,7 +883,7 @@ dl dd { display: inline; margin-left: 0.3rem; margin-right: 0.5rem; }
 
 .page .copyright-attribution b { font-size: 0.55rem; font-weight: normal; margin-right: 0.5rem; }
 
-.page .page__contents { z-index: 10; background: rgba(255,255,255,0.3); box-shadow: 0 0 30px rgba(255,255,255,0.6); overflow: hidden; margin: 0 -0.2rem; padding: 0 0.2rem; }
+.page .page__contents { position: relative; z-index: 10; background: rgba(255,255,255,0.3); box-shadow: 0 0 30px rgba(255,255,255,0.6); overflow: hidden; margin: 0 -0.2rem; padding: 0 0.2rem; }
 
 .page--landscape .page__contents { position: relative; }
 
@@ -1129,6 +1133,70 @@ table.table--layout_2r-80-20 td:nth-child(1) { width: 80%; }
 table.table--layout_2r-80-20 td:nth-child(2) { width: 20%; }
 
 table.table--flip th, table.table--flip td { vertical-align: middle; }
+
+.arrow { position: absolute; top: 0; left: 0; }
+
+.arrow .arrow__curve { position: absolute; width: 0.75rem; height: 0.75rem; }
+
+.arrow .arrow__curve.arrow__curve--top-right { border-top-right-radius: 0.75rem; border-top: 0.1rem solid #897090; border-right: 0.1rem solid #897090; }
+
+.arrow .arrow__curve.arrow__curve--top-left { border-top-left-radius: 0.75rem; border-top: 0.1rem solid #897090; border-left: 0.1rem solid #897090; }
+
+.arrow .arrow__curve.arrow__curve--bottom-left { border-bottom-left-radius: 0.75rem; border-bottom: 0.1rem solid #897090; border-left: 0.1rem solid #897090; }
+
+.arrow .arrow__curve.arrow__curve--bottom-right { border-bottom-right-radius: 0.75rem; border-bottom: 0.1rem solid #897090; border-right: 0.1rem solid #897090; }
+
+.arrow .arrow__line, .arrow .arrow__head { position: absolute; }
+
+.arrow.arrow--align_horizontal .arrow__main-line { border-left: 0.1rem solid #897090; }
+
+.arrow.arrow--align_horizontal .arrow__head-line, .arrow.arrow--align_horizontal .arrow__tail-line { border-top: 0.1rem solid #897090; }
+
+.arrow.arrow--align_vertical .arrow__main-line { border-top: 0.1rem solid #897090; }
+
+.arrow.arrow--align_vertical .arrow__head-line, .arrow.arrow--align_vertical .arrow__tail-line { border-left: 0.1rem solid #897090; }
+
+.arrow.arrow--direction_left .arrow__head { left: 0; width: 0; height: 0; border-right: 0.6rem solid #897090; border-top: 0.3rem solid transparent; border-bottom: 0.3rem solid transparent; }
+
+.arrow.arrow--direction_left .arrow__head-line { left: 0.6rem; right: calc(50% + 0.65rem); }
+
+.arrow.arrow--direction_left .arrow__head-curve { right: calc(50% - 0.075rem); }
+
+.arrow.arrow--direction_left .arrow__main-line { left: 50%; top: 0.75rem; bottom: 0.75rem; }
+
+.arrow.arrow--direction_left .arrow__tail-curve { left: 50%; }
+
+.arrow.arrow--direction_left .arrow__tail-line { left: calc(50% + $curve); right: 0; }
+
+.arrow.arrow--direction_left.arrow--shift_above .arrow__head { top: -0.25rem; }
+
+.arrow.arrow--direction_left.arrow--shift_above .arrow__head-line, .arrow.arrow--direction_left.arrow--shift_above .arrow__head-curve { top: 0; }
+
+.arrow.arrow--direction_left.arrow--shift_above .arrow__tail-line, .arrow.arrow--direction_left.arrow--shift_above .arrow__tail-curve { bottom: 0; }
+
+.arrow.arrow--direction_left.arrow--shift_below .arrow__head { bottom: -0.25rem; }
+
+.arrow.arrow--direction_left.arrow--shift_below .arrow__head-line, .arrow.arrow--direction_left.arrow--shift_below .arrow__head-curve { bottom: 0; }
+
+.arrow.arrow--direction_left.arrow--shift_below .arrow__tail-line, .arrow.arrow--direction_left.arrow--shift_below .arrow__tail-curve { top: 0; }
+
+.arrow.arrow--direction_right .arrow__head-line { left: 50%; right: 0; }
+
+.arrow.arrow--direction_right .arrow__tail-line { left: 0; right: 50%; }
+
+.arrow.arrow--direction_right .arrow__main-line { left: 50%; top: 0; bottom: 0; }
+
+.arrow.arrow--direction_up .arrow__head-line { top: 0; bottom: 50%; }
+
+.arrow.arrow--direction_up .arrow__tail-line { top: 50%; bottom: 0; }
+
+.arrow.arrow--direction_up .arrow__main-line { left: 0; right: 0; top: 50%; }
+
+.arrow.arrow--direction_down .arrow__head-line { top: 50%; bottom: 0; }
+
+.arrow.arrow--direction_down .arrow__tail-line { top: 0; bottom: 50%; }
+
+.arrow.arrow--direction_down .arrow__main-line { left: 0; right: 0; top: 50%; }
 
 .page.page--flex { display: flex; flex-direction: column; }
 
@@ -3076,6 +3144,98 @@ function updateScroll() {
 document.addEventListener("scroll", (event) => {
   updateScroll();
 });
+
+
+// Arrows
+for (let arrowElem of document.getElementsByClassName('arrow')) {
+  let from = document.getElementById(arrowElem.dataset.from);
+  let to = document.getElementById(arrowElem.dataset.to);
+  if (from !== null && to !== null) {
+    let pageContainer = arrowElem.closest('.page__contents');
+    let pageContainerBox = pageContainer.getBoundingClientRect();
+
+    let direction = arrowElem.dataset.direction;
+    let isVertical = direction == 'up' || direction == 'down';
+    arrowElem.classList.add(isVertical ? 'arrow--align_vertical' : 'arrow--align_horizontal');
+
+    // find the positions of the start and end points
+    let fromContainerBox = (from.offsetParent == null ? pageContainerBox : from.offsetParent.getBoundingClientRect());
+    let toContainerBox = (to.offsetParent == null ? pageContainerBox : to.offsetParent.getBoundingClientRect());
+    let fromPoint = { x: from.offsetLeft + (fromContainerBox.left - pageContainerBox.left), y: from.offsetTop + (fromContainerBox.top - pageContainerBox.top) };
+    let toPoint = { x: to.offsetLeft + (toContainerBox.left - pageContainerBox.left), y: to.offsetTop + (toContainerBox.top - pageContainerBox.top) };
+
+    switch (direction) {
+      case 'up':
+        fromPoint = { x: fromPoint.x + from.offsetWidth / 2, y: fromPoint.y };
+        toPoint = { x: toPoint.x + to.offsetWidth / 2, y: toPoint.y + to.offsetHeight };
+        break;
+      case 'down':
+        fromPoint = { x: fromPoint.x + from.offsetWidth / 2, y: fromPoint.y + from.offsetHeight };
+        toPoint = { x: toPoint.x + to.offsetLeft / 2, y: toPoint.y };
+        break;
+      case 'left':
+        fromPoint ={ x: fromPoint.x, y: fromPoint.y + from.offsetHeight / 2 };
+        toPoint = { x: toPoint.x + to.offsetWidth, y: toPoint.y + to.offsetHeight / 2 };
+        break;
+      case 'right':
+        fromPoint = { x: fromPoint.x + from.offsetWidth, y: fromPoint.y + from.offsetHeight / 2 };
+        toPoint = { x: toPoint.x, y: toPoint.y + to.offsetHeight / 2 };
+        break;
+    }
+
+    // which way does the arrow need to jump?
+    let isShiftAbove = toPoint.y < fromPoint.y;
+    let isShiftLeft = toPoint.x < fromPoint.x;
+    arrowElem.classList.add(isShiftAbove ? 'arrow--shift_above' : 'arrow--shift_below');
+    arrowElem.classList.add(isShiftLeft ? 'arrow--shift_left' : 'arrow--shift_left');
+
+    // position the arrow pieces
+    let box = {top: 0, left: 0, width: Math.abs(toPoint.x - fromPoint.x), height: Math.abs(toPoint.y - fromPoint.y) };
+    let headCurveClass = '';
+    let tailCurveClass = '';
+
+    switch (direction) {
+      case 'up':
+        box.top = toPoint.y;
+        box.left = isShiftLeft ? toPoint.x : fromPoint.x;
+        headCurveClass = isShiftLeft ? 'bottom-left' : 'bottom-right';
+        tailCurveClass = isShiftLeft ? 'top-right' : 'top-left';
+        break;
+      case 'down':
+        box.top = fromPoint.y;
+        box.left = isShiftLeft ? toPoint.x : fromPoint.x;
+        headCurveClass = isShiftLeft ? 'top-left' : 'top-right';
+        tailCurveClass = isShiftLeft ? 'bottom-right' : 'bottom-left';
+        break;
+      case 'left':
+        box.top = isShiftAbove ? toPoint.y : fromPoint.y;
+        box.left = toPoint.x;
+        headCurveClass = isShiftAbove ? 'top-right' : 'bottom-right';
+        tailCurveClass = isShiftAbove ? 'bottom-left' : 'top-left';
+        break;
+      case 'left':
+        box.top = isShiftAbove ? toPoint.y : fromPoint.y;
+        box.left = toPoint.x;
+        headCurveClass = isShiftAbove ? 'top-left' : 'bottom-left';
+        tailCurveClass = isShiftAbove ? 'bottom-right' : 'top-right';
+        break;
+    }
+
+    // set the box of the arrow container box
+    arrowElem.style.top = box.top+'px';
+    arrowElem.style.left = box.left+'px';
+    arrowElem.style.width = box.width+'px';
+    arrowElem.style.height = box.height+'px';
+
+    // set the direction of the corner curves
+    for (let headCurveElem of arrowElem.getElementsByClassName('arrow__head-curve')) {
+      headCurveElem.classList.add('arrow__curve--'+headCurveClass);
+    }
+    for (let tailCurveElem of arrowElem.getElementsByClassName('arrow__tail-curve')) {
+      tailCurveElem.classList.add('arrow__curve--'+tailCurveClass);
+    }
+  }
+}
 
 var filename = "Fizzlepop, Gnome Rogue.html";
 /* ### START REQUEST SECTION ### */
