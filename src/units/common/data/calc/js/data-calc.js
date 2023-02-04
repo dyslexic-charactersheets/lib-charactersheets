@@ -40,6 +40,21 @@ function minmax(num, min, max) {
   return num;
 }
 
+function checkgridValue(name) {
+  let value = 0;
+  let fieldElem = document.getElementByName('id-'+name);
+  if (fieldElem !== null) {
+    for (let inputs of fieldElem.getElementsByTagName('input')) {
+      if (input.type == 'checkbox') {
+        if (input.checked) {
+          value++;
+        }
+      }
+    }
+  }
+  return value;
+}
+
 function threshold(num, thresholds) {
   var result = '';
   for (var i = 0; i < thresholds.length; i += 2) {

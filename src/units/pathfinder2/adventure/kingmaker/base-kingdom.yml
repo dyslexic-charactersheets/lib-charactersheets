@@ -15,16 +15,16 @@ inc:
             contents:
               - g:
                 contents:
-                  # - logo:
+                  - logo:
 
                   - section:
                     untitled: true
                     contents:
+                      - class-name: "_{Kingdom}"
                       - class-icon: kingdom
                         optional: true
                         size: large
                         flex: huge
-                      - class-name: "_{Kingdom}"
                       - field: kingdom-name
                         label: "_{Kingdom Name}"
                         width: stretch
@@ -42,8 +42,9 @@ inc:
                             size: huge
                           - field: size
                             legend: "_{Size}"
-                            border: circle
+                            border: full
                             format: int
+                            icon: hex
                           - spacer:
 
                           - field: fame-infamy
@@ -83,35 +84,41 @@ inc:
                             code: CUL
                             ruin: "_{Corruption}"
                             ruincode: corruption
-                            absence-eq: "(%{leader-ruler-absent}?1:'')+(%{counselor-ruler-absent}?1:'')"
+                            leadership-eq: "%{leader-counselor-ability}+%{leader-magister-ability}"
+                            absence-eq: "(%{leader-ruler-absent}?1:0)+(%{counselor-ruler-absent}?1:0)"
                           - name: "_{Economy}"
                             short: "_{ECO}"
                             code: ECO
                             ruin: "_{Crime}"
                             ruincode: crime
-                            absence-eq: "(%{leader-ruler-absent}?1:'')+(%{treasurer-ruler-absent}?1:'')"
+                            leadership-eq: "%{leader-viceroy-ability}+%{leader-treasurer-ability}"
+                            absence-eq: "(%{leader-ruler-absent}?1:0)+(%{treasurer-ruler-absent}?1:0)"
                           - name: "_{Loyalty}"
                             short: "_{LOY}"
                             code: LOY
                             ruin: "_{Loyalty}"
                             ruincode: loyalty
-                            absence-eq: "(%{leader-ruler-absent}?1:'')+(%{emissary-ruler-absent}?1:'')"
+                            leadership-eq: "%{leader-ruler-ability}+%{leader-emissary-ability}"
+                            absence-eq: "(%{leader-ruler-absent}?1:0)+(%{emissary-ruler-absent}?1:0)"
                           - name: "_{Stability}"
                             short: "_{STA}"
                             code: STA
                             ruin: "_{Stability}"
                             ruincode: stability
-                            absence-eq: "(%{leader-ruler-absent}?1:'')+(%{viceroy-ruler-absent}?1:'')"
+                            leadership-eq: "%{leader-general-ability}+%{leader-warden-ability}"
+                            absence-eq: "(%{leader-ruler-absent}?1:0)+(%{viceroy-ruler-absent}?1:0)"
                         columns:
                           # - h5: "_{Ability}"
                           #   rotate: true
                           - ""
                           - ""
+                          - label: "_{Leadership\nBonus}"
+                          - ""
                           - label: "_{Ruin\nPenalty}"
                           - label: "_{Absence\nPenalty}"
                           - label: "_{Unrest\nPenalty}"
                           - ""
-                          - ""
+                          - label: "_{Kingdom\nCheck}"
                         template:
                           - g:
                             align: center
@@ -132,13 +139,26 @@ inc:
                           - g:
                             align: center
                             contents:
-                              - span: "&ndash;"
+                              - span: "[b]+[/b]"
+                                size: large
+                          - g:
+                            align: center
+                            contents:
+                              - field: "#{code}-leadership-bonus"
+                                label: "#{leadership}"
+                                eq: "#{leadership-eq}"
+                                ref: true
+                          - g:
+                            align: center
+                            contents:
+                              - span: "[b]&ndash;[/b]"
                           - g:
                             align: center
                             contents:
                               - field: "#{code}-ruin-penalty"
                                 label: "#{ruin}"
-                                ref: "#{ruincode}-penalty"
+                                eq: "checkgridValue('#{ruincode}-penalty')"
+                                ref: true
                           - g:
                             align: center
                             contents:
@@ -158,9 +178,11 @@ inc:
                             align: center
                             contents:
                               - field: "#{code}-penalty"
-                                width: ""
+                                prefix: "+"
+                                width: large
+                                size: large
                                 border: full
-                                eq: "%{#{code}}-%{#{code}-ruin-penalty}-%{#{code}-absence-penalty}-%{unrest-penalty}"
+                                eq: "%{#{code}}+%{#{code}-leadership-bonus}-%{#{code}-ruin-penalty}-%{#{code}-absence-penalty}-%{unrest-penalty}"
 
                   - section: "_{Ruin}"
                     contents:
@@ -186,12 +208,15 @@ inc:
                             border: full
                             width: large
                           - span: ">"
-                          - field: "#{code}-threshold"
+                          - field: "#{ruincode}-threshold"
                             eq: "10"
                           - span: "&rarr;"
-                          - field: "#{code}-penalty"
-                            eq: ""
+                          - field: "#{ruincode}-penalty"
+                            control: checkgrid
+                            max: 10
                           - span: "&#11189;"
+
+                      - p: "_{When }"
 
                   - section: "_{Proficiency}"
                     contents:
@@ -251,80 +276,10 @@ inc:
                           - field: control-dc-misc
                             label: "_{Vacancy Penalty}"
                             eq: "%{leader-ruler-absent}?2:''"
-                            
-                            # misc: true
-
-                  - section: "_{Resources}"
-                    contents:
-                      - row:
-                        contents:
-                          - calc:
-                            output:
-                              field: resource-dice
-                              legend: "_{Resource Dice}"
-                              width: huge
-                              border: full
-                              control: compound
-                              parts:
-                                - subid: dice
-                                  eq: "4+%{level}"
-                                  align: right
-                                - span: "_{d}"
-                                - subid: die
-                                  eq: "threshold(%{size},[1,4,10,6,25,8,50,10,100,12])"
-                                  align: left
-                            inputs:
-                              - span: "4 +"
-                              - field:
-                                ref: level
-                                label: "_{Kingdom Level}"
-                          - spacer:
-                          - span: "&rarr;"
-                          - spacer:
-                          - field: resource-points
-                            legend: "_{Resource Points}"
-                            suffix: "_{rp}"
-                            border: full
-                            width: huge
-
-                      - row:
-                        contents:
-                          - calc:
-                            output:
-                              field: consumption
-                              legend: "_{Consumption}"
-                              width: huge
-                              border: full
-                              suffix: "_{rp}"
-                            inputs:
-                              - field: consumption-settlements
-                                label: "_{Settlement Consumption}"
-                              - span: "+"
-                              - field: consumption-settlements
-                                label: "_{Army Consumption}"
-                              - span: "-"
-                              - field: consumption-settlements
-                                label: "_{Farmland Hexes}"
-                                icon: hex
-                              - span: "+"
-                              - field: consumption-events
-                                label: "_{Events}"
-                                misc: true
-
-                      - row:
-                        contents:
-                          - field: excess
-                            legend: "_{Excess}"
-                            width: huge
-                            border: full
-                            suffix: "_{rp}"
-                            eq: "%{resource-points}-%{consumption}"
-                          - p: "_{Excess resources become Kingdom XP}"
-                          - spacer:
-
                     
                   - tail:
-                  # - spacer:
+                  - spacer:
+                    flex: small
 
               - g:
                 contents:
@@ -380,7 +335,7 @@ inc:
                                     penalty: "_{-4 to Warfare activities}"
                                   - name: "_{Treasurer}"
                                     code: treasurer
-                                    ability: "_{Treasurer}"
+                                    ability: "_{Economy}"
                                     penalty: "_{-1 to Economy checks}"
                                   - name: "_{Viceroy}"
                                     code: viceroy
@@ -558,39 +513,105 @@ inc:
             contents:
               - g:
                 contents:
+                  - section: "_{Charter}"
+                    contents:
+                      - article: "kingdom:government"
+                        lines: 4
+
+                  - section: "_{Heartland}"
+                    contents:
+                      - layout: 2e
+                        contents:
+                          - field: heartland
+                            control: radio
+                            value: forest-swamp
+                            frame: right
+                            label: "_{Forest / Swamp}"
+                          - field: heartland
+                            control: radio
+                            value: hill-plain
+                            frame: right
+                            label: "_{Hill / Plain}"
+                          - field: heartland
+                            control: radio
+                            value: lake-river
+                            frame: right
+                            label: "_{Lake / River}"
+                          - field: heartland
+                            control: radio
+                            value: mountain-ruins
+                            frame: right
+                            label: "_{Mountain / Ruins}"
+                        
+                      - article: "kingdom:heartland"
+                        lines: 4
+                        
+                  - section: "_{Leadership}"
+                    contents:
+                      - list:
+                        hr: true
+                        light: true
+                        contents:
+                          - indent:
+                            contents:
+                              - value-block: "+1"
+                                content: "_{Leadership bonus to kingdom checks}"
+                          - level: 8
+                            contents:
+                              - h5: "_{Experienced Leadership}"
+                              - value-block: "+2"
+                                content: "_{Leadership bonus to kingdom checks}"
+                          - level: 17
+                            contents:
+                              - value-block: "+3"
+                                content: "_{Leadership bonus to kingdom checks}"
+
                   - section: "_{Expansion Expert}"
                     contents:
-                      - level: 4
+                      - list:
+                        hr: true
+                        light: true
                         contents:
-                          - value-block: "+2"
-                            content: "_{Claim Hex bonus twice per Kingdom turn}"
+                          - level: 4
+                            contents:
+                              - value-block: "+2"
+                                content: "_{Claim Hex bonus twice per Kingdom turn}"
 
-                      - level: 9
-                        contents:
-                          - value-block: "+2"
-                            content: "_{Claim Hex bonus three times per Kingdom turn}"
+                          - level: 9
+                            contents:
+                              - value-block: "+2"
+                                content: "_{Claim Hex bonus three times per Kingdom turn}"
 
                   - section: "_{Fine Living}"
                     contents:
-                      - level: 4
+                      - list:
+                        hr: true
+                        light: true
                         contents:
-                          - p: ""
-                          
-                      - level: 10
-                        contents:
-                          - h5: "_{Life of Luxury}"
+                          - level: 4
+                            contents:
+                              - p: "_{PCs enjoy a Fine standard of living at no cost anywhere settled in the kingdom.}"
+                              - value-block: "+1"
+                                content: "_{Craft or Earn Income anywhere in the kingdom.}"
+                              
+                          - level: 10
+                            contents:
+                              - h5: "_{Life of Luxury}"
+                              - p: "_{PCs enjoy an Exotic standard of living at no cost anywhere settled in the kingdom.}"
+                              - value-block: "+2"
+                                content: "_{Craft or Earn Income anywhere in the kingdom.}"
 
                   - section: "_{Ruin Resistance}"
                     contents:
-                      - level: 5
-
-
-                  # - section: "_{Experienced Leadership}"
-                  #   contents:
-                  #     - level: 8
-                  #       contents:
-                  #         - value-block: "+2"
-                  #           contents: "_{Claim Hex bonus twice per Kingdom turn}"
+                      - row:
+                        contents:
+                          - level-marker: 5
+                          - level-marker: 8
+                          - level-marker: 11
+                          - level-marker: 14
+                          - level-marker: 17
+                          - level-marker: 20
+                      - p: "_{Increase one ruin threshold by 2, and reduce that ruin penalty to 0.}"
 
                   - section: "_{Civic Planning}"
                     contents:
@@ -602,30 +623,29 @@ inc:
                     contents:
                       - level: 20
                         contents:
-                          - p: ""
+                          - p: "_{Ignore the first Unrest or Ruin increase each kingdom turn.}"
+                          - p: "_{Ignore further Unrest or Ruin increases at the cost of a Fame or Infamy point.}"
 
                   - tail:
                   - spacer:
 
               - g:
                 contents:
-                  - layout: 2e
+                  - section: "_{Government}"
                     contents:
-                      - section: "_{Charter}"
+                      - layout: 2e
                         contents:
-                          - field: "kingdom:government"
-                            width: stretch
-                            label: "_{Charter}"
-                          - spacer:
-
-                      - section: "_{Government}"
-                        contents:
-                          - field: "kingdom:government"
-                            width: stretch
-                            label: "_{Government Type}"
-                          - h5: "_{Government Feat}"
-                          - article: "kingdom:government-bonus-feat"
-                            lines: 6
+                          - g:
+                            contents:
+                              - h5: "_{Government Type}"
+                              - article: "kingdom:government"
+                                lines: 8
+                          
+                          - g:
+                            contents:
+                              - h5: "_{Government Feat}"
+                              - article: "kingdom:government-bonus-feat"
+                                lines: 8
 
                   - paste: class-feats
                     params:
@@ -645,6 +665,75 @@ inc:
               - g:
                 contents:
                   - section: "_{Resources}"
+                    contents:
+
+                      - row:
+                        contents:
+                          - calc:
+                            output:
+                              field: resource-dice
+                              legend: "_{Resource Dice}"
+                              width: huge
+                              border: full
+                              control: compound
+                              parts:
+                                - subid: dice
+                                  eq: "4+%{level}"
+                                  align: right
+                                - span: "_{d}"
+                                - subid: die
+                                  eq: "threshold(%{size},[1,4,10,6,25,8,50,10,100,12])"
+                                  align: left
+                            inputs:
+                              - span: "4 +"
+                              - field:
+                                ref: level
+                                label: "_{Kingdom Level}"
+                          - spacer:
+                          - span: "&rarr;"
+                          - spacer:
+                          - field: resource-points
+                            legend: "_{Resource Points}"
+                            suffix: "_{rp}"
+                            border: full
+                            width: huge
+
+                      - row:
+                        contents:
+                          - calc:
+                            output:
+                              field: consumption
+                              legend: "_{Consumption}"
+                              width: huge
+                              border: full
+                              suffix: "_{rp}"
+                            inputs:
+                              - field: consumption-settlements
+                                label: "_{Settlement Consumption}"
+                              - span: "+"
+                              - field: consumption-settlements
+                                label: "_{Army Consumption}"
+                              - span: "-"
+                              - field: consumption-settlements
+                                label: "_{Farmland Hexes}"
+                                icon: hex
+                              - span: "+"
+                              - field: consumption-events
+                                label: "_{Events}"
+                                misc: true
+
+                      - row:
+                        contents:
+                          - field: excess
+                            legend: "_{Excess}"
+                            width: huge
+                            border: full
+                            suffix: "_{rp}"
+                            eq: "%{resource-points}-%{consumption}"
+                          - p: "_{Excess resources become Kingdom XP}"
+                          - spacer:
+
+
                   - section: "_{Settlement Types}"
                     contents:
                       - table:
@@ -694,9 +783,15 @@ inc:
                             itembonus: "+3"
                             influence: "_{3 hexes}"
                         template:
-                          - level: "#{level}"
+                          - row:
+                            contents:
+                              - spacer:
+                              - level: "#{level}"
+                              - spacer:
                           - p: "#{settlement}"
+                            align: center
                           - p: "#{population}"
+                            align: center
                           - span: "#{blocks}"
                           - span: "#{slevel}"
                           - span: "#{consumption}"
@@ -724,10 +819,14 @@ inc:
                                 contents:
                                   - row:
                                     contents:
+                                      - span: "#{i}"
                                       - field: "settlement-#{i}"
                                         frame: none
                                         size: large
                                         width: stretch
+                                      - field: "settlement-#{i}-population"
+                                        label: "_{Population}"
+                                        width: large
                                       - field: "settlement-#{i}-size"
                                         border: full
                                         label: "_{Size}"
@@ -735,25 +834,62 @@ inc:
                                       - field: "settlement-#{i}-consumption"
                                         label: "_{Consumption}"
                                         suffix: "_{rp}"
+                                  - row:
+                                    contents:
+                                      - field: "settlement-#{i}-size"
+                                        control: radio
+                                        value: village
+                                        frame: right
+                                        label: "_{Village}"
+                                      - field: "settlement-#{i}-size"
+                                        control: radio
+                                        value: town
+                                        frame: right
+                                        label: "_{Town}"
+                                      - field: "settlement-#{i}-size"
+                                        control: radio
+                                        value: city
+                                        frame: right
+                                        label: "_{City}"
+                                      - field: "settlement-#{i}-size"
+                                        control: radio
+                                        value: metropolis
+                                        frame: right
+                                        label: "_{Metropolis}"
+                                      - field: "settlement-#{i}-notes"
+                                        frame: none
+                                        merge-bottom: true
+                                        width: stretch
+                                      - field: "settlement-#{i}-overcrowded"
+                                        control: checkbox
+                                        frame: right
+                                        label: "_{Overcrowded}"
 
                     
                   - section: "_{Armies}"
                     contents:
                       - list:
                         hr: true
+                        zebra: true
                         contents:
-                          - repeat: 6
+                          - repeat: 5
                             contents:
                               - g:
                                 contents:
-                                  - field: "army-#{i}"
+                                  - row:
+                                    contents:
+                                      - field: "army-#{i}"
+                                        frame: none
+                                        width: stretch
+                                      - field: "army-#{i}-size"
+                                        border: full
+                                      - field: "army-#{i}-consumption"
+                                        label: "_{Consumption}"
+                                        suffix: "_{rp}"
+                                  - field: "settlement-#{i}-notes"
                                     frame: none
+                                    merge-bottom: true
                                     width: stretch
-                                  - field: "army-#{i}-size"
-                                    border: full
-                                  - field: "army-#{i}-consumption"
-                                    label: "_{Consumption}"
-                                    suffix: "_{rp}"
 
                   - tail:
                   - spacer:
@@ -773,7 +909,8 @@ inc:
                     pad: true
                     contents:
                       - h4: "_{Step One}"
-                      - p: "_{}"
+                      - p: "_{Increase the kingdom's level by 1 and subtract 1000 XP.}"
+                      - p: "_{The kingdom's level cannot exceed the party's level.}"
                       
                   - g:
                     pad: true
@@ -785,8 +922,32 @@ inc:
                     pad: true
                     contents:
                       - h4: "_{Step Three}"
-                      - p: "_{}"
+                      - p: "_{Add class features from your class advancement table.}"
+
+                      - g:
+                        pad: true
+                        contents:
+                          - h5: "_{Ability boost}"
+                          - p: "_{At levels 5, 10, 15 and 20, boost 4 different ability scores. Increase by 1 if the score is already 18 or above, or 2 if not.}"
                       
+                      - g:
+                        pad: true   
+                        contents:
+                          - h5: "_{Skill increase}"
+                          - p: "_{At select levels, increase proficiency in one skill.}"
+                          - level: 7
+                            contents:
+                              - layout: indent-r
+                                contents:
+                                  - p: "_{May increase a skill to master.}"
+                                  - icon: proficiency-master
+                          - level: 15
+                            contents:
+                              - layout: indent-r
+                                contents:
+                                  - p: "_{May increase a skill to legendary.}"
+                                  - icon: proficiency-legendary
+
                   - g:
                     pad: true
                     contents:
@@ -838,6 +999,8 @@ inc:
                             gain: "_{Settle metropolises}"
                           - levels: [ 5, 10, 15, 20 ]
                             gain: "_{Ability boost} &times; 4"
+                          - levels: [ 5, 8, 11, 14, 17, 20 ]
+                            gain: "_{}"
                           - levels: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
                             control-dc: [ 14, 15, 16, 18, 19, 20, 22, 23, 24, 26, 27, 28, 30, 31, 32, 34, 35, 36, 38, 39, 40 ]
                           - levels: [ 1, 8, 16 ]
@@ -849,7 +1012,49 @@ inc:
                           - level: [ 5, 8, 11, 14, 17, 20 ]
                             ruin-resistance: true
 
-                          # - zone: '@kingdom/advancement'
+                  - section: "_{Kingdom Size}"
+                    contents:
+                      - table:
+                        zebra: true
+                        columns:
+                          - "_{Size}"
+                          - "_{Type of\nNation}"
+                          - "_{Resource Die}"
+                          - "_{Control DC\nModifier}"
+                          - "_{Commodity\nStorage}"
+                        rows:
+                          - size: "1-9"
+                            nation-type: "_{Territory}"
+                            resource-die: "_{d4}"
+                            control-dc: "+0"
+                            commodity: 4
+                          - size: "10-24"
+                            nation-type: "_{Province}"
+                            resource-die: "_{d6}"
+                            control-dc: "+1"
+                            commodity: 8
+                          - size: "25-49"
+                            nation-type: "_{State}"
+                            resource-die: "_{d8}"
+                            control-dc: "+2"
+                            commodity: 12
+                          - size: "50-99"
+                            nation-type: "_{Country}"
+                            resource-die: "_{d10}"
+                            control-dc: "+3"
+                            commodity: 16
+                          - size: "100+"
+                            nation-type: "_{Dominion}"
+                            resource-die: "_{d12}"
+                            control-dc: "+4"
+                            commodity: 20
+                        template:
+                          - p: "#{size}"
+                            icon: hex
+                          - p: "#{nation-type}"
+                          - span: "#{resource-die}"
+                          - span: "#{control-dc}"
+                          - span: "#{commodity}"
 
                   - tail:
                   - spacer:
