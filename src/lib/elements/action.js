@@ -24,6 +24,7 @@ export let action = {
       case 'reaction': icon = 'reaction'; break;
       case 'free': icon = 'free-action'; break;
       case 'template': icon = 'action-template'; layout = 'indent-lw'; break;
+      case 'kingdom': icon = 'action-kingdom'; break;
     }
 
     let iconPart = {

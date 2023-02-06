@@ -20,7 +20,7 @@ inc:
                   - section:
                     untitled: true
                     contents:
-                      - class-name: "_{Kingdom}"
+                      # - class-name: "_{Kingdom}"
                       - class-icon: kingdom
                         optional: true
                         size: large
@@ -216,7 +216,27 @@ inc:
                             max: 10
                           - span: "&#11189;"
 
-                      - p: "_{When }"
+                      - p: "_{When any ruin value crosses its threshold, subtract the threshold and increment the penalty.}"
+
+                      - hr:
+
+                      - h5: "_{Ruin Resistance}"
+                      
+                      - row:
+                        contents:
+                          - level-marker: 5
+                          - spacer:
+                          - level-marker: 8
+                          - spacer:
+                          - level-marker: 11
+                          - spacer:
+                          - level-marker: 14
+                          - spacer:
+                          - level-marker: 17
+                          - spacer:
+                          - level-marker: 20
+                          - spacer:
+                      - p: "_{Increase one ruin threshold by 2, and reduce that ruin penalty to 0.}"
 
                   - section: "_{Proficiency}"
                     contents:
@@ -278,8 +298,8 @@ inc:
                             eq: "%{leader-ruler-absent}?2:''"
                     
                   - tail:
-                  - spacer:
-                    flex: small
+                  # - spacer:
+                  #   flex: small
 
               - g:
                 contents:
@@ -345,6 +365,21 @@ inc:
                                     code: warden
                                     ability: "_{Stability}"
                                     penalty: "_{-4 to Region activities}"
+
+                          - g:
+                            contents:
+                              - row:
+                                contents:
+                                  - h6: "_{Leadership bonus}"
+                                  - spacer:
+                                  - level-marker: 1
+                                  - span: "+1"
+                                  - vr:
+                                  - level-marker: 8
+                                  - span: "+2"
+                                  - vr:
+                                  - level-marker: 17
+                                  - span: "+3"
 
                   - section: "_{Unrest}"
                     contents:
@@ -502,7 +537,7 @@ inc:
                             format: int
 
                   - tail:
-                  - spacer:
+                  # - spacer:
 
       - page: feats
         name: "_{Feats}"
@@ -513,6 +548,8 @@ inc:
             contents:
               - g:
                 contents:
+                  - class-name: "_{Kingdom}"
+
                   - section: "_{Charter}"
                     contents:
                       - article: "kingdom:government"
@@ -601,17 +638,17 @@ inc:
                               - value-block: "+2"
                                 content: "_{Craft or Earn Income anywhere in the kingdom.}"
 
-                  - section: "_{Ruin Resistance}"
-                    contents:
-                      - row:
-                        contents:
-                          - level-marker: 5
-                          - level-marker: 8
-                          - level-marker: 11
-                          - level-marker: 14
-                          - level-marker: 17
-                          - level-marker: 20
-                      - p: "_{Increase one ruin threshold by 2, and reduce that ruin penalty to 0.}"
+                  # - section: "_{Ruin Resistance}"
+                  #   contents:
+                  #     - row:
+                  #       contents:
+                  #         - level-marker: 5
+                  #         - level-marker: 8
+                  #         - level-marker: 11
+                  #         - level-marker: 14
+                  #         - level-marker: 17
+                  #         - level-marker: 20
+                  #     - p: "_{Increase one ruin threshold by 2, and reduce that ruin penalty to 0.}"
 
                   - section: "_{Civic Planning}"
                     contents:
@@ -734,7 +771,7 @@ inc:
                           - spacer:
 
 
-                  - section: "_{Settlement Types}"
+                  - section: "_{Settlements}"
                     contents:
                       - table:
                         zebra: true
@@ -798,15 +835,124 @@ inc:
                           - span: "#{itembonus}"
                           - span: "#{influence}"
 
+                      - action: kingdom
+                        contents:
+                          - p: 
+                            title: "_{Establish Settlement}"
+                            content: "..."
+
                   - section: "_{Farms}"
                     contents:
                       - p: ""
+
+                  - section: "_{Commodities}"
+                    contents:
+                      - list:
+                        hr: true
+                        light: true
+                        contents:
+                          - g:
+                            contents:
+                              - row:
+                                contents:
+                                  - h5: "_{Food}"
+                                  - spacer:
+                                  - field: "food-commodities"
+                                    border: full
+                                    width: huge
+                                    frame: none
+
+                              # - action: kingdom
+                              #   contents:
+                              #     - p:
+                              #       title: "_{Establish Farmland}"
+                              #       content: "..."
+                              #     # - paste:
+
+                              # - action: kingdom
+                              #   contents:
+                              #     - p:
+                              #       title: "_{Harvest Crops}"
+                              #       content: "..."
+                              #     # - paste:
+                                
+                              # - action: kingdom
+                              #   contents:
+                              #     - p: 
+                              #       title: "_{Go Fishing}"
+                              #       content: "..."
+                                
+                              # - action: kingdom
+                              #   contents:
+                              #     - p: 
+                              #       title: "_{Gather Livestock}"
+                              #       content: "..."
+
+                          - g:
+                            contents:
+                              - row:
+                                contents:
+                                  - h5: "_{Lumber}"
+                                  - spacer:
+                                  - field: "lumber-commodities"
+                                    border: full
+                                    width: huge
+                                    frame: none
+
+                          - g:
+                            contents:
+                              - row:
+                                contents:
+                                  - h5: "_{Luxuries}"
+                                  - spacer:
+                                  - field: "luxuries-commodities"
+                                    border: full
+                                    width: huge
+                                    frame: none
+
+                              # - action: kingdom
+                              #   contents:
+                              #     - p: 
+                              #       title: "_{Craft Luxuries}"
+                              #       content: "..."
+
+                          - g:
+                            contents:
+                              - row:
+                                contents:
+                                  - h5: "_{Ore}"
+                                  - spacer:
+                                  - field: "ore-commodities"
+                                    border: full
+                                    width: huge
+                                    frame: none
+
+                          - g:
+                            contents:
+                              - row:
+                                contents:
+                                  - h5: "_{Stone}"
+                                  - spacer:
+                                  - field: "stone-commodities"
+                                    border: full
+                                    width: huge
+                                    frame: none
+
+                          - g:
+                            contents:
+                              - action: kingdom
+                                contents:
+                                  - p:
+                                    title: "_{Establish Work Site}"
+                                    content: "..."
 
                   - tail:
                   - spacer:
               
               - g:
                 contents:
+                  - section: "_{}"
+
                   - section: "_{Settlements}"
                     contents:
                       - list:
@@ -1058,15 +1204,3 @@ inc:
 
                   - tail:
                   - spacer:
-
-      - page: reference
-        name: "_{Kingdom Reference}"
-        order: 20
-        contents:
-          - layout: 2e
-            contents:
-              - g:
-                contents:
-                
-              - g:
-                contents:

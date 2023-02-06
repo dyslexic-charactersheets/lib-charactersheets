@@ -42,7 +42,7 @@ function parseKingdom(primary, request) {
     id: primary.id,
     name: attr.name,
     game: attr.game,
-    units: ['core', 'base', 'base/kingdom', 'theme/' + attr.theme],
+    units: ['core', 'base', 'base/kingdom', 'option/kingdom/action-reference', 'theme/' + attr.theme],
     language: attr.language,
     
     feats: [],
