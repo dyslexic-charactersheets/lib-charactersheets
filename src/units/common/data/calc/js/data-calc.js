@@ -40,6 +40,10 @@ function minmax(num, min, max) {
   return num;
 }
 
+function pick(index, values, def) {
+  return values.hasOwnProperty(index) ? values[index] : def;
+}
+
 function threshold(num, thresholds) {
   var result = '';
   for (var i = 0; i < thresholds.length; i += 2) {
@@ -74,6 +78,7 @@ function recalculateField(name) {
       knownValues[name] = newValue;
       setFieldValue(name, newValue);
     } catch (x) {
+      console.log("Error: "+x.message);
     }
   }
 }

@@ -166,6 +166,20 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
   return ` class='${cls.join(' ')}'`;
 }
 
+export function elementData(data) {
+  let keys = Object.keys(data);
+  if (keys.length == 0) {
+    return '';
+  }
+
+  let parts = [];
+  for (let key in data) {
+    let value = data[key];
+    parts.push(` data-${key}='${value}'`);
+  }
+  return ' '+parts.join(' ');
+}
+
 
 export function mergeBottom(element, allItems = false) {
   if (isArray(element)) {

@@ -1,7 +1,7 @@
 import { fieldIdent, fieldRadioIdent, fieldDefaults } from './field';
 import { log, warn, error } from '../log';
 import { isArray, isNull, isBoolean, isEmpty } from '../util';
-import { elementClass } from '../util/elements';
+import { elementClass, elementData } from '../util/elements';
 import { chunk } from '../util/arrays';
 import { has } from '../util/objects';
 import { toKebabCase } from '../util/strings';
@@ -20,6 +20,7 @@ function defaultControlRender (args, reg, doc) {
 
   const ident = fieldIdent(args.id);
   const cls = elementClass("field", "control", args, [ "damage-die" ], { "align": "centre", "width": "" });
+  const data = elementData({subid: args.id});
   const value = (args.value == '') ? '' : ` value='${_e(args.value, doc)}'`;
   const readonly = (args.editable ? '' : ' readonly');
   const ref = (args.ref ? ` ref='${args.ref}'` : '');
@@ -30,7 +31,7 @@ function defaultControlRender (args, reg, doc) {
   const prefix = args.prefix ? `<span class='field__overlay'>${__(args.prefix, doc)}</span>` : '';
   const suffix = args.suffix ? `<span class='field__overlay'>${__(args.suffix, doc)}</span>` : '';
 
-  return `${prefix}<div${cls}>${input}${underlay}</div>${suffix}`;
+  return `${prefix}<div${cls}${data}>${input}${underlay}</div>${suffix}`;
 };
 
 function renderCompoundControl(args, reg, doc) {

@@ -517,7 +517,7 @@ export class Document {
 
     function findCalculationFields(element) {
       function transformCalculation(id, eq) {
-        let requiredFields = [];
+        let requiredFields = new Set();
         eq = eq.replace(/#\{(.*?)\}/g, (match, field) => {
           warn("Document", "Transform calculation: Unknown interpolation", field, element);
           return 0;
@@ -540,11 +540,11 @@ export class Document {
             return found[0];
           }
           if (!field.match(/-misc$/)) {
-            requiredFields.push(`'${field}'`);
+            requiredFields.add(`'${field}'`);
           }
           return `v('${field}')`;
         });
-        return `(v) => req([${requiredFields.join(',')}],${eq})`;
+        return `(v) => req([${[...requiredFields].join(',')}],${eq})`;
       }
 
       // fields

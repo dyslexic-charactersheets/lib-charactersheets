@@ -99,9 +99,6 @@ function setFieldValue(name, value) {
 }
 
 function fixValue(value) {
-  if (isNaN(value)) {
-    return 0;
-  }
   if (typeof value === 'string' || value instanceof String) {
     value = value.trim();
     if (value == "NaN") {
@@ -109,6 +106,10 @@ function fixValue(value) {
     }
     if (value.match(/^\+?[0-9]+$/)) {
       value = parseInt(value);
+    }
+  } else {
+    if (isNaN(value)) {
+      return 0;
     }
   }
   return value;
