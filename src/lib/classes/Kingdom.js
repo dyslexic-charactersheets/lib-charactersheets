@@ -21,6 +21,8 @@ function parseKingdom(primary, request) {
     theme: 'adventurer',
     language: 'en',
     
+    sheet: 'kingdom',
+
     printLarge: false,
     printHighContrast: false,
     printDyslexic: false,
@@ -42,7 +44,8 @@ function parseKingdom(primary, request) {
     id: primary.id,
     name: attr.name,
     game: attr.game,
-    units: ['core', 'base', 'base/kingdom', 'option/kingdom/action-reference', 'theme/' + attr.theme],
+    sheet: attr.sheet,
+    units: ['core', 'base', 'theme/' + attr.theme],
     language: attr.language,
     
     feats: [],
@@ -72,7 +75,22 @@ function parseKingdom(primary, request) {
     instances: {},
   }
 
-  // log("Character", "Print intensity", char.printIntensity);
+  switch (char.sheet) {
+    case 'kingdom':
+      char.units.push('base/kingdom');
+      break;
+
+    case 'settlement':
+      char.units.push('base/settlement');
+      break;
+
+    case 'army':
+      char.units.push('base/army');
+      break;
+  }
+
+  // log("Kingdom", "Print colour", char.printColour, char.accentColour);
+  // log("Kingdom", "Print intensity", char.printIntensity);
   if (isEmpty(char.accentColour)) {
     char.accentColour = adjustColour('#707070', char.printColour, char.printIntensity);
   }
@@ -84,7 +102,7 @@ function parseKingdom(primary, request) {
     if (flag.match(/^option-/)) {
       let option = flag.replace(/^option-/, '');
       let ok = char.options[option] = !!attr[key];
-      // log("Character", "Option", option, ok);
+      // log("Kingdom", "Option", option, ok);
       if (ok) {
         if (['permission'].includes(option)) {
           char.units.push('option/'+option);
@@ -236,6 +254,8 @@ export class Kingdom extends Instance {
             document.printIntensity = data.printIntensity;
             document.accentColour = data.accentColour;
             document.watermark = data.printWatermark;
+
+            log("Kingdom", "Document colour", document.printColour);
 
             // get known vars from the data
             knownVars.forEach(varname => {

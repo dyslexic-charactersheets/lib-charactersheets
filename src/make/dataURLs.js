@@ -63,6 +63,8 @@ function processSVG(data) {
     // data = replaceColours(data); // DON'T DO THIS UNTIL THE BUILD PHASE
     data = data.replace(/#/g, '%23');
 
+    data = data.replace(/'/g, "\\'");
+
     return data;
 }
 

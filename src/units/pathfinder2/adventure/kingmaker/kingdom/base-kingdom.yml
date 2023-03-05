@@ -744,15 +744,17 @@ inc:
                               width: huge
                               border: full
                               suffix: "_{rp}"
+                              eq: "%{consumption-settlements}+%{consumption-army}-%{farms}+%{consumption-events}"
                             inputs:
                               - field: consumption-settlements
                                 label: "_{Settlement Consumption}"
                               - span: "+"
-                              - field: consumption-settlements
+                              - field: consumption-army
                                 label: "_{Army Consumption}"
                               - span: "-"
-                              - field: consumption-settlements
-                                label: "_{Farmland Hexes}"
+                              - field:
+                                ref: farms
+                                label: "_{Farms}"
                                 icon: hex
                               - span: "+"
                               - field: consumption-events
@@ -773,12 +775,18 @@ inc:
 
                   - section: "_{Settlements}"
                     contents:
+                      - g:
+                        contents:
+                          - p:
+                            title: "_{Settlement Level}"
+                            content: "_{The number of blocks with at least one structure, up to 20}"
+                      - hr:
                       - table:
                         zebra: true
                         hr: true
                         flip: true
                         columns:
-                          - ""
+                          - "_{Settlement Level}"
                           - ""
                           - "_{Population}"
                           - "_{Blocks}"
@@ -835,16 +843,6 @@ inc:
                           - span: "#{itembonus}"
                           - span: "#{influence}"
 
-                      - action: kingdom
-                        contents:
-                          - p: 
-                            title: "_{Establish Settlement}"
-                            content: "..."
-
-                  - section: "_{Farms}"
-                    contents:
-                      - p: ""
-
                   - section: "_{Commodities}"
                     contents:
                       - list:
@@ -857,36 +855,13 @@ inc:
                                 contents:
                                   - h5: "_{Food}"
                                   - spacer:
+                                  - field: "farms"
+                                    label: "_{Farms}"
+                                    icon: hex
                                   - field: "food-commodities"
                                     border: full
                                     width: huge
                                     frame: none
-
-                              # - action: kingdom
-                              #   contents:
-                              #     - p:
-                              #       title: "_{Establish Farmland}"
-                              #       content: "..."
-                              #     # - paste:
-
-                              # - action: kingdom
-                              #   contents:
-                              #     - p:
-                              #       title: "_{Harvest Crops}"
-                              #       content: "..."
-                              #     # - paste:
-                                
-                              # - action: kingdom
-                              #   contents:
-                              #     - p: 
-                              #       title: "_{Go Fishing}"
-                              #       content: "..."
-                                
-                              # - action: kingdom
-                              #   contents:
-                              #     - p: 
-                              #       title: "_{Gather Livestock}"
-                              #       content: "..."
 
                           - g:
                             contents:
@@ -894,6 +869,9 @@ inc:
                                 contents:
                                   - h5: "_{Lumber}"
                                   - spacer:
+                                  - field: "lumber-work-sites"
+                                    label: "_{Lumber Camps}"
+                                    icon: hex
                                   - field: "lumber-commodities"
                                     border: full
                                     width: huge
@@ -910,18 +888,15 @@ inc:
                                     width: huge
                                     frame: none
 
-                              # - action: kingdom
-                              #   contents:
-                              #     - p: 
-                              #       title: "_{Craft Luxuries}"
-                              #       content: "..."
-
                           - g:
                             contents:
                               - row:
                                 contents:
                                   - h5: "_{Ore}"
                                   - spacer:
+                                  - field: "ore-work-sites"
+                                    label: "_{Mines}"
+                                    icon: hex
                                   - field: "ore-commodities"
                                     border: full
                                     width: huge
@@ -933,33 +908,55 @@ inc:
                                 contents:
                                   - h5: "_{Stone}"
                                   - spacer:
+                                  - field: "stone-work-sites"
+                                    label: "_{Quarries}"
+                                    icon: hex
                                   - field: "stone-commodities"
                                     border: full
                                     width: huge
                                     frame: none
-
-                          - g:
+                    
+                  - section: "_{Armies}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - repeat: 5
                             contents:
-                              - action: kingdom
+                              - g:
                                 contents:
-                                  - p:
-                                    title: "_{Establish Work Site}"
-                                    content: "..."
+                                  - row:
+                                    contents:
+                                      - field: "army-#{i}"
+                                        frame: none
+                                        width: stretch
+                                      - field: "army-#{i}-level"
+                                        border: full
+                                        label: "_{Level}"
+                                      - field: "army-#{i}-size"
+                                        border: full
+                                        label: "_{Size}"
+                                      - field: "army-#{i}-consumption"
+                                        label: "_{Consumption}"
+                                        suffix: "_{rp}"
+                                  - field: "settlement-#{i}-notes"
+                                    frame: none
+                                    merge-bottom: true
+                                    width: stretch
 
                   - tail:
-                  - spacer:
+                  # - spacer:
               
               - g:
                 contents:
-                  - section: "_{}"
-
                   - section: "_{Settlements}"
                     contents:
                       - list:
                         hr: true
                         zebra: true
                         contents:
-                          - repeat: 10
+                          - repeat: 14
                             contents:
                               - g:
                                 contents:
@@ -1011,34 +1008,8 @@ inc:
                                         frame: right
                                         label: "_{Overcrowded}"
 
-                    
-                  - section: "_{Armies}"
-                    contents:
-                      - list:
-                        hr: true
-                        zebra: true
-                        contents:
-                          - repeat: 5
-                            contents:
-                              - g:
-                                contents:
-                                  - row:
-                                    contents:
-                                      - field: "army-#{i}"
-                                        frame: none
-                                        width: stretch
-                                      - field: "army-#{i}-size"
-                                        border: full
-                                      - field: "army-#{i}-consumption"
-                                        label: "_{Consumption}"
-                                        suffix: "_{rp}"
-                                  - field: "settlement-#{i}-notes"
-                                    frame: none
-                                    merge-bottom: true
-                                    width: stretch
-
                   - tail:
-                  - spacer:
+                  # - spacer:
 
       - page: level-up
         name: "_{Level Up}"
@@ -1146,7 +1117,7 @@ inc:
                           - levels: [ 5, 10, 15, 20 ]
                             gain: "_{Ability boost} &times; 4"
                           - levels: [ 5, 8, 11, 14, 17, 20 ]
-                            gain: "_{}"
+                            gain: "_{Ruin Resistance}"
                           - levels: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
                             control-dc: [ 14, 15, 16, 18, 19, 20, 22, 23, 24, 26, 27, 28, 30, 31, 32, 34, 35, 36, 38, 39, 40 ]
                           - levels: [ 1, 8, 16 ]

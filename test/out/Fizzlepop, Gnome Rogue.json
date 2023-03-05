@@ -4383,7 +4383,7 @@
                             {
                               "type": "field",
                               "id": "acrobatics-acp",
-                              "eq": "%{armour-flexible}?'':%{armour-acp}",
+                              "eq": "%{armour-flexible}?'':((%{STR}<%{armour-str-rating})?%{armour-acp}:'')",
                               "ref": true,
                               "border": "full",
                               "exists": "true",
@@ -4583,7 +4583,7 @@
                             {
                               "type": "field",
                               "id": "athletics-acp",
-                              "eq": "%{armour-flexible}?'':%{armour-acp}",
+                              "eq": "%{armour-flexible}?'':((%{STR}<%{armour-str-rating})?%{armour-acp}:'')",
                               "ref": true,
                               "border": "full",
                               "exists": "true",
@@ -5733,7 +5733,8 @@
                             {
                               "type": "field",
                               "id": "stealth-acp",
-                              "ref": "armour-acp",
+                              "eq": "(%{STR}<%{armour-str-rating})?%{armour-acp}:''",
+                              "ref": true,
                               "border": "full",
                               "prefix": "&ndash;"
                             }
@@ -5932,7 +5933,8 @@
                             {
                               "type": "field",
                               "id": "thievery-acp",
-                              "ref": "armour-acp",
+                              "eq": "(%{STR}<%{armour-str-rating})?%{armour-acp}:''",
+                              "ref": true,
                               "border": "full",
                               "prefix": "&ndash;"
                             }
@@ -6971,7 +6973,7 @@
                                           "id": null,
                                           "ref": "level",
                                           "label": "_{Level}",
-                                          "width": "small"
+                                          "width": "tiny"
                                         },
                                         {
                                           "type": "span",
@@ -8377,7 +8379,7 @@
                             "width": "large",
                             "underlay": "_{AC}",
                             "merge-top": true,
-                            "eq": "10+%{DEX}+%{ac-proficiency-bonus}+%{ac-armour-bonus}+%{ac-armour-potency[rank]}+%{ac-items}+%{ac-misc}"
+                            "eq": "10+%{ac-DEX}+%{ac-proficiency-bonus}+%{ac-armour-bonus}+%{ac-armour-potency[rank]}+%{ac-items}+%{ac-misc}"
                           },
                           "inputs": [
                             {
@@ -8387,8 +8389,9 @@
                             },
                             {
                               "type": "field",
-                              "id": null,
-                              "ref": "DEX",
+                              "id": "ac-DEX",
+                              "ref": true,
+                              "eq": "min(%{DEX},%{armour-dex-cap})",
                               "underlay": "_{DEX}",
                               "label": "_{DEX}"
                             },

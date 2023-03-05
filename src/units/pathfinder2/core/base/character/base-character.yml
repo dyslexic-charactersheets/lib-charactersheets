@@ -544,14 +544,15 @@ inc:
                               - if: "#{acp_flexible}"
                                 then:
                                   - field: "#{skill}-acp"
-                                    eq: "%{armour-flexible}?'':%{armour-acp}"
+                                    eq: "%{armour-flexible}?'':((%{STR}<%{armour-str-rating})?%{armour-acp}:'')"
                                     ref: true
                                     border: full
                                     exists: "#{acp}"
                                     prefix: "&ndash;"
                                 else:
                                   - field: "#{skill}-acp"
-                                    ref: armour-acp
+                                    eq: "(%{STR}<%{armour-str-rating})?%{armour-acp}:''"
+                                    ref: true
                                     border: full
                                     prefix: "&ndash;"
 
@@ -787,7 +788,7 @@ inc:
                                           - field:
                                             ref: level
                                             label: "_{Level}"
-                                            width: small
+                                            width: tiny
                                           - span: "&divide; 2"
 
                                   - spacer:
@@ -1051,12 +1052,13 @@ inc:
                               width: large
                               underlay: "_{AC}"
                               merge-top: true
-                              eq: '10+%{DEX}+%{ac-proficiency-bonus}+%{ac-armour-bonus}+%{ac-armour-potency[rank]}+%{ac-items}+%{ac-misc}'
+                              eq: '10+%{ac-DEX}+%{ac-proficiency-bonus}+%{ac-armour-bonus}+%{ac-armour-potency[rank]}+%{ac-items}+%{ac-misc}'
                             inputs:
                               - span: 10 +
                                 nowrap: true
-                              - field:
-                                ref: "DEX"
+                              - field: ac-DEX
+                                ref: true
+                                eq: "min(%{DEX},%{armour-dex-cap})"
                                 underlay: "_{DEX}"
                                 label: "_{DEX}"
                               - span: +

@@ -1,9 +1,10 @@
-import { elementClass } from '../util/elements';
+import { elementID, elementClass } from '../util/elements';
 
 export let g = {
   name: 'g',
   key: '',
   defaults: {
+    id: '',
     contents: [],
     galign: 'justify',
     valign: 'center',
@@ -14,7 +15,8 @@ export let g = {
     cut: 'none',
   },
   render(args, reg, doc) {
+    const id = elementID('g', args.id);
     const cls = elementClass('g', null, args, ['pad', 'blk'], { 'galign': 'justify', 'valign': 'center', 'align': '', 'flex': 'medium', 'cut': 'none' });
-    return `<div${cls}>${reg.render(args.contents, doc)}</div>`;
+    return `<div${id}${cls}>${reg.render(args.contents, doc)}</div>`;
   }
 }

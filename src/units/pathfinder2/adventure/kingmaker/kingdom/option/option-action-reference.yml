@@ -1,0 +1,663 @@
+unit: option/kingdom/action-reference
+name: "_{Kingdom Action Reference}"
+group: "_{Kingmaker}"
+
+inc:
+  - at: '@pages'
+    add:
+      - page: turn-reference
+        name: "_{Kingdom Turn}"
+        order: 18
+        flex: true
+        contents:
+          - list:
+            hr: true
+            contents:
+              - g:
+                contents:
+                  - h2: "_{Kingdom Turn}"
+
+              - layout: 2ll
+                contents:
+                  - g:
+                    contents:
+                      - h4: "_{Upkeep Phase}"
+                  - g:
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - g:
+                            contents:
+                              - h5: "_{Assign Leadership Roles}"
+                              - layout: 2e
+                                contents:
+                                  - g:
+                                    contents:
+                                      - p: "_{Change as many leaders as you wish each turn.}"
+                                      - p: "_{Roll one of:}"
+                                      - ul:
+                                        contents:
+                                          - li:
+                                            contents:
+                                              - p: "[b]_{Intrigue}[/b]: +2 _{Emissary or Treasurer}"
+                                          - li:
+                                            contents:
+                                              - p: "[b]_{Politics}[/b]: +2 _{Counselor or Ruler}"
+                                          - li:
+                                            contents:
+                                              - p: "[b]_{Statecraft}[/b]: +2 _{Magister or Viceroy}"
+                                          - li:
+                                            contents:
+                                              - p: "[b]_{Warfare}[/b]: +2 _{General or Warden}"
+                                  - g:
+                                    contents:
+                                      - value-block: "-4"
+                                        content: "_{To change Ruler. Gain 1 unrest unless you roll a critical success.}"
+                                      - paste: save
+                                        params:
+                                          critical_success: "_{+1 new leader's checks this turn}"
+                                          success: "&ndash;"
+                                          failure: "_{-1 new leader's checks}"
+                                          critical_failure: "_{do not assign new leader this turn}"
+
+                          - g:
+                            contents:
+                              - h5: "_{Adjust Unrest}"
+                              - layout: 2e
+                                contents:
+                                  - g:
+                                    contents:
+                                      - value-block: "+1"
+                                        content: "_{Unrest for each Overcrowded settlement}"
+                                      - value-block: "+1"
+                                        content: "_{Unrest if you are at war}"
+                                  - g:
+                                    contents:
+                                      - p: "_{If unrest is 10 or higher:}"
+                                      - ul:
+                                        contents:
+                                          - li:
+                                            contents:
+                                              - value-block: "_{d10}"
+                                                content: "_{Ruin (assign at will).}"
+                                          - li:
+                                            contents:
+                                              - value-block: "_{DC 11}"
+                                                width: medium
+                                                content: "_{Flat check. On failure, lose one hex.}"
+                                      - hr:
+                                        light: true
+                                      - p: "_{If unrest is 20 or higher, the kingdom falls into anarchy.}"
+
+                          - g:
+                            contents:
+                              - h5: "_{Resource Collection}"
+                              - layout: 2e
+                                contents:
+                                  - g:
+                                    contents:
+                                      - p: "_{Roll resource dice.}"
+                                      - row:
+                                        contents:
+                                          - field: resource-dice
+                                            legend: "_{Resource Dice}"
+                                            width: huge
+                                            border: full
+                                            control: compound
+                                            parts:
+                                              - subid: dice
+                                                eq: "4+%{level}"
+                                                align: right
+                                              - span: "_{d}"
+                                              - subid: die
+                                                eq: "threshold(%{size},[1,4,10,6,25,8,50,10,100,12])"
+                                                align: left
+                                          - field: bonus-dice
+                                            label: "_{Bonus Dice}"
+                                            prefix: "+"
+                                          - field: penalty-dice
+                                            label: "_{Penalty Dice}"
+                                            prefix: "-"
+                                          - spacer:
+                                          - span: "&rarr;"
+                                          - spacer:
+                                          - field: resource-points
+                                            legend: "_{Resource Points}"
+                                            suffix: "_{rp}"
+                                            border: full
+                                            width: large
+                                  - g:
+                                    contents:
+                                      - value-block: "+1"
+                                        content: "_{Commodities for each work site}"
+                                      - value-block: "+2"
+                                        content: "_{Commodities for each work site on a resource hex}"
+                                      - p: "_{Commodities in excess of storage capacity are lost.}"
+
+                          - g:
+                            contents:
+                              - h5: "_{Pay Consumption}"
+                              - layout: 2e
+                                contents:
+                                  - g:
+                                    contents:
+                                      - row:
+                                        contents:
+                                          - field: consumption
+                                            legend: "_{Consumption}"
+                                            width: huge
+                                            border: full
+                                            suffix: "_{rp}"
+                                            eq: "%{consumption-settlements}+%{consumption-army}-%{consumption-farmland}+%{consumption-events}"
+                                          - field: consumption-misc
+                                            misc: true
+                                            label: "_{Extra Consumption}"
+                                            prefix: "+"
+                                          - field: consumption-misc
+                                            misc: true
+                                            label: "_{Reduced Consumption}"
+                                            prefix: "-"
+                                          - spacer:
+
+                                  - g:
+                                    contents:
+                                      - p: "_{Spend food commodities, then spend 5rp per point of consumption.}"
+
+              - layout: 2ll
+                contents:
+                  - g:
+                    contents:
+                      - h4: "_{Commerce Phase}"
+                  - g:
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - g:
+                            contents:
+                              - layout: spells-list
+                                contents:
+                                  - g:
+                                    contents:
+                                      - h5: "_{Collect Taxes}"
+                                      - p: "_{Economy check:}"
+                                      - paste: save
+                                        params:
+                                          critical_success: "_{[b]+2[/b] Economy this turn}"
+                                          success: "_{[b]+1[/b] Economy this turn; [b]+1[/b] Unrest if you collected taxes last turn}"
+                                          failure: "_{[b]+1[/b] Unrest, or [b]+2[/b] if you collected taxes last turn}"
+                                          critical_failure: "_{[b]+2[/b] Unrest and [b]+1[/b] Ruin}"
+
+                                  - g:
+                                    contents:
+                                      - h5: "_{Or}"
+
+                                  - g:
+                                    contents:
+                                      - p: "_{Roll to try and reduce unrest}"
+                                      - value-block: "_{DC 11}"
+                                        width: large
+                                        content: "_{Flat check to reduce unrest by 1}"
+
+                          - g:
+                            contents:
+                              - h5: "_{Approve Expenses}"
+                              - layout: spells-list
+                                contents:
+                                  - g:
+                                    contents:
+                                      - h6: "_{Improve Lifestyle}"
+                                      - p: "_{Economy check:}"
+                                      - paste: save
+                                        params:
+
+                                  - g:
+                                    contents:
+                                      - h5: "_{Or}"
+                                          
+                                  - g:
+                                    contents:
+                                      - h6: "_{Tap Treasury}"
+                                      - p: "_{Loyalty check:}"
+                                      - paste: save
+                                        params:
+
+                          - g:
+                            contents:
+                              - h5: "_{Tap Commodities}"
+                              - layout: 2e
+                                contents:
+                                  - g:
+                                    contents:
+                                      - p: "..."
+                                  - g:
+                                    contents:
+
+                          - g:
+                            contents:
+                              - h5: "_{Manage Trade Agreements}"
+                              - layout: 2e
+                                contents:
+                                  - g:
+                                    contents:
+                                      - p: "..."
+                                  - g:
+                                    contents:
+
+              - layout: 2ll
+                contents:
+                  - g:
+                    contents:
+                      - h4: "_{Activity Phase}"
+                  - g:
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - g:
+                            contents:
+                              - h5: "_{Leadership Activities}"
+                              - layout: 2e
+                                contents:
+                                  - g:
+                                    contents:
+                                      - p: "..."
+                                  - g:
+                                    contents:
+
+                          - g:
+                            contents:
+                              - h5: "_{Region Activities}"
+                              - layout: 2e
+                                contents:
+                                  - g:
+                                    contents:
+                                      - p: "..."
+                                  - g:
+                                    contents:
+
+                          - g:
+                            contents:
+                              - h5: "_{Civic Activities}"
+                              - layout: 2e
+                                contents:
+                                  - g:
+                                    contents:
+                                      - p: "..."
+                                  - g:
+                                    contents:
+
+              - layout: 2ll
+                contents:
+                  - g:
+                    contents:
+                      - h4: "_{Event Phase}"
+                  - g:
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        zebra-inverse: true
+                        contents:
+                          - g:
+                            contents:
+                              - h5: "_{Check for a Random Event}"
+                              - layout: 2e
+                                contents:
+                                  - g:
+                                    contents:
+                                      - p: "..."
+                                  - g:
+                                    contents:
+
+                          - g:
+                            contents:
+                              - h5: "_{Event Resolution}"
+                              - layout: 2e
+                                contents:
+                                  - g:
+                                    contents:
+                                      - p: "..."
+                                  - g:
+                                    contents:
+
+                          - g:
+                            contents:
+                              - h5: "_{Apply Kingdom XP}"
+                              - layout: 2e
+                                contents:
+                                  - g:
+                                    contents:
+                                      - p: "..."
+                                  - g:
+                                    contents:
+
+                          - g:
+                            contents:
+                              - h5: "_{Increase Kingdom Level}"
+                              - layout: 2e
+                                contents:
+                                  - g:
+                                    contents:
+                                      - p: "..."
+                                  - g:
+                                    contents:
+                              
+          - layout: 2ll
+            contents:
+              - tail:
+              - tail:
+
+      - page: action-reference
+        name: "_{Kingdom Action}"
+        order: 18
+        flex: true
+        contents:
+          - layout: 3e
+            contents:
+              - g:
+                contents:
+                  - list:
+                    hr: true
+                    contents:
+                      - g:
+                        contents:
+                          - h2: "_{Upkeep Phase}"
+                          - list:
+                            hr: true
+                            light: true
+                            contents:
+                              - action: kingdom
+                                contents:
+                                  - h5: "_{New Leadership}"
+                                  - p: "_{Roll one of the checks}"
+                                  - ul:
+                                    contents:
+                                      - li:
+                                        contents:
+                                          - p: "[b]_{Intrigue}[/b]: +2 _{Emissary or Treasurer}"
+                                      - li:
+                                        contents:
+                                          - p: "[b]_{Politics}[/b]: +2 _{Counselor or Ruler}"
+                                      - li:
+                                        contents:
+                                          - p: "[b]_{Statecraft}[/b]: +2 _{Magister or Viceroy}"
+                                      - li:
+                                        contents:
+                                          - p: "[b]_{Warfare}[/b]: +2 _{General or Warden}"
+                                  - paste: save
+                                    params:
+                                      critical_success: "_{+1 new leader's checks this turn}"
+                                      success: "&ndash;"
+                                      failure: "_{-1 new leader's checks}"
+                                      critical_failure: "_{do not assign new leader this turn}"
+                              - g:
+                                contents:
+                                  - p: "_{If a leader was unable to spend 1 week this month, either skip one kingdom activity or apply the absence penalty}"
+                              - g:
+                                contents:
+                                  - h5: "_{Adjust Unrest}"
+                                  - p: "_{If unrest is above 10, add 1d10 to ruins, distributed as you choose. Also, roll DC 11 flat check or lose one hex.}"
+                                  - p: "_{If unrest is above 20, kingdom falls into anarchy. Can only Quell Unrest, and all checks are one step worse.}"
+                              - g:
+                                contents:
+                                  - h5: "_{Resource Collection}"
+                                  - p: "..."
+                              - g:
+                                contents:
+                                  - h5: "_{Pay Consumpation}"
+                                  - p: "..."
+
+                      - g:
+                        contents:
+                          - h2: "_{Commerce Phase}"
+                          - list:
+                            hr: true
+                            light: true
+                            contents:
+                              - action: kingdom
+                                contents:
+                                  - h5: "_{Collect Taxes}"
+                                  - p: "..."
+                              - g:
+                                contents:
+                                  - h5: "_{Approve Expenses}"
+                                  - p: "..."
+                              - g:
+                                contents:
+                                  - h5: "_{Tap Commodities}"
+                                  - p: "..."
+                              - g:
+                                contents:
+                                  - h5: "_{Manage Trade Agreements}"
+                                  - p: "..."
+                  - tail:
+                  - spacer:
+                
+              - g:
+                contents:
+                  - list:
+                    hr: true
+                    contents:
+                      - g:
+                        contents:
+                          - h2: "_{Activity Phase}"
+                          - h4: "_{Leadership Activities}"
+                          - layout: indent-rw
+                            contents:
+                              - p: "_{Three leadership activities}"
+                              - row:
+                                contents:
+                                  - span: "3 &times;"
+                                  - icon: action-kingdom
+                          - list:
+                            hr: true
+                            light: true
+                            contents:
+                              - sort: '.title'
+                                contents:
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Capital Investment}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Celebrate Holiday}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Clandestine Business}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Craft Luxuries}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Create a Masterpiece}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Creative Solution}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Establish Trade Agreement}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Focused Attention}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Hire Adventurers}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Infiltration}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Pledge of Fealty}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Prognostication}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Provide Care}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Purchase Commodities}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Quell Unrest}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Recruit Army}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Relocate Capital}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Repair Reputation}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Request Foreign Aid}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Rest and Relax}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Send Diplomatic Envoy}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Supernatural Solutoin}"
+                                      - p: "..."
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+                  - list:
+                    hr: true
+                    contents:
+                      - g:
+                        contents:
+                          - h4: "_{Region Activities}"
+                          - list:
+                            hr: true
+                            light: true
+                            contents:
+                              - sort: '.title'
+                                contents:
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Abandon Hex}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Build Roads}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Claim Hex}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Clear Hex}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Establish Farmland}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Establish Settlement}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Establish Work Site}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Go Fishing}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Fortify Hex}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Gather Livestock}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Harvest Crops}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Irrigation}"
+                                      - p: "..."
+
+                      - g:
+                        contents:
+                          - h4: "_{Civic Activities}"
+                          - list:
+                            hr: true
+                            light: true
+                            contents:
+                              - sort: ''
+                                contents:
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Build Structure}"
+                                      - p: "..."
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{Demolish}"
+                                      - p: "..."
+                          
+                      - g:
+                        contents:
+                          - h4: "_{Army Activities}"
+                          - list:
+                            hr: true
+                            light: true
+                            contents:
+                              - sort: ''
+                                contents:
+                                  - action: kingdom
+                                    contents:
+                                      - h5: "_{...}"
+                                      - p: "..."
+                  - tail:
+                  - spacer:
+                  
+
+
+      - page: reference
+        name: "_{Kingdom Reference}"
+        order: 20
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                
+              - g:
+                contents:

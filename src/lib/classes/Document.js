@@ -670,6 +670,7 @@ export class Document {
   getStylesheet() {
     // find both SASS-compiled and data-URL-embedded parts for each of those
     let cssParts = [];
+    log("Document", "Colours", this.printColour, this.accentColour);
     this.units.forEach(unit => {
       const css = unit.stylesheet;
       if (css == "")
@@ -678,8 +679,10 @@ export class Document {
       // log("Document", "CSS part for unit:", unit.id);
       const template = Handlebars.compile(css);
       let rendered = template({});
-      if (unit.id != "document")
+      if (unit.id != "document") {
+        log("Document", "Replacing unit colours", unit.id, this.printColour, this.accentColour);
         rendered = replaceColours(rendered, this.printColour, this.accentColour, this.printIntensity, this.highContrast);
+      }
       cssParts.push(rendered);
     });
 
@@ -802,7 +805,7 @@ export class Document {
       permission: "d20"
     };
     let indexButtons = `<nav id='index-buttons'>
-  ${pages.map((page) => `<button class='index-button' data-page='${page.id}'>
+  ${pages.map((page) => `<button class='index-button${page.landscape ? ' index-button--landscape' : ''}' data-page='${page.id}'>
     <span class='index-button__page'>
       <i class='index-button__icon${has(pageIcons, page.id) ? ` icon icon_${pageIcons[page.id]}` : ''}'></i>
       ${(has(this.pageNumbers, page.id)) ? `<span class='index-button__number'>${this.pageNumbers[page.id]}</span>` : ''}
