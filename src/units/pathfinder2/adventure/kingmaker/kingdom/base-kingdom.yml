@@ -367,18 +367,28 @@ inc:
                                     penalty: "_{-4 to Region activities}"
 
                           - g:
+                            optional: true
                             contents:
                               - row:
                                 contents:
-                                  - h6: "_{Leadership bonus}"
+                                  - field: leadership-bonus
+                                    frame: right
+                                    label: "_{Leadership bonus}"
+                                    border: full
+                                    prefix: "+"
+                                    width: large
+                                    eq: "threshold(%{level},[1,1,8,2,17,3])"
                                   - spacer:
                                   - level-marker: 1
+                                    inline: true
                                   - span: "+1"
                                   - vr:
                                   - level-marker: 8
+                                    inline: true
                                   - span: "+2"
                                   - vr:
                                   - level-marker: 17
+                                    inline: true
                                   - span: "+3"
 
                   - section: "_{Unrest}"
@@ -1033,12 +1043,6 @@ inc:
                     pad: true
                     contents:
                       - h4: "_{Step Two}"
-                      - p: "_{}"
-                      
-                  - g:
-                    pad: true
-                    contents:
-                      - h4: "_{Step Three}"
                       - p: "_{Add class features from your class advancement table.}"
 
                       - g:
@@ -1065,17 +1069,77 @@ inc:
                                   - p: "_{May increase a skill to legendary.}"
                                   - icon: proficiency-legendary
 
+                      - g:
+                        pad: true
+                        contents:
+                          - h5: "_{Ruin Resistance}"
+                          - p: "_{At select levels, reduce one Ruin threshold by 2 and the corresponding Ruin penalty to 0.}"
+
                   - g:
                     pad: true
                     contents:
-                      - h4: "_{Step Four}"
-                      - p: "_{}"
+                      - h4: "_{Step Three}"
+                      - p: "_{At even levels, select a kingdom feat.}"
+
+                      - paste: book-ref
+                        params:
+                          page-ref: "_{Kingmaker p531}"
+                        contents:
+                          - h6: "_{Kingdom feats}"
+
+                      - zone: '@option/level-up/feats'
                       
                   - g:
                     pad: true
                     contents:
+                      - h4: "_{Step Four}"
+                      - p: "_{Increase all of your proficiency bonuses, and add proficiencies from skill increases or other class features.}"
+
+                      - layout: 5e
+                        gutter: none
+                        # valign: top
+                        flex: none
+                        contents:
+                          - field: proficiency-untrained
+                            label: "_{Untrained}"
+                            border: full
+                            control: value
+                            value: 0
+                            icon: proficiency
+                            ruby: "&nbsp;\n"
+                          - field: proficiency-trained
+                            label: "_{Trained}"
+                            border: full
+                            control: proficiency
+                            value: trained
+                            ruby: "_{Level}\n+2"
+                          - field: proficiency-expert
+                            label: "_{Expert}"
+                            border: full
+                            control: proficiency
+                            value: expert
+                            ruby: "_{Level}\n+4"
+                          - field: proficiency-master
+                            label: "_{Master}"
+                            border: full
+                            control: proficiency
+                            value: master
+                            ruby: "_{Level}\n+6"
+                          - field: proficiency-legendary
+                            label: "_{Legendary}"
+                            border: full
+                            control: proficiency
+                            value: legendary
+                            ruby: "_{Level}\n+8"
+
+                      - p: "_{Increase any statistics that changed as a result of ability boosts or other abilities.}"
+                            
+                  - g:
+                    pad: true
+                    contents:
                       - h4: "_{Step Five}"
-                      - p: "_{}"
+                      - p: "_{Adjust bonuses from feats and other abilities that are based on your level.}"
+
 
                   - tail:
                   - spacer:
