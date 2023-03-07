@@ -1,7 +1,7 @@
 import { Instance } from './Instance';
 import { log, warn, error } from '../log';
 import { ready as systemsReady, getSystem } from './System';
-import { replaceColours, vibrantColour } from '../util/colours';
+import { replaceColours, vibrantColour, adjustColour } from '../util/colours';
 import { __ } from '../i18n';
 import { Document } from './Document';
 import { events } from './Events';
