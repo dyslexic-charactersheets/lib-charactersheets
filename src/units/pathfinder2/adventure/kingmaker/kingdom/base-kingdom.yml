@@ -15,16 +15,17 @@ inc:
             contents:
               - g:
                 contents:
-                  - logo:
+                  # - logo:
+                  - embed: shield
 
                   - section:
                     untitled: true
                     contents:
                       # - class-name: "_{Kingdom}"
-                      - class-icon: kingdom
-                        optional: true
-                        size: large
-                        flex: huge
+                      # - class-icon: kingdom
+                      #   optional: true
+                      #   size: large
+                      #   flex: huge
                       - field: kingdom-name
                         label: "_{Kingdom Name}"
                         width: stretch
@@ -207,14 +208,14 @@ inc:
                             legend: "#{ruin}"
                             border: full
                             width: large
-                          - span: ">"
+                          - span: "&ge;"
                           - field: "#{ruincode}-threshold"
                             eq: "10"
                           - span: "&rarr;"
                           - field: "#{ruincode}-penalty"
                             control: checkgrid
                             max: 10
-                          - span: "&#11189;"
+                          # - span: "&#11189;"
 
                       - p: "_{When any ruin value crosses its threshold, subtract the threshold and increment the penalty.}"
 
@@ -405,11 +406,11 @@ inc:
                             eq: "threshold(%{unrest},[0,0,1,-1,5,-2,10,-3,15,-4])"
                           - spacer:
                           - span: "1 &rarr; -1"
-                          - spacer:
+                          - vr:
                           - span: "5 &rarr; -2"
-                          - spacer:
+                          - vr:
                           - span: "10 &rarr; -3"
-                          - spacer:
+                          - vr:
                           - span: "15 &rarr; -4"
                       - arrow: left
                         from: unrest
@@ -684,9 +685,12 @@ inc:
                         contents:
                           - g:
                             contents:
-                              - h5: "_{Government Type}"
+                              - field: "kingdom:government-type"
+                                border: full
+                                width: stretch
+                                legend: "_{Government Type}"
                               - article: "kingdom:government"
-                                lines: 8
+                                lines: 7
                           
                           - g:
                             contents:
@@ -938,6 +942,7 @@ inc:
                                 contents:
                                   - row:
                                     contents:
+                                      - span: "#{i}"
                                       - field: "army-#{i}"
                                         frame: none
                                         width: stretch
@@ -1009,10 +1014,7 @@ inc:
                                         value: metropolis
                                         frame: right
                                         label: "_{Metropolis}"
-                                      - field: "settlement-#{i}-notes"
-                                        frame: none
-                                        merge-bottom: true
-                                        width: stretch
+                                      - spacer:
                                       - field: "settlement-#{i}-overcrowded"
                                         control: checkbox
                                         frame: right

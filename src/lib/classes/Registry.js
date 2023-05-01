@@ -48,7 +48,7 @@ import { span } from '../elements/span';
 import { spells_list, spells_bundle, spells_table } from '../elements/spells-list';
 import { spells_list2 } from '../elements/spells-list2';
 import { table } from '../elements/table';
-import { copy, paste } from '../elements/template';
+import { copy, paste, split } from '../elements/template';
 import { ul, li } from '../elements/ul';
 import { varelem } from '../elements/var'
 import { zone } from '../elements/zone';
@@ -143,7 +143,7 @@ export class Registry {
       spells_table,
       spells_list2,
       table,
-      copy, paste,
+      copy, paste, split,
       unit,
       varelem,
       zone,

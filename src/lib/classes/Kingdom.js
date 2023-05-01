@@ -77,7 +77,7 @@ function parseKingdom(primary, request) {
 
   switch (char.sheet) {
     case 'kingdom':
-      char.units.push('base/kingdom');
+      char.units.push('base/kingdom', 'option/kingdom-action-reference');
       break;
 
     case 'settlement':

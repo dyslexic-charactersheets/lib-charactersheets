@@ -4,16 +4,20 @@ group: "_{Core Rulebook}"
 
 inc:
   - copy: action-block
+    params:
+      id:
     contents:
       - g:
         contents:
           - action: template
+            id: "#{id}-action"
             contents:
-              - article:
+              - article: "#{id}"
                 lines: 3
 
   - copy: action-block-list
     params:
+      id:
       num: 6
     contents:
       - list:
@@ -23,6 +27,8 @@ inc:
           - repeat: "#{num}"
             contents:
               - paste: action-block
+                params:
+                  id: "more-actions--#{id}-#{i}"
 
   - at: '@pages'
     add:
@@ -212,6 +218,7 @@ inc:
                       - hr:
                       - paste: action-block-list
                         params:
+                          id: "focus-actions"
                           num: 4
 
                   - tail:
@@ -221,9 +228,13 @@ inc:
                   - section: "_{Actions}"
                     contents:
                       - paste: action-block-list
+                        params:
+                          id: "actions"
 
                   - section: "_{Skill Actions}"
                     contents:
                       - paste: action-block-list
+                        params:
+                          id: "skill-actions"
                           
                   - tail:

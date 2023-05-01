@@ -365,9 +365,9 @@ inc:
                         width: stretch
                         columns:
                           -
-                          - label: "_{Assurance}"
-                            align: right
-                            narrow: true
+                          # - label: "_{Assurance}"
+                          #   align: right
+                          #   narrow: true
                           - label: "_{Skill\nBonus}"
                             width: medium
                           -
@@ -379,6 +379,7 @@ inc:
                             width: small
                           - label: "_{Armour Check Penalty}"
                             width: medium
+                          - label: "_{Assurance}"
                         rows:
                           - slots:
                             index: i
@@ -516,9 +517,9 @@ inc:
                                     frame: none
                                     width: stretch
                                     merge-bottom: true
-                          - field: "#{skill}-assurance"
-                            control: checkbox
-                            align: right
+                          # - field: "#{skill}-assurance"
+                          #   control: checkbox
+                          #   align: right
                           - field: "#{skill}-bonus"
                             border: full
                             icon: bonus
@@ -555,6 +556,20 @@ inc:
                                     ref: true
                                     border: full
                                     prefix: "&ndash;"
+                            else:
+                              - span:
+
+                          - field: "#{skill}-assurance"
+                            vr: true
+                            # shade: true
+                            frame: none
+                            control: compound
+                            # border: full
+                            parts:
+                              - subid: feat
+                                control: checkbox
+                              - subid: total
+                                eq: "(%{#{skill}-assurance-feat})?(10+%{#{skill}-proficiency-bonus}-%{#{skill}-acp}):''"
 
                       - p:
                         title: "_{Assurance}"
@@ -1187,12 +1202,12 @@ inc:
                                             blk: true
                                             width: gargantuan
                                             parts:
-                                              - field: shield-hp-total
+                                              - subid: total
                                                 ruby: "_{Total}"
                                                 border: full
                                                 suffix: "_{hp}"
                                                 format: int
-                                              - field: shield-hp-current
+                                              - subid: current
                                                 ruby: "_{Current}"
                                                 border: full
                                                 temp: true

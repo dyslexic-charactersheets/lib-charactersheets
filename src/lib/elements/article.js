@@ -1,7 +1,7 @@
 import { isEmpty } from '../util';
 import { elementID, elementClass, embed } from '../util/elements';
 import { __ } from '../i18n';
-import { log, warn } from '../log';
+import { log, warn, trace } from '../log';
 
 export let article = {
   name: 'article',
@@ -46,6 +46,8 @@ export let article = {
             title: args.title
           });
         } else {
+          if (isEmpty(args.id))
+            trace("article", "Missing article ID");
           header.push({
             type: 'field',
             id: args.id,
@@ -66,6 +68,8 @@ export let article = {
               content: args.cat
             });
           } else {
+            if (isEmpty(args.id))
+              trace("article", "Missing article ID");
             header.push({
               type: 'field',
               id: args.id + '-cat',

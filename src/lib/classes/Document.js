@@ -504,7 +504,7 @@ export class Document {
     function pushCalculation(id, eq, forgiving = false) {
       if (has(calcFields, id)) {
         if (!forgiving && calcFields[id] != eq) {
-          error("Document", `Duplicate calculation ${id}:`, calcFields[id], eq);
+          error("Document", `Duplicate calculation ${id}:\n   `, calcFields[id], '\n   ', eq);
         }
       } else {
         calcFields[id] = eq;
