@@ -1,0 +1,301 @@
+unit: base/army
+name: "_{Army}"
+group: "_{Kingmaker}"
+
+inc:
+  - at: '@pages'
+    add:
+      - page: army
+        name: "_{Army}"
+        order: 20
+        flex: true
+        contents:
+
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - h2: "_{Army}"
+                
+                  - row:
+                    contents:
+                      - field: army-name
+                        border: full
+                        width: stretch
+                        legend: "_{Army Name}"
+                        size: huge
+                        
+                      - field: "army-level"
+                        legend: "_{Level}"
+                        border: circle
+
+                  - layout: alignment
+                    contents:
+                      - field: army-type
+                        label: "_{Army Type}"
+                        width: stretch
+                      - field: army-alignment
+                        control: alignment
+
+                  - section: "_{Army}"
+                    primary: true
+                    contents:
+                      - table:
+                        zebra: true
+                        collapse: true
+                        columns:
+                          - ""
+                          - "_{Bonus}"
+                          - "_{DC}"
+                        rows:
+                          - skill: scouting
+                            name: "_{Scouting}"
+                          - skill: manoeuvre
+                            name: "_{Manoeuvre}"
+                          - skill: morale
+                            name: "_{Morale}"
+                        template:
+                          - row:
+                            contents:
+                              - h6: "#{name}"
+                              - spacer:
+                          - field: "#{skill}-bonus"
+                            border: full
+                            frame: none
+                            icon: bonus
+                            width: large
+                          - field: "#{skill}-dc"
+                            frame: none
+                            width: large
+                            eq: "10+%{#{skill}-bonus}"
+
+                      - row:
+                        contents:
+                          - spacer:
+                          - field: recruitment-dc
+                            label: "_{Recruitment DC}"
+                            width: huge
+                            border: full
+                          - spacer:
+
+                          - field: consumption
+                            label: "_{Consumption}"
+                            width: huge
+                            border: full
+                            suffix: "_{rp}"
+                          - spacer:
+
+
+                  - section: "_{Health}"
+                    contents:
+                      - row:
+                        contents:
+                          - field: army-hp
+                            border: full
+                            width: large
+                            legend: "_{Hit Points}"
+                            suffix: "_{hp}"
+                            icon: hp
+                          - field: army-current-hp
+                            label: "_{Current Hit Points}"
+                            border: full
+                            temp: true
+                            icon: hp
+                            suffix: "_{hp}"
+                            width: stretch
+
+                      - g:
+                        pad: true
+                        contents:
+                          - row:
+                            contents:
+                              - field: rout-threshold
+                                legend: "_{Rout Threshold}"
+                                width: large
+                                border: full
+
+                              - spacer:
+                              - field: army-healing-potions
+                                frame: left
+                                border: full
+                                label: "_{Healing Potions}"
+                              - p: "_{Max 3}"
+
+
+                  - section: "_{Armour Class}"
+                    contents:
+                      - row:
+                        contents:
+                          - field: army-ac
+                            legend: "_{Armour Class}"
+                            underlay: "_{AC}"
+                            width: large
+                            border: full
+                            eq: "16+floor(%{army-level}/2)"
+                          - field: army-armour-gear
+                            width: stretch
+                            label: "_{Gear}"
+
+                  - section: "_{Abilities}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - repeat: 6
+                            contents:
+                              - list:
+                                zebra: true
+                                merge-bottom: true
+                                contents:
+                                  - repeat: 4
+                                    index: j
+                                    contents:
+                                      - field: "army-abilities-#{i}-#{j}"
+                                        frame: none
+                                        width: stretch
+
+                  - tail:
+
+              - g:
+                contents:
+                  - section: "_{Attacks}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - g:
+                            contents:
+                              - row:
+                                contents:
+                                  - h6: "_{Melee}"
+                                  - field: 'army-attack-melee'
+                                    frame: none
+                                    size: large
+                                    width: stretch
+                              - row:
+                                contents:
+                                  - field: 'army-attack-melee-bonus'
+                                    icon: bonus
+                                    width: huge
+                                    border: full
+                                    label: "_{Attack Bonus}"
+                                    eq: "9+floor(%{level}/2)"
+                                  - field: 'army-attack-melee-gear'
+                                    width: stretch
+                                    label: "_{Gear}"
+
+                          - g:
+                            contents:
+                              - row:
+                                contents:
+                                  - h6: "_{Ranged}"
+                                  - field: 'army-attack-ranged'
+                                    frame: none
+                                    size: large
+                                    width: stretch
+                              - row:
+                                contents:
+                                  - field: 'army-attack-ranged-bonus'
+                                    icon: bonus
+                                    width: huge
+                                    border: full
+                                    label: "_{Attack Bonus}"
+                                    eq: "9+floor(%{level}/2)"
+                                  - field: 'army-attack-ranged-ammo'
+                                    label: "_{Ammo}"
+                                    width: large
+                                  - field: 'army-attack-ranged-current-ammo'
+                                    control: checkgrid
+                                    max: 8
+                                    depth: 2
+                                  - field: 'army-attack-ranged-gear'
+                                    width: stretch
+                                    label: "_{Gear}"
+
+                  - section: "_{Tactics}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - repeat: 5
+                            contents:
+                              - action: template
+                                contents:
+                                  - article:
+
+                  - section: "_{Conditions}"
+                    contents:
+                      - list:
+                        hr: true
+                        light: true
+                        zebra: true
+                        columns: 2
+                        flowv: true
+                        contents:
+                          - sort: ".title"
+                            contents:
+                              - each:
+                                contents:
+                                  - code: concealed
+                                    cond: "_{Concealed}"
+                                    desc: "_{+2 Maneuver, -2 to attacks}"
+                                  - code: defeated
+                                    cond: "_{Defeated}"
+                                    desc: "_{Cannot take war actions; can only move 1 hex; on taking any damage, DC 16 flat check or the army is destroyed}"
+                                  - code: destroyed
+                                    cond: "_{Destroyed}"
+                                    desc: "_{Cannot be restored; gear is lost}"
+                                  - code: efficient
+                                    cond: "_{Efficient}"
+                                    desc: "_{Take a second Army activity, once, at -5 penalty (and cannot become Efficient from this); [b]OR[/b] -1 to one condition}"
+                                  - code: engaged
+                                    cond: "_{Engaged}"
+                                    desc: "_{Provoke reactions if you disengage}"
+                                  - code: fortified
+                                    cond: "_{Fortified}"
+                                    desc: "_{Cannot engage or be engaged; +4 AC and morale checks to rally; lose Fortified if you manoeuvre}"
+                                  - code: lost
+                                    cond: "_{Lost}"
+                                    desc: "_{Can take no action except to Recover from being Lost; GM decides location}"
+                                  - code: mired
+                                    cond: "_{Mired}"
+                                    desc: "_{Penalty to manoeuvre and Deploy Army}"
+                                    num: true
+                                  - code: distant
+                                    cond: "_{Distant}"
+                                    desc: "_{-5 to ranged Strikes}"
+                                  - code: outflanked
+                                    cond: "_{Outflanked}"
+                                    desc: "_{-2 AC}"
+                                  - code: pinned
+                                    cond: "_{Pinned}"
+                                    desc: "_{Outflanked, cannot take war actions, cannot be deployed}"
+                                  - code: routed
+                                    cond: "_{Routed}"
+                                    desc: "_{Must Retreat on its turn; -2 morale checks; +1 shaken at the end of combat}"
+                                  - code: shaken
+                                    cond: "_{Shaken}"
+                                    desc: "_{Morale penalty; on taking any damage, DC11 flat check or +1 shaken; -1 at the end of a peaceful turn}"
+                                    num: true
+                                  - code: weary
+                                    cond: "_{Weary}"
+                                    desc: "_{Penalty to AC, manoeuvre and army activity checks; double penalty on Deploy Army checks; -1 at the end of a peaceful turn}"
+                                    num: true
+
+                                template:
+                                  - selectable: "#{code}"
+                                    order: "#{cond}"
+                                    contents:
+                                      - row:
+                                        contents:
+                                          - p:
+                                            title: "#{cond}"
+                                            content: "#{desc}"
+                                          - if: "#{num}"
+                                            then:
+                                              - field: "#{code}-number"
+                                                border: full
+                  - tail:
+

@@ -350,6 +350,9 @@ export class Document {
 
     // first recurse so we have the ingredients
     switch (element.type) {
+      case 'data':
+        element.data = this.completeElement(element.data, registry);
+        break;
       case 'advancement':
         element.advances = this.completeElement(element.advances, registry);
         element.fields = this.completeElement(element.fields, registry);
@@ -357,15 +360,17 @@ export class Document {
       case 'table':
         // log("compose", "Adjusting", (element._direct ? "direct table" : "table"), (has(element, "id") ? element.id : ''), "cells", has(element, "id") ? element.id : '');
         if (has(element, "rows") && !isEmpty(element.rows)) {
-          element.rows = this.composeElement(element.rows, registry);
           
           if (has(element, "_direct") && element._direct && !has(element, "template")) {
+            element.rows = this.composeElement(element.rows, registry);
             element.rows = element.rows.map(row => {
               if (has(row, "cells")) {
                 row.cells = row.cells.flatMap((e) => this.composeElement(e, registry));
               }
               return row;
             });
+          } else {
+            element.rows = this.completeElement(element.rows, registry);
           }
         }
         if (has(element, "columns") && !isEmpty(element.columns)) {
