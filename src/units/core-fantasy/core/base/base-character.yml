@@ -1,0 +1,247 @@
+unit: base/character
+name: "_{Character}"
+group: "_{Core Rulebook}"
+
+form:
+  - select: lineage
+    name: "_{Lineage}"
+    max: 1
+  - select: heritage
+    name: "_{Heritage}"
+    max: 1
+  - select: background
+    name: "_{Background}"
+    max: 1
+  - select: class
+    name: "_{Class}"
+    max: 1
+  # - select: archetype
+  #   name: "_{Archetype}"
+  #   max: 3
+
+  - option: build
+    name: "_{Build A Character}"
+    unit: option/build
+  - option: cover
+    name: "_{Cover Page}"
+    unit: option/cover
+  - option: minis
+    name: "_{Map Minis}"
+    unit: option/minis
+
+  - select: inventory
+    name: "_{Inventory}"
+    max: 1
+    default: half
+
+require:
+  - unit: prototype/class
+
+inc:
+  - at: '@pages'
+    add:
+
+      - page: character
+        name: "_{Character}"
+        order: 6
+        flex: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - logo:
+
+                  - section:
+                    untitled: true
+                    contents:
+                      - row:
+                        contents:
+                          - field: player-name
+                            label: "_{Player}"
+                            width: stretch
+                            align: left
+                          - field: luck-points
+                            label: "_{Luck Points}"
+                            border: circle
+                            size: huge
+                            suffix: "5"
+                            format: int
+
+                      - row:
+                        contents:
+                          - field: campaign-name
+                            label: "_{Campaign}"
+                            width: stretch
+                            align: left
+                          - field: xp
+                            label: "_{XP}"
+                            underlay: "_{XP}"
+                            width: large
+                            border: full
+                            format: int
+
+                      - zone: '@player-header'
+                  
+                  - hr:
+                    swash: true
+
+                  - portrait: personal
+
+                  - section:
+                    untitled: true
+                    contents:
+                      - g:
+                        contents:
+                          - row:
+                            contents:
+                              - field: character-name
+                                legend: "_{Character Name}"
+                                size: huge
+                                width: stretch
+                                align: left
+                                value: "#{character-name}"
+                              - field: level
+                                legend: "_{Level}"
+                                border: circle
+                                # frame: left
+                                format: int
+                                size: huge
+                          - layout: alignment
+                            gutter: none
+                            contents:
+                              - g:
+                                contents:
+                                  - row:
+                                    contents:
+                                      - field: gender
+                                        label: "_{Gender}"
+                                        icon: gender
+                                        width: large
+                                      - spacer:
+                                      - field: age
+                                        label: "_{Age}"
+                                        width: large
+                                      - spacer:
+                                      - field: size
+                                        label: "_{Size}"
+                                        icon: size
+                                        width: large
+                                        control: enum
+                                        # value: "_{Medium}"
+                                        options:
+                                          - "_{Tiny}"
+                                          - "_{Small}"
+                                          - "_{Medium}"
+                                          - "_{Large}"
+                                          - "_{Huge}"
+                                      - spacer:
+                                  - field: deity
+                                    label: "_{Deity}"
+                                    width: stretch
+                                    # merge-bottom: true
+                              - field: alignment
+                                frame: none
+                                control: alignment
+                          - field: languages
+                            label: "_{Languages}"
+                            width: stretch
+                            repeat: 2
+                            reduce: 1
+                            merge-bottom: true
+
+                  - section: "_{Abilities}"
+                    contents:
+                      - layout: 6e
+                        gutter: none
+                        contents:
+                          - repeat: 6
+                            rows:
+                              - name: "_{Strength}"
+                                short: "_{STR}"
+                                code: STR
+                              - name: "_{Dexterity}"
+                                short: "_{DEX}"
+                                code: DEX
+                              - name: "_{Constitution}"
+                                short: "_{CON}"
+                                code: CON
+                              - name: "_{Intelligence}"
+                                short: "_{INT}"
+                                code: INT
+                              - name: "_{Wisdom}"
+                                short: "_{WIS}"
+                                code: WIS
+                              - name: "_{Charisma}"
+                                short: "_{CHA}"
+                                code: CHA
+                            contents:
+                              - g:
+                                valign: top
+                                contents:
+                                  - field: "#{code}"
+                                    label: "#{name}"
+                                    control: ability
+                                    width: ""
+                                    parts:
+                                      - id: "key-ability"
+                                        control: radio
+                                        value: "#{code}"
+                                      - subid: ""
+                                        size: huge
+                                        eq: "floor((minmax(%{#{code}-score},4,30)-10)/2)"
+                                        width: ""
+                                        underlay: "#{short}"
+                                        format: modifier
+                                      - subid: "score"
+                                        width: ""
+                                        format: int
+
+                      - p: "_{Ability Modifier = (Ability Score - 10) &divide; 2}"
+                        align: left
+                        optional: true
+
+                      # - field: ability-note
+                      #   width: stretch
+                      #   merge-bottom: true
+
+                      - field: proficiency-bonus
+                        frame: right
+                        legend: "_{Proficiency Bonus}"
+                        eq: "threshold(%{level},[1,2,5,3,9,4,13,5,17,6])"
+
+              - g:
+                contents:
+                  - section: "_{Character}"
+                    contents:
+                      - row:
+                        contents:
+                          - field: lineage
+                            legend: "_{Lineage}"
+                            width: stretch
+                          - field: heritage
+                            legend: "_{Heritage}"
+                            width: stretch
+                      - row:
+                        contents:
+                          - field: background
+                            legend: "_{Background}"
+                            width: stretch
+                      - row:
+                        contents:
+                          - field: class
+                            legend: "_{Class}"
+                            width: stretch
+                          - zone: '@subclass'
+                            contents:
+                              - field: subclass
+                                legend: "_{Subclass}"
+                                width: stretch
+
+                  - section: "_{Skills}"
+                    contents:
+                      - p: "..."
+
+                  - tail:
+                  - spacer:
+

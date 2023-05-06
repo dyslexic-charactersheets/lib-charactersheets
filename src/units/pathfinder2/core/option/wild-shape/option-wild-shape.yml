@@ -23,7 +23,7 @@ inc:
                           - class-name: "_{Wild Shape}"
 
                           - section: "_{Attributes}"
-                            id: wild-shape-attributes
+                            id: wild-shape/attributes
                             contents:
                               - layout: 3e
                                 gutter: none
@@ -43,23 +43,18 @@ inc:
                                       - g:
                                         valign: top
                                         contents:
-                                          - row: center
-                                            contents:
-                                              - spacer:
-                                              - field: "wild-shape/#{short}"
-                                                label: "#{name}"
-                                                border: circle
+                                          - field: "#{id}"
+                                            label: "#{name}"
+                                            control: ability
+                                            width: ""
+                                            parts:
+                                              - subid: ""
                                                 size: huge
+                                                eq: "floor((minmax(%{#{id}-score},1,30)-10)/2)"
+                                                width: ""
                                                 underlay: "#{short}"
-                                                eq: "(%{wild-shape/#{short}-score}-10)/2"
-                                              - spacer:
-                                          - row: center
-                                            contents:
-                                              - spacer:
-                                              - field: "wild-shape/#{short}-score"
-                                                # width: small
-                                                frame: none
-                                              - spacer:
+                                              - subid: "score"
+                                                width: ""
                           - section: "_{Speed}"
                             contents:
                               - action:
@@ -84,7 +79,7 @@ inc:
                                     contents:
                                       - action: template
                                         contents:
-                                          - article:
+                                          - article: "wild-shape/action-#{i}"
                                             lines: 2
                                             reduce: 1
                       - g:
@@ -107,7 +102,7 @@ inc:
                                         contents:
                                           - row:
                                             contents:
-                                              - field: wild-shape-attack-#{i}
+                                              - field: wild-shape/attack-#{i}
                                                 width: stretch
                                                 frame: none
                                                 align: left
@@ -285,7 +280,7 @@ inc:
                                       # - field:
                                       #   id: "#{save}-misc-bonus"
                                       #   misc: true
-                              - field: wild-shape-saving-throws-conditional
+                              - field: wild-shape/saving-throws-conditional
                                 label: "_{Conditional}"
                                 align: left
                                 repeat: 3
@@ -294,7 +289,7 @@ inc:
                                 width: stretch
                           - section: "_{Abilities}"
                             contents:
-                              - field: wwild-shape-abilities
+                              - field: wild-shape/abilities
                                 width: stretch
                                 frame: none
                                 repeat: 4

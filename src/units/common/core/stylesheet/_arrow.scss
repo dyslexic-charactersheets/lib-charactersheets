@@ -1,0 +1,196 @@
+.arrow {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  $head: 0.6rem;
+  $curve: 0.75rem;
+  $line: 0.1rem;
+  $colour: #808080;
+
+  .arrow__curve {
+    position: absolute;
+    width: $curve;
+    height: $curve;
+
+    &.arrow__curve--top-right {
+      border-top-right-radius: $curve;
+      border-top: $line solid $colour;
+      border-right: $line solid $colour;
+    }
+
+    &.arrow__curve--top-left {
+      border-top-left-radius: $curve;
+      border-top: $line solid $colour;
+      border-left: $line solid $colour;
+    }
+
+    &.arrow__curve--bottom-left {
+      border-bottom-left-radius: $curve;
+      border-bottom: $line solid $colour;
+      border-left: $line solid $colour;
+    }
+
+    &.arrow__curve--bottom-right {
+      border-bottom-right-radius: $curve;
+      border-bottom: $line solid $colour;
+      border-right: $line solid $colour;
+    }
+  }
+
+  .arrow__line, .arrow__head {
+    position: absolute;
+  }
+
+  &.arrow--align_horizontal {
+    .arrow__main-line {
+      border-left: $line solid $colour;
+    }
+    .arrow__head-line, .arrow__tail-line {
+      border-top: $line solid $colour;
+    }
+  }
+
+  &.arrow--align_vertical {
+    .arrow__main-line {
+      border-top: $line solid $colour;
+    }
+    .arrow__head-line, .arrow__tail-line {
+      border-left: $line solid $colour;
+    }
+  }
+
+  // actual line part positions.
+  &.arrow--direction_left {
+    .arrow__head {
+      left: 0;
+      width: 0;
+      height: 0;
+      border-right: $head solid $colour;
+      border-top: $head/2 solid transparent;
+      border-bottom: $head/2 solid transparent;
+    }
+    .arrow__head-line {
+      left: $head;
+      right: calc(50% + #{$curve - $line});
+    }
+    .arrow__head-curve {
+      right: calc(50% - #{$line*0.75});
+    }
+    .arrow__main-line {
+      left: 50%;
+      top: $curve;
+      bottom: $curve;
+    }
+    .arrow__tail-curve {
+      left: 50%;
+    }
+    .arrow__tail-line {
+      left: calc(50% + $curve);
+      right: 0;
+    }
+
+    &.arrow--shift_above {
+      .arrow__head {
+        top: -$head/2 + $line/2;
+      }
+      .arrow__head-line, .arrow__head-curve {
+        top: 0;
+      }
+      .arrow__tail-line, .arrow__tail-curve {
+        bottom: 0;
+      }
+    }
+
+    &.arrow--shift_below {
+      .arrow__head {
+        bottom: -$head/2 + $line/2;
+      }
+      .arrow__head-line, .arrow__head-curve {
+        bottom: 0;
+      }
+      .arrow__tail-line, .arrow__tail-curve {
+        top: 0;
+      }
+    }
+  }
+
+  &.arrow--direction_right {
+    .arrow__head-line {
+      left: 50%;
+      right: 0;
+    }
+    .arrow__head-curve {}
+    .arrow__tail-line {
+      left: 0;
+      right: 50%;
+    }
+    .arrow__main-line {
+      left: 50%;
+      top: 0;
+      bottom: 0;
+    }
+
+    &.arrow--shift_above {
+      .arrow__head-line {
+
+      }
+      .arrow__tail-line {
+
+      }
+    }
+
+    &.arrow--shift_below {
+      .arrow__head-line {
+
+      }
+      .arrow__tail-line {
+        
+      }
+    }
+  }
+
+  &.arrow--direction_up {
+    .arrow__head-line {
+      top: 0;
+      bottom: 50%;
+    }
+    .arrow__tail-line {
+      top: 50%;
+      bottom: 0;
+    }
+    .arrow__main-line {
+      left: 0;
+      right: 0;
+      top: 50%;
+    }
+    &.arrow--shift_left {
+      
+    }
+    &.arrow--shift_right {
+      
+    }
+  }
+
+  &.arrow--direction_down {
+    .arrow__head-line {
+      top: 50%;
+      bottom: 0;
+    }
+    .arrow__tail-line {
+      top: 0;
+      bottom: 50%;
+    }
+    .arrow__main-line {
+      left: 0;
+      right: 0;
+      top: 50%;
+    }
+    &.arrow--shift_left {
+      
+    }
+    &.arrow--shift_right {
+      
+    }
+  }
+}

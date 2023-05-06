@@ -1,0 +1,1243 @@
+unit: base/kingdom
+name: "_{Kingdom}"
+group: "_{Kingmaker}"
+
+inc:
+  - at: '@pages'
+    add:
+
+      - page: kingdom
+        name: "_{Kingdom}"
+        order: 10
+        flex: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  # - logo:
+                  - embed: shield
+
+                  - section:
+                    untitled: true
+                    contents:
+                      # - class-name: "_{Kingdom}"
+                      # - class-icon: kingdom
+                      #   optional: true
+                      #   size: large
+                      #   flex: huge
+                      - field: kingdom-name
+                        label: "_{Kingdom Name}"
+                        width: stretch
+                        align: left
+                        border: full
+                        size: large
+
+                      - row:
+                        contents:
+
+                          - field: level
+                            legend: "_{Kingdom Level}"
+                            border: circle
+                            format: int
+                            size: huge
+                          - field: size
+                            legend: "_{Size}"
+                            border: full
+                            format: int
+                            icon: hex
+                          - spacer:
+
+                          - field: fame-infamy
+                            legend: "_{Fame / Infamy}"
+                            width: huge
+                            border: full
+                            control: compound
+                            parts:
+                              - field: fame
+                                width: small
+                              - vr:
+                              - field: infamy
+                                width: small
+
+                          - spacer:
+
+                          - field: xp
+                            legend: "_{Kingdom XP}"
+                            underlay: "_{XP}"
+                            width: large
+                            border: full
+                            format: int
+                         
+                  - section: "_{Abilities}"
+                    contents:
+
+                      - p: "_{Ability Modifier = (Ability Score - 10) &divide; 2}"
+                        align: left
+                        optional: true
+
+                      - table:
+                        width: stretch
+                        flip: true
+                        rows:
+                          - name: "_{Culture}"
+                            short: "_{CUL}"
+                            code: CUL
+                            ruin: "_{Corruption}"
+                            ruincode: corruption
+                            leadership-eq: "%{leader-counselor-ability}+%{leader-magister-ability}"
+                            absence-eq: "(%{leader-ruler-absent}?1:0)+(%{counselor-ruler-absent}?1:0)"
+                          - name: "_{Economy}"
+                            short: "_{ECO}"
+                            code: ECO
+                            ruin: "_{Crime}"
+                            ruincode: crime
+                            leadership-eq: "%{leader-viceroy-ability}+%{leader-treasurer-ability}"
+                            absence-eq: "(%{leader-ruler-absent}?1:0)+(%{treasurer-ruler-absent}?1:0)"
+                          - name: "_{Loyalty}"
+                            short: "_{LOY}"
+                            code: LOY
+                            ruin: "_{Loyalty}"
+                            ruincode: loyalty
+                            leadership-eq: "%{leader-ruler-ability}+%{leader-emissary-ability}"
+                            absence-eq: "(%{leader-ruler-absent}?1:0)+(%{emissary-ruler-absent}?1:0)"
+                          - name: "_{Stability}"
+                            short: "_{STA}"
+                            code: STA
+                            ruin: "_{Stability}"
+                            ruincode: stability
+                            leadership-eq: "%{leader-general-ability}+%{leader-warden-ability}"
+                            absence-eq: "(%{leader-ruler-absent}?1:0)+(%{viceroy-ruler-absent}?1:0)"
+                        columns:
+                          # - h5: "_{Ability}"
+                          #   rotate: true
+                          - ""
+                          - ""
+                          - label: "_{Leadership\nBonus}"
+                          - ""
+                          - label: "_{Ruin\nPenalty}"
+                          - label: "_{Absence\nPenalty}"
+                          - label: "_{Unrest\nPenalty}"
+                          - ""
+                          - label: "_{Kingdom\nCheck}"
+                        template:
+                          - g:
+                            align: center
+                            contents:
+                              - field: "#{code}"
+                                label: "#{name}"
+                                control: ability
+                                width: ""
+                                parts:
+                                  - subid: ""
+                                    size: huge
+                                    eq: "floor((minmax(%{#{code}-score},4,30)-10)/2)"
+                                    width: ""
+                                    format: modifier
+                                  - subid: "score"
+                                    width: ""
+                                    format: int
+                          - g:
+                            align: center
+                            contents:
+                              - span: "[b]+[/b]"
+                                size: large
+                          - g:
+                            align: center
+                            contents:
+                              - field: "#{code}-leadership-bonus"
+                                label: "#{leadership}"
+                                eq: "#{leadership-eq}"
+                                ref: true
+                          - g:
+                            align: center
+                            contents:
+                              - span: "[b]&ndash;[/b]"
+                          - g:
+                            align: center
+                            contents:
+                              - field: "#{code}-ruin-penalty"
+                                label: "#{ruin}"
+                                eq: "checkgridValue('#{ruincode}-penalty')"
+                                ref: true
+                          - g:
+                            align: center
+                            contents:
+                              - field: "#{code}-absence-penalty"
+                                eq: "#{absence-eq}"
+                                ref: true
+                          - g:
+                            align: center
+                            contents:
+                              - field: "#{code}-unrest-penalty"
+                                ref: "unrest-penalty"
+                          - g:
+                            align: center
+                            contents:
+                              - span: "&#8659;"
+                          - g:
+                            align: center
+                            contents:
+                              - field: "#{code}-penalty"
+                                prefix: "+"
+                                width: large
+                                size: large
+                                border: full
+                                eq: "%{#{code}}+%{#{code}-leadership-bonus}-%{#{code}-ruin-penalty}-%{#{code}-absence-penalty}-%{unrest-penalty}"
+
+                  - section: "_{Ruin}"
+                    contents:
+                      - table:
+                        columns:
+                          - ""
+                          - ""
+                          - "_{Threshold}"
+                          - ""
+                          - "_{Penalty}"
+                        rows:
+                          - ruin: "_{Corruption}"
+                            ruincode: corruption
+                          - ruin: "_{Crime}"
+                            ruincode: crime
+                          - ruin: "_{Loyalty}"
+                            ruincode: loyalty
+                          - ruin: "_{Stability}"
+                            ruincode: stability
+                        template:
+                          - field: "#{ruincode}"
+                            legend: "#{ruin}"
+                            border: full
+                            width: large
+                          - span: "&ge;"
+                          - field: "#{ruincode}-threshold"
+                            eq: "10"
+                          - span: "&rarr;"
+                          - field: "#{ruincode}-penalty"
+                            control: checkgrid
+                            max: 10
+                          # - span: "&#11189;"
+
+                      - p: "_{When any ruin value crosses its threshold, subtract the threshold and increment the penalty.}"
+
+                      - hr:
+
+                      - h5: "_{Ruin Resistance}"
+                      
+                      - row:
+                        contents:
+                          - level-marker: 5
+                          - spacer:
+                          - level-marker: 8
+                          - spacer:
+                          - level-marker: 11
+                          - spacer:
+                          - level-marker: 14
+                          - spacer:
+                          - level-marker: 17
+                          - spacer:
+                          - level-marker: 20
+                          - spacer:
+                      - p: "_{Increase one ruin threshold by 2, and reduce that ruin penalty to 0.}"
+
+                  - section: "_{Proficiency}"
+                    contents:
+                      - layout: 5e
+                        gutter: none
+                        flex: none
+                        contents:
+                          - field: proficiency-untrained
+                            label: "_{Untrained}"
+                            border: full
+                            control: value
+                            value: 0
+                            icon: proficiency
+                            ruby: "&nbsp;\n"
+                          - field: proficiency-trained
+                            label: "_{Trained}"
+                            border: full
+                            icon: proficiency-trained
+                            ruby: "_{Level}\n+2"
+                            eq: "minmax(%{level},1,20)+2"
+                          - field: proficiency-expert
+                            label: "_{Expert}"
+                            border: full
+                            icon: proficiency-expert
+                            ruby: "_{Level}\n+4"
+                            eq: "minmax(%{level},1,20)+4"
+                          - field: proficiency-master
+                            label: "_{Master}"
+                            border: full
+                            icon: proficiency-master
+                            ruby: "_{Level}\n+6"
+                            eq: "minmax(%{level},1,20)+6"
+                          - field: proficiency-legendary
+                            label: "_{Legendary}"
+                            border: full
+                            icon: proficiency-legendary
+                            ruby: "_{Level}\n+8"
+                            eq: "minmax(%{level},1,20)+8"
+                      
+                  - section: "_{Control}"
+                    contents:
+                      - calc:
+                        output:
+                          field: "control-dc"
+                          legend: "_{Control DC}"
+                          eq: "%{control-dc-base}+%{kingdom-size}+%{control-dc-misc}"
+                          width: large
+                        inputs:
+                          - field: "control-dc-base"
+                            label: "_{Base}"
+                            eq: "threshold(%{level},[1,14,2,15,3,16,4,18,5,20,6,22,7,23,8,24,9,26,10,27,11,28,12,30,13,31,14,32,15,34,16,35,17,36,18,38,19,39,20,40])"
+                          - span: "+"
+                          - field: control-dc-kingdom
+                            label: "_{Size Modifier}"
+                            eq: "threshold(%{size},[1,0,10,1,25,2,50,3,100,4])"
+                          - span: "+"
+                          - field: control-dc-misc
+                            label: "_{Vacancy Penalty}"
+                            eq: "%{leader-ruler-absent}?2:''"
+                    
+                  - tail:
+                  # - spacer:
+                  #   flex: small
+
+              - g:
+                contents:
+                  - section: "_{Leaders}"
+                    contents:
+                      - list:
+                        hr: true
+                        # light: true
+                        zebra: true
+                        contents:
+
+                          - each:
+                            template:
+                              - g:
+                                contents:
+                                  - row:
+                                    contents:
+                                      - field: "leader-#{code}"
+                                        legend: "#{name}"
+                                        width: stretch
+                                        # size: large
+                                      - field: "leader-#{code}-ability"
+                                        label: "#{ability}"
+                                        prefix: "+"
+                                        eq: "%{leader-#{code}-absent} ? '' : threshold(%{level},[1,1,8,2,16,3])"
+                                        border: full
+                                  - field: "leader-#{code}-absent"
+                                    frame: right
+                                    control: checkbox
+                                    label: "[b]_{Absent}[/b]: #{penalty}"
+                            contents:
+                              - name: "_{Ruler}"
+                                code: ruler
+                                ability: "_{Loyalty}"
+                                penalty: "_{-1 to all checks; 1d4 unrest each turn; +2 control DC}"
+                              - sort: name
+                                contents:
+                                  - name: "_{Counselor}"
+                                    code: counselor
+                                    ability: "_{Culture}"
+                                    penalty: "_{-1 to Culture checks}"
+                                  - name: "_{General}"
+                                    code: general
+                                    ability: "_{Stability}"
+                                    penalty: "_{-4 to Warfare activities}"
+                                  - name: "_{Emissary}"
+                                    code: emissary
+                                    ability: "_{Loyalty}"
+                                    penalty: "_{-1 to Loyalty checks}"
+                                  - name: "_{Magister}"
+                                    code: magister
+                                    ability: "_{Culture}"
+                                    penalty: "_{-4 to Warfare activities}"
+                                  - name: "_{Treasurer}"
+                                    code: treasurer
+                                    ability: "_{Economy}"
+                                    penalty: "_{-1 to Economy checks}"
+                                  - name: "_{Viceroy}"
+                                    code: viceroy
+                                    ability: "_{Economy}"
+                                    penalty: "_{-1 to Stability checks}"
+                                  - name: "_{Warden}"
+                                    code: warden
+                                    ability: "_{Stability}"
+                                    penalty: "_{-4 to Region activities}"
+
+                          - g:
+                            optional: true
+                            contents:
+                              - row:
+                                contents:
+                                  - field: leadership-bonus
+                                    frame: right
+                                    label: "_{Leadership bonus}"
+                                    border: full
+                                    prefix: "+"
+                                    width: large
+                                    eq: "threshold(%{level},[1,1,8,2,17,3])"
+                                  - spacer:
+                                  - level-marker: 1
+                                    inline: true
+                                  - span: "+1"
+                                  - vr:
+                                  - level-marker: 8
+                                    inline: true
+                                  - span: "+2"
+                                  - vr:
+                                  - level-marker: 17
+                                    inline: true
+                                  - span: "+3"
+
+                  - section: "_{Unrest}"
+                    contents:
+                      - row:
+                        contents:
+                          - field: unrest
+                            legend: "_{Unrest}"
+                            width: large
+                            border: full
+                          - span: "&rarr;"
+                          - field: unrest-penalty
+                            label: "_{Unrest Penalty}"
+                            eq: "threshold(%{unrest},[0,0,1,-1,5,-2,10,-3,15,-4])"
+                          - spacer:
+                          - span: "1 &rarr; -1"
+                          - vr:
+                          - span: "5 &rarr; -2"
+                          - vr:
+                          - span: "10 &rarr; -3"
+                          - vr:
+                          - span: "15 &rarr; -4"
+                      - arrow: left
+                        from: unrest
+                        to: STA-unrest-penalty
+                      # - arrow: left
+                      #   from: leader-ruler-absent
+                      #   to: STA-absence-penalty
+
+                  - section: "_{Skills}"
+                    contents:
+                    
+                      - table: skills
+                        collapse: true
+                        zebra: true
+                        field_frame: none
+                        width: stretch
+                        columns:
+                          -
+                          - label: "_{Skill\nBonus}"
+                            width: medium
+                          -
+                          - label: "_{Ability\nModifier}"
+                            width: medium
+                          - label: "_{Proficiency}"
+                            width: medium
+                          - label: "_{Feats Misc}"
+                            width: small
+                        rows:
+                          - sort: name
+                            # group: abilityref
+                            # group_hr: true
+                            contents:
+                              - zone: '@skills'
+                                contents:
+                                  - skill: agriculture
+                                    name: "_{Agriculture}"
+                                    ability: "_{STA}"
+                                    abilityref: STA
+                                  - skill: arts
+                                    name: "_{Arts}"
+                                    ability: "_{CUL}"
+                                    abilityref: CUL
+                                  - skill: boating
+                                    name: "_{Boating}"
+                                    ability: "_{ECO}"
+                                    abilityref: ECO
+                                  - skill: defence
+                                    name: "_{Defence}"
+                                    ability: "_{STA}"
+                                    abilityref: STA
+                                  - skill: engineering
+                                    name: "_{Engineering}"
+                                    ability: "_{STA}"
+                                    abilityref: STA
+                                  - skill: exploration
+                                    name: "_{Exploration}"
+                                    ability: "_{ECO}"
+                                    abilityref: ECO
+                                  - skill: folklore
+                                    name: "_{Folklore}"
+                                    ability: "_{CUL}"
+                                    abilityref: CUL
+                                  - skill: industry
+                                    name: "_{Industry}"
+                                    ability: "_{ECO}"
+                                    abilityref: ECO
+                                  - skill: intrigue
+                                    name: "_{Intrigue}"
+                                    ability: "_{LOY}"
+                                    abilityref: LOY
+                                  - skill: magic
+                                    name: "_{Magic}"
+                                    ability: "_{CUL}"
+                                    abilityref: CUL
+                                  - skill: politics
+                                    name: "_{Politics}"
+                                    ability: "_{LOY}"
+                                    abilityref: LOY
+                                  - skill: scholarship
+                                    name: "_{Scholarship}"
+                                    ability: "_{CUL}"
+                                    abilityref: CUL
+                                  - skill: statecraft
+                                    name: "_{Statecraft}"
+                                    ability: "_{LOY}"
+                                    abilityref: LOY
+                                  - skill: trade
+                                    name: "_{Trade}"
+                                    ability: "_{ECO}"
+                                    abilityref: ECO
+                                  - skill: warfare
+                                    name: "_{Warfare}"
+                                    ability: "_{LOY}"
+                                    abilityref: LOY
+                                  - skill: wilderness
+                                    name: "_{Wilderness}"
+                                    ability: "_{STA}"
+                                    abilityref: STA
+                        template:
+                          - row:
+                            blk: false
+                            contents:
+                              - if: "#{name}=="
+                                then:
+                                  - nothing:
+                                else:
+                                  - h6: "#{name}"
+                                    fade: "#{fade}"
+                                    blk: false
+                              - if: "#{blank}"
+                                then:
+                                  - field: "#{skill}-detail"
+                                    frame: none
+                                    width: stretch
+                                    merge-bottom: true
+                          - field: "#{skill}-bonus"
+                            border: full
+                            icon: bonus
+                            width: medium
+                            eq: '%{#{skill}-ability}+%{#{skill}-proficiency-bonus}+%{#{skill}-misc}-%{#{skill}-acp}'
+                            format: modifier
+                          - span: "="
+                          - field: '#{skill}-ability'
+                            ref: "#{abilityref}"
+                            underlay: "#{ability}"
+                            frame: h-label
+                            label: "#{ability}"
+                            width: medium
+                          - field: "#{skill}-proficiency"
+                            control: proficiency
+                            width: medium
+                          - field: "#{skill}-misc"
+                            misc: true
+                            width: medium
+                            format: int
+
+                  - tail:
+                  # - spacer:
+
+      - page: feats
+        name: "_{Feats}"
+        order: 11
+        flex: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-name: "_{Kingdom}"
+
+                  - section: "_{Charter}"
+                    contents:
+                      - article: "kingdom:government"
+                        lines: 4
+
+                  - section: "_{Heartland}"
+                    contents:
+                      - layout: 2e
+                        contents:
+                          - field: heartland
+                            control: radio
+                            value: forest-swamp
+                            frame: right
+                            label: "_{Forest / Swamp}"
+                          - field: heartland
+                            control: radio
+                            value: hill-plain
+                            frame: right
+                            label: "_{Hill / Plain}"
+                          - field: heartland
+                            control: radio
+                            value: lake-river
+                            frame: right
+                            label: "_{Lake / River}"
+                          - field: heartland
+                            control: radio
+                            value: mountain-ruins
+                            frame: right
+                            label: "_{Mountain / Ruins}"
+                        
+                      - article: "kingdom:heartland"
+                        lines: 4
+                        
+                  - section: "_{Leadership}"
+                    contents:
+                      - list:
+                        hr: true
+                        light: true
+                        contents:
+                          - indent:
+                            contents:
+                              - value-block: "+1"
+                                content: "_{Leadership bonus to kingdom checks}"
+                          - level: 8
+                            contents:
+                              - h5: "_{Experienced Leadership}"
+                              - value-block: "+2"
+                                content: "_{Leadership bonus to kingdom checks}"
+                          - level: 17
+                            contents:
+                              - value-block: "+3"
+                                content: "_{Leadership bonus to kingdom checks}"
+
+                  - section: "_{Expansion Expert}"
+                    contents:
+                      - list:
+                        hr: true
+                        light: true
+                        contents:
+                          - level: 4
+                            contents:
+                              - value-block: "+2"
+                                content: "_{Claim Hex bonus twice per Kingdom turn}"
+
+                          - level: 9
+                            contents:
+                              - value-block: "+2"
+                                content: "_{Claim Hex bonus three times per Kingdom turn}"
+
+                  - section: "_{Fine Living}"
+                    contents:
+                      - list:
+                        hr: true
+                        light: true
+                        contents:
+                          - level: 4
+                            contents:
+                              - p: "_{PCs enjoy a Fine standard of living at no cost anywhere settled in the kingdom.}"
+                              - value-block: "+1"
+                                content: "_{Craft or Earn Income anywhere in the kingdom.}"
+                              
+                          - level: 10
+                            contents:
+                              - h5: "_{Life of Luxury}"
+                              - p: "_{PCs enjoy an Exotic standard of living at no cost anywhere settled in the kingdom.}"
+                              - value-block: "+2"
+                                content: "_{Craft or Earn Income anywhere in the kingdom.}"
+
+                  # - section: "_{Ruin Resistance}"
+                  #   contents:
+                  #     - row:
+                  #       contents:
+                  #         - level-marker: 5
+                  #         - level-marker: 8
+                  #         - level-marker: 11
+                  #         - level-marker: 14
+                  #         - level-marker: 17
+                  #         - level-marker: 20
+                  #     - p: "_{Increase one ruin threshold by 2, and reduce that ruin penalty to 0.}"
+
+                  - section: "_{Civic Planning}"
+                    contents:
+                      - level: 12
+                        contents:
+                          - p: "_{Each Kingdom turn, one settlement can attempt two Civic activities.}"
+
+                  - section: "_{Envy of the World}"
+                    contents:
+                      - level: 20
+                        contents:
+                          - p: "_{Ignore the first Unrest or Ruin increase each kingdom turn.}"
+                          - p: "_{Ignore further Unrest or Ruin increases at the cost of a Fame or Infamy point.}"
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+                  - section: "_{Government}"
+                    contents:
+                      - layout: 2e
+                        contents:
+                          - g:
+                            contents:
+                              - field: "kingdom:government-type"
+                                border: full
+                                width: stretch
+                                legend: "_{Government Type}"
+                              - article: "kingdom:government"
+                                lines: 7
+                          
+                          - g:
+                            contents:
+                              - h5: "_{Government Feat}"
+                              - article: "kingdom:government-bonus-feat"
+                                lines: 8
+
+                  - paste: class-feats
+                    params:
+                      id: kingdom-feats
+                      title: "_{Kingdom Feats}"
+                      lines: 6
+                      
+                  - tail:
+
+      - page: settlements
+        name: "_{Settlements & Armies}"
+        order: 12
+        flex: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - section: "_{Resources}"
+                    contents:
+
+                      - row:
+                        contents:
+                          - calc:
+                            output:
+                              field: resource-dice
+                              legend: "_{Resource Dice}"
+                              width: huge
+                              border: full
+                              control: compound
+                              parts:
+                                - subid: dice
+                                  eq: "4+%{level}"
+                                  align: right
+                                - span: "_{d}"
+                                - subid: die
+                                  eq: "threshold(%{size},[1,4,10,6,25,8,50,10,100,12])"
+                                  align: left
+                            inputs:
+                              - span: "4 +"
+                              - field:
+                                ref: level
+                                label: "_{Kingdom Level}"
+                          - spacer:
+                          - span: "&rarr;"
+                          - spacer:
+                          - field: resource-points
+                            legend: "_{Resource Points}"
+                            suffix: "_{rp}"
+                            border: full
+                            width: huge
+
+                      - row:
+                        contents:
+                          - calc:
+                            output:
+                              field: consumption
+                              legend: "_{Consumption}"
+                              width: huge
+                              border: full
+                              suffix: "_{rp}"
+                              eq: "%{consumption-settlements}+%{consumption-army}-%{farms}+%{consumption-events}"
+                            inputs:
+                              - field: consumption-settlements
+                                label: "_{Settlement Consumption}"
+                              - span: "+"
+                              - field: consumption-army
+                                label: "_{Army Consumption}"
+                              - span: "-"
+                              - field:
+                                ref: farms
+                                label: "_{Farms}"
+                                icon: hex
+                              - span: "+"
+                              - field: consumption-events
+                                label: "_{Events}"
+                                misc: true
+
+                      - row:
+                        contents:
+                          - field: excess
+                            legend: "_{Excess}"
+                            width: huge
+                            border: full
+                            suffix: "_{rp}"
+                            eq: "%{resource-points}-%{consumption}"
+                          - p: "_{Excess resources become Kingdom XP}"
+                          - spacer:
+
+
+                  - section: "_{Settlements}"
+                    contents:
+                      - g:
+                        contents:
+                          - p:
+                            title: "_{Settlement Level}"
+                            content: "_{The number of blocks with at least one structure, up to 20}"
+                      - hr:
+                      - table:
+                        zebra: true
+                        hr: true
+                        flip: true
+                        columns:
+                          - "_{Settlement Level}"
+                          - ""
+                          - "_{Population}"
+                          - "_{Blocks}"
+                          - "_{Settlement Level}"
+                          - "_{Consumption}"
+                          - "_{Max Item Bonus}"
+                          - "_{Influence}"
+                        rows:
+                          - settlement: "_{Village}"
+                            level: 1
+                            population: "400"
+                            blocks: 1
+                            slevel: "1"
+                            consumption: 1
+                            itembonus: "+1"
+                            influence: 0
+                          - settlement: "_{Town}"
+                            level: 3
+                            population: "_{2,000}"
+                            blocks: 4
+                            slevel: "2-4"
+                            consumption: 2
+                            itembonus: "+1"
+                            influence: "_{1 hex}"
+                          - settlement: "_{City}"
+                            level: 9
+                            population: "_{25,000}"
+                            blocks: 9
+                            slevel: "5-9"
+                            consumption: 4
+                            itembonus: "+2"
+                            influence: "_{2 hexes}"
+                          - settlement: "_{Metropolis}"
+                            level: 15
+                            population: "_{25,000}+"
+                            blocks: "10+"
+                            slevel: "10+"
+                            consumption: 6
+                            itembonus: "+3"
+                            influence: "_{3 hexes}"
+                        template:
+                          - row:
+                            contents:
+                              - spacer:
+                              - level: "#{level}"
+                              - spacer:
+                          - p: "#{settlement}"
+                            align: center
+                          - p: "#{population}"
+                            align: center
+                          - span: "#{blocks}"
+                          - span: "#{slevel}"
+                          - span: "#{consumption}"
+                          - span: "#{itembonus}"
+                          - span: "#{influence}"
+
+                  - section: "_{Commodities}"
+                    contents:
+                      - list:
+                        hr: true
+                        light: true
+                        contents:
+                          - g:
+                            contents:
+                              - row:
+                                contents:
+                                  - h5: "_{Food}"
+                                  - spacer:
+                                  - field: "farms"
+                                    label: "_{Farms}"
+                                    icon: hex
+                                  - field: "food-commodities"
+                                    border: full
+                                    width: huge
+                                    frame: none
+
+                          - g:
+                            contents:
+                              - row:
+                                contents:
+                                  - h5: "_{Lumber}"
+                                  - spacer:
+                                  - field: "lumber-work-sites"
+                                    label: "_{Lumber Camps}"
+                                    icon: hex
+                                  - field: "lumber-commodities"
+                                    border: full
+                                    width: huge
+                                    frame: none
+
+                          - g:
+                            contents:
+                              - row:
+                                contents:
+                                  - h5: "_{Luxuries}"
+                                  - spacer:
+                                  - field: "luxuries-commodities"
+                                    border: full
+                                    width: huge
+                                    frame: none
+
+                          - g:
+                            contents:
+                              - row:
+                                contents:
+                                  - h5: "_{Ore}"
+                                  - spacer:
+                                  - field: "ore-work-sites"
+                                    label: "_{Mines}"
+                                    icon: hex
+                                  - field: "ore-commodities"
+                                    border: full
+                                    width: huge
+                                    frame: none
+
+                          - g:
+                            contents:
+                              - row:
+                                contents:
+                                  - h5: "_{Stone}"
+                                  - spacer:
+                                  - field: "stone-work-sites"
+                                    label: "_{Quarries}"
+                                    icon: hex
+                                  - field: "stone-commodities"
+                                    border: full
+                                    width: huge
+                                    frame: none
+                    
+                  - section: "_{Armies}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - repeat: 5
+                            contents:
+                              - g:
+                                contents:
+                                  - row:
+                                    contents:
+                                      - span: "#{i}"
+                                      - field: "army-#{i}"
+                                        frame: none
+                                        width: stretch
+                                      - field: "army-#{i}-level"
+                                        border: full
+                                        label: "_{Level}"
+                                      - field: "army-#{i}-size"
+                                        border: full
+                                        label: "_{Size}"
+                                      - field: "army-#{i}-consumption"
+                                        label: "_{Consumption}"
+                                        suffix: "_{rp}"
+                                  - field: "settlement-#{i}-notes"
+                                    frame: none
+                                    merge-bottom: true
+                                    width: stretch
+
+                  - tail:
+                  # - spacer:
+              
+              - g:
+                contents:
+                  - section: "_{Settlements}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - repeat: 14
+                            contents:
+                              - g:
+                                contents:
+                                  - row:
+                                    contents:
+                                      - span: "#{i}"
+                                      - field: "settlement-#{i}"
+                                        frame: none
+                                        size: large
+                                        width: stretch
+                                      - field: "settlement-#{i}-population"
+                                        label: "_{Population}"
+                                        width: large
+                                      - field: "settlement-#{i}-size"
+                                        border: full
+                                        label: "_{Size}"
+                                        icon: hex
+                                      - field: "settlement-#{i}-consumption"
+                                        label: "_{Consumption}"
+                                        suffix: "_{rp}"
+                                  - row:
+                                    contents:
+                                      - field: "settlement-#{i}-size"
+                                        control: radio
+                                        value: village
+                                        frame: right
+                                        label: "_{Village}"
+                                      - field: "settlement-#{i}-size"
+                                        control: radio
+                                        value: town
+                                        frame: right
+                                        label: "_{Town}"
+                                      - field: "settlement-#{i}-size"
+                                        control: radio
+                                        value: city
+                                        frame: right
+                                        label: "_{City}"
+                                      - field: "settlement-#{i}-size"
+                                        control: radio
+                                        value: metropolis
+                                        frame: right
+                                        label: "_{Metropolis}"
+                                      - spacer:
+                                      - field: "settlement-#{i}-overcrowded"
+                                        control: checkbox
+                                        frame: right
+                                        label: "_{Overcrowded}"
+
+                  - tail:
+                  # - spacer:
+
+      - page: level-up
+        name: "_{Level Up}"
+        order: 15
+        flex: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - h2: "_{Level Up}"
+
+                  - g:
+                    pad: true
+                    contents:
+                      - h4: "_{Step One}"
+                      - p: "_{Increase the kingdom's level by 1 and subtract 1000 XP.}"
+                      - p: "_{The kingdom's level cannot exceed the party's level.}"
+                      
+                  - g:
+                    pad: true
+                    contents:
+                      - h4: "_{Step Two}"
+                      - p: "_{Add class features from your class advancement table.}"
+
+                      - g:
+                        pad: true
+                        contents:
+                          - h5: "_{Ability boost}"
+                          - p: "_{At levels 5, 10, 15 and 20, boost 4 different ability scores. Increase by 1 if the score is already 18 or above, or 2 if not.}"
+                      
+                      - g:
+                        pad: true   
+                        contents:
+                          - h5: "_{Skill increase}"
+                          - p: "_{At select levels, increase proficiency in one skill.}"
+                          - level: 7
+                            contents:
+                              - layout: indent-r
+                                contents:
+                                  - p: "_{May increase a skill to master.}"
+                                  - icon: proficiency-master
+                          - level: 15
+                            contents:
+                              - layout: indent-r
+                                contents:
+                                  - p: "_{May increase a skill to legendary.}"
+                                  - icon: proficiency-legendary
+
+                      - g:
+                        pad: true
+                        contents:
+                          - h5: "_{Ruin Resistance}"
+                          - p: "_{At select levels, reduce one Ruin threshold by 2 and the corresponding Ruin penalty to 0.}"
+
+                  - g:
+                    pad: true
+                    contents:
+                      - h4: "_{Step Three}"
+                      - p: "_{At even levels, select a kingdom feat.}"
+
+                      - paste: book-ref
+                        params:
+                          page-ref: "_{Kingmaker p531}"
+                        contents:
+                          - h6: "_{Kingdom feats}"
+
+                      - zone: '@option/level-up/feats'
+                      
+                  - g:
+                    pad: true
+                    contents:
+                      - h4: "_{Step Four}"
+                      - p: "_{Increase all of your proficiency bonuses, and add proficiencies from skill increases or other class features.}"
+
+                      - layout: 5e
+                        gutter: none
+                        # valign: top
+                        flex: none
+                        contents:
+                          - field: proficiency-untrained
+                            label: "_{Untrained}"
+                            border: full
+                            control: value
+                            value: 0
+                            icon: proficiency
+                            ruby: "&nbsp;\n"
+                          - field: proficiency-trained
+                            label: "_{Trained}"
+                            border: full
+                            control: proficiency
+                            value: trained
+                            ruby: "_{Level}\n+2"
+                          - field: proficiency-expert
+                            label: "_{Expert}"
+                            border: full
+                            control: proficiency
+                            value: expert
+                            ruby: "_{Level}\n+4"
+                          - field: proficiency-master
+                            label: "_{Master}"
+                            border: full
+                            control: proficiency
+                            value: master
+                            ruby: "_{Level}\n+6"
+                          - field: proficiency-legendary
+                            label: "_{Legendary}"
+                            border: full
+                            control: proficiency
+                            value: legendary
+                            ruby: "_{Level}\n+8"
+
+                      - p: "_{Increase any statistics that changed as a result of ability boosts or other abilities.}"
+                            
+                  - g:
+                    pad: true
+                    contents:
+                      - h4: "_{Step Five}"
+                      - p: "_{Adjust bonuses from feats and other abilities that are based on your level.}"
+
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+                  - section: "_{Kingdom Advancement}"
+                    contents:
+                      - advancement: level-up
+                        fields:
+                          - zone: '@kingdom/advancement-fields'
+                          - name: "_{Base\nControl DC}"
+                            key: control-dc
+                            format: string
+                          - name: "_{Leadership\nbonus}"
+                            key: leadership-bonus
+                            format: string
+                          - name: "_{Kingdom\nfeat}"
+                            key: kingdom-feat
+                          - name: "_{Skill\nincrease}"
+                            key: skill-increase
+                          - name: "_{Ruin\nresistance}"
+                            key: ruin-resistance
+                        advances:
+                          - level: 1
+                            gain: "_{Charter}"
+                          - level: 1
+                            gain: "_{Government}"
+                          - level: 1
+                            gain: "_{Heartland}"
+                          - level: 1
+                            gain: "_{Favoured land}"
+                          - level: 3
+                            gain: "_{Settle towns}"
+                          - level: 9
+                            gain: "_{Settle cities}"
+                          - level: 15
+                            gain: "_{Settle metropolises}"
+                          - levels: [ 5, 10, 15, 20 ]
+                            gain: "_{Ability boost} &times; 4"
+                          - levels: [ 5, 8, 11, 14, 17, 20 ]
+                            gain: "_{Ruin Resistance}"
+                          - levels: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
+                            control-dc: [ 14, 15, 16, 18, 19, 20, 22, 23, 24, 26, 27, 28, 30, 31, 32, 34, 35, 36, 38, 39, 40 ]
+                          - levels: [ 1, 8, 16 ]
+                            leadership-bonus: [ "+1", "+2", "+3" ]
+                          - levels: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                            kingdom-feat: true
+                          - levels: [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
+                            skill-increase: true
+                          - level: [ 5, 8, 11, 14, 17, 20 ]
+                            ruin-resistance: true
+
+                  - section: "_{Kingdom Size}"
+                    contents:
+                      - table:
+                        zebra: true
+                        columns:
+                          - "_{Size}"
+                          - "_{Type of\nNation}"
+                          - "_{Resource Die}"
+                          - "_{Control DC\nModifier}"
+                          - "_{Commodity\nStorage}"
+                        rows:
+                          - size: "1-9"
+                            nation-type: "_{Territory}"
+                            resource-die: "_{d4}"
+                            control-dc: "+0"
+                            commodity: 4
+                          - size: "10-24"
+                            nation-type: "_{Province}"
+                            resource-die: "_{d6}"
+                            control-dc: "+1"
+                            commodity: 8
+                          - size: "25-49"
+                            nation-type: "_{State}"
+                            resource-die: "_{d8}"
+                            control-dc: "+2"
+                            commodity: 12
+                          - size: "50-99"
+                            nation-type: "_{Country}"
+                            resource-die: "_{d10}"
+                            control-dc: "+3"
+                            commodity: 16
+                          - size: "100+"
+                            nation-type: "_{Dominion}"
+                            resource-die: "_{d12}"
+                            control-dc: "+4"
+                            commodity: 20
+                        template:
+                          - p: "#{size}"
+                            icon: hex
+                          - p: "#{nation-type}"
+                          - span: "#{resource-die}"
+                          - span: "#{control-dc}"
+                          - span: "#{commodity}"
+
+                  - tail:
+                  - spacer:

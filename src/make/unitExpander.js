@@ -6,6 +6,7 @@ const _ = require('lodash');
 // because that's loaded into the library, and this is needed 
 const expansion = {
     advancement: 'id',
+    arrow: 'direction',
     article: 'id',
     blockquote: '',
     box: '',
@@ -69,6 +70,7 @@ const expansion = {
     'spells-bundle': '',
     'spells-table': '',
     'spells-list2': '',
+    split: 'template',
     switch: 'on',
     table: '',
     tail: '',

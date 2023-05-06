@@ -22,8 +22,22 @@ function min1(num) {
   return Math.max(num, 1);
 }
 
+function min(num, num2) {
+  if (num2 === undefined || num2 === null || num2 === "") {
+    return num;
+  }
+  return Math.min(num, num2);
+}
+
+function max(num, num2) {
+  if (num2 === undefined || num2 === null || num2 === "") {
+    return num;
+  }
+  return Math.max(num, num2);
+}
+
 function defaultValue(num, def) {
-  if (num === unset || num === null || num === "") {
+  if (num === undefined || num === null || num === "") {
     return def;
   }
   return num;
@@ -42,6 +56,21 @@ function minmax(num, min, max) {
 
 function pick(index, values, def) {
   return values.hasOwnProperty(index) ? values[index] : def;
+}
+
+function checkgridValue(name) {
+  let value = 0;
+  let fieldElem = document.getElementByName('id-'+name);
+  if (fieldElem !== null) {
+    for (let inputs of fieldElem.getElementsByTagName('input')) {
+      if (input.type == 'checkbox') {
+        if (input.checked) {
+          value++;
+        }
+      }
+    }
+  }
+  return value;
 }
 
 function threshold(num, thresholds) {

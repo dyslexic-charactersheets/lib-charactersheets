@@ -144,6 +144,21 @@ function showActionMenu(event) {
   var value = 'template';
   for (var input of field.getElementsByTagName('input')) {
     value = input.value;
+    // switch (input.value) {
+    //   case 'action':
+    //     value = '1';
+    //     break;
+    //   case 'action2':
+    //     value = '2';
+    //     break;
+    //   case 'action3':
+    //     value = '3';
+    //     break;
+    //   case 'reaction':
+    //     value = 'reaction';
+    //     break;
+    //   case ''
+    // }
   }
 
   document.getElementById('action-menu-1').checked = false;
@@ -167,7 +182,7 @@ function setActionValue(fieldId, value) {
       icon.classList.remove('icon_action2');
       icon.classList.remove('icon_action3');
       icon.classList.remove('icon_reaction');
-      icon.classList.remove('icon_action-free');
+      icon.classList.remove('icon_free-action');
       icon.classList.remove('icon_action-template');
 
       switch (value) {
@@ -642,8 +657,12 @@ document.addEventListener('scroll', dismissMenus);
 
 // Mutating dice icon
 
-for (var icon of document.getElementsByClassName("icon_damage")) {
-  for (var dieControl of icon.closest('.field__frame').getElementsByClassName('field__control--damage-die')) {
+for (let icon of document.getElementsByClassName("icon_damage")) {
+  let frame = icon.closest('.field__frame');
+  if (frame === null || frame === undefined) {
+    continue;
+  }
+  for (var dieControl of frame.getElementsByClassName('field__control--damage-die')) {
     for (var dieInput of dieControl.getElementsByTagName('input')) {
       ((icon, dieInput) => {
         dieInput.addEventListener('change', function (event) {

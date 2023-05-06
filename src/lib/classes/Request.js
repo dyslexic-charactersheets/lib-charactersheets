@@ -92,7 +92,7 @@ export class Request {
         case 'party':
           return new Party(primary, this, registry);
 
-        case 'kingdom':
+        case 'kingmaker':
           return new Kingdom(primary, this, registry);
 
         case 'gm':

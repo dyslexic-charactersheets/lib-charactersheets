@@ -1,0 +1,399 @@
+unit: base/settlement
+name: "_{Settlement}"
+group: "_{Kingmaker}"
+
+inc:
+  - at: '@pages'
+    add:
+
+      - page: settlement
+        name: "_{Settlement}"
+        order: 20
+        flex: true
+        contents:
+          - embed: settlement
+            labels:
+              - label: village
+                text: "_{Village}"
+                align: right
+                size: huge
+                accent: true
+              - label: town
+                text: "_{Town}"
+                align: right
+                size: huge
+              - label: city
+                text: "_{City}"
+                align: right
+                size: huge
+              - label: village-l
+                text: "_{Village}"
+                rotate: ccw
+                size: huge
+                accent: true
+              - label: town-l
+                text: "_{Town}"
+                rotate: ccw
+                size: huge
+              - label: city-l
+                text: "_{City}"
+                rotate: ccw
+                size: 
+            repeat: 4
+            contents:
+              - row:
+                contents:
+                  - field: 'settlement-border-#{i}-water'
+                    frame: none
+                    control: checkbox
+                  - h6: "_{Water}"
+                  - spacer:
+                  - field: 'settlement-border-#{i}-bridge'
+                    frame: none
+                    control: checkbox
+                  - h6: "_{Bridge}"
+                  - spacer:
+                  - field: 'settlement-border-#{i}-wood'
+                    frame: none
+                    control: checkbox
+                  - h6: "_{Wall (wood)}"
+                  - spacer:
+                  - field: 'settlement-border-#{i}-stone'
+                    frame: none
+                    control: checkbox
+                  - h6: "_{Wall (stone)}"
+          
+          - layout: 1n
+            contents:
+              - row:
+                contents:
+                  - field: settlement-name
+                    border: full
+                    width: stretch
+                    legend: "_{Settlement}"
+                    size: huge
+                    
+                  - field: "settlement-level"
+                    legend: "_{Level}"
+                    border: circle
+              - row:
+                contents:
+                  - field: settlement-size
+                    value: village
+                    control: radio
+                    frame: right
+                    label: "_{Village}"
+                  - field: settlement-size
+                    value: town
+                    control: radio
+                    frame: right
+                    label: "_{Town}"
+                  - field: settlement-size
+                    value: city
+                    control: radio
+                    frame: right
+                    label: "_{City}"
+                  - field: settlement-size
+                    value: metropolis
+                    control: radio
+                    frame: right
+                    label: "_{Metropolis}"
+                  - spacer:
+                  - field: settlement-overcrowded
+                    control: checkbox
+                    frame: right
+                    label: "_{Overcrowded}"
+
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+
+                  - indent:
+                    contents:
+                      - box:
+                        contents:
+                          - row:
+                            pad: true
+                            contents:
+                              - field: settlement-blocks
+                                label: "_{Blocks}"
+                                border: full
+                                eq: "threshold(%{settlement-level},[1,1,3,4,9,9,15,20])"
+
+                              - spacer:
+
+                              - field: settlement-population
+                                label: "_{Population}"
+                                width: huge
+
+                              - spacer:
+
+                              - field: settlement-influence
+                                label: "_{Influence}"
+                                icon: hex
+                                eq: "threshold(%{settlement-level},[1,'0',3,'1',9,'2',15,'3'])"
+                                suffix: "_{hexes}"
+                                width: huge
+
+                              - spacer:
+
+                          - row:
+                            pad: true
+                            contents:
+
+                              - field: settlement-max-item-bonus
+                                legend: "_{Max Item Bonus}"
+                                eq: "threshold(%{settlement-max-item-level},[1,'1',3,'1',9,'2',15,'3'])"
+                                prefix: "+"
+                                border: full
+                                width: huge
+
+                              - span: "&larr;"
+
+                              - calc:
+                                output:
+                                  field: settlement-max-item-level
+                                  label: "_{Effective Level}"
+                                  eq: "%{level}"
+                                  width: large
+                                inputs:
+                                  - field:
+                                    ref: level
+                                    label: "_{Level}"
+                                  - span: "+"
+                                  - field: settlement-max-item-level-bonus
+                                    label: "_{Building Bonus}"
+
+                              - spacer:
+
+                          - row:
+                            pad: true
+                            contents:
+                              - calc:
+                                output:
+                                  field: settlement-consumption
+                                  legend: "_{Consumption}"
+                                  eq: "%{settlement-consumption-base}+%{settlement-consumption-extra}-%{settlement-consumption-reduction}"
+                                  suffix: "_{rp}"
+                                  border: full
+                                  width: huge
+                                inputs:
+                                  - field: settlement-consumption-base
+                                    label: "_{Base}"
+                                    eq: "threshold(%{settlement-level},[1,1,3,2,9,4,15,6])"
+                                  - span: "+"
+                                  - field: settlement-consumption-extra
+                                    label: "_{Extra}"
+                                  - span: "-"
+                                  - field: settlement-consumption-reduction
+                                    label: "_{Reduction}"
+
+                          - g:
+                            pad: true
+                            contents:
+                              - h5: "_{Infrastructure}"
+                              - row:
+                                contents:
+                                  - field: settlement-magical-streetlamps
+                                    control: checkbox
+                                    frame: right
+                                    label: "_{Magical Streetlamps}"
+                                  - field: settlement-paved-streets
+                                    control: checkbox
+                                    frame: right
+                                    label: "_{Paved Streets}"
+                                  - field: settlement-sewer-system
+                                    control: checkbox
+                                    frame: right
+                                    label: "_{Sewer System}"
+
+                      # - spacer:
+
+
+              - g:
+                contents:
+                  - table:
+                    zebra: true
+                    hr: true
+                    flip: true
+                    columns:
+                      - "_{Kingdom Level}"
+                      - ""
+                      - "_{Population}"
+                      - "_{Population per lot}"
+                      - "_{Blocks}"
+                      - "_{Settlement Level}"
+                      - "_{Consumption}"
+                      - "_{Max Item Bonus}"
+                      - "_{Influence}"
+                    rows:
+                      - settlement: "_{Village}"
+                        level: 1
+                        population: "400"
+                        pop-per-lot: 100
+                        blocks: 1
+                        slevel: "1"
+                        consumption: 1
+                        itembonus: "+1"
+                        influence: 0
+                      - settlement: "_{Town}"
+                        level: 3
+                        population: "_{2,000}"
+                        pop-per-lot: 125
+                        blocks: 4
+                        slevel: "2-4"
+                        consumption: 2
+                        itembonus: "+1"
+                        influence: "_{1 hex}"
+                      - settlement: "_{City}"
+                        level: 9
+                        population: "_{25,000}"
+                        pop-per-lot: 700
+                        blocks: 9
+                        slevel: "5-9"
+                        consumption: 4
+                        itembonus: "+2"
+                        influence: "_{2 hexes}"
+                      - settlement: "_{Metropolis}"
+                        level: 15
+                        population: "_{25,000}+"
+                        pop-per-lot: 1000
+                        blocks: "10+"
+                        slevel: "10+"
+                        consumption: 6
+                        itembonus: "+3"
+                        influence: "_{3 hexes}"
+                    template:
+                      - row:
+                        contents:
+                          - spacer:
+                          - level: "#{level}"
+                          - spacer:
+                      - p: "#{settlement}"
+                        align: center
+                      - p: "~ #{population}"
+                        align: center
+                      - p: "#{pop-per-lot}"
+                      - span: "#{blocks}"
+                      - span: "#{slevel}"
+                      - span: "#{consumption}"
+                      - span: "#{itembonus}"
+                      - span: "#{influence}"
+
+          - spacer:
+
+      - page: settlement-buildings
+        name: "_{Buildings}"
+        order: 21
+        flex: true
+        contents:
+          - layout: 13r
+            contents:
+              - g:
+                contents:
+                  - section: "_{Buildings}"
+                    contents:
+                      - list:
+                        hr: true
+                        columns: 2
+                        # light: true
+                        zebra: true
+                        contents:
+                          - repeat: 20
+                            contents:
+                              - paste: building
+                                params:
+                                  i: "#{i}"
+                  - tail:
+
+              - g:
+                contents:
+                  - section: "Building Traits"
+                    flex: small
+                    contents:
+                      - each:
+                        contents:
+                          - name: "_{Building}"
+                            desc: "_{Indoor site}"
+                          - name: "_{Yard}"
+                            desc: "_{Outdoor site}"
+                          - name: "_{Infastructure}"
+                            desc: "_{Affects all lots, does not occupy a slot}"
+                          - name: "_{Edifice}"
+                            desc: "_{Provides benefit only once}"
+                          - name: "_{Residence}"
+                            desc: "_{Prevent a block being overcrowded}"
+                          - name: "_{Famous}"
+                            desc: "_{[b]+1[/b] Fame}"
+                          - name: "_{Infamous}"
+                            desc: "_{[b]+1[/b] Infamy}"
+                        template:
+                          - flags:
+                              - "#{name}"
+                            content: "#{desc}"
+
+                  - section: "_{Infrastructure}"
+                    contents:
+                      - list:
+                        hr: true
+                        # light: true
+                        zebra: true
+                        contents:
+                          - repeat: 8
+                            contents:
+                              - paste: building
+                                params:
+                                  i: "infra-#{i}"
+                                  lot: false
+                                  traits: false
+
+                  - section: "_{Notes}"
+                    contents:
+                      - field: settlement-notes
+                        frame: none
+                        repeat: 10
+                        width: stretch
+
+                  - tail:
+
+      # - page: settlement-influence
+      #   name: "_{Influence}"
+      #   order: 22
+      #   flex: true
+      #   contents:
+      #     - p: "..."
+
+  - copy: building
+    params:
+      i:
+      lot: true
+      traits: true
+      lines: 2
+    contents:
+      - g:
+        contents:
+          - row:
+            contents:
+              - if: "#{lot}"
+                then:
+                  - field: "building-#{i}-lot"
+                    border: full
+                    frame: none
+
+              - field: "building-#{i}"
+                width: stretch
+                frame: none
+
+          - if: "#{traits}"
+            then:
+              - field: building-#{i}-traits
+                label: "_{Traits}"
+                width: stretch
+                frame: annotation
+          - field: building-#{i}-benefits
+            label: "_{Benefits}"
+            width: stretch
+            frame: annotation
+            repeat: "#{lines}"
+            merge-bottom: true

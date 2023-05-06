@@ -38,18 +38,24 @@ function pickAttribs(args, keys) {
     }
   });
   return picked;
-};
+}
 
-export function elementID(element, id = null) {
-  if (id === null || id == '' || id == 'null') {
+export function elementID(element, id, subid = null) {
+  if (isEmpty(id) || id == 'null') {
     return '';
   }
-
-  return ` id='${element}-${id}'`;
+  let name = id;
+  if (!isEmpty(element)) {
+    name = `${element}-${id}`;
+  }
+  if (!isEmpty(subid)) {
+    name = `${name}__${subid}`;
+  }
+  return ` id='${name}'`;
 }
 
 export function elementName(element, id, subid = null) {
-  if (isEmpty(id)) {
+  if (isEmpty(id) || id == 'null') {
     return '';
   }
   let name = id;
