@@ -1,4 +1,4 @@
-unit: background/cultist
+unit: background/apg/cultist
 in: background
 group: "_{Advanced Player's Guide}"
 name: "_{Cultist}"
@@ -11,7 +11,7 @@ inc:
   - set: char-background
     value: "_{Cultist}"
 
-  - set: occultism-proficiency
+  - set: -proficiency
     value: trained
 
   - at: '@background'
@@ -20,19 +20,16 @@ inc:
         title: "_{Cultist}"
         contents:
 
-          - p: "_{Trained in Occultism}"
+          - p: "_{Trained in <Deity> or <Cult> Lore}"
             icon: proficiency-trained
             blk: false
 
 
-          - p: "_{You were (or still are) a member of a cult whose rites may involve sacred dances to ensure a strong harvest or dire rituals that call upon dark powers. You might have taken up adventuring to further your cult’s aims, to initiate yourself into the world’s grander mysteries, or to flee unsavory practices or strictures.}"
+          - p: |
+              You were (or still are) a member of a cult whose rites may involve sacred dances to ensure a strong harvest or dire rituals that call upon dark powers. You might have taken up adventuring to further your cult's aims, to initiate yourself into the world's grander mysteries, or to flee unsavory practices or strictures.
             size: small
             blk: false
 
-
-          - paste: book-ref
-            params:
-              page-ref: "_{APG p48}"
 
 
   - at: '@background-skill-feat'
@@ -40,4 +37,14 @@ inc:
       - paste: feat/schooled-in-secrets
         params:
           level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: <-deity->-or-<-cult->-lore
+        name: "_{<Deity> or <Cult> Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
 

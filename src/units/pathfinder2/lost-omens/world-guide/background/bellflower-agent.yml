@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/bellflower-agent
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Bellflower Agent}"
+
+
+require:
+  - unit: feat/experienced-smuggler
+
+inc:
+  - set: char-background
+    value: "_{Bellflower Agent}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Bellflower Agent}"
+        contents:
+
+          - p: "_{Trained in Underworld Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You joined a secret society dedicated to freeing halfling slaves, most likely from the cruelty of Chelish reign. You know how to smuggle people in and out of countries.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/experienced-smuggler
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: underworld-lore
+        name: "_{Underworld Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

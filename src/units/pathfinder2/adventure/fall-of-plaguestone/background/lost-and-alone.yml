@@ -1,0 +1,50 @@
+unit: background/adventure/fall-of-plaguestone/lost-and-alone
+in: background
+group: "_{The Fall of Plaguestone}"
+name: "_{Lost and Alone}"
+
+
+require:
+  - unit: feat/intimidating-glare
+
+inc:
+  - set: char-background
+    value: "_{Lost and Alone}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Lost and Alone}"
+        contents:
+
+          - p: "_{Trained in Warfare Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You were training to become a knight in Lastwall when the Whispering Tyrant escaped his imprisonment and destroyed the nation. It was only by dumb luck that you are alive at all, but the memories of that fateful day haunt your dreams. When play begins, you have boarded a caravan heading toward a new town, having worn out your welcome at the taverns and inns of Elidir.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/intimidating-glare
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: warfare-lore
+        name: "_{Warfare Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

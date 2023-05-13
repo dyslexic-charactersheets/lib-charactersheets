@@ -1,0 +1,50 @@
+unit: background/lost-omens/firebrands/runner
+in: background
+group: "_{Lost Omens Firebrands}"
+name: "_{Runner}"
+
+
+require:
+  - unit: feat/quick-jump
+
+inc:
+  - set: char-background
+    value: "_{Runner}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Runner}"
+        contents:
+
+          - p: "_{Trained in City}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You served as a messenger for a specific faction, guild, house, or individual, often running those messages on a short timeline. Finding the quickest path from point A to point B is your specialty and you've learned to make the most of your athleticism and navigational skill.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/quick-jump
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: city
+        name: "_{City}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/hermean-expatriate
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Hermean Expatriate}"
+
+
+require:
+  - unit: feat/skill-training
+
+inc:
+  - set: char-background
+    value: "_{Hermean Expatriate}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Hermean Expatriate}"
+        contents:
+
+          - p: "_{Trained in Dragon Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You have been exiled from Hermea, perhaps of your own accord or perhaps because you didn't measure up. However, you take with you some of the benefits of the excellent education afforded to its citizenry.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/skill-training
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: dragon-lore
+        name: "_{Dragon Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

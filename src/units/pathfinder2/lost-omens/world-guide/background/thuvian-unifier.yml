@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/thuvian-unifier
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Thuvian Unifier}"
+
+
+require:
+  - unit: feat/quick-coercion
+
+inc:
+  - set: char-background
+    value: "_{Thuvian Unifier}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Thuvian Unifier}"
+        contents:
+
+          - p: "_{Trained in Politics Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You believe the city-states of Thuvia should be united into one nation under the rule of your home city (most commonly Aspenthar), and you're willing to do whatever it takes to make it happen.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/quick-coercion
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: politics-lore
+        name: "_{Politics Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

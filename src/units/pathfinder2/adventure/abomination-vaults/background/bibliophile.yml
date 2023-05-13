@@ -1,0 +1,50 @@
+unit: background/adventure/abomination-vaults/bibliophile
+in: background
+group: "_{Abomination Vaults}"
+name: "_{Bibliophile}"
+
+
+require:
+  - unit: feat/arcane-sense
+
+inc:
+  - set: char-background
+    value: "_{Bibliophile}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Bibliophile}"
+        contents:
+
+          - p: "_{Trained in Library Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You love few things more than a good book, and as a result, Odd Stories is your favorite shop in Otari. The bookseller Morlibint supplies you with fiction, anthologies, and other delightful reads, and he's always eager to discuss his latest finds with you. You know that imagination is the greatest magic, but a working knowledge of actual magic helps, too.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/arcane-sense
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: library-lore
+        name: "_{Library Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

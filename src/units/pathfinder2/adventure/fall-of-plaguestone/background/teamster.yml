@@ -1,0 +1,50 @@
+unit: background/adventure/fall-of-plaguestone/teamster
+in: background
+group: "_{The Fall of Plaguestone}"
+name: "_{Teamster}"
+
+
+require:
+  - unit: feat/train-animal
+
+inc:
+  - set: char-background
+    value: "_{Teamster}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Teamster}"
+        contents:
+
+          - p: "_{Trained in Mercantile Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You left your home a few months back for a life on the road, working for one caravan company and then another, always on the lookout for a new job and a better life. Last week, you were hired by the Bort Bargith's company in Elidir. You don't know anyone from the company just yet, but most of its members seem to be honest merchants and traders.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/train-animal
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: mercantile-lore
+        name: "_{Mercantile Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

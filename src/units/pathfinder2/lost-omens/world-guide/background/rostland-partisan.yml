@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/rostland-partisan
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Rostland Partisan}"
+
+
+require:
+  - unit: feat/group-impression
+
+inc:
+  - set: char-background
+    value: "_{Rostland Partisan}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Rostland Partisan}"
+        contents:
+
+          - p: "_{Trained in Politics Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You grew up among the southern houses of Brevoy in old Rostland. You're accustomed to arguing from a position of underappreciated worth.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/group-impression
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: politics-lore
+        name: "_{Politics Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

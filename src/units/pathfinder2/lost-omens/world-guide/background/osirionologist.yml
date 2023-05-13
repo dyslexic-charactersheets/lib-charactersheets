@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/osirionologist
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Osirionologist}"
+
+
+require:
+  - unit: feat/oddity-identification
+
+inc:
+  - set: char-background
+    value: "_{Osirionologist}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Osirionologist}"
+        contents:
+
+          - p: "_{Trained in Ancient Osirion Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              Whether you're a fascinated outsider or a local proud of your nation's storied past, you're a devoted student of Osirion's history. You might be a traveling professor, a member of a society like the Pathfinders or the Esoteric Order of the Palatine Eye, or even a simple tomb robber cashing in on the glories of the past.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/oddity-identification
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: ancient-osirion-lore
+        name: "_{Ancient Osirion Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

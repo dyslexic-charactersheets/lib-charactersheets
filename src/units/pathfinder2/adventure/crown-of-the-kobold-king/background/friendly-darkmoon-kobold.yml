@@ -1,0 +1,50 @@
+unit: background/adventure/crown-of-the-kobold-king/friendly-darkmoon-kobold
+in: background
+group: "_{Crown of the Kobold King}"
+name: "_{Friendly Darkmoon Kobold}"
+badge: "_{Rare}"
+
+require:
+  - unit: feat/group-impression
+
+inc:
+  - set: char-background
+    value: "_{Friendly Darkmoon Kobold}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Friendly Darkmoon Kobold}"
+        contents:
+
+          - p: "_{Trained in Kobold}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              It has taken time, but over the years, you've managed to find a place among the citizens of Falcon's Hollow. While many still distrust kobolds, they at least see you as a fellow villager, if not a friend, and you've got quite the talent for quickly convincing larger groups of people that you mean them no harm.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/group-impression
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: kobold
+        name: "_{Kobold}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

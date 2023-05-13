@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/geb-crusader
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Geb Crusader}"
+
+
+require:
+  - unit: feat/student-of-the-canon
+
+inc:
+  - set: char-background
+    value: "_{Geb Crusader}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Geb Crusader}"
+        contents:
+
+          - p: "_{Trained in Undead Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You grew up considering the existence of the undead nation of Geb an atrocity and trained to one day take part in destroying it and putting its vile inhabitants to their final rest. Key to your preparations is a thorough study of Pharasma, Urgathoa, and other undead-related deities and their philosophies.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/student-of-the-canon
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: undead-lore
+        name: "_{Undead Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

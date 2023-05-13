@@ -1,37 +1,53 @@
-unit: background/tech-reliant
+unit: background/guns-and-gears/tech-reliant
 in: background
 group: "_{Guns and Gears}"
-name: "_{Tech-Reliant}"
+name: "_{Tech Reliant}"
 badge: "_{Rare}"
+
+require:
+  - unit: feat/battle-medicine
 
 inc:
   - set: char-background
-    value: "_{Tech-Reliant}"
+    value: "_{Tech Reliant}"
 
-  - set: crafting-proficiency
+  - set: -proficiency
     value: trained
 
-  - set: medicine-proficiency
+  - set: -proficiency
     value: trained
 
   - at: '@background'
     replace:
       - article: char-background
-        title: "_{Tech-Reliant}"
+        title: "_{Tech Reliant}"
         contents:
 
-          - p: "_{Trained in Crafting and Medicine}"
+          - p: "_{Trained in  and undefined}"
             icon: proficiency-trained
             blk: false
 
 
-          - p: "_{Some event, be it an accident, attack, or disaster, has left you horribly scarred by magic. Your body no longer tolerates magical healing, and you can't use magic, forcing you to rely on gadgets and ingenuity where others trust in spells and magical items. You might have been well-versed in magic before, or barely familiar with its use. This event may have injured your body in visible ways, but no matter the extent of your injuries, your body no longer interacts with healing magic in any capacity.}"
+          - p: |
+              Some event, be it an accident, attack, or disaster, has left you horribly scarred by magic. Your body no longer tolerates magical healing, and you can't use magic, forcing you to rely on gadgets and ingenuity where others trust in spells and magical items. You might have been well-versed in magic before, or barely familiar with its use. This event may have injured your body in visible ways, but no matter the extent of your injuries, your body no longer interacts with healing magic in any capacity.
             size: small
             blk: false
 
 
-          - paste: book-ref
-            params:
-              page-ref: "_{Guns & Gears p47}"
 
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/battle-medicine
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: 
+        name: "_{}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
 

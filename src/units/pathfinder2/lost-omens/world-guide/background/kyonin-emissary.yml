@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/kyonin-emissary
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Kyonin Emissary}"
+
+
+require:
+  - unit: feat/multilingual
+
+inc:
+  - set: char-background
+    value: "_{Kyonin Emissary}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Kyonin Emissary}"
+        contents:
+
+          - p: "_{Trained in Politics Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You were trained to be an ambassador of the elven land of Kyonin, and you have now been sent out into the wider world to build alliances between Kyonin and the neighboring kingdoms.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/multilingual
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: politics-lore
+        name: "_{Politics Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

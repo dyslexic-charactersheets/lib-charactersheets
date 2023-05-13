@@ -1,0 +1,50 @@
+unit: background/lost-omens/firebrands/unremarkable
+in: background
+group: "_{Lost Omens Firebrands}"
+name: "_{Unremarkable}"
+
+
+require:
+  - unit: feat/lengthy-diversion
+
+inc:
+  - set: char-background
+    value: "_{Unremarkable}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Unremarkable}"
+        contents:
+
+          - p: "_{Trained in Acting Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              Your face is particularly unremarkable, even if your presence or actions may not be. You know how to use this to your advantage, making it difficult for people to identify and collect information about you.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/lengthy-diversion
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: acting-lore
+        name: "_{Acting Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

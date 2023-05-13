@@ -11,7 +11,7 @@ inc:
   - set: char-background
     value: "_{Scout}"
 
-  - set: survival-proficiency
+  - set: -proficiency
     value: trained
 
   - at: '@background'
@@ -20,19 +20,16 @@ inc:
         title: "_{Scout}"
         contents:
 
-          - p: "_{Trained in Survival}"
+          - p: "_{Trained in <Terrain> Lore}"
             icon: proficiency-trained
             blk: false
 
 
-          - p: "_{You called the wilderness home as you found trails and guided travelers. Your wanderlust could have called you to the adventuring life, or perhaps you served as a scout for soldiers and found you liked battle.}"
+          - p: |
+              You called the wilderness home as you found trails and guided travelers. Your wanderlust could have called you to the adventuring life, or perhaps you served as a scout for soldiers and found you liked battle.
             size: small
             blk: false
 
-
-          - paste: book-ref
-            params:
-              page-ref: "_{CRB p64}"
 
 
   - at: '@background-skill-feat'
@@ -40,4 +37,14 @@ inc:
       - paste: feat/forager
         params:
           level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: <-terrain->-lore
+        name: "_{<Terrain> Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
 

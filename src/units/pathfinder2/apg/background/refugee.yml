@@ -1,7 +1,7 @@
-unit: background/refugee
+unit: background/apg/refugee
 in: background
 group: "_{Advanced Player's Guide}"
-name: "_{Refugee}"
+name: "_{Refugee (APG)}"
 
 
 require:
@@ -9,30 +9,27 @@ require:
 
 inc:
   - set: char-background
-    value: "_{Refugee}"
+    value: "_{Refugee (APG)}"
 
-  - set: society-proficiency
+  - set: -proficiency
     value: trained
 
   - at: '@background'
     replace:
       - article: char-background
-        title: "_{Refugee}"
+        title: "_{Refugee (APG)}"
         contents:
 
-          - p: "_{Trained in Society}"
+          - p: "_{Trained in <City> Lore}"
             icon: proficiency-trained
             blk: false
 
 
-          - p: "_{You come from a land very distant from the one you now find yourself in, driven by war, plague, or simply in the pursuit of opportunity. Regardless of your origin or the reason you left your home, you find yourself an outsider in this new land. Adventuring is a way to support yourself while offering hope to those who need it most.}"
+          - p: |
+              You come from a land very distant from the one you now find yourself in, driven by war, plague, or simply in the pursuit of opportunity. Regardless of your origin or the reason you left your home, you find yourself an outsider in this new land. Adventuring is a way to support yourself while offering hope to those who need it most.
             size: small
             blk: false
 
-
-          - paste: book-ref
-            params:
-              page-ref: "_{APG p49}"
 
 
   - at: '@background-skill-feat'
@@ -40,4 +37,14 @@ inc:
       - paste: feat/streetwise
         params:
           level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: <-city->-lore
+        name: "_{<City> Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
 

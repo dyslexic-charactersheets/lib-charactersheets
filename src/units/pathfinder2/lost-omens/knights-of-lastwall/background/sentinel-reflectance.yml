@@ -1,0 +1,50 @@
+unit: background/lost-omens/knights-of-lastwall/sentinel-reflectance
+in: background
+group: "_{Lost Omens Knights of Lastwall}"
+name: "_{Sentinel Reflectance}"
+
+
+require:
+  - unit: feat/no-cause-for-alarm
+
+inc:
+  - set: char-background
+    value: "_{Sentinel Reflectance}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Sentinel Reflectance}"
+        contents:
+
+          - p: "_{Trained in Shining Sentinels}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              Either through witnessing their deeds and devout heroics firsthand, or through reading chronicles of their exploits, the Shining Sentinels of the Knights of Lastwall inspire you. You may idealize their philosophy or one day hope to join their ranks; the Shining Sentinels are your guiding star.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/no-cause-for-alarm
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: shining-sentinels
+        name: "_{Shining Sentinels}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

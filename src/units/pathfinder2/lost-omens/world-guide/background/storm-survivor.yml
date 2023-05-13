@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/storm-survivor
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Storm Survivor}"
+
+
+require:
+  - unit: feat/forager
+
+inc:
+  - set: char-background
+    value: "_{Storm Survivor}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Storm Survivor}"
+        contents:
+
+          - p: "_{Trained in Weather Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              Through luck or through skill, you managed to survive a catastrophic maritime disaster, such as a shipwreck or being thrown overboard. You have a keen sense for weather or situations that are similar to the one you escaped.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/forager
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: weather-lore
+        name: "_{Weather Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

@@ -1,14 +1,17 @@
-unit: background/archaeologist
+unit: background/lost-omens/pathfinder-society-guide/archaeologist
 in: background
 group: "_{Lost Omens Pathfinder Society Guide}"
 name: "_{Archaeologist}"
 
 
+require:
+  - unit: feat/additional-lore
+
 inc:
   - set: char-background
     value: "_{Archaeologist}"
 
-  - set: society-proficiency
+  - set: -proficiency
     value: trained
 
   - at: '@background'
@@ -17,20 +20,23 @@ inc:
         title: "_{Archaeologist}"
         contents:
 
-          - p: "_{Trained in Society, Architecture Lore and Additional Lore}"
+          - p: "_{Trained in Architecture Lore}"
             icon: proficiency-trained
             blk: false
 
 
-          - p: "_{You've excavated enough sites to know that ancient civilizations aren't lost; they're merely buried and waiting for the right scholar to unearth them and tell their story. You might have worked as a laborer or local guide before learning formal archaeological techniques.}"
+          - p: |
+              You've excavated enough sites to know that ancient civilizations aren't lost; they're merely buried and waiting for the right scholar to unearth them and tell their story. You might have worked as a laborer or local guide before learning formal archaeological techniques.
             size: small
             blk: false
 
 
-          - paste: book-ref
-            params:
-              page-ref: "_{PFS Guide p6}"
 
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/additional-lore
+        params:
+          level: 1
 
 
   - at: '@lore-skills'
@@ -38,12 +44,6 @@ inc:
 
       - skill: architecture-lore
         name: "_{Architecture Lore}"
-        ability: "_{INT}"
-        abilityref: INT
-        acp: false
-
-      - skill: additional-lore
-        name: "_{Additional Lore}"
         ability: "_{INT}"
         abilityref: INT
         acp: false

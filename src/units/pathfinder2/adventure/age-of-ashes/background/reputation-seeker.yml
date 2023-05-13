@@ -1,0 +1,50 @@
+unit: background/adventure/age-of-ashes/reputation-seeker
+in: background
+group: "_{Age of Ashes}"
+name: "_{Reputation Seeker}"
+
+
+require:
+  - unit: feat/terrain-expertise
+
+inc:
+  - set: char-background
+    value: "_{Reputation Seeker}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Reputation Seeker}"
+        contents:
+
+          - p: "_{Trained in <Terrain> Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You're likely from Breachill, but unlike the Local Scion, your family has no notable legacy in the area. You might not even have much of a family at all to call your own, and could be an orphan. You've seen so many people make names for themselves that you set out on your own and spent some time abroad in the jungles or deserts of Garund or in the upper reaches of the Darklands-regions that proved too dangerous to remain in for long on your own. You returned home with more caution and knowledge of the world beyond Breachill's borders, but still determined to win fame.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/terrain-expertise
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: <-terrain->-lore
+        name: "_{<Terrain> Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

@@ -1,4 +1,4 @@
-unit: background/pilgrim
+unit: background/apg/pilgrim
 in: background
 group: "_{Advanced Player's Guide}"
 name: "_{Pilgrim}"
@@ -11,7 +11,7 @@ inc:
   - set: char-background
     value: "_{Pilgrim}"
 
-  - set: religion-proficiency
+  - set: -proficiency
     value: trained
 
   - at: '@background'
@@ -20,19 +20,16 @@ inc:
         title: "_{Pilgrim}"
         contents:
 
-          - p: "_{Trained in Religion}"
+          - p: "_{Trained in <Deity> Lore}"
             icon: proficiency-trained
             blk: false
 
 
-          - p: "_{In your youth, you made several pilgrimages to important shrines and holy sites. You might have been a mendicant friar, a seller of holy relics (real or fraudulent), or just a simple farmer following the dictates of your faith. Whatever the aims of your wanderings now, your faith still protects you on the road.}"
+          - p: |
+              In your youth, you made several pilgrimages to important shrines and holy sites. You might have been a mendicant friar, a seller of holy relics (real or fraudulent), or just a simple farmer following the dictates of your faith. Whatever the aims of your wanderings now, your faith still protects you on the road.
             size: small
             blk: false
 
-
-          - paste: book-ref
-            params:
-              page-ref: "_{APG p49}"
 
 
   - at: '@background-skill-feat'
@@ -40,4 +37,14 @@ inc:
       - paste: feat/pilgrims-token
         params:
           level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: <-deity->-lore
+        name: "_{<Deity> Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
 

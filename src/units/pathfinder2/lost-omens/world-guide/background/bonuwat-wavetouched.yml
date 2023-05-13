@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/bonuwat-wavetouched
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Bonuwat Wavetouched}"
+
+
+require:
+  - unit: feat/underwater-marauder
+
+inc:
+  - set: char-background
+    value: "_{Bonuwat Wavetouched}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Bonuwat Wavetouched}"
+        contents:
+
+          - p: "_{Trained in Ocean Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You are a child of the Bonuwat people, and the sea's salt flows through your veins. You've taken to sailing and swimming gracefully and with ease, earning you the honorific "wavetouched."
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/underwater-marauder
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: ocean-lore
+        name: "_{Ocean Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

@@ -1,0 +1,50 @@
+unit: background/book-of-the-dead/night-watch
+in: background
+group: "_{Book of the Dead}"
+name: "_{Night Watch}"
+
+
+require:
+  - unit: feat/quick-coercion
+
+inc:
+  - set: char-background
+    value: "_{Night Watch}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Night Watch}"
+        contents:
+
+          - p: "_{Trained in  and undefined}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              When everyone else slumbers, you're on guard. You might have been a watch member in a teeming metropolis, the guard in an unquiet cemetery, or a lonely shepherd. Many a night you've shouted out warnings into the dark, unsure of what lurked just beyond the range of your lantern's light. More than once you've seen things shambling in the dark that never should have been up and about.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/quick-coercion
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: 
+        name: "_{}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

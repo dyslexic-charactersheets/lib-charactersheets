@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/diobel-pearl-diver
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Diobel Pearl Diver}"
+
+
+require:
+  - unit: feat/underwater-marauder
+
+inc:
+  - set: char-background
+    value: "_{Diobel Pearl Diver}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Diobel Pearl Diver}"
+        contents:
+
+          - p: "_{Trained in Ocean Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You spent a portion of your youth diving and gathering precious pearls under the attentive eyes of Kortos Consortium merchants.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/underwater-marauder
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: ocean-lore
+        name: "_{Ocean Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

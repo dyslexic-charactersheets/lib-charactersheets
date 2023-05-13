@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/atteran-rancher
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Atteran Rancher}"
+
+
+require:
+  - unit: feat/train-animal
+
+inc:
+  - set: char-background
+    value: "_{Atteran Rancher}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Atteran Rancher}"
+        contents:
+
+          - p: "_{Trained in Animal Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You grew up breeding and training the famous horses of the Atteran Ranches in northern Nidal. You may even be sympathetic to the Desnan dissidents who hide there from the Umbral Court.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/train-animal
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: animal-lore
+        name: "_{Animal Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

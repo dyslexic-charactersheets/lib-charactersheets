@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/goblinblood-orphan
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Goblinblood Orphan}"
+
+
+require:
+  - unit: feat/assurance
+
+inc:
+  - set: char-background
+    value: "_{Goblinblood Orphan}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Goblinblood Orphan}"
+        contents:
+
+          - p: "_{Trained in Goblin Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              Your family, whether goblin, hobgoblin, or human, died in the Goblinblood Wars. Though you were marked by these losses, you managed to survive through your own resilience and resourcefulness.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/assurance
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: goblin-lore
+        name: "_{Goblin Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

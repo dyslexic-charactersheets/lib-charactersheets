@@ -1,0 +1,50 @@
+unit: background/book-of-the-dead/necromancers-apprentice
+in: background
+group: "_{Book of the Dead}"
+name: "_{Necromancer's Apprentice}"
+
+
+require:
+  - unit: feat/quick-identification
+
+inc:
+  - set: char-background
+    value: "_{Necromancer's Apprentice}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Necromancer's Apprentice}"
+        contents:
+
+          - p: "_{Trained in Necromancy}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You apprenticed under a necromancer-a hard education in a field where a cadaver you were dissecting could suddenly animate and every magical artifact seemed deadly. Now on your own, you're grateful you learned to identify magical threats quickly and thoroughly.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/quick-identification
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: necromancy
+        name: "_{Necromancy}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

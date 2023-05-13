@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/vidrian-reformer
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Vidrian Reformer}"
+
+
+require:
+  - unit: feat/hobnobber
+
+inc:
+  - set: char-background
+    value: "_{Vidrian Reformer}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Vidrian Reformer}"
+        contents:
+
+          - p: "_{Trained in Politics Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You know that the only way your homeland of Vidrian can remain free from outside conquerors is by forging a strong and unified government. As such, you seek to bind your fellow citizens together through careful diplomacy and force of personality-or, if necessary, subterfuge and intrigue.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/hobnobber
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: politics-lore
+        name: "_{Politics Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

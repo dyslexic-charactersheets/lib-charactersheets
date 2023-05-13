@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/inlander
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Inlander}"
+
+
+require:
+  - unit: feat/survey-wildlife
+
+inc:
+  - set: char-background
+    value: "_{Inlander}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Inlander}"
+        contents:
+
+          - p: "_{Trained in <Terrain> Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You grew up in an untamed region of the Isle of Kortos, and you know how to survive in the wild.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/survey-wildlife
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: <-terrain->-lore
+        name: "_{<Terrain> Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

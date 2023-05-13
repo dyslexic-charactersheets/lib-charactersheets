@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/thrune-loyalist
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Thrune Loyalist}"
+
+
+require:
+  - unit: feat/student-of-the-canon
+
+inc:
+  - set: char-background
+    value: "_{Thrune Loyalist}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Thrune Loyalist}"
+        contents:
+
+          - p: "_{Trained in Hell Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              Despite the setbacks Cheliax has suffered recently, your loyalties lie with the devil-backed House Thrune. You consider the current queen to be the rightful ruler of your homeland, and you are willing to act against her enemies.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/student-of-the-canon
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: hell-lore
+        name: "_{Hell Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

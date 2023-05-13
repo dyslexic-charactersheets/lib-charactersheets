@@ -1,0 +1,50 @@
+unit: background/adventure/quest-for-the-frozen-flame/broken-tusk-recruiter
+in: background
+group: "_{Quest for the Frozen Flame}"
+name: "_{Broken Tusk Recruiter}"
+badge: "_{Uncommon}"
+
+require:
+  - unit: feat/group-impression
+
+inc:
+  - set: char-background
+    value: "_{Broken Tusk Recruiter}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Broken Tusk Recruiter}"
+        contents:
+
+          - p: "_{Trained in Hillcross}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              Your gifted tongue, friendly demeanor, and deep knowledge of Broken Tusk culture and traditions make you an ideal recruiter for new followers. Whenever Broken Tusks come upon weak, weary, or wandering souls, you're often the first sent to meet these folks and determine if they would be a good fit for the following.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/group-impression
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: hillcross
+        name: "_{Hillcross}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

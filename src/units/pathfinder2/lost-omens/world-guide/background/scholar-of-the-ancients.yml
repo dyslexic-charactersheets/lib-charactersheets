@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/scholar-of-the-ancients
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Scholar of the Ancients}"
+
+
+require:
+  - unit: feat/quick-identification
+
+inc:
+  - set: char-background
+    value: "_{Scholar of the Ancients}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Scholar of the Ancients}"
+        contents:
+
+          - p: "_{Trained in Azlant Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You're fascinated by the lost Azlanti Empire and have dedicated yourself to seeking out and studying every broken artifact or scrap of knowledge that remains, whether as an academic pursuit or simply for the joy of treasure hunting.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/quick-identification
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: azlant-lore
+        name: "_{Azlant Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

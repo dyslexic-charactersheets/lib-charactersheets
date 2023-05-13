@@ -1,0 +1,50 @@
+unit: background/adventure/outlaws-of-alkenstar/wanted-witness
+in: background
+group: "_{Outlaws of Alkenstar}"
+name: "_{Wanted Witness}"
+badge: "_{Uncommon}"
+
+require:
+  - unit: feat/read-lips
+
+inc:
+  - set: char-background
+    value: "_{Wanted Witness}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Wanted Witness}"
+        contents:
+
+          - p: "_{Trained in Alkenstar Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You saw something you shouldn't have, plain and simple. The shame is that you don't even know what it is, exactly, that you saw.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/read-lips
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: alkenstar-lore
+        name: "_{Alkenstar Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

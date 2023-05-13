@@ -1,0 +1,50 @@
+unit: background/lost-omens/knights-of-lastwall/reclaimed
+in: background
+group: "_{Lost Omens Knights of Lastwall}"
+name: "_{Reclaimed}"
+
+
+require:
+  - unit: feat/group-coercion
+
+inc:
+  - set: char-background
+    value: "_{Reclaimed}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Reclaimed}"
+        contents:
+
+          - p: "_{Trained in Crimson Reclaimers}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              A unit of Crimson Reclaimers saved you from certain death in the Gravelands. You spent time with one or more Crimson Reclaimers as they escorted you to safety, and you've learned the ways of this faction of the Knights of Lastwall. You consider yourself forever in their debt and defend their reputation unquestioningly against any accusations of duplicity.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/group-coercion
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: crimson-reclaimers
+        name: "_{Crimson Reclaimers}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

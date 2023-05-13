@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/bekyar-restorer
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Bekyar Restorer}"
+
+
+require:
+  - unit: feat/group-impression
+
+inc:
+  - set: char-background
+    value: "_{Bekyar Restorer}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Bekyar Restorer}"
+        contents:
+
+          - p: "_{Trained in Abyss Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              Though many Bekyars worship demons, you seek to pave a different path for yourself and your kindred, while also attempting to change other Mwangi's treatment of your culture.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/group-impression
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: abyss-lore
+        name: "_{Abyss Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

@@ -1,8 +1,11 @@
-unit: background/droskari-disciple
+unit: background/adventure/age-of-ashes/droskari-disciple
 in: background
 group: "_{Age of Ashes}"
 name: "_{Droskari Disciple}"
 
+
+require:
+  - unit: feat/skill-training
 
 inc:
   - set: char-background
@@ -14,14 +17,31 @@ inc:
         title: "_{Droskari Disciple}"
         contents:
 
+          - p: "_{Trained in Droskar Lore}"
+            icon: proficiency-trained
+            blk: false
 
-          - p: "_{You grew up in the church of the Dark Smith, where you learned the value of hard work and achieving vocational mastery.}"
+
+          - p: |
+              You grew up in the church of the Dark Smith, where you learned the value of hard work and achieving vocational mastery.
             size: small
             blk: false
 
 
-          - paste: book-ref
-            params:
-              page-ref: "_{Fires of the Haunted City p65}"
 
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/skill-training
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: droskar-lore
+        name: "_{Droskar Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
 

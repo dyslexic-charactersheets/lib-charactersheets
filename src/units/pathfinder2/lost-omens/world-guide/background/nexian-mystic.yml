@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/nexian-mystic
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Nexian Mystic}"
+
+
+require:
+  - unit: feat/arcane-sense
+
+inc:
+  - set: char-background
+    value: "_{Nexian Mystic}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Nexian Mystic}"
+        contents:
+
+          - p: "_{Trained in <Planar> Lore (except Material Plane)}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              Your initiations into the Nexian mysteries and the philosophies of the Arclords of Nex grant you a preternatural comprehension of the arcane underpinnings of existence.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/arcane-sense
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: <-planar->-lore-(except-material-plane-)
+        name: "_{<Planar> Lore (except Material Plane)}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

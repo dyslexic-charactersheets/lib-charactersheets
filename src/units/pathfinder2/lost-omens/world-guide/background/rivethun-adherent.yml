@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/rivethun-adherent
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Rivethun Adherent}"
+
+
+require:
+  - unit: feat/recognize-spell
+
+inc:
+  - set: char-background
+    value: "_{Rivethun Adherent}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Rivethun Adherent}"
+        contents:
+
+          - p: "_{Trained in Spirit Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You have spent time learning the practices and traditions of the ancient Rivethun dwarven shamans and can recognize all sorts of magic. You may have chosen your own road since then, or you may remain an adherent of the philosophy.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/recognize-spell
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: spirit-lore
+        name: "_{Spirit Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

@@ -1,0 +1,50 @@
+unit: background/adventure/extinction-curse/mystic-seer
+in: background
+group: "_{Extinction Curse}"
+name: "_{Mystic Seer}"
+
+
+require:
+  - unit: feat/arcane-sense
+
+inc:
+  - set: char-background
+    value: "_{Mystic Seer}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Mystic Seer}"
+        contents:
+
+          - p: "_{Trained in Scam Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You delight crowds by reading minds, telling futures, and contacting spirits. Although much of your work is misdirection and showmanship, your cons have inadvertently awakened a genuine awareness of magic in your mind. This new sense is both thrilling and frightening, and you hope that you can hone it further in the Circus of Wayward Wonders.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/arcane-sense
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: scam-lore
+        name: "_{Scam Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

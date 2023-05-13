@@ -1,0 +1,50 @@
+unit: background/pfs/glorianas-fixer
+in: background
+group: "_{Organized Play Foundation}"
+name: "_{Gloriana's Fixer}"
+badge: "_{Uncommon}"
+
+require:
+  - unit: feat/subtle-theft
+
+inc:
+  - set: char-background
+    value: "_{Gloriana's Fixer}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Gloriana's Fixer}"
+        contents:
+
+          - p: "_{Trained in Underworld Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You used to run certain "errands" for Gloriana Morilla, a close confidante of Grand Princess Eutropia Stavian, the ruler of Taldor. Gloriana took note of your skills and suggested you join the Pathfinder Society, a group she's heavily involved in herself.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/subtle-theft
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: underworld-lore
+        name: "_{Underworld Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

@@ -1,0 +1,50 @@
+unit: background/adventure/agents-of-edgewatch/godless-graycloak
+in: background
+group: "_{Agents of Edgewatch}"
+name: "_{Godless Graycloak}"
+
+
+require:
+  - unit: feat/quick-identification
+
+inc:
+  - set: char-background
+    value: "_{Godless Graycloak}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Godless Graycloak}"
+        contents:
+
+          - p: "_{Trained in <Deity> Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You were a member of a church once, and you saw some things among Absalom's religious elite that put you off piety for good. Maybe it was one too many beggars turned away at the temple's front door, or maybe it was a high-ranking priests consistent abuses of power. What got to you most, though, was that according to just about every belief system out there, sinners and saints, priests and paupers were all alike in one key way: they never saw retribution or accolades until buried 6 feet under. You wanted more from Absalom. You wanted more from the world. You wanted justice now, on this plane, not in some indeterminate afterlife. So you left the church and wandered the city, a ghost of your former self.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/quick-identification
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: <-deity->-lore
+        name: "_{<Deity> Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

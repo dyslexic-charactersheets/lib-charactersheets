@@ -1,0 +1,50 @@
+unit: background/adventure/gatewalkers/total-power
+in: background
+group: "_{Gatewalkers}"
+name: "_{Total Power}"
+badge: "_{Rare}"
+
+require:
+  - unit: feat/intimidating-glare
+
+inc:
+  - set: char-background
+    value: "_{Total Power}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Total Power}"
+        contents:
+
+          - p: "_{Trained in Legal Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              Whether you desire simple security after a life of uncertainty or you're actually just a control freak, power over your own fate is the thing you've always wanted. On the night of the Missing Moment, you glimpsed such power amid the light of a glowing archway, and you stepped through, eager to claim control over your destiny. What happened next, you don't remember—you came to at the same place you'd started, though clearly a lot of time had passed. Ever since that night, your body has felt heavier than before. You soon discovered that you could will your very bones into extending from your flesh like thorns from a rose's stem. Though you didn't choose the title gatewalker for yourself, you're sure you can use your strange new power to exercise control over your life.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/intimidating-glare
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: legal-lore
+        name: "_{Legal Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

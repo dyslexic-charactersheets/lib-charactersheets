@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/aspiring-free-captain
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Aspiring Free-Captain}"
+
+
+require:
+  - unit: feat/group-coercion
+
+inc:
+  - set: char-background
+    value: "_{Aspiring Free-Captain}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Aspiring Free-Captain}"
+        contents:
+
+          - p: "_{Trained in Sailing Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You seek to join the Free Captains of the Shackles and have learned everything you need to know about sailing and bossing people around. Now you just need a crew and a ship.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/group-coercion
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: sailing-lore
+        name: "_{Sailing Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

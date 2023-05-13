@@ -1,8 +1,11 @@
-unit: background/returned
+unit: background/apg/returned
 in: background
 group: "_{Advanced Player's Guide}"
 name: "_{Returned}"
 badge: "_{Rare}"
+
+require:
+  - unit: feat/diehard
 
 inc:
   - set: char-background
@@ -14,14 +17,31 @@ inc:
         title: "_{Returned}"
         contents:
 
+          - p: "_{Trained in Boneyard Lore (with Additional Lore perks)}"
+            icon: proficiency-trained
+            blk: false
 
-          - p: "_{You died and miraculously returned with knowledge of the realms beyond death and a stronger link to life. Some dead and undead souls might feel a strange, instinctual kinship with you.}"
+
+          - p: |
+              You died and miraculously returned with knowledge of the realms beyond death and a stronger link to life. Some dead and undead souls might feel a strange, instinctual kinship with you.
             size: small
             blk: false
 
 
-          - paste: book-ref
-            params:
-              page-ref: "_{APG p51}"
 
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/diehard
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: boneyard-lore-(with-additional-lore-perks)
+        name: "_{Boneyard Lore (with Additional Lore perks)}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
 

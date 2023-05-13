@@ -1,34 +1,50 @@
-unit: background/tall-tale
+unit: background/guns-and-gears/tall-tale
 in: background
 group: "_{Guns and Gears}"
-name: "_{Tall-Tale}"
+name: "_{Tall Tale}"
 badge: "_{Rare}"
+
+require:
+  - unit: feat/impressive-performance
 
 inc:
   - set: char-background
-    value: "_{Tall-Tale}"
+    value: "_{Tall Tale}"
 
-  - set: performance-proficiency
+  - set: -proficiency
     value: trained
 
   - at: '@background'
     replace:
       - article: char-background
-        title: "_{Tall-Tale}"
+        title: "_{Tall Tale}"
         contents:
 
-          - p: "_{Trained in Performance}"
+          - p: "_{Trained in  and undefined}"
             icon: proficiency-trained
             blk: false
 
 
-          - p: "_{You've ridden a tornado, lassoed a river, mooned a dragon under a full moon, and shot six zombies with one bullet. That's what the stories say, anyway, and even if people don't strictly believe them, they are curious about you. Certainly, the stories keep spreading, and it would appear that you either have a unique destiny or are trying to convince the world that you do.}"
+          - p: |
+              You've ridden a tornado, lassoed a river, mooned a dragon under a full moon, and shot six zombies with one bullet. That's what the stories say, anyway, and even if people don't strictly believe them, they are curious about you. Certainly, the stories keep spreading, and it would appear that you either have a unique destiny or are trying to convince the world that you do.
             size: small
             blk: false
 
 
-          - paste: book-ref
-            params:
-              page-ref: "_{Guns & Gears p125}"
 
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/impressive-performance
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: 
+        name: "_{}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
 

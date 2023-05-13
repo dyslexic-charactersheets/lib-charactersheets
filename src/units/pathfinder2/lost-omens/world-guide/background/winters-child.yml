@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/winters-child
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Winter's Child}"
+
+
+require:
+  - unit: feat/arcane-sense
+
+inc:
+  - set: char-background
+    value: "_{Winter's Child}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Winter's Child}"
+        contents:
+
+          - p: "_{Trained in Weather Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              Your or one of your ancestors hails from Irrisen, and some spark of the icy region's magic has manifested itself within your bones. The blood of Baba Yaga's legacy runs in your veins, and you are at one with the mysteries and dangers of the frozen land.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/arcane-sense
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: weather-lore
+        name: "_{Weather Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

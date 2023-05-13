@@ -1,0 +1,50 @@
+unit: background/adventure/abomination-vaults/starwatcher
+in: background
+group: "_{Abomination Vaults}"
+name: "_{Starwatcher}"
+
+
+require:
+  - unit: feat/dubious-knowledge
+
+inc:
+  - set: char-background
+    value: "_{Starwatcher}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Starwatcher}"
+        contents:
+
+          - p: "_{Trained in Astrology Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You're one of Wrin Sivinxi's closest confidantes. You've spent many long nights with her under the stars, learning the tales associated with the Cosmic Caravan and how the heavens can predict the future. You know that Wrin has paralyzing claustrophobia; she sees menace in angles and danger in confined spaces, which is why her shop is an all domed canvas that opens to the sky. If Wrin thinks there's trouble, you'll be the first to offer to help.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/dubious-knowledge
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: astrology-lore
+        name: "_{Astrology Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

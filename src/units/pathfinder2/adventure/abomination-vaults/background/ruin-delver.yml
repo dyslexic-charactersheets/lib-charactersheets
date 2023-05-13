@@ -1,0 +1,50 @@
+unit: background/adventure/abomination-vaults/ruin-delver
+in: background
+group: "_{Abomination Vaults}"
+name: "_{Ruin Delver}"
+
+
+require:
+  - unit: feat/cat-fall
+
+inc:
+  - set: char-background
+    value: "_{Ruin Delver}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Ruin Delver}"
+        contents:
+
+          - p: "_{Trained in Roseguard Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You've looked through some of the smaller ruins in the Otari hinterlands but have never quite built up the courage to check out the creepy lighthouse called Gauntlight. You've heard that these ruins are pretty well picked over, and mostly collapsed, but you always planned to some day explore them and perhaps find some bauble left behind from the centuries-old battle where the Roseguard slew an evil sorcerer. You know that the crumbled stone of old ruins has a tendency to shift, so you'd better step lightly if you get the chance to explore Gauntlight.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/cat-fall
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: roseguard-lore
+        name: "_{Roseguard Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

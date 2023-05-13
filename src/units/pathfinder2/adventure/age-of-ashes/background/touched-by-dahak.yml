@@ -1,0 +1,50 @@
+unit: background/adventure/age-of-ashes/touched-by-dahak
+in: background
+group: "_{Age of Ashes}"
+name: "_{Touched by Dahak}"
+badge: "_{Rare}"
+
+require:
+  - unit: feat/titan-wrestler
+
+inc:
+  - set: char-background
+    value: "_{Touched by Dahak}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Touched by Dahak}"
+        contents:
+
+          - p: "_{Trained in Dragon Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              As the manifestation of Dahak was destroyed, a shard of the dragon god's wrathful nature infused you, resulting in a violent temper, strange apocalyptic dreams, an obsession with dragon hunting, or some other touch of his influence.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/titan-wrestler
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: dragon-lore
+        name: "_{Dragon Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

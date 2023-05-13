@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/lastwall-survivor
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Lastwall Survivor}"
+
+
+require:
+  - unit: feat/battle-medicine
+
+inc:
+  - set: char-background
+    value: "_{Lastwall Survivor}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Lastwall Survivor}"
+        contents:
+
+          - p: "_{Trained in Undead Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You managed to escape the devastation that the Whispering Tyrant brought to your nation, but you lost everything to the lich-king's minions, including your home and many friends and family.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/battle-medicine
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: undead-lore
+        name: "_{Undead Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/secular-medic
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Secular Medic}"
+
+
+require:
+  - unit: feat/battle-medicine
+
+inc:
+  - set: char-background
+    value: "_{Secular Medic}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Secular Medic}"
+        contents:
+
+          - p: "_{Trained in Anatomy Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You're from Rahadoum, where the Laws of Mortality taught you to reject the gods, yet you've seen firsthand how dangerous it can be to go without healing magic. As a result, you've thrown yourself into the study of medicine, so you can save lives without saving souls.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/battle-medicine
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: anatomy-lore
+        name: "_{Anatomy Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

@@ -1,8 +1,11 @@
-unit: background/mystic-tutor
+unit: background/secrets-of-magic/mystic-tutor
 in: background
 group: "_{Secrets of Magic}"
 name: "_{Mystic Tutor}"
 badge: "_{Rare}"
+
+require:
+  - unit: feat/recognize-spell
 
 inc:
   - set: char-background
@@ -14,36 +17,31 @@ inc:
         title: "_{Mystic Tutor}"
         contents:
 
-          - layout: indent-l
-            contents:
-              - icon: proficiency-trained
-              - g:
-                contents:
-
-                  - field: "##:skill"
-                    control: radio
-                    value: arcana
-                    label: "_{Arcana}"
-                    frame: right
-                    width: tiny
-
-                  - field: "##:skill"
-                    control: radio
-                    value: occultism
-                    label: "_{Occultism}"
-                    frame: right
-                    width: tiny
-
-                  - p: "_{}"
+          - p: "_{Trained in Academia Lore}"
+            icon: proficiency-trained
+            blk: false
 
 
-          - p: "_{You spent years predicting, identifying, and harnessing the innate magical talents of those around you. A magic-rich world has taught you that you can never have too much training when everyone around you is capable of magic.}"
+          - p: |
+              You spent years predicting, identifying, and harnessing the innate magical talents of those around you. A magic-rich world has taught you that you can never have too much training when everyone around you is capable of magic.
             size: small
             blk: false
 
 
-          - paste: book-ref
-            params:
-              page-ref: "_{Secrets of Magic p219}"
 
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/recognize-spell
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: academia-lore
+        name: "_{Academia Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
 

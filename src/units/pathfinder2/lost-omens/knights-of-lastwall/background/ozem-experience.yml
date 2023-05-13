@@ -1,0 +1,50 @@
+unit: background/lost-omens/knights-of-lastwall/ozem-experience
+in: background
+group: "_{Lost Omens Knights of Lastwall}"
+name: "_{Ozem Experience}"
+
+
+require:
+  - unit: feat/courtly-graces
+
+inc:
+  - set: char-background
+    value: "_{Ozem Experience}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Ozem Experience}"
+        contents:
+
+          - p: "_{Trained in Warfare}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You or someone close to you worked with the Knights of Ozem before Lastwall fell. In addition to knowledge of the organization's tenets and goals, you have germane understanding of the order's history. You believe there are valuable lessons in the Knights of Ozem's exploits.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/courtly-graces
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: warfare
+        name: "_{Warfare}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/desert-tracker
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Desert Tracker}"
+
+
+require:
+  - unit: feat/experienced-tracker
+
+inc:
+  - set: char-background
+    value: "_{Desert Tracker}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Desert Tracker}"
+        contents:
+
+          - p: "_{Trained in Desert Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You're at home blazing trails in the burning sands, and you made a living guiding or following creatures in the desert. You might be a native nomad, an experienced desert guide, a naturalist, a bandit driven into the dunes by the law-or all of the above.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/experienced-tracker
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: desert-lore
+        name: "_{Desert Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

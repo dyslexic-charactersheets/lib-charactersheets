@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/kalistrade-follower
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Kalistrade Follower}"
+
+
+require:
+  - unit: feat/bargain-hunter
+
+inc:
+  - set: char-background
+    value: "_{Kalistrade Follower}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Kalistrade Follower}"
+        contents:
+
+          - p: "_{Trained in Kalistrade Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You follow the philosophy of the Prophecies of Kalistrade, seeking to build up your wealth in this life so that you might meet the next world on your own terms.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/bargain-hunter
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: kalistrade-lore
+        name: "_{Kalistrade Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

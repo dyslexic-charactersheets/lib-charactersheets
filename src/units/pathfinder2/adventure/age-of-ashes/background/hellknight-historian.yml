@@ -1,0 +1,50 @@
+unit: background/adventure/age-of-ashes/hellknight-historian
+in: background
+group: "_{Age of Ashes}"
+name: "_{Hellknight Historian}"
+
+
+require:
+  - unit: feat/courtly-graces
+
+inc:
+  - set: char-background
+    value: "_{Hellknight Historian}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Hellknight Historian}"
+        contents:
+
+          - p: "_{Trained in Architecture Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              The various Hellknight Orders intrigue you, whether you seek to become one of their number yourself, wish to oppose their goals at every turn, or are merely inspired by or curious to learn more about them. You've heard that when the Order of the Nail abandoned Citadel Altaerein, they left behind the deed to the castle so anyone brave enough to explore the ruins and the defenses no doubt left behind would be rewarded with ownership of the abandoned fortress.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/courtly-graces
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: architecture-lore
+        name: "_{Architecture Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

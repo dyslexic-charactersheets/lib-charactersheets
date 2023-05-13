@@ -1,4 +1,4 @@
-unit: background/courier
+unit: background/apg/courier
 in: background
 group: "_{Advanced Player's Guide}"
 name: "_{Courier}"
@@ -11,7 +11,7 @@ inc:
   - set: char-background
     value: "_{Courier}"
 
-  - set: society-proficiency
+  - set: -proficiency
     value: trained
 
   - at: '@background'
@@ -20,19 +20,16 @@ inc:
         title: "_{Courier}"
         contents:
 
-          - p: "_{Trained in Society}"
+          - p: "_{Trained in <City> Lore}"
             icon: proficiency-trained
             blk: false
 
 
-          - p: "_{In your youth, you earned coin running messages for persons of wealth and influence, darting through crowded cobblestone streets. Your dogged commitment to deliver your message was good training for the life of an adventurer.}"
+          - p: |
+              In your youth, you earned coin running messages for persons of wealth and influence, darting through crowded cobblestone streets. Your dogged commitment to deliver your message was good training for the life of an adventurer.
             size: small
             blk: false
 
-
-          - paste: book-ref
-            params:
-              page-ref: "_{APG p48}"
 
 
   - at: '@background-skill-feat'
@@ -40,4 +37,14 @@ inc:
       - paste: feat/glean-contents
         params:
           level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: <-city->-lore
+        name: "_{<City> Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
 

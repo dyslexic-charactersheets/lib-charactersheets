@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/sarkorian-survivor
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Sarkorian Survivor}"
+
+
+require:
+  - unit: feat/forager
+
+inc:
+  - set: char-background
+    value: "_{Sarkorian Survivor}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Sarkorian Survivor}"
+        contents:
+
+          - p: "_{Trained in Sarkorian History Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              The devastation and carnage of the Worldwound were nearly complete, but you somehow managed to survive it.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/forager
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: sarkorian-history-lore
+        name: "_{Sarkorian History Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

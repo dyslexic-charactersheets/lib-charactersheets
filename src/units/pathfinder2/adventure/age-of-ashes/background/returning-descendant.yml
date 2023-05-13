@@ -1,0 +1,50 @@
+unit: background/adventure/age-of-ashes/returning-descendant
+in: background
+group: "_{Age of Ashes}"
+name: "_{Returning Descendant}"
+
+
+require:
+  - unit: feat/pickpocket
+
+inc:
+  - set: char-background
+    value: "_{Returning Descendant}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Returning Descendant}"
+        contents:
+
+          - p: "_{Trained in Engineering Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You aren't from Breachill yourself-you might not even be from Isger or Avistan at all. You've lived a hard life, in any event. You have often had to make tough decisions, and have developed a knack for understanding how things work (and the best way to take them apart) that has helped you support yourself. Recently you discovered that an ancestor was from the town of Breachill and had a modest career as an adventurer. You can't help but wonder if you would have had an easier life if you'd grown up there instead, and have decided to seek out this small town to learn more about it.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/pickpocket
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: engineering-lore
+        name: "_{Engineering Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/lumber-consortium-laborer
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Lumber Consortium Laborer}"
+
+
+require:
+  - unit: feat/assurance
+
+inc:
+  - set: char-background
+    value: "_{Lumber Consortium Laborer}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Lumber Consortium Laborer}"
+        contents:
+
+          - p: "_{Trained in Forest Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You have suffered as a worker for the unscrupulous Lumber Consortium, laboring under harsh conditions in dangerous wooded regions of Andoran.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/assurance
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: forest-lore
+        name: "_{Forest Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

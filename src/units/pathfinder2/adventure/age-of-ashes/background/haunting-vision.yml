@@ -1,0 +1,50 @@
+unit: background/adventure/age-of-ashes/haunting-vision
+in: background
+group: "_{Age of Ashes}"
+name: "_{Haunting Vision}"
+
+
+require:
+  - unit: feat/student-of-the-canon
+
+inc:
+  - set: char-background
+    value: "_{Haunting Vision}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Haunting Vision}"
+        contents:
+
+          - p: "_{Trained in Dahak Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You've been haunted by frightening dreams of fires your whole life. This could be the result of a past, near-death experience with fire or it might have no obvious source that you know of. Recently, you stumbled upon an image, story, or other omen featuring the dragon god of destruction, Dahak, and you were struck with an unnerving sense of deja vu-you've come to think that the draconic deity might have something to do with your dreams, and as such have been studying all you can about the god. Your visions have bolstered your faith as well; even if you don't worship a specific deity, you have a deep passion for matters of faith.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/student-of-the-canon
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: dahak-lore
+        name: "_{Dahak Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

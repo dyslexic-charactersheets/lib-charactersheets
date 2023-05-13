@@ -1,0 +1,50 @@
+unit: background/book-of-the-dead/pyre-tender
+in: background
+group: "_{Book of the Dead}"
+name: "_{Pyre Tender}"
+
+
+require:
+  - unit: feat/alchemical-crafting
+
+inc:
+  - set: char-background
+    value: "_{Pyre Tender}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Pyre Tender}"
+        contents:
+
+          - p: "_{Trained in Funeral}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You're experienced at building funeral pyres. You might have lit flaming biers in the Land of the Linnorm Kings, tended the cremation pits of Cheliax or Vudra, or been a backwoods charcoal burner, using the right mixture of alchemy to act as an accelerant. However you worship, you know nothing sends off the departed like flame.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/alchemical-crafting
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: funeral
+        name: "_{Funeral}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

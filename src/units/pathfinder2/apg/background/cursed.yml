@@ -1,4 +1,4 @@
-unit: background/cursed
+unit: background/apg/cursed
 in: background
 group: "_{Advanced Player's Guide}"
 name: "_{Cursed}"
@@ -8,20 +8,34 @@ inc:
   - set: char-background
     value: "_{Cursed}"
 
+  - set: -proficiency
+    value: trained
+
   - at: '@background'
     replace:
       - article: char-background
         title: "_{Cursed}"
         contents:
 
+          - p: "_{Trained in Curse Lore}"
+            icon: proficiency-trained
+            blk: false
 
-          - p: "_{You are the victim of a personal or hereditary curse. Through great effort and occult study, you have learned to fend off the curse's worst effects and, by extension, you can protect yourself against other harmful magic. However, the curse still hangs over you and sometimes manifests in dangerous ways.}"
+
+          - p: |
+              You are the victim of a personal or hereditary curse. Through great effort and occult study, you have learned to fend off the curse's worst effects and, by extension, you can protect yourself against other harmful magic. However, the curse still hangs over you and sometimes manifests in dangerous ways.
             size: small
             blk: false
 
 
-          - paste: book-ref
-            params:
-              page-ref: "_{APG p50}"
 
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: curse-lore
+        name: "_{Curse Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
 

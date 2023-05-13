@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/child-of-westcrown
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Child of Westcrown}"
+
+
+require:
+  - unit: feat/group-impression
+
+inc:
+  - set: char-background
+    value: "_{Child of Westcrown}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Child of Westcrown}"
+        contents:
+
+          - p: "_{Trained in Westcrown Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              Whether you come from Westcrown or elsewhere, you hold the values of pre-Thrune Cheliax dear. You disdain the infernal government, but you are proud of your country and do not consider yourself a rebel.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/group-impression
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: westcrown-lore
+        name: "_{Westcrown Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

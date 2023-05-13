@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/ustalavic-academic
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Ustalavic Academic}"
+
+
+require:
+  - unit: feat/skill-training
+
+inc:
+  - set: char-background
+    value: "_{Ustalavic Academic}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Ustalavic Academic}"
+        contents:
+
+          - p: "_{Trained in Academia Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You were educated at a famed Ustalavic academy, such as the University of Lepidstadt or the Sincomakti School of Sciences, and received quality instruction in advanced concepts of mathematics, science, and engineering.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/skill-training
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: academia-lore
+        name: "_{Academia Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

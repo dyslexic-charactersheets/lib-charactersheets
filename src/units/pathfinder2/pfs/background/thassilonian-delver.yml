@@ -1,0 +1,50 @@
+unit: background/pfs/thassilonian-delver
+in: background
+group: "_{Organized Play Foundation}"
+name: "_{Thassilonian Delver}"
+
+
+require:
+  - unit: feat/arcane-sense
+
+inc:
+  - set: char-background
+    value: "_{Thassilonian Delver}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Thassilonian Delver}"
+        contents:
+
+          - p: "_{Trained in Thassilonian History Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              As archaeologists uncovered and explored ever-larger numbers of Thassilonian ruins, you were among the eager explorers who sought out the Runelords' ancient secrets. You may have been the apprentice to another Pathfinder who perished on an expedition, leaving you their discoveries and notes. Or perhaps you explored several of these sites yourself, quickly learning to parse the arcane secrets before lest the eldritch magic extinguish your life.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/arcane-sense
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: thassilonian-history-lore
+        name: "_{Thassilonian History Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

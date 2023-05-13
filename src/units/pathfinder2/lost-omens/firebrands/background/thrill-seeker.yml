@@ -1,0 +1,50 @@
+unit: background/lost-omens/firebrands/thrill-seeker
+in: background
+group: "_{Lost Omens Firebrands}"
+name: "_{Thrill-Seeker}"
+
+
+require:
+  - unit: feat/combat-climber
+
+inc:
+  - set: char-background
+    value: "_{Thrill-Seeker}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Thrill-Seeker}"
+        contents:
+
+          - p: "_{Trained in Engineering Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You once survived a life-or-death situation and found it surprisingly exhilarating, so now you chase that feeling of invincibility you only get when dancing with death. Your desire for exhilaration has you scaling buildings, leaping off rooftops, jumping chasms, and performing other deathdefying stunts.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/combat-climber
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: engineering-lore
+        name: "_{Engineering Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

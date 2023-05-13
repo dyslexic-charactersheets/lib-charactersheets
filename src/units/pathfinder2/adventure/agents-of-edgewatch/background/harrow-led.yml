@@ -1,15 +1,15 @@
-unit: background/harrow-led
+unit: background/adventure/agents-of-edgewatch/harrow-led
 in: background
 group: "_{Agents of Edgewatch}"
 name: "_{Harrow-Led}"
 
 
+require:
+  - unit: feat/dubious-knowledge
+
 inc:
   - set: char-background
     value: "_{Harrow-Led}"
-
-  - set: occultism-proficiency
-    value: trained
 
   - at: '@background'
     replace:
@@ -17,18 +17,31 @@ inc:
         title: "_{Harrow-Led}"
         contents:
 
-          - p: "_{Trained in Occultism}"
+          - p: "_{Trained in Harrow Lore}"
             icon: proficiency-trained
             blk: false
 
 
-          - p: "_{You were the subject of a harrow reading at a pivotal point in your life, such as on an important birthday, or upon reaching adulthood. The reading was eerily accurate and has been relevant, for good or ill, at more points in your life than you could call mere coincidence.}"
+          - p: |
+              You were the subject of a harrow reading at a pivotal point in your life, such as on an important birthday, or upon reaching adulthood. The reading was eerily accurate and has been relevant, for good or ill, at more points in your life than you could call mere coincidence.
             size: small
             blk: false
 
 
-          - paste: book-ref
-            params:
-              page-ref: "_{Assault on Hunting Lodge Seven p66}"
 
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/dubious-knowledge
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: harrow-lore
+        name: "_{Harrow Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
 

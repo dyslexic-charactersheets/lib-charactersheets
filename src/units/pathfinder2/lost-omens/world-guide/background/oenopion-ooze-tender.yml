@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/oenopion-ooze-tender
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Oenopion-Ooze Tender}"
+
+
+require:
+  - unit: feat/dubious-knowledge
+
+inc:
+  - set: char-background
+    value: "_{Oenopion-Ooze Tender}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Oenopion-Ooze Tender}"
+        contents:
+
+          - p: "_{Trained in Ooze Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              Your apprenticeship in one of Oenopion's unorthodox arcane and alchemical academies instilled in you a deep reservoir of mostly reliable esoteric knowledge, not to mention a deep resentment born of countless hours spent mucking ooze pens and feeding helpless creatures to ravenous, belching jellies and gelatinous puddings.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/dubious-knowledge
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: ooze-lore
+        name: "_{Ooze Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

@@ -1,0 +1,50 @@
+unit: background/lost-omens/firebrands/free-spirit
+in: background
+group: "_{Lost Omens Firebrands}"
+name: "_{Free Spirit}"
+
+
+require:
+  - unit: feat/forager
+
+inc:
+  - set: char-background
+    value: "_{Free Spirit}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Free Spirit}"
+        contents:
+
+          - p: "_{Trained in Settlement or Terrain}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You've always lived your life straying from the path laid before you. Like a leaf blowing in the wind, your journey takes you where it will, providing you with a lifestyle free from the bonds of expectation. While you might have friends and family in specific towns or cities, you've chosen not to put down roots in favor of going wherever—and doing whatever— you want.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/forager
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: settlement-or-terrain
+        name: "_{Settlement or Terrain}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

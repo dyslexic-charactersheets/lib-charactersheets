@@ -1,0 +1,50 @@
+unit: background/adventure/extinction-curse/circus-born
+in: background
+group: "_{Extinction Curse}"
+name: "_{Circus Born}"
+
+
+require:
+  - unit: feat/experienced-professional
+
+inc:
+  - set: char-background
+    value: "_{Circus Born}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Circus Born}"
+        contents:
+
+          - p: "_{Trained in Circus Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              The itinerant life of a traveling circus performer is nothing new to you; you were born and raised in the circus. You've seen more acts than you can count and grew up hearing the tall tales of circus performers while gathered around their campfires. You've experienced the thrill of captivating crowd ever since you were young. You may have tried a few times to settle down, but the lure of the open road and the glamor of the big top always called you back.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/experienced-professional
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: circus-lore
+        name: "_{Circus Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

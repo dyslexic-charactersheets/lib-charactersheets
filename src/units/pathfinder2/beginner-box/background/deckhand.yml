@@ -1,0 +1,50 @@
+unit: background/beginner-box/deckhand
+in: background
+group: "_{Pathfinder Beginner Box}"
+name: "_{Deckhand}"
+
+
+require:
+  - unit: feat/cat-fall
+
+inc:
+  - set: char-background
+    value: "_{Deckhand}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Deckhand}"
+        contents:
+
+          - p: "_{Trained in Sailing Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              The rolling waves of the high seas, the constant sway of the deck underfoot, and the creaking heights of a ship's rigging are as familiar to you as solid ground. You might have worked on a simple fishing boat, a wealthy merchant's galley, a mighty warship - or even a pirate's caravel. Whether your crew retired, your ship sank, or you've turned to adventuring so you can keep all the treasure for yourself, you still retain an excellent sense of balance and quick reflexes.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/cat-fall
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: sailing-lore
+        name: "_{Sailing Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

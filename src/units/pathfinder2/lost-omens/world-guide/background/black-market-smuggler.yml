@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/black-market-smuggler
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Black Market Smuggler}"
+
+
+require:
+  - unit: feat/experienced-smuggler
+
+inc:
+  - set: char-background
+    value: "_{Black Market Smuggler}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Black Market Smuggler}"
+        contents:
+
+          - p: "_{Trained in Underworld Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You know how to work the less-than-legal side of the region's markets and know how to slip contraband past the authorities.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/experienced-smuggler
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: underworld-lore
+        name: "_{Underworld Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/varisian-wanderer
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Varisian Wanderer}"
+
+
+require:
+  - unit: feat/fascinating-performance
+
+inc:
+  - set: char-background
+    value: "_{Varisian Wanderer}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Varisian Wanderer}"
+        contents:
+
+          - p: "_{Trained in Circus Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You have spent your youth wandering the lands of Varisia and beyond among the brightly painted wagons of a Varisian caravan. You have heard endless tales of your people's history and lore, and have learned many songs and stories from the disparate people you have met.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/fascinating-performance
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: circus-lore
+        name: "_{Circus Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

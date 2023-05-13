@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/taldan-schemer
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Taldan Schemer}"
+
+
+require:
+  - unit: feat/hobnobber
+
+inc:
+  - set: char-background
+    value: "_{Taldan Schemer}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Taldan Schemer}"
+        contents:
+
+          - p: "_{Trained in Politics Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              Whether willing or unwilling, you have been involved in the many cutthroat political intrigues within Taldor. You might have been born into it as a member of the aristocracy, or you might have taken an active role in the recent events of the War for the Crown.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/hobnobber
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: politics-lore
+        name: "_{Politics Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

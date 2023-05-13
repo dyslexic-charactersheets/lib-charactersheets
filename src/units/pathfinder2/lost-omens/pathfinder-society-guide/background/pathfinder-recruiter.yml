@@ -1,4 +1,4 @@
-unit: background/pathfinder-recruiter
+unit: background/lost-omens/pathfinder-society-guide/pathfinder-recruiter
 in: background
 group: "_{Lost Omens Pathfinder Society Guide}"
 name: "_{Pathfinder Recruiter}"
@@ -11,7 +11,7 @@ inc:
   - set: char-background
     value: "_{Pathfinder Recruiter}"
 
-  - set: diplomacy-proficiency
+  - set: -proficiency
     value: trained
 
   - at: '@background'
@@ -20,19 +20,16 @@ inc:
         title: "_{Pathfinder Recruiter}"
         contents:
 
-          - p: "_{Trained in Diplomacy}"
+          - p: "_{Trained in <City> Lore}"
             icon: proficiency-trained
             blk: false
 
 
-          - p: "_{The Pathfinder Society's always on the lookout for talent, but that talent rarely just stumbles into the Grand Lodge. Whether you're professionally trained to encourage new recruits or the Society's own scouts identified your potential and raised you from childhood, you're committed to expanding the Society's roster.}"
+          - p: |
+              The Pathfinder Society's always on the lookout for talent, but that talent rarely just stumbles into the Grand Lodge. Whether you're professionally trained to encourage new recruits or the Society's own scouts identified your potential and raised you from childhood, you're committed to expanding the Society's roster.
             size: small
             blk: false
 
-
-          - paste: book-ref
-            params:
-              page-ref: "_{PFS Guide p6}"
 
 
   - at: '@background-skill-feat'
@@ -40,4 +37,14 @@ inc:
       - paste: feat/group-impression
         params:
           level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: <-city->-lore
+        name: "_{<City> Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
 

@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/whispering-way-scion
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Whispering Way Scion}"
+
+
+require:
+  - unit: feat/student-of-the-canon
+
+inc:
+  - set: char-background
+    value: "_{Whispering Way Scion}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Whispering Way Scion}"
+        contents:
+
+          - p: "_{Trained in Undead Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              Your family has long been associated with the enigmatic death cult known as the Whispering Way, which was recently responsible for the terrible devastation in the nation of Lastwall. Whether or not you have followed in their footsteps, you know many of the philosophy's secrets.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/student-of-the-canon
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: undead-lore
+        name: "_{Undead Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

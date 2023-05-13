@@ -1,0 +1,50 @@
+unit: background/adventure/age-of-ashes/dragon-scholar
+in: background
+group: "_{Age of Ashes}"
+name: "_{Dragon Scholar}"
+
+
+require:
+  - unit: feat/intimidating-glare
+
+inc:
+  - set: char-background
+    value: "_{Dragon Scholar}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Dragon Scholar}"
+        contents:
+
+          - p: "_{Trained in Dragon Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              Dragons have fascinated you for as long as you can remember. The potent power they possess, the long lives they lead, the ancient traditions they inspire-whatever the source of your interest, you've spent much of your life to this point immersed in all things draconic. These studies have bolstered your self-confidence and given you a wide range of methods and tactics you can use to impose your will on others.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/intimidating-glare
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: dragon-lore
+        name: "_{Dragon Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

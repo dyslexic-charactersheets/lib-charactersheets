@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/menagerie-dung-sweeper
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Menagerie Dung Sweeper}"
+
+
+require:
+  - unit: feat/train-animal
+
+inc:
+  - set: char-background
+    value: "_{Menagerie Dung Sweeper}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Menagerie Dung Sweeper}"
+        contents:
+
+          - p: "_{Trained in Animal Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              Whether you washed warrior beasts below the Irorium's arena floor or tended to the mutated animals of a Puddle sideshow, you are experienced with all manner of weird wildlife.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/train-animal
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: animal-lore
+        name: "_{Animal Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

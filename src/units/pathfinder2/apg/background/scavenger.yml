@@ -1,4 +1,4 @@
-unit: background/scavenger
+unit: background/apg/scavenger
 in: background
 group: "_{Advanced Player's Guide}"
 name: "_{Scavenger}"
@@ -11,7 +11,7 @@ inc:
   - set: char-background
     value: "_{Scavenger}"
 
-  - set: survival-proficiency
+  - set: -proficiency
     value: trained
 
   - at: '@background'
@@ -20,19 +20,16 @@ inc:
         title: "_{Scavenger}"
         contents:
 
-          - p: "_{Trained in Survival}"
+          - p: "_{Trained in <City> Lore}"
             icon: proficiency-trained
             blk: false
 
 
-          - p: "_{You’ve made a living sorting through the things society throws away. You might have scavenged simply to survive, or plied a trade as a ragpicker, dung carter, or the like. While you’ve left that life behind, you still keep one eye on the ground out of habit.}"
+          - p: |
+              You've made a living sorting through the things society throws away. You might have scavenged simply to survive, or plied a trade as a ragpicker, dung carter, or the like. While you've left that life behind, you still keep one eye on the ground out of habit.
             size: small
             blk: false
 
-
-          - paste: book-ref
-            params:
-              page-ref: "_{APG p49}"
 
 
   - at: '@background-skill-feat'
@@ -40,4 +37,14 @@ inc:
       - paste: feat/forager
         params:
           level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: <-city->-lore
+        name: "_{<City> Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
 

@@ -1,0 +1,50 @@
+unit: background/pfs/sandswept-survivor
+in: background
+group: "_{Organized Play Foundation}"
+name: "_{Sandswept Survivor}"
+badge: "_{Uncommon}"
+
+require:
+  - unit: feat/terrain-expertise
+
+inc:
+  - set: char-background
+    value: "_{Sandswept Survivor}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Sandswept Survivor}"
+        contents:
+
+          - p: "_{Trained in <Lore about a specific type of undead>}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You were in the Sandswept Hall, the Pathfinder Society's lodge in Sothis, Osirion, when it came under attack from an unrelenting horde of undead. You endured the siege and forged new bonds with your fellow survivors, then joined the Society as a field agent.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/terrain-expertise
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: <-lore-about-a-specific-type-of-undead>
+        name: "_{<Lore about a specific type of undead>}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

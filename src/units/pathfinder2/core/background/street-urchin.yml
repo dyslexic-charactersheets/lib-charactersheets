@@ -11,7 +11,7 @@ inc:
   - set: char-background
     value: "_{Street Urchin}"
 
-  - set: thievery-proficiency
+  - set: -proficiency
     value: trained
 
   - at: '@background'
@@ -20,19 +20,16 @@ inc:
         title: "_{Street Urchin}"
         contents:
 
-          - p: "_{Trained in Thievery}"
+          - p: "_{Trained in <City> Lore}"
             icon: proficiency-trained
             blk: false
 
 
-          - p: "_{You eked out a living by picking pockets on the streets of a major city, never knowing where you’d find your next meal. While some folk adventure for the glory, you do so to survive.}"
+          - p: |
+              You eked out a living by picking pockets on the streets of a major city, never knowing where you'd find your next meal. While some folk adventure for the glory, you do so to survive.
             size: small
             blk: false
 
-
-          - paste: book-ref
-            params:
-              page-ref: "_{CRB p64}"
 
 
   - at: '@background-skill-feat'
@@ -40,4 +37,14 @@ inc:
       - paste: feat/pickpocket
         params:
           level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: <-city->-lore
+        name: "_{<City> Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
 

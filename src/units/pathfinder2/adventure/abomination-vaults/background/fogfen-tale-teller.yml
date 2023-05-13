@@ -1,0 +1,50 @@
+unit: background/adventure/abomination-vaults/fogfen-tale-teller
+in: background
+group: "_{Abomination Vaults}"
+name: "_{Fogfen Tale-Teller}"
+
+
+require:
+  - unit: feat/titan-wrestler
+
+inc:
+  - set: char-background
+    value: "_{Fogfen Tale-Teller}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Fogfen Tale-Teller}"
+        contents:
+
+          - p: "_{Trained in Swamp Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You know there are monstrous things out in the swamp known as Fogfen; you've seen these things through the mist, gliding through the murky water and heaving themselves over sodden bits of land. No one in Otari believes your tales of swamp monsters from the depths, even when you embellish the creatures of your stories with fangs, wings, or tentacles. You'll just have to prove to them that there are truly monsters out there, and that they were wrong to doubt you.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/titan-wrestler
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: swamp-lore
+        name: "_{Swamp Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

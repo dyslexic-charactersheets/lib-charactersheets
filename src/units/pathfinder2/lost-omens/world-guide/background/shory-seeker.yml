@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/shory-seeker
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Shory Seeker}"
+
+
+require:
+  - unit: feat/specialty-crafting
+
+inc:
+  - set: char-background
+    value: "_{Shory Seeker}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Shory Seeker}"
+        contents:
+
+          - p: "_{Trained in Shory Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You've dedicated your life to unraveling the secrets of the ancient Shory Empire, either through meticulous research or by traveling into dangerous and distant ruins to track down long-lost artifacts.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/specialty-crafting
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: shory-lore
+        name: "_{Shory Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

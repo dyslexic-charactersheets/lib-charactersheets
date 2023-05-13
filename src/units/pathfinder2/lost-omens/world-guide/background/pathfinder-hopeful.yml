@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/pathfinder-hopeful
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Pathfinder Hopeful}"
+
+
+require:
+  - unit: feat/additional-lore
+
+inc:
+  - set: char-background
+    value: "_{Pathfinder Hopeful}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Pathfinder Hopeful}"
+        contents:
+
+          - p: "_{Trained in Pathfinder Society Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You've long wanted to join the adventurous Pathfinder Society. You have taken up the dangerous life of an adventurer in hopes of earning a spot among the Pathfinders.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/additional-lore
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: pathfinder-society-lore
+        name: "_{Pathfinder Society Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/quick
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Quick}"
+
+
+require:
+  - unit: feat/charming-liar
+
+inc:
+  - set: char-background
+    value: "_{Quick}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Quick}"
+        contents:
+
+          - p: "_{Trained in Undead Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              Staying alive among the scheming, ravenous undead of Geb required a deep knowledge of their motivations, capabilities, and weaknesses. More often than not, it also required the ability to weave alibis and life-preserving half-truths capable of swaying a stilled heart.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/charming-liar
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: undead-lore
+        name: "_{Undead Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

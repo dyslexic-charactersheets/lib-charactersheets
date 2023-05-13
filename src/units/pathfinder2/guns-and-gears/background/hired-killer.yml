@@ -1,14 +1,17 @@
-unit: background/hired-killer
+unit: background/guns-and-gears/hired-killer
 in: background
 group: "_{Guns and Gears}"
 name: "_{Hired Killer}"
 
 
+require:
+  - unit: feat/terrain-stalker
+
 inc:
   - set: char-background
     value: "_{Hired Killer}"
 
-  - set: stealth-proficiency
+  - set: -proficiency
     value: trained
 
   - at: '@background'
@@ -17,27 +20,30 @@ inc:
         title: "_{Hired Killer}"
         contents:
 
-          - p: "_{Trained in Stealth and Underworld Lore}"
+          - p: "_{Trained in Underworld}"
             icon: proficiency-trained
             blk: false
 
 
-          - p: "_{Your life truly began after your first kill. Maybe you killed in self-defense, maybe it was a crime of passion, or maybe it was just an accident and you were a kid in the wrong place at the wrong time. In the end, the why doesn't matter. You got away with it. And then you found that maybe it didn't bother you as much as it should have. And maybe, just maybe, you had a talent you could use to forge a life for yourself. A blood-soaked talent and a blood-soaked life, sure. But it's yours.}"
+          - p: |
+              Your life truly began after your first kill. Maybe you killed in self-defense, maybe it was a crime of passion, or maybe it was just an accident and you were a kid in the wrong place at the wrong time. In the end, the why doesn't matter. You got away with it. And then you found that maybe it didn't bother you as much as it should have. And maybe, just maybe, you had a talent you could use to forge a life for yourself. A blood-soaked talent and a blood-soaked life, sure. But it's yours.
             size: small
             blk: false
 
 
-          - paste: book-ref
-            params:
-              page-ref: "_{Guns & Gears p122}"
 
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/terrain-stalker
+        params:
+          level: 1
 
 
   - at: '@lore-skills'
     add:
 
-      - skill: underworld-lore
-        name: "_{Underworld Lore}"
+      - skill: underworld
+        name: "_{Underworld}"
         ability: "_{INT}"
         abilityref: INT
         acp: false

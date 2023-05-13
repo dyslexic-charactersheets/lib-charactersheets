@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/razmiran-faithful
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Razmiran Faithful}"
+
+
+require:
+  - unit: feat/group-coercion
+
+inc:
+  - set: char-background
+    value: "_{Razmiran Faithful}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Razmiran Faithful}"
+        contents:
+
+          - p: "_{Trained in Razmir Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You serve a living god who rules upon the face of Golarion, and this gives your actions a divine mandate not to be trifled with.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/group-coercion
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: razmir-lore
+        name: "_{Razmir Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

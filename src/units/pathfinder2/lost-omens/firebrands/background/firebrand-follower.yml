@@ -1,0 +1,53 @@
+unit: background/lost-omens/firebrands/firebrand-follower
+in: background
+group: "_{Lost Omens Firebrands}"
+name: "_{Firebrand Follower}"
+
+
+require:
+  - unit: feat/assurance
+
+inc:
+  - set: char-background
+    value: "_{Firebrand Follower}"
+
+  - set: -proficiency
+    value: trained
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Firebrand Follower}"
+        contents:
+
+          - p: "_{Trained in Firebrand Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You were once rescued or liberated from a hopeless situation by a group of Firebrands, and you have since aspired to become a Firebrand to continue their legacy. You still follow news of their adventures, and you hope to one day meet your heroes as comrades.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/assurance
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: firebrand-lore
+        name: "_{Firebrand Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

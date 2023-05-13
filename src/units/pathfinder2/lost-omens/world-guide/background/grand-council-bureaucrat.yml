@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/grand-council-bureaucrat
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Grand Council Bureaucrat}"
+
+
+require:
+  - unit: feat/group-impression
+
+inc:
+  - set: char-background
+    value: "_{Grand Council Bureaucrat}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Grand Council Bureaucrat}"
+        contents:
+
+          - p: "_{Trained in Government Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You spent years working as a clerk to a functionary in Absalom's government. Your service taught you a thing or two about rousing speeches and manipulating the city's bureaucracy.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/group-impression
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: government-lore
+        name: "_{Government Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

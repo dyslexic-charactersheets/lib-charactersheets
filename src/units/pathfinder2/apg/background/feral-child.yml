@@ -1,12 +1,21 @@
-unit: background/feral-child
+unit: background/apg/feral-child
 in: background
 group: "_{Advanced Player's Guide}"
 name: "_{Feral Child}"
 badge: "_{Rare}"
 
+require:
+  - unit: feat/forager
+
 inc:
   - set: char-background
     value: "_{Feral Child}"
+
+  - set: -proficiency
+    value: trained
+
+  - set: -proficiency
+    value: trained
 
   - at: '@background'
     replace:
@@ -14,14 +23,31 @@ inc:
         title: "_{Feral Child}"
         contents:
 
+          - p: "_{Trained in  and undefined}"
+            icon: proficiency-trained
+            blk: false
 
-          - p: "_{You spent your youth in the wilderness, living close to or perhaps raised by animals. You have a close, mystical connection with these animals and gained certain abilities from them, though this limited your well-roundedness in mental pursuits.}"
+
+          - p: |
+              You spent your youth in the wilderness, living close to or perhaps raised by animals. You have a close, mystical connection with these animals and gained certain abilities from them, though this limited your well-roundedness in mental pursuits.
             size: small
             blk: false
 
 
-          - paste: book-ref
-            params:
-              page-ref: "_{APG p50}"
 
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/forager
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: 
+        name: "_{}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
 

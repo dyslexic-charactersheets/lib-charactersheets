@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/chelish-rebel
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Chelish Rebel}"
+
+
+require:
+  - unit: feat/streetwise
+
+inc:
+  - set: char-background
+    value: "_{Chelish Rebel}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Chelish Rebel}"
+        contents:
+
+          - p: "_{Trained in Kintargo Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You joined the fight against House Thrune. You may have helped liberate the nation of Ravounel, or you might be involved in another rebellion, such as Pezzack's, that studied Ravounel's successes.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/streetwise
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: kintargo-lore
+        name: "_{Kintargo Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

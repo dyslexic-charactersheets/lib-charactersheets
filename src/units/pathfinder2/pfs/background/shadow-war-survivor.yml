@@ -1,0 +1,50 @@
+unit: background/pfs/shadow-war-survivor
+in: background
+group: "_{Organized Play Foundation}"
+name: "_{Shadow War Survivor}"
+
+
+require:
+  - unit: feat/streetwise
+
+inc:
+  - set: char-background
+    value: "_{Shadow War Survivor}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Shadow War Survivor}"
+        contents:
+
+          - p: "_{Trained in Absalom Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              Countless factions have fought for influence in Absalom for millennia, and for decades these groups worked through the Pathfinder Society to better control the City at the Center of the World. Perhaps you were ones of these agents who clashed with other operatives during the so-called Shadow War. Or you might have been an unintended victim of these clandestine clashes, inspiring you to join the Society and stop the conflict from within. Whatever the reason, navigating the Shadow War has left you politically savvy and informed.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/streetwise
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: absalom-lore
+        name: "_{Absalom Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

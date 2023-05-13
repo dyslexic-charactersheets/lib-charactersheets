@@ -1,0 +1,50 @@
+unit: background/adventure/extinction-curse/barker
+in: background
+group: "_{Extinction Curse}"
+name: "_{Barker}"
+
+
+require:
+  - unit: feat/group-coercion
+
+inc:
+  - set: char-background
+    value: "_{Barker}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Barker}"
+        contents:
+
+          - p: "_{Trained in Crowd Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You're skilled at shouting to catch and keep the attention of passersby. A few well-timed and forcefully spoken words not only get people to notice you but also engage them to respond to you. You may have previously worked as a crier or in a more formal barker capacity with Mistress Dusklight's Celestial Menagerie. Either way, your ability to bully a crowd is impressive.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/group-coercion
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: crowd-lore
+        name: "_{Crowd Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

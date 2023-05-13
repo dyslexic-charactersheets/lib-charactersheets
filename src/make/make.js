@@ -3,8 +3,6 @@ const path = require('path');
 
 require('./log');
 const units = require('./units');
-// const unitGen = require('./unitGen');
-// const unitGenAoN = require('./unitGenAoN');
 const formdata = require('./formdata');
 
 const systems = [
@@ -24,14 +22,15 @@ const systems = [
     //     code: "starfinder",
     //     name: "Starfinder"
     // }
+    // {
+    //     code: "core-fantasy",
+    //     name: "Tales of the Valiant"
+    // }
     {
       code: "premium",
       name: "Premium Options"
     }
 ];
-
-// unitGen.generateUnits();
-// unitGenAoN.generateUnits();
 
 systems.forEach(system => {
     log("make", "Building "+system.name);

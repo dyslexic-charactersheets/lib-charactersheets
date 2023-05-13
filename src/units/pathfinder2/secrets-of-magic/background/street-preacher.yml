@@ -1,4 +1,4 @@
-unit: background/street-preacher
+unit: background/secrets-of-magic/street-preacher
 in: background
 group: "_{Secrets of Magic}"
 name: "_{Street Preacher}"
@@ -11,7 +11,7 @@ inc:
   - set: char-background
     value: "_{Street Preacher}"
 
-  - set: religion-proficiency
+  - set: -proficiency
     value: trained
 
   - at: '@background'
@@ -20,19 +20,16 @@ inc:
         title: "_{Street Preacher}"
         contents:
 
-          - p: "_{Trained in Religion}"
+          - p: "_{Trained in <Deity> Lore}"
             icon: proficiency-trained
             blk: false
 
 
-          - p: "_{Forget the church orthodoxy and the stuffy cloisters— spreading the word of your god to the people is your calling. You've preached on the street corners and in public houses, to wanderers on the road and to captives in the stocks. Adventuring can take you across the world. What vocation could better serve to take your holy words to fresh ears?}"
+          - p: |
+              Forget the church orthodoxy and the stuffy cloisters-spreading the word of your god to the people is your calling. You've preached on the street corners and in public houses, to wanderers on the road and to captives in the stocks. Adventuring can take you across the world. What vocation could better serve to take your holy words to fresh ears?
             size: small
             blk: false
 
-
-          - paste: book-ref
-            params:
-              page-ref: "_{Secrets of Magic p29}"
 
 
   - at: '@background-skill-feat'
@@ -40,4 +37,14 @@ inc:
       - paste: feat/dubious-knowledge
         params:
           level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: <-deity->-lore
+        name: "_{<Deity> Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
 

@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/nirmathi-guerrilla
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Nirmathi Guerrilla}"
+
+
+require:
+  - unit: feat/terrain-stalker
+
+inc:
+  - set: char-background
+    value: "_{Nirmathi Guerrilla}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Nirmathi Guerrilla}"
+        contents:
+
+          - p: "_{Trained in Forest Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              Woodcraft comes naturally to you, and you have learned how to use the forest to your tactical advantage against superior forces in skirmishes against the Molthuni army or the Ironfang Legion.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/terrain-stalker
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: forest-lore
+        name: "_{Forest Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

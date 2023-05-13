@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/press-ganged
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Press-Ganged (LOWG)}"
+
+
+require:
+  - unit: feat/experienced-professional
+
+inc:
+  - set: char-background
+    value: "_{Press-Ganged (LOWG)}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Press-Ganged (LOWG)}"
+        contents:
+
+          - p: "_{Trained in Sailing Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You were forced into service as a sailor against your will. Perhaps you were punished for a crime, were drafted into military service, are repaying a debt, or simply were abducted. Though you were initially trained as a simple deckhand, you may have subsequently studied a trade under one of the vessel's specialists.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/experienced-professional
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: sailing-lore
+        name: "_{Sailing Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

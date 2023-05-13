@@ -1,0 +1,50 @@
+unit: background/lost-omens/world-guide/witch-wary
+in: background
+group: "_{Lost Omens World Guide}"
+name: "_{Witch Wary}"
+
+
+require:
+  - unit: feat/oddity-identification
+
+inc:
+  - set: char-background
+    value: "_{Witch Wary}"
+
+  - set: -proficiency
+    value: trained
+
+  - at: '@background'
+    replace:
+      - article: char-background
+        title: "_{Witch Wary}"
+        contents:
+
+          - p: "_{Trained in Curse Lore}"
+            icon: proficiency-trained
+            blk: false
+
+
+          - p: |
+              You have little love or trust for spellcraft and those who practice it, and have developed a paranoid knack for recognizing such tricks. You are constantly on guard for the magic of witches and have been trained to spot the signs of those with minds affected by magic.
+            size: small
+            blk: false
+
+
+
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/oddity-identification
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: curse-lore
+        name: "_{Curse Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
+

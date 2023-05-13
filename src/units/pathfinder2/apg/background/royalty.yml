@@ -1,12 +1,18 @@
-unit: background/royalty
+unit: background/apg/royalty
 in: background
 group: "_{Advanced Player's Guide}"
 name: "_{Royalty}"
 badge: "_{Rare}"
 
+require:
+  - unit: feat/courtly-graces
+
 inc:
   - set: char-background
     value: "_{Royalty}"
+
+  - set: -proficiency
+    value: trained
 
   - at: '@background'
     replace:
@@ -14,14 +20,31 @@ inc:
         title: "_{Royalty}"
         contents:
 
+          - p: "_{Trained in  and undefined}"
+            icon: proficiency-trained
+            blk: false
 
-          - p: "_{You are a prominent member of a royal family. You have taken up the life of an adventurer—perhaps you're a deposed queen hoping to regain her throne, a prince seeking a more exciting life, or a princess on a secret mission.}"
+
+          - p: |
+              You are a prominent member of a royal family. You have taken up the life of an adventurer-perhaps you're a deposed queen hoping to regain her throne, a prince seeking a more exciting life, or a princess on a secret mission.
             size: small
             blk: false
 
 
-          - paste: book-ref
-            params:
-              page-ref: "_{APG p51}"
 
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/courtly-graces
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: 
+        name: "_{}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
 

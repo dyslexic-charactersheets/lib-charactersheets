@@ -1,18 +1,15 @@
-unit: background/surge-investigator
+unit: background/secrets-of-magic/surge-investigator
 in: background
 group: "_{Secrets of Magic}"
 name: "_{Surge Investigator}"
 badge: "_{Rare}"
 
+require:
+  - unit: feat/terrain-expertise
+
 inc:
   - set: char-background
     value: "_{Surge Investigator}"
-
-  - set: nature-proficiency
-    value: trained
-
-  - set: occultism-proficiency
-    value: trained
 
   - at: '@background'
     replace:
@@ -20,18 +17,31 @@ inc:
         title: "_{Surge Investigator}"
         contents:
 
-          - p: "_{Trained in Nature and Occultism}"
+          - p: "_{Trained in Magical Terrain Lore}"
             icon: proficiency-trained
             blk: false
 
 
-          - p: "_{From rivers that charm all who come near to forests that speak through dream messages, you have seen and studied many kinds of magical terrain. The world is so rich in magic that it can affect the land itself, and you have traveled extensively to learn the ways of identifying the oddities of magical terrain wherever it arises.}"
+          - p: |
+              From rivers that charm all who come near to forests that speak through dream messages, you have seen and studied many kinds of magical terrain. The world is so rich in magic that it can affect the land itself, and you have traveled extensively to learn the ways of identifying the oddities of magical terrain wherever it arises.
             size: small
             blk: false
 
 
-          - paste: book-ref
-            params:
-              page-ref: "_{Secrets of Magic p219}"
 
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/terrain-expertise
+        params:
+          level: 1
+
+
+  - at: '@lore-skills'
+    add:
+
+      - skill: magical-terrain-lore
+        name: "_{Magical Terrain Lore}"
+        ability: "_{INT}"
+        abilityref: INT
+        acp: false
 
