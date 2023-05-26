@@ -45,6 +45,7 @@ export class Instance {
         "data/edit",
         "data/calc",
         "data/save",
+        "data/search",
         // "data/note",
         // "data/roll",
       ];

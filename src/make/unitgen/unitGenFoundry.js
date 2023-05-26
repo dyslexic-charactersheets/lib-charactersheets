@@ -188,7 +188,7 @@ function generateUnits() {
         });
         let description = makeDescription(json.system.description.value);
         let bookref = '';
-        let loreskills = inputYaml(json.system.trainedLore).split(/, */);
+        let loreskills = inputYaml(json.system.trainedLore).split(/, */).filter((lore) => !lore.match(/<.*?or.*?>/));
 
         createBackgroundUnit(name, description, book, bookref, feat, group, skillChoice, skills, loreskills, rarity);
       });

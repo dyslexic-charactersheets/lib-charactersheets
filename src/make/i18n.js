@@ -250,9 +250,17 @@ function embedPoString(str) {
     lines = _.flatMap(lines, str => {
       var parts = [];
       while (str.length >= LINE_LENGTH) {
-        var i = str.lastIndexOf(" ", LINE_LENGTH) + 1;
-        parts.push(str.substring(0, i));
-        str = str.substring(i);
+        var i = str.lastIndexOf(" ", LINE_LENGTH);
+        if (i == -1) {
+          i = str.indexOf(" ", LINE_LENGTH);
+        }
+
+        if (i != -1) {
+          parts.push(str.substring(0, i + 1));
+          str = str.substring(i + 1);
+        } else {
+          break;
+        }
       }
       parts.push(str);
       return parts;
