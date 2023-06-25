@@ -2,6 +2,9 @@
 var documentDirty = false;
 
 function documentChanged() {
+  if (documentDirty) {
+    return;
+  }
   documentDirty = true;
   for (var body of document.getElementsByTagName('body')) {
     body.classList.add('body--changed');

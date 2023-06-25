@@ -1,0 +1,59 @@
+unit: ancestry/lost-omens/mwangi-expanse/anadi
+in: ancestry
+group: "_{Lost Omens Mwangi Expanse}"
+name: "_{Anadi}"
+badge: "_{Rare}"
+
+form:
+  - select: heritage/lost-omens/mwangi-expanse/anadi
+    name: "_{Anadi Heritage}"
+    max: 1
+
+inc:
+  - set: ancestry
+    value: "_{Anadi}"
+  - set: hp-ancestry
+    value: 8
+  - set: build-boost-DEX-ancestry
+    value: 1
+  - set: build-boost-WIS-ancestry
+    value: 1
+  - set: build-boost-CON-ancestry
+    value: -1
+  - set: languages
+    value: "_{Common}, _{Anadi}, _{Mwangi}"
+
+  - at: '@ancestry'
+    replace:
+      - article:
+        title: "_{Anadi}"
+        contents:
+          - flags:
+              - "_{Anadi}"
+              - "_{Humanoid}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{25ft}"
+
+          - hr:
+            light: true
+          - action:
+            contents:
+              - p:
+                title: "_{Change Shape}"
+                content: "_{Change into your human or spider shape.}"
+
+          - hr:
+            light: true
+          - paste: natural-weapon
+            params:
+              name: "_{Fangs}"
+              icon: d6
+              damage: "_{1d6}"
+              type: "_{Piercing}"
+          - flags:
+              - "_{Brawling}"
+              - "_{Finesse}"
+              - "_{Unarmed}"

@@ -7,12 +7,47 @@ $rbsp: 0.1rem;
 	flex-direction: row;
   align-items: flex-end;
 
-  label.ruby__text {
+  .ruby__sub {
     position: absolute;
-    left: 0;
-    right: 0;
+    left: -($rb / 2);
+    right: -($rb / 2);
+    bottom: -($rb + 2 * $pt);
     height: $rb;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  &.ruby--arms {
+    .ruby__sub {
+      &:before {
+        content: "";
+        display: block;
+        border-bottom: $pt solid #a0a0a0;
+        border-left: $pt solid #a0a0a0;
+        border-bottom-left-radius: $rb / 2;
+        padding-bottom: $rb / 2;
+        flex: 1 1 $rb;
+        margin-bottom: $rb;
+      }
+    
+      &:after {
+        content: "";
+        display: block;
+        border-bottom: $pt solid #a0a0a0;
+        border-right: $pt solid #a0a0a0;
+        border-bottom-right-radius: $rb / 2;
+        padding-bottom: $rb / 2;
+        flex: 1 1 $rb;
+        margin-bottom: $rb;
+      }
+    }
+  }
+
+  label.ruby__text {
     line-height: $rb;
+    white-space: nowrap;
+    padding: 0 $pt;
 
     .rb_1 & {
       bottom: -($rbsp + $rb);

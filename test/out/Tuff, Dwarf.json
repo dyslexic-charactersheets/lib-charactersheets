@@ -1,0 +1,1664 @@
+{
+  "type": "document",
+  "contents": [
+    {
+      "level": 1,
+      "order": 6,
+      "type": "page",
+      "id": "character",
+      "name": "_{Character}",
+      "flex": true,
+      "contents": [
+        {
+          "type": "layout",
+          "layout": "2l",
+          "contents": [
+            {
+              "type": "g",
+              "contents": [
+                {
+                  "type": "logo",
+                  "source": null
+                },
+                {
+                  "type": "section",
+                  "title": null,
+                  "untitled": true,
+                  "contents": [
+                    {
+                      "type": "row",
+                      "layout": null,
+                      "contents": [
+                        {
+                          "type": "field",
+                          "id": "player-name",
+                          "label": "_{Player}",
+                          "width": "stretch",
+                          "align": "left"
+                        },
+                        {
+                          "type": "field",
+                          "id": "luck-points",
+                          "label": "_{Luck Points}",
+                          "border": "circle",
+                          "size": "huge",
+                          "suffix": "5",
+                          "format": "int"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "row",
+                      "layout": null,
+                      "contents": [
+                        {
+                          "type": "field",
+                          "id": "campaign-name",
+                          "label": "_{Campaign}",
+                          "width": "stretch",
+                          "align": "left"
+                        },
+                        {
+                          "type": "field",
+                          "id": "xp",
+                          "label": "_{XP}",
+                          "underlay": "_{XP}",
+                          "width": "large",
+                          "border": "full",
+                          "format": "int"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "hr",
+                  "swash": true
+                },
+                {
+                  "type": "portrait",
+                  "char": "personal"
+                },
+                {
+                  "type": "section",
+                  "title": null,
+                  "untitled": true,
+                  "contents": [
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "row",
+                          "layout": null,
+                          "contents": [
+                            {
+                              "type": "field",
+                              "id": "character-name",
+                              "legend": "_{Character Name}",
+                              "size": "huge",
+                              "width": "stretch",
+                              "align": "left",
+                              "value": "#{character-name}"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "layout",
+                          "layout": "alignment",
+                          "gutter": "none",
+                          "contents": [
+                            {
+                              "type": "g",
+                              "contents": [
+                                {
+                                  "type": "row",
+                                  "layout": null,
+                                  "contents": [
+                                    {
+                                      "type": "field",
+                                      "id": "gender",
+                                      "label": "_{Gender}",
+                                      "icon": "gender",
+                                      "width": "large"
+                                    },
+                                    {
+                                      "type": "spacer"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "age",
+                                      "label": "_{Age}",
+                                      "width": "large"
+                                    },
+                                    {
+                                      "type": "spacer"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "size",
+                                      "label": "_{Size}",
+                                      "icon": "size",
+                                      "width": "large",
+                                      "control": "enum",
+                                      "options": [
+                                        "_{Tiny}",
+                                        "_{Small}",
+                                        "_{Medium}",
+                                        "_{Large}",
+                                        "_{Huge}"
+                                      ]
+                                    },
+                                    {
+                                      "type": "spacer"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "deity",
+                                  "label": "_{Deity}",
+                                  "width": "stretch"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "field",
+                              "id": "alignment",
+                              "frame": "none",
+                              "control": "alignment"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "field",
+                          "id": "languages",
+                          "label": "_{Languages}",
+                          "width": "stretch",
+                          "repeat": 2,
+                          "reduce": 1,
+                          "merge-bottom": true
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "title": "_{Abilities}",
+                  "contents": [
+                    {
+                      "type": "layout",
+                      "layout": "6e",
+                      "gutter": "none",
+                      "contents": [
+                        {
+                          "type": "g",
+                          "contents": [
+                            {
+                              "type": "field",
+                              "id": "STR",
+                              "label": "_{Strength}",
+                              "control": "ability",
+                              "width": "",
+                              "parts": [
+                                {
+                                  "id": "key-ability",
+                                  "control": "radio",
+                                  "value": "STR"
+                                },
+                                {
+                                  "subid": "",
+                                  "size": "huge",
+                                  "eq": "floor((minmax(%{STR-score},4,30)-10)/2)",
+                                  "width": "",
+                                  "underlay": "_{STR}",
+                                  "format": "modifier"
+                                },
+                                {
+                                  "subid": "score",
+                                  "width": "",
+                                  "format": "int"
+                                }
+                              ]
+                            }
+                          ],
+                          "valign": "top"
+                        },
+                        {
+                          "type": "g",
+                          "contents": [
+                            {
+                              "type": "field",
+                              "id": "DEX",
+                              "label": "_{Dexterity}",
+                              "control": "ability",
+                              "width": "",
+                              "parts": [
+                                {
+                                  "id": "key-ability",
+                                  "control": "radio",
+                                  "value": "DEX"
+                                },
+                                {
+                                  "subid": "",
+                                  "size": "huge",
+                                  "eq": "floor((minmax(%{DEX-score},4,30)-10)/2)",
+                                  "width": "",
+                                  "underlay": "_{DEX}",
+                                  "format": "modifier"
+                                },
+                                {
+                                  "subid": "score",
+                                  "width": "",
+                                  "format": "int"
+                                }
+                              ]
+                            }
+                          ],
+                          "valign": "top"
+                        },
+                        {
+                          "type": "g",
+                          "contents": [
+                            {
+                              "type": "field",
+                              "id": "CON",
+                              "label": "_{Constitution}",
+                              "control": "ability",
+                              "width": "",
+                              "parts": [
+                                {
+                                  "id": "key-ability",
+                                  "control": "radio",
+                                  "value": "CON"
+                                },
+                                {
+                                  "subid": "",
+                                  "size": "huge",
+                                  "eq": "floor((minmax(%{CON-score},4,30)-10)/2)",
+                                  "width": "",
+                                  "underlay": "_{CON}",
+                                  "format": "modifier"
+                                },
+                                {
+                                  "subid": "score",
+                                  "width": "",
+                                  "format": "int"
+                                }
+                              ]
+                            }
+                          ],
+                          "valign": "top"
+                        },
+                        {
+                          "type": "g",
+                          "contents": [
+                            {
+                              "type": "field",
+                              "id": "INT",
+                              "label": "_{Intelligence}",
+                              "control": "ability",
+                              "width": "",
+                              "parts": [
+                                {
+                                  "id": "key-ability",
+                                  "control": "radio",
+                                  "value": "INT"
+                                },
+                                {
+                                  "subid": "",
+                                  "size": "huge",
+                                  "eq": "floor((minmax(%{INT-score},4,30)-10)/2)",
+                                  "width": "",
+                                  "underlay": "_{INT}",
+                                  "format": "modifier"
+                                },
+                                {
+                                  "subid": "score",
+                                  "width": "",
+                                  "format": "int"
+                                }
+                              ]
+                            }
+                          ],
+                          "valign": "top"
+                        },
+                        {
+                          "type": "g",
+                          "contents": [
+                            {
+                              "type": "field",
+                              "id": "WIS",
+                              "label": "_{Wisdom}",
+                              "control": "ability",
+                              "width": "",
+                              "parts": [
+                                {
+                                  "id": "key-ability",
+                                  "control": "radio",
+                                  "value": "WIS"
+                                },
+                                {
+                                  "subid": "",
+                                  "size": "huge",
+                                  "eq": "floor((minmax(%{WIS-score},4,30)-10)/2)",
+                                  "width": "",
+                                  "underlay": "_{WIS}",
+                                  "format": "modifier"
+                                },
+                                {
+                                  "subid": "score",
+                                  "width": "",
+                                  "format": "int"
+                                }
+                              ]
+                            }
+                          ],
+                          "valign": "top"
+                        },
+                        {
+                          "type": "g",
+                          "contents": [
+                            {
+                              "type": "field",
+                              "id": "CHA",
+                              "label": "_{Charisma}",
+                              "control": "ability",
+                              "width": "",
+                              "parts": [
+                                {
+                                  "id": "key-ability",
+                                  "control": "radio",
+                                  "value": "CHA"
+                                },
+                                {
+                                  "subid": "",
+                                  "size": "huge",
+                                  "eq": "floor((minmax(%{CHA-score},4,30)-10)/2)",
+                                  "width": "",
+                                  "underlay": "_{CHA}",
+                                  "format": "modifier"
+                                },
+                                {
+                                  "subid": "score",
+                                  "width": "",
+                                  "format": "int"
+                                }
+                              ]
+                            }
+                          ],
+                          "valign": "top"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "p",
+                      "content": "_{Ability Modifier = (Ability Score - 10) &divide; 2}",
+                      "align": "left",
+                      "optional": true
+                    },
+                    {
+                      "type": "field",
+                      "id": "proficiency-bonus",
+                      "frame": "right",
+                      "legend": "_{Proficiency Bonus}",
+                      "border": "full",
+                      "eq": "threshold(%{level},[1,2,5,3,9,4,13,5,17,6])"
+                    }
+                  ]
+                },
+                {
+                  "type": "tail"
+                },
+                {
+                  "type": "spacer"
+                }
+              ]
+            },
+            {
+              "type": "g",
+              "contents": [
+                {
+                  "type": "section",
+                  "title": "_{Character}",
+                  "contents": [
+                    {
+                      "type": "row",
+                      "layout": null,
+                      "contents": [
+                        {
+                          "type": "field",
+                          "id": "lineage",
+                          "legend": "_{Lineage}",
+                          "width": "stretch"
+                        },
+                        {
+                          "type": "field",
+                          "id": "heritage",
+                          "legend": "_{Heritage}",
+                          "width": "stretch"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "row",
+                      "layout": null,
+                      "contents": [
+                        {
+                          "type": "field",
+                          "id": "background",
+                          "legend": "_{Background}",
+                          "width": "stretch"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "row",
+                      "layout": null,
+                      "contents": [
+                        {
+                          "type": "field",
+                          "id": "class",
+                          "legend": "_{Class}",
+                          "width": "stretch"
+                        },
+                        {
+                          "type": "field",
+                          "id": "subclass",
+                          "legend": "_{Subclass}",
+                          "width": "stretch"
+                        },
+                        {
+                          "type": "field",
+                          "id": "level",
+                          "legend": "_{Level}",
+                          "border": "circle",
+                          "format": "int",
+                          "size": "huge"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "title": "_{Skills}",
+                  "contents": [
+                    {
+                      "type": "table",
+                      "rows": [
+                        {
+                          "params": {
+                            "skill": "acrobatics",
+                            "name": "_{Acrobatics}",
+                            "ability": "_{DEX}",
+                            "abilityref": "DEX",
+                            "i": 1
+                          },
+                          "cells": [
+                            {
+                              "type": "h6",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "title": "_{Acrobatics}"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "acrobatics-bonus",
+                              "border": "full",
+                              "icon": "bonus",
+                              "eq": "%{acrobatics-ability}+%{acrobatics-proficiency-bonus}+%{acrobatics-misc}-%{acrobatics-acp}",
+                              "format": "modifier"
+                            },
+                            {
+                              "type": "span",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "content": "="
+                            },
+                            {
+                              "type": "field",
+                              "label": "_{DEX}",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "acrobatics-ability",
+                              "ref": "DEX",
+                              "underlay": "_{DEX}",
+                              "frame": "h-label"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "acrobatics-proficiency",
+                              "control": "5e-proficiency"
+                            }
+                          ]
+                        },
+                        {
+                          "params": {
+                            "skill": "animal-handling",
+                            "name": "_{Animal Handling}",
+                            "ability": "_{WIS}",
+                            "abilityref": "WIS",
+                            "i": 2
+                          },
+                          "cells": [
+                            {
+                              "type": "h6",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "title": "_{Animal Handling}"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "animal-handling-bonus",
+                              "border": "full",
+                              "icon": "bonus",
+                              "eq": "%{animal-handling-ability}+%{animal-handling-proficiency-bonus}+%{animal-handling-misc}-%{animal-handling-acp}",
+                              "format": "modifier"
+                            },
+                            {
+                              "type": "span",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "content": "="
+                            },
+                            {
+                              "type": "field",
+                              "label": "_{WIS}",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "animal-handling-ability",
+                              "ref": "WIS",
+                              "underlay": "_{WIS}",
+                              "frame": "h-label"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "animal-handling-proficiency",
+                              "control": "5e-proficiency"
+                            }
+                          ]
+                        },
+                        {
+                          "params": {
+                            "skill": "arcana",
+                            "name": "_{Arcana}",
+                            "ability": "_{INT}",
+                            "abilityref": "INT",
+                            "i": 3
+                          },
+                          "cells": [
+                            {
+                              "type": "h6",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "title": "_{Arcana}"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "arcana-bonus",
+                              "border": "full",
+                              "icon": "bonus",
+                              "eq": "%{arcana-ability}+%{arcana-proficiency-bonus}+%{arcana-misc}-%{arcana-acp}",
+                              "format": "modifier"
+                            },
+                            {
+                              "type": "span",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "content": "="
+                            },
+                            {
+                              "type": "field",
+                              "label": "_{INT}",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "arcana-ability",
+                              "ref": "INT",
+                              "underlay": "_{INT}",
+                              "frame": "h-label"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "arcana-proficiency",
+                              "control": "5e-proficiency"
+                            }
+                          ]
+                        },
+                        {
+                          "params": {
+                            "skill": "athletics",
+                            "name": "_{Athletics}",
+                            "ability": "_{STR}",
+                            "abilityref": "STR",
+                            "i": 4
+                          },
+                          "cells": [
+                            {
+                              "type": "h6",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "title": "_{Athletics}"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "athletics-bonus",
+                              "border": "full",
+                              "icon": "bonus",
+                              "eq": "%{athletics-ability}+%{athletics-proficiency-bonus}+%{athletics-misc}-%{athletics-acp}",
+                              "format": "modifier"
+                            },
+                            {
+                              "type": "span",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "content": "="
+                            },
+                            {
+                              "type": "field",
+                              "label": "_{STR}",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "athletics-ability",
+                              "ref": "STR",
+                              "underlay": "_{STR}",
+                              "frame": "h-label"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "athletics-proficiency",
+                              "control": "5e-proficiency"
+                            }
+                          ]
+                        },
+                        {
+                          "params": {
+                            "skill": "deception",
+                            "name": "_{Deception}",
+                            "ability": "_{CHA}",
+                            "abilityref": "CHA",
+                            "i": 5
+                          },
+                          "cells": [
+                            {
+                              "type": "h6",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "title": "_{Deception}"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "deception-bonus",
+                              "border": "full",
+                              "icon": "bonus",
+                              "eq": "%{deception-ability}+%{deception-proficiency-bonus}+%{deception-misc}-%{deception-acp}",
+                              "format": "modifier"
+                            },
+                            {
+                              "type": "span",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "content": "="
+                            },
+                            {
+                              "type": "field",
+                              "label": "_{CHA}",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "deception-ability",
+                              "ref": "CHA",
+                              "underlay": "_{CHA}",
+                              "frame": "h-label"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "deception-proficiency",
+                              "control": "5e-proficiency"
+                            }
+                          ]
+                        },
+                        {
+                          "params": {
+                            "skill": "history",
+                            "name": "_{History}",
+                            "ability": "_{INT}",
+                            "abilityref": "INT",
+                            "i": 6
+                          },
+                          "cells": [
+                            {
+                              "type": "h6",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "title": "_{History}"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "history-bonus",
+                              "border": "full",
+                              "icon": "bonus",
+                              "eq": "%{history-ability}+%{history-proficiency-bonus}+%{history-misc}-%{history-acp}",
+                              "format": "modifier"
+                            },
+                            {
+                              "type": "span",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "content": "="
+                            },
+                            {
+                              "type": "field",
+                              "label": "_{INT}",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "history-ability",
+                              "ref": "INT",
+                              "underlay": "_{INT}",
+                              "frame": "h-label"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "history-proficiency",
+                              "control": "5e-proficiency"
+                            }
+                          ]
+                        },
+                        {
+                          "params": {
+                            "skill": "insight",
+                            "name": "_{Insight}",
+                            "ability": "_{WIS}",
+                            "abilityref": "WIS",
+                            "i": 7
+                          },
+                          "cells": [
+                            {
+                              "type": "h6",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "title": "_{Insight}"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "insight-bonus",
+                              "border": "full",
+                              "icon": "bonus",
+                              "eq": "%{insight-ability}+%{insight-proficiency-bonus}+%{insight-misc}-%{insight-acp}",
+                              "format": "modifier"
+                            },
+                            {
+                              "type": "span",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "content": "="
+                            },
+                            {
+                              "type": "field",
+                              "label": "_{WIS}",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "insight-ability",
+                              "ref": "WIS",
+                              "underlay": "_{WIS}",
+                              "frame": "h-label"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "insight-proficiency",
+                              "control": "5e-proficiency"
+                            }
+                          ]
+                        },
+                        {
+                          "params": {
+                            "skill": "intimidation",
+                            "name": "_{Intimidation}",
+                            "ability": "_{CHA}",
+                            "abilityref": "CHA",
+                            "i": 8
+                          },
+                          "cells": [
+                            {
+                              "type": "h6",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "title": "_{Intimidation}"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "intimidation-bonus",
+                              "border": "full",
+                              "icon": "bonus",
+                              "eq": "%{intimidation-ability}+%{intimidation-proficiency-bonus}+%{intimidation-misc}-%{intimidation-acp}",
+                              "format": "modifier"
+                            },
+                            {
+                              "type": "span",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "content": "="
+                            },
+                            {
+                              "type": "field",
+                              "label": "_{CHA}",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "intimidation-ability",
+                              "ref": "CHA",
+                              "underlay": "_{CHA}",
+                              "frame": "h-label"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "intimidation-proficiency",
+                              "control": "5e-proficiency"
+                            }
+                          ]
+                        },
+                        {
+                          "params": {
+                            "skill": "investigation",
+                            "name": "_{Investigation}",
+                            "ability": "_{INT}",
+                            "abilityref": "INT",
+                            "i": 9
+                          },
+                          "cells": [
+                            {
+                              "type": "h6",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "title": "_{Investigation}"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "investigation-bonus",
+                              "border": "full",
+                              "icon": "bonus",
+                              "eq": "%{investigation-ability}+%{investigation-proficiency-bonus}+%{investigation-misc}-%{investigation-acp}",
+                              "format": "modifier"
+                            },
+                            {
+                              "type": "span",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "content": "="
+                            },
+                            {
+                              "type": "field",
+                              "label": "_{INT}",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "investigation-ability",
+                              "ref": "INT",
+                              "underlay": "_{INT}",
+                              "frame": "h-label"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "investigation-proficiency",
+                              "control": "5e-proficiency"
+                            }
+                          ]
+                        },
+                        {
+                          "params": {
+                            "skill": "medicine",
+                            "name": "_{Medicine}",
+                            "ability": "_{WIS}",
+                            "abilityref": "WIS",
+                            "i": 10
+                          },
+                          "cells": [
+                            {
+                              "type": "h6",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "title": "_{Medicine}"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "medicine-bonus",
+                              "border": "full",
+                              "icon": "bonus",
+                              "eq": "%{medicine-ability}+%{medicine-proficiency-bonus}+%{medicine-misc}-%{medicine-acp}",
+                              "format": "modifier"
+                            },
+                            {
+                              "type": "span",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "content": "="
+                            },
+                            {
+                              "type": "field",
+                              "label": "_{WIS}",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "medicine-ability",
+                              "ref": "WIS",
+                              "underlay": "_{WIS}",
+                              "frame": "h-label"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "medicine-proficiency",
+                              "control": "5e-proficiency"
+                            }
+                          ]
+                        },
+                        {
+                          "params": {
+                            "skill": "nature",
+                            "name": "_{Nature}",
+                            "ability": "_{INT}",
+                            "abilityref": "INT",
+                            "i": 11
+                          },
+                          "cells": [
+                            {
+                              "type": "h6",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "title": "_{Nature}"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "nature-bonus",
+                              "border": "full",
+                              "icon": "bonus",
+                              "eq": "%{nature-ability}+%{nature-proficiency-bonus}+%{nature-misc}-%{nature-acp}",
+                              "format": "modifier"
+                            },
+                            {
+                              "type": "span",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "content": "="
+                            },
+                            {
+                              "type": "field",
+                              "label": "_{INT}",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "nature-ability",
+                              "ref": "INT",
+                              "underlay": "_{INT}",
+                              "frame": "h-label"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "nature-proficiency",
+                              "control": "5e-proficiency"
+                            }
+                          ]
+                        },
+                        {
+                          "params": {
+                            "skill": "perception",
+                            "name": "_{Perception}",
+                            "ability": "_{WIS}",
+                            "abilityref": "WIS",
+                            "i": 12
+                          },
+                          "cells": [
+                            {
+                              "type": "h6",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "title": "_{Perception}"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "perception-bonus",
+                              "border": "full",
+                              "icon": "bonus",
+                              "eq": "%{perception-ability}+%{perception-proficiency-bonus}+%{perception-misc}-%{perception-acp}",
+                              "format": "modifier"
+                            },
+                            {
+                              "type": "span",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "content": "="
+                            },
+                            {
+                              "type": "field",
+                              "label": "_{WIS}",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "perception-ability",
+                              "ref": "WIS",
+                              "underlay": "_{WIS}",
+                              "frame": "h-label"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "perception-proficiency",
+                              "control": "5e-proficiency"
+                            }
+                          ]
+                        },
+                        {
+                          "params": {
+                            "skill": "performance",
+                            "name": "_{Performance}",
+                            "ability": "_{CHA}",
+                            "abilityref": "CHA",
+                            "i": 13
+                          },
+                          "cells": [
+                            {
+                              "type": "h6",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "title": "_{Performance}"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "performance-bonus",
+                              "border": "full",
+                              "icon": "bonus",
+                              "eq": "%{performance-ability}+%{performance-proficiency-bonus}+%{performance-misc}-%{performance-acp}",
+                              "format": "modifier"
+                            },
+                            {
+                              "type": "span",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "content": "="
+                            },
+                            {
+                              "type": "field",
+                              "label": "_{CHA}",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "performance-ability",
+                              "ref": "CHA",
+                              "underlay": "_{CHA}",
+                              "frame": "h-label"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "performance-proficiency",
+                              "control": "5e-proficiency"
+                            }
+                          ]
+                        },
+                        {
+                          "params": {
+                            "skill": "persuasion",
+                            "name": "_{Persuasion}",
+                            "ability": "_{CHA}",
+                            "abilityref": "CHA",
+                            "i": 14
+                          },
+                          "cells": [
+                            {
+                              "type": "h6",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "title": "_{Persuasion}"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "persuasion-bonus",
+                              "border": "full",
+                              "icon": "bonus",
+                              "eq": "%{persuasion-ability}+%{persuasion-proficiency-bonus}+%{persuasion-misc}-%{persuasion-acp}",
+                              "format": "modifier"
+                            },
+                            {
+                              "type": "span",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "content": "="
+                            },
+                            {
+                              "type": "field",
+                              "label": "_{CHA}",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "persuasion-ability",
+                              "ref": "CHA",
+                              "underlay": "_{CHA}",
+                              "frame": "h-label"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "persuasion-proficiency",
+                              "control": "5e-proficiency"
+                            }
+                          ]
+                        },
+                        {
+                          "params": {
+                            "skill": "religion",
+                            "name": "_{Religion}",
+                            "ability": "_{INT}",
+                            "abilityref": "INT",
+                            "i": 15
+                          },
+                          "cells": [
+                            {
+                              "type": "h6",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "title": "_{Religion}"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "religion-bonus",
+                              "border": "full",
+                              "icon": "bonus",
+                              "eq": "%{religion-ability}+%{religion-proficiency-bonus}+%{religion-misc}-%{religion-acp}",
+                              "format": "modifier"
+                            },
+                            {
+                              "type": "span",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "content": "="
+                            },
+                            {
+                              "type": "field",
+                              "label": "_{INT}",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "religion-ability",
+                              "ref": "INT",
+                              "underlay": "_{INT}",
+                              "frame": "h-label"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "religion-proficiency",
+                              "control": "5e-proficiency"
+                            }
+                          ]
+                        },
+                        {
+                          "params": {
+                            "skill": "sleight-of-hand",
+                            "name": "_{Sleight of Hand}",
+                            "ability": "_{DEX}",
+                            "abilityref": "DEX",
+                            "i": 16
+                          },
+                          "cells": [
+                            {
+                              "type": "h6",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "title": "_{Sleight of Hand}"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "sleight-of-hand-bonus",
+                              "border": "full",
+                              "icon": "bonus",
+                              "eq": "%{sleight-of-hand-ability}+%{sleight-of-hand-proficiency-bonus}+%{sleight-of-hand-misc}-%{sleight-of-hand-acp}",
+                              "format": "modifier"
+                            },
+                            {
+                              "type": "span",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "content": "="
+                            },
+                            {
+                              "type": "field",
+                              "label": "_{DEX}",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "sleight-of-hand-ability",
+                              "ref": "DEX",
+                              "underlay": "_{DEX}",
+                              "frame": "h-label"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "sleight-of-hand-proficiency",
+                              "control": "5e-proficiency"
+                            }
+                          ]
+                        },
+                        {
+                          "params": {
+                            "skill": "stealth",
+                            "name": "_{Stealth}",
+                            "ability": "_{DEX}",
+                            "abilityref": "DEX",
+                            "i": 17
+                          },
+                          "cells": [
+                            {
+                              "type": "h6",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "title": "_{Stealth}"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "stealth-bonus",
+                              "border": "full",
+                              "icon": "bonus",
+                              "eq": "%{stealth-ability}+%{stealth-proficiency-bonus}+%{stealth-misc}-%{stealth-acp}",
+                              "format": "modifier"
+                            },
+                            {
+                              "type": "span",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "content": "="
+                            },
+                            {
+                              "type": "field",
+                              "label": "_{DEX}",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "stealth-ability",
+                              "ref": "DEX",
+                              "underlay": "_{DEX}",
+                              "frame": "h-label"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "stealth-proficiency",
+                              "control": "5e-proficiency"
+                            }
+                          ]
+                        },
+                        {
+                          "params": {
+                            "skill": "survival",
+                            "name": "_{Survival}",
+                            "ability": "_{WIS}",
+                            "abilityref": "WIS",
+                            "i": 18
+                          },
+                          "cells": [
+                            {
+                              "type": "h6",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "title": "_{Survival}"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "survival-bonus",
+                              "border": "full",
+                              "icon": "bonus",
+                              "eq": "%{survival-ability}+%{survival-proficiency-bonus}+%{survival-misc}-%{survival-acp}",
+                              "format": "modifier"
+                            },
+                            {
+                              "type": "span",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "content": "="
+                            },
+                            {
+                              "type": "field",
+                              "label": "_{WIS}",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "survival-ability",
+                              "ref": "WIS",
+                              "underlay": "_{WIS}",
+                              "frame": "h-label"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "width": "medium",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "survival-proficiency",
+                              "control": "5e-proficiency"
+                            }
+                          ]
+                        }
+                      ],
+                      "flip": false,
+                      "width": "stretch",
+                      "blk": false,
+                      "merge-bottom": false,
+                      "zebra": true,
+                      "collapse": true,
+                      "fixed": false,
+                      "layout": false,
+                      "_headings": [
+                        {
+                          "type": "label",
+                          "label": ""
+                        },
+                        {
+                          "type": "label",
+                          "label": "_{Skill\nBonus}",
+                          "width": "medium"
+                        },
+                        {
+                          "type": "label",
+                          "label": ""
+                        },
+                        {
+                          "type": "label",
+                          "label": "_{Ability\nModifier}",
+                          "width": "medium"
+                        },
+                        {
+                          "type": "label",
+                          "label": "_{Proficiency}",
+                          "width": "medium"
+                        }
+                      ],
+                      "_direct": true
+                    },
+                    {
+                      "type": "p",
+                      "content": "..."
+                    }
+                  ]
+                },
+                {
+                  "type": "tail"
+                },
+                {
+                  "type": "spacer"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "largePrint": false,
+  "watermark": "",
+  "title": "Tuff, Dwarf"
+}

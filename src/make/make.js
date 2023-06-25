@@ -22,10 +22,10 @@ const systems = [
     //     code: "starfinder",
     //     name: "Starfinder"
     // }
-    // {
-    //     code: "core-fantasy",
-    //     name: "Tales of the Valiant"
-    // }
+    {
+        code: "core-fantasy",
+        name: "Tales of the Valiant"
+    },
     {
       code: "premium",
       name: "Premium Options"

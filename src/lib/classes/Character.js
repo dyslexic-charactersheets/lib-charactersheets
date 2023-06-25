@@ -312,6 +312,32 @@ function parseCharacter(primary, request) {
       }
 
       break;
+
+    case 'core-fantasy':
+      if (attr.lineage) {
+        let lineageName = attr.lineage.replace(/^lineage[\/-]/, '');
+        // let classShortName = className.replace(/^.*\//, '');
+        char.units.push('lineage/' + lineageName);
+      }
+
+      if (attr.heritage) {
+        let heritageName = attr.heritage.replace(/^heritage[\/-]/, '');
+        // let classShortName = className.replace(/^.*\//, '');
+        char.units.push('heritage/' + heritageName);
+      }
+
+      if (attr.background) {
+        let backgroundName = attr.background.replace(/^background[\/-]/, '');
+        // let classShortName = className.replace(/^.*\//, '');
+        char.units.push('background/' + backgroundName);
+      }
+
+      if (attr.class) {
+        let className = attr.class.replace(/^class[\/-]/, '');
+        // let classShortName = className.replace(/^.*\//, '');
+        char.units.push('class/' + className);
+      }
+      break;
   }
 
   // included assets
@@ -370,7 +396,7 @@ export class Character extends Instance {
       systemsReady(() => {
         try {
           const system = getSystem(data.game);
-          if (system === null) {
+          if (system === null || system === undefined) {
             error("Character", "System not found:", data.game);
             reject();
             return;
@@ -482,6 +508,10 @@ export class Character extends Instance {
               title = pathfinder2Title(units, document, data, true);
               summary = pathfinder2Title(units, document, data, false);
               break;
+            case 'core-fantasy':
+              title = coreFantasyTitle(units, document, data, true);
+              summary = coreFantasyTitle(units, document, data, false);
+              break;
           }
           document.title = title;
           document.summary = summary;
@@ -563,6 +593,41 @@ function pathfinder2Title(units, doc, data, includeName) {
   }
 
   let template = isEmpty(parts.name) ? "_{#{ancestry} #{class} #{archetypes}}" : "_{#{name}, #{ancestry} #{class} #{archetypes}}";
+  let title = interpolate(__(template, doc), parts);
+  title = title.replace(/  +/g, ' ');
+  title = title.replace(/^ +/, '');
+  title = title.replace(/ +$/, '');
+  if (title == "")
+    title = "Character";
+  return title;
+}
+
+function coreFantasyTitle(units, doc, data, includeName) {
+  let parts = {
+    name: includeName ? data.name : '',
+    lineage: '',
+    class: '',
+  };
+
+  function getUnits(group) {
+    return units.filter(unit => unit.in == group);
+  }
+
+  let lineage = getUnits("lineage");
+  if (!isEmpty(lineage)) {
+    lineage = lineage[0];
+    parts["lineage"] = __(lineage.name, doc);
+  }
+
+
+  let cls = getUnits("class");
+  if (!isEmpty(cls)) {
+    cls = cls[0];
+    parts["class"] = __(cls.name, doc);
+  }
+
+  
+  let template = isEmpty(parts.name) ? "_{#{lineage} #{class}}" : "_{#{name}, #{lineage} #{class}}";
   let title = interpolate(__(template, doc), parts);
   title = title.replace(/  +/g, ' ');
   title = title.replace(/^ +/, '');

@@ -480,6 +480,30 @@ export let field_control_counter = {
   }
 }
 
+export let field_control_5e_proficiency = {
+  name: 'control:5e-proficiency',
+  defaults: {
+    value: false,
+    icon: true,
+  },
+  render(args, reg, doc) {
+    args.parts = [
+      {
+        id: args.id,
+        control: 'checkbox',
+        value: args.value
+      },
+      {
+        subid: 'bonus',
+        control: 'input',
+        editable: !doc.isLoggedIn,
+        eq: `%{args.id}?%{proficiency}:0`
+      }
+    ];
+    return renderCompoundControl(args, reg, doc);
+  }
+}
+
 export let field_control_proficiency = {
   name: 'control:proficiency',
   defaults: {
@@ -506,6 +530,7 @@ export let field_control_proficiency = {
           control: "proficiency-icon",
           'no-bonus': false,
           value: args.value,
+          eq: args.eq,
         },
         {
           subid: 'bonus',
@@ -591,10 +616,39 @@ export let field_control_ref_switch = {
     value: '',
     border: 'bottom',
     format: 'int',
+    'switch': 'STR,DEX',
   },
   render(args) {
-    let hidden = `<input type='hidden'${fieldIdent(args.id, "ref").ident} class='field--control_ref-switch__ref'>`;
-    return hidden + defaultControlRender(args);
+    // let id = args.id.replace('/', '--');
+    let switchOptions = args['switch'].split(',');
+
+    let data = elementData({
+      ref: args.ref
+    });
+    let hidden = `<input type='hidden'${fieldIdent(args.id, "ref").ident} class='field--control_ref-switch__ref'${data}>`;
+
+    let menu = `<nav id='ref-switch-field-${args.id}-menu' class='control-menu'><div>
+      <table><tr>
+        ${switchOptions.map((opt) => `
+          <td>
+            <label class="field--inmenu__label" for='menu-ref-switch-${args.id}-${opt}'>
+            <input type='radio' class='ref-switch' name='menu-ref-switch-${args.id}' value='${opt}' id='menu-ref-switch-${args.id}-${opt}'></label>
+          </td>
+          <td>
+            <div id="menu-field-ref-switch-${args.id}-${opt}" class="field field--inmenu field--ref field--frame_above field--width_medium">
+              <div class="field__frame field--inmenu__frame">
+                <label class="label field--inmenu__label align_centre">${__(opt)}</label>
+                <div class="field__box"><div class="field__control field--inmenu__control field__control--width_medium">
+                  <input ref="${opt}" readonly>
+                </div></div>
+              </div>
+            </div>
+          </td>
+        `).join('')}
+      </tr></table>
+    </div></nav>`;
+
+    return hidden + defaultControlRender(args) + menu;
   }
 }
 

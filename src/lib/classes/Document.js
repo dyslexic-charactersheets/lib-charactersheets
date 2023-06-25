@@ -851,6 +851,7 @@ export class Document {
 <label for='counter-menu-3'><input type='radio' name='counter-menu' value='3' id='counter-menu-3'> <i class="icon icon_counter-3"></i> ${__('3')}</label>
 </div></nav>
 
+<!--
 <nav id='ref-switch-menu' class='control-menu'><div>
 <table><tr>
 
@@ -866,6 +867,7 @@ export class Document {
 
 </tr></table>
 </div></nav>
+-->
 
 <nav id='alignment-menu' class='control-menu'><div>
 <table>

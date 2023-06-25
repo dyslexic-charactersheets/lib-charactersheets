@@ -365,9 +365,6 @@ inc:
                         width: stretch
                         columns:
                           -
-                          # - label: "_{Assurance}"
-                          #   align: right
-                          #   narrow: true
                           - label: "_{Skill\nBonus}"
                             width: medium
                           -
@@ -378,8 +375,9 @@ inc:
                           - label: "_{Feats Misc}"
                             width: small
                           - label: "_{Armour Check Penalty}"
-                            width: medium
+                            width: small
                           - label: "_{Assurance}"
+                            width: small
                         rows:
                           - slots:
                             index: i
@@ -388,8 +386,6 @@ inc:
                             reduce: 2
                             contents:
                               - sort: name
-                                # group: abilityref
-                                # group_hr: true
                                 contents:
                                   - zone: '@skills'
                                     contents:
@@ -517,9 +513,6 @@ inc:
                                     frame: none
                                     width: stretch
                                     merge-bottom: true
-                          # - field: "#{skill}-assurance"
-                          #   control: checkbox
-                          #   align: right
                           - field: "#{skill}-bonus"
                             border: full
                             icon: bonus
@@ -1214,44 +1207,84 @@ inc:
                                                 suffix: "_{hp}"
                                                 format: int
 
-                          - section:
-                            untitled: true
-                            mark: armour
-                            merge-bottom: true
+                          - g:
                             contents:
-                              - hr:
-                              - list:
-                                hr: true
+                              - section:
+                                untitled: true
+                                mark: armour
                                 contents:
-                                  - g:
+                                  - hr:
+                                  - list:
+                                    hr: true
                                     contents:
-                                      - field: shield
-                                        legend: "_{Shield}"
-                                        size: large
-                                        width: stretch
-                                        flex: none
-                                        icon: shield
-                                        merge-bottom: true
-                                  - g:
-                                    contents:
-                                      - field: armour
-                                        legend: "_{Armour}"
-                                        size: large
-                                        width: stretch
-                                        flex: none
-                                        icon: armour
-                                        merge-bottom: true
-                                  - g:
-                                    contents:
-                                      - slots:
-                                        min: 3
-                                        reduce: 1
+                                      - g:
                                         contents:
-                                          - zone: '@ac-conditional'
-                                        placeholder:
-                                          - field: "ac-conditional-#{i}"
-                                            frame: none
+                                          - field: shield
+                                            legend: "_{Shield}"
+                                            size: large
                                             width: stretch
+                                            flex: none
+                                            icon: shield
+                                            merge-bottom: true
+                                      - g:
+                                        contents:
+                                          - field: armour
+                                            legend: "_{Armour}"
+                                            size: large
+                                            width: stretch
+                                            flex: none
+                                            icon: armour
+                                            merge-bottom: true
+                                      # - g:
+                                      #   contents:
+                                      #     - slots:
+                                      #       min: 3
+                                      #       reduce: 1
+                                      #       contents:
+                                      #         - zone: '@ac-conditional'
+                                      #       placeholder:
+                                      #         - field: "ac-conditional-#{i}"
+                                      #           frame: none
+                                      #           width: stretch
+                              - section:
+                                untitled: true
+                                merge-bottom: true
+                                contents:
+                                  - hr: true
+                                  - row:
+                                    contents:
+                                      - calc:
+                                        output:
+                                          field: rest-hp
+                                          legend: "_{Rest Healing}"
+                                          suffix: "_{hp}"
+                                          width: large
+                                          prefix: "+"
+                                          eq: "max(1,%{CON})*%{level}*(%{fast-recovery-checked}?2:1)"
+                                        inputs:
+                                          - ruby: "_{Min 1}"
+                                            contents:
+                                              - field:
+                                                ref: CON
+                                                label: "_{CON}"
+                                                underlay: "_{CON}"
+                                          - span: "&times;"
+                                          - field:
+                                            ref: level
+                                            label: "_{Level}"
+                                      - vr:
+                                      - field: fast-recovery
+                                        label: "_{Fast Recovery}"
+                                        control: compound
+                                        border: none
+                                        parts:
+                                          - subid: checked
+                                            control: checkbox
+                                          - control: value
+                                            value: "&times; 2"
+
+                                  - p: "_{Recover from Fatigued, Doomed 1, Drained 1.}"
+
 
                   - tail:
 

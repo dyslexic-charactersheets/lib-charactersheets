@@ -3,6 +3,70 @@ name: "_{Construct}"
 group: "_{Guns and Gears}"
 
 inc:
+
+  - copy: construct/weapon
+    params:
+      id: ''
+      i: 0
+      damage-die: false
+      damage-icon: damage
+      ndice-eq: ""
+      damagebonus-eq: ""
+    contents:
+      - g:
+        contents:
+          - row:
+            contents:
+              - field: "construct/attack-#{i}"
+                width: stretch
+                frame: none
+                align: left
+                size: large
+                icon: sword
+          - row:
+            contents:
+              - calc:
+                output:
+                  field: "construct/attack-#{i}-bonus"
+                  label: "_{Attack Bonus}"
+                  # width: large
+                  attack: true
+                  icon: bonus
+                  format: modifier
+                  eq: "%{construct/attack-#{i}-ability}+%{attack-#{i}-proficiency-bonus}"
+                inputs:
+                  - field: "construct/attack-#{i}-ability"
+                    label: "_{Ability}"
+                    misc: true
+                    control: ref-switch
+                    switch: "construct/STR,construct/DEX"
+                  - span: "+"
+                  - field: "construct/attack-#{i}-proficiency"
+                    control: proficiency
+                    label: "_{Proficiency}"
+              - field: "construct/attack-#{i}-damage"
+                border: full
+                label: "_{Damage}"
+                width: small
+                icon: "#{damage-icon}"
+                control: compound
+                parts:
+                  - subid: ndice
+                    suffix: "#{damage-die} +"
+                    format: int
+                    eq: "pick(%{construct/stage},{'prototype':1,'advanced':2,'incredible':2,'paragon':3},'trained')"
+                  - subid: extra
+                    format: int
+                    eq: "%{construct/STR}+pick(%{construct/stage},{'prototype':0,'advanced':0,'incredible':2,'paragon':4},'trained')"
+          - row:
+            contents:
+              - field: "construct/attack-#{i}-critical"
+                frame: none
+                width: stretch
+                align: left
+                unlined: true
+                merge-bottom: true
+
   - at: '@pages'
     add:
 
@@ -109,6 +173,7 @@ inc:
                                         frame: right
                                         label: "_{Prototype}"
                                         width: tiny
+                                        selected: true
                                       - spacer:
                                       - value:
                                         control: icon
@@ -242,7 +307,7 @@ inc:
                                         label: "_{CHA}"
                                         frame: above
                                         
-                                  - p: "_{Expert in Acrobatics, and Athletics}"
+                                  - p: "_{Expert in Acrobatics and Athletics}"
                                     icon: proficiency-expert
 
                                   - value-block: "_{2d_} + 2"
@@ -368,10 +433,12 @@ inc:
                                 label: "_{Acrobatics}"
                                 ability: "_{DEX}"
                                 abilityref: DEX
+                                proficiency: trained
                               - skill: athletics
                                 label: "_{Athletics}"
                                 ability: "_{STR}"
                                 abilityref: STR
+                                proficiency: trained
                               # - skill: deception
                               #   label: "_{Deception}"
                               #   ability: "_{CHA}"
@@ -400,26 +467,36 @@ inc:
                               #   label: "_{Thievery}"
                               #   ability: "_{DEX}"
                               #   abilityref: DEX
-                              - skill: ""
-                                label: ""
-                                ability: ""
-                                abilityref: ""
-                              - skill: ""
-                                label: ""
-                                ability: ""
-                                abilityref: ""
-                              - skill: ""
-                                label: ""
-                                ability: ""
-                                abilityref: ""
-                              - skill: ""
-                                label: ""
-                                ability: ""
-                                abilityref: ""
+
+                              - repeat: 6
+                                contents:
+                                  - skill: "skill-#{i}"
+                                    label: ""
+                                    ability: ""
+                                    abilityref: ""
+                              # - skill: "skill-2"
+                              #   label: ""
+                              #   ability: ""
+                              #   abilityref: ""
+                              # - skill: "skill-3"
+                              #   label: ""
+                              #   ability: ""
+                              #   abilityref: ""
+                              # - skill: "4"
+                              #   label: ""
+                              #   ability: ""
+                              #   abilityref: ""
                             template:
-                              - h6: "#{label}"
-                                fade: "#{fade}"
-                                blk: false
+                              - if: "#{label}"
+                                then:
+                                  - h6: "#{label}"
+                                    fade: "#{fade}"
+                                    blk: false
+                                else:
+                                  - field: "construct/#{skill}-detail"
+                                    frame: none
+                                    width: stretch
+                                    merge-bottom: true
                               - field: "construct/#{skill}-bonus"
                                 border: full
                                 icon: bonus
@@ -439,7 +516,7 @@ inc:
                               icon: bonus
                               legend: "_{Perception}"
                               width: large
-                              eq: "%{WIS}+%{construct/perception-proficiency-bonus}+%{construct/perception-item}+%{construct/perception-misc}"
+                              eq: "%{construct/WIS}+%{construct/perception-proficiency-bonus}+%{construct/perception-item}+%{construct/perception-misc}"
                             inputs:
                               - field:
                                 ref: construct/WIS
@@ -490,7 +567,7 @@ inc:
                                     contents:
                                       - action: template
                                         contents:
-                                          - article:
+                                          - article: construct-action-#{i}
                                             lines: 2
                                             reduce: 1
 
@@ -518,20 +595,19 @@ inc:
                                 hr: true
                                 flex: true
                                 contents:
-                                  - paste: weapon-small
+                                  - paste: construct/weapon
                                     params:
-                                      id: construct-weapon
                                       i: 1
                                       damage-die: "_{d8}"
-                                  - paste: weapon-small
+                                      damage-icon: d8
+                                  - paste: construct/weapon
                                     params:
-                                      id: construct-weapon
                                       i: 2
                                       damage-die: "_{d6}"
-                                  - paste: weapon-small
+                                  - paste: construct/weapon
                                     params:
-                                      id: construct-weapon
                                       i: 3
+                                      damage-die: "_{d6}"
 
                   - layout: 2r
                     narrow: true
@@ -551,7 +627,7 @@ inc:
                                       icon: hp
                                       suffix: "_{hp}"
                                       width: large
-                                      eq: "10+((%{CON}+6)*%{level})"
+                                      eq: "10+((%{construct/CON}+6)*%{level})"
                                     inputs:
                                       - span: "10 + ("
                                       - field:
@@ -618,13 +694,13 @@ inc:
                             contents:
                               - calc:
                                 output:
-                                  field: "animal-companion-ac"
+                                  field: "construct-ac"
                                   legend: "_{Armour Class}"
                                   icon: shield
                                   border: full
                                   width: large
                                   underlay: "_{AC}"
-                                  eq: "10+%{DEX}+%{construct/ac-proficiency-bonus}+%{construct/ac-misc}"
+                                  eq: "10+%{construct/DEX}+%{construct/ac-proficiency-bonus}+%{construct/ac-misc}"
                                 inputs:
                                   - span: "10 +"
                                   - field:
@@ -710,7 +786,8 @@ inc:
                                         ref: "#{abilityref}"
                                       - field: "construct/#{save}-proficiency"
                                         control: proficiency
-                                        # value: trained
+                                        value: "trained"
+                                        eq: "pick(%{construct/stage},{'prototype':'trained','advanced':'expert','incredible':'expert','paragon':'master'},'trained')"
                               - field: construct/saving-throws-conditional
                                 label: "_{Conditional}"
                                 align: left

@@ -8,10 +8,11 @@ export let ruby = {
     ruby: '',
     contents: [],
     align: 'center',
+    arms: false,
   },
   render(args, reg, doc) {
-    const cls = elementClass('ruby', null, args, [], { 'align': 'center' });
-    return `<div${cls}><label class='ruby__text'>${_e(args.ruby, doc)}</label>${reg.render(args.contents, doc)}</div>`;
+    const cls = elementClass('ruby', null, args, ['arms'], { 'align': 'center' });
+    return `<div${cls}><div class='ruby__sub'><label class='ruby__text'>${_e(args.ruby, doc)}</label></div>${reg.render(args.contents, doc)}</div>`;
   }
 }
 

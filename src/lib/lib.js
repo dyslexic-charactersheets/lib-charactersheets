@@ -18,6 +18,7 @@ import { error } from './log';
 loadSystemData([
   'common',
   'pathfinder2',
+  'core-fantasy',
   'premium',
 ]);
 

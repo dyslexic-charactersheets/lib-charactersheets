@@ -101,12 +101,12 @@ inc:
                                 width: stretch
                                 align: left
                                 value: "#{character-name}"
-                              - field: level
-                                legend: "_{Level}"
-                                border: circle
-                                # frame: left
-                                format: int
-                                size: huge
+                              # - field: level
+                              #   legend: "_{Level}"
+                              #   border: circle
+                              #   # frame: left
+                              #   format: int
+                              #   size: huge
                           - layout: alignment
                             gutter: none
                             contents:
@@ -208,7 +208,12 @@ inc:
                       - field: proficiency-bonus
                         frame: right
                         legend: "_{Proficiency Bonus}"
+                        border: full
                         eq: "threshold(%{level},[1,2,5,3,9,4,13,5,17,6])"
+
+
+                  - tail:
+                  - spacer:
 
               - g:
                 contents:
@@ -237,9 +242,122 @@ inc:
                               - field: subclass
                                 legend: "_{Subclass}"
                                 width: stretch
+                          - field: level
+                            legend: "_{Level}"
+                            border: circle
+                            # frame: left
+                            format: int
+                            size: huge
 
                   - section: "_{Skills}"
                     contents:
+                      - table:
+                        collapse: true
+                        zebra: true
+                        width: stretch
+                        rows:
+                          - skill: acrobatics
+                            name: "_{Acrobatics}"
+                            ability: "_{DEX}"
+                            abilityref: "DEX"
+                          - skill: animal-handling
+                            name: "_{Animal Handling}"
+                            ability: "_{WIS}"
+                            abilityref: "WIS"
+                          - skill: arcana
+                            name: "_{Arcana}"
+                            ability: "_{INT}"
+                            abilityref: "INT"
+                          - skill: athletics
+                            name: "_{Athletics}"
+                            ability: "_{STR}"
+                            abilityref: "STR"
+                          - skill: deception
+                            name: "_{Deception}"
+                            ability: "_{CHA}"
+                            abilityref: "CHA"
+                          - skill: history
+                            name: "_{History}"
+                            ability: "_{INT}"
+                            abilityref: "INT"
+                          - skill: insight
+                            name: "_{Insight}"
+                            ability: "_{WIS}"
+                            abilityref: "WIS"
+                          - skill: intimidation
+                            name: "_{Intimidation}"
+                            ability: "_{CHA}"
+                            abilityref: "CHA"
+                          - skill: investigation
+                            name: "_{Investigation}"
+                            ability: "_{INT}"
+                            abilityref: "INT"
+                          - skill: medicine
+                            name: "_{Medicine}"
+                            ability: "_{WIS}"
+                            abilityref: "WIS"
+                          - skill: nature
+                            name: "_{Nature}"
+                            ability: "_{INT}"
+                            abilityref: "INT"
+                          - skill: perception
+                            name: "_{Perception}"
+                            ability: "_{WIS}"
+                            abilityref: "WIS"
+                          - skill: performance
+                            name: "_{Performance}"
+                            ability: "_{CHA}"
+                            abilityref: "CHA"
+                          - skill: persuasion
+                            name: "_{Persuasion}"
+                            ability: "_{CHA}"
+                            abilityref: "CHA"
+                          - skill: religion
+                            name: "_{Religion}"
+                            ability: "_{INT}"
+                            abilityref: "INT"
+                          - skill: sleight-of-hand
+                            name: "_{Sleight of Hand}"
+                            ability: "_{DEX}"
+                            abilityref: "DEX"
+                          - skill: stealth
+                            name: "_{Stealth}"
+                            ability: "_{DEX}"
+                            abilityref: "DEX"
+                          - skill: survival
+                            name: "_{Survival}"
+                            ability: "_{WIS}"
+                            abilityref: "WIS"
+                        columns:
+                          -
+                          # - label: "_{Assurance}"
+                          #   align: right
+                          #   narrow: true
+                          - label: "_{Skill\nBonus}"
+                            width: medium
+                          -
+                          - label: "_{Ability\nModifier}"
+                            width: medium
+                          - label: "_{Proficiency}"
+                            width: medium
+                        template:
+                          - h6: "#{name}"
+                          - field: "#{skill}-bonus"
+                            border: full
+                            icon: bonus
+                            width: medium
+                            eq: '%{#{skill}-ability}+%{#{skill}-proficiency-bonus}+%{#{skill}-misc}-%{#{skill}-acp}'
+                            format: modifier
+                          - span: "="
+                          - field: '#{skill}-ability'
+                            ref: "#{abilityref}"
+                            underlay: "#{ability}"
+                            frame: h-label
+                            label: "#{ability}"
+                            width: medium
+                          - field: "#{skill}-proficiency"
+                            control: 5e-proficiency
+                            width: medium
                       - p: "..."
 
                   - tail:
