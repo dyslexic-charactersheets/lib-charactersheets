@@ -1,0 +1,34 @@
+unit: heritage/lost-omens/mwangi-expanse/anadi/venomous
+in: heritage/lost-omens/mwangi-expanse/anadi
+group: "_{Mwangi Expanse}"
+name: "_{Venomous Anadi}"
+  
+inc:
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Venomous Anadi}"
+        contents:
+          - action: 
+            contents:
+              - p: "_{Anadi Venom}"
+                content: "_{Add poison damage to a Fangs Strike this turn}"
+              - calc:
+                output:
+                  field: "##:anadi-venum/per-day"
+                  legend: "_{Uses per Day}"
+                  border: full
+                  eq: "%{level}"
+                inputs:
+                  - field:
+                    ref: level
+                    label: "_{Level}" 
+              - value-block: "+_{1d6}"
+                width: large
+                content: "_{Poison damage}"
+          - level: 12
+            contents:
+              - value-block: "+_{2d6}"
+                width: large
+                content: "_{Poison damage}"
+
