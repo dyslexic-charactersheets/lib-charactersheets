@@ -65,20 +65,22 @@ inc:
                     ref: true
                   - span: "&times; _{1d4}"
 
-              - calc:
-                output:
-                  field: "##:incendiary-aura/area"
-                  legend: "_{Area}"
-                  width: large
-                  suffix: "_{ft}"
-                  eq: "10+(%{##:incendiary-aura/heighten}*5)"
-                  eq_metric: "3+(%{##:incendiary-aura/heighten}*1.5)"
-                inputs:
-                  - span: "_{10ft} +"
-                  - field: "##:incendiary-aura/heighten"
-                    label: "_{Heighten}"
-                    ref: true
-                  - span: "&times; _{5ft}"
+              - zone: '@##:incendiary-aura'
+                contents:
+                  - calc:
+                    output:
+                      field: "##:incendiary-aura/area"
+                      legend: "_{Area}"
+                      width: large
+                      suffix: "_{ft}"
+                      eq: "10+(%{##:incendiary-aura/heighten}*5)"
+                      eq_metric: "3+(%{##:incendiary-aura/heighten}*1.5)"
+                    inputs:
+                      - span: "_{10ft} +"
+                      - field: "##:incendiary-aura/heighten"
+                        label: "_{Heighten}"
+                        ref: true
+                      - span: "&times; _{5ft}"
 
   
   - at: '@oracle/revelation-spell/advanced'

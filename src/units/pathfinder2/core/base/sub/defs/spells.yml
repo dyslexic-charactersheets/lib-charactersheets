@@ -14,15 +14,24 @@ inc:
             size: large
             prose: true
             align: center
-          - p:
-            title: "#{title}"
-            content: "#{content}"
+          - g:
+            contents:
+              - p:
+                title: "#{title}"
+                content: "#{content}"
+
+              - p: "_{Cantrips heighten automatically}"
+                icon: up-arrow
+
+              - hr:
+                light: true
 
   - copy: spellcasting-spells
     params:
       icon:
       title: "_{Spells}"
       content: 
+      heighten:
     contents:
       - layout: indent-l
         contents:
@@ -31,15 +40,21 @@ inc:
             contents:
               - icon: "#{icon}"
                 align: center
-          - p:
-            title: "#{title}"
-            content: "#{content}"
+          - g:
+            contents:
+              - p:
+                title: "#{title}"
+                content: "#{content}"
+
+              - p: "#{heighten}"
+                icon: up-arrow
 
   - copy: spellcasting-focus
     params:
       icon:
       title: "_{Spells}"
       content: 
+      heighten: "_{Focus spells heighten automatically}"
     contents:
       - layout: indent-lr
         contents:
@@ -48,9 +63,14 @@ inc:
             contents:
               - icon: "#{icon}"
                 align: center
-          - p:
-            title: "#{title}"
-            content: "#{content}"
+          - g:
+            contents:
+              - p:
+                title: "#{title}"
+                content: "#{content}"
+
+              - p: "#{heighten}"
+                icon: up-arrow
           - cost: "_{1pt}"
             unit: "_{Focus}"
 
@@ -62,39 +82,44 @@ inc:
       cantrips-text:
       spells-icon: book
       spells-text:
+      heighten:
     contents:
       - paste: spellcasting-cantrips
         params:
           content: "#{cantrips-text}"
-
       - paste: spellcasting-spells
         params:
           icon: "#{spells-icon}"
           content: "#{spells-text}"
+          heighten: "#{heighten}"
 
   - copy: spellcasting-spontaneous
     params:
       cantrips-text: "_{Cast cantrips you know indefinitely.}"
       spells-icon: book
       spells-text: "_{Cast spells you know using spell slots.}"
+      heighten: "_{Spells can be prepared in a higher level}"
     contents:
       - paste: spellcasting
         params:
           cantrips-text: "#{cantrips-text}"
           spells-icon: "#{spells-icon}"
           spells-text: "#{spells-text}"
+          heighten: "#{heighten}"
 
   - copy: spellcasting-prepared
     params:
       cantrips-text: "_{Prepare 5 cantrips each morning from your spellbook. Cast them indefinitely.}"
       spells-icon: book
       spells-text: "_{Prepare spells each morning from your spellbook.}"
+      heighten: "_{Spells can be prepared in a higher level}"
     contents:
       - paste: spellcasting
         params:
           cantrips-text: "#{cantrips-text}"
           spells-icon: "#{spells-icon}"
           spells-text: "#{spells-text}"
+          heighten: "#{heighten}"
 
 
   # utility

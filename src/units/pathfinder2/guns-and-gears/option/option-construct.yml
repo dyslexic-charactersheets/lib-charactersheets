@@ -33,7 +33,7 @@ inc:
                   attack: true
                   icon: bonus
                   format: modifier
-                  eq: "%{construct/attack-#{i}-ability}+%{attack-#{i}-proficiency-bonus}"
+                  eq: "%{construct/attack-#{i}-ability}+%{construct/attack-#{i}-proficiency-bonus}"
                 inputs:
                   - field: "construct/attack-#{i}-ability"
                     label: "_{Ability}"
@@ -500,6 +500,7 @@ inc:
                               - field: "construct/#{skill}-bonus"
                                 border: full
                                 icon: bonus
+                                eq: "%{construct/#{abilityref}}+%{construct/#{skill}-proficiency-bonus}"
                               - span: "="
                               - field:
                                 ref: "construct/#{abilityref}"
@@ -566,6 +567,7 @@ inc:
                                   - repeat: 3
                                     contents:
                                       - action: template
+                                        id: construct-action-#{i}-action
                                         contents:
                                           - article: construct-action-#{i}
                                             lines: 2

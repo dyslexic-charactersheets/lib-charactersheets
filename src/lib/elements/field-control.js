@@ -146,6 +146,8 @@ export let field_control_speed = {
     format: 'int',
   },
   render(args, reg, doc) {
+    log("field", "Speed units", doc.measurementUnits);
+    // args.units = doc.measurementUnits
     switch (doc.measurementUnits) {
       case "imperial": {
         const ftIdent = fieldIdent(args.id, "ft");
@@ -156,7 +158,8 @@ export let field_control_speed = {
             type: "field",
             id: ftIdent.id,
             align: "right",
-            width: "small"
+            width: "small",
+            eq: args.eq
           },
           {
             type: "label",
@@ -186,7 +189,8 @@ export let field_control_speed = {
             id: mIdent.id,
             align: "right",
             width: "small",
-            format: "decimal"
+            format: "decimal",
+            eq: args.eq
           },
           {
             type: "label",

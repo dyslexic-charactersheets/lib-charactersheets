@@ -37,7 +37,7 @@ function coerceFieldValue(name, value, incalc) {
     case 'int':
       return parseInt(value);
     case 'decimal':
-      var tailDecimal = !!value.match(/\.$/);
+      var tailDecimal = (typeof value === 'string' || value instanceof String) && !!value.match(/\.$/);
       value = parseFloat(value).toFixed(2);
       if (!incalc) {
         if (value.match(/\./)) {

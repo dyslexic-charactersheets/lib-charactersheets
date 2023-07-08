@@ -104,6 +104,7 @@ export class Document {
           break;
       }
     }
+    log("Document", "Measurement units", this.language, units);
     this.measurementUnits = units;
   }
 
@@ -568,8 +569,8 @@ export class Document {
             // og("Document", `Field ${element.id} = ${element.eq}`);
             switch (element.control) {
               case 'speed':
-                let subid = element.units == 'metric' ? element.id+'--m' : element.id+'--ft';
-                let affix = element.units == 'metric' ? '--m' : '--ft';
+                let subid = doc.measurementUnits == 'metric' ? element.id+'--m' : element.id+'--ft';
+                let affix = doc.measurementUnits == 'metric' ? '--m' : '--ft';
                 // log("Document", "Speed eq", element.eq);
                 let eq = element.eq.replace(/%\{(.*speed)\}/g, "%{$1"+affix+"}");
                 pushCalculation(subid, transformCalculation(subid, eq));
@@ -681,7 +682,7 @@ export class Document {
       if (css == "")
         return;
 
-      // log("Document", "CSS part for unit:", unit.id);
+      log("Document", "CSS part for unit:", unit.id);
       const template = Handlebars.compile(css);
       let rendered = template({});
       if (unit.id != "document") {

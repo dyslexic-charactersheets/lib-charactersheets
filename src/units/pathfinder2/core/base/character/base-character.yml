@@ -156,7 +156,7 @@ inc:
                               - field: languages
                                 label: "_{Languages}"
                                 width: stretch
-                                repeat: 2
+                                repeat: 3
                                 reduce: 1
                                 merge-bottom: true
                           - g:
@@ -538,14 +538,14 @@ inc:
                               - if: "#{acp_flexible}"
                                 then:
                                   - field: "#{skill}-acp"
-                                    eq: "%{armour-flexible}?'':((%{STR}<%{armour-str-rating})?%{armour-acp}:'')"
+                                    eq: "%{armour-flexible}?'':((%{STR}>=%{armour-str-rating})?'':%{armour-acp})"
                                     ref: true
                                     border: full
                                     exists: "#{acp}"
                                     prefix: "&ndash;"
                                 else:
                                   - field: "#{skill}-acp"
-                                    eq: "(%{STR}<%{armour-str-rating})?%{armour-acp}:''"
+                                    eq: "(%{STR}>=%{armour-str-rating})?'':%{armour-acp}"
                                     ref: true
                                     border: full
                                     prefix: "&ndash;"
@@ -697,11 +697,7 @@ inc:
                                 label: "_{Speed in Armour}"
                                 control: speed
                                 width: stretch
-                                eq: "%{speed}-%{armour-speed-penalty}"
-                                # eq:
-                                #   ft: "%{speed}-%{armour-speed-penalty}"
-                                #   m: "%{speed}-%{armour-speed-penalty}"
-                                
+                                eq: "%{speed}-((%{STR}>=%{armour-str-rating})?'':%{armour-speed-penalty})"
 
                       - row:
                         contents:

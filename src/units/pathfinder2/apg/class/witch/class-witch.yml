@@ -126,7 +126,9 @@ inc:
 
                   - section: "_{Familiar}"
                     contents:
-                      - p: "_{Your patron has sent you a familiar. Commune with your familiar to prepare spells each day.}"
+                      - field: "##:familiar-name"
+                        label: "_{Familiar name}"
+                        width: stretch
                       - p: "_{If your familiar dies, your patron replaces it the next morning. This does not affect your spells.}"
 
                   - section: "_{Spellcasting}"
@@ -136,6 +138,7 @@ inc:
                           cantrips-text: "_{Prepare 5 cantrips each morning from your familiar. Cast them indefinitely.}"
                           spells-icon: familiar
                           spells-text: "_{Prepare spells each morning from your familiar.}"
+                          # heighten: "_{Prepare a spell in a higher slot to heighten}"
 
                       - spells-table:
                         flip: true
@@ -167,9 +170,20 @@ inc:
 
                   - section: "_{Hexes}"
                     contents:
-                      - paste: focus
-                        contents:
-                          - p: "_{Cast one hex per turn.}"
+                      - paste: spellcasting-focus
+                        params:
+                          icon: witch
+                          title: "_{Hexes}"
+                          content: "_{Cast one hex per turn}"
+                          heighten: "_{Hexes heighten automatically}"
+
+                      # - paste: focus
+                      #   contents:
+                      #     - p: "_{Cast one hex per turn.}"  
+                      #     - paste: spellcasting-heighten
+                      #       params:
+                      #         text: "_{Hexes heighten automatically}"
+
                       - hr:
                       - article:
                         title: "_{Phase Familiar}"
@@ -212,9 +226,11 @@ inc:
                                   - field: witch/basic-lesson/hex
                                     label: "_{Hex}"
                                     width: stretch
+                                    frame: annotation
                                   - field: witch/basic-lesson/familiar-spell
                                     label: "_{Familiar Spell}"
                                     width: stretch
+                                    frame: annotation
                                     merge-bottom: true
                           - selectable: witch/greater-lesson
                             contents:
@@ -227,9 +243,11 @@ inc:
                                   - field: witch/greater-lesson/hex
                                     label: "_{Hex}"
                                     width: stretch
+                                    frame: annotation
                                   - field: witch/greater-lesson/familiar-spell
                                     label: "_{Familiar Spell}"
                                     width: stretch
+                                    frame: annotation
                                     merge-bottom: true
                           - selectable: witch/major-lesson
                             contents:
@@ -242,9 +260,11 @@ inc:
                                   - field: witch/major-lesson/hex
                                     label: "_{Hex}"
                                     width: stretch
+                                    frame: annotation
                                   - field: witch/major-lesson/familiar-spell
                                     label: "_{Familiar Spell}"
                                     width: stretch
+                                    frame: annotation
                                     merge-bottom: true
 
                   - tail:
@@ -303,7 +323,7 @@ inc:
                           - spells-list:
                             min: 1
                             max: 2
-                            spells: 5
+                            spells: 3
                             style: prepared
                             flex: huge
                           - spells-list:

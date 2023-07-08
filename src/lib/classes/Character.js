@@ -410,6 +410,10 @@ export class Character extends Instance {
           // language
           document.language = data.language;
           document.setMeasurementUnits(data.measurementUnits);
+          log("Character", "Doc measurement units", document.measurementUnits);
+          if (document.measurementUnits == "metric") {
+            this.data.units.push("core/metric");
+          }
           document.setVar('character-name', data.name);
           document.setVar('description', data.description);
 
@@ -498,7 +502,7 @@ export class Character extends Instance {
           document.isNoCalc = data.isNoCalc;
           let units = system.getUnits(data.units);
           units = system.inferUnits(units);
-          // log("Character", "Inferred units:", units.map(unit => unit.id).sort().join(", "));
+          log("Character", "Inferred units:", units.map(unit => unit.id).sort().join(", "));
 
           // infer the title from the units
           let title = __("Character");

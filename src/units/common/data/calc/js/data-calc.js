@@ -107,7 +107,7 @@ function recalculateField(name) {
       knownValues[name] = newValue;
       setFieldValue(name, newValue);
     } catch (x) {
-      console.log("Error: "+x.message);
+      console.log("Error:", x);
     }
   }
 }

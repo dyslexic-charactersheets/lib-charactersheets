@@ -3704,7 +3704,7 @@
                               "id": "languages",
                               "label": "_{Languages}",
                               "width": "stretch",
-                              "repeat": 2,
+                              "repeat": 3,
                               "reduce": 1,
                               "merge-bottom": true
                             }
@@ -4372,7 +4372,7 @@
                             {
                               "type": "field",
                               "id": "acrobatics-acp",
-                              "eq": "%{armour-flexible}?'':((%{STR}<%{armour-str-rating})?%{armour-acp}:'')",
+                              "eq": "%{armour-flexible}?'':((%{STR}>=%{armour-str-rating})?'':%{armour-acp})",
                               "ref": true,
                               "border": "full",
                               "exists": "true",
@@ -4598,7 +4598,7 @@
                             {
                               "type": "field",
                               "id": "athletics-acp",
-                              "eq": "%{armour-flexible}?'':((%{STR}<%{armour-str-rating})?%{armour-acp}:'')",
+                              "eq": "%{armour-flexible}?'':((%{STR}>=%{armour-str-rating})?'':%{armour-acp})",
                               "ref": true,
                               "border": "full",
                               "exists": "true",
@@ -5932,7 +5932,7 @@
                             {
                               "type": "field",
                               "id": "stealth-acp",
-                              "eq": "(%{STR}<%{armour-str-rating})?%{armour-acp}:''",
+                              "eq": "(%{STR}>=%{armour-str-rating})?'':%{armour-acp}",
                               "ref": true,
                               "border": "full",
                               "prefix": "&ndash;"
@@ -6158,7 +6158,7 @@
                             {
                               "type": "field",
                               "id": "thievery-acp",
-                              "eq": "(%{STR}<%{armour-str-rating})?%{armour-acp}:''",
+                              "eq": "(%{STR}>=%{armour-str-rating})?'':%{armour-acp}",
                               "ref": true,
                               "border": "full",
                               "prefix": "&ndash;"
@@ -6877,7 +6877,7 @@
                               "label": "_{Speed in Armour}",
                               "control": "speed",
                               "width": "stretch",
-                              "eq": "%{speed}-%{armour-speed-penalty}"
+                              "eq": "%{speed}-((%{STR}>=%{armour-str-rating})?'':%{armour-speed-penalty})"
                             }
                           ]
                         }
@@ -14572,7 +14572,8 @@
                                       "type": "field",
                                       "id": "armour-str-rating",
                                       "label": "_{STR\nRating}",
-                                      "format": "int"
+                                      "format": "int",
+                                      "prefix": "+"
                                     },
                                     {
                                       "type": "field",

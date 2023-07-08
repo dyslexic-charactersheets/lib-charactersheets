@@ -1,0 +1,70 @@
+unit: pathfinder2/metric
+name: "_{Metric}"
+group: "_{Core Rulebook}"
+
+inc:
+  - at: '@inventory/armour-speed-penalty'
+    replace:
+      - field: armour-speed-penalty
+        label: "_{Speed\nPenalty}"
+        width: large
+        prefix: "&ndash;"
+        suffix: "_{m}"
+        format: decimal
+
+  - at: "@oracle/mystery/cosmos:moonlight-bridge"
+    replace:
+      - calc:
+        output:
+          field: "oracle/mystery/cosmos:moonlight-bridge/length"
+          legend: "_{Bridge\nLength}"
+          border: full
+          width: large
+          suffix: "_{m}"
+          eq: "%{focus-level}*6"
+        inputs:
+          - field:
+            label: "_{Spell\nLevel}"
+            ref: focus-level
+          - span: "&times; _{6m}"
+      - p: "_{The bridge is 3m wide, and up to 45&deg; up or down.}"
+      - p: "_{Non-allies cannot walk on the bridge.}"
+
+  - at: '@oracle/mystery/flames:incendiary-aura'
+    replace:
+      - calc:
+        output:
+          field: "oracle/mystery/flames:incendiary-aura/area"
+          legend: "_{Area}"
+          width: large
+          suffix: "_{m}"
+          eq: "3+(%{oracle/mystery/flames:incendiary-aura/heighten}*1.5)"
+        inputs:
+          - span: "_{3m} +"
+          - field: "oracle/mystery/flames:incendiary-aura/heighten"
+            label: "_{Heighten}"
+            ref: true
+          - span: "&times; _{1.5m}"
+
+  - at: '@sorcerer/bloodline/draconic/breath-area'
+    replace:
+      - field: sorcerer/bloodline/draconic/breath-area
+        label: "_{Breath weapon area}"
+        control: compound
+        parts:
+          - subid: range
+            align: right
+          - label: "_{m}"
+          - subid: shape
+            align: left 
+
+  - at: '@summoner/eidolon/dragon:breath-weapon/area'
+    contents:
+      - field: "summoner/eidolon/dragon:breath-weapon/area"
+        label: "_{Area}"
+        width: stretch
+        control: compound
+        parts:
+          - subid: "range"
+            suffix: "_{m}"
+          - subid: "shape"
