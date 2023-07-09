@@ -23,8 +23,8 @@ inc:
               - p: "_{Cantrips heighten automatically}"
                 icon: up-arrow
 
-              - hr:
-                light: true
+              # - hr:
+              #   light: true
 
   - copy: spellcasting-spells
     params:
@@ -46,8 +46,10 @@ inc:
                 title: "#{title}"
                 content: "#{content}"
 
-              - p: "#{heighten}"
-                icon: up-arrow
+              - if: "#{heighten}"
+                then:
+                  - p: "#{heighten}"
+                    icon: up-arrow
 
   - copy: spellcasting-focus
     params:
@@ -83,22 +85,33 @@ inc:
       spells-icon: book
       spells-text:
       heighten:
+      signature-spells: false
     contents:
-      - paste: spellcasting-cantrips
-        params:
-          content: "#{cantrips-text}"
-      - paste: spellcasting-spells
-        params:
-          icon: "#{spells-icon}"
-          content: "#{spells-text}"
-          heighten: "#{heighten}"
+      - list:
+        hr: true
+        light: true
+        contents:
+          - paste: spellcasting-cantrips
+            params:
+              content: "#{cantrips-text}"
+          - paste: spellcasting-spells
+            params:
+              icon: "#{spells-icon}"
+              content: "#{spells-text}"
+              heighten: "#{heighten}"
+          - if: "#{signature-spells}"
+            then:
+              - level: 3
+                contents:
+                  - p: "_{Signature spells can be heightened without learning separately.}"
 
   - copy: spellcasting-spontaneous
     params:
       cantrips-text: "_{Cast cantrips you know indefinitely.}"
       spells-icon: book
       spells-text: "_{Cast spells you know using spell slots.}"
-      heighten: "_{Spells can be prepared in a higher level}"
+      heighten: "_{Spells must be learned at a higher level to heighten}"
+      signature-spells: true
     contents:
       - paste: spellcasting
         params:
@@ -106,6 +119,7 @@ inc:
           spells-icon: "#{spells-icon}"
           spells-text: "#{spells-text}"
           heighten: "#{heighten}"
+          signature-spells: "#{signature-spells}"
 
   - copy: spellcasting-prepared
     params:
@@ -120,6 +134,7 @@ inc:
           spells-icon: "#{spells-icon}"
           spells-text: "#{spells-text}"
           heighten: "#{heighten}"
+          signature-spells: false
 
 
   # utility

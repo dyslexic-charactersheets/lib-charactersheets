@@ -158,41 +158,47 @@ inc:
                   - section: "_{Spellcasting}"
                     id: spellcasting
                     contents:
-                      
-                      - paste: spellcasting-cantrips
-                        params:
-                          content: "_{Cast cantrips you know indefinitely.}"
-                      
-                      - indent:
+                      - list:
+                        hr: true
+                        light: true
                         contents:
-                          - paste: focus
+                          - g:
                             contents:
-                              - p: "_{Add an amp to a psi cantrip.}"
-                      
-                      - paste: spellcasting-spells
-                        params:
-                          icon: psychic
-                          content: "_{Cast spells you know using spell slots.}"
+                              - paste: spellcasting-cantrips
+                                params:
+                                  content: "_{Cast cantrips you know indefinitely.}"
+                              
+                              - indent:
+                                contents:
+                                  - paste: focus
+                                    contents:
+                                      - p: "_{Add an amp to a psi cantrip.}"
 
-                      - hr:
-                        light: true
+                          - paste: spellcasting-spells
+                            params:
+                              icon: psychic
+                              content: "_{Cast spells you know using spell slots.}"
+                              heighten: "_{Spells must be learned at a higher level to heighten}"
 
-                      - spells-table:
-                        max: 10
-                        spells-today: true
-                        max-spells-per-day: 2
-                        expanded: "_{Signature Spell}"
-                        at:
-                          - level: 10
+                          - level: 3
+                            contents:
+                              - p: "_{Signature spells can be heightened without learning separately.}"
+
+                          - spells-table:
+                            max: 10
+                            spells-today: true
                             max-spells-per-day: 2
-
-                      - hr:
-                        light: true
+                            expanded: "_{Signature Spell}"
+                            at:
+                              - level: 10
+                                max-spells-per-day: 2
                         
-                      - zone: '@class/dark-archive/psychic:dcs'
-                        contents:
-                          - paste: spell-attack
-                          - paste: spell-dc
+                          - g:
+                            contents:
+                              - zone: '@class/dark-archive/psychic:dcs'
+                                contents:
+                                  - paste: spell-attack
+                                  - paste: spell-dc
 
                   - tail:
                   - spacer:
