@@ -101,7 +101,7 @@ function recalculateField(name) {
   if (calculations.hasOwnProperty(name)) {
     try {
       var newValue = calculations[name](valueOf);
-      if (isNaN(newValue)) {
+      if (newValue === null || newValue === undefined || isNaN(newValue)) {
         return;
       }
       knownValues[name] = newValue;

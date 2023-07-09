@@ -138,6 +138,44 @@ export let field_control_ref = {
   }
 }
 
+export let field_control_p = {
+  name: 'control:p',
+  defaults: {
+    value: '',
+    border: 'none',
+    width: 'stretch',
+    lines: 2,
+    'with-title': true,
+    title: '',
+    align: 'left'
+  },
+  render(args, reg, doc) {
+    // log("field", "Para", args);
+    
+    if (doc.largePrint && args.reduce > 0) {
+      args.lines -= args.reduce;
+    }
+
+    args.empty = args.title == "" && args.value == "";
+    let controlCls = elementClass("field", "control", args, ["empty"], {});
+
+    let para = `<div class='p'><div class='p__inner'>
+      ${args['with-title'] ?
+        `<div class='p__title p__editpart' contenteditable="plaintext-only">${_e(args.title, doc)}</div>`
+      : ''}
+      <div class='p__body p__editpart' contenteditable="plaintext-only">${_e(args.value, doc)}</div>
+    </div></div>`;
+
+    let lines = [];
+    for (let i = 0; i < args.lines; i++) {
+      lines.push("<div class='p-spacer__line'></div>");
+    }
+    let spacer = `<div class='p-spacer'>${lines.join("")}</div>`;
+
+    return `<div${controlCls}>${para}${spacer}</div>`;
+  }
+}
+
 export let field_control_speed = {
   name: 'control:speed',
   defaults: {
@@ -146,7 +184,7 @@ export let field_control_speed = {
     format: 'int',
   },
   render(args, reg, doc) {
-    log("field", "Speed units", doc.measurementUnits);
+    // log("field", "Speed units", doc.measurementUnits);
     // args.units = doc.measurementUnits
     switch (doc.measurementUnits) {
       case "imperial": {

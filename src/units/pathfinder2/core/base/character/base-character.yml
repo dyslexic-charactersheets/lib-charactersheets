@@ -155,8 +155,11 @@ inc:
                                     control: alignment
                               - field: languages
                                 label: "_{Languages}"
-                                width: stretch
-                                repeat: 3
+                                # width: stretch
+                                control: p
+                                lines: 2
+                                with-title: false
+                                # repeat: 2
                                 reduce: 1
                                 merge-bottom: true
                           - g:
@@ -502,7 +505,7 @@ inc:
                             contents:
                               - if: "#{name}=="
                                 then:
-                                  - nothing:
+                                  - spacer:
                                 else:
                                   - h6: "#{name}"
                                     fade: "#{fade}"
@@ -598,8 +601,11 @@ inc:
                                       width: stretch
                                 - field: "skill-note-#{i}-notes-2"
                                   frame: none
-                                  width: stretch
-                                  merge-bottom: true
+                                  # width: stretch
+                                  # merge-bottom: true
+                                  control: p
+                                  lines: 2
+                                  with-title: false
 
                   - section: "_{Perception}"
                     flex: small
@@ -656,15 +662,12 @@ inc:
                         optional: true
                       - zone: '@perception'
                         contents:
-                          - row:
-                            contents:
-                              - field: perception-other
-                                frame: none
-                                align: left
-                                width: stretch
-                                repeat: 2
-                                merge-bottom: true
-                                optional: true
+                          - field: perception-notes
+                            frame: none
+                            control: p
+                            lines: 2
+                            with-title: false
+                            optional: true
                   - tail:
 
       - page: combat
@@ -736,8 +739,13 @@ inc:
                               action: template
                               id: "action-#{i}"
                               contents:
-                                - article: combat-action-#{i}
-                                  lines: 1
+                                - field: combat-action-#{i}
+                                  control: p
+                                  frame: none
+                                  lines: 2
+                                # - article: combat-action-#{i}
+                                #   lines: 1
+                                #   inline: true
                             contents:
                               - sort: order
                                 contents:
@@ -769,10 +777,15 @@ inc:
                                     id: "focus-action-#{i}"
                                     contents:
                                       - field: "focus-spell-#{i}"
-                                        width: stretch
-                                        align: left
-                                        merge-bottom: true
-                                        repeat: 2
+                                        control: p
+                                        frame: none
+                                        lines: 2
+
+                                      # - field: "focus-spell-#{i}"
+                                      #   width: stretch
+                                      #   align: left
+                                      #   merge-bottom: true
+                                      #   repeat: 2
                                 contents:
                                   - sort: order
                                     contents:
@@ -1452,7 +1465,7 @@ inc:
                                         contents:
                                           - h5: "_{Ethnicity}"
                                           - article: ethnicity
-                                            lines: 1
+                                            lines: 2
                                       - spacer:
                               - list:
                                 hr: true

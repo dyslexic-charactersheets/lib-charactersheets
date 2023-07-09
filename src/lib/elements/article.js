@@ -16,6 +16,7 @@ export let article = {
     shade: false,
     'merge-bottom': true,
     blk: true,
+    inline: false,
 
     annotation: false,
     cat: false,
@@ -30,6 +31,7 @@ export let article = {
     action: false,
   },
   transform(args, ctx) {
+
     // if (isEmpty(args.id)) {
     //   warn("article", "Missing article ID:", args);
     // }
@@ -127,8 +129,10 @@ export let article = {
             id: args.id + '-details',
             frame: 'none',
             align: 'left',
+            control: 'p',
+            'with-title': false,
             format: 'string',
-            repeat: args.lines,
+            lines: args.lines,
             width: 'stretch',
             'merge-bottom': args['merge-bottom']
           });
