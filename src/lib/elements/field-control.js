@@ -157,7 +157,7 @@ export let field_control_p = {
     }
 
     args.empty = args.title == "" && args.value == "";
-    let controlCls = elementClass("field", "control", args, ["empty"], {});
+    let controlCls = elementClass("field", "control", args, ["empty"], {"lines": 0});
 
     let para = `<div class='p'><div class='p__inner'>
       ${args['with-title'] ?
