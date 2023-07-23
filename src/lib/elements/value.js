@@ -1,6 +1,5 @@
 import { isEmpty } from '../util';
 import { log, error } from '../log';
-import { render } from 'node-sass';
 
 export let value = {
   name: 'value',
