@@ -1,0 +1,76 @@
+$str: #970;
+$dex: #369;
+$con: #a20;
+$int: #925;
+$wis: #471;
+$cha: #529;
+
+@mixin colourful($name, $colour) {
+  p.p--colour_#{$name} {
+    &, .p__inner, .p__content, .p__title {
+      color: $colour;
+    }
+  }
+  .row--colour_#{$name} .field, tr.tr--colour_#{$name} .field, .field.field--colour_#{$name} {
+    legend, label {
+      color: $colour;
+    }
+    u {
+      color: $colour;
+    }
+    .field__box {
+      border-color: $colour;
+    }
+    input {
+      color: $colour;
+    }
+
+    &.field--temp {
+      .field__box.field__box--border_full {
+        // border-color: adjust-color($colour, $lightness: 20%);
+        border-color: $colour;
+      }
+    }
+
+    &.field--control_checkbox .field__control, &.field--control_radio .field__control, .field__control--control_checkbox, .field__control--control_radio {
+      label {
+        border-color: $colour;
+      }
+      input[type="checkbox"]:checked + label, input[type="radio"]:checked + label {
+        background: $colour;
+      }
+    }
+    &.field--control_ability {
+      .field__control[data-subid$="-score"] {
+        border-color: $colour;
+      }
+    }
+  }
+  .row--colour_#{$name} {
+    span {
+      color: $colour;
+    }
+    .ruby label.ruby__text {
+      color: $colour;
+    }
+  }
+  tr.tr--colour_#{$name} {
+    h6, span {
+      color: $colour;
+    }
+  }
+
+  table.table--zebra tbody tr.tr--colour_#{$name}:nth-child(2n) td {
+    background: rgba($colour,0.1);
+    &.td--vr {
+      border-left-color: $colour;
+    }
+  }
+}
+
+@include colourful('STR', $str);
+@include colourful('DEX', $dex);
+@include colourful('CON', $con);
+@include colourful('INT', $int);
+@include colourful('WIS', $wis);
+@include colourful('CHA', $cha);

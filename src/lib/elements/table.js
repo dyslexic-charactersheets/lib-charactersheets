@@ -1,5 +1,6 @@
 import { isObject, isString, isArray, isNull, isEmpty } from '../util';
 import { cloneDeep, has, interpolate } from '../util/objects';
+import { elementColour } from '../util/colours';
 
 import { renderTableBasic } from './table-basic';
 import { renderTableFlipped } from './table-flipped';
@@ -17,6 +18,7 @@ export let table = {
     flip: false,
     template: [],
     width: '',
+    colourful: false,
     blk: false,
     zebra: false,
     collapse: false,
@@ -218,6 +220,18 @@ export let table = {
         });
         return { params: row, cells: cells };
       });
+    }
+
+    if (args.colourful) {
+      for (let row of rows) {
+        for (let cell of row.cells) {
+          let colour = elementColour(cell);
+          if (colour) {
+            row.params.colour = colour;
+            break;
+          }
+        }
+      }
     }
 
     // apply transformations to cells

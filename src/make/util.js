@@ -48,6 +48,10 @@ function isString(val) {
   return typeof val === 'string' || val instanceof String;
 }
 
+function isNumber(val) {
+  return Number.isFinite(val);
+}
+
 function isArray(val) {
   return Array.isArray(val);
 }
@@ -109,5 +113,5 @@ function interpolate(template, values) {
 }
 
 module.exports = {
-    interpolate: interpolate
+    interpolate,
 };

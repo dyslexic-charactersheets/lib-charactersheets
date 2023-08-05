@@ -1,0 +1,60 @@
+unit: ancestry/lost-omens/mwangi-expanse/conrasu
+in: ancestry
+group: "_{Lost Omens Mwangi Expanse}"
+name: "_{Conrasu}"
+badge: "_{Rare}"
+
+form:
+  - select: heritage/lost-omens/mwangi-expanse/conrasu
+    name: "_{Conrasu Heritage}"
+    max: 1
+
+inc:
+  - set: ancestry
+    value: "_{Conrasu}"
+  - set: hp-ancestry
+    value: 8
+  - set: build-boost-CON-ancestry
+    value: 1
+  - set: build-boost-WIS-ancestry
+    value: 1
+  - set: build-boost-CHA-ancestry
+    value: -1
+  - set: languages
+    value: "_{Common}, _{Rasu}, _{Mwangi}"
+
+  - at: '@ancestry'
+    replace:
+      - article:
+        title: "_{Conrasu}"
+        contents:
+          - flags:
+              - "_{Conrasu}"
+              - "_{Aeon}"
+              - "_{Plant}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{25ft}"
+
+          - hr:
+            light: true
+          - paste: 10mins
+            contents:
+              - p:
+                title: "_{Sunlight Healing}"
+                content: "_{Heal when resting in direct sunlight once a day.}"
+          - calc:
+            output:
+              field: "##:sunlight-healing"
+              suffix: "_{d8}"
+              width: large
+              eq: "floor(%{level}/2)"
+            inputs:
+              - ruby-round-down:
+                contents:
+                  - field:
+                    ref: level
+                    label: "_{Level}"
+                  - span: "&divide; 2"

@@ -1,5 +1,6 @@
-import { isNumber } from '../util';
+import { isEmpty, isNumber, isNull } from '../util';
 import { log, error } from '../log';
+import { has } from './objects';
 
 const color = require('color');
 
@@ -25,6 +26,13 @@ export function replaceColours(str, documentColour, accentColour = false, intens
   if (accentColour) {
     str = str.replace(/--c-accent/g, accentColour);
   }
+  str = str.replaceAll(/--c-str/g, '#997700');
+  str = str.replaceAll(/--c-dex/g, '#336699');
+  str = str.replaceAll(/--c-con/g, '#aa2200');
+  str = str.replaceAll(/--c-int/g, '#992255');
+  str = str.replaceAll(/--c-wis/g, '#447711');
+  str = str.replaceAll(/--c-cha/g, '#552299');
+
   str = str.replace(/="#([0-9a-fA-F]{6})"/g, '="%23$1"');
   return str;
 }
@@ -113,4 +121,31 @@ export function adjustColour(c, documentColour, intensity, highContrast) {
     error('util', 'Colour error:', x, x.stack);
     return c;
   }
+}
+
+export function elementColour(args) {
+  if (isNull(args)) {
+    return false;
+  }
+  if (has(args, "colour") && args.colour) {
+    return args.colour;
+  }
+  switch (args.id) {
+    case "STR": case "DEX": case "CON": case "INT": case "WIS": case "CHA":
+      return args.id;
+  }
+  switch (args.ref) {
+    case "STR": case "DEX": case "CON": case "INT": case "WIS": case "CHA":
+      return args.ref;
+  }
+  switch (args.type) {
+    case "ruby":
+      for (let elem of args.contents) {
+        let col = elementColour(elem);
+        if (col) {
+          return col;
+        }
+      }
+  }
+  return false;
 }

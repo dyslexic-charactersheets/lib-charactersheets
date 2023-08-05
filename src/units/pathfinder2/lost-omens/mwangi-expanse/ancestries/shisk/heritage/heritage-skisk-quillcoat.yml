@@ -1,0 +1,44 @@
+unit: heritage/lost-omens/mwangi-expanse/shisk/quillcoat
+in: heritage/lost-omens/mwangi-expanse/shisk
+group: "_{Mwangi Expanse}"
+name: "_{Quillcoat Shisk}"
+  
+inc:
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Quillcoat Shisk}"
+        contents:
+
+          - action: reaction
+            contents:
+              - p:
+                title: "_{Barbed Quills}"
+                content: "_{Once a day when hit with an unarmed or non-reach melee Strike, deal damage with quills.}"
+              - calc:
+                output:
+                  field: "##:damage"
+                  legend: "_{Piercing Damage}"
+                  suffix: "_{d8}"
+                  width: large
+                  eq: "floor(%{level}/2)"
+                inputs:
+                  - field:
+                    ref: level
+                    label: "_{Level}"
+                  - span: "&divide; 2"
+              - p: "_{Target makes a Basic reflex save. On a critical failure, also deal persistant bleed damage.}"
+              - calc:
+                output:
+                  field: "##:persistant-damage"
+                  legend: "_{Bleed Damage}"
+                  prefix: "_{d4} +"
+                  width: large
+                  eq: "floor(%{level}/2)-1"
+                inputs:
+                  - span: "("
+                  - field:
+                    ref: level
+                    label: "_{Level}"
+                  - span: "&divide; 2 ) - 1"
+

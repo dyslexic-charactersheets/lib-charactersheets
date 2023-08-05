@@ -1,0 +1,28 @@
+unit: heritage/lost-omens/mwangi-expanse/grippli/poisonhide
+in: heritage/lost-omens/mwangi-expanse/grippli
+group: "_{Mwangi Expanse}"
+name: "_{Poisonhide Grippli}"
+  
+inc:
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Poisonhide Grippli}"
+        contents:
+          - action: reaction
+            contents:
+              - p:
+                title: "_{Toxic Skin}"
+                content: "_{Once an hour when touched, exide a toxin}"
+              - calc:
+                output:
+                  field: "##:damage"
+                  legend: "_{Poison Damage}"
+                  suffix: "_{d4}"
+                  width: large
+                  eq: "floor(%{level}/2)"
+                inputs:
+                  - field:
+                    ref: level
+                    label: "_{Level}"
+                  - span: "&divide; 2"

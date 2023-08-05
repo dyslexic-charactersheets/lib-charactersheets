@@ -58,6 +58,26 @@ Handlebars.registerHelper('dataurlraw', function (filename, options) {
   return getDataURL(unit, filename);
 });
 
+Handlebars.registerHelper('dataurl-colourful', function (filename, colourname, options) {
+  var unit = options.data.root.unit;
+  let url = getDataURL(unit, filename);
+  let colourvar = '--c-'+colourname.toLowerCase();
+
+  function colourReplace(colour) {
+    colour = colour.replace('%23', '#').toLowerCase();
+    if (colour == 'white' || colour == '#ffffff' || colour == 'rgb(255,255,255)' || colour == 'rgba(255,255,255,1)') {
+      return colour;
+    }
+    // log("units", "Replacing colour", colour);
+    return colourvar;
+  }
+
+  url = url.replaceAll(/#[0-9a-fA-F]{6}/g, colourReplace);
+  url = url.replaceAll(/%23[0-9a-fA-F]{6}/g, colourReplace);
+  url = url.replaceAll(/rgba\(.*?,.*?,.*?,(.*?)\)/g, colourReplace);
+  return url;
+})
+
 Handlebars.registerHelper('embed', function (filename, options) {
   // log("units", "Embed file", filename);
   filename = path.normalize(`${__dirname}/../../${filename}`);

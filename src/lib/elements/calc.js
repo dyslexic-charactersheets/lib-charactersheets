@@ -1,5 +1,7 @@
 import { isString, isEmpty, isObject } from '../util';
 import { elementClass, getLabelHeight, getRubyHeight } from '../util/elements';
+import { elementColour } from '../util/colours';
+import { has } from '../util/objects';
 
 export let calc = {
   name: 'calc',
@@ -18,7 +20,8 @@ export let calc = {
     args.rb = getRubyHeight(args);
 
     args.calc = true;
-    const cls = elementClass('row', null, args, ["calc", "inline", "blk"], { 'layout': 'center', 'lp': '', 'rb': '' });
+    args.colour = findColour(args);
+    const cls = elementClass('row', null, args, ["calc", "inline", "blk"], { 'layout': 'center', 'lp': '', 'rb': '', colour: false });
 
     // parts of the calculation
     // const outputPart = Object.assign({
@@ -73,4 +76,18 @@ export let calc = {
 
     return `<div${cls}><div class='row__inner'>${reg.render(parts, doc)}${spacer}</div></div>`;
   }
+}
+
+function findColour(args) {
+  let colour = elementColour(args.output);
+  if (colour) {
+    return colour;
+  }
+  for (let elem of args.inputs) {
+    let colour = elementColour(elem);
+    if (colour) {
+      return colour;
+    }
+  }
+  return false;
 }

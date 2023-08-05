@@ -1,5 +1,6 @@
 import { isArray, isString, isNull, toBoolean, isEmpty } from '../util';
 import { elementID, elementName, elementClass, getRubyHeight } from '../util/elements';
+import { elementColour } from '../util/colours';
 import { has, interpolate } from '../util/objects';
 import { __, _e } from '../i18n';
 import { log, trace, warn } from '../log';
@@ -65,7 +66,7 @@ export let field = {
     const name = elementName('field', args.id);
     const cls = elementClass('field', null, args,
       ["icon", "ref", "misc", "temp", "indent", "blk", "overprint", "no-icon-indent"],
-      { "frame": "normal", "width": "", "align": "centre", "size": "medium", "control": "input", "shift": 0, "rb": 0, "border": "bottom", "flex": false });
+      { "frame": "normal", "width": "", "align": "centre", "size": "medium", "control": "input", "shift": 0, "rb": 0, "border": "bottom", "flex": false, "colour": false });
 
     const frameArgs = Object.assign({}, args, { type: 'frame:' + args.frame });
     const frame = reg.renderItem(frameArgs, doc);
@@ -109,6 +110,9 @@ export function fieldDefaults(args, reg, doc) {
     args.border = "none";
     args.icon = false;
   }
+
+  // Colourful fields
+  args.colour = elementColour(args);
 
   args = interpolate(args, {}, doc);
   return args;

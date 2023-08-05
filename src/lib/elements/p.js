@@ -16,10 +16,11 @@ export let p = {
     blk: true,
     nowrap: false,
     size: 'medium',
+    colour: false,
     columns: 1
   },
   render(args, reg, doc) {
-    const cls = elementClass('p', null, args, ['blk', 'nowrap', 'icon', 'optional'], { 'align': 'left', 'size': 'medium' });
+    const cls = elementClass('p', null, args, ['blk', 'nowrap', 'icon', 'optional'], { 'align': 'left', 'size': 'medium', 'colour': false });
 
     // let paras = args.content.split(/[\n\r]/);
     const icon = args.icon ? reg.renderItem({

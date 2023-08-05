@@ -1,0 +1,58 @@
+unit: heritage/lost-omens/mwangi-expanse/conrasu/reinforcement
+in: heritage/lost-omens/mwangi-expanse/conrasu
+group: "_{Mwangi Expanse}"
+name: "_{Rite of Reinforcement}"
+  
+inc:
+  - copy: "##:exoskeleton"
+    contents:
+      - row:
+        contents:
+          - field: ac-armour-bonus
+            label: "_{AC Bonus}"
+            icon: armour
+            border: full
+            value: "+4"
+          - field: ac-armour-potency
+            control: counter
+            label: "_{Potency}"
+          - field: armour-runes
+            label: "_{Runes}"
+            width: stretch
+            align: center
+      - row:
+        layout: split
+        contents:
+          - spacer:
+          - field: armour-dex-cap
+            label: "_{DEX\nCap}"
+            value: "+1"
+          - field: armour-str-rating
+            label: "_{STR\nRating}"
+            value: "+3"
+          - field: armour-acp
+            label: "_{Check\nPenalty}"
+            border: full
+            value: "-2"
+          - field: armour-speed-penalty
+            label: "_{Speed\nPenalty}"
+            suffix: "_{-5ft}"
+      - field: armour-properties
+        width: stretch
+        label: "_{Armour Traits}"
+        repeat: 2
+        reduce: 1
+
+
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Rite of Reinforcement}"
+        contents:
+          - p: "_{Your exoskeleton is medium armour. You cannot wear other armour.}"
+          - paste: "##:exoskeleton"
+
+  - at: '@armour'
+    replace:
+      - h6: "_{Exoskeleton}"
+      - paste: "##:exoskeleton"

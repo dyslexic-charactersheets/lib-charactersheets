@@ -1,0 +1,55 @@
+unit: ancestry/lost-omens/mwangi-expanse/gnoll
+in: ancestry
+group: "_{Lost Omens Mwangi Expanse}"
+name: "_{Gnoll}"
+badge: "_{Uncommon}"
+
+form:
+  - select: heritage/lost-omens/mwangi-expanse/gnoll
+    name: "_{Gnoll Heritage}"
+    max: 1
+
+inc:
+  - set: ancestry
+    value: "_{Gnoll}"
+  - set: hp-ancestry
+    value: 8
+  - set: build-boost-STR-ancestry
+    value: 1
+  - set: build-boost-INT-ancestry
+    value: 1
+  - set: build-boost-WIS-ancestry
+    value: -1
+  - set: languages
+    value: "_{Common}, _{Gnoll}"
+
+  - at: '@ancestry'
+    replace:
+      - article:
+        title: "_{Gnoll}"
+        contents:
+          - flags:
+              - "_{Gnoll}"
+              - "_{Humanoid}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{25ft}"
+            
+          - paste: low-light-vision
+
+          - hr:
+            light: true
+
+          - zone: '@##:bite'
+            contents:
+              - paste: natural-weapon
+                params:
+                  name: "_{Bite}"
+                  icon: d6
+                  damage: "_{1d6}"
+                  type: "_{Piercing}"
+              - flags:
+                  - "_{Brawling}"
+                  - "_{Unarmed}"

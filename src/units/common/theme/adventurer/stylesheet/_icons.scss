@@ -11,6 +11,22 @@ $icon_size_action3: 2 * 1.2rem;
   background-image: url('{{{dataurl "images/icon-#{$icon}.svg"}}}');
 }
 
+@mixin icon-colourful($icon, $colour) {
+  .row--calc.row--colour_#{$colour} .field &, tr.tr--colour_#{$colour} .field &, .field.field--colour_#{$colour} & {
+    background-image: url('{{{dataurl-colourful "images/icon-#{$icon}.svg" "#{$colour}"}}}');
+  }
+}
+
+@mixin icon-colourful-all($icon) {
+  @include icon($icon);
+  @include icon-colourful($icon, 'STR');
+  @include icon-colourful($icon, 'DEX');
+  @include icon-colourful($icon, 'CON');
+  @include icon-colourful($icon, 'INT');
+  @include icon-colourful($icon, 'WIS');
+  @include icon-colourful($icon, 'CHA');
+}
+
 i.icon {
   &.icon_action {
     @include icon("action");
@@ -81,15 +97,19 @@ i.icon {
   }
   &.icon_armour {
     @include icon("armour");
+    @include icon-colourful("armour", "DEX");
   }
   &.icon_shield {
     @include icon("shield");
+    @include icon-colourful("shield", "DEX");
   }
   &.icon_shield-o {
     @include icon("shield-o");
+    @include icon-colourful("shield-o", "DEX");
   }
   &.icon_ac {
     @include icon("shield");
+    @include icon-colourful("shield", "DEX");
   }
   &.icon_tac {
     @include icon("tac");
@@ -107,9 +127,11 @@ i.icon {
   }
   &.icon_hp {
     @include icon("hp");
+    @include icon-colourful("hp", "CON");
   }
   &.icon_hp-o {
     @include icon("hp-o");
+    @include icon-colourful("hp-o", "CON");
   }
   &.icon_damage,
   &.icon_d6 {
@@ -139,6 +161,7 @@ i.icon {
   }
   &.icon_evil {
     @include icon("evil");
+    @include icon-colourful("evil", "CON");
   }
   &.icon_lawful {
     @include icon("lawful");
@@ -238,20 +261,25 @@ i.mark {
 i.icon_proficiency,
 i.icon--icon_proficiency,
 .icon.icon_proficiency-untrained {
-  background-image: url('{{{dataurl "images/icon-proficiency.svg"}}}');
+  @include icon-colourful-all('proficiency');
+  // background-image: url('{{{dataurl "images/icon-proficiency.svg"}}}');
 }
 
 .icon.icon_proficiency-trained, .field--control_proficiency .icon.icon_proficiency-trained {
-  background-image: url('{{{dataurl "images/icon-proficiency-trained.svg"}}}');
+  // background-image: url('{{{dataurl "images/icon-proficiency-trained.svg"}}}');
+  @include icon-colourful-all('proficiency-trained');
 }
 .icon.icon_proficiency-expert, .field--control_proficiency .icon.icon_proficiency-expert {
-  background-image: url('{{{dataurl "images/icon-proficiency-expert.svg"}}}');
+  // background-image: url('{{{dataurl "images/icon-proficiency-expert.svg"}}}');
+  @include icon-colourful-all('proficiency-expert');
 }
 .icon.icon_proficiency-master, .field--control_proficiency .icon.icon_proficiency-master {
-  background-image: url('{{{dataurl "images/icon-proficiency-master.svg"}}}');
+  // background-image: url('{{{dataurl "images/icon-proficiency-master.svg"}}}');
+  @include icon-colourful-all('proficiency-master');
 }
 .icon.icon_proficiency-legendary, .field--control_proficiency .icon.icon_proficiency-legendary {
-  background-image: url('{{{dataurl "images/icon-proficiency-legendary.svg"}}}');
+  // background-image: url('{{{dataurl "images/icon-proficiency-legendary.svg"}}}');
+  @include icon-colourful-all('proficiency-legendary');
 }
 
 .field--control_proficiency .field__control--control_icon {
