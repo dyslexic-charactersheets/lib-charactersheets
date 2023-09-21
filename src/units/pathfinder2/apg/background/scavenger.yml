@@ -11,25 +11,17 @@ inc:
   - set: char-background
     value: "_{Scavenger}"
 
-  - set: -proficiency
-    value: trained
-
   - at: '@background'
     replace:
       - article: char-background
         title: "_{Scavenger}"
         contents:
+          # Skills:  | 
 
-          - p: "_{Trained in <City> Lore}"
-            icon: proficiency-trained
-            blk: false
-
-
-          - p: |
-              You've made a living sorting through the things society throws away. You might have scavenged simply to survive, or plied a trade as a ragpicker, dung carter, or the like. While you've left that life behind, you still keep one eye on the ground out of habit.
-            size: small
-            blk: false
-
+          - field: char-background-details
+            width: stretch
+            repeat: 3
+            reduce: 1
 
 
   - at: '@background-skill-feat'
@@ -37,14 +29,4 @@ inc:
       - paste: feat/forager
         params:
           level: 1
-
-
-  - at: '@lore-skills'
-    add:
-
-      - skill: <-city->-lore
-        name: "_{<City> Lore}"
-        ability: "_{INT}"
-        abilityref: INT
-        acp: false
 

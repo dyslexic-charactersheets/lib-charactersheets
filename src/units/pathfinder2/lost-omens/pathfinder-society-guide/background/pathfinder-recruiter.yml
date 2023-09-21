@@ -11,25 +11,17 @@ inc:
   - set: char-background
     value: "_{Pathfinder Recruiter}"
 
-  - set: -proficiency
-    value: trained
-
   - at: '@background'
     replace:
       - article: char-background
         title: "_{Pathfinder Recruiter}"
         contents:
+          # Skills:  | 
 
-          - p: "_{Trained in <City> Lore}"
-            icon: proficiency-trained
-            blk: false
-
-
-          - p: |
-              The Pathfinder Society's always on the lookout for talent, but that talent rarely just stumbles into the Grand Lodge. Whether you're professionally trained to encourage new recruits or the Society's own scouts identified your potential and raised you from childhood, you're committed to expanding the Society's roster.
-            size: small
-            blk: false
-
+          - field: char-background-details
+            width: stretch
+            repeat: 3
+            reduce: 1
 
 
   - at: '@background-skill-feat'
@@ -37,14 +29,4 @@ inc:
       - paste: feat/group-impression
         params:
           level: 1
-
-
-  - at: '@lore-skills'
-    add:
-
-      - skill: <-city->-lore
-        name: "_{<City> Lore}"
-        ability: "_{INT}"
-        abilityref: INT
-        acp: false
 

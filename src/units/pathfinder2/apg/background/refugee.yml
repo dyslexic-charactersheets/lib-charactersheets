@@ -11,25 +11,17 @@ inc:
   - set: char-background
     value: "_{Refugee (APG)}"
 
-  - set: -proficiency
-    value: trained
-
   - at: '@background'
     replace:
       - article: char-background
         title: "_{Refugee (APG)}"
         contents:
+          # Skills:  | 
 
-          - p: "_{Trained in <City> Lore}"
-            icon: proficiency-trained
-            blk: false
-
-
-          - p: |
-              You come from a land very distant from the one you now find yourself in, driven by war, plague, or simply in the pursuit of opportunity. Regardless of your origin or the reason you left your home, you find yourself an outsider in this new land. Adventuring is a way to support yourself while offering hope to those who need it most.
-            size: small
-            blk: false
-
+          - field: char-background-details
+            width: stretch
+            repeat: 3
+            reduce: 1
 
 
   - at: '@background-skill-feat'
@@ -37,14 +29,4 @@ inc:
       - paste: feat/streetwise
         params:
           level: 1
-
-
-  - at: '@lore-skills'
-    add:
-
-      - skill: <-city->-lore
-        name: "_{<City> Lore}"
-        ability: "_{INT}"
-        abilityref: INT
-        acp: false
 

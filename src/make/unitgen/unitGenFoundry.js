@@ -100,12 +100,12 @@ function capital(str) {
   return str.substring(0, 1).toUpperCase()+str.substring(1);
 }
 
-function and(list, list2 = []) {
+function and(list = [], list2 = []) {
   let items = list.concat(list2);
+  items = items.filter((item) => item !== undefined && item !== null && item != "");
   if (items.length == 0) {
     return "";
   }
-  items = items.filter((item) => item != "");
   if (items.length == 1) {
     return items[0];
   }
@@ -185,10 +185,10 @@ function generateUnits() {
         let skillChoice = '';
         let skills = json.system.trainedSkills.value.map((skill) => {
           return inputYaml(skillNames[skill.value]);
-        });
+        }).filter((skill) => skill !== undefined && skill !== null && skill != "");
         let description = makeDescription(json.system.description.value);
         let bookref = '';
-        let loreskills = inputYaml(json.system.trainedLore).split(/, */).filter((lore) => !lore.match(/<.*?or.*?>/));
+        let loreskills = inputYaml(json.system.trainedLore).split(/, */).filter((lore) => lore !== undefined && lore !== null && lore != "" && !lore.match(/<.*>/)).map((lore) => lore.match(/Lore$/) ? lore : lore+" Lore");
 
         createBackgroundUnit(name, description, book, bookref, feat, group, skillChoice, skills, loreskills, rarity);
       });
@@ -240,6 +240,7 @@ ${skillChoice ? `` : `${skills.map((skill) => `
       - article: char-background
         title: "_{${name}}"
         contents:
+          # Skills: ${skills} | ${loreskills}
 ${(skills.length > 0 || loreskills.length > 0) ? `${(skillChoice) ? `
           - layout: indent-l
             contents:
@@ -260,17 +261,10 @@ ${skills.map((skill) => `
             icon: proficiency-trained
             blk: false
 `}` : ''}
-${(description != "") ? `
-          - p: |
-              ${indent(escapeYaml(description), 14)}
-            size: small
-            blk: false
-` : `
           - field: char-background-details
             width: stretch
             repeat: 3
             reduce: 1
-`}
 ${(bookref != "") ? `
           - paste: book-ref
             params:

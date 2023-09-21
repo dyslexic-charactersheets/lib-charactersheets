@@ -111,12 +111,17 @@ inc:
                                     width: stretch
                                     align: left
                                     value: "#{character-name}"
+                                    control: p
+                                    lines: 1
+                                    with-title: false
                                   - field: level
                                     legend: "_{Level}"
                                     border: circle
                                     # frame: left
                                     format: int
                                     size: huge
+                              - hr:
+                                light: true
                               - layout: alignment
                                 gutter: none
                                 contents:
@@ -517,6 +522,8 @@ inc:
                                     frame: none
                                     width: stretch
                                     merge-bottom: true
+                                else:
+                                  - span:
                           - field: "#{skill}-bonus"
                             border: full
                             icon: bonus
@@ -1182,43 +1189,41 @@ inc:
                                             format: int
                                   - g:
                                     contents:
-                                      - action: reaction
+                                      - selectable: 'shield-block'
                                         contents:
                                           - p:
                                             title: "_{Shield Block}"
                                             content: "_{Deduct hardness, then apply remaining damage to both shield and yourself.}"
                                             optional: true
 
-                                          - selectable: 'shield-block'
-                                            contents:
-                                              - p: "_{Shield Block}"
-                                      
-                                      - row:
+                                      - action: reaction
                                         contents:
-                                          - spacer:
-                                          - field: shield-hardness
-                                            label: "_{Hardness}"
-                                            border: full
-                                            blk: true
-                                            width: large
-                                          - field: shield-hp
-                                            label: "_{Shield Hit Points}"
-                                            control: compound
-                                            border: multi
-                                            blk: true
-                                            width: gargantuan
-                                            parts:
-                                              - subid: total
-                                                ruby: "_{Total}"
+                                          - row:
+                                            contents:
+                                              - spacer:
+                                              - field: shield-hardness
+                                                label: "_{Hardness}"
                                                 border: full
-                                                suffix: "_{hp}"
-                                                format: int
-                                              - subid: current
-                                                ruby: "_{Current}"
-                                                border: full
-                                                temp: true
-                                                suffix: "_{hp}"
-                                                format: int
+                                                blk: true
+                                                width: large
+                                              - field: shield-hp
+                                                label: "_{Shield Hit Points}"
+                                                control: compound
+                                                border: multi
+                                                blk: true
+                                                width: gargantuan
+                                                parts:
+                                                  - subid: total
+                                                    ruby: "_{Total}"
+                                                    border: full
+                                                    suffix: "_{hp}"
+                                                    format: int
+                                                  - subid: current
+                                                    ruby: "_{Current}"
+                                                    border: full
+                                                    temp: true
+                                                    suffix: "_{hp}"
+                                                    format: int
 
                           - g:
                             contents:

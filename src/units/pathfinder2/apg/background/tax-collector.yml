@@ -11,25 +11,17 @@ inc:
   - set: char-background
     value: "_{Tax Collector}"
 
-  - set: -proficiency
-    value: trained
-
   - at: '@background'
     replace:
       - article: char-background
         title: "_{Tax Collector}"
         contents:
+          # Skills:  | 
 
-          - p: "_{Trained in <City> Lore}"
-            icon: proficiency-trained
-            blk: false
-
-
-          - p: |
-              Reviled but required, you were sent when taxes were due. Performing your job might have required travel and persuasion, or perhaps you were responsible for collecting taxes on trade. Either way, it sometimes meant dirty hands, and adventuring seemed the next logical step to you.
-            size: small
-            blk: false
-
+          - field: char-background-details
+            width: stretch
+            repeat: 3
+            reduce: 1
 
 
   - at: '@background-skill-feat'
@@ -37,14 +29,4 @@ inc:
       - paste: feat/quick-coercion
         params:
           level: 1
-
-
-  - at: '@lore-skills'
-    add:
-
-      - skill: <-city->-lore
-        name: "_{<City> Lore}"
-        ability: "_{INT}"
-        abilityref: INT
-        acp: false
 

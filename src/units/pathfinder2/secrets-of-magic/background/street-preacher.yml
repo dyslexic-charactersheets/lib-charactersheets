@@ -11,25 +11,17 @@ inc:
   - set: char-background
     value: "_{Street Preacher}"
 
-  - set: -proficiency
-    value: trained
-
   - at: '@background'
     replace:
       - article: char-background
         title: "_{Street Preacher}"
         contents:
+          # Skills:  | 
 
-          - p: "_{Trained in <Deity> Lore}"
-            icon: proficiency-trained
-            blk: false
-
-
-          - p: |
-              Forget the church orthodoxy and the stuffy cloisters-spreading the word of your god to the people is your calling. You've preached on the street corners and in public houses, to wanderers on the road and to captives in the stocks. Adventuring can take you across the world. What vocation could better serve to take your holy words to fresh ears?
-            size: small
-            blk: false
-
+          - field: char-background-details
+            width: stretch
+            repeat: 3
+            reduce: 1
 
 
   - at: '@background-skill-feat'
@@ -37,14 +29,4 @@ inc:
       - paste: feat/dubious-knowledge
         params:
           level: 1
-
-
-  - at: '@lore-skills'
-    add:
-
-      - skill: <-deity->-lore
-        name: "_{<Deity> Lore}"
-        ability: "_{INT}"
-        abilityref: INT
-        acp: false
 

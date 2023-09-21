@@ -1,0 +1,519 @@
+unit: class/rage-of-elements/kineticist
+in: class
+group: "_{Rage of Elements}"
+name: "_{Kineticist}"
+
+form:
+  - select: kineticist/element
+    name: "_{Elements}"
+    max: 6
+
+require:
+  - unit: weapon-spec/slow
+  - with: option/reference
+    unit: class/rage-of-elements/kineticist/reference
+
+inc:
+  - paste: prototype-class
+    params:
+      class: kineticist
+      class-name: "_{Kineticist}"
+      subclass: kineticist-elements
+      subclass-name: "_{Elements}"
+      hp: 8
+
+      skill: crafting
+
+      perception: trained
+      unarmoured: trained
+      light-armour: trained
+      medium-armour: trained
+
+      fortitude: expert
+      reflex: trained
+      will: expert
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        class-feat: true
+      - level: 1
+        gain: "_{Kinetic Gate}"
+      - levels: [ 5, 9, 13, 17 ]
+        gain: "_{Gate's Threshold}"
+      - levels: [ 1, 5, 9, 13, 17 ]
+        spell-num: [ 2, 1, 1, 1, 1 ]
+
+  - at: '@advancement-fields'
+    add:
+      - name: "_{Impulse}"
+        key: impulse
+        format: checkgrid
+        max: "#{spell-num}"
+        align: centre
+
+  # - at: '@saving-throws'
+  #   add:
+
+  - at: '@pages'
+    add:
+
+      - page: kineticist
+        name: "_{Kineticist}"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: kineticist
+                    optional: true
+                  - class-name: "_{Kineticist}"
+
+                  - section: "_{Kinetic Gate}"
+                    contents:
+                      - layout: 2e
+                        contents:
+                          - g:
+                            contents:
+                              - field: "##:kinetic-gate"
+                                value: single-gate
+                                control: radio
+                                frame: right
+                                label: "_{Single Gate}"
+                              - p: "_{Gain the element's Impulse Junction and two impulse feats}"
+
+                          - g:
+                            contents:
+                              - field: "##:kinetic-gate"
+                                value: dual-gate
+                                control: radio
+                                frame: right
+                                label: "_{Dual Gate}"
+                              - p: "_{Gain an impulse feat for each element}"
+                              - spacer:
+
+                      # - field: "##:kinetic-elements"
+                      #   width: stretch
+                      #   label: "_{Elements}"
+                      #   repeat: 2
+                      #   frame: annotation
+                      #   merge-bottom: true
+
+                  - section: "_{Kinetic Aura}"
+                    contents:
+                      - action:
+                        contents:
+                          - article:
+                            title: "_{Channel Elements}"
+                            contents:
+                              - p: "_{Summon your kinetic aura, and do a 1-action elemental blast or stance impulse.}"
+                              - p: "_{The aura allows you to use impulses.}"
+                              - p: "_{Your aura drops if you are knocked out, use an overflow impluse or dismiss it.}"
+
+                      - hr:
+                      
+                      - level: 19
+                        contents:
+                          - action: free
+                            contents:
+                              - p: "_{Channel Elements as a free action at the start of your turn.}"
+
+                  - section: "_{Impulses}"
+                    contents:
+                      - paste: class-dc
+                        params:
+                          id: kineticist-class-dc
+                          legend: "_{Kineticist\nClass DC}"
+
+                      - hr:
+                        light: true
+
+                      - calc:
+                        output:
+                          field: "##:counteract-level"
+                          legend: "_{Counteract Level}"
+                          eq: "ceil(%{level}/2)"
+                          width: large
+                        inputs:
+                          - ruby-round-up:
+                            contents:
+                              - field:
+                                ref: level
+                                label: "_{Level}"
+                              - span: "&divide; 2"
+
+                  - section: "_{Extract Element}"
+                    contents:
+                      - level: 3
+                        contents:
+                          - action:
+                            contents:
+                              - dl:
+                                  range: "_{30ft}"
+                                  target: "_{A creature matching one of your elements}"
+                              - calc:
+                                output:
+                                  field: "##:extract-element"
+                                  legend: "_{Damage}"
+                                  eq: "floor(%{level}/2)"
+                                  width: large
+                                  suffix: "_{d4}"
+                                  icon: d4
+                                inputs:
+                                  - field:
+                                    ref: level
+                                    label: "_{Level}"
+                                  - span: "&divide; 2"
+
+                          - paste: save
+                            params:
+                              critical_success: "_{No effect}"
+                              success: "_{Half damage, bypass immunity; -1 AC and saves}"
+                              failure: "_{Full damage}"
+                              critical_failure: "_{Double damage}"
+
+                  - section: "_{Gate's Threshold}"
+                    contents:
+                      - list:
+                        zebra: true
+                        hr: true
+                        light: true
+                        contents:
+                          - each:
+                            contents:
+                              - lv: 5
+                              - lv: 9
+                              - lv: 13
+                              - lv: 17
+                            template:
+                              - level: "#{lv}"
+                                contents:
+                                  - row:
+                                    contents:
+                                      - field: "##:gates-threshold/#{lv}"
+                                        value: expand-the-portal
+                                        control: radio
+                                        frame: right
+                                        label: "_{Expand the Portal}"
+                                      - field: "##:gates-threshold/#{lv}"
+                                        value: fork-the-path
+                                        control: radio
+                                        frame: right
+                                        label: "_{Fork the Path}"
+                                  - field: "##:gates-threshold/#{lv}/element"
+                                    width: stretch
+                                    frame: annotation
+                                    label: "_{Element}"
+                                  - field: "##:gates-threshold/#{lv}/impulse"
+                                    width: stretch
+                                    merge-bottom: true
+                                    frame: annotation
+                                    label: "_{Impulse}"
+
+                  - tail:
+                  # - spacer:
+
+              - g:
+                contents:
+                  - section: "_{Elements}"
+                    primary: true
+                    contents:
+                      - list: 
+                        columns: 3
+                        hr: true
+                        light: true
+                        contents:
+                          - sort: _element
+                            contents:
+                              - repeat: 6
+                                rows:
+                                  - code: air
+                                    name: "_{Air}"
+                                  - code: earth
+                                    name: "_{Earth}"
+                                  - code: fire
+                                    name: "_{Fire}"
+                                  - code: metal
+                                    name: "_{Metal}"
+                                  - code: water
+                                    name: "_{Water}"
+                                  - code: wood
+                                    name: "_{Wood}"
+                                contents:
+                                  - selectable: "##:element/#{code}/gate"
+                                    _element: "#{name}"
+                                    contents:
+                                      - layout: indent-l
+                                        contents:
+                                          - icon: "element-#{code}"
+                                          - g:
+                                            contents:
+                                              - h6: "#{name}"
+
+                  - section: "_{Composite Impulses}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - repeat: 3
+                            contents:
+                              - article: "##:composite-impulse/#{i}"
+                                action: template
+                                contents:
+                                  - row:
+                                    contents:
+                                      - spacer:
+                                      - sort: _element
+                                        contents:
+                                          - repeat: 6
+                                            rows:
+                                              - code: air
+                                                name: "_{Air}"
+                                              - code: earth
+                                                name: "_{Earth}"
+                                              - code: fire
+                                                name: "_{Fire}"
+                                              - code: metal
+                                                name: "_{Metal}"
+                                              - code: water
+                                                name: "_{Water}"
+                                              - code: wood
+                                                name: "_{Wood}"
+                                            contents:
+                                              - field: "##:composite-impulse/#{i}/element/#{code}"
+                                                control: checkbox
+                                                frame: none
+                                              - icon: "element-#{code}"
+                                                for: "##:composite-impulse/#{i}/element/#{code}"
+                                              - span: "&nbsp;&nbsp;"
+                                              
+                                  - field: "##:composite-impulse/#{i}/details"
+                                    control: p
+                                    with-title: false
+                                    lines: 4
+                  
+                  - paste: class-feats
+                    params:
+                      id: kineticist-feats
+                      title: "_{Kineticist Feats}"
+                      slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                      mark: kineticist
+                      lines: 3
+
+                  - tail:      
+
+  - copy: kineticist/element/reflow-section
+    params:
+      code: ""
+    contents:
+      - section: "_{Reflow Elements}"
+        mark: element-#{code}
+        contents:
+          - level: 11
+            contents:
+              - p: "_{At each day's preparations, temporarily replace one impulse feat.}"
+          - label: "_{Today's impulse feat}"
+            align: left
+          - article: "##:reflow-elements"
+            lines: 5
+            action: template
+
+          - hr:
+          - level: 17
+            contents:
+              - h5: "_{Double Reflow}"
+              - p: "_{At each day's preparations, temporarily replace two impulse feats.}"
+          - label: "_{Today's impulse feat}"
+            align: left
+          - article: "##:reflow-elements/2"
+            lines: 5
+            action: template
+
+  - copy: kineticist/element/impulses-section
+    params:
+      code: ""
+      name: ""
+      elemental-blast-die: ""
+      elemental-blast-type: ""
+      elemental-blast-range: ""
+    contents:
+      - section: "_{Impulses}"
+        mark: "element-#{code}"
+        contents:
+          - paste: kineticist/element/elemental-blast
+            params:
+              code: "#{code}"
+              name: "#{name}"
+              elemental-blast-die: "#{elemental-blast-die}"
+              elemental-blast-type: "#{elemental-blast-type}"
+              elemental-blast-range: "#{elemental-blast-range}"
+
+          - list:
+            hr: true
+            zebra: true
+            contents:
+
+              - repeat: 6
+                contents:
+                  - article: "kineticist/element/#{code}:impulse/#{i}"
+                    contents:
+                      - action: template
+                        contents:
+                          - layout: indent-r
+                            contents:
+                              - field: "kineticist/element/#{code}:impulse/#{i}/details"
+                                control: p
+                                with-title: false
+                                lines: 5
+                              - field: "kineticist/element/#{code}:impulse/#{i}/replaced"
+                                control: checkbox
+                                label: "_{Reflow}"
+
+  - copy: kineticist/element/elemental-blast
+    params:
+      code: ""
+      name: ""
+      elemental-blast-die: ""
+      elemental-blast-type: ""
+      elemental-blast-range: ""
+    contents:
+      - g:
+        contents:
+          - row:
+            contents:
+              - action:
+                contents:
+                  - h6: "_{Elemental Blast}"
+
+              - span: "&nbsp;"
+              - vr:
+              - span: "&nbsp;"
+
+              - action: 2
+                contents:
+                  - h6: "_{Elemental Blast}"
+                  
+              - spacer:
+              - field: "kineticist/element/#{code}:elemental-blast/2action/damage-bonus"
+                ref: "%{CON}"
+                prefix: "+"
+                frame: right
+                width: large
+                label: "_{Damage Bonus}"
+                border: full
+
+      - box:
+        colour: STR
+        contents:
+          - row:
+            contents:
+              - h6: "_{Elemental Blast} (_{melee})"
+          - hr:
+            light: true
+
+          - row:
+            contents:
+              - calc:
+                output:
+                  field: "kineticist/element/#{code}:elemental-blast/melee/attack-bonus"
+                  width: large
+                  label: "_{Attack Bonus}"
+                  icon: bonus
+                  attack: true
+                  eq: "%{STR}+%{kineticist/element/#{code}:elemental-blast/melee/proficiency-bonus}"
+                inputs:
+                  - field: "kineticist/element/#{code}:elemental-blast/melee/ability"
+                    ref: "STR"
+                    label: "_{STR}"
+                  - span: "+"
+                  - field: "kineticist/element/#{code}:elemental-blast/melee/proficiency"
+                    control: proficiency
+                    label: "_{Proficiency}"
+
+              - calc:
+                output:
+                  field: "kineticist/element/#{code}:elemental-blast/damage"
+                  width: huge
+                  label: "_{Damage}"
+                  icon: damage
+                  control: compound
+                  parts:
+                    - subid: "ndice"
+                      eq: "1+floor(%{level}/4)"
+                      suffix: "#{elemental-blast-die}"
+                    - subid: bonus
+                      eq: "%{STR}"
+                      prefix: "+"
+
+                inputs:
+                  - span: "1 + ("
+                  - ruby-round-down:
+                    contents:
+                      - field:
+                        ref: level
+                        label: "_{Level}"
+                      - span: "&divide; 4"
+                  - span: ") #{elemental-blast-die}"
+                  
+      - box:
+        colour: DEX
+        contents:
+          - row:
+            contents:
+              - h6: "_{Elemental Blast} (_{ranged})"
+
+              - spacer:
+
+              - field: "kineticist/element/#{code}:elemental-blast/range"
+                border: full
+                frame: none
+                control: speed
+                width: huge
+          - hr:
+            light: true
+
+          - row:
+            contents:
+              - calc:
+                output:
+                  field: "kineticist/element/#{code}:elemental-blast/ranged/attack-bonus"
+                  width: large
+                  label: "_{Attack Bonus}"
+                  icon: bonus
+                  attack: true
+                  eq: "%{DEX}+%{kineticist/element/#{code}:elemental-blast/ranged/proficiency-bonus}"
+                inputs:
+                  - field: "kineticist/element/#{code}:elemental-blast/ranged/ability"
+                    ref: "DEX"
+                    label: "_{DEX}"
+                  - span: "+"
+                  - field: "kineticist/element/#{code}:elemental-blast/ranged/proficiency"
+                    control: proficiency
+                    label: "_{Proficiency}"
+
+              - calc:
+                output:
+                  field: "kineticist/element/#{code}:elemental-blast/damage"
+                  width: huge
+                  label: "_{Damage}"
+                  icon: damage
+                  control: compound
+                  parts:
+                    - subid: "ndice"
+                      eq: "1+floor(%{level}/4)"
+                      suffix: "#{elemental-blast-die}"
+                    - subid: bonus
+                      prefix: "+"
+
+                inputs:
+                  - span: "1 + ("
+                  - ruby-round-down:
+                    contents:
+                      - field:
+                        ref: level
+                        label: "_{Level}"
+                      - span: "&divide; 4"
+                  - span: ") #{elemental-blast-die}"

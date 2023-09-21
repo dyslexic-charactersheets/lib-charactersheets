@@ -14,18 +14,18 @@ const systems = [
         code: "pathfinder2",
         name: "Pathfinder 2nd Edition"
     },
-    // {
-    //     code: "dnd5e",
-    //     name: "Dungeons & Dragons 5th Edition"
-    // }
+    {
+        code: "pathfinder2remaster",
+        name: "Pathfinder 2nd Edition Remaster"
+    },
     // {
     //     code: "starfinder",
     //     name: "Starfinder"
     // }
-    {
-        code: "core-fantasy",
-        name: "Tales of the Valiant"
-    },
+    // {
+    //     code: "core-fantasy",
+    //     name: "Tales of the Valiant"
+    // },
     {
       code: "premium",
       name: "Premium Options"

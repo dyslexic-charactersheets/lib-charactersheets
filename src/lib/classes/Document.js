@@ -797,6 +797,9 @@ export class Document {
     if (this.browserTarget) {
       htmlClasses.push("html--"+this.browserTarget);
     }
+    if (this.hasUnit("option/colourful")) {
+      htmlClasses.push("html--colourful");
+    }
 
     let isLoggedIn = this.isLoggedIn;
 

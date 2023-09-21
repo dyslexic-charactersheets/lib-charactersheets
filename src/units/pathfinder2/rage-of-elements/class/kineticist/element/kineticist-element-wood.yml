@@ -1,0 +1,112 @@
+unit: kineticist/element/wood
+in: kineticist/element
+group: "_{Rage of Elements}"
+name: "_{Wood}"
+
+inc:
+  - at: '@pages'
+    add:
+      - page: "element-wood"
+        name: "_{Wood}"
+        flex: true
+        order: 11
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: element-wood
+                    optional: true
+                  - h4: "_{Wood}"
+                    align: center
+
+                  - section: "_{Gate Junctions}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - selectable: "kineticist/element/wood:gate"
+                            contents:
+                              - h5: "_{Impulse Junction}"
+                              - p: "_{Before or after an air impulse, either Stride up to half your Speed or Step.}"
+                              - field: "##:impulse-junction/speed"
+                                label: "_{Speed}"
+                                border: full
+                                width: huge
+                                control: speed
+
+                          - selectable: "kineticist/element/wood:gate/critical-blast"
+                            contents:
+                              - h5: "_{Critical Blast}"
+                              - p: "_{When your Elemental Blast critically hits, the target takes persistent fire damage.}"
+                              - calc:
+                                output:
+                                  field: "##:critical-blast/damage"
+                                  legend: "_{Persistant}"
+                                  prefix: "_{1d6} +"
+                                  icon: d6
+                                  width: huge
+                                  eq: "%{##:critical-blast/item-bonus}"
+                                inputs:
+                                  - field: "##:critical-blast/item-bonus"
+                                    label: "_{Item Bonus}"
+
+                          - selectable: "kineticist/element/wood:gate/elemental-resistance"
+                            contents:
+                              - h5: "_{Elemental Resistance}"
+                              - p: "_{While your kinetic aura is active, you have resistance}"
+                              - h6: "_{Cold, Fire}"
+                              
+                          - selectable: "kineticist/element/wood:gate/aura-junction"
+                            contents:
+                              - h5: "_{Aura Junction}"
+                              - p: "_{While your kinetic aura is active, enemies get weakness to your fire impulses}"
+                              - calc:
+                                output:
+                                  field: "##:aura-junction/weakness"
+                                  legend: "_{Weakness}"
+                                  width: large
+                                  eq: "floor(%{level}/2)"
+                                inputs:
+                                  - field:
+                                    ref: level
+                                    label: "_{Level}"
+                                  - span: "&divide; 2"
+                              
+                          - selectable: "kineticist/element/wood:gate/skill-junction"
+                            contents:
+                              - h5: "_{Skill Junction}"
+                              - p: "_{Trained in Intimidation}"
+                                icon: proficiency-trained
+                              - row:
+                                contents:
+                                  - h6: "_{Intimidation}"
+                                  - span: "+1"
+                                  - vr:
+                                  - level-marker: 10
+                                  - span: "+2"
+                                  - vr:
+                                  - level-marker: 17
+                                  - span: "+3"
+                              - p: "_{Bonus while your kinetic aura is active}"
+                              
+                  - paste: kineticist/element/reflow-section
+                    params:
+                      code: wood
+
+                  - tail:
+                  - spacer:
+              - g:
+                contents:
+                  - paste: kineticist/element/impulses-section
+                    params:
+                      code: "wood"
+                      name: "_{Wood}"
+                      elemental-blast-die: "_{d8}"
+                      elemental-blast-type: "_{bludgeoning or vitality}"
+                      elemental-blast-range: "30"
+
+                  - item:
+                  - tail:
+                  # - spacer:

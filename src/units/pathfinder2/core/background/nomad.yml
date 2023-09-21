@@ -11,25 +11,17 @@ inc:
   - set: char-background
     value: "_{Nomad}"
 
-  - set: -proficiency
-    value: trained
-
   - at: '@background'
     replace:
       - article: char-background
         title: "_{Nomad}"
         contents:
+          # Skills:  | 
 
-          - p: "_{Trained in <Terrain> Lore}"
-            icon: proficiency-trained
-            blk: false
-
-
-          - p: |
-              Traveling far and wide, you picked up basic tactics for surviving on the road and in unknown lands, getting by with few supplies and even fewer comforts. As an adventurer, you travel still, often into even more dangerous places.
-            size: small
-            blk: false
-
+          - field: char-background-details
+            width: stretch
+            repeat: 3
+            reduce: 1
 
 
   - at: '@background-skill-feat'
@@ -37,14 +29,4 @@ inc:
       - paste: feat/assurance
         params:
           level: 1
-
-
-  - at: '@lore-skills'
-    add:
-
-      - skill: <-terrain->-lore
-        name: "_{<Terrain> Lore}"
-        ability: "_{INT}"
-        abilityref: INT
-        acp: false
 

@@ -11,25 +11,17 @@ inc:
   - set: char-background
     value: "_{Scout}"
 
-  - set: -proficiency
-    value: trained
-
   - at: '@background'
     replace:
       - article: char-background
         title: "_{Scout}"
         contents:
+          # Skills:  | 
 
-          - p: "_{Trained in <Terrain> Lore}"
-            icon: proficiency-trained
-            blk: false
-
-
-          - p: |
-              You called the wilderness home as you found trails and guided travelers. Your wanderlust could have called you to the adventuring life, or perhaps you served as a scout for soldiers and found you liked battle.
-            size: small
-            blk: false
-
+          - field: char-background-details
+            width: stretch
+            repeat: 3
+            reduce: 1
 
 
   - at: '@background-skill-feat'
@@ -37,14 +29,4 @@ inc:
       - paste: feat/forager
         params:
           level: 1
-
-
-  - at: '@lore-skills'
-    add:
-
-      - skill: <-terrain->-lore
-        name: "_{<Terrain> Lore}"
-        ability: "_{INT}"
-        abilityref: INT
-        acp: false
 

@@ -11,25 +11,17 @@ inc:
   - set: char-background
     value: "_{Emissary}"
 
-  - set: -proficiency
-    value: trained
-
   - at: '@background'
     replace:
       - article: char-background
         title: "_{Emissary}"
         contents:
+          # Skills:  | 
 
-          - p: "_{Trained in <City> Lore}"
-            icon: proficiency-trained
-            blk: false
-
-
-          - p: |
-              As a diplomat or messenger, you traveled to lands far and wide. Communicating with new people and forming alliances were your stock and trade.
-            size: small
-            blk: false
-
+          - field: char-background-details
+            width: stretch
+            repeat: 3
+            reduce: 1
 
 
   - at: '@background-skill-feat'
@@ -37,14 +29,4 @@ inc:
       - paste: feat/multilingual
         params:
           level: 1
-
-
-  - at: '@lore-skills'
-    add:
-
-      - skill: <-city->-lore
-        name: "_{<City> Lore}"
-        ability: "_{INT}"
-        abilityref: INT
-        acp: false
 

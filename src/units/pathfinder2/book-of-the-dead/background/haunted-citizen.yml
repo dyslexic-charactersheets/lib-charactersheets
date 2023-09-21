@@ -11,25 +11,17 @@ inc:
   - set: char-background
     value: "_{Haunted Citizen}"
 
-  - set: -proficiency
-    value: trained
-
   - at: '@background'
     replace:
       - article: char-background
         title: "_{Haunted Citizen}"
         contents:
+          # Skills:  | 
 
-          - p: "_{Trained in  and undefined}"
-            icon: proficiency-trained
-            blk: false
-
-
-          - p: |
-              You grew up in a region where undead lurk everywhere. This could be a domain as small as a vampire's fief or as vast as the nation of Ustalav. As an ever-present concern, the undead greatly shaped your life. Living with fear became an everyday skill... as did pleading for your life.
-            size: small
-            blk: false
-
+          - field: char-background-details
+            width: stretch
+            repeat: 3
+            reduce: 1
 
 
   - at: '@background-skill-feat'
@@ -37,14 +29,4 @@ inc:
       - paste: feat/no-cause-for-alarm
         params:
           level: 1
-
-
-  - at: '@lore-skills'
-    add:
-
-      - skill: 
-        name: "_{}"
-        ability: "_{INT}"
-        abilityref: INT
-        acp: false
 

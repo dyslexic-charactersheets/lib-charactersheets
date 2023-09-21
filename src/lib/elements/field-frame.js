@@ -6,7 +6,7 @@ function defaultFrameRender(args, reg, doc) {
   const ident = args.control == 'radio' ? fieldRadioIdent(args.id, args.value) : fieldIdent(args.id);
   const labelcls = elementClass('label', null, args, ["rotate", "nowrap"], {"align": ""});
   const label = args.label ? `<label${labelcls}${ident.for}>${_e(args.label, doc)}</label>` : '';
-  const legend = args.legend ? `<legend>${_e(args.legend, doc)}</legend>` : '';
+  const legend = args.legend ? `<legend${ident.for}>${_e(args.legend, doc)}</legend>` : '';
 
   const framecls = elementClass('field', 'frame', args, ["merge-bottom"], {});
   return `<div${framecls}>${legend}${label}${fieldInner(args, reg, doc)}</div>`;
@@ -41,7 +41,7 @@ export let field_frame_right = {
   render(args, reg, doc) {
     const ident = (args.control == 'radio') ? fieldRadioIdent(args.id, args.value) : fieldIdent(args.id);
     const label = args.label ? `<label${ident.for}>${_e(args.label, doc)}</label>` : '';
-    const legend = args.legend ? `<legend>${_e(args.legend, doc)}</legend>` : '';
+    const legend = args.legend ? `<legend${ident.for}>${_e(args.legend, doc)}</legend>` : '';
 
     const framecls = elementClass('field', 'frame', args, ["merge-bottom"], {});
     return `<div${framecls}>${fieldInner(args, reg, doc)}${legend}${label}</div>`;

@@ -11,25 +11,17 @@ inc:
   - set: char-background
     value: "_{Bandit}"
 
-  - set: -proficiency
-    value: trained
-
   - at: '@background'
     replace:
       - article: char-background
         title: "_{Bandit}"
         contents:
+          # Skills:  | 
 
-          - p: "_{Trained in <Terrain> Lore}"
-            icon: proficiency-trained
-            blk: false
-
-
-          - p: |
-              Your past includes no small amount of rural banditry, robbing travelers on the road and scraping by. Whether your robbery was sanctioned by a local noble or you did so of your own accord, you eventually got caught up in the adventuring life. Now, adventure is your stock and trade, and years of camping and skirmishing have only helped.
-            size: small
-            blk: false
-
+          - field: char-background-details
+            width: stretch
+            repeat: 3
+            reduce: 1
 
 
   - at: '@background-skill-feat'
@@ -37,14 +29,4 @@ inc:
       - paste: feat/group-coercion
         params:
           level: 1
-
-
-  - at: '@lore-skills'
-    add:
-
-      - skill: <-terrain->-lore
-        name: "_{<Terrain> Lore}"
-        ability: "_{INT}"
-        abilityref: INT
-        acp: false
 
