@@ -107,7 +107,7 @@ function recalculateField(name) {
       knownValues[name] = newValue;
       setFieldValue(name, newValue);
     } catch (x) {
-      console.log("Error:", x);
+      console.log(`Error in field '${name}':`, x);
     }
   }
 }
@@ -308,6 +308,17 @@ function redoProficiency() {
     }
   }
 }
+
+
+// Hide values
+
+let showValuesToggle = document.getElementById('show-values');
+if (showValuesToggle != null) {
+  showValuesToggle.addEventListener('change', (evt) => {
+    document.body.classList.toggle('body--hide-values', !showValuesToggle.checked);
+  });
+}
+
 
 
 window.addEventListener('load', (event) => {

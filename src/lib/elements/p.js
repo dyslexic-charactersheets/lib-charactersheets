@@ -1,5 +1,5 @@
 import { interpolate } from '../util/objects';
-import { elementClass } from '../util/elements';
+import { elementID, elementClass } from '../util/elements';
 import { log, error } from '../log';
 import { __, _e, esc } from '../i18n';
 
@@ -7,6 +7,7 @@ export let p = {
   name: 'p',
   key: 'content',
   defaults: {
+    id: false,
     prose: false,
     title: '',
     flags: [],
@@ -20,6 +21,7 @@ export let p = {
     columns: 1
   },
   render(args, reg, doc) {
+    const id = elementID('p', args.id);
     const cls = elementClass('p', null, args, ['blk', 'nowrap', 'icon', 'optional'], { 'align': 'left', 'size': 'medium', 'colour': false });
 
     // let paras = args.content.split(/[\n\r]/);
@@ -52,6 +54,6 @@ export let p = {
     let title = (args.title != '') ? `<span class='p__title'>${_e(args.title, doc)}</span> ` : '';
 
     // log("p", "Content", content);
-    return `<p${cls}><span class='p__inner'>${icon}<span class='p__content'>${title}${_e(content, doc)}</span><span></p>`;
+    return `<p${id}${cls}><span class='p__inner'>${icon}<span class='p__content'>${title}${_e(content, doc)}</span><span></p>`;
   }
 }

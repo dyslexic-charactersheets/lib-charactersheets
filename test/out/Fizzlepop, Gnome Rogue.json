@@ -3977,7 +3977,7 @@
                                   "border": "full",
                                   "icon": "proficiency-trained",
                                   "ruby": "_{Level}\n+2",
-                                  "eq": "minmax(%{level},1,20)+2"
+                                  "eq": "req(['level'],minmax(%{level},1,20)+2)"
                                 },
                                 {
                                   "type": "field",
@@ -3986,7 +3986,7 @@
                                   "border": "full",
                                   "icon": "proficiency-expert",
                                   "ruby": "_{Level}\n+4",
-                                  "eq": "minmax(%{level},1,20)+4"
+                                  "eq": "req(['level'],minmax(%{level},1,20)+4)"
                                 },
                                 {
                                   "type": "field",
@@ -3995,7 +3995,7 @@
                                   "border": "full",
                                   "icon": "proficiency-master",
                                   "ruby": "_{Level}\n+6",
-                                  "eq": "minmax(%{level},1,20)+6"
+                                  "eq": "req(['level'],minmax(%{level},1,20)+6)"
                                 },
                                 {
                                   "type": "field",
@@ -4004,7 +4004,7 @@
                                   "border": "full",
                                   "icon": "proficiency-legendary",
                                   "ruby": "_{Level}\n+8",
-                                  "eq": "minmax(%{level},1,20)+8"
+                                  "eq": "req(['level'],minmax(%{level},1,20)+8)"
                                 }
                               ]
                             }
@@ -7353,11 +7353,14 @@
                                           "icon": "proficiency-expert"
                                         },
                                         {
-                                          "type": "field",
-                                          "id": "weapon-spec/expert",
-                                          "frame": "none",
-                                          "value": "+2",
-                                          "control": "value"
+                                          "type": "spacer"
+                                        },
+                                        {
+                                          "type": "span",
+                                          "content": "+2"
+                                        },
+                                        {
+                                          "type": "spacer"
                                         }
                                       ]
                                     },
@@ -7370,11 +7373,14 @@
                                           "icon": "proficiency-master"
                                         },
                                         {
-                                          "type": "field",
-                                          "id": "weapon-spec/master",
-                                          "frame": "none",
-                                          "value": "+3",
-                                          "control": "value"
+                                          "type": "spacer"
+                                        },
+                                        {
+                                          "type": "span",
+                                          "content": "+3"
+                                        },
+                                        {
+                                          "type": "spacer"
                                         }
                                       ]
                                     },
@@ -7387,11 +7393,14 @@
                                           "icon": "proficiency-legendary"
                                         },
                                         {
-                                          "type": "field",
-                                          "id": "weapon-spec/legendary",
-                                          "frame": "none",
-                                          "value": "+4",
-                                          "control": "value"
+                                          "type": "spacer"
+                                        },
+                                        {
+                                          "type": "span",
+                                          "content": "+4"
+                                        },
+                                        {
+                                          "type": "spacer"
                                         }
                                       ]
                                     }
@@ -7438,12 +7447,14 @@
                                           "icon": "proficiency-expert"
                                         },
                                         {
-                                          "type": "field",
-                                          "id": "weapon-spec/greater/expert",
-                                          "border": "none",
-                                          "frame": "none",
-                                          "value": "+4",
-                                          "control": "value"
+                                          "type": "spacer"
+                                        },
+                                        {
+                                          "type": "span",
+                                          "content": "+4"
+                                        },
+                                        {
+                                          "type": "spacer"
                                         }
                                       ]
                                     },
@@ -7456,12 +7467,14 @@
                                           "icon": "proficiency-master"
                                         },
                                         {
-                                          "type": "field",
-                                          "id": "weapon-spec/greater/master",
-                                          "border": "none",
-                                          "frame": "none",
-                                          "value": "+6",
-                                          "control": "value"
+                                          "type": "spacer"
+                                        },
+                                        {
+                                          "type": "span",
+                                          "content": "+6"
+                                        },
+                                        {
+                                          "type": "spacer"
                                         }
                                       ]
                                     },
@@ -7474,12 +7487,14 @@
                                           "icon": "proficiency-legendary"
                                         },
                                         {
-                                          "type": "field",
-                                          "id": "weapon-spec/greater/legendary",
-                                          "border": "none",
-                                          "frame": "none",
-                                          "value": "+8",
-                                          "control": "value"
+                                          "type": "spacer"
+                                        },
+                                        {
+                                          "type": "span",
+                                          "content": "+8"
+                                        },
+                                        {
+                                          "type": "spacer"
                                         }
                                       ]
                                     }
@@ -8509,7 +8524,7 @@
                             "icon": "hp",
                             "suffix": "_{hp}",
                             "width": "large",
-                            "eq": "%{hp-ancestry}+((%{hp-class}+%{CON}+%{hp-toughness})*%{level})+%{hp-misc}"
+                            "eq": "req(['level'],%{hp-ancestry}+((%{hp-class}+%{CON}+%{hp-toughness})*%{level})+%{hp-misc})"
                           },
                           "inputs": [
                             {
@@ -9166,21 +9181,36 @@
                             {
                               "type": "field",
                               "label": "",
-                              "misc": false,
-                              "legend": "",
-                              "colspan": 1,
-                              "rowspan": 1,
-                              "id": "fortitude-item-bonus"
-                            },
-                            {
-                              "type": "field",
-                              "label": "",
                               "misc": true,
                               "legend": "",
                               "colspan": 1,
                               "rowspan": 1,
-                              "id": "fortitude-misc",
+                              "id": "fortitude-item-bonus",
                               "format": "int"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "fortitude-upgrade-success",
+                              "control": "boost",
+                              "down": false,
+                              "frame": "none",
+                              "width": "tiny"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "fortitude-reduce-fail",
+                              "control": "boost",
+                              "down": false,
+                              "frame": "none",
+                              "width": "tiny"
                             }
                           ]
                         },
@@ -9244,21 +9274,36 @@
                             {
                               "type": "field",
                               "label": "",
-                              "misc": false,
-                              "legend": "",
-                              "colspan": 1,
-                              "rowspan": 1,
-                              "id": "reflex-item-bonus"
-                            },
-                            {
-                              "type": "field",
-                              "label": "",
                               "misc": true,
                               "legend": "",
                               "colspan": 1,
                               "rowspan": 1,
-                              "id": "reflex-misc",
+                              "id": "reflex-item-bonus",
                               "format": "int"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "reflex-upgrade-success",
+                              "control": "boost",
+                              "down": false,
+                              "frame": "none",
+                              "width": "tiny"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "reflex-reduce-fail",
+                              "control": "boost",
+                              "down": false,
+                              "frame": "none",
+                              "width": "tiny"
                             }
                           ]
                         },
@@ -9322,21 +9367,36 @@
                             {
                               "type": "field",
                               "label": "",
-                              "misc": false,
-                              "legend": "",
-                              "colspan": 1,
-                              "rowspan": 1,
-                              "id": "will-item-bonus"
-                            },
-                            {
-                              "type": "field",
-                              "label": "",
                               "misc": true,
                               "legend": "",
                               "colspan": 1,
                               "rowspan": 1,
-                              "id": "will-misc",
+                              "id": "will-item-bonus",
                               "format": "int"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "will-upgrade-success",
+                              "control": "boost",
+                              "down": false,
+                              "frame": "none",
+                              "width": "tiny"
+                            },
+                            {
+                              "type": "field",
+                              "label": "",
+                              "legend": "",
+                              "colspan": 1,
+                              "rowspan": 1,
+                              "id": "will-reduce-fail",
+                              "control": "boost",
+                              "down": false,
+                              "frame": "none",
+                              "width": "tiny"
                             }
                           ]
                         }
@@ -9372,11 +9432,6 @@
                           "type": "label",
                           "label": "_{Item}",
                           "misc": false
-                        },
-                        {
-                          "type": "label",
-                          "label": "_{Misc}",
-                          "misc": false
                         }
                       ],
                       "_direct": true
@@ -9385,6 +9440,48 @@
                       "type": "p",
                       "content": "_{Save DC = 10 + Save Bonus}",
                       "optional": true
+                    },
+                    {
+                      "type": "layout",
+                      "layout": "indent-rw",
+                      "contents": [
+                        {
+                          "type": "p",
+                          "content": "_{When you roll a success, it becomes critical success}",
+                          "id": "save-upgrade-success",
+                          "icon": "save-crit-succeed",
+                          "title": "_{Upgrade success}"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "layout",
+                      "layout": "indent-r",
+                      "contents": [
+                        {
+                          "type": "p",
+                          "content": "_{When you roll a critical failure, it becomes failure}",
+                          "id": "save-reduce-fail",
+                          "icon": "save-fail",
+                          "title": "_{Reduce failure}"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "arrow",
+                      "direction": "right-up",
+                      "from": "p-save-upgrade-success",
+                      "to": "field-will-upgrade-success"
+                    },
+                    {
+                      "type": "arrow",
+                      "direction": "right-up",
+                      "from": "p-save-reduce-fail",
+                      "to": "field-will-reduce-fail"
+                    },
+                    {
+                      "type": "hr",
+                      "light": true
                     },
                     {
                       "type": "layout",
@@ -9485,108 +9582,15 @@
                       "id": "saving-throws-conditional-1",
                       "frame": "none",
                       "align": "left",
+                      "width": "stretch"
+                    },
+                    {
+                      "type": "field",
+                      "id": "saving-throws-conditional-2",
+                      "frame": "none",
+                      "align": "left",
                       "width": "stretch",
                       "merge-bottom": true
-                    },
-                    {
-                      "type": "hr"
-                    },
-                    {
-                      "type": "h5",
-                      "title": "_{Effects}"
-                    },
-                    {
-                      "type": "list",
-                      "hr": true,
-                      "zebra": true,
-                      "contents": [
-                        {
-                          "type": "g",
-                          "contents": [
-                            {
-                              "type": "row",
-                              "layout": null,
-                              "contents": [
-                                {
-                                  "type": "field",
-                                  "id": "effect-1",
-                                  "control": "progression",
-                                  "frame": "none",
-                                  "max": 3
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "effect-1",
-                                  "width": "stretch",
-                                  "frame": "none",
-                                  "merge-bottom": true
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "effect-1-duration",
-                                  "frame": "none",
-                                  "underlay": "#",
-                                  "affix": "_{rds}",
-                                  "width": "small",
-                                  "merge-bottom": true,
-                                  "format": "int"
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "effect-1-rounds",
-                                  "control": "checkgrid",
-                                  "frame": "none",
-                                  "max": 6,
-                                  "depth": 2
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "g",
-                          "contents": [
-                            {
-                              "type": "row",
-                              "layout": null,
-                              "contents": [
-                                {
-                                  "type": "field",
-                                  "id": "effect-2",
-                                  "control": "progression",
-                                  "frame": "none",
-                                  "max": 3
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "effect-2",
-                                  "width": "stretch",
-                                  "frame": "none",
-                                  "merge-bottom": true
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "effect-2-duration",
-                                  "frame": "none",
-                                  "underlay": "#",
-                                  "affix": "_{rds}",
-                                  "width": "small",
-                                  "merge-bottom": true,
-                                  "format": "int"
-                                },
-                                {
-                                  "type": "field",
-                                  "id": "effect-2-rounds",
-                                  "control": "checkgrid",
-                                  "frame": "none",
-                                  "max": 6,
-                                  "depth": 2
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      ]
                     }
                   ]
                 },

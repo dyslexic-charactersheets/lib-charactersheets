@@ -88,6 +88,10 @@ window.addEventListener('load', () => {
   // trigger on any change event
   setTimeout(function () {
     for (var input of document.getElementsByTagName("input")) {
+      switch (input.id) {
+        case 'show-values':
+          return;
+      }
       input.addEventListener('change', documentChanged);
     }
   }, 1);

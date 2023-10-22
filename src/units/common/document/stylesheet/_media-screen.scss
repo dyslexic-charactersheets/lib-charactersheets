@@ -3,6 +3,10 @@ $page_height: 27cm;
 
 $colour_screen_bg: #e0e0e0;
 $colour_screen_bg2: #c0c0c0;
+$colour_screen_bg3: #a0a0a0;
+
+$colour_screen_toggle_switch: #e06060;
+$colour_screen_toggle_switch_checked: #6060e0;
 
 $colour_screen_print_button_hi: #3030e0;
 $colour_screen_print_button_lo: #1c1ccc;
@@ -15,6 +19,10 @@ body {
   background: $colour_screen_bg;
   background: linear-gradient(to right, $colour_screen_bg2 0%, $colour_screen_bg 50%, $colour_screen_bg2 100%);
   padding-bottom: 2cm;
+  
+  @media (prefers-color-scheme: dark) {
+    background: linear-gradient(to right, $colour_screen_bg3 0%, $colour_screen_bg2 50%, $colour_screen_bg3 100%);
+  }
 }
 
 .page {
@@ -52,16 +60,16 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: center;
-
-  #left-buttons {
+  
+  #screen-buttons__left,
+  #screen-buttons__right {
     position: absolute;
-    top: 0.52cm;
-    left: 0.52cm;
-    text-align: left;
+    top: 0.5cm;
+    bottom: 0.5cm;
 
     display: flex;
     flex-direction: row;
-    justify-items: center;
+    align-items: center;
 
     button {
       margin-right: 0.5cm;
@@ -70,6 +78,83 @@ body {
       color: black;
       span {
         color: black;
+      }
+    }
+  
+    label {
+      font-size: 1.1rem;
+      color: black;
+      @media (prefers-color-scheme: dark) {
+        color: white;
+      }
+    }
+
+    // input[type=search] {
+    //   font-size: 1.2rem;
+    //   color: black;
+
+    //   padding: 0.3rem 0.7rem;
+    //   border: 0 none;
+    //   border-radius: 2rem;
+    // }
+  }
+
+  #screen-buttons__left {
+    left: 0.52cm;
+    justify-content: flex-start;
+  }
+
+  #screen-buttons__right {
+    right: 0.52cm;
+    justify-content: flex-end;
+  }
+
+  .toggle {
+    $height: 1.6rem;
+    $width: 2.8rem;
+    $gap: 0.2rem;
+    $puck: $height - $gap * 2;
+
+    input[type=checkbox] {
+      display: none;
+    }
+
+    .toggle-switch {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0 0.6rem;
+
+      position: relative;
+      background: $colour_screen_toggle_switch;
+      border-radius: 1rem;
+      // border: 0.1rem solid white;
+      height: $height;
+      width: $width;
+      box-shadow: inset 0 $gap/2 $gap rgba(0, 0, 0, 0.4);
+
+      &:after {
+        content: "";
+        display: block;
+        position: absolute;
+
+        height: $puck;
+        width: $puck;
+        border-radius: 1rem;
+        top: $gap;
+        left: $gap;
+        background: white;
+        box-shadow: 0 $gap/2 $gap rgba(0, 0, 0, 0.4);
+
+
+        transition: left 0.3s ease-in-out;
+      }
+    }
+
+    input[type=checkbox]:checked + .toggle-switch {
+      background: $colour_screen_toggle_switch_checked;
+
+      &:after {
+        left: $width - $puck - $gap;
       }
     }
   }

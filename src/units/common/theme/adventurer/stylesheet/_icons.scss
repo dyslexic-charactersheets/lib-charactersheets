@@ -7,26 +7,40 @@
 $icon_size_action2: 1.5 * 1.2rem;
 $icon_size_action3: 2 * 1.2rem;
 
-@mixin icon($icon) {
+@mixin icon($icon, $no-values: false) {
   background-image: url('{{{dataurl "images/icon-#{$icon}.svg"}}}');
+
+  @if $no-values {
+    body.body--hide-values & {
+      background-image: url('{{{dataurl "images/icon-#{$icon}.svg"}}}') !important;
+    }
+  }
 }
 
-@mixin icon-colourful($icon, $colour) {
+@mixin icon-colourful($icon, $colour, $no-values: false) {
   html.html--colourful .row--calc.row--colour_#{$colour} .field &,
   html.html--colourful tr.tr--colour_#{$colour} .field &,
   html.html--colourful .field.field--colour_#{$colour} & {
     background-image: url('{{{dataurl-colourful "images/icon-#{$icon}.svg" "#{$colour}"}}}');
   }
+
+  @if $no-values {
+    html.html--colourful body.body--hide-values .row--calc.row--colour_#{$colour} .field &,
+    html.html--colourful body.body--hide-values tr.tr--colour_#{$colour} .field &,
+    html.html--colourful body.body--hide-values .field.field--colour_#{$colour} & {
+      background-image: url('{{{dataurl-colourful "images/icon-#{$icon}.svg" "#{$colour}"}}}') !important;
+    }
+  }
 }
 
-@mixin icon-colourful-all($icon) {
-  @include icon($icon);
-  @include icon-colourful($icon, 'STR');
-  @include icon-colourful($icon, 'DEX');
-  @include icon-colourful($icon, 'CON');
-  @include icon-colourful($icon, 'INT');
-  @include icon-colourful($icon, 'WIS');
-  @include icon-colourful($icon, 'CHA');
+@mixin icon-colourful-all($icon, $no-values: false) {
+  @include icon($icon, $no-values);
+  @include icon-colourful($icon, 'STR', $no-values);
+  @include icon-colourful($icon, 'DEX', $no-values);
+  @include icon-colourful($icon, 'CON', $no-values);
+  @include icon-colourful($icon, 'INT', $no-values);
+  @include icon-colourful($icon, 'WIS', $no-values);
+  @include icon-colourful($icon, 'CHA', $no-values);
 }
 
 i.icon {
@@ -199,6 +213,13 @@ i.icon {
   &.icon_runes-3, &.icon_counter-3 {
     @include icon("runes-3");
   }
+  body.body--hide-values & {
+    &.icon_runes-1, &.icon_counter-1, 
+    &.icon_runes-2, &.icon_counter-2,
+    &.icon_runes-3, &.icon_counter-3 {
+      @include icon("runes");
+    }
+  }
 
   &.icon_tick {
     @include icon("tick");
@@ -263,7 +284,7 @@ i.mark {
 i.icon_proficiency,
 i.icon--icon_proficiency,
 .icon.icon_proficiency-untrained {
-  @include icon-colourful-all('proficiency');
+  @include icon-colourful-all('proficiency', true);
   // background-image: url('{{{dataurl "images/icon-proficiency.svg"}}}');
 }
 

@@ -256,25 +256,25 @@ inc:
                                     border: full
                                     icon: proficiency-trained
                                     ruby: "_{Level}\n+2"
-                                    eq: "minmax(%{level},1,20)+2"
+                                    eq: "req(['level'],minmax(%{level},1,20)+2)"
                                   - field: proficiency-expert
                                     label: "_{Expert}"
                                     border: full
                                     icon: proficiency-expert
                                     ruby: "_{Level}\n+4"
-                                    eq: "minmax(%{level},1,20)+4"
+                                    eq: "req(['level'],minmax(%{level},1,20)+4)"
                                   - field: proficiency-master
                                     label: "_{Master}"
                                     border: full
                                     icon: proficiency-master
                                     ruby: "_{Level}\n+6"
-                                    eq: "minmax(%{level},1,20)+6"
+                                    eq: "req(['level'],minmax(%{level},1,20)+6)"
                                   - field: proficiency-legendary
                                     label: "_{Legendary}"
                                     border: full
                                     icon: proficiency-legendary
                                     ruby: "_{Level}\n+8"
-                                    eq: "minmax(%{level},1,20)+8"
+                                    eq: "req(['level'],minmax(%{level},1,20)+8)"
                   - tail:
 
               - g:
@@ -995,7 +995,7 @@ inc:
                               icon: hp
                               suffix: "_{hp}"
                               width: large
-                              eq: '%{hp-ancestry}+((%{hp-class}+%{CON}+%{hp-toughness})*%{level})+%{hp-misc}'
+                              eq: "req(['level'],%{hp-ancestry}+((%{hp-class}+%{CON}+%{hp-toughness})*%{level})+%{hp-misc})"
                             inputs:
                               - field: hp-ancestry
                                 label: "_{Ancestry}"
@@ -1346,7 +1346,7 @@ inc:
                           - "_{Ability Modifier}"
                           - "_{Proficiency}"
                           - "_{Item}"
-                          - "_{Misc}"
+                          # - "_{Misc}"
                         rows:
                           - save: fortitude
                             legend: "_{Fortitude}"
@@ -1384,13 +1384,52 @@ inc:
                               - field: "#{save}-proficiency"
                                 control: proficiency
                               - field: "#{save}-item-bonus"
-                              - field: "#{save}-misc"
-                                misc: true
                                 format: int
+                                misc: true
+                              # - field: "#{save}-misc"
+                              #   misc: true
+                              #   format: int
+                              - field: "#{save}-upgrade-success"
+                                control: boost
+                                down: false
+                                frame: none
+                                width: tiny
+                              - field: "#{save}-reduce-fail"
+                                control: boost
+                                down: false
+                                frame: none
+                                width: tiny
+
                       - p: "_{Save DC = 10 + Save Bonus}"
                         optional: true
+
+                      - layout: indent-rw
+                        contents:
+                          - p: 
+                            id: save-upgrade-success
+                            icon: save-crit-succeed
+                            title: "_{Upgrade success}"
+                            content: "_{When you roll a success, it becomes critical success}"
+                      - layout: indent-r
+                        contents:
+                          - p:
+                            id: save-reduce-fail
+                            icon: save-fail
+                            title: "_{Reduce failure}"
+                            content: "_{When you roll a critical failure, it becomes failure}"
+
+                      - arrow: right-up
+                        from: p-save-upgrade-success
+                        to: field-will-upgrade-success
+                      - arrow: right-up
+                        from: p-save-reduce-fail
+                        to: field-will-reduce-fail
+
+                      - hr:
+                        light: true
+
                       - slots:
-                        min: 5
+                        min: 6
                         reduce: 1
                         merge-bottom: true
                         contents:
@@ -1401,39 +1440,39 @@ inc:
                             align: left
                             width: stretch
 
-                      - hr:
-                      - h5: "_{Effects}"
-                      - list:
-                        hr: true
-                        zebra: true
-                        contents:
-                          - repeat: 2
-                            reduce: 1
-                            contents:
-                              - g:
-                                contents:
-                                  - row:
-                                    contents:
-                                      - field: effect-#{i}
-                                        control: progression
-                                        frame: none
-                                        max: 3
-                                      - field: effect-#{i}
-                                        width: stretch
-                                        frame: none
-                                        merge-bottom: true
-                                      - field: effect-#{i}-duration
-                                        frame: none
-                                        underlay: "#"
-                                        affix: "_{rds}"
-                                        width: small
-                                        merge-bottom: true
-                                        format: int
-                                      - field: effect-#{i}-rounds
-                                        control: checkgrid
-                                        frame: none
-                                        max: 6
-                                        depth: 2
+                      # - hr:
+                      # - h5: "_{Effects}"
+                      # - list:
+                      #   hr: true
+                      #   zebra: true
+                      #   contents:
+                      #     - repeat: 2
+                      #       reduce: 1
+                      #       contents:
+                      #         - g:
+                      #           contents:
+                      #             - row:
+                      #               contents:
+                      #                 - field: effect-#{i}
+                      #                   control: progression
+                      #                   frame: none
+                      #                   max: 3
+                      #                 - field: effect-#{i}
+                      #                   width: stretch
+                      #                   frame: none
+                      #                   merge-bottom: true
+                      #                 - field: effect-#{i}-duration
+                      #                   frame: none
+                      #                   underlay: "#"
+                      #                   affix: "_{rds}"
+                      #                   width: small
+                      #                   merge-bottom: true
+                      #                   format: int
+                      #                 - field: effect-#{i}-rounds
+                      #                   control: checkgrid
+                      #                   frame: none
+                      #                   max: 6
+                      #                   depth: 2
 
                   - tail:
 

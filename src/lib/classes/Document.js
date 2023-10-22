@@ -802,6 +802,7 @@ export class Document {
     }
 
     let isLoggedIn = this.isLoggedIn;
+    let showSearch = this.hasUnit('data/search');
 
     // the actual content
     let mainContent = registry.render(this.doc.contents, this);
@@ -932,9 +933,29 @@ ${mainContent}
 <p>If printing on Safari, please deselect "Print headers and footers".</p>
 </div>
 <nav id='screen-buttons'>
+${isLoggedIn ? `
+<div id='screen-buttons__left'>
+<label for='show-values' class='toggle'>
+Hide values
+<input type='checkbox' id='show-values' checked>
+<span class='toggle-switch'></span>
+Show values
+</label>
+</div>
+` : ''}
 <button id='button--print' onclick="window.print();return false;"><i></i> ${__('Print')}</button>
 ${isLoggedIn ? `<button id='button--save' class="btn button--disabled"><i></i> ${__('Save')}</button>` : ''}
-
+${(isLoggedIn && showSearch) ? `
+<div id='screen-buttons__right'>
+<form id="search-form">
+<label id="search-form__bar" for="search-form__input">
+<i class="icon icon_search search-form__icon"></i>
+<input id="search-form__input">
+<kbd>/</kbd>
+</div>
+</form>
+</div>
+` : ''}
 </nav>
 
 ${controlMenus}

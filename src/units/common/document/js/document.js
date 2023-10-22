@@ -83,30 +83,118 @@ for (let arrowElem of document.getElementsByClassName('arrow')) {
 
     let direction = arrowElem.dataset.direction;
     let isVertical = direction == 'up' || direction == 'down';
-    arrowElem.classList.add(isVertical ? 'arrow--align_vertical' : 'arrow--align_horizontal');
+    let isHorizontal = direction == 'left' || direction == 'right';
+    if (isVertical) {
+      arrowElem.classList.add('arrow--align_vertical');
+    } else if (isHorizontal) {
+      arrowElem.classList.add('arrow--align_horizontal');
+    }
 
     // find the positions of the start and end points
-    let fromContainerBox = (from.offsetParent == null ? pageContainerBox : from.offsetParent.getBoundingClientRect());
-    let toContainerBox = (to.offsetParent == null ? pageContainerBox : to.offsetParent.getBoundingClientRect());
-    let fromPoint = { x: from.offsetLeft + (fromContainerBox.left - pageContainerBox.left), y: from.offsetTop + (fromContainerBox.top - pageContainerBox.top) };
-    let toPoint = { x: to.offsetLeft + (toContainerBox.left - pageContainerBox.left), y: to.offsetTop + (toContainerBox.top - pageContainerBox.top) };
+    // let fromContainerBox = (from.offsetParent == null ? pageContainerBox : from.offsetParent.getBoundingClientRect());
+    // let toContainerBox = (to.offsetParent == null ? pageContainerBox : to.offsetParent.getBoundingClientRect());
+    // let fromPoint = { x: from.offsetLeft + (fromContainerBox.left - pageContainerBox.left), y: from.offsetTop + (fromContainerBox.top - pageContainerBox.top) };
+    // let toPoint = { x: to.offsetLeft + (toContainerBox.left - pageContainerBox.left), y: to.offsetTop + (toContainerBox.top - pageContainerBox.top) };
 
+    // switch (direction) {
+    //   case 'up':
+    //     fromPoint = { x: fromPoint.x + from.offsetWidth / 2, y: fromPoint.y };
+    //     toPoint = { x: toPoint.x + to.offsetWidth / 2, y: toPoint.y + to.offsetHeight };
+    //     break;
+    //   case 'down':
+    //     fromPoint = { x: fromPoint.x + from.offsetWidth / 2, y: fromPoint.y + from.offsetHeight };
+    //     toPoint = { x: toPoint.x + to.offsetLeft / 2, y: toPoint.y };
+    //     break;
+    //   case 'left':
+    //     fromPoint ={ x: fromPoint.x, y: fromPoint.y + from.offsetHeight / 2 };
+    //     toPoint = { x: toPoint.x + to.offsetWidth, y: toPoint.y + to.offsetHeight / 2 };
+    //     break;
+    //   case 'right':
+    //     fromPoint = { x: fromPoint.x + from.offsetWidth, y: fromPoint.y + from.offsetHeight / 2 };
+    //     toPoint = { x: toPoint.x, y: toPoint.y + to.offsetHeight / 2 };
+    //     break;
+    // }
+
+    
+    function left(elem) {
+      let outerBox = (elem.offsetParent == null ? pageContainerBox : elem.offsetParent.getBoundingClientRect());
+      let x = elem.offsetLeft + (outerBox.left - pageContainerBox.left);
+      let y = elem.offsetTop + (outerBox.top - pageContainerBox.top);
+      return { x: x, y: y + elem.offsetHeight / 2 };
+    }
+
+    function right(elem) {
+      let outerBox = (elem.offsetParent == null ? pageContainerBox : elem.offsetParent.getBoundingClientRect());
+      let x = elem.offsetLeft + (outerBox.left - pageContainerBox.left);
+      let y = elem.offsetTop + (outerBox.top - pageContainerBox.top);
+      return { x: x + elem.offsetWidth, y: y + elem.offsetHeight / 2 };
+    }
+
+    function top(elem) {
+      let outerBox = (elem.offsetParent == null ? pageContainerBox : elem.offsetParent.getBoundingClientRect());
+      let x = elem.offsetLeft + (outerBox.left - pageContainerBox.left);
+      let y = elem.offsetTop + (outerBox.top - pageContainerBox.top);
+      return { x: x + elem.offsetWidth / 2, y: box.y };
+    }
+
+    function bottom(elem) {
+      let outerBox = (elem.offsetParent == null ? pageContainerBox : elem.offsetParent.getBoundingClientRect());
+      let x = elem.offsetLeft + (outerBox.left - pageContainerBox.left);
+      let y = elem.offsetTop + (outerBox.top - pageContainerBox.top);
+      return { x: x + elem.offsetWidth / 2, y: y + elem.offsetHeight };
+    }
+
+    let fromPoint;
     switch (direction) {
       case 'up':
-        fromPoint = { x: fromPoint.x + from.offsetWidth / 2, y: fromPoint.y };
-        toPoint = { x: toPoint.x + to.offsetWidth / 2, y: toPoint.y + to.offsetHeight };
+      case 'up-left':
+      case 'up-down':
+        fromPoint = top(from);
         break;
+
       case 'down':
-        fromPoint = { x: fromPoint.x + from.offsetWidth / 2, y: fromPoint.y + from.offsetHeight };
-        toPoint = { x: toPoint.x + to.offsetLeft / 2, y: toPoint.y };
+      case 'down-left':
+      case 'down-right':
+        fromPoint = bottom(from);
         break;
+
       case 'left':
-        fromPoint ={ x: fromPoint.x, y: fromPoint.y + from.offsetHeight / 2 };
-        toPoint = { x: toPoint.x + to.offsetWidth, y: toPoint.y + to.offsetHeight / 2 };
+      case 'left-up':
+      case 'left-down':
+        fromPoint = left(from);
         break;
+
       case 'right':
-        fromPoint = { x: fromPoint.x + from.offsetWidth, y: fromPoint.y + from.offsetHeight / 2 };
-        toPoint = { x: toPoint.x, y: toPoint.y + to.offsetHeight / 2 };
+      case 'right-up':
+      case 'right-down':
+        fromPoint = right(from);
+        break;
+    }
+    
+    let toPoint;
+    switch (direction) {
+      case 'up':
+      case 'left-up':
+      case 'right-up':
+        toPoint = bottom(to);
+        break;
+
+      case 'down':
+      case 'left-down':
+      case 'right-down':
+        toPoint = top(to);
+        break;
+
+      case 'left':
+      case 'up-left':
+      case 'down-left':
+        toPoint = right(to);
+        break;
+
+      case 'right':
+      case 'up-right':
+      case 'down-right':
+        toPoint = left(to);
         break;
     }
 
@@ -117,34 +205,56 @@ for (let arrowElem of document.getElementsByClassName('arrow')) {
     arrowElem.classList.add(isShiftLeft ? 'arrow--shift_left' : 'arrow--shift_left');
 
     // position the arrow pieces
-    let box = {top: 0, left: 0, width: Math.abs(toPoint.x - fromPoint.x), height: Math.abs(toPoint.y - fromPoint.y) };
+    let box = {
+      top: Math.min(fromPoint.y, toPoint.y), 
+      left: Math.min(fromPoint.x, toPoint.x), 
+      width: Math.abs(toPoint.x - fromPoint.x), 
+      height: Math.abs(toPoint.y - fromPoint.y)
+    };
     let headCurveClass = '';
     let tailCurveClass = '';
 
     switch (direction) {
       case 'up':
-        box.top = toPoint.y;
-        box.left = isShiftLeft ? toPoint.x : fromPoint.x;
+        // box.top = toPoint.y;
+        // box.left = isShiftLeft ? toPoint.x : fromPoint.x;
         headCurveClass = isShiftLeft ? 'bottom-left' : 'bottom-right';
         tailCurveClass = isShiftLeft ? 'top-right' : 'top-left';
         break;
       case 'down':
-        box.top = fromPoint.y;
-        box.left = isShiftLeft ? toPoint.x : fromPoint.x;
+        // box.top = fromPoint.y;
+        // box.left = isShiftLeft ? toPoint.x : fromPoint.x;
         headCurveClass = isShiftLeft ? 'top-left' : 'top-right';
         tailCurveClass = isShiftLeft ? 'bottom-right' : 'bottom-left';
         break;
       case 'left':
-        box.top = isShiftAbove ? toPoint.y : fromPoint.y;
-        box.left = toPoint.x;
+        // box.top = isShiftAbove ? toPoint.y : fromPoint.y;
+        // box.left = toPoint.x;
         headCurveClass = isShiftAbove ? 'top-right' : 'bottom-right';
         tailCurveClass = isShiftAbove ? 'bottom-left' : 'top-left';
         break;
       case 'left':
-        box.top = isShiftAbove ? toPoint.y : fromPoint.y;
-        box.left = toPoint.x;
+        // box.top = isShiftAbove ? toPoint.y : fromPoint.y;
+        // box.left = toPoint.x;
         headCurveClass = isShiftAbove ? 'top-left' : 'bottom-left';
         tailCurveClass = isShiftAbove ? 'bottom-right' : 'top-right';
+        break;
+
+      case 'up-left':
+      case 'right-down':
+        headCurveClass = 'top-right';
+        break;
+      case 'up-right':
+      case 'left-down':
+        headCurveClass = 'top-left';
+        break;
+      case 'down-left':
+      case 'right-up':
+        headCurveClass = 'bottom-right';
+        break;
+      case 'down-right':
+      case 'left-up':
+        headCurveClass = 'bottom-left';
         break;
     }
 
