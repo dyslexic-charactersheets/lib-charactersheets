@@ -1,12 +1,14 @@
-import { cloneDeep, has } from '../util/objects';
+import { cloneDeep, has, interpolate } from '../util/objects';
 import { isEmpty, isNull } from '../util';
-import { warn } from '../log';
+import { log, warn } from '../log';
 
 export let zone = {
   name: 'zone',
   key: 'zone',
   defaults: {
     zone: '',
+    params: {},
+    contents: [],
     sort: false,
   },
   transform(args, ctx) {
@@ -26,6 +28,11 @@ export let zone = {
     let contents = existing.concat(insert);
     // const contents = [ ...existing, ...insert ];
     // log("-","[zone] Contents", contents);
+    
+    // log("zone", "Context", ctx.vars);
+    // log("zone", "Params", args.params);
+    contents = interpolate(contents, args.params, ctx);
+    // log("zone",`[${args.zone}] Contents`, contents);
 
     // sort the contents
     if (args.sort) {

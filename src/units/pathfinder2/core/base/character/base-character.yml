@@ -381,8 +381,10 @@ inc:
                             width: medium
                           - label: "_{Proficiency}"
                             width: medium
-                          - label: "_{Feats Misc}"
-                            width: small
+                          - zone: '@skill-header/misc'
+                            contents:
+                              - label: "_{Feats Misc}"
+                                width: small
                           - label: "_{Armour Check Penalty}"
                             width: small
                           - label: "_{Assurance}"
@@ -540,10 +542,12 @@ inc:
                           - field: "#{skill}-proficiency"
                             control: proficiency
                             width: medium
-                          - field: "#{skill}-misc"
-                            misc: true
-                            width: medium
-                            format: int
+                          - zone: '@skill/misc'
+                            contents:
+                              - field: "#{skill}-misc"
+                                misc: true
+                                width: medium
+                                format: int
                           - if: "#{acp}"
                             then:
                               - if: "#{acp_flexible}"
@@ -630,15 +634,19 @@ inc:
                               - field: perception-proficiency
                                 label: "_{Proficiency}"
                                 control: proficiency
-                              - span: "+"
-                              - field: perception-item-bonus
-                                label: "_{Item}"
-                                format: int
-                              - span: "+"
-                              - field: perception-misc
-                                misc: true
-                                label: "_{Misc}"
-                                format: int
+                              - zone: '@perception/item'
+                                contents:
+                                  - span: "+"
+                                  - field: perception-item-bonus
+                                    label: "_{Item}"
+                                    format: int
+                              - zone: '@perception/misc'
+                                contents:
+                                  - span: "+"
+                                  - field: perception-misc
+                                    misc: true
+                                    label: "_{Misc}"
+                                    format: int
                           - spacer:
                           - zone: '@perception-misc'
                       - p: "_{Perception DC = 10 + Perception Bonus}"
@@ -1023,7 +1031,7 @@ inc:
                                 format: int
 
                       - row:
-                        colour: CON
+                        # colour: CON
                         contents:
                           - field: current-hp
                             label: "_{Current Hit Points}"
@@ -1052,7 +1060,7 @@ inc:
                             flex: none
                             width: stretch
                             align: center
-                            colour: CON
+                            # colour: CON
                             parts:
                               - id: dying-wounded
                                 control: checkgrid
@@ -1345,8 +1353,9 @@ inc:
                           -
                           - "_{Ability Modifier}"
                           - "_{Proficiency}"
-                          - "_{Item}"
-                          # - "_{Misc}"
+                          - zone: '@saving-throw-header/item'
+                            contents:
+                              - "_{Item}"
                         rows:
                           - save: fortitude
                             legend: "_{Fortitude}"
@@ -1373,7 +1382,7 @@ inc:
                               width: large
                               underlay: "#{short}"
                               merge-top: true
-                              eq: '%{#{save}-ability}+%{#{save}-proficiency-bonus}+%{#{save}-item-bonus}+%{#{save}-misc}'
+                              eq: '%{#{save}-ability}+%{#{save}-proficiency-bonus}+%{#{save}-item-bonus}+%{#{save}-potency}+%{#{save}-misc}'
                               format: modifier
                             inputs:
                               - field: "#{save}-ability"
@@ -1383,12 +1392,13 @@ inc:
                                 ref: "#{abilityref}"
                               - field: "#{save}-proficiency"
                                 control: proficiency
-                              - field: "#{save}-item-bonus"
-                                format: int
-                                misc: true
-                              # - field: "#{save}-misc"
-                              #   misc: true
-                              #   format: int
+                              - zone: '@saving-throw/item'
+                                params:
+                                  save: "#{save}"
+                                contents:
+                                  - field: "#{save}-item-bonus"
+                                    format: int
+                                    misc: true
                               - field: "#{save}-upgrade-success"
                                 control: boost
                                 down: false
