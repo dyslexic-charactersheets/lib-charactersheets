@@ -280,7 +280,7 @@ function redoProficiency() {
     master: '',
     legendary: ''
   };
-  for (var proficiency of ['trained', 'expert', 'master', 'legendary']) {
+  for (var proficiency of ['untrained', 'trained', 'expert', 'master', 'legendary']) {
     for (var input of document.getElementsByName('proficiency-'+proficiency)) {
       var bonus = coerceFieldValue('proficiency-'+proficiency, input.value, true);
       if (bonus !== null && bonus !== "") {
