@@ -3,6 +3,9 @@ in: kineticist/element
 group: "_{Rage of Elements}"
 name: "_{Wood}"
 
+require:
+  - unit: feat/terrain-expertise
+
 inc:
   - at: '@pages'
     add:
@@ -29,59 +32,56 @@ inc:
                           - selectable: "kineticist/element/wood:gate"
                             contents:
                               - h5: "_{Impulse Junction}"
-                              - p: "_{Before or after an air impulse, either Stride up to half your Speed or Step.}"
-                              - field: "##:impulse-junction/speed"
-                                label: "_{Speed}"
-                                border: full
-                                width: huge
-                                control: speed
+                              - calc:
+                                output:
+                                  field: "##:impulse-junction/temp-hp"
+                                  border: full
+                                  legend: "_{Temp HP}"
+                                  suffix: "_{hp}"
+                                  eq: "%{level}"
+                                inputs:
+                                  - field:
+                                    ref: level
+                                    label: "_{Level}"
 
                           - selectable: "kineticist/element/wood:gate/critical-blast"
                             contents:
                               - h5: "_{Critical Blast}"
-                              - p: "_{When your Elemental Blast critically hits, the target takes persistent fire damage.}"
-                              - calc:
-                                output:
-                                  field: "##:critical-blast/damage"
-                                  legend: "_{Persistant}"
-                                  prefix: "_{1d6} +"
-                                  icon: d6
-                                  width: huge
-                                  eq: "%{##:critical-blast/item-bonus}"
-                                inputs:
-                                  - field: "##:critical-blast/item-bonus"
-                                    label: "_{Item Bonus}"
+                              - p: "_{When your Elemental Blast critically hits, the target is immobilised by roots.}"
+                              - value-block: "DC 10"
+                                width: large
+                                content: "_{Athletics check to pull itself free}"
 
                           - selectable: "kineticist/element/wood:gate/elemental-resistance"
                             contents:
                               - h5: "_{Elemental Resistance}"
                               - p: "_{While your kinetic aura is active, you have resistance}"
-                              - h6: "_{Cold, Fire}"
+                              - h6: "_{Poison, wood}"
                               
                           - selectable: "kineticist/element/wood:gate/aura-junction"
                             contents:
                               - h5: "_{Aura Junction}"
-                              - p: "_{While your kinetic aura is active, enemies get weakness to your fire impulses}"
-                              - calc:
-                                output:
-                                  field: "##:aura-junction/weakness"
-                                  legend: "_{Weakness}"
-                                  width: large
-                                  eq: "floor(%{level}/2)"
-                                inputs:
-                                  - field:
-                                    ref: level
-                                    label: "_{Level}"
-                                  - span: "&divide; 2"
+                              - p: "_{Allies that start their turn in your aura heal}"
+                              
+                              - row:
+                                contents:
+                                  - h6: "_{Healing}"
+                                  - span: "1 _{hp}"
+                                  - vr:
+                                  - level-marker: 10
+                                  - span: "2 _{hp}"
+                                  - vr:
+                                  - level-marker: 15
+                                  - span: "3 _{hp}"
                               
                           - selectable: "kineticist/element/wood:gate/skill-junction"
                             contents:
                               - h5: "_{Skill Junction}"
-                              - p: "_{Trained in Intimidation}"
+                              - p: "_{Trained in Survival}"
                                 icon: proficiency-trained
                               - row:
                                 contents:
-                                  - h6: "_{Intimidation}"
+                                  - h6: "_{Survival}"
                                   - span: "+1"
                                   - vr:
                                   - level-marker: 10
@@ -90,6 +90,11 @@ inc:
                                   - level-marker: 17
                                   - span: "+3"
                               - p: "_{Bonus while your kinetic aura is active}"
+                              - hr:
+                                light: true
+                              - paste: feat/terrain-expertise
+                                params:
+                                  terrain: "_{forest}"
                               
                   - paste: kineticist/element/reflow-section
                     params:

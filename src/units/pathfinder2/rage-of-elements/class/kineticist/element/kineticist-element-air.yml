@@ -3,6 +3,9 @@ in: kineticist/element
 group: "_{Rage of Elements}"
 name: "_{Air}"
 
+require:
+  - unit: feat/experienced-smuggler
+
 inc:
   - at: '@pages'
     add:
@@ -39,49 +42,28 @@ inc:
                           - selectable: "kineticist/element/air:gate/critical-blast"
                             contents:
                               - h5: "_{Critical Blast}"
-                              - p: "_{When your Elemental Blast critically hits, the target takes persistent fire damage.}"
-                              - calc:
-                                output:
-                                  field: "##:critical-blast/damage"
-                                  legend: "_{Persistant}"
-                                  prefix: "_{1d6} +"
-                                  icon: d6
-                                  width: huge
-                                  eq: "%{##:critical-blast/item-bonus}"
-                                inputs:
-                                  - field: "##:critical-blast/item-bonus"
-                                    label: "_{Item Bonus}"
+                              - p: "_{Push the target up to 10ft.}"
 
                           - selectable: "kineticist/element/air:gate/elemental-resistance"
                             contents:
                               - h5: "_{Elemental Resistance}"
                               - p: "_{While your kinetic aura is active, you have resistance}"
-                              - h6: "_{Cold, Fire}"
+                              - h6: "_{Air, electricity}"
                               
                           - selectable: "kineticist/element/air:gate/aura-junction"
                             contents:
                               - h5: "_{Aura Junction}"
-                              - p: "_{While your kinetic aura is active, enemies get weakness to your fire impulses}"
-                              - calc:
-                                output:
-                                  field: "##:aura-junction/weakness"
-                                  legend: "_{Weakness}"
-                                  width: large
-                                  eq: "floor(%{level}/2)"
-                                inputs:
-                                  - field:
-                                    ref: level
-                                    label: "_{Level}"
-                                  - span: "&divide; 2"
+                              - value-block: "_{10ft}"
+                                content: "_{Speed bonus to you and allies within your aura}"
                               
                           - selectable: "kineticist/element/air:gate/skill-junction"
                             contents:
                               - h5: "_{Skill Junction}"
-                              - p: "_{Trained in Intimidation}"
+                              - p: "_{Trained in Stealth}"
                                 icon: proficiency-trained
                               - row:
                                 contents:
-                                  - h6: "_{Intimidation}"
+                                  - h6: "_{Stealth}"
                                   - span: "+1"
                                   - vr:
                                   - level-marker: 10
@@ -90,6 +72,9 @@ inc:
                                   - level-marker: 17
                                   - span: "+3"
                               - p: "_{Bonus while your kinetic aura is active}"
+                              - hr:
+                                light: true
+                              - paste: feat/experienced-smuggler
                               
                   - paste: kineticist/element/reflow-section
                     params:

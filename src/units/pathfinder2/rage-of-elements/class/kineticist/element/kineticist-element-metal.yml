@@ -3,6 +3,9 @@ in: kineticist/element
 group: "_{Rage of Elements}"
 name: "_{Metal}"
 
+require:
+  - unit: feat/quick-repair
+
 inc:
   - at: '@pages'
     add:
@@ -29,17 +32,28 @@ inc:
                           - selectable: "kineticist/element/metal:gate"
                             contents:
                               - h5: "_{Impulse Junction}"
-                              - p: "_{Before or after an air impulse, either Stride up to half your Speed or Step.}"
-                              - field: "##:impulse-junction/speed"
-                                label: "_{Speed}"
-                                border: full
-                                width: huge
-                                control: speed
+                              - p:
+                                title: "_{Pick a damage type:}"
+                                content: "_{Acid, electricity, piercing}"
+                              - p: "_{When a creature touches you or damages you in melee, they take damage}"
+                              - calc:
+                                output:
+                                  field: "##:impulse-junction/damage"
+                                  legend: "_{Damage}"
+                                  border: full
+                                  eq: "min1(floor(%{level}/2))"
+                                inputs:
+                                  - ruby-round-down:
+                                    contents:
+                                      - field:
+                                        ref: level
+                                        label: "_{Level}"
+                                      - span: "&divide; 2"
 
                           - selectable: "kineticist/element/metal:gate/critical-blast"
                             contents:
                               - h5: "_{Critical Blast}"
-                              - p: "_{When your Elemental Blast critically hits, the target takes persistent fire damage.}"
+                              - p: "_{When your Elemental Blast critically hits, the target takes persistent bleed (or rust) damage.}"
                               - calc:
                                 output:
                                   field: "##:critical-blast/damage"
@@ -56,32 +70,22 @@ inc:
                             contents:
                               - h5: "_{Elemental Resistance}"
                               - p: "_{While your kinetic aura is active, you have resistance}"
-                              - h6: "_{Cold, Fire}"
+                              - h6: "_{Electricity, metal}"
                               
                           - selectable: "kineticist/element/metal:gate/aura-junction"
                             contents:
                               - h5: "_{Aura Junction}"
-                              - p: "_{While your kinetic aura is active, enemies get weakness to your fire impulses}"
-                              - calc:
-                                output:
-                                  field: "##:aura-junction/weakness"
-                                  legend: "_{Weakness}"
-                                  width: large
-                                  eq: "floor(%{level}/2)"
-                                inputs:
-                                  - field:
-                                    ref: level
-                                    label: "_{Level}"
-                                  - span: "&divide; 2"
+                              - value-block: "-1"
+                                content: "_{Penalty to attacks with metal weapons, and AC with metal armour, for enemies in your aura}"
                               
                           - selectable: "kineticist/element/metal:gate/skill-junction"
                             contents:
                               - h5: "_{Skill Junction}"
-                              - p: "_{Trained in Intimidation}"
+                              - p: "_{Trained in Crafting}"
                                 icon: proficiency-trained
                               - row:
                                 contents:
-                                  - h6: "_{Intimidation}"
+                                  - h6: "_{Crafting}"
                                   - span: "+1"
                                   - vr:
                                   - level-marker: 10
@@ -90,6 +94,9 @@ inc:
                                   - level-marker: 17
                                   - span: "+3"
                               - p: "_{Bonus while your kinetic aura is active}"
+                              - hr:
+                                light: true
+                              - paste: feat/quick-repair
                               
                   - paste: kineticist/element/reflow-section
                     params:

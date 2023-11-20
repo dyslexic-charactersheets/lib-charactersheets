@@ -3,6 +3,9 @@ in: kineticist/element
 group: "_{Rage of Elements}"
 name: "_{Earth}"
 
+require:
+  - unit: feat/hefty-hauler
+
 inc:
   - at: '@pages'
     add:
@@ -29,59 +32,33 @@ inc:
                           - selectable: "kineticist/element/earth:gate"
                             contents:
                               - h5: "_{Impulse Junction}"
-                              - p: "_{Before or after an air impulse, either Stride up to half your Speed or Step.}"
-                              - field: "##:impulse-junction/speed"
-                                label: "_{Speed}"
-                                border: full
-                                width: huge
-                                control: speed
+                              - value-block: "+1"
+                                content: "_{AC until your next turn.}"
 
                           - selectable: "kineticist/element/earth:gate/critical-blast"
                             contents:
                               - h5: "_{Critical Blast}"
-                              - p: "_{When your Elemental Blast critically hits, the target takes persistent fire damage.}"
-                              - calc:
-                                output:
-                                  field: "##:critical-blast/damage"
-                                  legend: "_{Persistant}"
-                                  prefix: "_{1d6} +"
-                                  icon: d6
-                                  width: huge
-                                  eq: "%{##:critical-blast/item-bonus}"
-                                inputs:
-                                  - field: "##:critical-blast/item-bonus"
-                                    label: "_{Item Bonus}"
+                              - p: "_{Target is knocked prone or descends up to 20ft if flying.}"
 
                           - selectable: "kineticist/element/earth:gate/elemental-resistance"
                             contents:
                               - h5: "_{Elemental Resistance}"
                               - p: "_{While your kinetic aura is active, you have resistance}"
-                              - h6: "_{Cold, Fire}"
+                              - h6: "_{Earth, poison}"
                               
                           - selectable: "kineticist/element/earth:gate/aura-junction"
                             contents:
                               - h5: "_{Aura Junction}"
-                              - p: "_{While your kinetic aura is active, enemies get weakness to your fire impulses}"
-                              - calc:
-                                output:
-                                  field: "##:aura-junction/weakness"
-                                  legend: "_{Weakness}"
-                                  width: large
-                                  eq: "floor(%{level}/2)"
-                                inputs:
-                                  - field:
-                                    ref: level
-                                    label: "_{Level}"
-                                  - span: "&divide; 2"
+                              - p: "_{Your aura is difficult terrain for enemies moving away from you.}"
                               
                           - selectable: "kineticist/element/earth:gate/skill-junction"
                             contents:
                               - h5: "_{Skill Junction}"
-                              - p: "_{Trained in Intimidation}"
+                              - p: "_{Trained in Athletics}"
                                 icon: proficiency-trained
                               - row:
                                 contents:
-                                  - h6: "_{Intimidation}"
+                                  - h6: "_{Athletics}"
                                   - span: "+1"
                                   - vr:
                                   - level-marker: 10
@@ -90,6 +67,9 @@ inc:
                                   - level-marker: 17
                                   - span: "+3"
                               - p: "_{Bonus while your kinetic aura is active}"
+                              - hr:
+                                light: true
+                              - paste: feat/hefty-hauler
                               
                   - paste: kineticist/element/reflow-section
                     params:

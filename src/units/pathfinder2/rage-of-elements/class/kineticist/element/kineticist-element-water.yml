@@ -3,6 +3,9 @@ in: kineticist/element
 group: "_{Rage of Elements}"
 name: "_{Water}"
 
+require:
+  - unit: feat/underwater-marauder
+
 inc:
   - at: '@pages'
     add:
@@ -29,43 +32,28 @@ inc:
                           - selectable: "kineticist/element/water:gate"
                             contents:
                               - h5: "_{Impulse Junction}"
-                              - p: "_{Before or after an air impulse, either Stride up to half your Speed or Step.}"
-                              - field: "##:impulse-junction/speed"
-                                label: "_{Speed}"
-                                border: full
-                                width: huge
-                                control: speed
+                              - p: "_{Move a creature 5ft, or 10ft if they're in water.}"
 
                           - selectable: "kineticist/element/water:gate/critical-blast"
                             contents:
                               - h5: "_{Critical Blast}"
-                              - p: "_{When your Elemental Blast critically hits, the target takes persistent fire damage.}"
-                              - calc:
-                                output:
-                                  field: "##:critical-blast/damage"
-                                  legend: "_{Persistant}"
-                                  prefix: "_{1d6} +"
-                                  icon: d6
-                                  width: huge
-                                  eq: "%{##:critical-blast/item-bonus}"
-                                inputs:
-                                  - field: "##:critical-blast/item-bonus"
-                                    label: "_{Item Bonus}"
+                              - value-block: "+2"
+                                content: "_{Damage per damage die when your Elemental Blast critically hits.}"
 
                           - selectable: "kineticist/element/water:gate/elemental-resistance"
                             contents:
                               - h5: "_{Elemental Resistance}"
                               - p: "_{While your kinetic aura is active, you have resistance}"
-                              - h6: "_{Cold, Fire}"
+                              - h6: "_{Fire, water}"
                               
                           - selectable: "kineticist/element/water:gate/aura-junction"
                             contents:
                               - h5: "_{Aura Junction}"
-                              - p: "_{While your kinetic aura is active, enemies get weakness to your fire impulses}"
+                              - p: "_{Extinguish fires, and creatures in your aura gain fire resistance}"
                               - calc:
                                 output:
-                                  field: "##:aura-junction/weakness"
-                                  legend: "_{Weakness}"
+                                  field: "##:aura-junction/fire-resistance"
+                                  legend: "_{Fire Resistance}"
                                   width: large
                                   eq: "floor(%{level}/2)"
                                 inputs:
@@ -77,11 +65,11 @@ inc:
                           - selectable: "kineticist/element/water:gate/skill-junction"
                             contents:
                               - h5: "_{Skill Junction}"
-                              - p: "_{Trained in Intimidation}"
+                              - p: "_{Trained in Athletics}"
                                 icon: proficiency-trained
                               - row:
                                 contents:
-                                  - h6: "_{Intimidation}"
+                                  - h6: "_{Athletics}"
                                   - span: "+1"
                                   - vr:
                                   - level-marker: 10
@@ -90,6 +78,9 @@ inc:
                                   - level-marker: 17
                                   - span: "+3"
                               - p: "_{Bonus while your kinetic aura is active}"
+                              - hr:
+                                light: true
+                              - paste: feat/underwater-marauder
                               
                   - paste: kineticist/element/reflow-section
                     params:
