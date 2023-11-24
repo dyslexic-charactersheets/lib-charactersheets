@@ -43,8 +43,28 @@ inc:
                           - selectable: "kineticist/element/earth:gate/elemental-resistance"
                             contents:
                               - h5: "_{Elemental Resistance}"
-                              - p: "_{While your kinetic aura is active, you have resistance}"
-                              - h6: "_{Earth, poison}"
+                              - layout: 2r
+                                contents:
+                                  - g:
+                                    contents:
+                                      - p: "_{While your kinetic aura is active, you have resistance}"
+                                      - h6: "_{Earth, poison}"
+                                  - calc:
+                                    output:
+                                      field: "##:gate/elemental-resistance/resistance"
+                                      legend: "_{Resistance}"
+                                      border: full
+                                      eq: "%{level}"
+                                      width: large
+                                    inputs:
+                                      - field:
+                                        ref: level
+                                        label: "_{Level}"
+                              - hr:
+                                light: true
+                              - level: 17
+                                contents:
+                                  - p: "_{Immune}"
                               
                           - selectable: "kineticist/element/earth:gate/aura-junction"
                             contents:
@@ -54,10 +74,9 @@ inc:
                           - selectable: "kineticist/element/earth:gate/skill-junction"
                             contents:
                               - h5: "_{Skill Junction}"
-                              - p: "_{Trained in Athletics}"
-                                icon: proficiency-trained
                               - row:
                                 contents:
+                                  - icon: proficiency-trained
                                   - h6: "_{Athletics}"
                                   - span: "+1"
                                   - vr:

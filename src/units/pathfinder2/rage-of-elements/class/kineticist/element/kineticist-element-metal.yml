@@ -32,23 +32,27 @@ inc:
                           - selectable: "kineticist/element/metal:gate"
                             contents:
                               - h5: "_{Impulse Junction}"
-                              - p:
-                                title: "_{Pick a damage type:}"
-                                content: "_{Acid, electricity, piercing}"
-                              - p: "_{When a creature touches you or damages you in melee, they take damage}"
-                              - calc:
-                                output:
-                                  field: "##:impulse-junction/damage"
-                                  legend: "_{Damage}"
-                                  border: full
-                                  eq: "min1(floor(%{level}/2))"
-                                inputs:
-                                  - ruby-round-down:
+                              - layout: 2e
+                                contents:
+                                  - g:
                                     contents:
-                                      - field:
-                                        ref: level
-                                        label: "_{Level}"
-                                      - span: "&divide; 2"
+                                      - p:
+                                        title: "_{Pick a damage type:}"
+                                        content: "_{Acid, electricity, piercing}"
+                                  - calc:
+                                    output:
+                                      field: "##:impulse-junction/damage"
+                                      legend: "_{Damage}"
+                                      border: full
+                                      eq: "min1(floor(%{level}/2))"
+                                    inputs:
+                                      - ruby-round-down:
+                                        contents:
+                                          - field:
+                                            ref: level
+                                            label: "_{Level}"
+                                          - span: "&divide; 2"
+                              - p: "_{When a creature touches you or damages you in melee, they take damage}"
 
                           - selectable: "kineticist/element/metal:gate/critical-blast"
                             contents:
@@ -69,8 +73,28 @@ inc:
                           - selectable: "kineticist/element/metal:gate/elemental-resistance"
                             contents:
                               - h5: "_{Elemental Resistance}"
-                              - p: "_{While your kinetic aura is active, you have resistance}"
-                              - h6: "_{Electricity, metal}"
+                              - layout: 2r
+                                contents:
+                                  - g:
+                                    contents:
+                                      - p: "_{While your kinetic aura is active, you have resistance}"
+                                      - h6: "_{Electricity, metal}"
+                                  - calc:
+                                    output:
+                                      field: "##:gate/elemental-resistance/resistance"
+                                      legend: "_{Resistance}"
+                                      border: full
+                                      eq: "%{level}"
+                                      width: large
+                                    inputs:
+                                      - field:
+                                        ref: level
+                                        label: "_{Level}"
+                              - hr:
+                                light: true
+                              - level: 17
+                                contents:
+                                  - p: "_{Immune}"
                               
                           - selectable: "kineticist/element/metal:gate/aura-junction"
                             contents:
@@ -81,10 +105,9 @@ inc:
                           - selectable: "kineticist/element/metal:gate/skill-junction"
                             contents:
                               - h5: "_{Skill Junction}"
-                              - p: "_{Trained in Crafting}"
-                                icon: proficiency-trained
                               - row:
                                 contents:
+                                  - icon: proficiency-trained
                                   - h6: "_{Crafting}"
                                   - span: "+1"
                                   - vr:

@@ -56,32 +56,53 @@ inc:
                           - selectable: "kineticist/element/fire:gate/elemental-resistance"
                             contents:
                               - h5: "_{Elemental Resistance}"
-                              - p: "_{While your kinetic aura is active, you have resistance}"
-                              - h6: "_{Cold, fire}"
+                              - layout: 2r
+                                contents:
+                                  - g:
+                                    contents:
+                                      - p: "_{While your kinetic aura is active, you have resistance}"
+                                      - h6: "_{Cold, fire}"
+                                  - calc:
+                                    output:
+                                      field: "##:gate/elemental-resistance/resistance"
+                                      legend: "_{Resistance}"
+                                      border: full
+                                      eq: "%{level}"
+                                      width: large
+                                    inputs:
+                                      - field:
+                                        ref: level
+                                        label: "_{Level}"
+                              - hr:
+                                light: true
+                              - level: 17
+                                contents:
+                                  - p: "_{Immune}"
                               
                           - selectable: "kineticist/element/fire:gate/aura-junction"
                             contents:
                               - h5: "_{Aura Junction}"
-                              - p: "_{While your kinetic aura is active, enemies get weakness to your fire impulses}"
-                              - calc:
-                                output:
-                                  field: "##:aura-junction/weakness"
-                                  legend: "_{Weakness}"
-                                  width: large
-                                  eq: "floor(%{level}/2)"
-                                inputs:
-                                  - field:
-                                    ref: level
-                                    label: "_{Level}"
-                                  - span: "&divide; 2"
+                              - layout: 2e
+                                contents:
+                                  - p: "_{While your kinetic aura is active, enemies get weakness to your fire impulses}"
+                                  - calc:
+                                    output:
+                                      field: "##:aura-junction/weakness"
+                                      legend: "_{Weakness}"
+                                      width: large
+                                      eq: "floor(%{level}/2)"
+                                    inputs:
+                                      - field:
+                                        ref: level
+                                        label: "_{Level}"
+                                      - span: "&divide; 2"
                               
                           - selectable: "kineticist/element/fire:gate/skill-junction"
                             contents:
                               - h5: "_{Skill Junction}"
-                              - p: "_{Trained in Intimidation}"
-                                icon: proficiency-trained
                               - row:
                                 contents:
+                                  - icon: proficiency-trained
                                   - h6: "_{Intimidation}"
                                   - span: "+1"
                                   - vr:

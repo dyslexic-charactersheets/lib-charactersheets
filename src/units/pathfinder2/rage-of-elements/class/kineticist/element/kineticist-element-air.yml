@@ -32,23 +32,48 @@ inc:
                           - selectable: "kineticist/element/air:gate"
                             contents:
                               - h5: "_{Impulse Junction}"
-                              - p: "_{Before or after an air impulse, either Stride up to half your Speed or Step.}"
-                              - field: "##:impulse-junction/speed"
-                                label: "_{Speed}"
-                                border: full
-                                width: huge
-                                control: speed
+                              - layout: 2r
+                                contents:
+                                  - p: "_{Before or after an air impulse, either Stride up to half your Speed or Step.}"
+                                  - g:
+                                    pad: true
+                                    contents:
+                                      - field: "##:impulse-junction/speed"
+                                        label: "_{Speed}"
+                                        border: full
+                                        width: huge
+                                        control: speed
 
                           - selectable: "kineticist/element/air:gate/critical-blast"
                             contents:
                               - h5: "_{Critical Blast}"
                               - p: "_{Push the target up to 10ft.}"
 
-                          - selectable: "kineticist/element/air:gate/elemental-resistance"
+                          - selectable: "##:gate/elemental-resistance"
                             contents:
                               - h5: "_{Elemental Resistance}"
-                              - p: "_{While your kinetic aura is active, you have resistance}"
-                              - h6: "_{Air, electricity}"
+                              - layout: 2r
+                                contents:
+                                  - g:
+                                    contents:
+                                      - p: "_{While your kinetic aura is active, you have resistance}"
+                                      - h6: "_{Air, electricity}"
+                                  - calc:
+                                    output:
+                                      field: "##:gate/elemental-resistance/resistance"
+                                      legend: "_{Resistance}"
+                                      border: full
+                                      eq: "%{level}"
+                                      width: large
+                                    inputs:
+                                      - field:
+                                        ref: level
+                                        label: "_{Level}"
+                              - hr:
+                                light: true
+                              - level: 17
+                                contents:
+                                  - p: "_{Immune}"
                               
                           - selectable: "kineticist/element/air:gate/aura-junction"
                             contents:
@@ -59,10 +84,9 @@ inc:
                           - selectable: "kineticist/element/air:gate/skill-junction"
                             contents:
                               - h5: "_{Skill Junction}"
-                              - p: "_{Trained in Stealth}"
-                                icon: proficiency-trained
                               - row:
                                 contents:
+                                  - icon: proficiency-trained
                                   - h6: "_{Stealth}"
                                   - span: "+1"
                                   - vr:
