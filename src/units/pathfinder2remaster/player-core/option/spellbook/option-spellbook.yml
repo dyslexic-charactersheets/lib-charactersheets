@@ -1,0 +1,117 @@
+unit: option/spellbook
+name: "_{Spellbook}"
+group: "_{Core Rulebook}"
+
+inc:
+  - copy: spellbook/spell
+    params:
+      id:
+      lines: 5
+    contents:
+      - article: '#{id}'
+        header-size: large
+        show-level: true
+        no-header-line: true
+        contents:
+          - layout: indent-lw
+            contents:
+              - g:
+                contents:
+                  - field: "#{id}-action"
+                    control: action-icon
+                    value: template
+                    frame: none
+                    
+                  - field: '#{id}-component-manipulate'
+                    control: checkbox
+                    frame: left
+                    label: "_{M}"
+                  - field: '#{id}-component-concentrate'
+                    control: checkbox
+                    frame: left
+                    label: "_{C}"
+              - g:
+                contents:
+                  - field: '#{id}-details'
+                    width: stretch
+                    align: left
+                    frame: none
+                    control: p
+                    lines: '#{lines}'
+                    with-title: false
+                    merge-bottom: false
+
+          - row:
+            contents:
+              - field: '#{id}-final'
+                width: stretch
+                label: "_{School}"
+              - field: '#{id}-ref'
+                control: ref
+                label: "_{Source}"
+
+  - copy: spellbook/header
+    params:
+      i: 0
+    contents:
+      - g:
+        contents:
+          - row:
+            contents:
+              - spacer:
+              - field: spellbook-col-#{i}-level
+                border: full
+                frame: circle
+                label: "_{Spell Level}"
+                size: large
+                width: large
+              - spacer:
+          - hr:
+            blk: false
+
+  - copy: spellbook/items
+    params:
+      id: spellbook
+      count: 7
+      i: 0
+    contents:
+      - list:
+        zebra: true
+        hr: true
+        flex: true
+        contents:
+          - repeat: 5
+            reduce: 1
+            index: j
+            contents:
+              - paste: spellbook/spell
+                params:
+                  id: "#{id}-spell-#{j}"
+
+  - at: '@pages'
+    add:
+      - page: spellbook
+        name: "_{Spellbook}"
+        order: 12
+        flex: true
+        contents:
+          - h2: "_{Spellbook}"
+          - layout: 3e
+            flex: tiny
+            contents:
+              - repeat: 3
+                contents:
+                  - paste: spellbook/header
+                    params:
+                      i: "#{i}"
+          - layout: 3e
+            contents:
+              - repeat: 3
+                index: i
+                contents:
+                  - g:
+                    contents:
+                      - paste: spellbook/items
+                        params:
+                          id: spellbook-col-#{i}
+                      - tail:

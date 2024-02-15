@@ -7,6 +7,7 @@ export let arrow = {
     from: '',
     to: '',
     direction: 'down',
+    anchor: 'from',
     head: true
   },
   render(args) {
@@ -15,7 +16,7 @@ export let arrow = {
       segmented = false;
     }
 
-    const cls = elementClass('arrow', null, args, [], {direction: ''});
+    const cls = elementClass('arrow', null, args, [], {direction: '', anchor: ''});
     const data = elementData({from: args.from, to: args.to, direction: args.direction});
     return `<div${cls}${data}>
       ${args.head ? `

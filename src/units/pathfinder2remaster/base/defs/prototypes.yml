@@ -1,0 +1,106 @@
+unit: defs/prototypes
+name: "_{Prototype Class}"
+group: "_{Core Rulebook}"
+
+require:
+  - unit: prototype/key-ability
+
+inc:
+  - copy: prototype-class
+    params:
+      class:
+      class-name:
+      subclass:
+      subclass-name:
+      hp:
+      perception: trained
+      unarmoured:
+      light-armour:
+      medium-armour:
+      heavy-armour:
+
+      fortitude:
+      reflex:
+      will:
+
+      spells:
+
+      acrobatics:
+      arcana:
+      athletics:
+      crafting:
+      deception:
+      diplomacy:
+      intimidation:
+      medicine:
+      nature:
+      occultism:
+      performance:
+      religion:
+      society:
+      stealth:
+      survival:
+      thievery:
+
+    contents:
+      - set: class
+        value: "#{class-name}"
+
+      - set: hp-class
+        value: "#{hp}"
+      - set: class-icon
+        value: "#{class}"
+      - set: subclass-label
+        value: "#{subclass-name}"
+
+      # Class DC
+      - set: "#{class}-class-dc-proficiency"
+        value: trained
+      - set: perception-proficiency
+        value: "#{perception}"
+
+      # Spells
+      - set: spell-attack-proficiency
+        value: "#{divine}"
+      - set: spell-dc-proficiency
+        value: "#{spells}"
+
+      # Armour
+      - set: unarmoured-proficiency
+        value: "#{unarmoured}"
+      - set: light-armour-proficiency
+        value: "#{light-armour}"
+      - set: medium-armour-proficiency
+        value: "#{medium-armour}"
+      - set: heavy-armour-proficiency
+        value: "#{heavy-armour}"
+
+      # Weapons
+      - set: unarmed-proficiency
+        value: "#{unarmed}"
+      - set: simple-weapon-proficiency
+        value: "#{simple-weapons}"
+      - set: martial-weapon-proficiency
+        value: "#{martial-weapons}"
+
+      # Saving throws
+      - set: fortitude-proficiency
+        value: "#{fortitude}"
+      - set: reflex-proficiency
+        value: "#{reflex}"
+      - set: will-proficiency
+        value: "#{will}"
+
+      # Skills
+      - set: "occultism-proficiency"
+        value: "#{occultism}"
+
+      - at: '@cover-class'
+        replace:
+          - h6: "#{class-name}"
+          - if: "#{subclass}"
+            then:
+              - field: "#{subclass}"
+                label: "#{subclass-name}"
+                width: stretch
+                align: left

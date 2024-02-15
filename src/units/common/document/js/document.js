@@ -78,6 +78,17 @@ for (let arrowElem of document.getElementsByClassName('arrow')) {
   let from = document.getElementById(arrowElem.dataset.from);
   let to = document.getElementById(arrowElem.dataset.to);
   if (from !== null && to !== null) {
+    let anchor = document.createElement('div');
+    anchor.classList.add('arrow-anchor');
+    if (arrowElem.classList.contains('arrow--anchor_to')) {
+      to.appendChild(anchor);
+    } else {
+      from.appendChild(anchor);
+    }
+
+    arrowElem.remove();
+    anchor.appendChild(arrowElem);
+
     let pageContainer = arrowElem.closest('.page__contents');
     let pageContainerBox = pageContainer.getBoundingClientRect();
 
@@ -89,6 +100,14 @@ for (let arrowElem of document.getElementsByClassName('arrow')) {
     } else if (isHorizontal) {
       arrowElem.classList.add('arrow--align_horizontal');
     }
+
+    let anchorBox = anchor.getBoundingClientRect();
+    let anchorParent = pageContainerBox;
+    // let anchorParent = (anchor.offsetParent == null ? pageContainerBox : anchor.offsetParent.getBoundingClientRect());
+    let anchorOffset = {
+      x: anchorBox.left - anchorParent.left,
+      y: anchorBox.top - anchorParent.top
+    };
 
     // find the positions of the start and end points
     // let fromContainerBox = (from.offsetParent == null ? pageContainerBox : from.offsetParent.getBoundingClientRect());
@@ -206,8 +225,8 @@ for (let arrowElem of document.getElementsByClassName('arrow')) {
 
     // position the arrow pieces
     let box = {
-      top: Math.min(fromPoint.y, toPoint.y), 
-      left: Math.min(fromPoint.x, toPoint.x), 
+      top: Math.min(fromPoint.y, toPoint.y) - anchorOffset.y, 
+      left: Math.min(fromPoint.x, toPoint.x) - anchorOffset.x, 
       width: Math.abs(toPoint.x - fromPoint.x), 
       height: Math.abs(toPoint.y - fromPoint.y)
     };

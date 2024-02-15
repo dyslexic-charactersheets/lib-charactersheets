@@ -1,0 +1,310 @@
+unit: option/level-up
+name: "_{Level Up}"
+group: "_{Player Core}"
+
+inc:
+  - at: '@pages'
+    add:
+      - page: level-up
+        name: "_{Level Up}"
+        background: corner
+        order: 32
+        flex: true
+        contents:
+          - layout: 2l
+            flex: large
+            contents:
+              - g:
+                contents:
+                  - h2: "_{Level Up}"
+                  - row:
+                    layout: center
+                    contents:
+                      - icon: down-arrow
+
+                  - g:
+                    pad: true
+                    contents:
+                      - h4: "_{Step One}"
+                      - p: "_{Increase your level by 1 and subtract 1000 XP.}"
+
+                      # - g:
+                      #   pad: true
+                      #   optional: true
+                      #   contents:
+                      #     - field: level
+                      #       label: "_{Level}"
+                      #       border: circle
+                      #       frame: right
+
+                  - g:
+                    pad: true
+                    contents:
+                      - h4: "_{Step Two}"
+                      - p: "_{Increase your maximum Hit Points.}"
+
+                      - g:
+                        pad: true
+                        contents:
+                          - calc:
+                            output:
+                              field: option/level-up/hp
+                              legend: "_{Gain Hit Points}"
+                              icon: hp
+                              prefix: "+"
+                              suffix: "_{hp}"
+                              width: large
+                              eq: "%{hp-class}+%{CON}+%{hp-toughness}"
+                            inputs:
+                              - field: hp-class
+                                label: "_{Class}"
+                              - span: "+"
+                              - field:
+                                label: "_{CON}"
+                                underlay: "_{CON}"
+                                ref: CON
+                              - span: "+"
+                              - field: hp-toughness
+                                label: "_{Toughness}"
+                                control: checkbox
+
+                  - g:
+                    pad: true
+                    contents:
+                      - h4: "_{Step Three}"
+                      - p: "_{Add class features from your class advancement table.}"
+
+                      - g:
+                        pad: true
+                        contents:
+                          - h5: "_{Attribute boost}"
+                          - p: "_{At levels 5, 10, 15 and 20, boost 4 different attribute scores. Increase by 1 if the score is already 18 or above, or 2 if not.}"
+
+                      - g:
+                        pad: true   
+                        contents:
+                          - h5: "_{Skill increase}"
+                          - p: "_{At select levels, increase proficiency in one skill.}"
+                          - level: 7
+                            contents:
+                              - layout: indent-r
+                                contents:
+                                  - p: "_{May increase a skill to master.}"
+                                  - icon: proficiency-master
+                          - level: 15
+                            contents:
+                              - layout: indent-r
+                                contents:
+                                  - p: "_{May increase a skill to legendary.}"
+                                  - icon: proficiency-legendary
+
+                  - g:
+                    pad: true
+                    contents:
+                      - h4: "_{Step Four}"
+                      - p: "_{Select feats as indicated on your class advancement table.}"
+
+                      - paste: book-ref
+                        params:
+                          page-ref: "_{CRB p33}"
+                        contents:
+                          - h6: "_{Ancestry feats}"
+
+                      - paste: book-ref
+                        params:
+                          page-ref: "_{CRB p66}"
+                        contents:
+                          - h6: "_{Class feats}"
+
+                      - paste: book-ref
+                        params:
+                          page-ref: "_{CRB p255 [b]5-1[/b]}"
+                        contents:
+                          - h6: "_{General feats}"
+
+                      - paste: book-ref
+                        params:
+                          page-ref: "_{CRB p255 [b]5-2[/b]}"
+                        contents:
+                          - h6: "_{Skill feats}"
+
+                      - zone: '@option/level-up/feats'
+
+                  - g:
+                    pad: true
+                    contents:
+                      - h4: "_{Step Five}"
+                      - zone: '@option/level-up/spells'
+                        contents:
+                          - p: "_{Add spells and spell slots if your class grants spellcasting.}"
+
+                      - paste: book-ref
+                        params:
+                          page-ref: "_{CRB p297}"
+                        contents:
+                          - h6: "_{Spells}"
+
+                      - paste: book-ref
+                        params:
+                          page-ref: "_{CRB p386}"
+                        contents:
+                          - h6: "_{Focus Spells}"
+
+                      - zone: '@advancement/class-spells'
+
+                  - g:
+                    pad: true
+                    contents:
+                      - h4: "_{Step Six}"
+                      - zone: '@advancement/step-six'
+                        contents:
+                          - p: "_{Increase all of your proficiency bonuses, and add proficiencies from skill increases or other class features.}"
+
+                          - layout: 5e
+                            gutter: none
+                            # valign: top
+                            flex: none
+                            contents:
+                              - field: proficiency-untrained
+                                label: "_{Untrained}"
+                                border: full
+                                control: value
+                                value: 0
+                                icon: proficiency
+                                ruby: "&nbsp;\n"
+                              - field: proficiency-trained
+                                label: "_{Trained}"
+                                border: full
+                                control: proficiency
+                                value: trained
+                                ruby: "_{Level}\n+2"
+                              - field: proficiency-expert
+                                label: "_{Expert}"
+                                border: full
+                                control: proficiency
+                                value: expert
+                                ruby: "_{Level}\n+4"
+                              - field: proficiency-master
+                                label: "_{Master}"
+                                border: full
+                                control: proficiency
+                                value: master
+                                ruby: "_{Level}\n+6"
+                              - field: proficiency-legendary
+                                label: "_{Legendary}"
+                                border: full
+                                control: proficiency
+                                value: legendary
+                                ruby: "_{Level}\n+8"
+
+                          - p: "_{Increase any statistics that changed as a result of ability boosts or other abilities.}"
+                            
+                  - g:
+                    pad: true
+                    contents:
+                      - h4: "_{Step Seven}"
+                      - p: "_{Adjust bonuses from feats and other abilities that are based on your level.}"
+
+                  # - tail:
+                  - spacer:
+
+
+
+              - g:
+                contents:
+                  - section: '_{Advancement}'
+                    flex: none
+                    contents:
+                      - zone: '@advancement/class-row'
+                        contents:
+                          - row:
+                            contents:
+                              - class-icon:
+                                size: small
+                              - field: class
+                                width: stretch
+                                size: huge
+                                label: "_{Class}"
+                                merge-bottom: true
+                          - hr:
+                            
+                      - advancement: level-up
+                        advances:
+                          - levels: [ 1, 5, 9, 13, 17 ]
+                            ancestry-feat: true
+                          - levels: [ 3, 7, 11, 15, 19 ]
+                            general-feat: true
+                          - levels: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                            class-feat: true
+                          - levels: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                            skill-feat: true
+                          - levels: [ 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
+                            skill-increase: true
+                          - levels: [ 5, 10, 15, 20 ]
+                            gain: "_{Attribute boost} &times; 4"
+
+                          - zone: '@advancement'
+                        fields:
+                          - zone: '@advancement-fields'
+                          - name: "_{Ancestry\nfeat}"
+                            key: ancestry-feat
+                          - name: "_{General\nfeat}"
+                            key: general-feat
+                          - name: "_{Class\nfeat}"
+                            key: class-feat
+                          - name: "_{Skill\nfeat}"
+                            key: skill-feat
+                          - name: "_{Skill\nincrease}"
+                            key: skill-increase
+
+                      - zone: '@advancement/after'
+
+                  - section: "_{Retraining}"
+                    contents:
+                      - p: "_{With your GM's permission, you can retrain certain features.}"
+
+                      - layout: 2e
+                        contents:
+                          - g:
+                            contents:
+                              - g:
+                                pad: true
+                                contents:
+                                  - h5: "_{Feats}"
+                                  - layout: indent-l
+                                    contents:
+                                      - cost: "1"
+                                        unit: "_{week}"
+                                      - p: "_{Replace one feat with another of the same type and appropriate level.}"
+
+                              - g:
+                                pad: true
+                                contents:
+                                  - h5: "_{Skills}"
+                                  - layout: indent-l
+                                    contents:
+                                      - cost: "1"
+                                        unit: "_{week}"
+                                      - g:
+                                        contents:
+                                          - p: "_{Swap out one of your skill proficiency ranks, including initial skills.}"
+                                          - p: "_{The new proficiency rank cannot exceed the rank you traded away.}"
+
+                          - g:
+                            contents:
+                              - g:
+                                pad: true
+                                contents:
+                                  - h5: "_{Class features}"
+                                  - layout: indent-l
+                                    contents:
+                                      - cost: "1"
+                                        unit: "_{month}"
+                                      - p: "_{Change a class choice. GM will tell you how long this takes — always at least a month.}"
+
+                              - zone: '@advancement/retraining'
+                              - spacer:
+
+                  - tail:
+                  - spacer:
+

@@ -1,0 +1,256 @@
+unit: class/remaster/druid
+in: class
+group: "_{Player Core}"
+name: "_{Druid}"
+
+form:
+  - select: druid/order
+    name: "_{Druidic Order}"
+    max: 1
+  - select: feat/druid
+    name: "_{Druid Feats}"
+    max: 9
+    levels: [ 2, 4, 6, 8, 10, 14, 16, 18, 20 ]
+
+require:
+  # - unit: option/animal-companion
+  - deny: archetype/druid
+  - unit: option/spellbook
+  - unit: weapon-spec/slow
+  - with: option/reference
+    unit: class/remaster/druid/reference
+
+inc:
+  - paste: prototype/class
+    params:
+      class: druid
+      class-name: "_{Druid}"
+      subclass: order
+      subclass-name: "_{Order}"
+      hp: 8
+      perception: trained
+      unarmoured: trained
+      light-armour: trained
+      medium-armour: trained
+      heavy-armour:
+
+      fortitude: trained
+      reflex: trained
+      will: expert
+
+      spells: trained
+
+      nature: trained
+
+  - at: '@skill-actions'
+    add:
+      - paste: 10mins
+        contents:
+          - p:
+            title: "_{Identify Magic (Nature/other)}"
+            content: "_{Take 10 minutes to identify a magical item, location or effect.}"
+            colour: WIS
+      - action:
+        contents:
+          - p:
+            title: "_{Command An Animal (Nature)}"
+            content: "_{Attempt a check against the target's Will DC; the GM may adjust the DC based on attitude or circumstances. Fail if the target is hostile or unfriendly.}"
+            colour: WIS
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        gain: "_{Druidic Order}"
+      - level: 1
+        advance: "_{Wild Empathy}"
+      - level: 1
+        advance: "_{Shield Block}"
+      - levels: [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
+        spell-level: [ "_{1st}", "_{2nd}", "_{3rd}", "_{4th}", "_{5th}", "_{6th}", "_{7th}", "_{8th}", "_{9th}", "_{10th}" ]
+      - level: 19
+        advance: "_{Primal hierophant}"
+
+      - level: 3
+        advance: "_{Fortitude saves}"
+        proficiency: expert
+        colour: CON
+      - level: 5
+        advance: "_{Reflex saves}"
+        proficiency: expert
+        colour: DEX
+      - level: 7
+        advance: "_{Spell attacks and DCs}"
+        proficiency: expert
+      - level: 11
+        advance: "_{Simple weapons}, _{Unarmed attacks}"
+        proficiency: expert
+      - level: 11
+        advance: "_{Will saves}"
+        proficiency: master
+        colour: WIS
+      - level: 13
+        advance: "_{Light armour}, _{Medium armour}, _{Unarmoured defence}"
+        proficiency: expert
+      - level: 15
+        advance: "_{Spell attacks and DCs}"
+        proficiency: master
+      - level: 19
+        advance: "_{Spell attacks and DCs}"
+        proficiency: legendary
+
+  - at: '@advancement-fields'
+    add:
+      - name: "_{Spell Level}"
+        key: spell-level
+        format: string
+
+  - at: '@saving-throws'
+    add:
+      - level: 9
+        contents:
+          - paste: resolve
+
+  - at: '@cover-class'
+    replace:
+      - h6: "_{Druid}"
+      - field: druid:order
+        label: "_{Order}"
+        width: stretch
+        align: left
+
+  - at: '@key-ability-field'
+    replace:
+      - field: key-ability
+        label: "_{WIS}"
+        underlay: "_{WIS}"
+        ref: WIS
+        
+  - at: '@familiar/key-ability'
+    replace:
+      - field: druid:familiar/key-ability
+        label: "_{WIS}"
+        underlay: "_{WIS}"
+        ref: WIS
+        
+  - at: '@pages'
+    add:
+      - page: druid
+        name: "_{Druid}"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: druid
+                    optional: true
+                  - class-name: "_{Druid}"
+                  - section: "_{Druidic Order}"
+                    primary: true
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - zone: '@druid/order'
+                            contents:
+                              - field: druid:order
+                                frame: none
+                                size: huge
+                                width: stretch
+                                align: center
+                                merge-bottom: true
+
+                          - g:
+                            contents:
+                              - h5: "_{Anathema}"
+                              - ul:
+                                contents:
+                                  # - li: "_{Using metal armor or shields}"
+                                  - li: "_{Despoiling natural places}"
+                                  - li: "_{Teaching Wildsong to nondruids}"
+                                  - zone: '@anathema'
+                                    contents:
+                                      - field: druid:anathema
+                                        width: stretch
+                                        label: "_{Order Anathema}"
+                                        repeat: 3
+                                        merge-bottom: 2
+
+                  - zone: '@druid/order-feat'
+                    contents:
+                      - section: "_{Order Feat}"
+                        contents:
+                          - article: druid:order/feat
+                            lines: 3
+
+                  - zone: '@druid/order-power'
+                    contents:
+                      - section: "_{Order Power}"
+                        contents:
+                          - list:
+                            hr: true
+                            contents:
+                              - article: druid:order/power
+                                lines: 3
+
+                  - section: "_{Spellcasting}"
+                    contents:
+                      - paste: spellcasting-prepared
+                        params:
+                          cantrips-text: "_{Prepare 5 cantrips each morning from the primal spell list. Cast them indefinitely.}"
+                          spells-icon: druid
+                          spells-text: "_{Prepare spells each morning from the primal spell list.}"
+
+                      - spells-table:
+                        prepared: true
+                        flip: true
+                        max: 10
+                        merge-bottom: false
+
+                      - paste: spell-attack
+                      - paste: spell-dc
+
+                  - section: "_{Wild Empathy}"
+                    contents:
+                      - p: "_{Communicate with creatures on a rudimentary level. You can use Diplomacy to Make an Impression on animals and to make very simple Requests of them.}"
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+
+                  - zone: '@druid/right'
+
+                  - section: "_{Cantrips}"
+                    contents:
+                      - spells-list:
+                        min: 0
+                        max: 0
+                        spells: 5
+                        style: spontaneous
+
+                  - section: "_{Spells}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - spells-list:
+                            min: 1
+                            max: 9
+                            spells: 4
+                          - spells-list:
+                            min: 10
+                            max: 10
+                            spells: 2
+
+                  - paste: class-feats
+                    params:
+                      id: druid-feats
+                      title: "_{Druid Feats}"
+                      mark: druid
+                      extra: 0
+                      
+                  - tail:
+                  - spacer:

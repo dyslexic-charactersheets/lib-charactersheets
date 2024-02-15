@@ -1,0 +1,621 @@
+unit: option/build
+name: "_{Build A Character}"
+group: "_{Player Core}"
+
+inc:
+  - copy: '##:proficiency'
+    params:
+      id:
+      label:
+    contents:
+      - row:
+        contents:
+          - field: "build/#{id}"
+            control: proficiency
+            has-bonus: false
+            frame: none
+          - p: "#{label}"
+          - spacer:
+
+  - at: '@pages'
+    add:
+      - page: build
+        name: "_{Build A Character}"
+        no-bg: true
+        order: 2
+        flex: true
+        numbered: false
+        contents:
+          - layout: 2l
+            # flex: large
+            contents:
+              - g:
+                contents:
+                  - h2: "_{Build A Character}"
+                  - row:
+                    layout: center
+                    contents:
+                      - icon: down-arrow
+              - g:
+                contents:
+                  - field: build/concept
+                    legend: "_{Character concept}"
+                    width: stretch
+                    merge-bottom: true
+                    repeat: 2
+
+          - layout: 2l
+            flex: small
+            contents:
+              - g:
+                valign: top
+                contents:
+                  - h4: "_{Step One}"
+                  - paste: book-ref
+                    params:
+                      page-ref: "_{CRB p33}"
+                    contents:
+                      - p: "_{Pick your race and heritage.}"
+
+              - section: "_{Ancestry}"
+                contents:
+                  - g:
+                    valign: top
+                    contents:
+                      - layout: 2e
+                        contents:
+                          - row:
+                            contents:
+                              - field: build/ancestry
+                                width: stretch
+                                align: left
+                                label: "_{Ancestry}"
+                          - row:
+                            contents:
+                              - field: build/hp-ancestry
+                                label: "_{Hit Points}"
+                                icon: hp
+                                suffix: "_{hp}"
+                              - field: build/ancestry-size
+                                label: "_{Size}"
+                                icon: size
+                              - field: build/ancestry-speed
+                                label: "_{Speed}"
+                                control: speed
+                                width: large
+                      - layout: 2e
+                        contents:
+                          - row:
+                            contents:
+                              - field: build/ancestry-heritage
+                                width: stretch
+                                align: left
+                                label: "_{Heritage}"
+                                merge-bottom: true
+                          - level: 1
+                            contents:
+                              - field: build/ancestry-feat
+                                width: stretch
+                                align: left
+                                label: "_{Ancestry feat}"
+                                merge-bottom: true
+          - layout: 2l
+            flex: tiny
+            contents:
+              - g:
+                valign: top
+                contents:
+                  - h4: "_{Step Two}"
+                  - paste: book-ref
+                    params:
+                      page-ref: "_{CRB p60}"
+                    contents:
+                      - p: "_{Decide how your character grew up.}"
+              - section: "_{Background}"
+                contents:
+                  - layout: 2e
+                    contents:
+                      - row:
+                        contents:
+                          - field: build/background
+                            label: "_{Background}"
+                            width: stretch
+                            align: left
+                            merge-bottom: true
+                      - level: 1
+                        contents:
+                          - field: build/background-skill-feat
+                            label: "_{Skill Feat}"
+                            width: stretch
+                            align: left
+                            merge-bottom: true
+
+          - layout: 2l
+            flex: small
+            contents:
+              - g:
+                valign: top
+                contents:
+                  - h4: "_{Step Three}"
+                  - paste: book-ref
+                    params:
+                      page-ref: "_{CRB p67}"
+                    contents:
+                      - p: "_{Pick one of the available classes.}"
+                  - p: "_{You may need to pick a subclass (bloodline, doctrine etc).}"
+                  - spacer:
+              - section: "_{Class}"
+                contents:
+                  - layout: 2e
+                    contents:
+                      - row:
+                        contents:
+                          - field: build/class
+                            label: "_{Class}"
+                            width: stretch
+                      - row:
+                        contents:
+                          - field: build/hp-class
+                            label: "_{Hit Points}"
+                            icon: hp
+                            suffix: "_{hp}"
+                            width: large
+                            ruby: "_{per level}"
+                          - field: build/class-key-ability
+                            label: "_{Key Ability}"
+                            width: stretch
+                  - layout: 2e
+                    contents:
+                      - field: build/class-specialisation
+                        label: "_{Subclass}"
+                        width: stretch
+                        merge-bottom: true
+                      - field: build/deity
+                        label: "_{Deity}"
+                        width: stretch
+                        merge-bottom: true
+
+          - layout: 2l
+            flex: tiny
+            contents:
+              - g:
+                valign: top
+                contents:
+                  - h4: "_{Step Four}"
+                  - paste: book-ref
+                    params:
+                      page-ref: "_{CRB p20}"
+                    contents:
+                      - p: "_{Add up your attribute modifiers:}"
+                  - ul:
+                    contents:
+                      - li: "_{Several +1 and -1 from your ancestry.}"
+                      - ul:
+                        contents:
+                          - li: "_{OR +1 to any TWO attributes}"
+                          - li: "_{Optionally, -1 to one attribute}"
+                      - li: "_{Two +1 from your background, one a free choice.}"
+                      - li: "_{One +1 from your class.}"
+                      - li: "_{Free +1 to any FOUR attributes.}"
+                  - spacer:
+              - section: "_{Attributes}"
+                contents:
+                  - table: "##:abilities"
+                    field_frame: none
+                    collapse: true
+                    zebra: true
+                    width: stretch
+                    columns:
+                      - ""
+                      - "_{Ancestry}\n-1 / +1"
+                      - "_{Background}\n+1"
+                      - "_{Class}\n+1"
+                      - "_{4 Free}\n+1"
+                      - ""
+                      - "_{Attribute Modifier}"
+                      - "_{Key\nAttribute}"
+                    rows:
+                      - ability: "_{Strength}"
+                        short: "_{STR}"
+                        code: STR
+                      - ability: "_{Dexterity}"
+                        short: "_{DEX}"
+                        code: DEX
+                      - ability: "_{Constitution}"
+                        short: "_{CON}"
+                        code: CON
+                      - ability: "_{Intelligence}"
+                        short: "_{INT}"
+                        code: INT
+                      - ability: "_{Wisdom}"
+                        short: "_{WIS}"
+                        code: WIS
+                      - ability: "_{Charisma}"
+                        short: "_{CHA}"
+                        code: CHA
+                    template:
+                      - h6: "#{ability}"
+                      - field: build/boost-#{code}-ancestry
+                        control: boost
+                      - field: build/boost-#{code}-background
+                        control: boost
+                        down: false
+                      - field: build/boost-#{code}-class
+                        control: boost
+                        down: false
+                      - field: build/boost-#{code}-free
+                        control: boost
+                        down: false
+                      - span: "&rArr;"
+                      - field: build/#{code}
+                        icon: dc
+                        border: full
+                        underlay: "#{short}"
+                        eq: "%{build/boost-#{code}-ancestry[up]}-%{build/boost-#{code}-ancestry[down]}+%{build/boost-#{code}-background[up]}+%{build/boost-#{code}-class[up]}+%{build/boost-#{code}-free[up]}"
+                        format: modifier
+                      - field: build/key-ability
+                        control: radio
+                        value: "#{code}"
+          - layout: 2l
+            # flex: large
+            contents:
+              - g:
+                valign: top
+                contents:
+                  - paste: book-ref
+                    params:
+                      page-ref: "_{CRB p67}"
+                    contents:
+                      - p: "_{Calculate your hit points.}"
+              - g:
+                valign: top
+                contents:
+                  - hr:
+                  - calc:
+                    output:
+                      field: build/hp
+                      legend: "_{Hit Points}"
+                      icon: hp
+                      suffix: "_{hp}"
+                      width: large
+                      eq: '%{build/hp-ancestry}+((%{build/hp-class}+%{build/CON})*%{build/level})+%{build/hp-misc}'
+                    inputs:
+                      - field:
+                        ref: build/hp-ancestry
+                        label: "_{Ancestry}"
+                      - span: "+ ("
+                      - field:
+                        ref: build/hp-class
+                        label: "_{Class}"
+                      - span: "+"
+                      - field:
+                        ref: build/CON
+                        underlay: "_{CON}"
+                      - span: ") &times;"
+                      - field:
+                        ref: build/level
+                        label: "_{Level}"
+                        underlay: "1"
+
+          - layout: 2l
+            contents:
+              - g:
+                valign: top
+                contents:
+                  - h4: "_{Step Five}"
+                  - p: "_{Your proficiency bonuses at level 1 are: 0, 3, 5, 7 and 9. They increase as you level up.}"
+
+              - g:
+                valign: top
+                contents:
+                  - section: "_{Proficiency}"
+                    contents:
+                      - layout: 2ll
+                        contents:
+                          - g:
+                            contents:
+                              - field: build/level
+                                label: "_{Level}"
+                                border: circle
+                                format: int
+                                size: huge
+                                underlay: 1
+                          
+                          - row:
+                            contents:
+                              - h6: "&rarr;"
+                              - spacer:
+                              - field: build/proficiency-untrained
+                                label: "_{Untrained}"
+                                output: true
+                                control: value
+                                icon: proficiency
+                                border: full
+                                value: 0
+                                ruby: "_{None}\n"
+                                format: modifier
+                              - field: build/proficiency-trained
+                                label: "_{Trained}"
+                                icon: proficiency-trained
+                                ruby: "_{Level}\n+2"
+                                eq: "minmax(%{build/level},1,20)+2"
+                                border: full
+                                format: modifier
+                              - field: build/proficiency-expert
+                                label: "_{Expert}"
+                                icon: proficiency-expert
+                                ruby: "_{Level}\n+4"
+                                eq: "minmax(%{build/level},1,20)+4"
+                                border: full
+                                format: modifier
+                              - field: build/proficiency-master
+                                label: "_{Master}"
+                                icon: proficiency-master
+                                ruby: "_{Level}\n+6"
+                                eq: "minmax(%{build/level},1,20)+6"
+                                border: full
+                                format: modifier
+                              - field: build/proficiency-legendary
+                                label: "_{Legendary}"
+                                icon: proficiency-legendary
+                                ruby: "_{Level}\n+8"
+                                eq: "minmax(%{build/level},1,20)+8"
+                                border: full
+                                format: modifier
+                              - spacer:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - paste: book-ref
+                    params:
+                      page-ref: "_{CRB p68}"
+                    contents:
+                      - p: "_{Gain proficiencies from your background and class.}"
+                  - p: "_{Become trained in a number of skills based on your class.}"
+                  - calc:
+                    pad: true
+                    inline: true
+                    output:
+                      label: "_{Additional\nSkills}"
+                    inputs:
+                      - field: build/skills-class
+                        label: "_{Class}"
+                      - span: "+"
+                      - field:
+                        ref: build/INT
+                        label: "_{INT}"
+                        underlay: "_{INT}"
+                  - p: "_{If two sources give you training in the same skill, they don't add up. You may be able to spend the training elsewhere.}"
+                  - spacer:
+
+              - g:
+                contents:
+                  - hr:
+                  - layout: 4e
+                    gutter: none
+                    contents:
+                      - h6: "_{Saving Throws}:"
+                      - paste: '##:proficiency'
+                        params:
+                          id: fortitude
+                          label: "_{Fortitude}"
+                      - paste: '##:proficiency'
+                        params:
+                          id: reflex
+                          label: "_{Reflex}"
+                      - paste: '##:proficiency'
+                        params:
+                          id: will
+                          label: "_{Will}"
+                  - layout: 4e
+                    gutter: none
+                    contents:
+                      - h6: "_{Proficiencies}:"
+                      - paste: '##:proficiency'
+                        params:
+                          id: perception
+                          label: "_{Perception}"
+                      - paste: '##:proficiency'
+                        params:
+                          id: class-dc
+                          label: "_{Class DC}"
+                      - paste: '##:proficiency'
+                        params:
+                          id: spell-dc
+                          label: "_{Spell Attack/DC}"
+                  - layout: 3e
+                    contents:
+                      - g:
+                        contents:
+                          - h5: "_{Background Skill}"
+                          - row:
+                            valign: middle
+                            contents:
+                              - field: build/proficiency-skill-background-value
+                                control: proficiency
+                                has-bonus: false
+                              - field: build/proficiency-skill-background
+                                frame: none
+                                width: stretch
+                      - g:
+                        contents:
+                          - h5: "_{Lore Skill}"
+                          - row:
+                            valign: middle
+                            contents:
+                              - field: build/proficiency-skill-lore-value
+                                control: proficiency
+                                has-bonus: false
+                              - field: build/proficiency-skill-lore
+                                frame: none
+                                width: stretch
+                      - g:
+                        contents:
+                          - h5: "_{Skill}"
+                          - row:
+                            valign: middle
+                            contents:
+                              - field: build/proficiency-skill-1-value
+                                control: proficiency
+                                has-bonus: false
+                              - field: build/proficiency-skill-1
+                                frame: none
+                                width: stretch
+
+                  # - layout: 3e
+                  #   contents:
+                  #     - g:
+                  #       contents:
+                  #         - h5: "_{Background Skill}"
+                  #         - row:
+                  #           valign: middle
+                  #           contents:
+                  #             - field: build/proficiency-skill-background-value
+                  #               control: proficiency
+                  #               has-bonus: false
+                  #             - field: build/proficiency-skill-background
+                  #               frame: none
+                  #               width: stretch
+                  #         - h5: "_{Lore Skill}"
+                  #         - row:
+                  #           valign: middle
+                  #           contents:
+                  #             - field: build/proficiency-skill-lore-value
+                  #               control: proficiency
+                  #               has-bonus: false
+                  #             - field: build/proficiency-skill-lore
+                  #               frame: none
+                  #               width: stretch
+                  #               merge-bottom: true
+
+                  #     - g:
+                  #       contents:
+                  #         - row:
+                  #           valign: middle
+                  #           contents:
+                  #             - field: build/proficiency-skill-1-value
+                  #               control: proficiency
+                  #               has-bonus: false
+                  #             - field: build/proficiency-skill-1
+                  #               frame: none
+                  #               width: stretch
+                  #         - row:
+                  #           valign: middle
+                  #           contents:
+                  #             - field: build/proficiency-skill-2-value
+                  #               control: proficiency
+                  #               has-bonus: false
+                  #             - field: build/proficiency-skill-2
+                  #               frame: none
+                  #               width: stretch
+                  #         - row:
+                  #           valign: middle
+                  #           contents:
+                  #             - field: build/proficiency-skill-3-value
+                  #               control: proficiency
+                  #               has-bonus: false
+                  #             - field: build/proficiency-skill-3
+                  #               frame: none
+                  #               width: stretch
+                  #               merge-bottom: true
+                  #     - g:
+                  #       contents:
+                  #         - row:
+                  #           valign: middle
+                  #           contents:
+                  #             - field: build/proficiency-skill-4-value
+                  #               control: proficiency
+                  #               has-bonus: false
+                  #             - field: build/proficiency-skill-4
+                  #               frame: none
+                  #               width: stretch
+                  #         - row:
+                  #           valign: middle
+                  #           contents:
+                  #             - field: build/proficiency-skill-5-value
+                  #               control: proficiency
+                  #               has-bonus: false
+                  #             - field: build/proficiency-skill-5
+                  #               frame: none
+                  #               width: stretch
+                  #         - row:
+                  #           valign: middle
+                  #           contents:
+                  #             - field: build/proficiency-skill-6-value
+                  #               control: proficiency
+                  #               has-bonus: false
+                  #             - field: build/proficiency-skill-6
+                  #               frame: none
+                  #               width: stretch
+                  #               merge-bottom: true
+              
+          - layout: 2l
+            flex: tiny
+            contents:
+              - g:
+                valign: top
+                contents:
+                  - h4: "_{Step Six}"
+                  - paste: book-ref
+                    params:
+                      page-ref: "_{CRB p271}"
+                    contents:
+                      - p: "_{Work out what your character owns.}"
+                  - row:
+                    layout: split
+                    contents:
+                      - field: build/starting-money
+                        legend: "_{Starting Money}"
+                        suffix: "_{gp}"
+                        value: '15'
+                        border: full
+                        control: money
+                        denomination: gold
+                        digits: 2
+                        editable: false
+                      - spacer:
+                      - field: build/remaining-money
+                        label: "_{Remaining Money}"
+                        control: money
+                        denomination: copper
+                        digits: 5
+                        decimal: 1
+                        eq: "(%{build/starting-money}*100)-%{build/cost-kit}-%{build/cost-weapons}-%{build/cost-ammo}-%{build/cost-armour}-%{build/cost-gear}-%{build/cost-other}-%{build/cost-other2}"
+                  - spacer:
+              - section: "_{Equipment}"
+                contents:
+                  - table: "##:equipment"
+                    blk: false
+                    collapse: true
+                    field_frame: none
+                    width: stretch
+                    merge-bottom: true
+                    rows:
+                      - id: kit
+                        name: "_{Kit}"
+                      - id: weapons
+                        name: "_{Weapons}"
+                      - id: ammo
+                        name: "_{Ammunition}"
+                      - id: armour
+                        name: "_{Armour & Clothes}"
+                      - id: gear
+                        name: "_{Gear}"
+                      - id: other
+                        name: "_{Other}"
+                      - id: other2
+                        name: "_{Other}"
+                    template:
+                      - h6: "#{name}"
+                      - field: "build/equipment-#{id}"
+                        width: stretch
+                      - span: "&nbsp;"
+                      - field: "build/cost-#{id}"
+                        control: money
+                        denomination: copper
+                        digits: 5
+                        decimal: 1
+                  - spacer:
+                    flex: small
+                  - tail:

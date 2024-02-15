@@ -1,0 +1,168 @@
+unit: defs/spells
+group: "_{Player Core}"
+
+inc:
+  # ingredients
+  - copy: spellcasting-cantrips
+    params:
+      title: "_{Cantrips}"
+      content:
+    contents:
+      - layout: indent-l
+        contents:
+          - p: "&infin;"
+            size: large
+            prose: true
+            align: center
+          - g:
+            contents:
+              - p:
+                title: "#{title}"
+                content: "#{content}"
+
+              - p: "_{Cantrips heighten automatically}"
+                icon: up-arrow
+
+              # - hr:
+              #   light: true
+
+  - copy: spellcasting-spells
+    params:
+      icon:
+      title: "_{Spells}"
+      content: 
+      heighten:
+    contents:
+      - layout: indent-l
+        contents:
+          - g:
+            align: center
+            contents:
+              - icon: "#{icon}"
+                align: center
+          - g:
+            contents:
+              - p:
+                title: "#{title}"
+                content: "#{content}"
+
+              - if: "#{heighten}"
+                then:
+                  - p: "#{heighten}"
+                    icon: up-arrow
+
+  - copy: spellcasting-focus
+    params:
+      icon:
+      title: "_{Spells}"
+      content: 
+      heighten: "_{Focus spells heighten automatically}"
+    contents:
+      - layout: indent-lr
+        contents:
+          - g:
+            align: center
+            contents:
+              - icon: "#{icon}"
+                align: center
+          - g:
+            contents:
+              - p:
+                title: "#{title}"
+                content: "#{content}"
+
+              - p: "#{heighten}"
+                icon: up-arrow
+          - cost: "_{1pt}"
+            unit: "_{Focus}"
+
+  
+  # whole blocks
+
+  - copy: spellcasting
+    params:
+      cantrips-text:
+      spells-icon: book
+      spells-text:
+      heighten:
+      signature-spells: false
+    contents:
+      - list:
+        hr: true
+        light: true
+        contents:
+          - paste: spellcasting-cantrips
+            params:
+              content: "#{cantrips-text}"
+          - paste: spellcasting-spells
+            params:
+              icon: "#{spells-icon}"
+              content: "#{spells-text}"
+              heighten: "#{heighten}"
+          - if: "#{signature-spells}"
+            then:
+              - level: 3
+                contents:
+                  - p: "_{Signature spells can be heightened without learning separately.}"
+
+  - copy: spellcasting-spontaneous
+    params:
+      cantrips-text: "_{Cast cantrips you know indefinitely.}"
+      spells-icon: book
+      spells-text: "_{Cast spells you know using spell slots.}"
+      heighten: "_{Spells must be learned at a higher rank to heighten}"
+      signature-spells: true
+    contents:
+      - paste: spellcasting
+        params:
+          cantrips-text: "#{cantrips-text}"
+          spells-icon: "#{spells-icon}"
+          spells-text: "#{spells-text}"
+          heighten: "#{heighten}"
+          signature-spells: "#{signature-spells}"
+
+  - copy: spellcasting-prepared
+    params:
+      cantrips-text: "_{Prepare 5 cantrips each morning from your spellbook. Cast them indefinitely.}"
+      spells-icon: book
+      spells-text: "_{Prepare spells each morning from your spellbook.}"
+      heighten: "_{Spells can be prepared in a higher rank}"
+    contents:
+      - paste: spellcasting
+        params:
+          cantrips-text: "#{cantrips-text}"
+          spells-icon: "#{spells-icon}"
+          spells-text: "#{spells-text}"
+          heighten: "#{heighten}"
+          signature-spells: false
+
+
+  # utility
+
+  - copy: heighten-spell
+    params:
+      rank: ""
+      content: ""
+    contents:
+      - if: "#{content}"
+        then:
+          - p:
+            title: "#{rank}"
+            icon: up-arrow
+            content: "#{content}"
+        else:
+          - layout: indent-l
+            contents:
+              - g:
+                valign: middle
+                contents:
+                  - p:
+                    icon: up-arrow
+                    title: "#{rank}"
+              - g:
+                valign: middle
+                contents:
+                  - g:
+                    contents:
+                      - item:
+

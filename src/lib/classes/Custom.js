@@ -2,7 +2,8 @@ import { log, error } from '../log';
 import { interpolate, has } from '../util/objects';
 import { replaceColours, adjustColour, vibrantColour } from '../util/colours';
 import { __ } from '../i18n';
-import { ready as systemsReady, getSystem } from './System';
+import { PREMIUM, ready as systemsReady } from './System';
+import { getSystemStack } from './SystemStack';
 import { Instance } from './Instance';
 import { Document } from './Document';
 import { events } from './Events';
@@ -97,7 +98,7 @@ export class Custom extends Instance {
 
         systemsReady(() => {
           try {
-            const system = getSystem('premium');
+            const system = getSystemStack(PREMIUM);
             if (system === null) {
               error("Custom", "System not found:", data.game);
               reject();

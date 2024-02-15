@@ -2,7 +2,8 @@ import { Instance } from './Instance';
 import { isEmpty } from '../util';
 import { log, warn, error } from '../log';
 import { has } from '../util/objects';
-import { ready as systemsReady, getSystem } from './System';
+import { ready as systemsReady } from './System';
+import { getSystemStack } from './SystemStack';
 import { replaceColours, vibrantColour } from '../util/colours';
 import { Document } from './Document';
 import { events } from './Events';
@@ -42,7 +43,7 @@ export class GM_Instance extends Instance {
 
       systemsReady(() => {
         try {
-          const system = getSystem(data.game);
+          const system = getSystemStack(data.game);
           if (system === null) {
             error("GM", "System not found:", data.game);
             reject();

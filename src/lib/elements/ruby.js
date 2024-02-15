@@ -16,6 +16,22 @@ export let ruby = {
   }
 }
 
+export let ruby_min1 = {
+  name: 'ruby-min1',
+  defaults: {
+    contents: []
+  },
+  transform(args) {
+    return [
+      {
+        type: 'ruby',
+        ruby: '_{(Minimum 1)}',
+        contents: args.contents
+      }
+    ];
+  }
+}
+
 export let ruby_round_down = {
   name: 'ruby-round-down',
   defaults: {

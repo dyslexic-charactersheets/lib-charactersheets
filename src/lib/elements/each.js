@@ -17,8 +17,20 @@ export let each = {
   transform(args) {
     let i = 0;
 
+    // if (isObject(args.contents)) {
+    //   log("each", "Each by key", args.contents);
+    //   return Object.keys(args.contents).flatMap((key) => {
+    //     i++;
+
+    //     let values = cloneDeep(args.params);
+    //     values[args.index] = key;
+
+
+    //   });
+    // }
+
     // log("each", "Items", args.contents);
-    return args.contents.flatMap(item => {
+    return args.contents.flatMap((item) => {
       i++;
 
       let values = cloneDeep(args.params);

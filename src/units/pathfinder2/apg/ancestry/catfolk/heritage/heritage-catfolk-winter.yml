@@ -18,10 +18,12 @@ inc:
               legend: "_{Cold Resistance}"
               border: full
               width: large
-              eq: "floor(%{level}/2)"
+              eq: "min1(floor(%{level}/2))"
             inputs:
-              - field:
-                ref: level
-                label: "_{Level}"
-              - span: "&divide; 2"
+              - ruby-min1:
+                contents:
+                  - field:
+                    ref: level
+                    label: "_{Level}"
+                  - span: "&divide; 2"
           - p: "_{Treat cold conditions as one step less severe.}"

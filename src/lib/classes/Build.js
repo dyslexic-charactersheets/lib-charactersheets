@@ -1,5 +1,6 @@
 import { log, error } from '../log';
-import { ready as systemsReady, getSystem } from './System';
+import { ready as systemsReady } from './System';
+import { getSystemStack } from './SystemStack';
 import { Document } from './Document';
 import { LoadQueue } from './LoadQueue';
 
@@ -29,7 +30,7 @@ export class Build {
       systemsReady(() => {
         try {
           log("Build", "Data", this.data);
-          const system = getSystem(this.data.game);
+          const system = getSystemStack(this.data.game);
 
           const documentUnit = system.getUnit("document");
           const document = new Document(documentUnit);

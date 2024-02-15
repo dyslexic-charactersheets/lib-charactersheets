@@ -26,3 +26,8 @@ export function trace(registry, area, message, ...args) {
   });
   console.log(`${prefix}${trace}\n                ${message}`, ...args);
 }
+
+export function stackTrace() {
+  var err = new Error();
+  console.log(err.stack);
+}

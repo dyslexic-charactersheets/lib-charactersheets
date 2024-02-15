@@ -1,0 +1,204 @@
+unit: defs/saves
+group: "_{Player Core}"
+
+inc:
+
+  # Standard saves
+  - copy: improved-save-fort
+    params:
+      title: ""
+    contents:
+      - p: "_{Upgraded success at Fortitude saves.}"
+        title: "#{title}"
+        icon: save-crit-succeed
+
+  - copy: improved-save-fort-2
+    params:
+      title: ""
+    contents:
+      - p: "_{Reduced failure at Fortitude saves.}"
+        title: "#{title}"
+        icon: save-fail
+      # - p: "_{On failing a Fortitude save, take half damage.}"
+      
+  - copy: improved-save-ref
+    params:
+      title: ""
+    contents:
+      - p: "_{Upgraded success at Reflex saves.}"
+        title: "#{title}"
+        icon: save-crit-succeed
+
+  - copy: improved-save-ref-2
+    params:
+      title: ""
+    contents:
+      - p: "_{Reduced failure at Reflex saves.}"
+        title: "#{title}"
+        icon: save-fail
+      # - p: "_{On failing a Reflex save, take half damage.}"
+      
+  - copy: improved-save-will
+    params:
+      title: ""
+    contents:
+      - p: "_{Upgraded success at Will saves.}"
+        title: "#{title}"
+        icon: save-crit-succeed
+
+  - copy: improved-save-will-2
+    params:
+      title: ""
+    contents:
+      - p: "_{Reduced failure at Will saves.}"
+        title: "#{title}"
+        icon: save-fail
+      # - p: "_{On failing a Will save, take half damage.}"
+
+  - copy: expert-save-fort
+    params:
+      title: ""
+    contents:
+      - p: "_{Expert at Fortitude saves.}"
+        title: "#{title}"
+        icon: proficiency-expert
+
+  - copy: expert-save-ref
+    params:
+      title: ""
+    contents:
+      - p: "_{Expert at Reflex saves.}"
+        title: "#{title}"
+        icon: proficiency-expert
+
+  - copy: expert-save-will
+    params:
+      title: ""
+    contents:
+      - p: "_{Expert at Will saves.}"
+        title: "#{title}"
+        icon: proficiency-expert
+
+
+  # Actual improvements by name
+  - copy: juggernaut
+    contents:
+      - paste: improved-save-fort
+        params:
+          title: "_{Juggernaut}"
+
+  - copy: greater-juggernaut
+    contents:
+      - paste: improved-save-fort-2
+        params:
+          title: "_{Greater Juggernaut}"
+
+  - copy: evasive-reflexes
+    contents:
+      - paste: improved-save-ref
+        params:
+          title: "_{Evasive Reflexes}"
+
+  - copy: greater-reflexes
+    params:
+      name: "_{Greater Reflexes}"
+    contents:
+      - paste: improved-save-ref-2
+        params:
+          title: "#{name}"
+
+  - copy: agile-mind
+    contents:
+      - paste: improved-save-will
+        params:
+          title: "_{Agile Mind}"
+          
+  - copy: bravery
+    contents:
+      - paste: improved-save-will
+        params:
+          title: "_{Bravery}"
+          
+  - copy: indomitable-will
+    contents:
+      - paste: improved-save-will
+        params:
+          title: "_{Indomitable Will}"
+          
+  - copy: resolve
+    params:
+      title: "_{Resolve}"
+    contents:
+      - paste: improved-save-will
+        params:
+          title: "#{title}"
+          
+  - copy: divine-will
+    contents:
+      - paste: improved-save-will
+        params:
+          title: "_{Divine Will}"
+
+  - copy: greater-resolve
+    contents:
+      - paste: improved-save-will-2
+        params:
+          title: "_{Greater Resolve}"
+
+          
+  - copy: iron-will
+    contents:
+      - paste: expert-save-will
+        params:
+          title: "_{Iron Will}"
+
+
+  # Saving throw results template
+  - copy: save
+    params:
+      critical_success: ""
+      success: ""
+      failure: ""
+      critical_failure: ""
+    contents:
+      - dl:
+        div: true
+        defs:
+          critical_success: "#{critical_success}"
+          success: "#{success}"
+          failure: "#{failure}"
+          critical_failure: "#{critical_failure}"
+
+  - copy: inline-save
+    params:
+      save: ""
+      critical_success: ""
+      success: ""
+      failure: ""
+      critical_failure: ""
+    contents:
+      - row:
+        contents:
+          - h5: "#{save}"
+          - dl:
+            min: true
+            defs:
+              critical_success: "#{critical_success}"
+              success: "#{success}"
+              failure: "#{failure}"
+              critical_failure: "#{critical_failure}"
+
+  - copy: basic-save
+    params:
+      save: ""
+    contents:
+      - row:
+        contents:
+          - h5: "#{save}"
+          - dl:
+            min: true
+            defs:
+              critical_success: 0
+              success: "&frac12;"
+              failure: "1 &times;"
+              critical_failure: "2 &times;"

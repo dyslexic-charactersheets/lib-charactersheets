@@ -1,12 +1,20 @@
 import { readFile } from 'fs';
-import { log, warn, error } from '../log';
+import { log, warn, error, trace, stackTrace } from '../log';
 import { isNull, isArray } from '../util';
 import { has } from '../util/objects';
 
 let systems = {};
-let commonSystem = null;
-let premiumSystem = null;
+export let commonSystem = null;
+export let premiumSystem = null;
 let promises = [];
+
+export const COMMON = "common";
+export const PREMIUM = "premium";
+export const PATHFINDER_2 = "pathfinder2";
+export const PATHFINDER_2_REMASTER = "pathfinder2remaster";
+export const STARFINDER_2 = "starfinder2";
+export const BLACK_FLAG = "blackflag";
+
 
 export class System {
   constructor(system) {
@@ -18,17 +26,16 @@ export class System {
     });
   }
 
+  hasUnit(code) {
+    return has(this.units, code);
+  }
+
   getUnit(code) {
     if (has(this.units, code)) {
       return this.units[code];
     }
-    if (commonSystem !== null && has(commonSystem.units, code)) {
-      return commonSystem.units[code];
-    }
-    if (premiumSystem !== null && has(premiumSystem.units, code)) {
-      return premiumSystem.units[code];
-    }
     warn("System", "Unknown unit:", code);
+    stackTrace();
     return null;
   }
 
@@ -80,7 +87,7 @@ export class System {
               moreunits.push(newunit);
               more = true; // let's do this again
             } else {
-              log("Character", `Required unit not found: ${req.unit}`);
+              log("System", `Required unit not found: ${req.unit}`);
             }
           });
         }
@@ -112,10 +119,10 @@ export function loadSystemData(codes) {
         log("System", `Loaded ${system.name} (${systemData.units.length} units)`);
 
         systems[code] = system;
-        if (code == "common") {
+        if (code == COMMON) {
           // log("System", "Found common system");
           commonSystem = system;
-        } else if (code == "premium") {
+        } else if (code == PREMIUM) {
           premiumSystem = system;
         }
         resolve();

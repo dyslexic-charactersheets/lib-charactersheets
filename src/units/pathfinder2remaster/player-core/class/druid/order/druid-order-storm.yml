@@ -1,0 +1,75 @@
+unit: druid/order/remaster/storm
+in: druid/order
+group: "_{Player Core}"
+name: "_{Storm}"
+
+inc:
+  - set: acrobatics-proficiency
+    value: trained
+
+  - at: '@druid/order'
+    replace:
+      - h4: "_{Storm Order}"
+
+  - at: '@druid/order-feat'
+    replace:
+      - section: "_{Storm Born}"
+        contents:
+          - p: "_{No penalties or checks to ranged spell attacks or Perception due to weather.}"
+
+  - at: '@focus-spells'
+    add:
+      - action: 2
+        contents:
+          - p:
+            title: "_{Tempest Surge}"
+            content: "_{Surround one enemy with a storm.}"
+
+  - at: '@druid/order-power'
+    replace:
+      - section: "_{Tempest Surge}"
+        contents:
+          - paste: focus
+            contents:
+              - p: "_{Surround one enemy with a storm.}"
+              - calc:
+                output:
+                  field: tempest-surge-damage
+                  legend: "_{Damage}"
+                  width: large
+                  suffix: "_{d12}"
+                  eq: "%{focus-level}"
+                inputs:
+                  - label: "_{Focus Level}"
+
+              - p: "_{Target must make a Reflex save or be clumsy 2 and take persistent electricity damage.}"
+              - row:
+                contents:
+                  - calc:
+                    output:
+                      field: tempest-surge-clumsy-duration
+                      legend: "_{Duration}"
+                      width: large
+                      suffix: "_{rds}"
+                      eq: "%{focus-level}"
+                    inputs:
+                      - label: "_{Focus Level}"
+                  - spacer:
+                  - calc:
+                    output:
+                      field: tempest-surge-clumsy-damage
+                      legend: "_{Damage}"
+                      width: large
+                      eq: "%{focus-level}"
+                    inputs:
+                      - label: "_{Focus Level}"
+
+  - at: '@focus-points'
+    replace:
+      - field: druid-tempest-surge-focus
+        label: "_{Storm Order}"
+
+  - at: '@anathema'
+    replace:
+      - li: "_{Polluting the air}"
+      - li: "_{Allowing those who cause major pollution or cause climate shifts to go unpunished}"

@@ -1,0 +1,609 @@
+unit: defs/feats
+group: "_{Player Core}"
+
+inc:
+  - copy: action-article
+    contents:
+      - article:
+        header:
+          - action: template
+          - field: args.id
+            frame: none
+            align: left
+            width: stretch
+
+  - copy: class-feats
+    params:
+      id: class-feats
+      title: "_{Class Feats}"
+      slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+      columns: 2
+      lines: 2
+      decrement: 0
+      extra: 0
+      mark: ''
+      even: true
+    contents:
+      - section: "#{title}"
+        mark: "#{mark}"
+        contents:
+          - list:
+            zebra: true
+            columns: "#{columns}"
+            flowv: true
+            hr: true
+            contents:
+              - var: article-lines
+                value: "#{lines}"
+                decrement: "#{decrement}"
+                cutoff: 1
+                contents:
+                  - each:
+                    template:
+                      - if: "#{level}"
+                        then:
+                          - level: "#{level}"
+                            contents:
+                              - item:
+                        else:
+                          - layout: indent-l
+                            contents:
+                              - g:
+                                contents:
+                                  - label: "_{Level}"
+                                  - field: "#{id}-#{i}-level"
+                                    width: small
+                                    border: full
+                              - g:
+                                contents:
+                                  - item:
+                      # - level: "#{level}"
+                      #   contents:
+                      #     - item:
+                    contents:
+                      # - log: "EVEN: #{even}"
+                      - slots: "#{slots}"
+                        key: level
+                        min: 1
+                        max: 1
+                        even: "#{even}"
+                        extra: "#{extra}"
+                        placeholder:
+                          article: "#{id}-level-#{level}"
+                          lines: "#{article-lines}"
+                        contents:
+                          - zone: '@#{id}'
+
+  - copy: archetype-resiliency
+    params:
+      class-id:
+      class-feats:
+      hp: 8
+    contents:
+      - selectable: "##:resiliency"
+        contents:
+          - p:
+            title: "_{Prerequisite}"
+            content: "_{A class granting no more than #{hp}hp}"
+          - g:
+            contents:
+              - calc:
+                output:
+                  field: "#{class-id}/resiliency/bonus-hp"
+                  legend: "_{Bonus Hit Points}"
+                  width: huge
+                  suffix: "_{hp}"
+                  eq: "3*%{#{class-id}-feats}"
+                inputs:
+                  - span: "3 &times;"
+                  - field: "#{class-id}-feats"
+                    label: "#{class-feats}"
+                    control: checkgrid
+                    style: progress
+                    max: 10
+                    depth: 2
+                    width: stretch
+
+  - copy: archetype-feats
+    params:
+      id: class-feats
+      basic-level: 4
+      basic-title: "_{Basic Feats}"
+      advanced-level: 6
+      advanced-title: "_{Advanced Feats}"
+      class-level: "_{Class\nLevel}"
+      num: 6
+      lines: 3
+    contents:
+      - list:
+        hr: true
+        zebra: true
+        contents:
+          - level: "#{basic-level}"
+            contents:
+              - h5: "#{basic-title}"
+              - p: "_{1st or 2nd level feat}"
+          - selectable: "#{id}:basic-feats"
+            flex: small
+            contents:
+              - article: "#{id}/#{i}"
+                lines: "#{lines}"
+                reduce: 1
+          - level: "#{advanced-level}"
+            contents:
+              - h5: "#{advanced-title}"
+              - calc:
+                inline: true
+                output:
+                  label: "#{class-level}"
+                  eq: "floor(%{level}/2)"
+                inputs:
+                  - label: "_{Character\nLevel}"
+                  - span: "&divide; 2"
+          - repeat: "#{num}"
+            reduce: 1
+            flex: large
+            contents:
+              - selectable: "#{id}:advanced-feat/#{i}"
+                contents:
+                  - article:
+                    lines: "#{lines}"
+                    reduce: 1
+
+
+  - copy: archetype-spellcasting-level
+    params:
+      level: 0
+      num: 2
+      max: 2
+      style: spontaneous
+    contents:
+      - level: "#{level}"
+        marker: ''
+        contents:
+          - if: "#{style}==prepared"
+            then:
+              - repeat: "#{num}"
+                merge-bottom: true
+                contents:
+                  - field: "archetype-spells-#{level}"
+                    width: stretch
+                    frame: none
+                    control: compound
+                    parts:
+                      - control: checkbox
+                      - width: stretch
+            else:
+              - if: "#{style}==spontaneous"
+                then:
+                  - layout: indent-r
+                    contents:
+                      - g:
+                        contents:
+                          - field: "archetype-spells-#{level}"
+                            width: stretch
+                            repeat: "#{num}"
+                            frame: none
+                            merge-bottom: true
+                      - g:
+                        contents:
+                          - field: "archetype-spells-#{level}-today"
+                            control: checkgrid
+                            max: "#{max}"
+                            depth: 1
+                            frame: none
+                else:
+                  - g:
+                    contents:
+                      - field: "archetype-spells-#{level}"
+                        width: stretch
+                        repeat: "#{num}"
+                        frame: none
+                        merge-bottom: true
+
+  - copy: archetype-spellcasting
+    params:
+      id: ""
+      style: spontaneous
+      tradition: ""
+      tradition-spell-attack: ""
+      tradition-spell-dc: ""
+      cantrips: 2
+      ability: ""
+      ability-name: ""
+      breadth: ""
+      spell-dcs-zone-id: ""
+    contents:
+      - section: "_{Spellcasting}"
+        contents:
+          - list:
+            hr: true
+            contents:
+              - item:
+              - g:
+                contents:
+                  - zone: '#{spell-dcs-zone-id}'
+                    contents:
+                      - calc:
+                        output:
+                          field: "#{tradition}-spell-attack"
+                          legend: "#{tradition-spell-attack}"
+                          icon: bonus
+                          eq: "%{#{ability}}+%{#{tradition}-spell-proficiency-bonus}+%{#{tradition}-spell-attack-misc}"
+                        inputs:
+                          - field:
+                            ref: "#{ability}"
+                            label: "#{ability-name}"
+                            underlay: "#{ability-name}"
+                          - span: "+"
+                          - field: "#{tradition}-spell-proficiency"
+                            label: "_{Proficiency}"
+                            control: proficiency
+                            value: trained
+                          # - field: "#{tradition}-spell-attack-misc"
+                          #   label: "_{Misc}"
+                          #   misc: true
+                      - calc:
+                        output:
+                          field: "#{tradition}-spell-dc"
+                          legend: "#{tradition-spell-dc}"
+                          icon: dc
+                          eq: "10+%{#{ability}}+%{#{tradition}-spell-proficiency-bonus}+%{#{tradition}-spell-dc-misc}"
+                        inputs:
+                          - span: "10 +"
+                          - field:
+                            ref: "#{ability}"
+                            label: "#{ability-name}"
+                            underlay: "#{ability-name}"
+                          - span: "+"
+                          - field: "#{tradition}-spell-proficiency"
+                            label: "_{Proficiency}"
+                            control: proficiency
+                            value: trained
+                          # - field: "#{tradition}-spell-dc-misc"
+                          #   label: "_{Misc}"
+                          #   misc: true
+
+              - g:
+                contents:
+                  - switch: "#{cantrips}"
+                    case:
+                      "1":
+                        - p: "_{Start with one cantrip.}"
+                      "2":
+                        - p: "_{Start with two cantrips.}"
+                  - table: "#{id}:spellcasting"
+                    collapse: true
+                    # columns:
+                    #   - ""
+                    #   - ""
+                    #   - ""
+                    #   - ""
+                    #   - ""
+                    #   - ""
+                    #   - ""
+                    #   - ""
+                    #   - ""
+                    rows:
+                      - contents:
+                          - g:
+                          - g:
+                            colspan: 3
+                            contents:
+                              - field: "archetype-#{id}-spellcasting-basic"
+                                frame: right
+                                control: checkbox
+                                style: progress
+                                label: "_{Basic}"
+                          - g:
+                            colspan: 3
+                            vr: true
+                            contents:
+                              - field: "archetype-#{id}-spellcasting-expert"
+                                frame: right
+                                control: checkbox
+                                style: progress
+                                label: "_{Expert}"
+                          - g:
+                            colspan: 3
+                            vr: true
+                            contents:
+                              - field: "archetype-#{id}-spellcasting-master"
+                                frame: right
+                                control: checkbox
+                                style: progress
+                                label: "_{Master}"
+
+                      - contents:
+                          - label: "_{Class\nLevel}"
+                            rotate: true
+                            width: tiny
+                          - value: 4
+                          - value: 6
+                          - value: 8
+                          - value: 12
+                            vr: true
+                          - value: 14
+                          - value: 16
+                          - value: 18
+                            vr: true
+                          - value: 20
+                          - value: ""
+
+                      - contents:
+                          - label: "_{Spell\nLevel}"
+                            rotate: true
+                            width: tiny
+                          - value: "1"
+                          - value: "2"
+                          - value: "3"
+                          - value: "4"
+                            vr: true
+                          - value: "5"
+                          - value: "6"
+                          - value: "7"
+                            vr: true
+                          - value: "8"
+                          - value: ""
+
+              - if: "#{breadth}"
+                then:
+                  - selectable: "#{id}:breadth"
+                    contents:
+                      - h5: "#{breadth}"
+                      - if: "#{breadth-text}"
+                        then:
+                          - p: "#{breadth-text}"
+                        else:
+                          - if: "#{style}==prepared"
+                            then:
+                              - p: "_{Gain an extra spell slot, and learn an extra spell, at each spell level except your highest two.}"
+                            else:
+                              - p: "_{Learn an extra spell at each spell level except your highest two.}"
+
+      - section: "_{Spells}"
+        contents:
+          - list:
+            hr: true
+            zebra: true
+            contents:
+              - paste: archetype-spellcasting-level
+                params:
+                  level: 0
+                  style: "cantrip"
+                  num: 3
+                  max: 0
+              - paste: archetype-spellcasting-level
+                params:
+                  level: 1
+                  style: "#{style}"
+                  num: 2
+              - paste: archetype-spellcasting-level
+                params:
+                  level: 2
+                  style: "#{style}"
+                  num: 2
+              - paste: archetype-spellcasting-level
+                params:
+                  level: 3
+                  style: "#{style}"
+                  num: 2
+              - paste: archetype-spellcasting-level
+                params:
+                  level: 4
+                  style: "#{style}"
+                  num: 2
+              - paste: archetype-spellcasting-level
+                params:
+                  level: 5
+                  style: "#{style}"
+                  num: 2
+              - paste: archetype-spellcasting-level
+                params:
+                  level: 6
+                  style: "#{style}"
+                  num: 2
+              - paste: archetype-spellcasting-level
+                params:
+                  level: 7
+                  style: "#{style}"
+                  num: 1
+                  max: 1
+              - paste: archetype-spellcasting-level
+                params:
+                  level: 8
+                  style: "#{style}"
+                  num: 1
+                  max: 1
+
+
+  - copy: archetype-bounded-spellcasting
+    params:
+      id: ""
+      style: spontaneous
+      tradition: ""
+      tradition-spell-attack: ""
+      tradition-spell-dc: ""
+      ability: ""
+      ability-name: ""
+      breadth: ""
+      spell-dcs-zone-id: ""
+    contents:
+      - section: "_{Spellcasting}"
+        contents:
+          - list:
+            hr: true
+            contents:
+              # - item:
+              
+              - g:
+                contents:
+                  - zone: '#{spell-dcs-zone-id}'
+                    contents:
+                      - calc:
+                        output:
+                          field: "#{tradition}-spell-attack"
+                          legend: "#{tradition-spell-attack}"
+                          icon: bonus
+                        inputs:
+                          - field:
+                            ref: "#{ability}"
+                            label: "#{ability-name}"
+                            underlay: "#{ability-name}"
+                          - span: "+"
+                          - field: "#{tradition}-spell-attack-proficiency"
+                            label: "_{Proficiency}"
+                            control: proficiency
+                            value: trained
+                          # - field: "#{tradition}-spell-attack-misc"
+                          #   label: "_{Misc}"
+                          #   misc: true
+                      - calc:
+                        output:
+                          field: "#{tradition}-spell-dc"
+                          legend: "#{tradition-spell-dc}"
+                          icon: dc
+                        inputs:
+                          - span: "10 +"
+                          - field:
+                            ref: "#{ability}"
+                            label: "#{ability-name}"
+                            underlay: "#{ability-name}"
+                          - span: "+"
+                          - field: "#{tradition}-spell-dc-proficiency"
+                            label: "_{Proficiency}"
+                            control: proficiency
+                            value: trained
+                          # - field: "#{tradition}-spell-dc-misc"
+                          #   label: "_{Misc}"
+                          #   misc: true
+
+              - g:
+                contents:
+                  - p: "_{Start with two cantrips.}"
+
+                  - table: "#{id}:spells"
+                    collapse: true
+                    zebra: true
+                    columns:
+                      - ""
+                      - "_{Level}"
+                      - label: "_{Spells}"
+                        colspan: 4
+                      # - "_{Proficiency}"
+                      - "_{Signature\nSpells}"
+                    rows:
+                      - level: 6
+                        feat: "basic"
+                        feat_name: "_{Basic}"
+                        first: "_{1st}"
+                        first_num: 1
+                        second: "_{2nd}"
+                        second_num: 1
+                        proficiency: trained
+                        signature: 1
+                      - level: 10
+                        first: "_{2nd}"
+                        first_num: 1
+                        second: "_{3rd}"
+                        second_num: 1
+                      - level: 12
+                        feat: expert
+                        feat_name: "_{Expert}"
+                        first: "_{2nd}"
+                        first_num: 2
+                        second: "_{3rd}"
+                        second_num: 1
+                        proficiency: expert
+                        signature: 2
+                      - level: 14
+                        first: "_{4th}"
+                        first_num: 2
+                        second: "_{5th}"
+                        second_num: 1
+                      - level: 16
+                        first: "_{5th}"
+                        first_num: 2
+                        second: "_{6th}"
+                        second_num: 1
+                      - level: 18
+                        feat: master
+                        feat_name: "_{Master}"
+                        first: "_{5th}"
+                        first_num: 2
+                        second: "_{6th}"
+                        second_num: 2
+                        proficiency: master
+                      - level: 20
+                        first: "_{6th}"
+                        first_num: 2
+                        second: "_{7th}"
+                        second_num: 2
+
+                    template:
+                      - g:
+                        contents:
+                          - if: "#{feat}!="
+                            then:
+                              - field: "archetype-#{id}-spellcasting-#{feat}"
+                                frame: right
+                                control: checkbox
+                                style: progress
+                                label: "#{feat_name}"
+                      - value: "#{level}"
+                      - span: "#{first}"
+                      - field: "#{id}-spells-lvl-6-#{first}"
+                        control: checkgrid
+                        max: "#{first_num}"
+                        depth: auto
+                        frame: none
+                      - span: "#{second}"
+                      - field: "#{id}-spells-lvl-6-#{second}"
+                        control: checkgrid
+                        max: "#{second_num}"
+                        depth: auto
+                        frame: none
+                      # - g:
+                      #   contents:
+                      #     - if: "#{proficiency}!="
+                      #       then:
+                      #         - icon: "proficiency-#{proficiency}"
+                      - g:
+                        contents:
+                          - if: "#{signature}!="
+                            then:
+                              - value: "#{signature}"
+
+          - section: "_{Spells}"
+            contents:
+              - list:
+                hr: true
+                zebra: true
+                contents:
+                  - paste: archetype-spellcasting-level
+                    params:
+                      level: 0
+                      style: "cantrip"
+                      num: 2
+                      max: 0
+                  - repeat: 2
+                    contents:
+                      - layout: indent-l
+                        contents:
+                          - g:
+                            contents:
+                              - field: "archetype/spells-#{i}-level"
+                                label: "_{Spell\nLevel}"
+                                merge-bottom: true
+                                width: small
+                                border: full
+                          - g:
+                            contents:
+                              - field: "archetype/spells-#{i}"
+                                width: stretch
+                                repeat: 3
+                                frame: none
+                                merge-bottom: true
+
+
+

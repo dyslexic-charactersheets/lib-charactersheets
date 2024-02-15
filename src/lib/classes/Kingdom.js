@@ -1,6 +1,7 @@
 import { Instance } from './Instance';
 import { log, warn, error } from '../log';
-import { ready as systemsReady, getSystem } from './System';
+import { ready as systemsReady } from './System';
+import { getSystemStack } from './SystemStack';
 import { replaceColours, vibrantColour, adjustColour } from '../util/colours';
 import { __ } from '../i18n';
 import { Document } from './Document';
@@ -135,7 +136,7 @@ function parseKingdom(primary, request) {
     }
   }
   
-  const system = getSystem(attr.game);
+  const system = getSystemStack(attr.game);
   
   // included assets
   ["printLogo", "printBackground"].forEach(field => {
@@ -185,7 +186,7 @@ export class Kingdom extends Instance {
 
         systemsReady(() => {
           try {
-            const system = getSystem(data.game);
+            const system = getSystemStack(data.game);
             if (system === null) {
               error("Character", "System not found:", data.game);
               reject();

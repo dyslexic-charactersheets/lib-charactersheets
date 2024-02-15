@@ -153,6 +153,14 @@ for (let field of document.getElementsByClassName('field--control_p')) {
       for (let part of control.getElementsByClassName('p__editpart')) {
         part.addEventListener('input', updateEmpty);
       }
+      control.addEventListener('click', () => {
+        for (let part of control.getElementsByClassName('p__editpart')) {
+          setTimeout(() => {
+            part.focus();
+          }, 0);
+          return;
+        }
+      });
     })(control);
   }
 }

@@ -1,0 +1,114 @@
+unit: cleric/doctrine/remaster/warpriest
+in: cleric/doctrine
+group: "_{Player Core}"
+name: "_{Warpriest}"
+
+inc:
+  - set: subclass
+    value: "_{Warpriest}"
+    
+  - set: cleric-doctrine
+    value: "_{Warpriest}"
+
+  - set: light-armour-proficiency
+    value: trained
+  - set: medium-armour-proficiency
+    value: trained
+    
+  - set: fortitude-proficiency
+    value: expert
+
+  - at: '@cleric-doctrine'
+    replace:
+      - h4: "_{Warpriest}"
+      - layout: 2e
+        contents:
+          - list:
+            hr: true
+            contents:
+              - level: 1
+                contents:
+                  - p: "_{Increase the damage die of your deity's favoured weapon by one step (at least d6).}"
+                  - layout: indent-l
+                    contents:
+                      - g:
+                      - row:
+                        contents:
+                          - field: cleric-deity-weapon
+                            label: "_{Favoured Weapon}"
+                            width: stretch
+                            merge-bottom: true
+                          - field: cleric-deity-weapon-die
+                            label: "_{Weapon Die}"
+                            border: full
+                            prefix: "_{d}"
+                            width: large
+
+              - level: 3
+                contents:
+                  - p: "_{Martial weapons}"
+                    icon: proficiency-trained
+
+              - level: 11
+                contents:
+                  - p: "_{Spell attacks and DCs}"
+                    icon: proficiency-expert
+
+          - list:
+            hr: true
+            contents:
+              - level: 7
+                contents:
+                  - p: "_{Gain the critical specialisation effect for your deity's favoured weapon. Use your spell DC if necessary.}"
+                  - row:
+                    contents:
+                      - field: cleric-deity-weapon-critical
+                        label: "_{Critical Effect}"
+                        width: stretch
+                        repeat: 2
+                        merge-bottom: true
+
+              - level: 15
+                contents:
+                  - p: "_{Fortitude saves}"
+                    icon: proficiency-master
+
+              - level: 19
+                contents:
+                  - p: "_{Deity's favoured weapon}, _{Spell attacks and DCs}"
+                    icon: proficiency-master
+
+  - at: '@saving-throws'
+    add:
+      - level: 15
+        contents:
+          - paste: juggernaut
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        advance: "_{Deadly Simplicity}"
+      - level: 1
+        advance: "_{Shield Block}"
+
+      - level: 3
+        advance: "_{Martial weapons}"
+        proficiency: trained
+
+      - level: 7
+        advance: "_{Critical specialisation}"
+
+      - level: 11
+        advance: "_{Spell attacks and DCs}"
+        proficiency: expert
+
+      - level: 15
+        advance: "_{Fortitude saves}"
+        proficiency: master
+
+      - level: 19
+        advance: "_{Deity's favoured weapon}, _{Spell attacks and DCs}"
+        proficiency: master
+
+      
+

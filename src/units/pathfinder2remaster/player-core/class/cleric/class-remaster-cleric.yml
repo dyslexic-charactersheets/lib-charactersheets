@@ -1,0 +1,377 @@
+unit: class/remaster/cleric
+in: class
+group: "_{Player Core}"
+name: "_{Cleric}"
+
+form:
+  - select: cleric/doctrine
+    name: "_{Doctrine}"
+    max: 1
+  - select: cleric/domain
+    name: "_{Domain}"
+    max: 1
+  - select: feat/cleric
+    name: "_{Cleric Feats}"
+    max: 8
+    levels:
+
+require:
+  - deny: archetype/cleric
+  - unit: weapon-spec/slow
+  - unit: option/spellbook
+  - with: option/reference
+    unit: class/remaster/cleric/reference
+  
+inc:
+
+  - paste: prototype-class
+    params:
+      class: cleric
+      class-name: "_{Cleric}"
+      hp: 8
+      subclass-name: "_{Doctrine}"
+
+      spells: trained
+      unarmoured: trained
+      unarmed: traomed
+
+      perception: trained
+      religion: trained
+
+      fortitude: trained
+      reflex: trained
+      will: expert
+
+  - at: '@key-ability-field'
+    replace:
+      - field:
+        label: "_{WIS}"
+        underlay: "_{WIS}"
+        ref: WIS
+
+  - at: '@skill-actions'
+    add:
+      - paste: 10mins
+        contents:
+          - p:
+            title: "_{Identify Magic (Religion/other)}"
+            content: "_{Take 10 minutes to identify a magical item, location or effect.}"
+            colour: WIS
+            
+  - at: '@advancement'
+    add:
+      - level: 1
+        gain: "_{Doctrine}"
+      - level: 1
+        gain: "_{Divine Font}"
+      - levels: [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
+        spell-level: [ "_{1st}", "_{2nd}", "_{3rd}", "_{4th}", "_{5th}", "_{6th}", "_{7th}", "_{8th}", "_{9th}", "_{10th}" ]
+        
+      - level: 5
+        advance: "_{Perception}"
+        proficiency: expert
+        colour: WIS
+      - level: 9
+        advance: "_{Will saves}"
+        proficiency: master
+        colour: WIS
+      - level: 11
+        advance: "_{Reflex saves}"
+        proficiency: expert
+        colour: DEX
+      - level: 13
+        advance: "_{Unarmoured defence}"
+        proficiency: expert
+        
+  - at: '@advancement-fields'
+    add:
+      - name: "_{Spell Level}"
+        key: spell-level
+        format: string
+        
+  - at: '@saving-throws'
+    add:
+      - level: 9
+        contents:
+          - paste: resolve
+            params:
+              title: "_{Resolute Faith}"
+
+  - at: '@pages'
+    add:
+      - page: cleric
+        name: "_{Cleric}"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: box
+                    optional: true
+                  - class-name: "_{Cleric}"
+                    suffix: "_{of}"
+                    flex: tiny
+                    contents:
+                      - layout: indent-lr
+                        contents:
+                          - spacer:
+                            flex: tiny
+                          - field: cleric-deity
+                            width: stretch
+                            label: "_{Deity}"
+                            frame: annotation
+                            align: center
+                            size: huge
+                          - spacer:
+                            flex: tiny
+                        
+                      - row: center
+                        contents:
+                          - field: "##:sanctification"
+                            value: holy
+                            frame: left
+                            control: radio
+                            label: "_{Holy}"
+                          - icon: good
+                          - span: "&nbsp; &nbsp; &nbsp;"
+                          - icon: evil
+                          - field: "##:sanctification"
+                            value: unholy
+                            frame: right
+                            control: radio
+                            label: "_{Unholy}"
+
+                  # - section: "_{Doctrine}"
+                  #   primary: true
+                  #   flex: large
+                  #   contents:
+                  #     - list:
+                  #       hr: true
+                  #       contents:
+                  #         - zone: '@cleric-doctrine'
+                  #           contents:
+                  #             - field: cleric-doctrine
+                  #               frame: none
+                  #               width: stretch
+                  #               align: center
+                  #               merge-bottom: true
+                  #               size: huge
+                  #             - list:
+                  #               hr: true
+                  #               merge-bottom: true
+                  #               contents:
+                  #                 - repeat: 6
+                  #                   rows:
+                  #                     - level: 1
+                  #                     - level: 3
+                  #                     - level: 7
+                  #                     - level: 11
+                  #                     - level: 15
+                  #                     - level: 19
+                  #                   contents:
+                  #                     - level: '#{level}'
+                  #                       contents:
+                  #                         - field: cleric-doctrine-#{i}
+                  #                           width: stretch
+                  #                           frame: none
+                  #                           repeat: 2
+                  #                           merge-bottom: true
+
+                  - section: "_{Anathema}"
+                    flex: small
+                    contents:
+                      - paste: anathema
+                        params:
+                          lines: 3
+
+                  - section: "_{Spellcasting}"
+                    id: spellcasting
+                    contents:
+                      - paste: spellcasting-prepared
+                        params:
+                          cantrips-text: "_{Prepare 5 cantrips each morning from the divine spell list. Cast them indefinitely.}"
+                          spells-icon: good
+                          spells-text: "_{Prepare spells each morning from the divine spell list.}"
+
+                      - spells-table:
+                        spell-level-label: "_{Spell\nRank}"
+                        flip: true
+                        max: 10
+                        merge-bottom: false
+
+                      - paste: spell-attack
+                      - paste: spell-dc
+
+                  - zone: '@cleric-left'
+
+                  - section: "_{Divine Font}"
+                    flex: large
+                    contents:
+                      - row: split
+                        contents:
+                          - calc:
+                            output:
+                              field: divine-font-per-day
+                              legend: "_{Uses per day}"
+                              width: huge
+                              eq: "1+%{CHA}"
+                            inputs:
+                              - span: "1 +"
+                              - field:
+                                ref: CHA
+                                label: "_{CHA}"
+                                underlay: "_{CHA}"
+                          - field: divine-font-today
+                            label: "_{Used today}"
+                            control: checkgrid
+                            depth: 2
+                            max: 10
+                        
+                      - table: "##:actions"
+                        collapse: true
+                        columns:
+                          - label:
+                          - label:
+                        rows:
+                          - row:
+                            contents:
+                              - icon: action
+                                align: left
+                              - icon: action2
+                                align: left
+                              - icon: action3
+                                align: left
+                          - row:
+                            contents:
+                              - row:
+                                contents:
+                                  - field: divine-font-dmg
+                                    legend: "_{Healing / Damage}"
+                                    control: compound
+                                    border: full
+                                    parts:
+                                      - field:
+                                        size: small
+                                        ruby: "_{Level}"
+                                        ref: level
+                                      - span: "_{d}"
+                                      - subid: die
+                                        size: tiny
+                                        underlay: "8"
+                                    width: huge
+                                  - spacer:
+                                  - vr:
+                              - row:
+                                contents:
+                                  - row:
+                                    contents:
+                                  - span: "+"
+                                  - field:
+                                    ref: level
+                                    label: "_{Level}"
+                                  - span: "&times; 8"
+                                  - spacer:
+                                  - field: divine-font-range
+                                    label: "_{Range}"
+                                    control: value
+                                    value: "_{30ft}"
+                                  - vr:
+                              - row:
+                                contents:
+                                  - p: "_{All allies and enemies in range}"
+                                    blk: false
+
+                      - calc:
+                        output:
+                          field: "##:divine-font/damage"
+                          legend: "_{Healing/\ndamage\ndice}"
+                          eq: "floor(%{level}/2)"
+                          width: huge
+                        inputs:
+                          - ruby-round-up:
+                            contents:
+                              - field:
+                                ref: level
+                                label: "_{Level}"
+                              - span: "&divide; 2"
+
+                      # - p: "_{Healing/damage dice = Max Spell Level}"
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+                
+                  - section: "_{Doctrine}"
+                    primary: true
+                    flex: large
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - zone: '@cleric-doctrine'
+                            contents:
+                              - field: cleric-doctrine
+                                frame: none
+                                width: stretch
+                                align: center
+                                merge-bottom: true
+                                size: huge
+                              - list:
+                                hr: true
+                                merge-bottom: true
+                                columns: 2
+                                contents:
+                                  - repeat: 6
+                                    rows:
+                                      - level: 1
+                                      - level: 3
+                                      - level: 7
+                                      - level: 11
+                                      - level: 15
+                                      - level: 19
+                                    contents:
+                                      - level: '#{level}'
+                                        contents:
+                                          - field: cleric-doctrine-#{i}
+                                            width: stretch
+                                            frame: none
+                                            repeat: 2
+                                            merge-bottom: true
+
+                  - section: "_{Cantrips}"
+                    flex: small
+                    contents:
+                      - spells-list:
+                        min: 0
+                        max: 0
+                        spells: 5
+                        style: spontaneous
+
+                  - section: "_{Spells}"
+                    flex: huge
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - spells-list:
+                            flex: huge
+                            min: 1
+                            max: 9
+                            spells: 4
+                          - spells-list:
+                            flex: tiny
+                            min: 10
+                            max: 10
+                            spells: 2
+
+                  - paste: class-feats
+                    params:
+                      id: cleric-feats
+                      title: "_{Cleric Feats}"
+
+                  - tail:
+                  # - spacer:

@@ -1,0 +1,97 @@
+unit: cleric/doctrine/remaster/cloistered
+in: cleric/doctrine
+group: "_{Player Core}"
+name: "_{Cloistered Cleric}"
+
+inc:
+  - set: subclass
+    value: "_{Cloistered Cleric}"
+    
+  - set: cleric-doctrine
+    value: "_{Cloistered Cleric}"
+
+  - at: '@cleric-doctrine'
+    replace:
+      - h4: "_{Cloistered Cleric}"
+      - list:
+        columns: 2
+        hr: true
+        contents:
+          - level: 1
+            contents:
+              - h5: "_{Domain Initiate}"
+              - layout: indent-r
+                contents:
+                  - g:
+                    contents:
+                      - field: domain
+                        width: stretch
+                        label: "_{Domain}"
+                      - field: domain-spell
+                        label: "_{Domain Spell}"
+                        width: stretch
+                        merge-bottom: true
+                  - cost: "_{1pt}"
+                    unit: "_{Focus}"
+          - level: 3
+            contents:
+              - p: "_{Fortitude saves}"
+                icon: proficiency-expert
+          - level: 7
+            contents:
+              - p: "_{Spell attacks and DCs}"
+                icon: proficiency-expert
+
+          - level: 11
+            contents:
+              - p: "_{Gain the critical specialisation effect for your deity's favoured weapon. Use your spell DC if necessary.}"
+              - layout: indent-r
+                contents:
+                  - g:
+                    contents:
+                      - field: cleric-deity-weapon
+                        label: "_{Favoured Weapon}"
+                        width: stretch
+                      - field: cleric-deity-weapon-critical
+                        label: "_{Critical Effect}"
+                        width: stretch
+                        merge-bottom: true
+          - level: 15
+            contents:
+              - p: "_{Spell attacks and DCs}"
+                icon: proficiency-master
+          - level: 19
+            contents:
+              - p: "_{Spell attacks and DCs}"
+                icon: proficiency-expert
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        advance: "_{Domain}"
+
+      - level: 3
+        advance: "_{Fortitude saves}"
+        proficiency: expert
+        colour: CON
+
+      - level: 7
+        advance: "_{Spell attacks and DCs}"
+        proficiency: expert
+
+      - level: 11
+        advance: "_{Critical specialisation}"
+
+      - level: 15
+        advance: "_{Spell attacks and DCs}"
+        proficiency: master
+        
+      - level: 19
+        advance: "_{Spell attacks and DCs}"
+        proficiency: legendary
+
+  - at: '@focus-points'
+    replace:
+      - field: focus-domain
+        label: "_{Domain}"
+        underlay: "1"

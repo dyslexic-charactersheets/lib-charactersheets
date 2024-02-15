@@ -1,0 +1,327 @@
+unit: class/remaster/rogue
+in: class
+group: "_{Core Rulebook}"
+name: "_{Rogue}"
+
+form:
+  - select: rogue/racket
+    name: "_{Rogue's Racket}"
+    max: 1
+  - select: feat/rogue
+    name: "_{Rogue Feats}"
+    max: 8
+    levels: [ 1, 2, 4, 6, 8, 10, 14, 16, 18, 20 ]
+
+require:
+  - unit: weapon-spec/fast
+  - with: option/reference
+    unit: class/rogue/reference
+  - deny: archetype/rogue
+
+inc:
+  - paste: prototype-class
+    params:
+      class: rogue
+      class-name: "_{Rogue}"
+      subclass: rogue-racket
+      subclass-name: "_{Racket}"
+      hp: 8
+
+      unarmoured: trained
+      light-armour: trained
+      unarmed: trained
+      simple-weapons: trained
+      martial-weapons: trained
+
+      perception: expert
+      stealth: trained
+
+      fortitude: trained
+      reflex: expert
+      will: expert
+
+  - at: '@skill-actions'
+    add:
+      - action:
+        contents:
+          - p:
+            title: "_{Sneak (Stealth)}"
+            content: "_{Move at half speed. The GM rolls your stealth check in secret. Gain +2 from cover or +4 from greater cover. You cannot sneak without concealment.}"
+            colour: DEX
+      - action: 2
+        contents:
+          - p:
+            title: "_{Disable a Device (Thievery)}"
+            content: "_{Achieve 1 success (2 on a critical) towards disabling a device. Thieves' tools may be required.}"
+            colour: DEX
+      - action: 2
+        contents:
+          - p:
+            title: "_{Pick a Lock (Thievery)}"
+            content: "_{Achieve 1 success (2 on a critical) towards opening a lock. Thieves' tools may be required.}"
+            colour: DEX
+
+  - at: '@skill-feats-section'
+    replace:
+      - section: "_{Skill Feats}"
+        flex: large
+        contents:
+          - list:
+            zebra: true
+            columns: 2
+            flex: huge
+            hr: true
+            contents:
+              - var: lines
+                value: 4
+                decrement: 6
+                cutoff: 1
+                contents:
+                  - each:
+                    template:
+                      - level: "#{level}"
+                        contents:
+                          - item: yes
+                    contents:
+                      - slots: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
+                        key: level
+                        min: 1
+                        max: 1
+                        placeholder:
+                          article: 'skill-feat-#{level}'
+                          lines: "#{lines}" # 3
+                        contents:
+                          - zone: '@skill-feats'
+
+  - at: '@language-section'
+    replace:
+      - nothing:
+
+  - at: '@proficiencies'
+    replace:
+      - nothing:
+
+  - at: '@advancement'
+    add:
+      - levels: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
+        skill-feat: true
+      - levels: [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
+        skill-increase: true
+      - level: 1
+        class-feat: true
+      - level: 1
+        gain: "_{Racket}"
+      - levels: [ 1, 5, 11, 17 ]
+        sneak-attack: [ "_{1d6}", "_{2d6}", "_{3d6}", "_{4d6}" ]
+      - level: 3
+        advance: "_{Deny Advantage}"
+      - level: 5
+        proficiency: expert
+        in: "_{Simple weapons, rapier, sap, shortbow, shortsword}"
+      - level: 9
+        advance: "_{Debilitating Strike}"
+      - level: 13
+        advance: "_{Master Tricks}"
+      - level: 20
+        advance: "_{Master Strike}"
+
+        # proficiencies
+      - level: 7
+        advance: "_{Reflex saves}"
+        proficiency: master
+        colour: DEX
+      - level: 7
+        advance: "_{Perception}"
+        proficiency: master
+        colour: WIS
+      - level: 9
+        advance: "_{Fortitude saves}"
+        proficiency: expert
+        colour: CON
+
+      - level: 11
+        advance: "_{Rogue class DC}"
+        proficiency: expert
+      - level: 13
+        advance: "_{Reflex saves}"
+        proficiency: legendary
+        colour: DEX
+      - level: 13
+        advance: "_{Perception}"
+        proficiency: legendary
+        colour: WIS
+      - level: 13
+        advance: "_{Light armour}"
+        proficiency: expert
+      - level: 13
+        advance: "_{Simple weapons, rapier, sap, shortbow and shortsword}"
+        proficiency: master
+      - level: 17
+        advance: "_{Will saves}"
+        proficiency: master
+        colour: WIS
+      - level: 19
+        advance: "_{Light armour}"
+        proficiency: master
+      - level: 20
+        advance: "_{Rogue class DC}"
+        proficiency: master
+
+  - at: '@advancement-fields'
+    add:
+      - name: "_{Sneak Attack}"
+        key: sneak-attack
+        format: string
+
+  - at: '@saving-throws'
+    add:
+      - level: 7
+        contents:
+          - paste: evasive-reflexes
+      - level: 13
+        contents:
+          - paste: greater-reflexes
+            params:
+              name: "_{Greater Rogue Reflexes}"
+      - level: 17
+        contents:
+          - paste: agile-mind
+
+  - at: '@pages'
+    add:
+      - page: rogue
+        name: "_{Rogue}"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: rogue
+                    optional: true
+                  - class-name: "_{Rogue}"
+
+                  - section: "_{Class DC}"
+                    id: class-dc
+                    contents:
+                      - paste: class-dc
+                        params:
+                          id: rogue-class-dc
+                          legend: "_{Rogue\nClass DC}"
+
+                  - section: "_{Sneak Attack}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        avoid-shade: true
+                        contents:
+                          - g:
+                            contents:
+                              - row:
+                                contents:
+                                  - field: sneak-attack-dmg
+                                    legend: "_{Damage Bonus}"
+                                    icon: damage
+                                    width: large
+                                    border: full
+                                    suffix: "_{d6}"
+                                    eq: "threshold(%{level},[1,1,5,2,11,3,17,4])"
+                                  - p: "_{Precision damage}"
+                                  - spacer:
+                              - p: "_{When you attack a flat-footed opponent with an agile or finesse weapon/unarmed strike, or a ranged weapon.}"
+                          - g:
+                            contents:
+                              - h5: "_{Surprise Attack}"
+                              - p: "_{On the first round of combat, if you roll Deception or Stealth for initiative, creatures that haven't acted yet are flat-footed.}"
+
+                  - section: "_{Deny Advantage}"
+                    contents:
+                      - level: 3
+                        contents:
+                          - p: "_{Not flat-footed to hidden, undetected or flanking creatures, or surprise attacks by creatures up to your level.}"
+
+                  - section: "_{Weapon Tricks}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - level: 5
+                            contents:
+                              - p: "_{When you make a critical hit with a suitable weapon, apply the weapon's critical specialisation effect.}"
+
+                  - section: "_{Debilitating Strike}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        avoid-shade: true
+                        contents:
+                          - level: 9
+                            contents:
+                              - p: "_{On hitting a flat-footed target, inflict an effect until the end of your next turn:}"
+                              - ul:
+                                contents:
+                                  - li: "_{-10ft to target's speed}"
+                                  - li: "_{Target is enfeebled 1}"
+                          - level: 15
+                            contents:
+                              - h5: "_{Double Debilitation}"
+                              - p: "_{Apply two effects.}"
+
+                  - section: "_{Master Strike}"
+                    contents:
+                      - level: 19
+                        contents:
+                          - p: "_{When your strike hits a flat-footed creature and deals damage, they must also attempt a Fortitude save.}"
+                          - dl:
+                            div: true
+                            defs:
+                              critical_success: "_{No effect}"
+                              success: "_{Enfeebled 2 for 1 round}"
+                              failure: "_{Paralysed for 4 rounds}"
+                              critical_failure: "_{Paralysed for 4 rounds, knocked unconscious for 2 hours, or killed (your choice)}"
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+                  - section: "_{Racket}"
+                    primary: true
+                    contents:
+                      - zone: '@rogue/racket'
+                        contents:
+                          - field: rogue-racket
+                            size: huge
+                            width: stretch
+                            frame: none
+                            merge-bottom: true
+                          - hr:
+                            swash: true
+                          - field: rogue-racket-special
+                            label: "_{Special}"
+                            width: stretch
+                            control: p
+                            lines: 3
+                            with-title: false
+                          - field: rogue-racket-trained
+                            label: "_{Trained}"
+                            width: stretch
+                            control: p
+                            lines: 3
+                            with-title: false
+                            merge-bottom: true
+
+                  - paste: class-feats
+                    params:
+                      id: rogue-feats
+                      title: "_{Rogue Feats}"
+                      mark: rogue
+                      lines: 5
+                      decrement: 4
+                      slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+
+                  - tail:
+                  - spacer:

@@ -61,6 +61,7 @@ const expansion = {
     ruby: 'ruby',
     'ruby-round-up': '',
     'ruby-round-down': '',
+    'ruby-min1': '',
     section: 'title',
     sort: 'orderby',
     slots: 'slots',

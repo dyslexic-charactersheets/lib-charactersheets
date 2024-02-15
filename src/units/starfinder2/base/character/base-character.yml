@@ -1,0 +1,1675 @@
+unit: base/character
+name: "_{Character}"
+group: "_{Core Rulebook}"
+
+form:
+  - select: ancestry
+    name: "_{Ancestry}"
+    max: 1
+  - select: background
+    name: "_{Background}"
+    max: 1
+  - select: class
+    name: "_{Class}"
+    max: 1
+  - select: archetype
+    name: "_{Archetype}"
+    max: 3
+
+  - option: build
+    name: "_{Build A Character}"
+    unit: option/build
+  - option: cover
+    name: "_{Cover Page}"
+    unit: option/cover
+  - option: minis
+    name: "_{Map Minis}"
+    unit: option/minis
+
+  - select: inventory
+    name: "_{Inventory}"
+    max: 1
+    default: half
+
+require:
+  - unit: prototype/class
+
+inc:
+
+  - set: subclass-label
+    value: "_{Subclass}"
+    priority: low
+
+  - set: dying-max
+    value: 6
+    priority: low
+
+  - at: '@pages'
+    add:
+
+      - page: character
+        name: "_{Character}"
+        order: 6
+        flex: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - logo:
+
+                  - section:
+                    untitled: true
+                    contents:
+                      - row:
+                        contents:
+                          - field: player-name
+                            label: "_{Player}"
+                            width: stretch
+                            align: left
+                          - field: hero-points
+                            label: "_{Hero Points}"
+                            border: circle
+                            size: huge
+                            suffix: "3"
+                            format: int
+
+                      - row:
+                        contents:
+                          - field: campaign-name
+                            label: "_{Campaign}"
+                            width: stretch
+                            align: left
+                          - field: xp
+                            label: "_{XP}"
+                            underlay: "_{XP}"
+                            width: large
+                            border: full
+                            format: int
+
+                      - zone: '@player-header'
+                  - hr:
+                    swash: true
+
+                  - portrait: personal
+
+                  - section:
+                    id: ident
+                    untitled: true
+                    contents:
+                      - list:
+                        zebra: true
+                        hr: true
+                        contents:
+                          - g:
+                            contents:
+                              - row:
+                                contents:
+                                  - field: character-name
+                                    legend: "_{Character Name}"
+                                    size: huge
+                                    width: stretch
+                                    align: left
+                                    value: "#{character-name}"
+                                    control: p
+                                    lines: 1
+                                    with-title: false
+                                  - field: level
+                                    legend: "_{Level}"
+                                    border: circle
+                                    # frame: left
+                                    format: int
+                                    size: huge
+                              - hr:
+                                light: true
+                              - g:
+                                contents:
+                                  - row:
+                                    contents:
+                                      - field: gender
+                                        label: "_{Gender}"
+                                        icon: gender
+                                        width: large
+                                      - spacer:
+                                      - field: age
+                                        label: "_{Age}"
+                                        width: large
+                                      - spacer:
+                                      - field: size
+                                        label: "_{Size}"
+                                        icon: size
+                                        width: large
+                                        control: enum
+                                        # value: "_{Medium}"
+                                        options:
+                                          - "_{Tiny}"
+                                          - "_{Small}"
+                                          - "_{Medium}"
+                                          - "_{Large}"
+                                          - "_{Huge}"
+                                      - spacer:
+                                  - field: deity
+                                    label: "_{Deity}"
+                                    width: stretch
+                                    # merge-bottom: true
+                              - field: languages
+                                label: "_{Languages}"
+                                # width: stretch
+                                control: p
+                                lines: 2
+                                with-title: false
+                                # repeat: 2
+                                reduce: 1
+                                merge-bottom: true
+                          - g:
+                            contents:
+                              - h5: "_{Abilities}"
+                              - p: "_{Ability Modifier = (Ability Score - 10) &divide; 2}"
+                                align: left
+                                optional: true
+
+                              - layout: 6e
+                                gutter: none
+                                contents:
+                                  - repeat: 6
+                                    rows:
+                                      - name: "_{Strength}"
+                                        short: "_{STR}"
+                                        code: STR
+                                      - name: "_{Dexterity}"
+                                        short: "_{DEX}"
+                                        code: DEX
+                                      - name: "_{Constitution}"
+                                        short: "_{CON}"
+                                        code: CON
+                                      - name: "_{Intelligence}"
+                                        short: "_{INT}"
+                                        code: INT
+                                      - name: "_{Wisdom}"
+                                        short: "_{WIS}"
+                                        code: WIS
+                                      - name: "_{Charisma}"
+                                        short: "_{CHA}"
+                                        code: CHA
+                                    contents:
+                                      - g:
+                                        valign: top
+                                        contents:
+                                          - field: "#{code}"
+                                            label: "#{name}"
+                                            control: ability
+                                            width: ""
+                                            parts:
+                                              - id: "key-ability"
+                                                control: radio
+                                                value: "#{code}"
+                                              - subid: ""
+                                                size: huge
+                                                eq: "floor((minmax(%{#{code}-score},4,30)-10)/2)"
+                                                width: ""
+                                                underlay: "#{short}"
+                                                format: modifier
+                                              - subid: "score"
+                                                width: ""
+                                                format: int
+
+                              - field: ability-note
+                                width: stretch
+                                merge-bottom: true
+
+                          - g:
+                            contents:
+                              - h5: "_{Proficiency}"
+                              # - row:
+                              #   contents:
+                              #     - g:
+                              #       contents:
+                              #         - h5: "_{Proficiency}"
+                              #     - spacer:
+                              #     - field: level
+                              #       label: "_{Level}"
+                              #       border: circle
+                              #       frame: left
+                              #       format: int
+                              #       size: huge
+
+                              - zone: '@proficiency'
+                                contents:
+                                  - layout: 5e
+                                    gutter: none
+                                    # valign: top
+                                    flex: none
+                                    contents:
+                                      - field: proficiency-untrained
+                                        label: "_{Untrained}"
+                                        border: full
+                                        control: value
+                                        value: 0
+                                        icon: proficiency
+                                        ruby: "&nbsp;\n"
+                                      - field: proficiency-trained
+                                        label: "_{Trained}"
+                                        border: full
+                                        icon: proficiency-trained
+                                        ruby: "_{Level}\n+2"
+                                        eq: "req(['level'],minmax(%{level},1,20)+2)"
+                                      - field: proficiency-expert
+                                        label: "_{Expert}"
+                                        border: full
+                                        icon: proficiency-expert
+                                        ruby: "_{Level}\n+4"
+                                        eq: "req(['level'],minmax(%{level},1,20)+4)"
+                                      - field: proficiency-master
+                                        label: "_{Master}"
+                                        border: full
+                                        icon: proficiency-master
+                                        ruby: "_{Level}\n+6"
+                                        eq: "req(['level'],minmax(%{level},1,20)+6)"
+                                      - field: proficiency-legendary
+                                        label: "_{Legendary}"
+                                        border: full
+                                        icon: proficiency-legendary
+                                        ruby: "_{Level}\n+8"
+                                        eq: "req(['level'],minmax(%{level},1,20)+8)"
+                  - tail:
+
+              - g:
+                contents:
+                  - section: "_{Character}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        avoid-shade: true
+                        contents:
+                          - layout: 2e
+                            contents:
+                              - field: ancestry
+                                legend: "_{Ancestry}"
+                                width: stretch
+                                merge-bottom: true
+                              - field: heritage
+                                label: "_{Heritage}"
+                                width: stretch
+                                merge-bottom: true
+
+                          - g:
+                            contents:
+                              - field: char-background
+                                legend: "_{Background}"
+                                width: stretch
+                                merge-bottom: true
+                                # value: '#{background}'
+
+                          - row:
+                            contents:
+                              # - row:
+                              #   contents:
+                              - class-icon:
+                                size: tiny
+                              - field: class
+                                width: stretch
+                                legend: "_{Class}"
+                                merge-bottom: true
+                              - zone: '@class-specialisation'
+                                contents:
+                                  - field: subclass
+                                    label: "#{subclass-label}"
+                                    width: stretch
+                                    merge-bottom: true
+
+                          - g:
+                            flex: tiny
+                            contents:
+                              - table: archetypes
+                                merge-bottom: true
+                                width: stretch
+                                rows:
+                                  - slots:
+                                    min: 3
+                                    max: 4
+                                    reduce: 1
+                                    contents:
+                                      - type: zone
+                                        zone: '@archetypes'
+                                    placeholder:
+                                      - i: "#{i}"
+                                        name: ''
+                                        num-feats: ''
+                                columns:
+                                  - h5: "_{Archetypes}"
+                                  - label: "_{Archetype Feats}"
+                                    colspan: 3
+                                template:
+                                  - field: archetype-#{i}-name
+                                    width: stretch
+                                    align: left
+                                    frame: none
+                                    value: "#{name}"
+                                  - field: archetype-#{i}-feats
+                                    frame: none
+                                    control: progression
+                                    max: 4
+                                  - p: "_{of}"
+                                    width: tiny
+                                  - field: archetype-#{i}-num-feats
+                                    frame: none
+                                    width: tiny
+                                    underlay: "3"
+                                    value: "#{num-feats}"
+                                    format: int
+
+                  - section: "_{Skills}"
+                    id: skills
+                    contents:
+                      - table: skills
+                        collapse: true
+                        zebra: true
+                        field_frame: none
+                        width: stretch
+                        colourful: true
+                        columns:
+                          -
+                          - label: "_{Skill\nBonus}"
+                            width: medium
+                          -
+                          - label: "_{Ability\nModifier}"
+                            width: medium
+                          - label: "_{Proficiency}"
+                            width: medium
+                          - zone: '@skill-header/misc'
+                            contents:
+                              - label: "_{Feats Misc}"
+                                width: small
+                          - label: "_{Armour Check Penalty}"
+                            width: small
+                          - label: "_{Assurance}"
+                            width: small
+                        rows:
+                          - slots:
+                            index: i
+                            min: 20
+                            max: 24
+                            reduce: 2
+                            contents:
+                              - sort: name
+                                contents:
+                                  - zone: '@skills'
+                                    contents:
+                                      - skill: acrobatics
+                                        name: "_{Acrobatics}"
+                                        ability: "_{DEX}"
+                                        abilityref: DEX
+                                        acp: true
+                                        acp_flexible: true
+                                      - skill: arcana
+                                        name: "_{Arcana}"
+                                        ability: "_{INT}"
+                                        abilityref: INT
+                                        acp: false
+                                      - skill: athletics
+                                        name: "_{Athletics}"
+                                        ability: "_{STR}"
+                                        abilityref: STR
+                                        acp: true
+                                        acp_flexible: true
+                                      - skill: crafting
+                                        name: "_{Crafting}"
+                                        ability: "_{INT}"
+                                        abilityref: INT
+                                        acp: false
+                                      - skill: deception
+                                        name: "_{Deception}"
+                                        ability: "_{CHA}"
+                                        abilityref: CHA
+                                        acp: false
+                                      - skill: diplomacy
+                                        name: "_{Diplomacy}"
+                                        ability: "_{CHA}"
+                                        abilityref: CHA
+                                        acp: false
+                                      - skill: intimidation
+                                        name: "_{Intimidation}"
+                                        ability: "_{CHA}"
+                                        abilityref: CHA
+                                        acp: false
+                                      - skill: medicine
+                                        name: "_{Medicine}"
+                                        ability: "_{WIS}"
+                                        abilityref: WIS
+                                        acp: false
+                                      - skill: nature
+                                        name: "_{Nature}"
+                                        ability: "_{WIS}"
+                                        abilityref: WIS
+                                        acp: false
+                                      - skill: occultism
+                                        name: "_{Occultism}"
+                                        ability: "_{INT}"
+                                        abilityref: INT
+                                        acp: false
+                                      - skill: performance
+                                        name: "_{Performance}"
+                                        ability: "_{CHA}"
+                                        abilityref: CHA
+                                        acp: false
+                                      - skill: religion
+                                        name: "_{Religion}"
+                                        ability: "_{WIS}"
+                                        abilityref: WIS
+                                        acp: false
+                                      - skill: society
+                                        name: "_{Society}"
+                                        ability: "_{INT}"
+                                        abilityref: INT
+                                        acp: false
+                                        acp_flexible: false
+                                      - skill: stealth
+                                        name: "_{Stealth}"
+                                        ability: "_{DEX}"
+                                        abilityref: DEX
+                                        acp: true
+                                      - skill: survival
+                                        name: "_{Survival}"
+                                        ability: "_{WIS}"
+                                        abilityref: WIS
+                                        acp: false
+                                        acp_flexible: false
+                                      - skill: thievery
+                                        name: "_{Thievery}"
+                                        ability: "_{DEX}"
+                                        abilityref: DEX
+                                        acp: true
+                                        fade: false
+                                  - slots:
+                                    min: 1
+                                    max: 3
+                                    index: j
+                                    placeholder:
+                                      - skill: "lore-#{j}"
+                                        name: "_{Lore}:"
+                                        ability: "_{INT}"
+                                        abilityref: INT
+                                        acp: false
+                                        fade: true
+                                        blank: true
+                                    contents:
+                                      - zone: '@lore-skills'
+                                        contents:
+                            placeholder:
+                              skill: 'extra-skill-#{i}'
+                              name: ''
+                              ability: ''
+                              acp: false
+                              blank: true
+                              optional: true
+                        template:
+                          - row:
+                            blk: false
+                            contents:
+                              - if: "#{name}=="
+                                then:
+                                  - nothing:
+                                else:
+                                  - h6: "#{name}"
+                                    fade: "#{fade}"
+                                    blk: false
+                              - if: "#{blank}"
+                                then:
+                                  - field: "#{skill}-detail"
+                                    frame: none
+                                    width: stretch
+                                    merge-bottom: true
+                                else:
+                                  - span:
+                          - field: "#{skill}-bonus"
+                            border: full
+                            icon: bonus
+                            width: medium
+                            eq: '%{#{skill}-ability}+%{#{skill}-proficiency-bonus}+%{#{skill}-misc}-%{#{skill}-acp}'
+                            format: modifier
+                          - span: "="
+                          - field: '#{skill}-ability'
+                            ref: "#{abilityref}"
+                            underlay: "#{ability}"
+                            frame: h-label
+                            label: "#{ability}"
+                            width: medium
+                          - field: "#{skill}-proficiency"
+                            control: proficiency
+                            width: medium
+                          - zone: '@skill/misc'
+                            contents:
+                              - field: "#{skill}-misc"
+                                misc: true
+                                width: medium
+                                format: int
+                          - if: "#{acp}"
+                            then:
+                              - if: "#{acp_flexible}"
+                                then:
+                                  - field: "#{skill}-acp"
+                                    eq: "%{armour-flexible}?'':((%{STR}>=%{armour-str-rating})?'':%{armour-acp})"
+                                    ref: true
+                                    border: full
+                                    exists: "#{acp}"
+                                    prefix: "&ndash;"
+                                else:
+                                  - field: "#{skill}-acp"
+                                    eq: "(%{STR}>=%{armour-str-rating})?'':%{armour-acp}"
+                                    ref: true
+                                    border: full
+                                    prefix: "&ndash;"
+                            else:
+                              - span:
+
+                          - field: "#{skill}-assurance"
+                            vr: true
+                            # shade: true
+                            frame: none
+                            control: compound
+                            # border: full
+                            parts:
+                              - subid: feat
+                                control: checkbox
+                              - subid: total
+                                eq: "(%{#{skill}-assurance-feat})?(10+%{#{skill}-proficiency-bonus}-%{#{skill}-acp}):''"
+
+                      - p:
+                        title: "_{Assurance}"
+                        content: "_{May use 10 + proficiency bonus (inc level, but no other bonuses) rather than roll.}"
+                        optional: true
+
+                      - hr:
+                      - h5: "_{Skill Actions}"
+                      - list:
+                        merge-bottom: true
+                        hr: true
+                        light: true
+                        zebra: true
+                        contents:
+                          - slots:
+                            min: 3
+                            max: 6
+                            reduce: 1
+                            contents:
+                              - if: '#{skill-actions}'
+                                then:
+                                  - zone: '@skill-actions'
+                            placeholder:
+                              action: template
+                              id: "skill-note-#{i}"
+                              contents:
+                                - row:
+                                  contents:
+                                    - field: "skill-note-#{i}"
+                                      frame: none
+                                      control: p
+                                      lines: 2
+                                      reduce: 1
+
+                  - section: "_{Perception}"
+                    flex: small
+                    contents:
+                      - row:
+                        contents:
+                          - calc:
+                            output:
+                              field: perception
+                              icon: bonus
+                              legend: "_{Perception}"
+                              width: large
+                              eq: '%{WIS}+%{perception-proficiency-bonus}+%{perception-item-bonus}+%{perception-misc}'
+                              format: modifier
+                            inputs:
+                              - field:
+                                ref: "WIS"
+                                underlay: "_{WIS}"
+                                label: "_{WIS}"
+                              - span: "+"
+                              - field: perception-proficiency
+                                label: "_{Proficiency}"
+                                control: proficiency
+                              - zone: '@perception/item'
+                                contents:
+                                  - span: "+"
+                                  - field: perception-item-bonus
+                                    label: "_{Item}"
+                                    format: int
+                              - zone: '@perception/misc'
+                                contents:
+                                  - span: "+"
+                                  - field: perception-misc
+                                    misc: true
+                                    label: "_{Misc}"
+                                    format: int
+                          - spacer:
+                          - zone: '@perception-misc'
+                      - p: "_{Perception DC = 10 + Perception Bonus}"
+                        optional: true
+                      - row: left
+                        contents:
+                          - spacer:
+                          - field: perception-low-light
+                            frame: right
+                            control: checkbox
+                            label: "_{Low-light vision}"
+                          - field: perception-darkvision
+                            frame: right
+                            control: checkbox
+                            label: "_{Darkvision}"
+                          - field: perception-greater-darkvision
+                            frame: right
+                            control: checkbox
+                            label: "_{Greater Darkvision}"
+                          - field: perception-scent
+                            frame: right
+                            control: checkbox
+                            label: "_{Scent}"
+                      - hr:
+                        light: true
+                        optional: true
+                      - zone: '@perception'
+                        contents:
+                          - field: perception-notes
+                            frame: none
+                            control: p
+                            lines: 2
+                            with-title: false
+                            optional: true
+                  - tail:
+
+      - page: combat
+        name: "_{Combat}"
+        order: 7
+        flex: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+
+                  - section: "_{Speed}"
+                    id: speed
+                    contents:
+                      - row:
+                        contents:
+                          - layout: 3e
+                            contents:
+                              - action: 1
+                                contents:
+                                  - p:
+                                    title: "_{Stride}"
+                              - field: speed
+                                legend: "_{Speed}"
+                                control: speed
+                                border: full
+                                width: stretch
+                              - field: speed-armour
+                                label: "_{Speed in Armour}"
+                                control: speed
+                                width: stretch
+                                eq: "%{speed}-((%{STR}>=%{armour-str-rating})?'':%{armour-speed-penalty})"
+
+                      - row:
+                        contents:
+                          - layout: 3e
+                            contents:
+                              - field: speed-swim
+                                label: "_{Swim Speed}"
+                                control: speed
+                                width: stretch
+                              - field: speed-climb
+                                label: "_{Climb Speed}"
+                                control: speed
+                                width: stretch
+                              - field: speed-fly
+                                label: "_{Fly Speed}"
+                                control: speed
+                                width: stretch
+                      - zone: '@speed'
+
+                  - section: "_{Actions}"
+                    id: actions
+                    flex: large
+                    mark: action
+                    contents:
+                      - list:
+                        zebra: true
+                        flex: true
+                        hr: true
+                        avoid-shade: true
+                        contents:
+                          - slots:
+                            min: 4
+                            max: 5
+                            reduce: 1
+                            placeholder:
+                              action: template
+                              id: "action-#{i}"
+                              contents:
+                                - field: combat-action-#{i}
+                                  control: p
+                                  frame: none
+                                  lines: 2
+                                # - article: combat-action-#{i}
+                                #   lines: 1
+                                #   inline: true
+                            contents:
+                              - sort: order
+                                contents:
+                                  - zone: '@actions'
+
+                  - section: "_{Focus}"
+                    id: focus
+                    flex: large
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        avoid-shade: true
+                        contents:
+                          - each:
+                            template:
+                              - layout: indent-ln
+                                gutter: tiny
+                                contents:
+                                  - h5: "#{i}"
+                                  - item:
+                            contents:
+                              - slots:
+                                min: 3
+                                max: 3
+                                reduce: 1
+                                placeholder:
+                                  - action: template
+                                    id: "focus-action-#{i}"
+                                    contents:
+                                      - field: "focus-spell-#{i}"
+                                        control: p
+                                        frame: none
+                                        lines: 2
+
+                                      # - field: "focus-spell-#{i}"
+                                      #   width: stretch
+                                      #   align: left
+                                      #   merge-bottom: true
+                                      #   repeat: 2
+                                contents:
+                                  - sort: order
+                                    contents:
+                                      - zone: '@focus-spells'
+                          - g:
+                            contents:
+                              - row:
+                                contents:
+                                  - calc:
+                                    output:
+                                      field: focus-level
+                                      legend: "_{Focus Level}"
+                                      eq: "ceil(%{level}/2)"
+                                    inputs:
+                                      - ruby-round-up:
+                                        contents:
+                                          - field:
+                                            ref: level
+                                            label: "_{Level}"
+                                            # width: tiny
+                                          - span: "&divide; 2"
+
+                                  - spacer:
+                                  
+                                  - field: focus-points
+                                    legend: "_{Focus Points}"
+                                    control: compound
+                                    border: multi
+                                    width: stretch
+                                    parts:
+                                      - control: checkgrid
+                                        subid: total
+                                        depth: 1
+                                        max: 3
+                                        ruby: "_{Total}"
+                                        border: none
+                                        style: progress
+                                      - type: vr
+                                      - control: checkgrid
+                                        subid: current
+                                        depth: 1
+                                        max: 3
+                                        ruby: "_{Current}"
+                                        border: none
+                                        style: progress
+
+                                  # - spacer:
+                                  # - field: refocus
+                                  #   label: "_{Refocus}"
+                                  #   border: full
+                                  #   width: large
+                                  #   prefix: "+"
+                                  #   underlay: "1"
+                                  #   suffix: "_{pt}"
+                                  #   ruby: "_{Once only}"
+                                  #   format: int
+
+                  - zone: '@weapon-spec-section'
+
+              - g:
+                contents:
+                  - section: "_{Attacks}"
+                    id: attacks
+                    mark: sword
+                    contents:
+                      - list:
+                        zebra: true
+                        hr: true
+                        flex: true
+                        avoid-shade: true
+                        contents:
+
+                          - layout: 2e
+                            vr: true
+                            contents:
+                              - g:
+                                pad: true
+                                contents:
+                                  - h6: "_{Multi-Attack Penalty}"
+                                    blk: false
+                                  - row:
+                                    blk: false
+                                    contents:
+
+                                      - icon: action2nd
+                                      - large-print:
+                                        contents:
+                                          - field: map/2nd
+                                            frame: none
+                                            border: full
+                                            width: medium
+                                            underlay: -5
+                                            format: int
+                                        else:
+                                          - field: map/2nd
+                                            frame: left
+                                            label: "_{2nd}"
+                                            border: full
+                                            width: medium
+                                            underlay: -5
+                                            format: int
+                                      - spacer:
+
+                                      - icon: action3rd
+                                      - large-print:
+                                        contents:
+                                          - field: map/3rd
+                                            frame: none
+                                            border: full
+                                            width: medium
+                                            underlay: -10
+                                            format: int
+                                        else:
+                                          - field: map/3rd
+                                            frame: left
+                                            label: "_{3rd}"
+                                            border: full
+                                            width: medium
+                                            underlay: -10
+                                            format: int
+
+                                      - spacer:
+
+                              - g:
+                                pad: true
+                                contents:
+                                  - h6: "_{Agile}"
+                                    blk: false
+                                  - row:
+                                    blk: false
+                                    contents:
+
+                                      - icon: action2nd
+                                      - large-print:
+                                        contents:
+                                          - field: map/agile/2nd
+                                            frame: none
+                                            border: full
+                                            width: medium
+                                            underlay: -4
+                                            format: int
+                                        else:
+                                          - field: map/agile/2nd
+                                            frame: left
+                                            label: "_{2nd}"
+                                            border: full
+                                            width: medium
+                                            underlay: -4
+                                            format: int
+                                      - spacer:
+
+                                      - icon: action3rd
+                                      - large-print:
+                                        contents:
+                                          - field: map/agile/3rd
+                                            frame: none
+                                            border: full
+                                            width: medium
+                                            underlay: -8
+                                            format: int
+                                        else:
+                                          - field: map/agile/3rd
+                                            frame: left
+                                            label: "_{3rd}"
+                                            border: full
+                                            width: medium
+                                            underlay: -8
+                                            format: int
+
+                                      - spacer:
+
+                          - repeat: 3
+                            reduce: 1
+                            contents:
+                              - paste: weapon
+                                params:
+                                  i: '#{i}'
+
+                          - repeat: 2
+                            start: 4
+                            contents:
+                              - paste: weapon-with-ammo
+                                params:
+                                  i: '#{i}'
+
+          - layout: 2r
+            contents:
+              - g:
+                contents:
+                  - section: "_{Health}"
+                    # icon: hp
+                    id: health
+                    mark: hp
+                    contents:
+                      - row:
+                        layout: split
+                        contents:
+                          - calc:
+                            output:
+                              field: hp
+                              legend: "_{Hit Points}"
+                              icon: hp
+                              suffix: "_{hp}"
+                              width: large
+                              eq: "req(['level'],%{hp-ancestry}+((%{hp-class}+%{CON}+%{hp-toughness})*%{level})+%{hp-misc})"
+                            inputs:
+                              - field: hp-ancestry
+                                label: "_{Ancestry}"
+                              - span: "+ ("
+                              - field: hp-class
+                                label: "_{Class}"
+                              - span: "+"
+                              - field:
+                                label: "_{CON}"
+                                underlay: "_{CON}"
+                                ref: CON
+                              - span: "+"
+                              - field: hp-toughness
+                                label: "_{Toughness}"
+                                control: checkbox
+                              - span: ") &times;"
+                              - field:
+                                ref: level
+                                label: "_{Level}"
+                              - span: "+"
+                              - field: hp-misc
+                                label: "_{Misc}"
+                                optional: true
+                                misc: true
+                                format: int
+
+                      - row:
+                        # colour: CON
+                        contents:
+                          - field: current-hp
+                            label: "_{Current Hit Points}"
+                            border: full
+                            temp: true
+                            icon: hp
+                            suffix: "_{hp}"
+                            width: stretch
+                            colour: CON
+                          - field: temp-hp
+                            label: "_{Temp Hit Points}"
+                            border: full
+                            icon: hp-o
+                            temp: true
+                            suffix: "_{hp}"
+                            width: huge
+                            blk: true
+                            format: int
+                            colour: CON
+
+                          - field: dying
+                            control: compound
+                            label: "_{Dying}"
+                            ruby: "_{Wounded}"
+                            border: none
+                            flex: none
+                            width: stretch
+                            align: center
+                            # colour: CON
+                            parts:
+                              - id: dying-wounded
+                                control: checkgrid
+                                style: progress
+                                max: "#{dying-max}"
+                                depth: 2
+
+                          - icon: evil
+                            size: medium
+                            optional: true
+
+                  - section: "_{Armour Class}"
+                    id: armour
+                    contents:
+                      - row:
+                        contents:
+                          - calc:
+                            output:
+                              field: ac
+                              legend: "_{Armour Class}"
+                              icon: ac
+                              border: full
+                              width: large
+                              underlay: "_{AC}"
+                              merge-top: true
+                              eq: '10+%{ac-DEX}+%{ac-proficiency-bonus}+%{ac-armour-bonus}+%{ac-armour-potency[rank]}+%{ac-items}+%{ac-misc}'
+                            inputs:
+                              - span: 10 +
+                                nowrap: true
+                              - field: ac-DEX
+                                ref: true
+                                eq: "min(%{DEX},%{armour-dex-cap})"
+                                underlay: "_{DEX}"
+                                label: "_{DEX}"
+                                colour: DEX
+                              - span: +
+                              - field: ac-proficiency
+                                control: proficiency
+                                label: "_{Proficiency}"
+                              - span: +
+                              - field: ac-armour-bonus
+                                label: "_{Armour\nBonus}"
+                                icon: armour
+                              - span: +
+                              - field: ac-armour-potency
+                                control: counter
+                                label: "_{Armour\nPotency}"
+                                max: 3
+                              - span: +
+                              - field: ac-items
+                                label: "_{Items}"
+                                format: int
+                              - span: +
+                              - field: ac-misc
+                                label: "_{Misc}"
+                                misc: true
+                                optional: true
+                                format: int
+                          - spacer:
+                          - zone: '@ac-extra'
+                      - row:
+                        contents:
+                          - field: temp-ac
+                            temp: true
+                            # frame: none
+                            label: "_{Temp AC}"
+                            icon: shield-o
+                            border: full
+                            underlay: "_{AC}"
+                            prefix: "+"
+                            width: large
+                            colour: DEX
+                            format: int
+                          - zone: '@temp-ac'
+                          - spacer:
+
+                          - field: unarmoured-proficiency
+                            control: proficiency-icon
+                            frame: right
+                            has-bonus: false
+                            border: none
+                            label: "_{Unarmoured}"
+                          - field: light-armour-proficiency
+                            control: proficiency-icon
+                            frame: right
+                            has-bonus: false
+                            border: none
+                            label: "_{Light}"
+                          - field: medium-armour-proficiency
+                            control: proficiency-icon
+                            frame: right
+                            has-bonus: false
+                            border: none
+                            label: "_{Medium}"
+                          - field: heavy-armour-proficiency
+                            control: proficiency-icon
+                            frame: right
+                            has-bonus: false
+                            border: none
+                            label: "_{Heavy}"
+                      - layout: 2e
+                        contents:
+                          - section:
+                            untitled: true
+                            mark: shield
+                            contents:
+                              - hr:
+                              - list:
+                                hr: true
+                                light: true
+                                contents:
+                                  - g:
+                                    contents:
+                                      # - field: shield
+                                      #   legend: "_{Shield}"
+                                      #   size: large
+                                      #   width: stretch
+                                      #   flex: none
+                                      #   icon: shield
+                                      - row:
+                                        contents:
+                                          - action:
+                                            contents:
+                                              - p:
+                                                title: "_{Raise Shield}"
+                                          - spacer:
+                                          - field: shield-ac
+                                            frame: none
+                                            icon: shield
+                                            border: full
+                                            underlay: "_{AC}"
+                                            prefix: "+"
+                                            width: large
+                                            format: int
+                                  - g:
+                                    contents:
+                                      - selectable: 'shield-block'
+                                        contents:
+                                          - p:
+                                            title: "_{Shield Block}"
+                                            content: "_{Deduct hardness, then apply remaining damage to both shield and yourself.}"
+                                            optional: true
+
+                                      - action: reaction
+                                        contents:
+                                          - row:
+                                            contents:
+                                              - spacer:
+                                              - field: shield-hardness
+                                                label: "_{Hardness}"
+                                                border: full
+                                                blk: true
+                                                width: large
+                                              - field: shield-hp
+                                                label: "_{Shield Hit Points}"
+                                                control: compound
+                                                border: multi
+                                                blk: true
+                                                width: gargantuan
+                                                parts:
+                                                  - subid: total
+                                                    ruby: "_{Total}"
+                                                    border: full
+                                                    suffix: "_{hp}"
+                                                    format: int
+                                                  - subid: current
+                                                    ruby: "_{Current}"
+                                                    border: full
+                                                    temp: true
+                                                    suffix: "_{hp}"
+                                                    format: int
+
+                          - g:
+                            contents:
+                              # - section:
+                              #   untitled: true
+                              #   mark: armour
+                              #   contents:
+                              #     - hr:
+                              #     - list:
+                              #       hr: true
+                              #       contents:
+                              #         - g:
+                              #           contents:
+                              #             - field: shield
+                              #               legend: "_{Shield}"
+                              #               size: large
+                              #               width: stretch
+                              #               flex: none
+                              #               icon: shield
+                              #               merge-bottom: true
+                              #         - g:
+                              #           contents:
+                              #             - field: armour
+                              #               legend: "_{Armour}"
+                              #               size: large
+                              #               width: stretch
+                              #               flex: none
+                              #               icon: armour
+                              #               merge-bottom: true
+                                      # - g:
+                                      #   contents:
+                                      #     - slots:
+                                      #       min: 3
+                                      #       reduce: 1
+                                      #       contents:
+                                      #         - zone: '@ac-conditional'
+                                      #       placeholder:
+                                      #         - field: "ac-conditional-#{i}"
+                                      #           frame: none
+                                      #           width: stretch
+                              - section: "_{Rest}"
+                                # untitled: true
+                                merge-bottom: true
+                                contents:
+                                  - paste: 10mins
+                                    contents:
+                                      - layout: 2r
+                                        contents:
+                                          # - g:
+                                          #   contents:
+                                          #     - ul:
+                                          #       contents:
+                                          #         - li: "_{Treat wounds}"
+                                          #         - li: "_{Repair an item}"
+                                          #         - li: "_{Identify an item}"
+                                          # - g:
+                                          #   contents:
+                                          - p: "_{Treat wounds, repair an item, identify an item, change armour}"
+                                          - field: refocus
+                                            label: "_{Refocus}"
+                                            border: full
+                                            width: large
+                                            prefix: "+"
+                                            # underlay: "1"
+                                            value: 1
+                                            suffix: "_{pt}"
+                                            ruby: "_{Once only}"
+                                            format: int
+                                  - hr: true
+                                  - row:
+                                    colour: CON
+                                    contents:
+                                      - calc:
+                                        output:
+                                          field: rest-hp
+                                          legend: "_{Rest Healing}"
+                                          suffix: "_{hp}"
+                                          width: large
+                                          prefix: "+"
+                                          eq: "max(1,%{CON})*%{level}*(%{fast-recovery-checked}?2:1)"
+                                        inputs:
+                                          - ruby: "_{Min 1}"
+                                            contents:
+                                              - field:
+                                                ref: CON
+                                                label: "_{CON}"
+                                                underlay: "_{CON}"
+                                          - span: "&times;"
+                                          - field:
+                                            ref: level
+                                            label: "_{Level}"
+                                      - vr:
+                                      - field: fast-recovery
+                                        label: "_{Fast Recovery}"
+                                        control: compound
+                                        border: none
+                                        parts:
+                                          - subid: checked
+                                            control: checkbox
+                                          - control: value
+                                            value: "&times; 2"
+
+                                  - p: "_{Recover from Fatigued, Doomed 1, Drained 1.}"
+
+
+                  - tail:
+
+              - g:
+                contents:
+
+                  - section: "_{Saving Throws}"
+                    id: saving-throws
+                    contents:
+                      - table: saving-throws
+                        width: stretch
+                        colourful: true
+                        columns:
+                          -
+                          -
+                          - "_{Ability Modifier}"
+                          - "_{Proficiency}"
+                          - zone: '@saving-throw-header/item'
+                            contents:
+                              - "_{Item}"
+                        rows:
+                          - save: fortitude
+                            legend: "_{Fortitude}"
+                            short: "_{FORT}"
+                            ability: "_{CON}"
+                            abilityref: CON
+                          - save: reflex
+                            legend: "_{Reflex}"
+                            short: "_{REF}"
+                            ability: "_{DEX}"
+                            abilityref: DEX
+                          - save: will
+                            legend: "_{Will}"
+                            short: "_{WILL}"
+                            ability: "_{WIS}"
+                            abilityref: WIS
+                        template:
+                          - calc:
+                            output:
+                              field: "#{save}"
+                              legend: "#{legend}"
+                              icon: bonus
+                              border: full
+                              width: large
+                              underlay: "#{short}"
+                              merge-top: true
+                              eq: '%{#{save}-ability}+%{#{save}-proficiency-bonus}+%{#{save}-item-bonus}+%{#{save}-potency}+%{#{save}-misc}'
+                              format: modifier
+                            inputs:
+                              - field: "#{save}-ability"
+                                frame: h-label
+                                label: "#{ability}"
+                                underlay: "#{ability}"
+                                ref: "#{abilityref}"
+                              - field: "#{save}-proficiency"
+                                control: proficiency
+                              - zone: '@saving-throw/item'
+                                params:
+                                  save: "#{save}"
+                                contents:
+                                  - field: "#{save}-item-bonus"
+                                    format: int
+                                    misc: true
+                              - field: "#{save}-upgrade-success"
+                                control: boost
+                                down: false
+                                frame: none
+                                width: tiny
+                              - field: "#{save}-reduce-fail"
+                                control: boost
+                                down: false
+                                frame: none
+                                width: tiny
+
+                      - p: "_{Save DC = 10 + Save Bonus}"
+                        optional: true
+
+                      - layout: indent-rw
+                        contents:
+                          - p: 
+                            id: save-upgrade-success
+                            icon: save-crit-succeed
+                            title: "_{Upgrade success}"
+                            content: "_{When you roll a success, it becomes critical success}"
+                      - layout: indent-r
+                        contents:
+                          - p:
+                            id: save-reduce-fail
+                            icon: save-fail
+                            title: "_{Reduce failure}"
+                            content: "_{When you roll a critical failure, it becomes failure}"
+
+                      - arrow: right-up
+                        from: p-save-upgrade-success
+                        to: field-will-upgrade-success
+                        anchor: to
+                      - arrow: right-up
+                        from: p-save-reduce-fail
+                        to: field-will-reduce-fail
+                        anchor: to
+
+                      - hr:
+                        light: true
+
+                      - slots:
+                        min: 6
+                        reduce: 1
+                        merge-bottom: true
+                        contents:
+                          - zone: '@saving-throws'
+                        placeholder:
+                          - field: 'saving-throws-conditional-#{i}'
+                            frame: none
+                            align: left
+                            width: stretch
+
+                      # - hr:
+                      # - h5: "_{Effects}"
+                      # - list:
+                      #   hr: true
+                      #   zebra: true
+                      #   contents:
+                      #     - repeat: 2
+                      #       reduce: 1
+                      #       contents:
+                      #         - g:
+                      #           contents:
+                      #             - row:
+                      #               contents:
+                      #                 - field: effect-#{i}
+                      #                   control: progression
+                      #                   frame: none
+                      #                   max: 3
+                      #                 - field: effect-#{i}
+                      #                   width: stretch
+                      #                   frame: none
+                      #                   merge-bottom: true
+                      #                 - field: effect-#{i}-duration
+                      #                   frame: none
+                      #                   underlay: "#"
+                      #                   affix: "_{rds}"
+                      #                   width: small
+                      #                   merge-bottom: true
+                      #                   format: int
+                      #                 - field: effect-#{i}-rounds
+                      #                   control: checkgrid
+                      #                   frame: none
+                      #                   max: 6
+                      #                   depth: 2
+
+                  - tail:
+
+      - page: feats
+        name: "_{Feats}"
+        order: 8
+        flex: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - zone: '@ancestry-section'
+                    contents:
+                      - section: "_{Ancestry}"
+                        contents:
+                          - layout: 2e
+                            contents:
+                              - list:
+                                hr: true
+                                zebra: true
+                                avoid-shade: true
+                                contents:
+                                  - g:
+                                    contents:
+                                      - zone: '@ancestry'
+                                        contents:
+                                          - article: ancestry
+                                            lines: 4
+                                  - g:
+                                    contents:
+                                      - h5: "_{Heritage}"
+                                      - zone: '@heritage'
+                                        contents:
+                                          - article: heritage
+                                            lines: 4
+                                  - zone: '@ethnicity'
+                                    contents:
+                                      - g:
+                                        contents:
+                                          - h5: "_{Ethnicity}"
+                                          - article: ethnicity
+                                            lines: 2
+                                      - spacer:
+                              - list:
+                                hr: true
+                                zebra: true
+                                avoid-shade: true
+                                contents:
+                                  - var: lines
+                                    value: 4
+                                    decrement: 2
+                                    cutoff: 1
+                                    contents:
+                                      - each:
+                                        template:
+                                          - level: '#{level}'
+                                            contents:
+                                              - item: yes
+                                        contents:
+                                          - slots: [ 1, 5, 9, 13, 17 ]
+                                            key: level
+                                            min: 1
+                                            max: 1
+                                            contents:
+                                              - zone: '@ancestry-feats'
+                                            placeholder:
+                                              article: 'ancestry-feat-#{level}'
+                                              lines: "#{lines}"
+
+                      - layout: 2e
+                        contents:
+                          - g:
+                            contents:
+                              - section: "_{Background}"
+                                contents:
+                                  - zone: '@background'
+                                    contents:
+                                      - article: char-background
+                                        lines: 5
+                                        reduce: 2
+                                        
+                              - hr:
+                              - h5: "_{Background Skill Feat}"
+                              - zone: '@background-skill-feat'
+                                contents:
+                                  - article: 'background-skill-feat'
+                                    lines: 3
+                              - tail:
+                              - spacer:
+
+                          - section: "_{General Feats}"
+                            contents:
+                              - list:
+                                hr: true
+                                zebra: true
+                                contents:
+                                  - var: lines
+                                    value: 4
+                                    decrement: 2
+                                    cutoff: 1
+                                    contents:
+                                      - each:
+                                        index: j
+                                        template:
+                                          - level: '#{level}'
+                                            contents:
+                                              - item: yes
+                                        contents:
+                                          - slots: [ 3, 7, 11, 15, 19 ]
+                                            key: level
+                                            index: i
+                                            min: 1
+                                            max: 1
+                                            contents:
+                                              - zone: '@general-feats'
+                                            placeholder:
+                                              article: 'general-feat-#{level}'
+                                              lines: "#{lines}"
+                              - tail:
+
+              - g:
+                contents:
+                  - zone: '@skill-feats-section'
+                    contents:
+                      - section: "_{Skill Feats}"
+                        flex: large
+                        contents:
+                          - list:
+                            zebra: true
+                            columns: 2
+                            flex: huge
+                            hr: true
+                            contents:
+                              - each:
+                                template:
+                                  - level: "#{level}"
+                                    contents:
+                                      - item: yes
+                                contents:
+                                  - slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                                    key: level
+                                    index: i
+                                    min: 1
+                                    max: 1
+                                    placeholder:
+                                      article: 'skill-feat-#{level}'
+                                      lines: 3
+                                    contents:
+                                      - zone: '@skill-feats'
+
+                      - section: "_{Notes}"
+                        contents:
+                          - layout: 2e
+                            contents:
+                              - repeat: 2
+                                contents:
+                                  - field: skill-notes-#{i}
+                                    flex: small
+                                    width: stretch
+                                    frame: none
+                                    repeat: 20
+                                    reduce: 6
+                                    merge-bottom: true
+                                    
+                  - section: "_{Proficiencies}"
+                    contents:
+                      - list:
+                        zebra: true
+                        collapse: true
+                        merge-bottom: true
+                        field_frame: none
+                        avoid-shade: true
+                        columns: 2
+                        contents:
+                          - slots:
+                            min: 10
+                            max: 14
+                            reduce: 2
+                            contents:
+                              - zone: '@proficiencies'
+                            placeholder:
+                              - row:
+                                contents:
+                                  - field: "proficiency-#{i}-value"
+                                    control: proficiency
+                                    has-bonus: false
+                                  - field: "proficiency-#{i}-name"
+                                    frame: none
+                                    width: stretch
+                                    align: left
+                  - tail:

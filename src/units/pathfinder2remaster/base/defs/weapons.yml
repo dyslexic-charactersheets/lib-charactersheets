@@ -1,0 +1,483 @@
+unit: defs/weapons
+group: "_{Player Core}"
+
+inc:
+  - copy: multi-attack-penalty
+    contents:
+      # - h5: "_{Multi-Attack Penalty}"
+      #   optional: true
+      - row: split
+        contents:
+          - h5: "_{Multi-Attack Penalty}"
+          - spacer:
+          # - icon: action
+          # - field: map-1
+          #   frame: left
+          #   label: "_{1st}"
+          #   border: full
+          #   width: medium
+          #   control: value
+          #   value: "0"
+          - spacer:
+          - icon: action2nd
+          - field: map-2
+            frame: left
+            label: "_{2nd}"
+            border: full
+            width: medium
+            underlay: -5
+            format: int
+          - spacer:
+          - icon: action3rd
+          - field: map-3
+            frame: left
+            label: "_{3rd}"
+            border: full
+            width: medium
+            underlay: -10
+            format: int
+
+  - copy: damage-type-field
+    params:
+      id:
+    contents:
+      - field: attack-#{i}-damage-type
+        label: "_{Type}"
+        width: small
+        control: enum
+        value: ""
+        options:
+          - ""
+          - "_{P}"
+          - "_{S}"
+          - "_{B}"
+          - "_{P}/_{S}"
+          - "_{P}/_{B}"
+          - "_{S}/_{B}"
+
+  - copy: natural-weapon
+    params:
+      name: ""
+      damage: ""
+    contents:
+      - row:
+        contents:
+          - h6: "#{name}"
+          - spacer:
+          - icon: damage
+          - value: "#{damage}"
+            width: small
+          - if: "#{type}!="
+            then:
+              - p: "#{type}"
+          - item:
+
+  - copy: weapon-damage-block
+    params:
+      i:
+    contents:
+      - field: attack-#{i}-damage
+        border: full
+        label: "_{Damage}"
+        width: huge
+        icon: damage
+        control: compound
+        parts:
+          - subid: ndice
+            width: tiny
+            align: right
+            format: int
+          - label: "_{d}"
+          - subid: die
+            width: tiny
+            align: left
+            damage-die: true
+            format: int
+          - label: "+"
+          - subid: extra
+            width: tiny
+            format: int
+      - paste: damage-type-field
+        params:
+          id: attack-#{i}-damage-type
+      - zone: '@defence-potency'
+        contents:
+          - field: attack-#{i}-striking
+            label: "_{Striking}"
+            control: counter
+      - field: attack-#{i}-type
+        label: "_{Misc}"
+        misc: true
+        optional: true
+        format: int
+
+  - copy: weapon
+    params:
+      i: 0
+    contents:
+      - g:
+        contents:
+          - row:
+            contents:
+              - field: attack-#{i}
+                width: stretch
+                frame: none
+                align: left
+                size: large
+                icon: sword
+          - row:
+            contents:
+              - calc:
+                output:
+                  field: attack-#{i}-bonus
+                  label: "_{Attack Bonus}"
+                  width: huge
+                  attack: true
+                  icon: bonus
+                  eq: "%{attack-#{i}-ability}+%{attack-#{i}-proficiency-bonus}+%{attack-#{i}-potency[rank]}+%{attack-#{i}-misc}"
+                  format: modifier
+                inputs:
+                  - field: attack-#{i}-ability
+                    ref: true
+                    misc: true
+                    label: "_{Ability}"
+                    control: ref-switch
+                    abilities: "str,dex"
+                  - field: attack-#{i}-proficiency
+                    control: proficiency
+                    label: "_{Proficiency}"
+                  - zone: '@attack-potency'
+                    contents:
+                      - field: attack-#{i}-potency
+                        control: counter
+                        label: "_{Potency}"
+              - large-print:
+                contents:
+                  - field: attack-#{i}-more
+                    label: "_{Weapon Traits}"
+                    width: stretch
+                    align: right
+                else:
+                  - paste: weapon-damage-block
+                    params:
+                      i: "#{i}"
+          - row:
+            flex: huge
+            contents:
+              - large-print:
+                contents:
+                  - paste: weapon-damage-block
+                    params:
+                      i: "#{i}"
+                else:
+                  - field: attack-#{i}-details
+                    label: "_{Weapon Traits}"
+                    width: stretch
+                    align: left
+                    merge-bottom: true
+              - field: attack-#{i}-critical
+                label: "_{Critical}"
+                width: stretch
+                align: right
+                merge-bottom: true
+              - field: attack-#{i}-critical-unlocked
+                frame: none
+                control: checkbox
+
+  - copy: weapon-with-ammo
+    params:
+      i: 0
+    contents:
+      - g:
+        contents:
+          - row:
+            contents:
+              - field: attack-#{i}
+                width: stretch
+                frame: none
+                align: left
+                size: large
+                icon: bow
+              - field: attack-#{i}-range
+                control: speed
+                width: huge
+                border: full
+                frame: none
+          - row:
+            contents:
+              - calc:
+                output:
+                  field: attack-#{i}-bonus
+                  label: "_{Attack Bonus}"
+                  width: huge
+                  attack: true
+                  icon: bonus
+                  format: modifier
+                  eq: "%{attack-#{i}-ability}+%{attack-#{i}-proficiency-bonus}+%{attack-#{i}-potency[rank]}+%{attack-#{i}-misc}"
+                inputs:
+                  - field: attack-#{i}-ability
+                    misc: true
+                    label: "_{Ability}"
+                    control: ref-switch
+                    ref: "str,dex"
+                  - field: attack-#{i}-proficiency
+                    control: proficiency
+                    label: "_{Proficiency}"
+                  - zone: '@attack-potency'
+                    contents:
+                      - field: attack-#{i}-potency
+                        control: counter
+                        label: "_{Potency}"
+              - large-print:
+                contents:
+                  - field: attack-#{i}-details
+                    label: "_{Weapon Traits}"
+                    width: stretch
+                    align: right
+                else:
+                  - paste: weapon-damage-block
+                    params:
+                      i: "#{i}"
+          - row:
+            flex: huge
+            contents:
+              - field: "ammo-#{i}"
+                label: "_{Ammo}"
+                unlined: true
+                width: small
+                size: huge
+                underlay: "#"
+                merge-bottom: true
+                format: int
+              - field: ammo-#{i}-count
+                frame: none
+                control: checkgrid
+                max: 30
+                depth: 3
+              - vr:
+              - large-print:
+                contents:
+                  - paste: weapon-damage-block
+                    params:
+                      i: "#{i}"
+                else:
+                  - field: attack-#{i}-details
+                    label: "_{Weapon Traits}"
+                    width: stretch
+                    align: left
+                    merge-bottom: true
+                  - field: attack-#{i}-critical
+                    label: "_{Critical}"
+                    width: stretch
+                    align: right
+                    merge-bottom: true
+                  - field: attack-#{i}-critical-unlocked
+                    frame: none
+                    control: checkbox
+
+  - copy: weapon-small
+    params:
+      id: ''
+      i: 0
+      damage-die: false
+      damage-icon: damage
+    contents:
+      - g:
+        contents:
+          - row:
+            contents:
+              - field: "#{id}-attack-#{i}"
+                width: stretch
+                frame: none
+                align: left
+                size: large
+                icon: sword
+          - row:
+            contents:
+              - calc:
+                output:
+                  field: "#{id}-attack-#{i}-bonus"
+                  label: "_{Attack Bonus}"
+                  # width: large
+                  attack: true
+                  icon: bonus
+                  format: modifier
+                  eq: "%{attack-#{i}-ability}+%{attack-#{i}-proficiency-bonus}+%{attack-#{i}-misc}"
+                inputs:
+                  - field: "#{id}-attack-#{i}-ability"
+                    label: "_{Ability}"
+                    misc: true
+                    control: ref-switch
+                    ref: "str,dex"
+                  - span: "+"
+                  - field: "#{id}-attack-#{i}-proficiency"
+                    control: proficiency
+                    label: "_{Proficiency}"
+                  - zone: '@attack-potency'
+              - if: "#{damage-die}"
+                then:
+                  - field: "#{id}-attack-#{i}-damage"
+                    border: full
+                    label: "_{Damage}"
+                    width: small
+                    icon: "#{damage-icon}"
+                    control: compound
+                    parts:
+                      - subid: ndice
+                        suffix: "#{damage-die} +"
+                        format: int
+                      - subid: extra
+                        format: int
+                else:
+                  - field: "#{id}-attack-#{i}-damage"
+                    border: full
+                    label: "_{Damage}"
+                    width: small
+                    icon: "#{damage-icon}"
+                    control: compound
+                    parts:
+                      - subid: ndice
+                        suffix: "_{d}"
+                        format: int
+                      - subid: die
+                        suffix: "+"
+                        format: int
+                      - subid: extra
+                        format: int
+          - row:
+            contents:
+              - field: "#{id}-attack-#{i}-critical"
+                frame: none
+                width: stretch
+                align: left
+                unlined: true
+                merge-bottom: true
+                
+  - copy: weapon-small-with-ammo
+    params:
+      id: ''
+      i: 0
+      max: 20
+    contents:
+      - g:
+        contents:
+          - row:
+            contents:
+              - field: "#{id}-attack-#{i}"
+                width: stretch
+                frame: none
+                align: left
+                size: large
+                icon: bow
+          - row:
+            contents:
+              - calc:
+                output:
+                  field: "#{id}-attack-#{i}-bonus"
+                  label: "_{Attack Bonus}"
+                  # width: large
+                  attack: true
+                  icon: bonus
+                  format: modifier
+                  eq: "%{attack-#{i}-ability}+%{attack-#{i}-proficiency-bonus}+%{attack-#{i}-potency[rank]}+%{attack-#{i}-misc}"
+                inputs:
+                  - field: "#{id}-attack-#{i}-ability"
+                    label: "_{Ability}"
+                    misc: true
+                    control: ref-switch
+                    ref: "str,dex"
+                  - span: "+"
+                  - field: "#{id}-attack-#{i}-proficiency"
+                    control: proficiency
+                    label: "_{Proficiency}"
+                  - zone: '@attack-potency'
+                    contents:
+              - if: "#{damage-die}"
+                then:
+                  - field: "#{id}-attack-#{i}-damage"
+                    border: full
+                    label: "_{Damage}"
+                    width: small
+                    icon: damage
+                    control: compound
+                    parts:
+                      - subid: ndice
+                        suffix: "#{damage-die} +"
+                        format: int
+                      - subid: extra
+                        format: int
+                else:
+                  - field: "#{id}-attack-#{i}-damage"
+                    border: full
+                    label: "_{Damage}"
+                    width: small
+                    icon: damage
+                    control: compound
+                    parts:
+                      - subid: ndice
+                        suffix: "_{d}"
+                        format: int
+                      - subid: die
+                        suffix: "+"
+                        format: int
+                      - subid: extra
+                        format: int
+          - row:
+            contents:
+              - field: "#{id}-ammo-#{i}"
+                # frame: h-label
+                label: "_{Ammo}"
+                # frame: none
+                unlined: true
+                width: small
+                size: huge
+                underlay: "#"
+                merge-bottom: true
+                format: int
+              - field: "#{id}ammo-#{i}-count"
+                frame: none
+                control: checkgrid
+                max: "#{max}"
+                depth: 3
+              - vr:
+              - field: "#{id}-attack-#{i}-critical"
+                frame: none
+                width: stretch
+                align: left
+                unlined: true
+                merge-bottom: true
+
+  - copy: ammo
+    params:
+      i: 0
+      max: 20
+      legend: ''
+      label: ''
+      merge-bottom: false
+    contents:
+      - row:
+        contents:
+          - field: ammo-#{i}-type
+            legend: "#{legend}"
+            label: "#{label}"
+            width: stretch
+            align: left
+            unlined: true
+            merge-bottom: "#{merge-bottom}"
+          - field: ammo-#{i}
+            # frame: h-label
+            frame: none
+            unlined: true
+            width: small
+            size: huge
+            underlay: "#"
+            # label: "_{Charges}"
+            format: int
+            merge-bottom: "#{merge-bottom}"
+          - field: ammo-#{i}-count
+            frame: none
+            control: checkgrid
+            max: '#{max}'
+            depth: 3
+            merge-bottom: "#{merge-bottom}"
+

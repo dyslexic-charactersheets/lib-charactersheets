@@ -19,8 +19,8 @@ const systems = [
         name: "Pathfinder 2nd Edition Remaster"
     },
     // {
-    //     code: "starfinder",
-    //     name: "Starfinder"
+    //     code: "starfinder2",
+    //     name: "Starfinder 2nd Edition"
     // }
     // {
     //     code: "core-fantasy",
@@ -35,7 +35,7 @@ const systems = [
 systems.forEach(system => {
     log("make", "Building "+system.name);
 
-    units.loadSystem(system.code, system.name, systemUnits => {
+    units.loadSystem(system.code, system.name, (systemUnits) => {
         log("make", `Built ${system.name} (${systemUnits.length} units)`);
 
         system.units = systemUnits;

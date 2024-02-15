@@ -174,8 +174,9 @@ function generateUnits() {
         // fields
         let name = inputYaml(json.name);
         let rarity = capital(inputYaml(json.system.traits.rarity));
-        if (rarity == "Common") {
-          rarity = "";
+        let badge = rarity;
+        if (badge == "Common") {
+          badge = "";
         }
         let feat = '';
         for (let itemkey of Object.keys(json.system.items)) {
@@ -190,13 +191,13 @@ function generateUnits() {
         let bookref = '';
         let loreskills = inputYaml(json.system.trainedLore).split(/, */).filter((lore) => lore !== undefined && lore !== null && lore != "" && !lore.match(/<.*>/)).map((lore) => lore.match(/Lore$/) ? lore : lore+" Lore");
 
-        createBackgroundUnit(name, description, book, bookref, feat, group, skillChoice, skills, loreskills, rarity);
+        createBackgroundUnit(name, description, book, bookref, feat, group, skillChoice, skills, loreskills, rarity, badge);
       });
     })(file);
   }
 }
 
-function createBackgroundUnit(name, description, book, bookref, feat, group, skillChoice, skills, loreskills, rarity) {
+function createBackgroundUnit(name, description, book, bookref, feat, group, skillChoice, skills, loreskills, rarity, badge) {
   // find the unit ID and filename
   // log("unitGen", name);
   let slug = slugify(name);
@@ -223,7 +224,8 @@ function createBackgroundUnit(name, description, book, bookref, feat, group, ski
 in: background
 group: "_{${book}}"
 name: "_{${name}}"
-${(rarity !== "") ? `badge: "_{${rarity}}"`: ''}
+${(badge !== "") ? `badge: "_{${badge}}"`: ''}
+rarity: ${rarity}
 ${featExists ? `
 require:
   - unit: ${featUnit}

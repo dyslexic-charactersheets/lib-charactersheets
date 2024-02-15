@@ -161,9 +161,9 @@ export let field_control_p = {
 
     let para = `<div class='p'><div class='p__inner'>
       ${args['with-title'] ?
-        `<div class='p__title p__editpart' contenteditable="plaintext-only">${_e(args.title, doc)}</div>`
+        `<div class='p__title p__editpart' contenteditable="true" tabindex="">${_e(args.title, doc)}</div>`
       : ''}
-      <div class='p__body p__editpart' contenteditable="plaintext-only">${_e(args.value, doc)}</div>
+      <div class='p__body p__editpart' contenteditable="true" tabindex="">${_e(args.value, doc)}</div>
     </div></div>`;
 
     let lines = [];

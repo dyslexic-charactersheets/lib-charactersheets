@@ -1,0 +1,62 @@
+unit: druid/order/remaster/leaf
+in: druid/order
+group: "_{Player Core}"
+name: "_{Leaf}"
+
+require:
+  - unit: option/familiar
+  
+inc:
+  - set: diplomacy-proficiency
+    value: trained
+
+  - at: '@druid/order'
+    replace:
+      - h4: "_{Leaf Order}"
+
+  - at: '@druid/order-feat'
+    replace:
+      - section: "_{Leshy Familiar}"
+        content:
+          - p: "_{You gain a leshy familiar, a Tiny plant that embodies one of the many spirits of nature.}"
+
+  - at: '@focus-spells'
+    add:
+      - p:
+        title: "_{Goodberry}"
+        content: "_{Imbue berries with healing. Takes 1 hour.}"
+
+  - at: '@druid/order-power'
+    replace:
+      - section: "_{Goodberry}"
+        contents:
+          - paste: focus
+            contents:
+              - p: "_{Imbue berries with healing. Takes 1 hour.}"
+              - row:
+                contents:
+                  - calc:
+                    output:
+                      field: goodberry-berries
+                      legend: "_{Berries}"
+                      width: large
+                      eq: "%{focus-level}"
+                    inputs:
+                      - label: "_{Focus Level}"
+
+                  - spacer:
+                  - field: goodberry-healing
+                    label: "Healing"
+                    control: value
+                    value: "_{1d6}+4"
+                    width: large
+
+  - at: '@focus-points'
+    replace:
+      - field: druid-leaf-goodberry-focus
+        label: "_{Leaf Order}"
+
+  - at: '@anathema'
+    replace:
+      - li: "_{Committing wanton cruelty to plants}"
+      - li: "_{Killing plants unnecessarily}"

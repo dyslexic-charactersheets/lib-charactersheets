@@ -251,6 +251,7 @@ export let spells_table = {
     pad: false,
     'merge-bottom': true,
     at: [],
+    'spell-level-label': "_{Spell\nLevel}",
   },
   transform(args) {
     // log("-","[spells] Expanding spells table:", args);
@@ -266,7 +267,7 @@ export let spells_table = {
     }
 
     // Spell Level
-    columns.push("Spell\nLevel");
+    columns.push(args['spell-level-label']);
     template.push({
       type: "level-marker",
       level: "#{ordinal}",

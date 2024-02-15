@@ -5,7 +5,7 @@
 
 import { Registry } from './classes/Registry';
 import { Request } from './classes/Request';
-import { loadSystemData } from './classes/System';
+import { loadSystemData, COMMON, PREMIUM, PATHFINDER_2, PATHFINDER_2_REMASTER } from './classes/System';
 import { events } from './classes/Events';
 import { addAssetsDir } from './data';
 import { getFormData } from './formdata';
@@ -16,10 +16,12 @@ import { error } from './log';
 
 // start this first, it's the slow bit
 loadSystemData([
-  'common',
-  'pathfinder2',
-  'core-fantasy',
-  'premium',
+  COMMON,
+  PATHFINDER_2,
+  PATHFINDER_2_REMASTER,
+  // STARFINDER_2,
+  // CORE_FANTASY,
+  PREMIUM,
 ]);
 
 const registry = new Registry();

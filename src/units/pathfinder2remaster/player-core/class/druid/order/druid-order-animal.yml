@@ -1,0 +1,79 @@
+unit: druid/order/remaster/animal
+in: druid/order
+group: "_{Player Core}"
+name: "_{Animal}"
+
+require:
+  - unit: option/animal-companion
+
+inc:
+  - set: athletics-proficiency
+    value: trained
+
+  - at: '@druid/order'
+    replace:
+      - h4: "_{Animal Order}"
+
+  - at: '@druid/order-feat'
+    replace:
+      - section: "_{Animal Companion}"
+        contents:
+          - p: "_{You gain a young animal companion.}"
+
+  - at: '@focus-spells'
+    add:
+      - action:
+        contents:
+          - p:
+            title: "_{Heal Animal}"
+            content: "_{Heal one creature, touch or ranged.}"
+
+  - at: '@druid/order-power'
+    replace:
+      - section: "_{Heal Animal}"
+        contents:
+          - list:
+            hr: true
+            contents:
+              - action: 1
+                contents:
+                  - g:
+                    pad: true
+                    contents:
+                      - p: "_{Touch one creature}"
+                      - calc:
+                        output:
+                          field: druid-heal-animal-1-healing
+                          legend: "Healing"
+                          suffix: "d8"
+                          icon: d8
+                          width: large
+                          eq: "%{focus-level}"
+                        inputs:
+                          - label: "_{Focus\nLevel}"
+
+              - action: 2
+                contents:
+                  - g:
+                    pad: true
+                    contents:
+                      - p: "_{One creature within 30ft}"
+                      - calc:
+                        output:
+                          field: druid-heal-animal-2-healing
+                          legend: "Healing"
+                          width: gargantuan
+                          control: compound
+                          parts:
+                            - subid: dice
+                              eq: "%{focus-level}"
+                            - span: "d8 +"
+                            - subid: bonus
+                              eq: "%{focus-level}"
+                        inputs:
+                          - label: "_{Focus\nLevel}"
+
+  - at: '@anathema'
+    replace:
+      - li: "_{Committing wanton cruelty to animals}"
+      - li: "_{Killing animals unnecessarily}"

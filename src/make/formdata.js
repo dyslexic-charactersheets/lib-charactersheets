@@ -3,7 +3,7 @@ require('./log');
 
 module.exports = {
   summarise: function(game, units) {
-    var baseSelects = [];
+    var baseSelects = {};
     var baseOptions = [];
     var slotValues = {};
     var slotGroups = {};
@@ -37,13 +37,14 @@ module.exports = {
 
     switch (game) {
       case "pathfinder2":
-        baseSelects.push({
+      case "pathfinder2remaster":
+        baseSelects["heritage/versatile"] = {
           select: "heritage/versatile",
           name: "Versatile Heritages",
           max: 1,
           base: false,
           values: [],
-        });
+        };
         break;
     }
 
@@ -118,8 +119,12 @@ module.exports = {
         unit.form.forEach(item => {
           var key = Object.keys(item)[0];
           if (key == "select") {
-            item.base = (_.has(item, "base") && item.base) || (unit.id == "base");
-            baseSelects.push(item);
+            if (!_.has(baseSelects, item.select)) {
+              item.base = (_.has(item, "base") && item.base) || (unit.id == "base");
+              baseSelects[item.select] = item;
+            } else {
+              warn("formdata", "Not adding duplicate select", item);
+            }
           } else if (key == "option") {
             item.base = (_.has(item, "base") && item.base) || (unit.id == "base");
             baseOptions.push(item);
@@ -128,11 +133,15 @@ module.exports = {
       }
     });
 
-    baseSelects.forEach(sel => {
+    baseSelects = Object.values(baseSelects);
+    baseSelects.sort((a, b) => ('' + a.select).localeCompare(b.select));
+
+    for (let sel of baseSelects) {
       sel.values = _.has(slotValues, sel.select) ? Object.values(slotValues[sel.select]) : [];
+      sel.values.sort((a, b) => ('' + a.id).localeCompare(b.id));
       sel.groups = _.has(slotGroups, sel.select) ? slotGroups[sel.select] : {};
       // log("formdata", `Slot ${sel.select}: ${sel.values.length} units`);
-    });
+    }
 
     // translation data
     // TODO language completion

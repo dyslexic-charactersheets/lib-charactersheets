@@ -2,7 +2,8 @@ import { log, error } from '../log';
 import { interpolate } from '../util/objects';
 import { replaceColours, adjustColour, vibrantColour } from '../util/colours';
 import { __ } from '../i18n';
-import { ready as systemsReady, getSystem } from './System';
+import { BLACK_FLAG, PATHFINDER_2, PATHFINDER_2_REMASTER, ready as systemsReady } from './System';
+import { getSystemStack } from './SystemStack';
 import { Instance } from './Instance';
 import { Document } from './Document';
 import { events } from './Events';
@@ -154,7 +155,7 @@ function parseCharacter(primary, request) {
   }
 
   // game-specific settings
-  const system = getSystem(attr.game);
+  const system = getSystemStack(attr.game);
   function getUnitOptions(unitName) {
     let unit = system.getUnit(unitName);
     if (isNull(unit) || !has(unit, "form")) {
@@ -180,7 +181,8 @@ function parseCharacter(primary, request) {
 
   // log("Character", "System", system);
   switch (attr.game) {
-    case 'pathfinder2':
+    case PATHFINDER_2:
+    case PATHFINDER_2_REMASTER:
       if (attr.ancestry) {
         let ancestryName = 'ancestry/' + attr.ancestry.replace(/^ancestry[\/-]/, '');
         char.units.push(ancestryName);
@@ -203,7 +205,11 @@ function parseCharacter(primary, request) {
       if (attr.class) {
         let className = attr.class.replace(/^class[\/-]/, '');
         let classShortName = className.replace(/^.*\//, '');
-        char.units.push('class/' + className);
+        if (attr.game == PATHFINDER_2_REMASTER && !className.match(/^remaster\//)) {
+          char.units.push('class/remaster/' + className);
+        } else {
+          char.units.push('class/' + className);
+        }
         char.classes.push(className);
         let classPrefix = toCamelCase('class ' + classShortName);
         // log("Character", "Class name", className, ", prefix", classPrefix);
@@ -395,7 +401,7 @@ export class Character extends Instance {
 
       systemsReady(() => {
         try {
-          const system = getSystem(data.game);
+          const system = getSystemStack(data.game);
           if (system === null || system === undefined) {
             error("Character", "System not found:", data.game);
             reject();
@@ -508,11 +514,12 @@ export class Character extends Instance {
           let title = __("Character");
           let summary = __("Character");
           switch (system.code) {
-            case 'pathfinder2':
+            case PATHFINDER_2:
+            case PATHFINDER_2_REMASTER:
               title = pathfinder2Title(units, document, data, true);
               summary = pathfinder2Title(units, document, data, false);
               break;
-            case 'core-fantasy':
+            case BLACK_FLAG:
               title = coreFantasyTitle(units, document, data, true);
               summary = coreFantasyTitle(units, document, data, false);
               break;

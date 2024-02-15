@@ -1,0 +1,190 @@
+unit: druid/order/remaster/untamed
+in: druid/order
+group: "_{Player Core}"
+name: "_{Untamed}"
+
+require:
+  - unit: option/wild-shape
+  
+inc:
+  - set: intimidation-proficiency
+    value: trained
+
+  - at: '@druid/order'
+    replace:
+      - h4: "_{Wild Order}"
+
+  - at: '@druid/order-feat'
+    replace:
+      - nothing:
+
+  - at: '@focus-spells'
+    add:
+      - action: 2
+        contents:
+          - p:
+            title: "_{Wild Shape}"
+            content: "_{Transform yourself into another form.}"
+
+  - at: '@wild-shape/high'
+    add:
+      - section: "_{Wild Shape}"
+        contents:
+          - table: "##:wild-shapes"
+            rows:
+              - duration: "10 mins"
+                class: "Pest form"
+              - duration: "1 min"
+                class: "Other shapes"
+            columns:
+              - "Duration"
+              - "Wild Shapes"
+            template:
+              - field: druid-wild-shape-duration
+                frame: none
+                control: value
+                value: '#{duration}'
+              - p: '#{class}'
+
+  - at: '@wild-shape/attacks'
+    add:
+      - field: druid-wild-shape-attack
+        label: "_{When using your own attack bonus}"
+        frame: right
+        border: none
+        control: value
+        value: "+2"
+
+  - at: '@druid/right'
+    replace:
+      - section: "_{Wild Shape}"
+        contents:
+          - p: "_{Heighten to your focus level.}"
+          - list:
+            columns: 2
+            merge-bottom: true
+            contents:
+              - repeat: 10
+                reduce: 4
+                contents:
+                  - row:
+                    contents:
+                      - field: druid-wild-shape-#{i}
+                        width: stretch
+                        frame: none
+                      - field: druid-wild-shape-#{i}-size
+                        frame: none
+                        icon: size
+
+  - at: '@druid/order-power'
+    replace:
+      - section: "_{Wild Morph}"
+        contents:
+          - list:
+            hr: true
+            contents:
+              - paste: focus
+                contents:
+                  - list:
+                    hr: true
+                    light: true
+                    contents:
+                      - action:
+                        contents:
+                          - list:
+                            hr: true
+                            light: true
+                            contents:
+                              - selectable: "##:wild-morph/claws"
+                                selected: true
+                                contents:
+                                  - p: "_{Morph your hands into claws.}"
+                                  - calc:
+                                    output:
+                                      field: druid-wild-morph-attack-bonus
+                                      label: "_{Attack Bonus}"
+                                      width: large
+                                      attack: true
+                                      icon: bonus
+                                      eq: "%{STR}+%{druid-wild-morph/attack-proficiency-bonus}"
+                                    inputs:
+                                      - field:
+                                        ref: STR
+                                        label: "_{STR}"
+                                        underlay: "_{STR}"
+                                      - field: druid-wild-morph/attack-proficiency
+                                        control: proficiency
+                                        label: "_{Proficiency}"
+                                  - field: druid-wild-morph-attack-damage
+                                    border: full
+                                    label: "_{Damage}"
+                                    width: huge
+                                    icon: damage
+                                    control: compound
+                                    parts:
+                                      - subid: ndice
+                                        width: tiny
+                                        align: right
+                                      - label: "_{d}"
+                                      - subid: die
+                                        width: tiny
+                                        align: left
+                                      - label: "+"
+                                      - subid: bonus
+                                        width: tiny
+                                        align: left
+                              - selectable: "##:wild-morph/elemental"
+                                contents:
+                                  - p: "_{Morph your body to be part elemental.}"
+                                  - row:
+                                    contents:
+                                      - field: druid-wild-morph-crit-resistance
+                                        frame: none
+                                        control: value
+                                        value: 5
+                                      - p: "_{Resistance to critical hits and precision damage.}"
+                              - selectable: "##:wild-morph/vines"
+                                contents:
+                                  - p: "_{Morph your arms into vines.}"
+                                  - field: druid-wild-morph-reach
+                                    frame: right
+                                    label: "_{Reach}"
+                                    control: value
+                                    value: "_{10ft}"
+                          
+                      - action: 2
+                        contents:
+                          - selectable: "##:wild-morph/wings"
+                            contents:
+                              - p: "_{Grow wings from your back.}"
+                              - field: druid-wild-morph-reach
+                                frame: right
+                                label: "_{Fly Speed}"
+                                control: value
+                                value: "_{30ft}"
+
+              - level: 11
+                contents:
+                  - field: druid-wild-morph-attack-bonus-damage-2d6
+                    frame: right
+                    width: huge
+                    icon: damage
+                    control: value
+                    value: "+_{2d6}"
+                    label: "_{Persistent bleed or poison damage}"
+                  - p: "_{Apply two morphs at once.}"
+
+              - level: 19
+                contents:
+                  - field: druid-wild-morph-attack-bonus-damage-2d6
+                    frame: right
+                    width: huge
+                    icon: damage
+                    control: value
+                    value: "+_{4d6}"
+                    label: "_{Persistent bleed or poison damage}"
+                  - p: "_{Apply three morphs at once.}"
+
+  - at: '@anathema'
+    replace:
+      - li: "_{Becoming fully domesticated by the temptations of civilization}"
