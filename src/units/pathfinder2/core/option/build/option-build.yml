@@ -62,6 +62,7 @@ inc:
                       page-ref: "_{CRB p33}"
                     contents:
                       - p: "_{Pick your race and heritage.}"
+                  - spacer:
 
               - section: "_{Ancestry}"
                 contents:
@@ -196,7 +197,10 @@ inc:
                   - ul:
                     contents:
                       - li: "_{Several +2 and -2 from your ancestry.}"
-                      - li: "_{Optionally, -2 in two abilities and +2 in one other.}"
+                      - ul:
+                        contents:
+                          - li: "_{OR two +2}"
+                          - li: "_{Optionally, -2 in two abilities and +2 in one other.}"
                       - li: "_{Two +2 from your background, one a free choice.}"
                       - li: "_{One +2 from your class.}"
                       - li: "_{Free +2 to any FOUR abilities.}"
@@ -298,22 +302,19 @@ inc:
                       icon: hp
                       suffix: "_{hp}"
                       width: large
-                      eq: '%{build/hp-ancestry}+((%{build/hp-class}+%{build/CON})*%{build/level})+%{build/hp-misc}'
+                      eq: '%{build/hp-ancestry}+((%{build/hp-class}+%{build/CON})*%{build/level})'
                     inputs:
-                      - field:
-                        ref: build/hp-ancestry
+                      - field: build/hp-ancestry
                         label: "_{Ancestry}"
                       - span: "+ ("
-                      - field:
-                        ref: build/hp-class
+                      - field: build/hp-class
                         label: "_{Class}"
                       - span: "+"
                       - field:
                         ref: build/CON
                         underlay: "_{CON}"
                       - span: ") &times;"
-                      - field:
-                        ref: build/level
+                      - field: build/level
                         label: "_{Level}"
                         underlay: "1"
 

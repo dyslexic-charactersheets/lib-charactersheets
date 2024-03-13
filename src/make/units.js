@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require('fs');
+const fsPromises = require('node:fs/promises');
 const path = require('path');
 
 const _ = require('lodash');
@@ -286,20 +287,62 @@ module.exports = {
         }
 
         // Load unit JavaScripts
-        var jsFile = `${unitsBase}/${unitdir}/js/${shortfile.replace(/\.yml$/, '.js')}`;
-        if (fs.existsSync(jsFile)) {
-          load.javascripts.loadItem(jsFile, (data, filename) => {
-            if (data != "") {
-              // log("units", `Templating JS for ${unitid}`);
-              var template = Handlebars.compile(data);
-              var rendered = template({
-                unit: unitid
-              });
+        // var jsFile = `${unitsBase}/${unitdir}/js/${shortfile.replace(/\.yml$/, '.js')}`;
+        // if (fs.existsSync(jsFile)) {
+        //   load.javascripts.loadItem(jsFile, (data, filename) => {
+        //     if (data != "") {
+        //       // log("units", `Templating JS for ${unitid}`);
+        //       var template = Handlebars.compile(data);
+        //       var rendered = template({
+        //         unit: unitid
+        //       });
 
-              _units[unitid].js = rendered;
-            }
-          });
-        }
+        //       _units[unitid].js = rendered;
+        //     }
+        //   });
+        // }
+
+        
+        load.javascripts.enqueue(unitdir+"/js", (resolve, reject) => {
+          let jsDir = `${unitsBase}/${unitdir}/js`;
+          let jsPromises = [];
+          let jsParts = [];
+
+          if (fs.existsSync(jsDir)) {
+            fs.readdir(jsDir, (err, files) => {
+                if (err) {
+                  error("units", "Error reading JS directory", jsDir);
+                  reject();
+                  return;
+                }
+
+                for (let file of files) {
+                  if (file.endsWith(".js")) {
+                    let filePromise = load.javascripts.loadItem(`${jsDir}/${file}`, (data, filename) => {
+                      if (data != "") {
+                        // log("units", `Templating JS for ${unitid}: ${file}`);
+                        var template = Handlebars.compile(data);
+                        var rendered = template({
+                          unit: unitid
+                        });
+          
+                        jsParts.push(rendered);
+                      }
+                    });
+                    jsPromises.push(filePromise);
+                  } else {
+                    error("units", "Not a JS file?", file);
+                  }
+                }
+
+                Promise.all(jsPromises).then(() => {
+                  // log("units", `Found ${jsParts.length} parts for ${unitid}`);
+                  _units[unitid].js = jsParts.join("\n");
+                  resolve();
+                });
+              });
+          }
+        });
 
         // Load unit assets
         var assetsDir = `${unitsBase}/${unitdir}/assets`;

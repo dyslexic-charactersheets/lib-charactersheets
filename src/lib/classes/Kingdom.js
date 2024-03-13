@@ -195,7 +195,7 @@ export class Kingdom extends Instance {
 
             // start with a document
             const documentUnit = system.getUnit("document");
-            const document = new Document(documentUnit, data.id);
+            const document = new Document(system, documentUnit, data.id);
             document.request = this.request;
 
             // language

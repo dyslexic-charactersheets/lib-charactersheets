@@ -68,260 +68,317 @@
     }
   }
 
-  // actual line part positions.
-  &.arrow--direction_left {
-    .arrow__head {
-      left: 0;
-      width: 0;
-      height: 0;
-      border-right: $head solid $colour;
-      border-top: $head/2 solid transparent;
-      border-bottom: $head/2 solid transparent;
-    }
-    .arrow__head-line {
-      left: $head;
-      right: calc(50% + #{$curve - $line});
-    }
-    .arrow__head-curve {
-      right: calc(50% - #{$line*0.75});
-    }
-    .arrow__main-line {
-      left: 50%;
-      top: $curve;
-      bottom: $curve;
-    }
-    .arrow__tail-curve {
-      left: 50%;
-    }
-    .arrow__tail-line {
-      left: calc(50% + $curve);
-      right: 0;
-    }
+  // Actual line part positions:-
 
-    &.arrow--shift_above {
-      .arrow__head {
-        top: -$head/2 + $line/2;
-      }
-      .arrow__head-line, .arrow__head-curve {
-        top: 0;
-      }
-      .arrow__tail-line, .arrow__tail-curve {
-        bottom: 0;
-      }
-    }
+    // 3-part arrows
 
-    &.arrow--shift_below {
-      .arrow__head {
-        bottom: -$head/2 + $line/2;
+      // Left
+
+      &.arrow--direction_left {
+        .arrow__head {
+          left: 0;
+          width: 0;
+          height: 0;
+          border-right: $head solid $colour;
+          border-top: $head/2 solid transparent;
+          border-bottom: $head/2 solid transparent;
+        }
+        .arrow__head-line {
+          left: $head/2;
+          right: calc(50% + #{$curve - $line});
+        }
+        .arrow__head-curve {
+          right: calc(50% - #{$line*0.75});
+        }
+        .arrow__main-line {
+          left: 50%;
+          top: $curve;
+          bottom: $curve;
+        }
+        .arrow__tail-curve {
+          left: 50%;
+        }
+        .arrow__tail-line {
+          left: calc(50% + $curve);
+          right: 0;
+        }
+
+        &.arrow--shift_above {
+          .arrow__head {
+            top: -$head/2 + $line/2;
+          }
+          .arrow__head-line, .arrow__head-curve {
+            top: 0;
+          }
+          .arrow__tail-line, .arrow__tail-curve {
+            bottom: 0;
+          }
+        }
+
+        &.arrow--shift_below {
+          .arrow__head {
+            bottom: -$head/2 + $line/2;
+          }
+          .arrow__head-line, .arrow__head-curve {
+            bottom: 0;
+          }
+          .arrow__tail-line, .arrow__tail-curve {
+            top: 0;
+          }
+        }
       }
-      .arrow__head-line, .arrow__head-curve {
-        bottom: 0;
+
+      // Right
+
+      &.arrow--direction_right {
+        .arrow__head {
+
+        }
+        .arrow__head-line {
+          left: 50%;
+          right: 0;
+        }
+        .arrow__head-curve {
+
+        }
+        .arrow__main-line {
+          left: 50%;
+          top: 0;
+          bottom: 0;
+        }
+        .arrow__tail-curve {
+
+        }
+        .arrow__tail-line {
+          left: 0;
+          right: 50%;
+        }
+
+        &.arrow--shift_above {
+          .arrow__head-line {
+
+          }
+          .arrow__tail-line {
+
+          }
+        }
+
+        &.arrow--shift_below {
+          .arrow__head-line {
+
+          }
+          .arrow__tail-line {
+            
+          }
+        }
       }
-      .arrow__tail-line, .arrow__tail-curve {
-        top: 0;
+
+      // Up
+
+      &.arrow--direction_up {
+        .arrow__head {
+          top: 0;
+          width: 0;
+          height: 0;
+          border-bottom: $head solid $colour;
+          border-left: $head/2 solid transparent;
+          border-right: $head/2 solid transparent;
+        }
+        .arrow__head-line {
+          top: $head/2;
+          bottom: calc(50% + #{$curve - $line});
+        }
+        .arrow__head-curve {
+          bottom: calc(50% - #{$line*0.75});
+        }
+        .arrow__main-line {
+          left: $curve;
+          right: $curve;
+          top: 50%;
+        }
+        .arrow__tail-curve {
+          top: 50%;
+        }
+        .arrow__tail-line {
+          top: calc(50% + #{$curve - $line});
+          bottom: 0;
+        }
+
+        &.arrow--shift_left {
+          .arrow__head {
+            left: -$head/2;
+          }
+          .arrow__head-line, .arrow__head-curve {
+            left: -$line/2;
+          }
+          .arrow__tail-line, .arrow__tail-curve {
+            right: -$line/2;
+          }
+        }
+        &.arrow--shift_right {
+          .arrow__head {
+            right: -$head/2;
+          }
+          .arrow__head-line, .arrow__head-line {
+            right: -$line/2;
+          }
+          .arrow__tail-line, .arrow__tail-curve {
+            left: -$line/2;
+          }
+        }
       }
-    }
-  }
 
-  // 3-part arrows
+      // Down
 
-  &.arrow--direction_right {
-    .arrow__head-line {
-      left: 50%;
-      right: 0;
-    }
-    .arrow__head-curve {}
-    .arrow__tail-line {
-      left: 0;
-      right: 50%;
-    }
-    .arrow__main-line {
-      left: 50%;
-      top: 0;
-      bottom: 0;
-    }
+      &.arrow--direction_down {
+        .arrow__head {
+          
+        }
+        .arrow__head-line {
+          top: 50%;
+          bottom: 0;
+        }
+        .arrow__head-curve {
 
-    &.arrow--shift_above {
-      .arrow__head-line {
+        }
+        .arrow__main-line {
+          left: 0;
+          right: 0;
+          top: 50%;
+        }
+        .arrow__tail-curve {
 
+        }
+        .arrow__tail-line {
+          top: 0;
+          bottom: 50%;
+        }
+        &.arrow--shift_left {
+          
+        }
+        &.arrow--shift_right {
+          
+        }
       }
-      .arrow__tail-line {
 
+    // 2-part arrows
+
+      // Head
+
+      &.arrow--direction_right-up, &.arrow--direction_left-up {
+        .arrow__head-line {
+          bottom: 0;
+          border-bottom: $line solid $colour;
+        }
       }
-    }
 
-    &.arrow--shift_below {
-      .arrow__head-line {
-
+      &.arrow--direction_right-down, &.arrow--direction_left-down {
+        .arrow__head-line {
+          top: 0;
+          border-top: $line solid $colour;
+        }
       }
-      .arrow__tail-line {
-        
-      }
-    }
-  }
 
-  &.arrow--direction_up {
-    .arrow__head-line {
-      top: 0;
-      bottom: 50%;
-    }
-    .arrow__tail-line {
-      top: 50%;
-      bottom: 0;
-    }
-    .arrow__main-line {
-      left: 0;
-      right: 0;
-      top: 50%;
-    }
-    &.arrow--shift_left {
+      &.arrow--direction_up-left, &.arrow--direction_down-left {
+        .arrow__head-line {
+          right: 0;
+          border-right: $line solid $colour;
+        }
+      }
+
+      &.arrow--direction_down-right, &.arrow--direction_up-right {
+        .arrow__head-line {
+          left: 0;
+          border-left: $line solid $colour;
+        }
+      }
+
+
+      &.arrow--direction_right-up, &.arrow--direction_right-down {
+        .arrow__head-line {
+          left: 0;
+          right: $curve;
+        }
+      }
+
+      &.arrow--direction_left-up, &.arrow--direction_left-down {
+        .arrow__head-line {
+          left: $curve;
+          right: 0;
+        }
+      }
       
-    }
-    &.arrow--shift_right {
+      &.arrow--direction_up-left, &.arrow--direction_up-right {
+        .arrow__head-line {
+          top: $curve;
+          bottom: 0;
+        }
+      }
       
-    }
-  }
-
-  &.arrow--direction_down {
-    .arrow__head-line {
-      top: 50%;
-      bottom: 0;
-    }
-    .arrow__tail-line {
-      top: 0;
-      bottom: 50%;
-    }
-    .arrow__main-line {
-      left: 0;
-      right: 0;
-      top: 50%;
-    }
-    &.arrow--shift_left {
+      &.arrow--direction_up-right, &.arrow--direction_down-right {
+        .arrow__head-line {
+          top: 0;
+          bottom: $curve;
+        }
+      }
       
-    }
-    &.arrow--shift_right {
+
+      // Tail
+
+      &.arrow--direction_right-up, &.arrow--direction_right-down {
+        .arrow__tail-line {
+          right: 0;
+          border-right: $line solid $colour;
+        }
+      }
+
+      &.arrow--direction_left-up, &.arrow--direction_left-down {
+        .arrow__tail-line {
+          left: 0;
+          border-left: $line solid $colour;
+        }
+      }
+
+      &.arrow--direction_up-left, &.arrow--direction_up-right {
+        .arrow__tail-line {
+          top: 0;
+          border-top: $line solid $colour;
+        }
+      }
+
+      &.arrow--direction_down-left, &.arrow--direction_down-right {
+        .arrow__tail-line {
+          bottom: 0;
+          border-bottom: $line solid $colour;
+        }
+      }
+
+
+      &.arrow--direction_left-up, &.arrow--direction_right-up {
+        .arrow__tail-line {
+          top: 0;
+          bottom: $curve;
+        }
+      } 
       
-    }
-  }
-
-  // 2-part arrows
-
-    // Head
-
-    &.arrow--direction_right-up, &.arrow--direction_left-up {
-      .arrow__head-line {
-        bottom: 0;
-        border-bottom: $line solid $colour;
+      &.arrow--direction_left-down, &.arrow--direction_right-down {
+        .arrow__tail-line {
+          top: $curve;
+          bottom: 0;
+        }
       }
-    }
 
-    &.arrow--direction_right-down, &.arrow--direction_left-down {
-      .arrow__head-line {
-        top: 0;
-        border-top: $line solid $colour;
+      &.arrow--direction_up-left, &.arrow--direction_down-left {
+        .arrow__tail-line {
+          left: 0;
+          right: $curve;
+        }
       }
-    }
 
-    &.arrow--direction_up-left, &.arrow--direction_down-left {
-      .arrow__head-line {
-        right: 0;
-        border-right: $line solid $colour;
+      &.arrow--direction_up-right, &.arrow--direction_down-right {
+        .arrow__tail-line {
+          left: $curve;
+          right: 0;
+        }
       }
-    }
-
-    &.arrow--direction_down-right, &.arrow--direction_up-right {
-      .arrow__head-line {
-        left: 0;
-        border-left: $line solid $colour;
-      }
-    }
-
-
-    &.arrow--direction_right-up, &.arrow--direction_right-down {
-      .arrow__head-line {
-        left: 0;
-        right: $curve;
-      }
-    }
-
-    &.arrow--direction_left-up, &.arrow--direction_left-down {
-      .arrow__head-line {
-        left: $curve;
-        right: 0;
-      }
-    }
-    
-    &.arrow--direction_up-left, &.arrow--direction_up-right {
-      .arrow__head-line {
-        top: $curve;
-        bottom: 0;
-      }
-    }
-    
-    &.arrow--direction_up-right, &.arrow--direction_down-right {
-      .arrow__head-line {
-        top: 0;
-        bottom: $curve;
-      }
-    }
-    
-
-    // Tail
-
-    &.arrow--direction_right-up, &.arrow--direction_right-down {
-      .arrow__tail-line {
-        right: 0;
-        border-right: $line solid $colour;
-      }
-    }
-
-    &.arrow--direction_left-up, &.arrow--direction_left-down {
-      .arrow__tail-line {
-        left: 0;
-        border-left: $line solid $colour;
-      }
-    }
-
-    &.arrow--direction_up-left, &.arrow--direction_up-right {
-      .arrow__tail-line {
-        top: 0;
-        border-top: $line solid $colour;
-      }
-    }
-
-    &.arrow--direction_down-left, &.arrow--direction_down-right {
-      .arrow__tail-line {
-        bottom: 0;
-        border-bottom: $line solid $colour;
-      }
-    }
-
-
-    &.arrow--direction_left-up, &.arrow--direction_right-up {
-      .arrow__tail-line {
-        top: 0;
-        bottom: $curve;
-      }
-    } 
-    
-    &.arrow--direction_left-down, &.arrow--direction_right-down {
-      .arrow__tail-line {
-        top: $curve;
-        bottom: 0;
-      }
-    }
-
-    &.arrow--direction_up-left, &.arrow--direction_down-left {
-      .arrow__tail-line {
-        left: 0;
-        right: $curve;
-      }
-    }
-
-    &.arrow--direction_up-right, &.arrow--direction_down-right {
-      .arrow__tail-line {
-        left: $curve;
-        right: 0;
-      }
-    }
 }

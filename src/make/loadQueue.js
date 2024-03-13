@@ -55,6 +55,7 @@ class LoadQueue {
         });
     
         this._by_filename[filename] = promise;
+        loadPromises.push(promise);
         return promise;
     }
 

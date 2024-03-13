@@ -1,4 +1,5 @@
 import { log } from '../log';
+import { isArray } from '../util';
 import { interpolate } from '../util/objects';
 
 export let logelem = {
@@ -6,10 +7,15 @@ export let logelem = {
   key: 'message',
   defaults: {
     message: '',
+    contents: [],
   },
   transform(args, doc) {
     const message = interpolate(args.message, {}, doc);
     log("-", message);
+    
+    if (isArray(args.contents) && args.contents.length > 0) {
+      log("-", JSON.stringify(args.contents));
+    }
     return [];
   }
 };

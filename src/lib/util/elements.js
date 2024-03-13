@@ -181,7 +181,9 @@ export function elementData(data) {
   let parts = [];
   for (let key in data) {
     let value = data[key];
-    parts.push(` data-${key}='${value}'`);
+    if (!isEmpty(value)) {
+      parts.push(` data-${key}='${value}'`);
+    }
   }
   return ' '+parts.join(' ');
 }

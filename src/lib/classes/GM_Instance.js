@@ -52,7 +52,7 @@ export class GM_Instance extends Instance {
 
           // start with a document
           const documentUnit = system.getUnit("document");
-          const document = new Document(documentUnit, data.id);
+          const document = new Document(system, documentUnit, data.id);
 
           // language
           document.language = data.language;

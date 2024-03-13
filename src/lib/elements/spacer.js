@@ -11,3 +11,15 @@ export let spacer = {
     return `<div${cls}></div>`;
   }
 }
+
+export let unspacer = {
+  name: 'unspacer',
+  defaults: {
+
+  },
+  render: args => {
+    const cls = elementClass('unspacer', null, args);
+    
+    return `<div${cls}></div>`;
+  }
+}

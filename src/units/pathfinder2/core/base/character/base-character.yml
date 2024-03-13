@@ -408,6 +408,7 @@ inc:
                                         abilityref: DEX
                                         acp: true
                                         acp_flexible: true
+                                        acp_noisy: false
                                       - skill: arcana
                                         name: "_{Arcana}"
                                         ability: "_{INT}"
@@ -419,6 +420,7 @@ inc:
                                         abilityref: STR
                                         acp: true
                                         acp_flexible: true
+                                        acp_noisy: false
                                       - skill: crafting
                                         name: "_{Crafting}"
                                         ability: "_{INT}"
@@ -469,18 +471,20 @@ inc:
                                         ability: "_{INT}"
                                         abilityref: INT
                                         acp: false
-                                        acp_flexible: false
                                       - skill: stealth
                                         name: "_{Stealth}"
                                         ability: "_{DEX}"
                                         abilityref: DEX
                                         acp: true
+                                        acp_flexible: false
+                                        acp_noisy: true
                                       - skill: survival
                                         name: "_{Survival}"
                                         ability: "_{WIS}"
                                         abilityref: WIS
                                         acp: false
                                         acp_flexible: false
+                                        acp_noisy: true
                                       - skill: thievery
                                         name: "_{Thievery}"
                                         ability: "_{DEX}"
@@ -561,11 +565,19 @@ inc:
                                     exists: "#{acp}"
                                     prefix: "&ndash;"
                                 else:
-                                  - field: "#{skill}-acp"
-                                    eq: "(%{STR}>=%{armour-str-rating})?'':%{armour-acp}"
-                                    ref: true
-                                    border: full
-                                    prefix: "&ndash;"
+                                  - if: "#{acp_noisy}"
+                                    then:
+                                      - field: "#{skill}-acp"
+                                        eq: "(%{STR}>=%{armour-str-rating}&&!%{armour-noisy})?'':%{armour-acp}"
+                                        ref: true
+                                        border: full
+                                        prefix: "&ndash;"
+                                    else:
+                                      - field: "#{skill}-acp"
+                                        eq: "(%{STR}>=%{armour-str-rating})?'':%{armour-acp}"
+                                        ref: true
+                                        border: full
+                                        prefix: "&ndash;"
                             else:
                               - span:
 

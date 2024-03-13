@@ -16,7 +16,9 @@ Handlebars.registerHelper('embedJson', function (data, options) {
 const controlMenus = '';
 
 export class Document {
-  constructor(baseUnit, id) {
+  constructor(system, baseUnit, id) {
+    log("Document", "New document for", system.name);
+    this.system = system;
     this.nextPage = 1;
     this.primary = {};
 
@@ -264,6 +266,7 @@ export class Document {
   getContext() {
     const self = this;
     return {
+      system: this.system,
       isLoggedIn: this.isLoggedIn,
       isCalc: this.isLoggedIn && !this.noCalc,
       zones: this.zones,
@@ -278,6 +281,9 @@ export class Document {
       },
       getVar(varname, format = null) {
         return self.getVar(varname, format);
+      },
+      completeElement(elem, registry) {
+        return self.completeElement(elem, registry);
       }
     };
   }
@@ -557,14 +563,14 @@ export class Document {
       if (has(element, "type") && element.type == "field") {
         // log("Document", `Field: id = ${element.id}, ref = ${element.ref}`);
         if (!has(element, "id") && !has(element, "ref") && element.control != "value") {
-          trace(registry, "Document", "Field with no ID or reference", element);
+          trace(registry, doc, "Document", "Field with no ID or reference", element);
         }
 
         if (has(element, "eq")) {
           if (!isString(element.eq)) {
-            trace(registry, "Document", "eq value not a string:", element);
+            trace(registry, doc, "Document", "eq value not a string:", element);
           } else if (element.eq == "") {
-            trace(registry, "Document", "eq value empty", element);
+            trace(registry, doc, "Document", "eq value empty", element);
           } else {
             // og("Document", `Field ${element.id} = ${element.eq}`);
             switch (element.control) {
@@ -682,11 +688,11 @@ export class Document {
       if (css == "")
         return;
 
-      log("Document", "CSS part for unit:", unit.id);
+      // log("Document", "CSS part for unit:", unit.id);
       const template = Handlebars.compile(css);
       let rendered = template({});
       if (unit.id != "document") {
-        log("Document", "Replacing unit colours", unit.id, this.printColour, this.accentColour);
+        // log("Document", "Replacing unit colours", unit.id, this.printColour, this.accentColour);
         rendered = replaceColours(rendered, this.printColour, this.accentColour, this.printIntensity, this.highContrast);
       }
       cssParts.push(rendered);

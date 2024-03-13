@@ -30,7 +30,7 @@ export let article = {
     right: false,
     action: false,
   },
-  transform(args, ctx) {
+  transform(args, ctx, reg) {
 
     // if (isEmpty(args.id)) {
     //   warn("article", "Missing article ID:", args);
@@ -49,7 +49,7 @@ export let article = {
           });
         } else {
           if (isEmpty(args.id))
-            trace("article", "Missing article ID");
+            trace(reg, ctx, "article", "Missing article ID");
           header.push({
             type: 'field',
             id: args.id,
@@ -71,7 +71,7 @@ export let article = {
             });
           } else {
             if (isEmpty(args.id))
-              trace("article", "Missing article ID");
+              trace(reg, ctx, "article", "Missing article ID");
             header.push({
               type: 'field',
               id: args.id + '-cat',

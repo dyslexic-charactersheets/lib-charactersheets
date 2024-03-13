@@ -66,6 +66,7 @@ const expansion = {
     sort: 'orderby',
     slots: 'slots',
     spacer: '',
+    unspacer: '',
     span: 'content',
     'spells-list': '',
     'spells-bundle': '',

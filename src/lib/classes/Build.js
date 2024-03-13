@@ -33,7 +33,7 @@ export class Build {
           const system = getSystemStack(this.data.game);
 
           const documentUnit = system.getUnit("document");
-          const document = new Document(documentUnit);
+          const document = new Document(system, documentUnit);
           document.language = this.data.language;
           
           let units = system.getUnits(this.data.units);

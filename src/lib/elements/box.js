@@ -7,7 +7,11 @@ export let box = {
         colour: false,
     },
     render (args, reg, doc) {
-        let cls = elementClass('box', null, args, ['swash'], { 'colour': false });
-        return `<div${cls}>${reg.render(args.contents, doc)}</div>`;
+        const cls = elementClass('box', null, args, ['swash'], { 'colour': false });
+
+        const hrcls = elementClass('hr', null, args, ['swash', 'blk']);
+        const swash = args.swash ? `<div${hrcls}><div class='inner'></div></div>` : '';
+
+        return `<div${cls}>${swash}${reg.render(args.contents, doc)}${swash}</div>`;
     }
 }

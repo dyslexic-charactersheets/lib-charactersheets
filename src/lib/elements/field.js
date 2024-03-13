@@ -59,7 +59,7 @@ export let field = {
     // }
 
     if (isEmpty(args.id) && isEmpty(args.ref) && args.control != "value") {
-      trace(reg, "field", "No ID or reference", args);
+      trace(reg, doc, "field", "No ID or reference", args);
     }
 
     const id = elementID('field', args.id);

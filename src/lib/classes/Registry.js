@@ -43,7 +43,7 @@ import { ruby, ruby_round_down, ruby_round_up } from '../elements/ruby';
 import { section } from '../elements/section';
 import { sort } from '../elements/sort';
 import { slots } from '../elements/slots';
-import { spacer } from '../elements/spacer';
+import { spacer, unspacer } from '../elements/spacer';
 import { span } from '../elements/span';
 import { spells_list, spells_bundle, spells_table } from '../elements/spells-list';
 import { spells_list2 } from '../elements/spells-list2';
@@ -138,7 +138,7 @@ export class Registry {
       section,
       sort,
       slots,
-      spacer,
+      spacer, unspacer,
       span,
       spells_list,
       spells_bundle,
@@ -272,7 +272,6 @@ export class Registry {
       });
       this.stack.push(row.join(":"));
 
-      // this.stack.push(item.type + ((item.id == null) ? '' : ":" + item.id) + ((item.title == null) ? '' : ':' + item.title));
       const output = reg.render(item, this, doc);
       this.stack.pop();
       return output;

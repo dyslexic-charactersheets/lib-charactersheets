@@ -15,16 +15,18 @@ export function error(area, message, ...args) {
   console.log(`${prefix}${message}`, ...args);
 }
 
-export function trace(registry, area, message, ...args) {
+export function trace(registry, document, area, message, ...args) {
   // log("log", "Registry", registry);
   const prefix = `[${area}] `.padEnd(16).yellow;
+  let name = document.title;
+  let system = document.system.name;
   const trace = JSON.stringify(registry.stack, function (key, value) {
     if (value === undefined) {
       return '<undefined>';
     }
     return value;
   });
-  console.log(`${prefix}${trace}\n                ${message}`, ...args);
+  console.log(`${prefix}${name} (${system})\n                ${trace}\n                ${message}`, ...args);
 }
 
 export function stackTrace() {

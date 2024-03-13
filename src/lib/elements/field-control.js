@@ -261,7 +261,7 @@ export let field_control_weight = {
   name: 'control:weight',
   defaults: {
     schema: "bulk",
-    width: "huge",
+    width: "gargantuan",
     format: 'decimal',
   },
   render(args, reg, doc) {

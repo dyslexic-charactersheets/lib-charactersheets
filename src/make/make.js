@@ -33,10 +33,10 @@ const systems = [
 ];
 
 systems.forEach(system => {
-    log("make", "Building "+system.name);
+    log("make", "Building system "+system.name);
 
     units.loadSystem(system.code, system.name, (systemUnits) => {
-        log("make", `Built ${system.name} (${systemUnits.length} units)`);
+        log("make", `Built system ${system.name} (${systemUnits.length} units)`);
 
         system.units = systemUnits;
         var systemData = JSON.stringify(system);

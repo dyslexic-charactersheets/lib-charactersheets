@@ -198,6 +198,9 @@
                       "nowrap": true
                     }
                   ]
+                },
+                {
+                  "type": "spacer"
                 }
               ],
               "valign": "top"
@@ -558,8 +561,17 @@
                       "content": "_{Several +2 and -2 from your ancestry.}"
                     },
                     {
-                      "type": "li",
-                      "content": "_{Optionally, -2 in two abilities and +2 in one other.}"
+                      "type": "ul",
+                      "contents": [
+                        {
+                          "type": "li",
+                          "content": "_{OR two +2}"
+                        },
+                        {
+                          "type": "li",
+                          "content": "_{Optionally, -2 in two abilities and +2 in one other.}"
+                        }
+                      ]
                     },
                     {
                       "type": "li",
@@ -1481,13 +1493,12 @@
                     "icon": "hp",
                     "suffix": "_{hp}",
                     "width": "large",
-                    "eq": "%{build/hp-ancestry}+((%{build/hp-class}+%{build/CON})*%{build/level})+%{build/hp-misc}"
+                    "eq": "%{build/hp-ancestry}+((%{build/hp-class}+%{build/CON})*%{build/level})"
                   },
                   "inputs": [
                     {
                       "type": "field",
-                      "id": null,
-                      "ref": "build/hp-ancestry",
+                      "id": "build/hp-ancestry",
                       "label": "_{Ancestry}"
                     },
                     {
@@ -1496,8 +1507,7 @@
                     },
                     {
                       "type": "field",
-                      "id": null,
-                      "ref": "build/hp-class",
+                      "id": "build/hp-class",
                       "label": "_{Class}"
                     },
                     {
@@ -1516,8 +1526,7 @@
                     },
                     {
                       "type": "field",
-                      "id": null,
-                      "ref": "build/level",
+                      "id": "build/level",
                       "label": "_{Level}",
                       "underlay": "1"
                     }
@@ -3161,27 +3170,53 @@
                 {
                   "type": "row",
                   "layout": null,
-                  "blk": false,
                   "contents": [
                     {
-                      "type": "p",
-                      "content": "_{one step higher}",
-                      "title": "_{Roll 20}:"
+                      "type": "icon",
+                      "icon": "d20-20",
+                      "size": "large",
+                      "valign": "middle"
                     },
                     {
                       "type": "p",
-                      "content": "_{one step lower}",
-                      "title": "_{Roll 1}:"
+                      "content": "_{one step higher}"
                     },
                     {
                       "type": "spacer"
                     },
                     {
+                      "type": "icon",
+                      "icon": "d20-1",
+                      "size": "large",
+                      "valign": "middle"
+                    },
+                    {
                       "type": "p",
-                      "content": "_{CRB p444}",
-                      "icon": "book",
+                      "content": "_{one step lower}"
+                    },
+                    {
+                      "type": "spacer"
+                    },
+                    {
+                      "type": "row",
+                      "layout": null,
                       "blk": false,
-                      "nowrap": true
+                      "contents": [
+                        {
+                          "type": "item",
+                          "item": null
+                        },
+                        {
+                          "type": "spacer"
+                        },
+                        {
+                          "type": "p",
+                          "content": "_{CRB p444}",
+                          "icon": "book",
+                          "blk": false,
+                          "nowrap": true
+                        }
+                      ]
                     }
                   ]
                 },
@@ -3409,6 +3444,93 @@
                     }
                   ],
                   "contents": []
+                },
+                {
+                  "type": "box",
+                  "swash": true,
+                  "contents": [
+                    {
+                      "type": "h5",
+                      "title": "_{Hero Points}"
+                    },
+                    {
+                      "type": "layout",
+                      "layout": "indent-lw",
+                      "contents": [
+                        {
+                          "type": "cost",
+                          "cost": "1",
+                          "unit": "_{Hero\nPoint}"
+                        },
+                        {
+                          "type": "g",
+                          "contents": [
+                            {
+                              "type": "p",
+                              "content": "_{Start a session with 1 hero point.}"
+                            },
+                            {
+                              "type": "p",
+                              "content": "_{GM may award more during play, up to 3.}"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "ul",
+                      "contents": [
+                        {
+                          "type": "li",
+                          "content": null,
+                          "contents": [
+                            {
+                              "type": "layout",
+                              "layout": "indent-rw",
+                              "contents": [
+                                {
+                                  "type": "p",
+                                  "content": "_{Must use the second result. Cannot reroll again.}",
+                                  "title": "_{Reroll a check}"
+                                },
+                                {
+                                  "type": "cost",
+                                  "cost": "1",
+                                  "unit": "_{Hero\nPoint}"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "li",
+                          "content": null,
+                          "contents": [
+                            {
+                              "type": "layout",
+                              "layout": "indent-rw",
+                              "contents": [
+                                {
+                                  "type": "p",
+                                  "content": "_{Reduce dying to 0 and stabilise with 0hp. Don't become wounded.}",
+                                  "title": "_{Avoid death}"
+                                },
+                                {
+                                  "type": "cost",
+                                  "cost": "_{All}",
+                                  "unit": "_{Hero\nPoints}"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "p",
+                      "content": "_{Can spend a Hero Point on behalf of your familiar or animal companion.}"
+                    }
+                  ]
                 },
                 {
                   "type": "spacer"
@@ -4315,6 +4437,7 @@
                             "abilityref": "DEX",
                             "acp": true,
                             "acp_flexible": true,
+                            "acp_noisy": false,
                             "i": 1,
                             "colour": "DEX"
                           },
@@ -4385,11 +4508,10 @@
                             },
                             {
                               "type": "field",
-                              "id": "#{skill}-potency",
+                              "id": "acrobatics-misc",
                               "misc": true,
                               "width": "medium",
-                              "format": "int",
-                              "replace": true
+                              "format": "int"
                             },
                             {
                               "type": "field",
@@ -4501,11 +4623,10 @@
                             },
                             {
                               "type": "field",
-                              "id": "#{skill}-potency",
+                              "id": "arcana-misc",
                               "misc": true,
                               "width": "medium",
-                              "format": "int",
-                              "replace": true
+                              "format": "int"
                             },
                             {
                               "type": "span",
@@ -4543,6 +4664,7 @@
                             "abilityref": "STR",
                             "acp": true,
                             "acp_flexible": true,
+                            "acp_noisy": false,
                             "i": 3,
                             "colour": "STR"
                           },
@@ -4613,11 +4735,10 @@
                             },
                             {
                               "type": "field",
-                              "id": "#{skill}-potency",
+                              "id": "athletics-misc",
                               "misc": true,
                               "width": "medium",
-                              "format": "int",
-                              "replace": true
+                              "format": "int"
                             },
                             {
                               "type": "field",
@@ -4729,11 +4850,10 @@
                             },
                             {
                               "type": "field",
-                              "id": "#{skill}-potency",
+                              "id": "crafting-misc",
                               "misc": true,
                               "width": "medium",
-                              "format": "int",
-                              "replace": true
+                              "format": "int"
                             },
                             {
                               "type": "span",
@@ -4840,11 +4960,10 @@
                             },
                             {
                               "type": "field",
-                              "id": "#{skill}-potency",
+                              "id": "deception-misc",
                               "misc": true,
                               "width": "medium",
-                              "format": "int",
-                              "replace": true
+                              "format": "int"
                             },
                             {
                               "type": "span",
@@ -4951,11 +5070,10 @@
                             },
                             {
                               "type": "field",
-                              "id": "#{skill}-potency",
+                              "id": "diplomacy-misc",
                               "misc": true,
                               "width": "medium",
-                              "format": "int",
-                              "replace": true
+                              "format": "int"
                             },
                             {
                               "type": "span",
@@ -5062,11 +5180,10 @@
                             },
                             {
                               "type": "field",
-                              "id": "#{skill}-potency",
+                              "id": "intimidation-misc",
                               "misc": true,
                               "width": "medium",
-                              "format": "int",
-                              "replace": true
+                              "format": "int"
                             },
                             {
                               "type": "span",
@@ -5178,11 +5295,10 @@
                             },
                             {
                               "type": "field",
-                              "id": "#{skill}-potency",
+                              "id": "lore-0-misc",
                               "misc": true,
                               "width": "medium",
-                              "format": "int",
-                              "replace": true
+                              "format": "int"
                             },
                             {
                               "type": "span",
@@ -5289,11 +5405,10 @@
                             },
                             {
                               "type": "field",
-                              "id": "#{skill}-potency",
+                              "id": "medicine-misc",
                               "misc": true,
                               "width": "medium",
-                              "format": "int",
-                              "replace": true
+                              "format": "int"
                             },
                             {
                               "type": "span",
@@ -5400,11 +5515,10 @@
                             },
                             {
                               "type": "field",
-                              "id": "#{skill}-potency",
+                              "id": "nature-misc",
                               "misc": true,
                               "width": "medium",
-                              "format": "int",
-                              "replace": true
+                              "format": "int"
                             },
                             {
                               "type": "span",
@@ -5511,11 +5625,10 @@
                             },
                             {
                               "type": "field",
-                              "id": "#{skill}-potency",
+                              "id": "occultism-misc",
                               "misc": true,
                               "width": "medium",
-                              "format": "int",
-                              "replace": true
+                              "format": "int"
                             },
                             {
                               "type": "span",
@@ -5622,11 +5735,10 @@
                             },
                             {
                               "type": "field",
-                              "id": "#{skill}-potency",
+                              "id": "performance-misc",
                               "misc": true,
                               "width": "medium",
-                              "format": "int",
-                              "replace": true
+                              "format": "int"
                             },
                             {
                               "type": "span",
@@ -5733,11 +5845,10 @@
                             },
                             {
                               "type": "field",
-                              "id": "#{skill}-potency",
+                              "id": "religion-misc",
                               "misc": true,
                               "width": "medium",
-                              "format": "int",
-                              "replace": true
+                              "format": "int"
                             },
                             {
                               "type": "span",
@@ -5774,7 +5885,6 @@
                             "ability": "_{INT}",
                             "abilityref": "INT",
                             "acp": false,
-                            "acp_flexible": false,
                             "i": 14,
                             "colour": "INT"
                           },
@@ -5845,11 +5955,10 @@
                             },
                             {
                               "type": "field",
-                              "id": "#{skill}-potency",
+                              "id": "society-misc",
                               "misc": true,
                               "width": "medium",
-                              "format": "int",
-                              "replace": true
+                              "format": "int"
                             },
                             {
                               "type": "span",
@@ -5886,6 +5995,8 @@
                             "ability": "_{DEX}",
                             "abilityref": "DEX",
                             "acp": true,
+                            "acp_flexible": false,
+                            "acp_noisy": true,
                             "i": 15,
                             "colour": "DEX"
                           },
@@ -5956,16 +6067,15 @@
                             },
                             {
                               "type": "field",
-                              "id": "#{skill}-potency",
+                              "id": "stealth-misc",
                               "misc": true,
                               "width": "medium",
-                              "format": "int",
-                              "replace": true
+                              "format": "int"
                             },
                             {
                               "type": "field",
                               "id": "stealth-acp",
-                              "eq": "(%{STR}>=%{armour-str-rating})?'':%{armour-acp}",
+                              "eq": "(%{STR}>=%{armour-str-rating}&&!%{armour-noisy})?'':%{armour-acp}",
                               "ref": true,
                               "border": "full",
                               "prefix": "&ndash;"
@@ -6002,6 +6112,7 @@
                             "abilityref": "WIS",
                             "acp": false,
                             "acp_flexible": false,
+                            "acp_noisy": true,
                             "i": 16,
                             "colour": "WIS"
                           },
@@ -6072,11 +6183,10 @@
                             },
                             {
                               "type": "field",
-                              "id": "#{skill}-potency",
+                              "id": "survival-misc",
                               "misc": true,
                               "width": "medium",
-                              "format": "int",
-                              "replace": true
+                              "format": "int"
                             },
                             {
                               "type": "span",
@@ -6184,11 +6294,10 @@
                             },
                             {
                               "type": "field",
-                              "id": "#{skill}-potency",
+                              "id": "thievery-misc",
                               "misc": true,
                               "width": "medium",
-                              "format": "int",
-                              "replace": true
+                              "format": "int"
                             },
                             {
                               "type": "field",
@@ -6296,11 +6405,10 @@
                             },
                             {
                               "type": "field",
-                              "id": "#{skill}-potency",
+                              "id": "extra-skill-0-misc",
                               "misc": true,
                               "width": "medium",
-                              "format": "int",
-                              "replace": true
+                              "format": "int"
                             },
                             {
                               "type": "span",
@@ -6404,11 +6512,10 @@
                             },
                             {
                               "type": "field",
-                              "id": "#{skill}-potency",
+                              "id": "extra-skill-1-misc",
                               "misc": true,
                               "width": "medium",
-                              "format": "int",
-                              "replace": true
+                              "format": "int"
                             },
                             {
                               "type": "span",
@@ -6512,11 +6619,10 @@
                             },
                             {
                               "type": "field",
-                              "id": "#{skill}-potency",
+                              "id": "extra-skill-2-misc",
                               "misc": true,
                               "width": "medium",
-                              "format": "int",
-                              "replace": true
+                              "format": "int"
                             },
                             {
                               "type": "span",
@@ -6581,9 +6687,8 @@
                         },
                         {
                           "type": "label",
-                          "label": "_{Potency}",
-                          "width": "small",
-                          "replace": true
+                          "label": "_{Feats Misc}",
+                          "width": "small"
                         },
                         {
                           "type": "label",
@@ -6746,15 +6851,13 @@
                             },
                             {
                               "type": "span",
-                              "content": "+",
-                              "replace": true
+                              "content": "+"
                             },
                             {
                               "type": "field",
                               "id": "perception-item-bonus",
-                              "ref": "perception-potency",
-                              "label": "_{Potency}",
-                              "replace": true
+                              "label": "_{Item}",
+                              "format": "int"
                             },
                             {
                               "type": "span",
@@ -7633,11 +7736,9 @@
                                     },
                                     {
                                       "type": "field",
-                                      "id": "attack-1-misc",
-                                      "ref": "attack-potency",
-                                      "label": "_{Potency}",
-                                      "width": "small",
-                                      "replace": true
+                                      "id": "attack-1-potency",
+                                      "control": "counter",
+                                      "label": "_{Potency}"
                                     }
                                   ]
                                 },
@@ -7697,11 +7798,9 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": null,
-                                  "ref": "defence-potency",
-                                  "label": "_{Potency}",
-                                  "width": "small",
-                                  "replace": true
+                                  "id": "attack-1-striking",
+                                  "label": "_{Striking}",
+                                  "control": "counter"
                                 },
                                 {
                                   "type": "field",
@@ -7796,11 +7895,9 @@
                                     },
                                     {
                                       "type": "field",
-                                      "id": "attack-2-misc",
-                                      "ref": "attack-potency",
-                                      "label": "_{Potency}",
-                                      "width": "small",
-                                      "replace": true
+                                      "id": "attack-2-potency",
+                                      "control": "counter",
+                                      "label": "_{Potency}"
                                     }
                                   ]
                                 },
@@ -7860,11 +7957,9 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": null,
-                                  "ref": "defence-potency",
-                                  "label": "_{Potency}",
-                                  "width": "small",
-                                  "replace": true
+                                  "id": "attack-2-striking",
+                                  "label": "_{Striking}",
+                                  "control": "counter"
                                 },
                                 {
                                   "type": "field",
@@ -7959,11 +8054,9 @@
                                     },
                                     {
                                       "type": "field",
-                                      "id": "attack-3-misc",
-                                      "ref": "attack-potency",
-                                      "label": "_{Potency}",
-                                      "width": "small",
-                                      "replace": true
+                                      "id": "attack-3-potency",
+                                      "control": "counter",
+                                      "label": "_{Potency}"
                                     }
                                   ]
                                 },
@@ -8023,11 +8116,9 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": null,
-                                  "ref": "defence-potency",
-                                  "label": "_{Potency}",
-                                  "width": "small",
-                                  "replace": true
+                                  "id": "attack-3-striking",
+                                  "label": "_{Striking}",
+                                  "control": "counter"
                                 },
                                 {
                                   "type": "field",
@@ -8129,11 +8220,9 @@
                                     },
                                     {
                                       "type": "field",
-                                      "id": "attack-4-misc",
-                                      "ref": "attack-potency",
-                                      "label": "_{Potency}",
-                                      "width": "small",
-                                      "replace": true
+                                      "id": "attack-4-potency",
+                                      "control": "counter",
+                                      "label": "_{Potency}"
                                     }
                                   ]
                                 },
@@ -8193,11 +8282,9 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": null,
-                                  "ref": "defence-potency",
-                                  "label": "_{Potency}",
-                                  "width": "small",
-                                  "replace": true
+                                  "id": "attack-4-striking",
+                                  "label": "_{Striking}",
+                                  "control": "counter"
                                 },
                                 {
                                   "type": "field",
@@ -8321,11 +8408,9 @@
                                     },
                                     {
                                       "type": "field",
-                                      "id": "attack-5-misc",
-                                      "ref": "attack-potency",
-                                      "label": "_{Potency}",
-                                      "width": "small",
-                                      "replace": true
+                                      "id": "attack-5-potency",
+                                      "control": "counter",
+                                      "label": "_{Potency}"
                                     }
                                   ]
                                 },
@@ -8385,11 +8470,9 @@
                                 },
                                 {
                                   "type": "field",
-                                  "id": null,
-                                  "ref": "defence-potency",
-                                  "label": "_{Potency}",
-                                  "width": "small",
-                                  "replace": true
+                                  "id": "attack-5-striking",
+                                  "label": "_{Striking}",
+                                  "control": "counter"
                                 },
                                 {
                                   "type": "field",
@@ -9143,10 +9226,9 @@
                             },
                             {
                               "type": "field",
-                              "id": "fortitude-potency",
-                              "ref": "saving-throw-potency",
-                              "frame": "none",
-                              "replace": true
+                              "id": "fortitude-item-bonus",
+                              "format": "int",
+                              "misc": true
                             },
                             {
                               "type": "field",
@@ -9233,10 +9315,9 @@
                             },
                             {
                               "type": "field",
-                              "id": "reflex-potency",
-                              "ref": "saving-throw-potency",
-                              "frame": "none",
-                              "replace": true
+                              "id": "reflex-item-bonus",
+                              "format": "int",
+                              "misc": true
                             },
                             {
                               "type": "field",
@@ -9323,10 +9404,9 @@
                             },
                             {
                               "type": "field",
-                              "id": "will-potency",
-                              "ref": "saving-throw-potency",
-                              "frame": "none",
-                              "replace": true
+                              "id": "will-item-bonus",
+                              "format": "int",
+                              "misc": true
                             },
                             {
                               "type": "field",
@@ -9384,7 +9464,7 @@
                         },
                         {
                           "type": "label",
-                          "label": "_{Potency}",
+                          "label": "_{Item}",
                           "misc": false
                         }
                       ],
@@ -15015,11 +15095,24 @@
                                   "reduce": 1
                                 },
                                 {
-                                  "type": "field",
-                                  "id": "armour-flexible",
-                                  "control": "checkbox",
-                                  "frame": "right",
-                                  "label": "_{Flexible}"
+                                  "type": "row",
+                                  "layout": null,
+                                  "contents": [
+                                    {
+                                      "type": "field",
+                                      "id": "armour-flexible",
+                                      "control": "checkbox",
+                                      "frame": "right",
+                                      "label": "_{Flexible}"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "armour-noisy",
+                                      "control": "checkbox",
+                                      "frame": "right",
+                                      "label": "_{Noisy}"
+                                    }
+                                  ]
                                 }
                               ]
                             },
@@ -19995,61 +20088,65 @@
                     },
                     {
                       "type": "p",
-                      "content": "_{Advance potency numbers}",
-                      "replace": true
+                      "content": "_{Increase all of your proficiency bonuses, and add proficiencies from skill increases or other class features.}"
                     },
                     {
                       "type": "layout",
                       "layout": "5e",
-                      "gutter": "small",
+                      "gutter": "none",
+                      "flex": "none",
                       "contents": [
                         {
                           "type": "field",
-                          "id": "attack-potency",
+                          "id": "proficiency-untrained",
+                          "label": "_{Untrained}",
                           "border": "full",
-                          "label": "_{Attack Potency}",
-                          "prefix": "+",
-                          "width": "stretch",
-                          "eq": "threshold(%{level},[2,1,10,2,16,3])"
+                          "control": "value",
+                          "value": 0,
+                          "icon": "proficiency",
+                          "ruby": "&nbsp;\n"
                         },
                         {
                           "type": "field",
-                          "id": "defence-potency",
+                          "id": "proficiency-trained",
+                          "label": "_{Trained}",
                           "border": "full",
-                          "label": "_{Defence Potency}",
-                          "prefix": "+",
-                          "width": "stretch",
-                          "eq": "threshold(%{level},[5,1,11,2,18,3])"
+                          "control": "proficiency",
+                          "value": "trained",
+                          "ruby": "_{Level}\n+2"
                         },
                         {
                           "type": "field",
-                          "id": "perception-potency",
+                          "id": "proficiency-expert",
+                          "label": "_{Expert}",
                           "border": "full",
-                          "label": "_{Perception Potency}",
-                          "prefix": "+",
-                          "width": "stretch",
-                          "eq": "threshold(%{level}, [7,1,13,2,19,3])"
+                          "control": "proficiency",
+                          "value": "expert",
+                          "ruby": "_{Level}\n+4"
                         },
                         {
                           "type": "field",
-                          "id": "saving-throw-potency",
+                          "id": "proficiency-master",
+                          "label": "_{Master}",
                           "border": "full",
-                          "label": "_{Saving Throw Potency}",
-                          "prefix": "+",
-                          "width": "stretch",
-                          "eq": "threshold(%{level}, [8,1,14,2,20,3])"
+                          "control": "proficiency",
+                          "value": "master",
+                          "ruby": "_{Level}\n+6"
                         },
                         {
                           "type": "field",
-                          "id": "devastating-attacks",
+                          "id": "proficiency-legendary",
+                          "label": "_{Legendary}",
                           "border": "full",
-                          "label": "_{Devastating Attacks}",
-                          "suffix": "_{d}",
-                          "width": "stretch",
-                          "eq": "threshold(%{level}, [1,1,4,2,12,3,19,4])"
+                          "control": "proficiency",
+                          "value": "legendary",
+                          "ruby": "_{Level}\n+8"
                         }
-                      ],
-                      "replace": true
+                      ]
+                    },
+                    {
+                      "type": "p",
+                      "content": "_{Increase any statistics that changed as a result of ability boosts or other abilities.}"
                     }
                   ],
                   "pad": true
@@ -20081,6 +20178,28 @@
                   "title": "_{Advancement}",
                   "flex": "none",
                   "contents": [
+                    {
+                      "type": "row",
+                      "layout": null,
+                      "contents": [
+                        {
+                          "type": "class-icon",
+                          "icon": null,
+                          "size": "small"
+                        },
+                        {
+                          "type": "field",
+                          "id": "class",
+                          "width": "stretch",
+                          "size": "huge",
+                          "label": "_{Class}",
+                          "merge-bottom": true
+                        }
+                      ]
+                    },
+                    {
+                      "type": "hr"
+                    },
                     {
                       "id": "level-up",
                       "type": "table",
@@ -20252,13 +20371,7 @@
                             "icon": "",
                             "item": {
                               "type": "g",
-                              "contents": [
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Attack potency} +1"
-                                }
-                              ]
+                              "contents": []
                             },
                             "i": 2
                           },
@@ -20283,13 +20396,7 @@
                               "legend": "",
                               "colspan": 1,
                               "rowspan": 1,
-                              "contents": [
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Attack potency} +1"
-                                }
-                              ]
+                              "contents": []
                             },
                             {
                               "type": "span",
@@ -20393,7 +20500,7 @@
                                 {
                                   "type": "p",
                                   "blk": false,
-                                  "content": "_{Skill potency} 1&times;+1, _{Deny Advantage}"
+                                  "content": "_{Deny Advantage}"
                                 }
                               ]
                             },
@@ -20424,7 +20531,7 @@
                                 {
                                   "type": "p",
                                   "blk": false,
-                                  "content": "_{Skill potency} 1&times;+1, _{Deny Advantage}"
+                                  "content": "_{Deny Advantage}"
                                 }
                               ]
                             },
@@ -20526,13 +20633,7 @@
                             "icon": "",
                             "item": {
                               "type": "g",
-                              "contents": [
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Devastating attacks} 2"
-                                }
-                              ]
+                              "contents": []
                             },
                             "i": 4
                           },
@@ -20557,13 +20658,7 @@
                               "legend": "",
                               "colspan": 1,
                               "rowspan": 1,
-                              "contents": [
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Devastating attacks} 2"
-                                }
-                              ]
+                              "contents": []
                             },
                             {
                               "type": "span",
@@ -20681,11 +20776,6 @@
                                       "align": "left"
                                     }
                                   ]
-                                },
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Defence potency} +1"
                                 }
                               ]
                             },
@@ -20727,11 +20817,6 @@
                                       "align": "left"
                                     }
                                   ]
-                                },
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Defence potency} +1"
                                 }
                               ]
                             },
@@ -20833,13 +20918,7 @@
                             "icon": "",
                             "item": {
                               "type": "g",
-                              "contents": [
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Skill potency} 2&times;+1"
-                                }
-                              ]
+                              "contents": []
                             },
                             "i": 6
                           },
@@ -20864,13 +20943,7 @@
                               "legend": "",
                               "colspan": 1,
                               "rowspan": 1,
-                              "contents": [
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Skill potency} 2&times;+1"
-                                }
-                              ]
+                              "contents": []
                             },
                             {
                               "type": "span",
@@ -20982,7 +21055,7 @@
                                 {
                                   "type": "p",
                                   "blk": false,
-                                  "content": "_{Perception potency} +1, _{Weapon Specialisation}"
+                                  "content": "_{Weapon Specialisation}"
                                 }
                               ]
                             },
@@ -21019,7 +21092,7 @@
                                 {
                                   "type": "p",
                                   "blk": false,
-                                  "content": "_{Perception potency} +1, _{Weapon Specialisation}"
+                                  "content": "_{Weapon Specialisation}"
                                 }
                               ]
                             },
@@ -21121,13 +21194,7 @@
                             "icon": "",
                             "item": {
                               "type": "g",
-                              "contents": [
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Saving throw potency} +1"
-                                }
-                              ]
+                              "contents": []
                             },
                             "i": 8
                           },
@@ -21152,13 +21219,7 @@
                               "legend": "",
                               "colspan": 1,
                               "rowspan": 1,
-                              "contents": [
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Saving throw potency} +1"
-                                }
-                              ]
+                              "contents": []
                             },
                             {
                               "type": "span",
@@ -21270,7 +21331,7 @@
                                 {
                                   "type": "p",
                                   "blk": false,
-                                  "content": "_{Skill potency} 1&times;+2, 1&times;+1, _{Debilitating Strike}"
+                                  "content": "_{Debilitating Strike}"
                                 }
                               ]
                             },
@@ -21307,7 +21368,7 @@
                                 {
                                   "type": "p",
                                   "blk": false,
-                                  "content": "_{Skill potency} 1&times;+2, 1&times;+1, _{Debilitating Strike}"
+                                  "content": "_{Debilitating Strike}"
                                 }
                               ]
                             },
@@ -21424,11 +21485,6 @@
                                       "align": "left"
                                     }
                                   ]
-                                },
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Attack potency} +2"
                                 }
                               ]
                             },
@@ -21470,11 +21526,6 @@
                                       "align": "left"
                                     }
                                   ]
-                                },
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Attack potency} +2"
                                 }
                               ]
                             },
@@ -21584,11 +21635,6 @@
                                   "blk": false,
                                   "content": "_{Rogue class DC}",
                                   "icon": "proficiency-expert"
-                                },
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Defence potency} +2"
                                 }
                               ]
                             },
@@ -21621,11 +21667,6 @@
                                   "blk": false,
                                   "content": "_{Rogue class DC}",
                                   "icon": "proficiency-expert"
-                                },
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Defence potency} +2"
                                 }
                               ]
                             },
@@ -21727,13 +21768,7 @@
                             "icon": "",
                             "item": {
                               "type": "g",
-                              "contents": [
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "{Devastating attacks} 3"
-                                }
-                              ]
+                              "contents": []
                             },
                             "i": 12
                           },
@@ -21758,13 +21793,7 @@
                               "legend": "",
                               "colspan": 1,
                               "rowspan": 1,
-                              "contents": [
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "{Devastating attacks} 3"
-                                }
-                              ]
+                              "contents": []
                             },
                             {
                               "type": "span",
@@ -21888,7 +21917,7 @@
                                 {
                                   "type": "p",
                                   "blk": false,
-                                  "content": "_{Skill potency} 2&times;+2, 1&times;+1, _{Perception potency} +2, _{Master Tricks}"
+                                  "content": "_{Master Tricks}"
                                 }
                               ]
                             },
@@ -21937,7 +21966,7 @@
                                 {
                                   "type": "p",
                                   "blk": false,
-                                  "content": "_{Skill potency} 2&times;+2, 1&times;+1, _{Perception potency} +2, _{Master Tricks}"
+                                  "content": "_{Master Tricks}"
                                 }
                               ]
                             },
@@ -22039,13 +22068,7 @@
                             "icon": "",
                             "item": {
                               "type": "g",
-                              "contents": [
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Saving throw potency} +2"
-                                }
-                              ]
+                              "contents": []
                             },
                             "i": 14
                           },
@@ -22070,13 +22093,7 @@
                               "legend": "",
                               "colspan": 1,
                               "rowspan": 1,
-                              "contents": [
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Saving throw potency} +2"
-                                }
-                              ]
+                              "contents": []
                             },
                             {
                               "type": "span",
@@ -22195,7 +22212,7 @@
                                 {
                                   "type": "p",
                                   "blk": false,
-                                  "content": "_{Skill potency} 3&times;+2, 1&times;+1, _{Greater Weapon Specialisation}"
+                                  "content": "_{Greater Weapon Specialisation}"
                                 }
                               ]
                             },
@@ -22241,7 +22258,7 @@
                                 {
                                   "type": "p",
                                   "blk": false,
-                                  "content": "_{Skill potency} 3&times;+2, 1&times;+1, _{Greater Weapon Specialisation}"
+                                  "content": "_{Greater Weapon Specialisation}"
                                 }
                               ]
                             },
@@ -22343,13 +22360,7 @@
                             "icon": "",
                             "item": {
                               "type": "g",
-                              "contents": [
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Attack potency} +3"
-                                }
-                              ]
+                              "contents": []
                             },
                             "i": 16
                           },
@@ -22374,13 +22385,7 @@
                               "legend": "",
                               "colspan": 1,
                               "rowspan": 1,
-                              "contents": [
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Attack potency} +3"
-                                }
-                              ]
+                              "contents": []
                             },
                             {
                               "type": "span",
@@ -22489,26 +22494,6 @@
                                   "blk": false,
                                   "content": "_{Will saves}",
                                   "icon": "proficiency-master"
-                                },
-                                {
-                                  "type": "row",
-                                  "wrap": true,
-                                  "blk": false,
-                                  "contents": [
-                                    {
-                                      "type": "field",
-                                      "id": "gain-17-ability-apex",
-                                      "control": "checkbox",
-                                      "frame": "right",
-                                      "label": "_{Ability apex}",
-                                      "align": "left"
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Skill potency} 1&times;+3, 2&times;+2, 2&times;+1"
                                 }
                               ]
                             },
@@ -22541,26 +22526,6 @@
                                   "blk": false,
                                   "content": "_{Will saves}",
                                   "icon": "proficiency-master"
-                                },
-                                {
-                                  "type": "row",
-                                  "wrap": true,
-                                  "blk": false,
-                                  "contents": [
-                                    {
-                                      "type": "field",
-                                      "id": "gain-17-ability-apex",
-                                      "control": "checkbox",
-                                      "frame": "right",
-                                      "label": "_{Ability apex}",
-                                      "align": "left"
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Skill potency} 1&times;+3, 2&times;+2, 2&times;+1"
                                 }
                               ]
                             },
@@ -22662,13 +22627,7 @@
                             "icon": "",
                             "item": {
                               "type": "g",
-                              "contents": [
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Defence potency} +3"
-                                }
-                              ]
+                              "contents": []
                             },
                             "i": 18
                           },
@@ -22693,13 +22652,7 @@
                               "legend": "",
                               "colspan": 1,
                               "rowspan": 1,
-                              "contents": [
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Defence potency} +3"
-                                }
-                              ]
+                              "contents": []
                             },
                             {
                               "type": "span",
@@ -22806,11 +22759,6 @@
                                   "blk": false,
                                   "content": "_{Light armour}",
                                   "icon": "proficiency-master"
-                                },
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Perception potency} +3, {Devastating attacks} 4"
                                 }
                               ]
                             },
@@ -22843,11 +22791,6 @@
                                   "blk": false,
                                   "content": "_{Light armour}",
                                   "icon": "proficiency-master"
-                                },
-                                {
-                                  "type": "p",
-                                  "blk": false,
-                                  "content": "_{Perception potency} +3, {Devastating attacks} 4"
                                 }
                               ]
                             },
@@ -22975,7 +22918,7 @@
                                 {
                                   "type": "p",
                                   "blk": false,
-                                  "content": "_{Skill potency} 2&times;+3, 2&times;+2, 2&times;+1, _{Saving throw potency} +3, _{Master Strike}"
+                                  "content": "_{Master Strike}"
                                 }
                               ]
                             },
@@ -23027,7 +22970,7 @@
                                 {
                                   "type": "p",
                                   "blk": false,
-                                  "content": "_{Skill potency} 2&times;+3, 2&times;+2, 2&times;+1, _{Saving throw potency} +3, _{Master Strike}"
+                                  "content": "_{Master Strike}"
                                 }
                               ]
                             },

@@ -111,75 +111,86 @@ inc:
 
   - at: '@skill-feats-section'
     replace:
-      - list:
-        hr: true
+      - section: "_{Skill Feats}"
+        flex: large
         contents:
-          - g:
+          - list:
+            hr: true
             contents:
-              - list:
-                zebra: true
-                hr: true
-                columns: 2
+              - g:
                 contents:
-                  - each:
-                    template:
-                      - level: "#{level}"
-                        contents:
-                          - item:
+                  - list:
+                    zebra: true
+                    hr: true
+                    columns: 2
                     contents:
-                      - slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
-                        min: 1
-                        max: 1
-                        placeholder:
-                          article: 'skill-feat-#{level}'
-                          blk: false
-                          lines: 2
+                      - var: lines
+                        value: 4
+                        decrement: 6
+                        cutoff: 1
                         contents:
-                          - zone: '@skill-feats'
-          - g:
-            contents:
-              - list:
-                zebra: true
-                zebra-inverse: true
-                hr: true
-                columns: 2
+                          - each:
+                            template:
+                              - level: "#{level}"
+                                contents:
+                                  - item:
+                            contents:
+                              - slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                                min: 1
+                                max: 1
+                                placeholder:
+                                  article: 'skill-feat-#{level}'
+                                  blk: false
+                                  lines: "#{lines}" # 3
+                                contents:
+                                  - zone: '@skill-feats'
+              - g:
                 contents:
-                  - g:
+                  - list:
+                    zebra: true
+                    zebra-inverse: true
+                    hr: true
+                    columns: 2
                     contents:
-                      - zone: '@swashbuckler/stylish-tricks'
+                      - g:
                         contents:
-                          - h5: "_{Stylish Tricks}"
-                          - p: "_{Skill feats for Acrobatics or your Swashbuckler Style skill.}"
-                  - each:
-                    template:
-                      - level: "#{level}"
+                          - zone: '@swashbuckler/stylish-tricks'
+                            contents:
+                              - h5: "_{Stylish Tricks}"
+                              - p: "_{Skill feats for Acrobatics or your Swashbuckler Style skill.}"
+                              - p: "&nbsp;"
+                              - p: "&nbsp;"
+                                optional: true
+                      - each:
+                        template:
+                          - level: "#{level}"
+                            contents:
+                              - item:
                         contents:
-                          - item:
-                    contents:
-                      - slots: [ 3, 7, 15 ]
-                        min: 1
-                        max: 1
-                        placeholder:
-                          article: 'skill-feat-#{level}'
-                          blk: false
-                          lines: 2
-                        contents:
-                          - zone: '@skill-feats'
+                          - slots: [ 3, 7, 15 ]
+                            min: 1
+                            max: 1
+                            placeholder:
+                              article: 'skill-feat-#{level}'
+                              blk: false
+                              lines: 4
+                            contents:
+                              - zone: '@skill-feats'
 
-          - g:
-            contents:
-              - h5: "_{Notes}"
-              - layout: 2e
+              - g:
                 contents:
-                  - repeat: 2
+                  - h5: "_{Notes}"
+                  - layout: 2e
                     contents:
-                      - field: skill-notes-#{i}
-                        flex: small
-                        width: stretch
-                        frame: none
-                        repeat: 8
-                        reduce: 4
-                        merge-bottom: true
+                      - repeat: 2
+                        contents:
+                          - field: skill-notes-#{i}
+                            flex: small
+                            width: stretch
+                            frame: none
+                            repeat: 8
+                            reduce: 4
+                            merge-bottom: true
   - at: '@pages'
     add:
       - page: swashbuckler
@@ -210,13 +221,39 @@ inc:
                           field: "##:precise-strike/damage"
                           legend: "_{Bonus Damage}"
                           width: huge
-                          eq: "2+floor(%{level}/4)"
+                          eq: "1+ceil(%{level}/4)"
                         inputs:
-                          - span: "2 + ("
-                          - field:
-                            ref: level
-                            label: "_{Level}"
-                          - span: "&divide; 4 )"
+                          - span: "1 +"
+                          - ruby-round-up:
+                            contents:
+                              - span: "("
+                              - field:
+                                ref: level
+                                label: "_{Level}"
+                              - span: "&divide; 4 )"
+
+                      - hr:
+                        light: true
+
+                      - flags:
+                          - "_{Finisher}"
+                      - p: "_{Spend panache to make a Finisher the final action of your turn.}"
+                      - calc:
+                        output:
+                          field: "##:confident-finisher/damage"
+                          legend: "_{Bonus Damage}"
+                          width: huge
+                          eq: "1+ceil(%{level}/4)"
+                          suffix: "_{d6}"
+                        inputs:
+                          - span: "1 +"
+                          - ruby-round-up:
+                            contents:
+                              - span: "("
+                              - field:
+                                ref: level
+                                label: "_{Level}"
+                              - span: "&divide; 4 )"
 
 
                   - section: "_{Confident Finisher}"
@@ -228,25 +265,7 @@ inc:
                             contents:
                               - flags:
                                   - "_{Finisher}"
-                              - p: "_{Spend panache to make the final Strike of your turn. Get greater Precise Strike damage.}"
-                              - calc:
-                                output:
-                                  field: "##:confident-finisher/damage"
-                                  control: compound
-                                  legend: "_{Bonus Damage}"
-                                  width: huge
-                                  parts:
-                                    - type: span
-                                      content: "_{2d6} +"
-                                    - id: "##:confident-finisher/damage"
-                                      frame: none
-                                      eq: "floor(%{level}/4)"
-                                inputs:
-                                  - span: "("
-                                  - field:
-                                    ref: level
-                                    label: "_{Level}"
-                                  - span: "&divide; 4 )"
+                              - p: "_{Make a Precise Strike with Finisher damage.}"
                               - p: "_{On a failure, deal half this bonus damage.}"
                           - level: 19
                             contents:
@@ -298,13 +317,13 @@ inc:
                             contents:
                               - g:
                                 contents:
-                                  - article:
+                                  - article: "##:swashbuckers-style"
                                     lines: 4
                               - level: 9
                                 contents:
                                   - h5: "_{Exemplary Finisher}"
                                   - p: "_{When you successfully strike as part of a finisher...}"
-                                  - article:
+                                  - article: "##:swashbuckers-style/exemplary-finisher"
 
                   - section: "_{Panache}"
                     contents:
@@ -370,13 +389,14 @@ inc:
 
                                   - table:
                                     flip: true
+                                    collapse: true
                                     columns:
                                       - label: "_{Level}"
-                                        rotate: true
+                                        # rotate: true
                                       - label: "_{Speed\nBonus}"
-                                        rotate: true
+                                        # rotate: true
                                       - label: "_{Half\nBonus}"
-                                        rotate: true
+                                        # rotate: true
                                     rows:
                                       - level: 1
                                         speed: "_{5ft}"

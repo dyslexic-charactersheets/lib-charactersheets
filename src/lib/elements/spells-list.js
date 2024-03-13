@@ -190,7 +190,7 @@ export let spells_list = {
     ordinal: true,
     'merge-bottom': true,
   },
-  transform(args, ctx) {
+  transform(args, ctx, reg) {
     const min = args.min;
     const max = args.max;
 
@@ -214,12 +214,19 @@ export let spells_list = {
       spell_levels.push(spellLevel(0, '', 'spontaneous', 1, args.cantrips, false));
     }
 
+    let specialValues = [];
+    if (args.special && isArray(args["special-value"])) {
+      specialValues = args["special-value"];
+    }
+    log("spells-list", "Special values", specialValues);
+
     for (let lvl = min; lvl <= max; lvl++) {
       const ord = args.ordinal ? ordinal(lvl) : lvl;
       let special_value = "";
-      if (args.special && isArray(args["special-value"]) && args["special-value"].length > lvl - 1) {
-        special_value = args["special-value"][lvl - 1];
+      if (specialValues.length >= lvl) {
+        special_value = specialValues[lvl - min];
       }
+      log("spells-list", "Special value", ord, special_value);
       spell_levels.push(spellLevel(lvl, ord, args.style, args.checks, slots[lvl], args.special, special_value));
     }
 

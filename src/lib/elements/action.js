@@ -81,7 +81,7 @@ export let selectable = {
   },
   transform(args, ctx, reg) {
     if (isEmpty(args.id)) {
-      trace(reg, 'selectable', 'Empty ID');
+      trace(reg, ctx, 'selectable', 'Empty ID');
     }
 
     let checkboxes = [];
