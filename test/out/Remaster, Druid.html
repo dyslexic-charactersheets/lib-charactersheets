@@ -4231,83 +4231,6 @@ document.addEventListener("scroll", (event) => {
 });
 
 
-// field interactions: ALIGNMENT
-
-function showAlignmentMenu(event) {
-  var field = event.target.closest('.field');
-  showMenu(event, 'alignment', field);
-
-  var value = getAlignmentValue(field.id);
-  menus.currentValue = value;
-
-  for (var alignment of ['none', 'lg', 'ln', 'le', 'ng', 'nn', 'ne', 'cg', 'cn', 'ce']) {
-    document.getElementById('alignment-menu-'+alignment).checked = false;
-  }
-  if (value !== null) {
-    if (value == "") {
-      value = "none";
-    }
-    var radio = document.getElementById('alignment-menu-'+value);
-    if (radio !== null) {
-      radio.checked = true;
-    }
-  }
-}
-
-function getAlignmentValue(fieldId) {
-  var field = document.getElementById(fieldId);
-  var value = '';
-
-  var radios = field.getElementsByTagName('input');
-  for (var radio of radios) {
-    if (radio.checked) {
-      value = radio.value;
-    }
-  }
-  return value;
-}
-
-function setAlignmentValue(fieldId, value) {
-  for (var field of document.getElementsByName(fieldId)) {
-    var radios = field.getElementsByTagName('input');
-    for (var radio of radios) {
-      radio.checked = (radio.value == value);
-    }
-
-    // update display
-    var grid = field.getElementsByClassName('field__grid')[0];
-    for (var alignment of ['lg', 'ln', 'le', 'ng', 'nn', 'ne', 'cg', 'cn', 'ce']) {
-      grid.classList.remove('field__grid--alignment_'+alignment);
-    }
-    grid.classList.add('field__grid--alignment_'+value);
-  }
-}
-
-for (var alignment of ['none', 'lg', 'ln', 'le', 'ng', 'nn', 'ne', 'cg', 'cn', 'ce']) {
-  (function (alignment) {
-    document.getElementById('alignment-menu-'+alignment).addEventListener('change', function (event) {
-      if (menus.currentFieldId !== null) {
-        if (alignment == "non") {
-          alignment = "";
-        }
-        setAlignmentValue(menus.currentFieldId, alignment);
-        dismissMenus();
-      }
-    });
-  })(alignment);
-}
-
-
-document.getElementById("alignment-menu").addEventListener('click', function (event) {
-  event.stopPropagation();
-});
-
-for (var field of document.getElementsByClassName("field--control_alignment")) {
-  for (var grid of field.getElementsByClassName("field__frame")) {
-    grid.addEventListener('click', showAlignmentMenu);
-  }
-}
-
 // field interactions: ACTIONS
 
 function showActionMenu(event) {
@@ -4394,6 +4317,100 @@ for (var field of document.getElementsByClassName("field--control_action-icon"))
   }
 }
 
+// field interactions: ALIGNMENT
+
+function showAlignmentMenu(event) {
+  var field = event.target.closest('.field');
+  showMenu(event, 'alignment', field);
+
+  var value = getAlignmentValue(field.id);
+  menus.currentValue = value;
+
+  for (var alignment of ['none', 'lg', 'ln', 'le', 'ng', 'nn', 'ne', 'cg', 'cn', 'ce']) {
+    document.getElementById('alignment-menu-'+alignment).checked = false;
+  }
+  if (value !== null) {
+    if (value == "") {
+      value = "none";
+    }
+    var radio = document.getElementById('alignment-menu-'+value);
+    if (radio !== null) {
+      radio.checked = true;
+    }
+  }
+}
+
+function getAlignmentValue(fieldId) {
+  var field = document.getElementById(fieldId);
+  var value = '';
+
+  var radios = field.getElementsByTagName('input');
+  for (var radio of radios) {
+    if (radio.checked) {
+      value = radio.value;
+    }
+  }
+  return value;
+}
+
+function setAlignmentValue(fieldId, value) {
+  for (var field of document.getElementsByName(fieldId)) {
+    var radios = field.getElementsByTagName('input');
+    for (var radio of radios) {
+      radio.checked = (radio.value == value);
+    }
+
+    // update display
+    var grid = field.getElementsByClassName('field__grid')[0];
+    for (var alignment of ['lg', 'ln', 'le', 'ng', 'nn', 'ne', 'cg', 'cn', 'ce']) {
+      grid.classList.remove('field__grid--alignment_'+alignment);
+    }
+    grid.classList.add('field__grid--alignment_'+value);
+  }
+}
+
+for (var alignment of ['none', 'lg', 'ln', 'le', 'ng', 'nn', 'ne', 'cg', 'cn', 'ce']) {
+  (function (alignment) {
+    document.getElementById('alignment-menu-'+alignment).addEventListener('change', function (event) {
+      if (menus.currentFieldId !== null) {
+        if (alignment == "non") {
+          alignment = "";
+        }
+        setAlignmentValue(menus.currentFieldId, alignment);
+        dismissMenus();
+      }
+    });
+  })(alignment);
+}
+
+
+document.getElementById("alignment-menu").addEventListener('click', function (event) {
+  event.stopPropagation();
+});
+
+for (var field of document.getElementsByClassName("field--control_alignment")) {
+  for (var grid of field.getElementsByClassName("field__frame")) {
+    grid.addEventListener('click', showAlignmentMenu);
+  }
+}
+
+// field interactions: checkboxes
+for (let field of document.getElementsByClassName('field--control_checkbox')) {
+  ((field) => {
+    let name = field.getAttribute('name').replace(/^field-/, '');
+    for (let checkbox of field.getElementsByTagName('input')) {
+      checkbox.addEventListener('input', (evt) => {
+        let checked = checkbox.checked;
+        for (let otherCheckbox of document.querySelectorAll('input[name="'+name+'"]')) {
+          if (checkbox == otherCheckbox)
+            continue;
+          otherCheckbox.checked = checked;
+        }
+      });
+    }
+  })(field);
+}
+
 // field interactions: COUNTERS (ie runes)
 
 function showCounterMenu(event, field) {
@@ -4466,23 +4483,6 @@ for (var field of document.getElementsByClassName("field--control_counter")) {
   })(field);
 }
 
-// field interactions: checkboxes
-for (let field of document.getElementsByClassName('field--control_checkbox')) {
-  ((field) => {
-    let name = field.getAttribute('name').replace(/^field-/, '');
-    for (let checkbox of field.getElementsByTagName('input')) {
-      checkbox.addEventListener('input', (evt) => {
-        let checked = checkbox.checked;
-        for (let otherCheckbox of document.querySelectorAll('input[name="'+name+'"]')) {
-          if (checkbox == otherCheckbox)
-            continue;
-          otherCheckbox.checked = checked;
-        }
-      });
-    }
-  })(field);
-}
-
 // Mutating dice icon
 
 for (let icon of document.getElementsByClassName("icon_damage")) {
@@ -4533,36 +4533,6 @@ for (let icon of document.getElementsByClassName("icon_damage")) {
         });
       })(icon, dieInput);
     }
-  }
-}
-
-// field interactions: PARA
-
-for (let field of document.getElementsByClassName('field--control_p')) {
-  for (let control of field.getElementsByClassName('field__control')) {
-    ((control) => {
-      function updateEmpty() {
-        let empty = true;
-        for (let part of control.getElementsByClassName('p__editpart')) {
-          if (part.innerText != "") {
-            empty = false;
-          }
-        }
-        control.classList.toggle('field__control--empty', empty);
-      }
-
-      for (let part of control.getElementsByClassName('p__editpart')) {
-        part.addEventListener('input', updateEmpty);
-      }
-      control.addEventListener('click', () => {
-        for (let part of control.getElementsByClassName('p__editpart')) {
-          setTimeout(() => {
-            part.focus();
-          }, 0);
-          return;
-        }
-      });
-    })(control);
   }
 }
 
@@ -4620,6 +4590,198 @@ function setEnumValue(field, slug, value) {
 for (var field of document.getElementsByClassName("field--control_enum")) {
   for (var box of field.getElementsByClassName("field__frame")) {
     box.addEventListener('click', showEnumMenu);
+  }
+}
+
+// Ref Switch
+
+function getFieldLabel(name, useUnderlay = true) {
+  for (var field of document.getElementsByName(`field-${name}`)) {
+    if (useUnderlay) {
+      for (var underlay of field.getElementsByTagName('u')) {
+        let underlayText = underlay.innerHTML;
+        if (underlayText !== null && underlayText !== "") {
+          return underlayText;
+        }
+      }
+    }
+
+    for (var label of field.getElementsByTagName('label')) {
+      let labelText = label.innerHTML;
+      if (labelText !== null && labelText !== "") {
+        return labelText;
+      }
+    }
+  }
+  return "";
+}
+
+function showRefSwitchMenu(event) {
+  var field = event.target.closest('.field');
+  var id = field.id;
+  var fieldId = id.replace(/^field-/, '');
+  showMenu(event, 'ref-switch-'+id, field);
+
+  var value = getRefSwitchValue(field.id);
+  menus.currentValue = value;
+
+  var switchOptions = ['STR','DEX'];
+  for (let hiddenInput of field.getElementsByClassName('field--control_ref-switch__ref')) {
+    if (hiddenInput.dataset.hasOwnProperty('switch')) {
+      let sw = hiddenInput.dataset['switch'];
+      if (sw !== null && sw != "") {
+        switchOptions = sw.split(',');
+      }
+    }
+  }
+
+  for (var opt of switchOptions) {
+    var elem = document.getElementById(`ref-switch-${fieldId}-${opt}`);
+    if (elem !== null) {
+      elem.checked = false;
+      elem.removeAttribute('checked');
+    }
+  }
+  if (value !== null && value !== "") {
+    var elem = document.getElementById(`ref-switch-${fieldId}-${value}`);
+    elem.checked = true;
+    elem.setAttribute('checked', true);
+  }
+}
+
+function getRefSwitchValue(fieldId) {
+  var field = document.getElementById(fieldId);
+  for (var input of field.getElementsByTagName('input')) {
+    return input.value;
+  }
+}
+
+function setRefSwitchValue(fieldId, ref) {
+  var value = getFieldValue(ref);
+
+  // pick field label
+  var labelText = getFieldLabel(ref);
+  switch (ref) {
+    case 'STR': case 'construct/STR': labelText = "STR"; break;
+    case 'DEX': case 'construct/DEX': labelText = "DEX"; break;
+    case 'CON': labelText = "CON"; break;
+    case 'INT': labelText = "INT"; break;
+    case 'WIS': labelText = "WIS"; break;
+    case 'CHA': labelText = "CHA"; break;
+  }
+
+  for (var field of document.getElementsByName(fieldId)) {
+    for (var hiddenInput of field.getElementsByClassName('field--control_ref-switch__ref')) {
+      hiddenInput.value = ref;
+    }
+
+    for (var control of field.getElementsByClassName('field__control')) {
+      if (!control.classList.contains('field--inmenu__control')) {
+        for (var input of control.getElementsByTagName('input')) {
+          input.setAttribute('ref', ref);
+          input.value = value;
+          input.dispatchEvent(new Event('change'));
+        }
+      }
+    }
+
+    for (var label of field.getElementsByTagName('label')) {
+      if (!label.classList.contains('field--inmenu__label')) {
+        label.innerText = labelText;
+      }
+    }
+  }
+}
+
+for (var field of document.getElementsByClassName("field--control_ref-switch")) {
+  // get the list of options for this ref-switch field
+  var switchOptions = ['STR','DEX'];
+  for (let hiddenInput of field.getElementsByClassName('field--control_ref-switch__ref')) {
+    if (hiddenInput.dataset.hasOwnProperty('ref')) {
+      let ref = hiddenInput.dataset.ref;
+      if (ref !== null && ref != "") {
+        switchOptions = ref.split(',');
+      }
+    }
+  }
+  
+  // add change listener
+  for (let opt of field.getElementsByClassName('ref-switch')) {
+    ((opt) => {
+      let fieldId = field.id.replace(/^field-/, '');
+      let optValue = opt.value;
+      let optLabel = getFieldLabel(optValue);
+
+      opt.addEventListener('change', function (evt) {
+        if (menus.currentFieldId !== null) {
+          setRefSwitchValue(menus.currentFieldId, optValue);
+          dismissMenus();
+        }
+      });
+
+      // select a value when somebody clicks on the preview field
+      let clickField = document.getElementById(`menu-field-ref-switch-${fieldId}-${optValue}`);
+      if (clickField != null) {
+        clickField.addEventListener('click', (evt) => {
+          opt.click();
+        });
+        for (let label of clickField.getElementsByTagName('label')) {
+          label.innerText = optLabel;
+        }
+      }
+    })(opt);
+  }
+
+  // show the menu when we click on the field - but not other sub-fields
+  for (var frame of field.getElementsByClassName("field__frame")) {
+    if (!frame.classList.contains('field--inmenu__frame')) {
+      frame.addEventListener('click', showRefSwitchMenu);
+    }
+  }
+}
+
+// field interactions: PARA
+
+for (let field of document.getElementsByClassName('field--control_p')) {
+  for (let control of field.getElementsByClassName('field__control')) {
+    ((control) => {
+      function updateEmpty() {
+        let empty = true;
+        for (let part of control.getElementsByClassName('p__editpart')) {
+          if (part.innerText != "") {
+            empty = false;
+          }
+        }
+        control.classList.toggle('field__control--empty', empty);
+      }
+
+      for (let part of control.getElementsByClassName('p__editpart')) {
+        part.addEventListener('input', updateEmpty);
+        ((part) => {
+          part.addEventListener('click', (evt) => {
+            setTimeout(() => {
+              part.focus();
+            }, 0);
+            evt.stopPropagation(); // don't fall back to the bigger click
+          })
+        })(part);
+      }
+
+      control.addEventListener('click', () => {
+        for (let part of control.getElementsByClassName('p__body')) {
+          ((part) => {
+            setTimeout(() => {
+              part.focus();
+              // set caret at end
+              let sel = window.getSelection();
+              sel.selectAllChildren(part);
+              sel.collapseToEnd();
+            }, 0);
+            return;
+          })(part);
+        }
+      });
+    })(control);
   }
 }
 
@@ -4935,153 +5097,6 @@ for (var input of document.getElementsByName('level')) {
 }
 
 updatePageTitle();
-
-// Ref Switch
-
-function getFieldLabel(name, useUnderlay = true) {
-  for (var field of document.getElementsByName(`field-${name}`)) {
-    if (useUnderlay) {
-      for (var underlay of field.getElementsByTagName('u')) {
-        let underlayText = underlay.innerHTML;
-        if (underlayText !== null && underlayText !== "") {
-          return underlayText;
-        }
-      }
-    }
-
-    for (var label of field.getElementsByTagName('label')) {
-      let labelText = label.innerHTML;
-      if (labelText !== null && labelText !== "") {
-        return labelText;
-      }
-    }
-  }
-  return "";
-}
-
-function showRefSwitchMenu(event) {
-  var field = event.target.closest('.field');
-  var id = field.id;
-  var fieldId = id.replace(/^field-/, '');
-  showMenu(event, 'ref-switch-'+id, field);
-
-  var value = getRefSwitchValue(field.id);
-  menus.currentValue = value;
-
-  var switchOptions = ['STR','DEX'];
-  for (let hiddenInput of field.getElementsByClassName('field--control_ref-switch__ref')) {
-    if (hiddenInput.dataset.hasOwnProperty('switch')) {
-      let sw = hiddenInput.dataset['switch'];
-      if (sw !== null && sw != "") {
-        switchOptions = sw.split(',');
-      }
-    }
-  }
-
-  for (var opt of switchOptions) {
-    var elem = document.getElementById(`ref-switch-${fieldId}-${opt}`);
-    if (elem !== null) {
-      elem.checked = false;
-      elem.removeAttribute('checked');
-    }
-  }
-  if (value !== null && value !== "") {
-    var elem = document.getElementById(`ref-switch-${fieldId}-${value}`);
-    elem.checked = true;
-    elem.setAttribute('checked', true);
-  }
-}
-
-function getRefSwitchValue(fieldId) {
-  var field = document.getElementById(fieldId);
-  for (var input of field.getElementsByTagName('input')) {
-    return input.value;
-  }
-}
-
-function setRefSwitchValue(fieldId, ref) {
-  var value = getFieldValue(ref);
-
-  // pick field label
-  var labelText = getFieldLabel(ref);
-  switch (ref) {
-    case 'STR': case 'construct/STR': labelText = "STR"; break;
-    case 'DEX': case 'construct/DEX': labelText = "DEX"; break;
-    case 'CON': labelText = "CON"; break;
-    case 'INT': labelText = "INT"; break;
-    case 'WIS': labelText = "WIS"; break;
-    case 'CHA': labelText = "CHA"; break;
-  }
-
-  for (var field of document.getElementsByName(fieldId)) {
-    for (var hiddenInput of field.getElementsByClassName('field--control_ref-switch__ref')) {
-      hiddenInput.value = ref;
-    }
-
-    for (var control of field.getElementsByClassName('field__control')) {
-      if (!control.classList.contains('field--inmenu__control')) {
-        for (var input of control.getElementsByTagName('input')) {
-          input.setAttribute('ref', ref);
-          input.value = value;
-          input.dispatchEvent(new Event('change'));
-        }
-      }
-    }
-
-    for (var label of field.getElementsByTagName('label')) {
-      if (!label.classList.contains('field--inmenu__label')) {
-        label.innerText = labelText;
-      }
-    }
-  }
-}
-
-for (var field of document.getElementsByClassName("field--control_ref-switch")) {
-  // get the list of options for this ref-switch field
-  var switchOptions = ['STR','DEX'];
-  for (let hiddenInput of field.getElementsByClassName('field--control_ref-switch__ref')) {
-    if (hiddenInput.dataset.hasOwnProperty('ref')) {
-      let ref = hiddenInput.dataset.ref;
-      if (ref !== null && ref != "") {
-        switchOptions = ref.split(',');
-      }
-    }
-  }
-  
-  // add change listener
-  for (let opt of field.getElementsByClassName('ref-switch')) {
-    ((opt) => {
-      let fieldId = field.id.replace(/^field-/, '');
-      let optValue = opt.value;
-      let optLabel = getFieldLabel(optValue);
-
-      opt.addEventListener('change', function (evt) {
-        if (menus.currentFieldId !== null) {
-          setRefSwitchValue(menus.currentFieldId, optValue);
-          dismissMenus();
-        }
-      });
-
-      // select a value when somebody clicks on the preview field
-      let clickField = document.getElementById(`menu-field-ref-switch-${fieldId}-${optValue}`);
-      if (clickField != null) {
-        clickField.addEventListener('click', (evt) => {
-          opt.click();
-        });
-        for (let label of clickField.getElementsByTagName('label')) {
-          label.innerText = optLabel;
-        }
-      }
-    })(opt);
-  }
-
-  // show the menu when we click on the field - but not other sub-fields
-  for (var frame of field.getElementsByClassName("field__frame")) {
-    if (!frame.classList.contains('field--inmenu__frame')) {
-      frame.addEventListener('click', showRefSwitchMenu);
-    }
-  }
-}
 
 // Field calculations
 var calculations = {'build/ancestry-speed--sq': (v) => req(['build/ancestry-speed--ft'],floor(v('build/ancestry-speed--ft')/5)),

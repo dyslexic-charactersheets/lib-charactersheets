@@ -123,7 +123,7 @@ module.exports = {
               item.base = (_.has(item, "base") && item.base) || (unit.id == "base");
               baseSelects[item.select] = item;
             } else {
-              warn("formdata", "Not adding duplicate select", item);
+              warn("formdata", "Not adding duplicate select", item, "from", unit.id);
             }
           } else if (key == "option") {
             item.base = (_.has(item, "base") && item.base) || (unit.id == "base");

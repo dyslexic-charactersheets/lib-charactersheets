@@ -15,13 +15,28 @@ for (let field of document.getElementsByClassName('field--control_p')) {
 
       for (let part of control.getElementsByClassName('p__editpart')) {
         part.addEventListener('input', updateEmpty);
+        ((part) => {
+          part.addEventListener('click', (evt) => {
+            setTimeout(() => {
+              part.focus();
+            }, 0);
+            evt.stopPropagation(); // don't fall back to the bigger click
+          })
+        })(part);
       }
+
       control.addEventListener('click', () => {
-        for (let part of control.getElementsByClassName('p__editpart')) {
-          setTimeout(() => {
-            part.focus();
-          }, 0);
-          return;
+        for (let part of control.getElementsByClassName('p__body')) {
+          ((part) => {
+            setTimeout(() => {
+              part.focus();
+              // set caret at end
+              let sel = window.getSelection();
+              sel.selectAllChildren(part);
+              sel.collapseToEnd();
+            }, 0);
+            return;
+          })(part);
         }
       });
     })(control);
