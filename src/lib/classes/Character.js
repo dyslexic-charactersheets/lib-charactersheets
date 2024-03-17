@@ -451,14 +451,26 @@ export class Character extends Instance {
           }
 
           if (data.printPortrait) {
-            self.getAsset(data.printPortrait, dataURL => {
+            self.getAsset(data.printPortrait, (dataURL, custom, path) => {
               document.portraitURL = dataURL;
+              if (custom) {
+                document.portraitCopyright = null;
+              } else {
+                warn("Character", "Portrait copyright?", path);
+                document.portraitCopyright = "paizo";
+              }
             });
           }
 
           if (data.animalPortrait) {
-            self.getAsset(self.data.animalPortrait, dataURL => {
+            self.getAsset(self.data.animalPortrait, (dataURL, custom, path) => {
               document.animalURL = dataURL;
+              if (custom) {
+                document.animalCopyright = null;
+              } else {
+                warn("Character", "Portrait copyright?", path);
+                document.animalCopyright = "paizo";
+              }
             });
           }
 

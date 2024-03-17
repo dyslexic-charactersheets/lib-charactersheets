@@ -13,7 +13,7 @@ export class Instance {
   }
 
   getAsset(asset, callback) {
-    if (!isNull(asset) && isString(asset) && asset != "" && has(this.data.instances, asset)) {
+    if (isString(asset) && !isEmpty(asset) && has(this.data.instances, asset)) {
       // log("Character", "getAsset: known instance", asset);
       asset = this.data.instances[asset];
     }
@@ -24,14 +24,14 @@ export class Instance {
     } else if (isObject(asset)) {
       // log("Character", "getAsset: object");
       const dataURL = toDataURL(asset.data, asset.mimeType);
-      callback(dataURL);
+      callback(dataURL, true, asset);
     } else if (isString(asset)) {
       // log("Character", "getAsset: string", asset);
       locateAsset(asset, assetFile => {
         this.loadQueue.loadEmbed(assetFile).then(data => {
           const mimeType = inferMimeType(asset);
           const dataURL = toDataURL(data, mimeType);
-          callback(dataURL);
+          callback(dataURL, false, asset);
         })
       });
     } else {
@@ -48,6 +48,7 @@ export class Instance {
         // "data/search",
         // "data/note",
         // "data/roll",
+        "document/zoom",
       ];
     } else {
       return [ "data/no-edit" ];

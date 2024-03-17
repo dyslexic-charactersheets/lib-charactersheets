@@ -1,5 +1,6 @@
 import { elementID, elementClass, embed } from '../util/elements';
-import { has } from '../util/objects';
+import { cloneDeep, has, interpolate } from '../util/objects';
+import { isEmpty } from '../util';
 import { log } from '../log';
 
 const paizoCopyrightAttribution = `<div class='copyright-attribution'><p>
@@ -14,6 +15,7 @@ export let page = {
     name: '',
     order: 10,
     numbered: true,
+    repeatable: false,
     flex: false,
     landscape: false,
     half: false,
@@ -73,10 +75,15 @@ export let page = {
       }
     }
 
+    let pageZoomButton = '';
+    if (doc.hasUnit('document/zoom')) {
+      pageZoomButton = `<button class='page-zoom-button' data-page='${args.id}'></button>`;
+    }
+
     return `<div${id}${cls} data-page='${args.id}'>${background}${fill}
       ${copyrightAttribution}${pageNumber}${watermark}
       <div class='page__contents'>${reg.render(args.contents, doc)}</div>
-      ${pageNotes}
+      ${pageNotes}${pageZoomButton}
       </div>
       `;
   }
@@ -88,56 +95,138 @@ export let collate_pages = {
   defaults: {
     contents: []
   },
-  transform(args) {
+  transform(args, doc, reg) {
     let pages = args.contents;
-    // log("page", "Collate", pages);
 
-    let out = [];
-    for (let i = 0; i < pages.length; i++) {
-      let page = pages[i];
-      if (has(page, "half") && page.half) {
-        // log("page", "Collate: half page", page.id);
-        let nextPage = pages[i+1];
-        let id = page.id;
-        let name = page.name;
+    // Duplicate pages
+    pages = duplicatePages(pages, doc);
+    
+    // Combine half-pages into a single page
+    pages = combinePages(pages);
 
-        let replacement = [embed(page.contents)];
-        if (has(nextPage, "half") && nextPage.half) {
-          // log("page", "Collate: next page", nextPage.id);
-          replacement.push(embed(nextPage.contents));
-          id = `${id}+${nextPage.id}`;
-          name = `${name} + ${nextPage.name}`;
-          i++;
-        }
+    // Collate pages (folio / duplex)
+    // pages = collatePages(pages, doc.getCollation());
 
-        let pageNumbered = !has(page, 'numbered') || page.numbered;
-        let nextPageNumbered = !has(page, 'numbered') || nextPage.numbered;
-
-        out.push({
-          type: 'page',
-
-          order: page.order,
-          id: id,
-          name: name,
-          numbered: pageNumbered || nextPageNumbered,
-          flex: true,
-          landscape: true,
-          half: false,
-          contents: [
-            {
-              type: 'layout',
-              layout: '2e',
-              contents: replacement
-            }
-          ]
-        });
-      } else {
-        // log("page", "Collate: full page", page.id);
-        out.push(page);
-      }
-      // log("page", "Collated:", out);
-    }
-
-    return out;
+    return pages;
   }
+}
+
+function duplicatePages(pages, doc) {
+  if (isEmpty(doc.request)) {
+    warn("collate-pages", "Request is unset", doc);
+    return pages;
+  }
+
+  let attr = doc.request.primary[0].attributes;
+  // log("collate-pages", "Page counts", attr);
+
+  let numInventory = has(attr, "numInventory") ? 0+attr.numInventory : 0;
+  let numSpellbook = has(attr, "numSpellbook") ? 0+attr.numSpellbook : 0;
+  let numFormulaBook = has(attr, "numFormulaBook") ? 0+attr.numFormulaBook : 0;
+
+  let out = [];
+  function addDuplicates(page, count, offset) {
+    for (let i = 0; i < count; i++) {
+      let number = i+offset+1;
+
+      let thispage = cloneDeep(page);
+      thispage.id = `${page.id}/${number}`;
+      thispage = interpolate(thispage, {pagenum: number}, doc);
+
+      out.push(thispage);
+    }
+  }
+
+  let pastSpellbook = 0;
+
+  for (let page of pages) {
+    // log("collate-pages", "Page id:", page.id);
+
+    switch (page.id) {
+      case "inventory-more":
+        log("collate-pages", "Inventory pages", numInventory);
+        addDuplicates(page, numInventory - 1, 1);
+        break;
+
+      // spellbooks - depend on the first 
+      case "spellbook-custom":
+        pastSpellbook++;
+        out.push(page);
+        break;
+
+      case "spellbook":
+        addDuplicates(page, numSpellbook - pastSpellbook, pastSpellbook);
+        break;
+
+      case "formula-book":
+        addDuplicates(page, numFormulaBook, 0);
+        break;
+
+      default:
+        out.push(page);
+        break;
+    }
+  }
+  return out;
+}
+
+function collatePages(pages, collation) {
+  // log("page", "Collate", pages);
+  // switch(doc.collation) {
+  //   case "folio":
+  //   case "duplex":
+  //   default:
+  // }
+
+  return pages;
+}
+
+function combinePages(pages) {
+  let out = [];
+  for (let i = 0; i < pages.length; i++) {
+    let page = pages[i];
+    if (has(page, "half") && page.half) {
+      // log("page", "Collate: half page", page.id);
+      let nextPage = pages[i+1];
+      let id = page.id;
+      let name = page.name;
+
+      let replacement = [embed(page.contents)];
+      if (has(nextPage, "half") && nextPage.half) {
+        // log("page", "Collate: next page", nextPage.id);
+        replacement.push(embed(nextPage.contents));
+        id = `${id}+${nextPage.id}`;
+        name = `${name} + ${nextPage.name}`;
+        i++;
+      }
+
+      let pageNumbered = !has(page, 'numbered') || page.numbered;
+      let nextPageNumbered = !has(page, 'numbered') || nextPage.numbered;
+
+      out.push({
+        type: 'page',
+
+        order: page.order,
+        id: id,
+        name: name,
+        numbered: pageNumbered || nextPageNumbered,
+        flex: true,
+        landscape: true,
+        half: false,
+        contents: [
+          {
+            type: 'layout',
+            layout: '2e',
+            contents: replacement
+          }
+        ]
+      });
+    } else {
+      // log("page", "Collate: full page", page.id);
+      out.push(page);
+    }
+    // log("page", "Collated:", out);
+  }
+
+  return out;
 }

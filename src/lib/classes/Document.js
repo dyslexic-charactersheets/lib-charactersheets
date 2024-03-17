@@ -266,6 +266,7 @@ export class Document {
   getContext() {
     const self = this;
     return {
+      isContext: true,
       system: this.system,
       isLoggedIn: this.isLoggedIn,
       isCalc: this.isLoggedIn && !this.noCalc,
@@ -284,6 +285,9 @@ export class Document {
       },
       completeElement(elem, registry) {
         return self.completeElement(elem, registry);
+      },
+      get request() {
+        return self.request;
       }
     };
   }
@@ -679,6 +683,38 @@ export class Document {
     return '';
   }
 
+  getCollation() {
+    if (isEmpty(this.request) || isEmpty(this.request.collation)) {
+      return "";
+    }
+    return this.request.collation;
+  }
+
+  getPortraitCopyright() {
+    return this.getCopyright(this.portraitCopyright);
+  }
+
+  getAnimalCopyright() {
+    return this.getCopyright(this.portraitCopyright);
+  }
+
+  getCopyright(copyright) {
+    if (isEmpty(copyright)) {
+      return "";
+    }
+
+    // TODO get copyright for assets
+
+    switch (copyright) {
+      case "paizo":
+        return "Image &copy; Paizo Publishing";
+      case "wotc":
+        return "Image &copy; Wizards of the Coast";
+      default:
+        return copyright;
+    }
+  }
+
   getStylesheet() {
     // find both SASS-compiled and data-URL-embedded parts for each of those
     let cssParts = [];
@@ -809,6 +845,7 @@ export class Document {
 
     let isLoggedIn = this.isLoggedIn;
     let showSearch = this.hasUnit('data/search');
+    let showZoom = this.hasUnit('document/zoom');
 
     // the actual content
     let mainContent = registry.render(this.doc.contents, this);
@@ -951,8 +988,12 @@ Show values
 ` : ''}
 <button id='button--print' onclick="window.print();return false;"><i></i> ${__('Print')}</button>
 ${isLoggedIn ? `<button id='button--save' class="btn button--disabled"><i></i> ${__('Save')}</button>` : ''}
-${(isLoggedIn && showSearch) ? `
+${(isLoggedIn) ? `
 <div id='screen-buttons__right'>
+${showZoom ? `
+<button class='zoom-button'></button>
+` : ''}
+${showSearch ? `
 <form id="search-form">
 <label id="search-form__bar" for="search-form__input">
 <i class="icon icon_search search-form__icon"></i>
@@ -960,6 +1001,7 @@ ${(isLoggedIn && showSearch) ? `
 <kbd>/</kbd>
 </div>
 </form>
+` : ''}
 </div>
 ` : ''}
 </nav>

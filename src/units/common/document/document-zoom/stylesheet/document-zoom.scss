@@ -1,0 +1,76 @@
+.page-zoom-button {
+  display: none;
+}
+
+@media screen {
+  $factor: 2.5;
+  $page_width: 19.5cm;
+  $page_height: 27cm;
+
+  .zoom-button {
+    width: 20pt;
+    height: 20pt;
+    border: 2pt solid white;
+    background: none;
+    border-radius: 2pt;
+  }
+
+  html.zoom {
+    font-size: 10pt/$factor;
+    
+    main {
+      padding: 30pt 60pt;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 20pt;
+    }
+    
+    .page {
+      width: $page_width/$factor;
+      height: $page_height/$factor;
+      padding: 1cm/$factor;
+      
+      margin: 0;
+      box-shadow: 0 0 1cm/$factor rgba(0, 0, 0, 0.1);
+      
+      &--landscape {
+        width: $page_height/$factor;
+        height: $page_width/$factor;
+      }
+    }
+
+    .page__contents {
+      box-shadow: 0 0 30px/$factor rgba(255,255,255,0.6);
+      
+      margin: 0 -0.2rem/$factor;
+      padding: 0 0.2rem/$factor;
+    }
+
+    .page-zoom-button {
+      display: block;
+
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+
+      padding: 0;
+      margin: 0;
+      border: 0;
+
+      z-index: 100;
+      opacity: 0;
+    }
+  }
+}
+
+@media print {
+  .page-zoom-button {
+    display: none;
+  }
+}

@@ -47,7 +47,7 @@ inc:
                   border: full
                   width: large
                   suffix: "d6"
-                  eq: "floor(%{level}/2)"
+                  eq: "ceil(%{level}/2)"
                 inputs:
                   - ruby-round-up:
                     contents:
@@ -58,12 +58,22 @@ inc:
 
               - row:
                 contents:
-                  - value: "_{1d6}"
-                  - p: "_{Damage}"
+                  - value-block: "_{1d6}"
+                    content: "_{Damage}"
               - row:
                 contents:
-                  - value: "_{1d4}"
-                  - p: "_{rds before you can use breath weapon again}"
+                  - value-block: "_{1d4}"
+                    content: "_{rds}"
+                  - spacer:
+                  - field: "##:breath-weapon/cooldown"
+                    width: small
+                    underlay: "#"
+                  - field: "##:breath-weapon/cooldown/rds"
+                    frame: none
+                    control: checkgrid
+                    depth: 2
+                    max: 4
+              - p: "_{before you can use breath weapon again}"
 
   - at: '@secrets-of-magic/summoner/eidolon/symbiosis'
     replace:
