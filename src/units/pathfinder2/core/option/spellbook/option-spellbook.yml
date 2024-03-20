@@ -46,7 +46,7 @@ inc:
 
           - row:
             contents:
-              - field: '#{id}-final'
+              - field: '#{id}-school'
                 width: stretch
                 label: "_{School}"
               - field: '#{id}-ref'
@@ -55,6 +55,7 @@ inc:
 
   - copy: spellbook/header
     params:
+      book: 0
       i: 0
     contents:
       - g:
@@ -62,7 +63,7 @@ inc:
           - row:
             contents:
               - spacer:
-              - field: spellbook-col-#{i}-level
+              - field: spellbook-#{book}/col-#{i}/level
                 border: full
                 frame: circle
                 label: "_{Spell Level}"
@@ -89,7 +90,7 @@ inc:
             contents:
               - paste: spellbook/spell
                 params:
-                  id: "#{id}-spell-#{j}"
+                  id: "#{id}/spell-#{j}"
 
   - at: '@pages'
     add:
@@ -106,6 +107,7 @@ inc:
                 contents:
                   - paste: spellbook/header
                     params:
+                      book: 1
                       i: "#{i}"
           - layout: 3e
             contents:
@@ -116,5 +118,5 @@ inc:
                     contents:
                       - paste: spellbook/items
                         params:
-                          id: "spellbook-col-#{i}"
+                          id: "spellbook-#{book}/col-#{i}"
                       - tail:

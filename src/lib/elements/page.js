@@ -99,7 +99,7 @@ export let collate_pages = {
     let pages = args.contents;
 
     // Duplicate pages
-    pages = duplicatePages(pages, doc);
+    // pages = duplicatePages(pages, doc);
     
     // Combine half-pages into a single page
     pages = combinePages(pages);
@@ -140,7 +140,7 @@ function duplicatePages(pages, doc) {
   let pastSpellbook = 0;
 
   for (let page of pages) {
-    // log("collate-pages", "Page id:", page.id);
+    log("collate-pages", "Page id:", page.id);
 
     switch (page.id) {
       case "inventory-more":

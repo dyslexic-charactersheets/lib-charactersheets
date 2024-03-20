@@ -2319,7 +2319,7 @@ body.body--hide-values .field.field--control_p .p-spacer { opacity: 1; }
 /* document/zoom */
 .page-zoom-button { display: none; }
 
-@media screen { .zoom-button { width: 20pt; height: 20pt; border: 2pt solid white; background: none; border-radius: 2pt; }
+@media screen { .zoom-button { width: 30pt; height: 30pt; background-image: url('data:image/svg+xml,<svg width="100%" height="100%" viewBox="0 0 1182 1182" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><g transform="matrix(1.07362,0,0,1.05145,446.6,-40.5136)"><rect x="59.055" y="452.825" width="496.021" height="669.222" style="fill:none;stroke:white;stroke-opacity:0.46;stroke-width:19.61px;"/></g><g transform="matrix(1.07362,0,0,1.05145,75.1575,-434.284)"><rect x="59.055" y="452.825" width="496.021" height="669.222" style="fill:none;stroke:white;stroke-opacity:0.46;stroke-width:19.61px;"/></g><g transform="matrix(1,0,0,1,97.7644,-393.77)"><rect x="59.055" y="452.825" width="496.021" height="669.222" style="fill:white;fill-opacity:0.46;stroke:black;stroke-width:20.83px;"/></g><g transform="matrix(1,0,0,1,469.206,0)"><rect x="59.055" y="452.825" width="496.021" height="669.222" style="fill:rgb(235,235,235);stroke:black;stroke-width:20.83px;"/></g></svg>'); background-position: 50% 50%; background-repeat: no-repeat; background-color: transparent; box-shadow: none; border: 0 none; }
   html.zoom { font-size: 4pt; }
   html.zoom main { padding: 30pt 60pt; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; gap: 20pt; }
   html.zoom .page { width: 7.8cm; height: 10.8cm; padding: 0.4cm; margin: 0; box-shadow: 0 0 0.4cm rgba(51,23,58,0.1); }
@@ -3848,6 +3848,71 @@ Show values
 <nav id='enum-menu' class='control-menu'><div id='enum-menu__holder'></div></nav>
 
 <script type='text/javascript'>
+
+var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+if (isSafari) {
+  document.documentElement.classList.add("html--safari");
+}
+
+// click buttons to scroll
+for (let btn of document.getElementsByClassName('index-button')) {
+  ((btn) => {
+    let id = btn.dataset.page;
+    btn.addEventListener('click', (evt) => {
+      document.getElementById('page-'+id).scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  })(btn);
+}
+
+// on scroll, highlight the current page
+
+// if (document.getElementsByClassName('page').length > 15) {
+//   document.getElementById('index-buttons').classList.add('index-buttons--many');
+// }
+
+let scrollPages = [];
+function findScrollPages() {
+  scrollPages = [];
+  for (let page of document.getElementsByClassName('page')) {
+    let pageid = page.dataset.page;
+    let pagey = page.offsetTop + page.offsetHeight / 2;
+    scrollPages.push({y: pagey, id: pageid});
+  }
+  updateScroll();
+}
+findScrollPages();
+addEventListener("resize", findScrollPages);
+
+function updateScroll() {
+  let y = window.scrollY + window.innerHeight / 2;
+  let closestPage = scrollPages[0];
+  let closestDiff = 10000000;
+  for (let page of scrollPages) {
+    let diff = Math.abs(page.y - y);
+    if (diff < closestDiff) {
+      closestPage = page;
+      closestDiff = diff;
+    }
+  }
+
+  for (let btn of document.getElementsByClassName('index-button')) {
+    let page = btn.dataset.page;
+    if (page == closestPage.id) {
+      btn.classList.add('index-button--current');
+    } else {
+      btn.classList.remove('index-button--current');
+    }
+  }
+}
+
+document.addEventListener("scroll", (event) => {
+  updateScroll();
+});
+
+
 // Arrows
 for (let arrowElem of document.getElementsByClassName('arrow')) {
   let from = document.getElementById(arrowElem.dataset.from);
@@ -4051,71 +4116,6 @@ for (let arrowElem of document.getElementsByClassName('arrow')) {
   }
 }
 
-
-var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-if (isSafari) {
-  document.documentElement.classList.add("html--safari");
-}
-
-// click buttons to scroll
-for (let btn of document.getElementsByClassName('index-button')) {
-  ((btn) => {
-    let id = btn.dataset.page;
-    btn.addEventListener('click', (evt) => {
-      document.getElementById('page-'+id).scrollIntoView({
-        behavior: 'smooth'
-      });
-    });
-  })(btn);
-}
-
-// on scroll, highlight the current page
-
-// if (document.getElementsByClassName('page').length > 15) {
-//   document.getElementById('index-buttons').classList.add('index-buttons--many');
-// }
-
-let scrollPages = [];
-function findScrollPages() {
-  scrollPages = [];
-  for (let page of document.getElementsByClassName('page')) {
-    let pageid = page.dataset.page;
-    let pagey = page.offsetTop + page.offsetHeight / 2;
-    scrollPages.push({y: pagey, id: pageid});
-  }
-  updateScroll();
-}
-findScrollPages();
-addEventListener("resize", findScrollPages);
-
-function updateScroll() {
-  let y = window.scrollY + window.innerHeight / 2;
-  let closestPage = scrollPages[0];
-  let closestDiff = 10000000;
-  for (let page of scrollPages) {
-    let diff = Math.abs(page.y - y);
-    if (diff < closestDiff) {
-      closestPage = page;
-      closestDiff = diff;
-    }
-  }
-
-  for (let btn of document.getElementsByClassName('index-button')) {
-    let page = btn.dataset.page;
-    if (page == closestPage.id) {
-      btn.classList.add('index-button--current');
-    } else {
-      btn.classList.remove('index-button--current');
-    }
-  }
-}
-
-document.addEventListener("scroll", (event) => {
-  updateScroll();
-});
-
-
 // field interactions: ALIGNMENT
 
 function showAlignmentMenu(event) {
@@ -4191,6 +4191,23 @@ for (var field of document.getElementsByClassName("field--control_alignment")) {
   for (var grid of field.getElementsByClassName("field__frame")) {
     grid.addEventListener('click', showAlignmentMenu);
   }
+}
+
+// field interactions: checkboxes
+for (let field of document.getElementsByClassName('field--control_checkbox')) {
+  ((field) => {
+    let name = field.getAttribute('name').replace(/^field-/, '');
+    for (let checkbox of field.getElementsByTagName('input')) {
+      checkbox.addEventListener('input', (evt) => {
+        let checked = checkbox.checked;
+        for (let otherCheckbox of document.querySelectorAll('input[name="'+name+'"]')) {
+          if (checkbox == otherCheckbox)
+            continue;
+          otherCheckbox.checked = checked;
+        }
+      });
+    }
+  })(field);
 }
 
 // field interactions: ACTIONS
@@ -4279,6 +4296,51 @@ for (var field of document.getElementsByClassName("field--control_action-icon"))
   }
 }
 
+// field interactions: PARA
+
+for (let field of document.getElementsByClassName('field--control_p')) {
+  for (let control of field.getElementsByClassName('field__control')) {
+    ((control) => {
+      function updateEmpty() {
+        let empty = true;
+        for (let part of control.getElementsByClassName('p__editpart')) {
+          if (part.innerText != "") {
+            empty = false;
+          }
+        }
+        control.classList.toggle('field__control--empty', empty);
+      }
+
+      for (let part of control.getElementsByClassName('p__editpart')) {
+        part.addEventListener('input', updateEmpty);
+        ((part) => {
+          part.addEventListener('click', (evt) => {
+            setTimeout(() => {
+              part.focus();
+            }, 0);
+            evt.stopPropagation(); // don't fall back to the bigger click
+          })
+        })(part);
+      }
+
+      control.addEventListener('click', () => {
+        for (let part of control.getElementsByClassName('p__body')) {
+          ((part) => {
+            setTimeout(() => {
+              part.focus();
+              // set caret at end
+              let sel = window.getSelection();
+              sel.selectAllChildren(part);
+              sel.collapseToEnd();
+            }, 0);
+            return;
+          })(part);
+        }
+      });
+    })(control);
+  }
+}
+
 // field interactions: COUNTERS (ie runes)
 
 function showCounterMenu(event, field) {
@@ -4351,121 +4413,6 @@ for (var field of document.getElementsByClassName("field--control_counter")) {
   })(field);
 }
 
-// field interactions: checkboxes
-for (let field of document.getElementsByClassName('field--control_checkbox')) {
-  ((field) => {
-    let name = field.getAttribute('name').replace(/^field-/, '');
-    for (let checkbox of field.getElementsByTagName('input')) {
-      checkbox.addEventListener('input', (evt) => {
-        let checked = checkbox.checked;
-        for (let otherCheckbox of document.querySelectorAll('input[name="'+name+'"]')) {
-          if (checkbox == otherCheckbox)
-            continue;
-          otherCheckbox.checked = checked;
-        }
-      });
-    }
-  })(field);
-}
-
-// field interactions: PARA
-
-for (let field of document.getElementsByClassName('field--control_p')) {
-  for (let control of field.getElementsByClassName('field__control')) {
-    ((control) => {
-      function updateEmpty() {
-        let empty = true;
-        for (let part of control.getElementsByClassName('p__editpart')) {
-          if (part.innerText != "") {
-            empty = false;
-          }
-        }
-        control.classList.toggle('field__control--empty', empty);
-      }
-
-      for (let part of control.getElementsByClassName('p__editpart')) {
-        part.addEventListener('input', updateEmpty);
-        ((part) => {
-          part.addEventListener('click', (evt) => {
-            setTimeout(() => {
-              part.focus();
-            }, 0);
-            evt.stopPropagation(); // don't fall back to the bigger click
-          })
-        })(part);
-      }
-
-      control.addEventListener('click', () => {
-        for (let part of control.getElementsByClassName('p__body')) {
-          ((part) => {
-            setTimeout(() => {
-              part.focus();
-              // set caret at end
-              let sel = window.getSelection();
-              sel.selectAllChildren(part);
-              sel.collapseToEnd();
-            }, 0);
-            return;
-          })(part);
-        }
-      });
-    })(control);
-  }
-}
-
-// Mutating dice icon
-
-for (let icon of document.getElementsByClassName("icon_damage")) {
-  let frame = icon.closest('.field__frame');
-  if (frame === null || frame === undefined) {
-    continue;
-  }
-  for (var dieControl of frame.getElementsByClassName('field__control--damage-die')) {
-    for (var dieInput of dieControl.getElementsByTagName('input')) {
-      ((icon, dieInput) => {
-        dieInput.addEventListener('change', function (event) {
-          var cls = "";
-          switch (dieInput.value) {
-            case 4:
-            case "4":
-              cls = "icon_d4";
-              break;
-            case 6:
-            case "6":
-              cls = "icon_d6";
-              break;
-            case 8:
-            case "8":
-              cls = "icon_d8";
-              break;
-            case 10:
-            case "10":
-              cls = "icon_d10";
-              break;
-            case 12:
-            case "12":
-              cls = "icon_d12";
-              break;
-            case 20:
-            case "20":
-              cls = "icon_d20";
-              break;
-            default:
-              return;
-          }
-          icon.classList.remove("icon_d4");
-          icon.classList.remove("icon_d6");
-          icon.classList.remove("icon_d8");
-          icon.classList.remove("icon_d10");
-          icon.classList.remove("icon_d12");
-          icon.classList.remove("icon_d20");
-          icon.classList.add(cls);
-        });
-      })(icon, dieInput);
-    }
-  }
-}
-
 // Enum
 
 function showEnumMenu(event) {
@@ -4523,250 +4470,55 @@ for (var field of document.getElementsByClassName("field--control_enum")) {
   }
 }
 
-// field interactions: PROFICIENCY
+// Mutating dice icon
 
-function showProficiencyMenu(event) {
-  var field = event.target.closest('.field');
-  showMenu(event, 'proficiency', field);
-
-  var teml = getProficiencyValue(field.id);
-  menus.currentValue = teml;
-
-  document.getElementById('proficiency-menu-untrained').checked = false;
-  document.getElementById('proficiency-menu-trained').checked = false;
-  document.getElementById('proficiency-menu-expert').checked = false;
-  document.getElementById('proficiency-menu-master').checked = false;
-  document.getElementById('proficiency-menu-legendary').checked = false;
-
-  var hint = document.getElementById('proficiency-menu__level-hint');
-  hint.classList.add('row--fade');
-  if (teml !== null && teml !== "" && ['untrained', 'trained', 'expert', 'master', 'legendary'].includes(teml)) {
-    var radio = document.getElementById('proficiency-menu-'+teml);
-    if (radio !== null) {
-      radio.checked = true;
-    }
-
-    var bonuses = {
-      'untrained': 0,
-      'trained': 2,
-      'expert': 4,
-      'master': 6,
-      'legendary': 8
-    };
-    document.getElementById('proficiency-menu__plus').innerText = bonuses[teml];
-    if (teml != 'untrained') {
-      hint.classList.remove('row--fade');
-    }
+for (let icon of document.getElementsByClassName("icon_damage")) {
+  let frame = icon.closest('.field__frame');
+  if (frame === null || frame === undefined) {
+    continue;
   }
-  
-  // level hint
-  var level = '';
-  for (var levelInput of document.getElementsByName('level')) {
-    level = levelInput.value;
-  }
-  var output = document.getElementById('proficiency-menu__ref-level');
-  output.innerHTML = level;
-}
-
-function getProficiencyValue(fieldId) {
-  var field = document.getElementById(fieldId);
-  for (var rankControl of field.getElementsByClassName('field--control_proficiency__rank')) {
-    return rankControl.value;
-  }
-  return 'untrained';
-}
-
-function setProficiencyValue(fieldId, value) {
-  for (var field of document.getElementsByName(fieldId)) {
-    // update icon
-    var icon = field.getElementsByClassName('field--control_proficiency__icon')[0];
-    icon.classList.remove('icon_proficiency-untrained');
-    icon.classList.remove('icon_proficiency-trained');
-    icon.classList.remove('icon_proficiency-expert');
-    icon.classList.remove('icon_proficiency-master');
-    icon.classList.remove('icon_proficiency-legendary');
-    icon.classList.add('icon_proficiency-'+value);
-
-    for (var rankControl of field.getElementsByClassName('field--control_proficiency__rank')) {
-      rankControl.value = value;
-      redoProficiency();
-    }
-
-    for (var bonusControl of field.getElementsByClassName('field--control_proficiency__bonus')) {
-      bonusControl.dispatchEvent(new Event('change'));
-    }
-  }
-}
-
-for (var teml of ['untrained', 'trained', 'expert', 'master', 'legendary']) {
-  (function (teml) {
-    document.getElementById('proficiency-menu-'+teml).addEventListener('change', function (event) {
-      if (menus.currentFieldId !== null) {
-        if (menus.currentValue === null || menus.currentValue !== teml) {
-          setProficiencyValue(menus.currentFieldId, teml);
-          dismissMenus();
-        }
-      }
-    });
-  })(teml);
-}
-
-document.getElementById("proficiency-menu").addEventListener('click', function (event) {
-  event.stopPropagation();
-});
-
-for (var field of document.getElementsByClassName("field--control_proficiency")) {
-  for (var icon of field.getElementsByClassName("field__frame")) {
-    icon.addEventListener('click', showProficiencyMenu);
-  }
-  // for (var icon of field.getElementsByClassName("field__control--control_icon")) {
-  //   icon.addEventListener('click', showProficiencyMenu);
-  // }
-}
-
-// Ref Switch
-
-function getFieldLabel(name, useUnderlay = true) {
-  for (var field of document.getElementsByName(`field-${name}`)) {
-    if (useUnderlay) {
-      for (var underlay of field.getElementsByTagName('u')) {
-        let underlayText = underlay.innerHTML;
-        if (underlayText !== null && underlayText !== "") {
-          return underlayText;
-        }
-      }
-    }
-
-    for (var label of field.getElementsByTagName('label')) {
-      let labelText = label.innerHTML;
-      if (labelText !== null && labelText !== "") {
-        return labelText;
-      }
-    }
-  }
-  return "";
-}
-
-function showRefSwitchMenu(event) {
-  var field = event.target.closest('.field');
-  var id = field.id;
-  var fieldId = id.replace(/^field-/, '');
-  showMenu(event, 'ref-switch-'+id, field);
-
-  var value = getRefSwitchValue(field.id);
-  menus.currentValue = value;
-
-  var switchOptions = ['STR','DEX'];
-  for (let hiddenInput of field.getElementsByClassName('field--control_ref-switch__ref')) {
-    if (hiddenInput.dataset.hasOwnProperty('switch')) {
-      let sw = hiddenInput.dataset['switch'];
-      if (sw !== null && sw != "") {
-        switchOptions = sw.split(',');
-      }
-    }
-  }
-
-  for (var opt of switchOptions) {
-    var elem = document.getElementById(`ref-switch-${fieldId}-${opt}`);
-    if (elem !== null) {
-      elem.checked = false;
-      elem.removeAttribute('checked');
-    }
-  }
-  if (value !== null && value !== "") {
-    var elem = document.getElementById(`ref-switch-${fieldId}-${value}`);
-    elem.checked = true;
-    elem.setAttribute('checked', true);
-  }
-}
-
-function getRefSwitchValue(fieldId) {
-  var field = document.getElementById(fieldId);
-  for (var input of field.getElementsByTagName('input')) {
-    return input.value;
-  }
-}
-
-function setRefSwitchValue(fieldId, ref) {
-  var value = getFieldValue(ref);
-
-  // pick field label
-  var labelText = getFieldLabel(ref);
-  switch (ref) {
-    case 'STR': case 'construct/STR': labelText = "STR"; break;
-    case 'DEX': case 'construct/DEX': labelText = "DEX"; break;
-    case 'CON': labelText = "CON"; break;
-    case 'INT': labelText = "INT"; break;
-    case 'WIS': labelText = "WIS"; break;
-    case 'CHA': labelText = "CHA"; break;
-  }
-
-  for (var field of document.getElementsByName(fieldId)) {
-    for (var hiddenInput of field.getElementsByClassName('field--control_ref-switch__ref')) {
-      hiddenInput.value = ref;
-    }
-
-    for (var control of field.getElementsByClassName('field__control')) {
-      if (!control.classList.contains('field--inmenu__control')) {
-        for (var input of control.getElementsByTagName('input')) {
-          input.setAttribute('ref', ref);
-          input.value = value;
-          input.dispatchEvent(new Event('change'));
-        }
-      }
-    }
-
-    for (var label of field.getElementsByTagName('label')) {
-      if (!label.classList.contains('field--inmenu__label')) {
-        label.innerText = labelText;
-      }
-    }
-  }
-}
-
-for (var field of document.getElementsByClassName("field--control_ref-switch")) {
-  // get the list of options for this ref-switch field
-  var switchOptions = ['STR','DEX'];
-  for (let hiddenInput of field.getElementsByClassName('field--control_ref-switch__ref')) {
-    if (hiddenInput.dataset.hasOwnProperty('ref')) {
-      let ref = hiddenInput.dataset.ref;
-      if (ref !== null && ref != "") {
-        switchOptions = ref.split(',');
-      }
-    }
-  }
-  
-  // add change listener
-  for (let opt of field.getElementsByClassName('ref-switch')) {
-    ((opt) => {
-      let fieldId = field.id.replace(/^field-/, '');
-      let optValue = opt.value;
-      let optLabel = getFieldLabel(optValue);
-
-      opt.addEventListener('change', function (evt) {
-        if (menus.currentFieldId !== null) {
-          setRefSwitchValue(menus.currentFieldId, optValue);
-          dismissMenus();
-        }
-      });
-
-      // select a value when somebody clicks on the preview field
-      let clickField = document.getElementById(`menu-field-ref-switch-${fieldId}-${optValue}`);
-      if (clickField != null) {
-        clickField.addEventListener('click', (evt) => {
-          opt.click();
+  for (var dieControl of frame.getElementsByClassName('field__control--damage-die')) {
+    for (var dieInput of dieControl.getElementsByTagName('input')) {
+      ((icon, dieInput) => {
+        dieInput.addEventListener('change', function (event) {
+          var cls = "";
+          switch (dieInput.value) {
+            case 4:
+            case "4":
+              cls = "icon_d4";
+              break;
+            case 6:
+            case "6":
+              cls = "icon_d6";
+              break;
+            case 8:
+            case "8":
+              cls = "icon_d8";
+              break;
+            case 10:
+            case "10":
+              cls = "icon_d10";
+              break;
+            case 12:
+            case "12":
+              cls = "icon_d12";
+              break;
+            case 20:
+            case "20":
+              cls = "icon_d20";
+              break;
+            default:
+              return;
+          }
+          icon.classList.remove("icon_d4");
+          icon.classList.remove("icon_d6");
+          icon.classList.remove("icon_d8");
+          icon.classList.remove("icon_d10");
+          icon.classList.remove("icon_d12");
+          icon.classList.remove("icon_d20");
+          icon.classList.add(cls);
         });
-        for (let label of clickField.getElementsByTagName('label')) {
-          label.innerText = optLabel;
-        }
-      }
-    })(opt);
-  }
-
-  // show the menu when we click on the field - but not other sub-fields
-  for (var frame of field.getElementsByClassName("field__frame")) {
-    if (!frame.classList.contains('field--inmenu__frame')) {
-      frame.addEventListener('click', showRefSwitchMenu);
+      })(icon, dieInput);
     }
   }
 }
@@ -4982,6 +4734,254 @@ for (var input of document.getElementsByName('level')) {
 }
 
 updatePageTitle();
+
+// Ref Switch
+
+function getFieldLabel(name, useUnderlay = true) {
+  for (var field of document.getElementsByName(`field-${name}`)) {
+    if (useUnderlay) {
+      for (var underlay of field.getElementsByTagName('u')) {
+        let underlayText = underlay.innerHTML;
+        if (underlayText !== null && underlayText !== "") {
+          return underlayText;
+        }
+      }
+    }
+
+    for (var label of field.getElementsByTagName('label')) {
+      let labelText = label.innerHTML;
+      if (labelText !== null && labelText !== "") {
+        return labelText;
+      }
+    }
+  }
+  return "";
+}
+
+function showRefSwitchMenu(event) {
+  var field = event.target.closest('.field');
+  var id = field.id;
+  var fieldId = id.replace(/^field-/, '');
+  showMenu(event, 'ref-switch-'+id, field);
+
+  var value = getRefSwitchValue(field.id);
+  menus.currentValue = value;
+
+  var switchOptions = ['STR','DEX'];
+  for (let hiddenInput of field.getElementsByClassName('field--control_ref-switch__ref')) {
+    if (hiddenInput.dataset.hasOwnProperty('switch')) {
+      let sw = hiddenInput.dataset['switch'];
+      if (sw !== null && sw != "") {
+        switchOptions = sw.split(',');
+      }
+    }
+  }
+
+  for (var opt of switchOptions) {
+    var elem = document.getElementById(`ref-switch-${fieldId}-${opt}`);
+    if (elem !== null) {
+      elem.checked = false;
+      elem.removeAttribute('checked');
+    }
+  }
+  if (value !== null && value !== "") {
+    var elem = document.getElementById(`ref-switch-${fieldId}-${value}`);
+    elem.checked = true;
+    elem.setAttribute('checked', true);
+  }
+}
+
+function getRefSwitchValue(fieldId) {
+  var field = document.getElementById(fieldId);
+  for (var input of field.getElementsByTagName('input')) {
+    return input.value;
+  }
+}
+
+function setRefSwitchValue(fieldId, ref) {
+  var value = getFieldValue(ref);
+
+  // pick field label
+  var labelText = getFieldLabel(ref);
+  switch (ref) {
+    case 'STR': case 'construct/STR': labelText = "STR"; break;
+    case 'DEX': case 'construct/DEX': labelText = "DEX"; break;
+    case 'CON': labelText = "CON"; break;
+    case 'INT': labelText = "INT"; break;
+    case 'WIS': labelText = "WIS"; break;
+    case 'CHA': labelText = "CHA"; break;
+  }
+
+  for (var field of document.getElementsByName(fieldId)) {
+    for (var hiddenInput of field.getElementsByClassName('field--control_ref-switch__ref')) {
+      hiddenInput.value = ref;
+    }
+
+    for (var control of field.getElementsByClassName('field__control')) {
+      if (!control.classList.contains('field--inmenu__control')) {
+        for (var input of control.getElementsByTagName('input')) {
+          input.setAttribute('ref', ref);
+          input.value = value;
+          input.dispatchEvent(new Event('change'));
+        }
+      }
+    }
+
+    for (var label of field.getElementsByTagName('label')) {
+      if (!label.classList.contains('field--inmenu__label')) {
+        label.innerText = labelText;
+      }
+    }
+  }
+}
+
+for (var field of document.getElementsByClassName("field--control_ref-switch")) {
+  // get the list of options for this ref-switch field
+  var switchOptions = ['STR','DEX'];
+  for (let hiddenInput of field.getElementsByClassName('field--control_ref-switch__ref')) {
+    if (hiddenInput.dataset.hasOwnProperty('ref')) {
+      let ref = hiddenInput.dataset.ref;
+      if (ref !== null && ref != "") {
+        switchOptions = ref.split(',');
+      }
+    }
+  }
+  
+  // add change listener
+  for (let opt of field.getElementsByClassName('ref-switch')) {
+    ((opt) => {
+      let fieldId = field.id.replace(/^field-/, '');
+      let optValue = opt.value;
+      let optLabel = getFieldLabel(optValue);
+
+      opt.addEventListener('change', function (evt) {
+        if (menus.currentFieldId !== null) {
+          setRefSwitchValue(menus.currentFieldId, optValue);
+          dismissMenus();
+        }
+      });
+
+      // select a value when somebody clicks on the preview field
+      let clickField = document.getElementById(`menu-field-ref-switch-${fieldId}-${optValue}`);
+      if (clickField != null) {
+        clickField.addEventListener('click', (evt) => {
+          opt.click();
+        });
+        for (let label of clickField.getElementsByTagName('label')) {
+          label.innerText = optLabel;
+        }
+      }
+    })(opt);
+  }
+
+  // show the menu when we click on the field - but not other sub-fields
+  for (var frame of field.getElementsByClassName("field__frame")) {
+    if (!frame.classList.contains('field--inmenu__frame')) {
+      frame.addEventListener('click', showRefSwitchMenu);
+    }
+  }
+}
+
+// field interactions: PROFICIENCY
+
+function showProficiencyMenu(event) {
+  var field = event.target.closest('.field');
+  showMenu(event, 'proficiency', field);
+
+  var teml = getProficiencyValue(field.id);
+  menus.currentValue = teml;
+
+  document.getElementById('proficiency-menu-untrained').checked = false;
+  document.getElementById('proficiency-menu-trained').checked = false;
+  document.getElementById('proficiency-menu-expert').checked = false;
+  document.getElementById('proficiency-menu-master').checked = false;
+  document.getElementById('proficiency-menu-legendary').checked = false;
+
+  var hint = document.getElementById('proficiency-menu__level-hint');
+  hint.classList.add('row--fade');
+  if (teml !== null && teml !== "" && ['untrained', 'trained', 'expert', 'master', 'legendary'].includes(teml)) {
+    var radio = document.getElementById('proficiency-menu-'+teml);
+    if (radio !== null) {
+      radio.checked = true;
+    }
+
+    var bonuses = {
+      'untrained': 0,
+      'trained': 2,
+      'expert': 4,
+      'master': 6,
+      'legendary': 8
+    };
+    document.getElementById('proficiency-menu__plus').innerText = bonuses[teml];
+    if (teml != 'untrained') {
+      hint.classList.remove('row--fade');
+    }
+  }
+  
+  // level hint
+  var level = '';
+  for (var levelInput of document.getElementsByName('level')) {
+    level = levelInput.value;
+  }
+  var output = document.getElementById('proficiency-menu__ref-level');
+  output.innerHTML = level;
+}
+
+function getProficiencyValue(fieldId) {
+  var field = document.getElementById(fieldId);
+  for (var rankControl of field.getElementsByClassName('field--control_proficiency__rank')) {
+    return rankControl.value;
+  }
+  return 'untrained';
+}
+
+function setProficiencyValue(fieldId, value) {
+  for (var field of document.getElementsByName(fieldId)) {
+    // update icon
+    var icon = field.getElementsByClassName('field--control_proficiency__icon')[0];
+    icon.classList.remove('icon_proficiency-untrained');
+    icon.classList.remove('icon_proficiency-trained');
+    icon.classList.remove('icon_proficiency-expert');
+    icon.classList.remove('icon_proficiency-master');
+    icon.classList.remove('icon_proficiency-legendary');
+    icon.classList.add('icon_proficiency-'+value);
+
+    for (var rankControl of field.getElementsByClassName('field--control_proficiency__rank')) {
+      rankControl.value = value;
+      redoProficiency();
+    }
+
+    for (var bonusControl of field.getElementsByClassName('field--control_proficiency__bonus')) {
+      bonusControl.dispatchEvent(new Event('change'));
+    }
+  }
+}
+
+for (var teml of ['untrained', 'trained', 'expert', 'master', 'legendary']) {
+  (function (teml) {
+    document.getElementById('proficiency-menu-'+teml).addEventListener('change', function (event) {
+      if (menus.currentFieldId !== null) {
+        if (menus.currentValue === null || menus.currentValue !== teml) {
+          setProficiencyValue(menus.currentFieldId, teml);
+          dismissMenus();
+        }
+      }
+    });
+  })(teml);
+}
+
+document.getElementById("proficiency-menu").addEventListener('click', function (event) {
+  event.stopPropagation();
+});
+
+for (var field of document.getElementsByClassName("field--control_proficiency")) {
+  for (var icon of field.getElementsByClassName("field__frame")) {
+    icon.addEventListener('click', showProficiencyMenu);
+  }
+  // for (var icon of field.getElementsByClassName("field__control--control_icon")) {
+  //   icon.addEventListener('click', showProficiencyMenu);
+  // }
+}
 
 // Field calculations
 var calculations = {'build/ancestry-speed--sq': (v) => req(['build/ancestry-speed--ft'],floor(v('build/ancestry-speed--ft')/5)),
