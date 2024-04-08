@@ -49,6 +49,7 @@ export class Instance {
         // "data/note",
         // "data/roll",
         "document/zoom",
+        // "document/spotlight",
       ];
     } else {
       return [ "data/no-edit" ];

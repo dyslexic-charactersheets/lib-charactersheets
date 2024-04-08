@@ -846,6 +846,7 @@ export class Document {
     let isLoggedIn = this.isLoggedIn;
     let showSearch = this.hasUnit('data/search');
     let showZoom = this.hasUnit('document/zoom');
+    let showSpotlight = this.hasUnit('document/spotlight');
 
     // the actual content
     let mainContent = registry.render(this.doc.contents, this);
@@ -953,6 +954,9 @@ export class Document {
     }
 
     return `<!DOCTYPE html>
+
+<!--  ${this.doc.title}  -->
+
 <html lang='${this.language}' class='${htmlClasses.join(" ")}'>
 <head>
 <meta charset='utf-8'/>
@@ -971,6 +975,7 @@ ${indexButtons}
 ${mainContent}
 </main>
 
+${showSpotlight ? `<div id='spotlight'></div>` : ''}
 <div class='screen-message' id='screen-message-safari'>
 <p>Backgrounds are currently unavailable on Safari and iOS devices.</p>
 <p>If printing on Safari, please deselect "Print headers and footers".</p>
@@ -991,7 +996,7 @@ ${isLoggedIn ? `<button id='button--save' class="btn button--disabled"><i></i> $
 ${(isLoggedIn) ? `
 <div id='screen-buttons__right'>
 ${showZoom ? `
-<button class='zoom-button'></button>
+<button class='zoom-button'><i></i> <span>Pages</span></button>
 ` : ''}
 ${showSearch ? `
 <form id="search-form">

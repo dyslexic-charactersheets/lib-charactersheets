@@ -201,18 +201,16 @@ inc:
                     contents:
                       - row: center
                         contents:
-                          - field: '##:divine-font'
-                            value: heal
+                          - field: '##:divine-font/heal'
                             frame: left
-                            control: radio
+                            control: checkbox
                             label: "_{Heal}"
                           - icon: good
                           - span: "&nbsp;"
                           - icon: evil
-                          - field: divine-font
-                            value: harm
+                          - field: '##:divine-font/harm'
                             frame: right
-                            control: radio
+                            control: checkbox
                             label: "_{Harm}"
                       
                       - hr:
@@ -254,12 +252,14 @@ inc:
                                       - field: "##:divine-font/1/damage"
                                         width: large
                                         frame: none
+                                        icon: damage
                                         control: compound
                                         parts:
                                           - subid: dice
                                             suffix: "_{d}"
                                             eq: "%{##:divine-font/dice}"
                                           - subid: die
+                                            damage-die: true
                                             eq: "%{##:divine-font/die}"
                                       - spacer:
                                   - span: "1"
@@ -273,12 +273,14 @@ inc:
                                       - field: "##:divine-font/2/damage"
                                         width: large
                                         frame: none
+                                        icon: damage
                                         control: compound
                                         parts:
                                           - subid: dice
                                             suffix: "_{d}"
                                             eq: "%{##:divine-font/dice}"
                                           - subid: die
+                                            damage-die: true
                                             eq: "%{##:divine-font/die}"
                                       - unspacer:
                                       - field: "##:divine-font/2/damage/bonus"
@@ -297,12 +299,14 @@ inc:
                                       - field: "##:divine-font/3/damage"
                                         width: large
                                         frame: none
+                                        icon: damage
                                         control: compound
                                         parts:
                                           - subid: dice
                                             suffix: "_{d}"
                                             eq: "%{##:divine-font/dice}"
                                           - subid: die
+                                            damage-die: true
                                             eq: "%{##:divine-font/die}"
                                       - spacer:
                                   - span: "_{All}"
@@ -317,6 +321,7 @@ inc:
                                 output:
                                   field: "##:divine-font/dice"
                                   legend: "_{Dice}"
+                                  icon: d8
                                   eq: "%{focus-level}"
                                 inputs:
                                   - field:
@@ -329,7 +334,7 @@ inc:
                                 underlay: "8"
                                 border: full
                                 prefix: "_{d}"
-                                eq: "((%{##:divine-font}=='heal')?%{##:divine-font/healing-hands}:%{##:divine-font/harming-hands})?10:8"
+                                eq: "((%{##:divine-font/heal} && %{##:divine-font/healing-hands}) || (%{##:divine-font/harm} && %{##:divine-font/harming-hands}))?10:8"
                               - spacer:
 
                               - calc:
