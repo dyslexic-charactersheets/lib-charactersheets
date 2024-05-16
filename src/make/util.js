@@ -1,6 +1,6 @@
 'use strict';
 
-const _ = require('lodash');
+// const _ = require('lodash');
 
 // Polyfills
 
@@ -44,6 +44,10 @@ function isNull(val) {
   return val === null || val === undefined;
 }
 
+function isEmpty(val) {
+  return val === null || val === undefined || val == "" || (Array.isArray(val) && val.length == 0);
+}
+
 function isString(val) {
   return typeof val === 'string' || val instanceof String;
 }
@@ -60,19 +64,24 @@ function isObject(val) {
   return val instanceof Object;
 }
 
+function has(container, property) {
+  if (isNull(container)) return false;
+  return Object.prototype.hasOwnProperty.call(container, property) && !isNull(container[property]);
+}
+
 function interpolate(template, values) {
   if (isNull(template)) {
     return null;
   }
 
   if (isString(template)) {
-    if (_.has(values, "unit")) {
+    if (has(values, "unit")) {
       template = template.replace(/##/g, values.unit);
     }
     return template.replace(/#\{(.*?)\}/g, function (tag) {
       const match = tag.match(/#\{(.*?)\}/);
       const index = match[1];
-      if (_.has(values, index)) {
+      if (has(values, index)) {
         return values[index];
       }
       return match[0];
@@ -81,7 +90,7 @@ function interpolate(template, values) {
 
   if (isArray(template)) {
     const product = template.map(item => interpolate(item, values));
-    return product.flatMap(item => isArray(item) ? item : [ item ]);
+    return product.flatMap(item => isArray(item) ? item : [item]);
   }
 
   if (isObject(template)) {
@@ -98,10 +107,10 @@ function interpolate(template, values) {
       first = template[first];
     if (first == 'param') {
       const paramkey = pairs[0][1];
-      if (_.has(values, paramkey)) {
+      if (has(values, paramkey)) {
         return values[paramkey];
       }
-    } else if (first == 'item' && _.has(values, 'item') && !isEmpty(values.item)) {
+    } else if (first == 'item' && has(values, 'item') && !isEmpty(values.item)) {
       // log("util", "Interpolate: item", values.item);
       return values.item;
     }
@@ -113,5 +122,8 @@ function interpolate(template, values) {
 }
 
 module.exports = {
-    interpolate,
+  has,
+  isEmpty,
+  isNull,
+  interpolate,
 };

@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 require('./log');
-const units = require('./units');
+const units = require('./units_v2');
 const formdata = require('./formdata');
 
 const systems = [
@@ -14,10 +14,10 @@ const systems = [
         code: "pathfinder2",
         name: "Pathfinder 2nd Edition"
     },
-    {
-        code: "pathfinder2remaster",
-        name: "Pathfinder 2nd Edition Remaster"
-    },
+    // {
+    //     code: "pathfinder2remaster",
+    //     name: "Pathfinder 2nd Edition Remaster"
+    // },
     // {
     //     code: "starfinder2",
     //     name: "Starfinder 2nd Edition"
@@ -35,7 +35,7 @@ const systems = [
 systems.forEach(system => {
     log("make", "Building system "+system.name);
 
-    units.loadSystem(system.code, system.name, (systemUnits) => {
+    units.loadSystem(system.code, system.name).then((systemUnits) => {
         log("make", `Built system ${system.name} (${systemUnits.length} units)`);
 
         system.units = systemUnits;

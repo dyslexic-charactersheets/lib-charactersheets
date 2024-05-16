@@ -4,27 +4,17 @@
 
 require('./log');
 
-const fs = require('fs');
-const path = require('path');
+// const fs = require('fs');
+// const path = require('path');
 
 const _ = require('lodash');
 
-// const baseDir = path.dirname(__dirname)+"/";
-// log("data", "Base dir:", baseDir);
-
-// var loadingQueue = [];
-
-// var storedData = {};
-// var base64Data = {};
-// var storedDataURLs = {};
+const { has, isEmpty, isNull } = require('./util.js');
 
 const MIME_SVG = 'image/svg+xml';
 const MIME_PNG = 'image/png';
 const MIME_JPEG = 'image/jpeg';
-// const MIME_WOFF = 'application/font-woff;charset=utf-8';
-// const MIME_WOFF = 'application/x-font-woff;charset=utf-8';
 const MIME_WOFF = 'application/x-font-woff;charset=utf-8';
-// const MIME_WOFF = 'font/woff;charset=utf-8';
 const MIME_WOFF2 = 'application/font-woff2;charset=utf-8'
 const MIME_SCSS = 'text/x-scss';
 const MIME_HANDLEBARS = 'text/x-handlebars';
@@ -44,7 +34,7 @@ function mimeType(filename) {
 }
 
 function processBase64(data) {
-    if (_.isUndefined(data) || _.isNull(data))
+    if (isNull(data))
         return '';
     data = data.replace(/\n$/, '');
     data = data.replace(/[\r\n]/g, '');
@@ -79,8 +69,8 @@ function toDataURL (data, base64, filename) {
     switch (mime) {
         case MIME_SVG:
             // log("data", "Returning data for", filename);
-            if (_.isNull(data) || _.isEmpty(data)) {
-                warn("data", 'No data for file:', filename);
+            if (isEmpty(data)) {
+                warn("dataURL", 'No data for file:', filename);
                 return '';
             }
             data = processSVG(data);
@@ -88,8 +78,8 @@ function toDataURL (data, base64, filename) {
 
         default:
             // log("data", "Returning base64 data for", filename);
-            if (_.isNull(base64) || _.isEmpty(base64)) {
-              warn("data", 'No base64 data for file:', filename);
+            if (isEmpty(base64)) {
+              warn("dataURL", 'No base64 data for file:', filename);
               return '';
             }
             base64 = processBase64(base64);
@@ -99,24 +89,24 @@ function toDataURL (data, base64, filename) {
 
 function getDataURL (unit, filename) {
     // log("data", "getDataURL", unit+":"+filename);
-    var data = (_.has(CharacterSheets._assets, unit) && _.has(CharacterSheets._assets[unit], filename) && !_.isEmpty(CharacterSheets._assets[unit][filename])) ?
+    var data = (has(CharacterSheets._assets, unit) && has(CharacterSheets._assets[unit], filename) && !isEmpty(CharacterSheets._assets[unit][filename])) ?
         CharacterSheets._assets[unit][filename] :
         CharacterSheets._allAssets[filename];
         
     var base64name = filename+".base64";
-    var base64 = (_.has(CharacterSheets._assets, unit) && _.has(CharacterSheets._assets[unit], base64name) && !_.isEmpty(CharacterSheets._assets[unit][base64name])) ?
+    var base64 = (has(CharacterSheets._assets, unit) && has(CharacterSheets._assets[unit], base64name) && !isEmpty(CharacterSheets._assets[unit][base64name])) ?
         CharacterSheets._assets[unit][base64name] :
         CharacterSheets._allAssets[base64name];
 
 
-    if (_.isNull(data) && _.isNull(base64)) {
-        // log("data", "Data URL: Data not found", unit+":"+filename);
+    if (isNull(data) && isNull(base64)) {
+        // log("dataURL", "Data URL: Data not found", unit+":"+filename);
         return '';
     } else {
-        // log("data", "Data URL: data:", _.isNull(data) ? "no" : "yes", " base64:", _.isNull(base64) ? "no" : "yes");
+        // log("dataURL", "Data URL: data:", _.isNull(data) ? "no" : "yes", " base64:", _.isNull(base64) ? "no" : "yes");
     }
     var url = toDataURL(data, base64, filename);
-    // log("data", "URL:", url.substr(0, 30)+"...");
+    // log("dataURL", "URL:", url.substr(0, 30)+"...");
     return url;
 }
 

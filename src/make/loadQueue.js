@@ -1,143 +1,180 @@
-'use strict';
-
 const fs = require('fs');
-
-const _ = require('lodash');
-
-
-var loadPromises = [];
+const fsPromises = require('fs/promises');
 
 class LoadQueue {
-    constructor(binmode) {
-        this._by_filename = {};
-        this._data = {};
-    }
+  constructor(systemName, timeout) {
+    this.systemName = systemName;
+    this.timeout = timeout;
+    this.debug = false;
 
-    enqueue(filename, callback) {
-        var promise = new Promise((resolve, reject) => {
-            try {
-                callback(resolve, reject);
-            } catch (e) {
-                reject(e);
-            }
-        });
-        this._by_filename[filename] = promise;
-        return promise;
-    }
+    this.all = [];
+    this.byCategory = {
+      walk: [],
+      units: [],
+      files: [],
+      assets: [],
+      stylesheets: [],
+      javascripts: [],
+    };
+    // this.byFilename = {};
+    // this.loadedData = {};
+  }
 
-    loadItem(filename, callback) {
-        var d = this._data;
-        if (_.has(this._by_filename, filename)) {
-            this.readyItem(filename, callback);
+  category(cat) {
+    return this.byCategory[cat];
+  }
+
+  // Enqueue a single promise
+  // Optionally with a timeout
+  enqueue(cat, name, promise) {
+    let info = {cat, name, done: false};
+    let timeoutValue = this.timeout;
+
+    info.promise = new Promise((resolve, reject) => {
+      if (this.debug) log("LoadQueue", "Enqueue: Enacting", cat, name);
+      let timeout = null;
+      if (timeoutValue) {
+        timeout = setTimeout(() => {
+          if (info.done) {
             return;
+          }
+          info.done = true;
+          error("LoadQueue", "Enqueue: Timeout!", cat, name);
+          resolve();
+        }, timeoutValue);
+      }
+
+      promise.then((result) => {
+        info.done = true;
+        if (this.debug) log("LoadQueue", "Enqueue: Done", cat, name);
+        if (timeout != null) {
+          clearTimeout(timeout);
+          timeout = null;
         }
-    
-        // Actually load a file
-        var promise = new Promise((resolve, reject) => {
-            var encoding = 'utf-8';
-            if (filename.match(/\.(png|jpg|jpeg)$/)) encoding = 'binary';
-            fs.readFile(filename, encoding, function (err, data) {
-                if (err) {
-                    if (err.code == 'ENOENT') {
-                        // warn("load", "No such file", filename);
-                        return;
-                    }
-                    error("load", "Error loading file", filename);
-                    reject();
-                    return;
-                }
-                d[filename] = data;
-                if (callback !== null) {
-                    callback(data, filename);
-                    resolve();
-                }
-            });
-        });
-    
-        this._by_filename[filename] = promise;
-        loadPromises.push(promise);
-        return promise;
-    }
+        resolve(result);
+      }).catch((x) => {
+        if (timeout != null) {
+          clearTimeout(timeout);
+          timeout = null;
+        }
+        info.done = true;
+        error("LoadQueue", "Enqueue: Error", cat, name, x);
+        resolve(x);
+      });
+    });
 
-    // callback(file, rel)
-    walkDirectory(dir, test, callback) {
-        var f = this._by_filename;
-        var d = this._data;
+    info.then = (fn) => info.promise.then(fn);
+    info.catch = (fn) => info.promise.catch(fn);
 
-        function walk(absdir, reldir) {
-            // log("load", "Walking...", reldir);
-            try {
-                var files = fs.readdirSync(absdir, { withFileTypes: true });
-                _.each(files, file => {
-                    var absfile = absdir+"/"+file.name;
-                    var relfile = (reldir == "" ? "" : reldir+"/")+file.name;
-                    if (file.isDirectory()) {
-                        walk(absfile, relfile);
-                    } else {
-                        if (test(relfile)) {
-                            var filepromise = new Promise((resolve, reject) => {
-                                fs.readFile(absfile, 'utf-8', (err, data) => {
-                                    // log("load", "Walking file...", reldir);
-                                    if (err) {
-                                        error("load", "Error reading file", absfile, error);
-                                        return;
-                                    }
+    this.all.push(info);
+    this.byCategory[cat].push(info);
+    return info;
+  }
 
-                                    d[absfile] = callback(data, relfile);
-                                    resolve();
-                                })
-                            });
-                            loadPromises.push(filepromise);
-                            f[relfile] = filepromise;
-                        }
-                    }
-                });
-            } catch (e) {
-                error("load", "Error walking directory", absdir, e);
-                return;
+  // Load one file, adding to the given queue
+  loadFile(cat, relfile, absfile) {
+    return this.enqueue(cat, relfile, new Promise((resolve, reject) => {
+      fsPromises.readFile(absfile, 'utf-8').then((data) => {
+        // this.loadedData[absfile] = callback(data, relfile);
+        // log("LoadQueue", "loadFile: resolve", relfile, data);
+        resolve({filename: relfile, data});
+      }).catch((err) => {
+        error("load", "loadFile: Error reading file", cat, absfile, err);
+        reject(err);
+      });
+    }));
+  }
+
+  walkDirectory(cat, dir, fnCheck, fnCallback) {
+    let self = this;
+
+    function walk(absdir, reldir) {
+      if (self.debug) log("load", "Walking...", reldir);
+      try {
+        let files = fs.readdirSync(absdir, { withFileTypes: true });
+        for (let file of files) {
+          var absfile = absdir + "/" + file.name;
+          var relfile = (reldir == "" ? "" : reldir + "/") + file.name;
+          if (file.isDirectory()) {
+            walk(absfile, relfile);
+          } else {
+            if (fnCheck(relfile)) {
+              // fnCallback(relfile, absfile);
+              self.loadFile(cat, relfile, absfile).then(fnCallback);
             }
-        };
-
-        // log("load", "Walking dir:", dir);
-        walk(dir, '');
-    }
-
-    readyItem(filename, callback) {
-        if (_.has(this._data, filename)) {
-            callback(this._data[filename]);
+          }
         }
-        if (_.has(this._by_filename, filename)) {
-            this._by_filename[filename].then(callback);
-        }
+      } catch (e) {
+        error("load", "Error walking directory", absdir, e);
+        return;
+      }
     }
 
-    getItem(filename) {
-        if (_.has(this._data, filename)) {
-            return this._data[filename];
-        }
+    this.enqueue('walk', `${cat}: ${dir}`, new Promise((resolve, reject) => {
+      walk(dir, '');
+      resolve();
+    }));
+  }
+
+  readyByCategory(cat) {
+    return new Promise((resolve, reject) => {
+      let walkPromises = this.byCategory['walk'].map((info) => info.promise);
+      // log("LoadQueue", `readyByCategory(${cat}): ${walkPromises.length} walk promises`);
+      Promise.allSettled(walkPromises).then(() => {
+        let catPromises = this.byCategory[cat].map((info) => info.promise);
+        // log("LoadQueue", `readyByCategory(${cat}): ${catPromises.length} promises`);
+        Promise.allSettled(catPromises).then(() => {
+          resolve();
+        }).catch((err) => reject(err));
+      }).catch((err) => reject(err));
+    })
+  }
+
+  readyAll() {
+    return new Promise((resolve, reject) => {
+      let walkPromises = this.byCategory['walk'].map((info) => info.promise);
+      // log("LoadQueue", `readyAll: ${walkPromises.length} walk promises`);
+      Promise.allSettled(walkPromises).then(() => {
+        let allPromises = this.all.map((info) => info.promise);
+        // log("LoadQueue", `readyAll: ${allPromises.length} promises`);
+        Promise.allSettled(allPromises).then(() => {
+          resolve();
+        }).catch((err) => reject(err));
+      }).catch((err) => reject(err));
+    });
+  }
+
+  progress() {
+    let unfulfilled = [];
+    for (let info of this.all) {
+      if (!info.done) {
+        unfulfilled.push(info);
+      }
+    }
+    let nfulfilled = this.all.length - unfulfilled.length;
+    log("LoadQueue", `Progress ${this.systemName}: ${nfulfilled} of ${this.all.length}`);
+  }
+
+  debug() {
+    let unfulfilled = [];
+    for (let info of this.all) {
+      if (!info.done) {
+        unfulfilled.push(info);
+      }
     }
 
-    ready(callback) {
-        Promise.all(_.values(this._by_filename)).then(callback).catch(err => {
-            error("load", "Queue error", err, err.stack);
-        });
+    if (unfulfilled.length > 0) {
+      warn("LoadQueue", `${unfulfilled.length} of ${this.all.length} unfulfilled promises`);
+      for (let info of unfulfilled) {
+        warn("LoadQueue", " -", info.cat, info.name);
+      }
     }
+  }
 }
+
 
 module.exports = {
-    files: new LoadQueue(),
-    assets: new LoadQueue(),
-    stylesheets: new LoadQueue(),
-    javascripts: new LoadQueue(),
-    units: new LoadQueue(),
-    ready: callback => {
-        Promise.all(loadPromises).then(() => {
-            Promise.all(loadPromises).then(callback).catch(err => {
-                error("load", "Queue error:", err, err.stack);
-            });
-        }).catch(err => {
-            error("load", "Queue error:", err, err.stack);
-        });
-    }
-}
-
+  LoadQueue,
+  walkDirectory,
+  loadFile,
+};
