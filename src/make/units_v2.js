@@ -232,7 +232,7 @@ async function loadUnitStylesheet(unitdata, assetStore) {
     //   return;
     // }
 
-    log("units", "Stylesheet rendered", unitdata.id);
+    // log("units", "Stylesheet rendered", unitdata.id);
     var css = result.css.toString();
     var template = Handlebars.compile(css);
     var rendered = `/* ${unitdata.id} */\n` + template({
@@ -284,7 +284,7 @@ async function loadUnitJavascript(unitdata, assetStore) {
         }
       });
     });
-    log("units", "loadUnitJavascript", `Joining ${jsParts.length} parts`, unitdata.id);
+    // log("units", "loadUnitJavascript", `Joining ${jsParts.length} parts`, unitdata.id);
     return jsParts.join("\n");
   }
   return "";

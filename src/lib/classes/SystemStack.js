@@ -13,7 +13,7 @@ class SystemStack {
   getUnit(code) {
     for (let system of this.systems) {
       if (system.hasUnit(code)) {
-        log ("SystemStack", "Unit", code, "in", system.code);
+        // log ("SystemStack", "Unit", code, "in", system.code);
         return system.getUnit(code);
       }
     }
@@ -70,7 +70,7 @@ class SystemStack {
               moreunits.push(newunit);
               more = true; // let's do this again
             } else {
-              log("SystemStack", `Required unit not found: ${req.unit}`);
+              warn("SystemStack", `Required unit not found: ${req.unit}`);
             }
           });
         }

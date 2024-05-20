@@ -74,7 +74,7 @@ function getDataURL(unit, filename, options) {
   } else {
     // log("data", "Data URL: data:", _.isNull(data) ? "no" : "yes", " base64:", _.isNull(base64) ? "no" : "yes");
   }
-  log("helpers", `toDataURL: ${filename} data: ${data === null ? 'absent' : 'present'}, base64: ${base64 === null ? 'absent' : 'present'}`);
+  // log("helpers", `toDataURL: ${filename} data: ${data === null ? 'absent' : 'present'}, base64: ${base64 === null ? 'absent' : 'present'}`);
   let url = dataURLs.toDataURL(data, base64, filename);
   // log("data", "URL:", url.substr(0, 30)+"...");
   return url;

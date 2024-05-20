@@ -83,6 +83,11 @@ function interpolate(template, values) {
       const index = match[1];
       if (has(values, index)) {
         return values[index];
+      } else {
+        const trinaryMatch = index.match(/(.*)\?(.*):(.*)/);
+        if (trinaryMatch) {
+          let ok = toBoolean(trinaryMatch[1]);
+        }
       }
       return match[0];
     });
