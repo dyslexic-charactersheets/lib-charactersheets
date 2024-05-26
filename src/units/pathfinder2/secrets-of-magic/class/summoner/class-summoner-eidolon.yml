@@ -139,15 +139,21 @@ inc:
                             width: stretch
                             align: left
                             size: large
+                          - row:
+                            contents:
+                              - zone: '@secrets-of-magic/summoner/eidolon/type'
+                                contents:
+                                  - field: eidolon/type
+                                    label: "_{Eidolon Type}"
+                                    width: stretch
+                              - field: eidolon/type/subtype
+                                label: "_{Subtype}"
+                                width: stretch
+
                           - layout: alignment
                             contents:
                               - g:
                                 contents:
-                                  - zone: '@secrets-of-magic/summoner/eidolon/type'
-                                    contents:
-                                      - field: eidolon/type
-                                        label: "_{Eidolon Type}"
-                                        width: stretch
                                   - row:
                                     contents:
                                       - field: eidolon/home-plane
@@ -178,8 +184,6 @@ inc:
                                 control: alignment
                                 frame: none
 
-
-
                       - section: "_{Skills}"
                         contents:
                           - table:
@@ -192,8 +196,9 @@ inc:
                               - label: ""
                                 align: right
                               - "_{Skill\nBonus}"
-                              - 
+                              - ""
                               - "_{Ability\nModifier}"
+                              - ""
                               - "_{Proficiency}"
                             rows:
                               - skill: acrobatics
@@ -260,9 +265,25 @@ inc:
                                 label: "_{Thievery}"
                                 ability: "_{DEX}"
                                 abilityref: DEX
+                              - skill: "lore-1"
+                                label: "_{Lore}:"
+                                ability: "_{INT}"
+                                abilityref: INT
+                                blank: true
                             template:
-                              - h6: "#{label}"
+                              - row:
                                 blk: false
+                                contents:
+                                  - h6: "#{label}"
+                                    blk: false
+                                  - if: "#{blank}"
+                                    then:
+                                      - field: "eidolon/#{skill}-detail"
+                                        frame: none
+                                        width: stretch
+                                        merge-bottom: true
+                                    else:
+                                      - span:
                               - field: "eidolon/#{skill}-bonus"
                                 border: full
                                 icon: bonus
@@ -537,6 +558,7 @@ inc:
                                     legend: "_{Will}"
                                     short: "_{WILL}"
                                     ability: "_{WIS}"
+                                    abilityref: WIS
                                 template:
                                   - calc:
                                     output:
