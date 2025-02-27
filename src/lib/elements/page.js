@@ -2,10 +2,16 @@ import { elementID, elementClass, embed } from '../util/elements';
 import { cloneDeep, has, interpolate } from '../util/objects';
 import { isEmpty } from '../util';
 import { log } from '../log';
+import { __ } from '../i18n';
 
 const paizoCopyrightAttribution = `<div class='copyright-attribution'><p>
 <b>&copy; Marcus Downing &nbsp; <a href='https://www.dyslexic-charactersheets.com/'>dyslexic-charactersheets.com</a></b>
-<span>This character sheet uses trademarks and/or copyrights owned by Paizo Publishing, LLC, which are used under Paizo's Community Use Policy. We are expressly prohibited from charging you to use or access this content. This character sheet is not published, endorsed, or specifically approved by Paizo Publishing. For more information about Paizo's Community Use Policy, please visit <a href='http://paizo.com/communityuse'>paizo.com/communityuse</a>. For more information about Paizo Publishing and Paizo products, please visit <a href='http://paizo.com'>paizo.com</a>.</span>
+<span>
+This character sheet uses trademarks and/or copyrights owned by Paizo Publishing, LLC, which are used under Paizo's <a href='paizo.com/licenses/communityuse'>Community Use Policy</a>.
+We are expressly prohibited from charging you to use or access this content.
+This character sheet is not published, endorsed, or specifically approved by Paizo.
+For more information about Paizo Inc. and Paizo products, visit <a href='https://paizo.com'>paizo.com</a>.
+</span>
 </p></div>`;
 
 export let page = {
@@ -63,7 +69,6 @@ export let page = {
         let line = Math.ceil(num / 2);
         let leftright = (num % 2) ? 'left' : 'right';
         return `<div class='page__note page__note--num-${line} page__note--${leftright}' id='${id}__note-${num}'>
-  <!-- <button class='page__note__add'></button> -->
   <div class='page__note__field'>
     <textarea class='page__note__control'></textarea>
   </div>
@@ -75,16 +80,24 @@ export let page = {
       }
     }
 
+    let pagePrintToggle = '';
     let pageZoomButton = '';
     if (doc.hasUnit('document/zoom')) {
+      pagePrintToggle = `
+<label for='print-page-${args.id}' class='toggle toggle-print-page'>
+<span class='left-label'>${__("Don't print")}</span>
+<input type='checkbox' id='print-page-${args.id}' checked>
+<span class='toggle-switch'></span>
+<span class='right-label'>${__("Print")}</span>
+</label>`;
       pageZoomButton = `<button class='page-zoom-button' data-page='${args.id}'></button>`;
     }
 
-    return `<div${id}${cls} data-page='${args.id}'>${background}${fill}
+    return `<div class='page-container'><div${id}${cls} data-page='${args.id}'>${background}${fill}
       ${copyrightAttribution}${pageNumber}${watermark}
       <div class='page__contents'>${reg.render(args.contents, doc)}</div>
       ${pageNotes}${pageZoomButton}
-      </div>
+      </div>${pagePrintToggle}</div>
       `;
   }
 }

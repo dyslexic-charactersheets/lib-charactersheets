@@ -1,0 +1,576 @@
+unit: option/untamed-form
+name: "_{Untamed Form}"
+group: "_{Player Core}"
+
+inc:
+
+  - copy: 'untamed-form/info-line'
+    params:
+      n:
+      ac:
+      speed:
+      reach: "_{5ft}"
+    contents:
+      - row:
+        contents:
+          - field: "untamed-form/#{n}/ac"
+            label: "_{Armour Class}"
+            underlay: "_{AC}"
+          - spacer:
+          - field: "untamed-form/#{n}/speed"
+            control: speed
+            label: "_{Speed}"
+            border: full
+            width: huge
+            value: "#{speed}"
+          - spacer:
+          - field: "untamed-form/#{n}/reach"
+            control: speed
+            label: "_{Reach}"
+            width: huge
+            value: "#{reach}"
+          - spacer:
+
+  - copy: 'untamed-form/animal-info'
+    params:
+      first: false
+      animal:
+      extra:
+      name:
+      speed:
+      climb-speed:
+      fly-speed:
+      attack:
+      attack-damage:
+      attack-damage-type:
+    contents:
+      - g:
+        contents:
+          - row:
+            contents:
+              - h6: "#{name}"
+              - spacer:
+              - if: "#{extra}"
+                then:
+                  - p: "#{extra}"
+              - if: "#{speed}"
+                then:
+                  - value: "#{speed}"
+                    label: "_{Speed}"
+                    frame: left
+                    width: large
+              - if: "#{climb-speed}"
+                then:
+                  - value: "#{climb-speed}"
+                    label: "_{Climb\nSpeed}"
+                    frame: left
+                    width: large
+              - if: "#{fly-speed}"
+                then:
+                  - value: "#{fly-speed}"
+                    label: "_{Fly\nSpeed}"
+                    frame: left
+                    width: large
+              - spacer:
+
+          - if: "#{attack}"
+            then:
+              - paste: untamed-form/animal-info/attack-line
+                params:
+                  n: 1
+                  first: "#{first}"
+                  attack: "#{attack}"
+                  tag: "#{attack-tag}"
+                  damage: "#{attack-damage}"
+                  damage-type: "#{attack-damage-type}"
+                      
+          - if: "#{attack2}"
+            then:
+              - paste: untamed-form/animal-info/attack-line
+                params:
+                  n: 2
+                  attack: "#{attack2}"
+                  tag: "#{attack2-tag}"
+                  damage: "#{attack2-damage}"
+                  damage-type: "#{attack2-damage-type}"
+          
+                      
+  - copy: untamed-form/animal-info/attack-line
+    params:
+      n:
+      first: false
+      attack:
+      tag:
+      damage:
+      damage-type:
+    contents:
+      - action:
+        contents:
+          - row:
+            contents:
+              - h6: "#{attack}"
+              - spacer:
+              - if: "#{tag}"
+                then:
+                  - flags:
+                      - "#{tag}"
+              - value: "#{damage}"
+                frame: none
+                width: large
+              - label: "#{damage-type}"
+
+  - copy: untamed-form/base-shape-info
+    params:
+      first: false
+      lvl:
+      marker: ""
+      base-ac:
+      speed:
+      fly-speed:
+      attack:
+      dmg-bonus:
+    contents:
+      - level: "#{lvl}"
+        marker: "#{marker}"
+        contents:
+          - row:
+            contents:
+              - g:
+                contents:
+                  # - if: "#{title}"
+                  #   then:
+                  #     - h5: "#{title}"
+                  - if: "#{subtitle}"
+                    then:
+                      - p: "#{subtitle}"
+              - spacer:
+              - if: "#{first}"
+                then:
+                  - if: "#{base-ac}"
+                    then:
+                      - value: "#{base-ac}"
+                        frame: top
+                        label: "_{Base AC}"
+                  - if: "#{speed}"
+                    then:
+                      - value: "#{speed}"
+                        frame: top
+                        label: "_{Speed}"
+                        width: large
+                  - if: "#{fly-speed}"
+                    then:
+                      - value: "#{fly-speed}"
+                        frame: top
+                        label: "_{Fly Speed}"
+                        width: large
+                        
+                  - if: "#{temp-hp}"
+                    then:
+                      - value: "#{temp-hp}"
+                        frame: top
+                        label: "_{Temp HP}"
+                        width: large
+                  - if: "#{attack}"
+                    then:
+                      - value: "+#{attack}"
+                        frame: top
+                        label: "_{Attack}"
+                  - if: "#{dmg-bonus}"
+                    then:
+                      - value: "+#{dmg-bonus}"
+                        frame: top
+                        width: large
+                        label: "_{Damage\nbonus}"
+                  - if: "#{athletics}"
+                    then:
+                      - value: "+#{athletics}"
+                        frame: top
+                        width: large
+                        label: "_{Athletics}"
+                else:
+                  - if: "#{base-ac}"
+                    then:
+                      - value: "#{base-ac}"
+                  - if: "#{speed}"
+                    then:
+                      - value: "#{speed}"
+                        width: large
+                  - if: "#{fly-speed}"
+                    then:
+                      - value: "#{fly-speed}"
+                        width: large
+                        
+                  - if: "#{temp-hp}"
+                    then:
+                      - value: "#{temp-hp}"
+                        width: large
+                  - if: "#{attack}"
+                    then:
+                      - value: "+#{attack}"
+                  - if: "#{dmg-bonus}"
+                    then:
+                      - value: "+#{dmg-bonus}"
+                        width: large
+                  - if: "#{athletics}"
+                    then:
+                      - value: "+#{athletics}"
+                        width: large
+          - item:
+
+  - at: '@pages'
+    add:
+      - page: untamed-form
+        name: "_{Untamed Form}"
+        order: 25
+        flex: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-name: "_{Untamed Form}"
+
+                  - section: "_{Untamed Form}"
+                    primary: true
+                    contents:
+
+                      - action: 2
+                        contents:
+                          - p: "_{Assume another form}"
+
+                      - hr:
+                      
+                      - layout: indent-l
+                        contents:
+                          - g:
+                          - row:
+                            contents:
+                              - h5: "_{Pest Form}"
+                              - spacer:
+                              - cost: "10"
+                                unit: "_{mins}"
+
+                      - list:
+                        zebra: true
+                        contents:
+                          - paste: untamed-form/base-shape-info
+                            params:
+                              first: true
+                              lvl: 1
+                              marker: "_{Spell\nlevel}"
+                              title: "_{Pest Form}"
+                              subtitle: "_{Tiny creature}"
+                              base-ac: 15
+                              speed: "_{10ft}"
+
+                          - paste: untamed-form/base-shape-info
+                            params:
+                              first: true
+                              lvl: 4
+                              subtitle: "_{Tiny flying creature}"
+                              fly-speed: "_{20ft}"
+
+                      - hr:
+
+                      - layout: indent-l
+                        contents:
+                          - g:
+                          - row:
+                            contents:
+                              - h5: "_{Animal Form}"
+                              - spacer:
+                              - cost: "1"
+                                unit: "_{min}"
+
+                      - list:
+                        zebra: true
+                        contents:
+                          - paste: untamed-form/base-shape-info
+                            params:
+                              first: true
+                              subtitle: "_{Medium}"
+                              lvl: 2
+                              marker: "_{Spell\nlevel}"
+                              base-ac: 16
+                              temp-hp: 5
+                              attack: 9
+                              dmg-bonus: 1
+                              athletics: 9
+                            contents:
+                              - p: "_{Low-light vision}, _{Imprecise scent 30ft}"
+
+                          - paste: untamed-form/base-shape-info
+                            params:
+                              lvl: 3
+                              base-ac: 17
+                              temp-hp: 10
+                              attack: 14
+                              dmg-bonus: 5
+                              athletics: 14
+
+                          - paste: untamed-form/base-shape-info
+                            params:
+                              lvl: 4
+                              subtitle: "_{Large}"
+                              base-ac: 18
+                              temp-hp: 15
+                              attack: 16
+                              dmg-bonus: 9
+                              athletics: 16
+
+                          - paste: untamed-form/base-shape-info
+                            params:
+                              lvl: 5
+                              subtitle: "_{Huge}"
+                              base-ac: 18
+                              temp-hp: 20
+                              attack: 18
+                              dmg-bonus: 7
+                              athletics: 20
+                            contents:
+                              - p: "_{Double damage dice}"
+
+                  - section: "_{Animal Shapes}"
+                    contents:
+                      - list:
+                        hr: true
+                        light: true
+                        zebra: true
+                        contents:
+                          - paste: 'untamed-form/animal-info'
+                            params:
+                              animal: ape
+                              name: "_{Ape}"
+                              speed: "_{25ft}"
+                              attack: "_{Fist}"
+                              attack-damage: "_{2d6}"
+                              attack-damage-type: "_{bludgeoning}"
+                          - paste: 'untamed-form/animal-info'
+                            params:
+                              animal: bear
+                              name: "_{Bear}"
+                              speed: "_{30ft}"
+                              attack: "_{Jaws}"
+                              attack-damage: "_{2d8}"
+                              attack-damage-type: "_{piercing}"
+                              attack2: "_{Claws}"
+                              attack2-tag: "_{Agile}"
+                              attack2-damage: "_{1d8}"
+                              attack2-damage-type: "_{slashing}"
+                          - paste: 'untamed-form/animal-info'
+                            params:
+                              animal: bull
+                              name: "_{Bull}"
+                              speed: "_{30ft}"
+                              attack: "_{Fist}"
+                              attack-damage: "_{2d6}"
+                              attack-damage-type: "_{bludgeoning}"
+                          - paste: 'untamed-form/animal-info'
+                            params:
+                              animal: canine
+                              name: "_{Canine}"
+                              speed: "_{40ft}"
+                              attack: "_{Jaws}"
+                              attack-damage: "_{2d8}"
+                              attack-damage-type: "_{piercing}"
+                          - paste: 'untamed-form/animal-info'
+                            params:
+                              animal: cat
+                              name: "_{Cat}"
+                              speed: "_{40ft}"
+                              attack: "_{Jaws}"
+                              attack-damage: "_{2d6}"
+                              attack-damage-type: "_{piercing}"
+                              attack2: "_{Claws}"
+                              attack2-tag: "_{Agile}"
+                              attack2-damage: "_{1d10}"
+                              attack2-damage-type: "_{slashing}"
+                          - paste: 'untamed-form/animal-info'
+                            params:
+                              animal: deer
+                              name: "_{Deer}"
+                              speed: "_{50ft}"
+                              attack: "_{Antler}"
+                              attack-damage: "_{2d6}"
+                              attack-damage-type: "_{piercing}"
+                          - paste: 'untamed-form/animal-info'
+                            params:
+                              animal: frog
+                              name: "_{Frog}"
+                              speed: "_{25ft}"
+                              swim-speed: "_{25ft}"
+                              attack: "_{Jaws}"
+                              attack-damage: "_{2d6}"
+                              attack-damage-type: "_{bludgeoning}"
+                              attack2: "_{Tongue}"
+                              attack2-extra: "_{Reach 15ft}"
+                              attack2-damage: "_{2d4}"
+                              attack2-damage-type: "_{bludgining}"
+                          - paste: 'untamed-form/animal-info'
+                            params:
+                              animal: shark
+                              name: "_{Shark}"
+                              swim-speed: "_{35ft}"
+                              attack: "_{Jaws}"
+                              attack-damage: "_{2d8}"
+                              attack-damage-type: "_{piercing}"
+                              extra: "_{breathe underwater but not in air}"
+                          - paste: 'untamed-form/animal-info'
+                            params:
+                              animal: snake
+                              name: "_{Snake}"
+                              speed: "_{20ft}"
+                              climb-speed: "_{20ft}"
+                              swim-speed: "_{20ft}"
+                              attack: "_{Jaws}"
+                              attack-damage: "_{2d6}"
+                              attack-damage-type: "_{piercing}"
+                              attack-extra: "_{1d6 poison}"
+                  - tail:
+                  # - spacer:
+
+              - g:
+                contents:
+                  - section: "_{Pest Form}"
+                    contents:
+                      - row:
+                        contents:
+                          - calc:
+                            output:
+                              field: 'untamed-form/pest-form/ac'
+                              legend: "_{Armour Class}"
+                              width: huge
+                              underlay: "_{AC}"
+                            inputs:
+                              - span: "="
+                              - field: 'untamed-form/pest-form/ac/form'
+                                value: 15
+                              - span: "+"
+                              - field:
+                                ref: level
+                                label: "_{Level}"
+
+                      - layout: 2e
+                        contents:
+                          - g:
+                            contents:
+                              - p: "_{Weakness 5 to physical damage}"
+                              - p: "_{Low-light vision}, _{Imprecise scent} _{30ft}"
+
+                          - row:
+                            contents:
+                              - spacer:
+                              - value: "+10"
+                                frame: top
+                                width: large
+                                label: "_{Acrobatics}"
+                              - value: "+10"
+                                frame: top
+                                width: large
+                                label: "_{Stealth}"
+                              - value: "-4"
+                                frame: top
+                                width: large
+                                label: "_{Athletics}"
+
+                  - section: "_{Forms}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - repeat: 4
+                            contents:
+                              - g:
+                                contents:
+
+                                  - row:
+                                    contents:
+                                      - field:
+                                        size: large
+                                        width: stretch
+                                        frame: none
+
+                                      - field: 'untamed-form/#{i}/speed'
+                                        label: "_{Speed}"
+                                        control: speed
+                                        border: full
+
+                                  - row:
+                                    contents:
+                                      - calc:
+                                        output:
+                                          field: 'untamed-form/#{i}/ac'
+                                          legend: "_{Armour Class}"
+                                          width: huge
+                                          underlay: "_{AC}"
+                                        inputs:
+                                          - span: "="
+                                          - field: 'untamed-form/#{i}/ac/form'
+                                            label: "_{Form}"
+                                          - span: "+"
+                                          - field:
+                                            ref: level
+                                            label: "_{Level}"
+
+                                      - field: 'untamed-form/#{i}/temp-hp'
+                                        legend: "_{Temp HP}"
+                                        suffix: "_{hp}"
+                                        border: full
+
+                                      - field: 'untamed-form/#{i}/temp-hp/current'
+                                        label: "_{Current Temp Hit Points}"
+                                        suffix: "_{hp}"
+                                        temp: true
+                                        border: full
+                                        width: huge
+
+                                  - layout: 2e
+                                    contents:
+                                      - field: 'untamed-form/#{i}/perception'
+                                        width: stretch
+                                        label: "_{Perception}"
+                                      - field: 'untamed-form/#{i}/skills'
+                                        width: stretch
+                                        label: "_{Skills}"
+
+                                  - repeat: 2
+                                    index: j
+                                    merge-bottom: true
+                                    contents:
+                                      - action:
+                                        contents:
+                                          - row:
+                                            contents:
+                                              - field: 'untamed-form/#{i}/attack/#{j}'
+                                                width: stretch
+                                              - field: 'untamed-form/#{i}/attack/#{j}/bonus'
+                                                border: full
+                                                width: large
+                                                label: "_{Attack Bonus}"
+                                                icon: bonus
+                                              - field: 'untamed-form/#{i}/attack/#{j}/bonus'
+                                                border: full
+                                                label: "_{Damage}"
+                                                width: huge
+                                                icon: damage
+                                                control: compound
+                                                parts:
+                                                  - subid: ndice
+                                                    width: tiny
+                                                    align: right
+                                                    format: int
+                                                  - label: "_{d}"
+                                                  - subid: die
+                                                    width: tiny
+                                                    align: left
+                                                    damage-die: true
+                                                    format: int
+                                                  - label: "+"
+                                                  - subid: extra
+                                                    width: tiny
+                                                    format: int
+                                              - field: 'untamed-form/#{i}/attack/#{j}/extra'
+                                                width: huge
+
+                  - tail:

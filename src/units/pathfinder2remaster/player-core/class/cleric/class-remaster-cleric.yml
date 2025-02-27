@@ -129,55 +129,17 @@ inc:
                         
                       - row: center
                         contents:
-                          - field: "##:sanctification"
-                            value: holy
+                          - field: "##:holy"
                             frame: left
-                            control: radio
+                            control: checkbox
                             label: "_{Holy}"
                           - icon: good
                           - span: "&nbsp; &nbsp; &nbsp;"
                           - icon: evil
-                          - field: "##:sanctification"
-                            value: unholy
+                          - field: "##:unholy"
                             frame: right
-                            control: radio
+                            control: checkbox
                             label: "_{Unholy}"
-
-                  # - section: "_{Doctrine}"
-                  #   primary: true
-                  #   flex: large
-                  #   contents:
-                  #     - list:
-                  #       hr: true
-                  #       contents:
-                  #         - zone: '@cleric-doctrine'
-                  #           contents:
-                  #             - field: cleric-doctrine
-                  #               frame: none
-                  #               width: stretch
-                  #               align: center
-                  #               merge-bottom: true
-                  #               size: huge
-                  #             - list:
-                  #               hr: true
-                  #               merge-bottom: true
-                  #               contents:
-                  #                 - repeat: 6
-                  #                   rows:
-                  #                     - level: 1
-                  #                     - level: 3
-                  #                     - level: 7
-                  #                     - level: 11
-                  #                     - level: 15
-                  #                     - level: 19
-                  #                   contents:
-                  #                     - level: '#{level}'
-                  #                       contents:
-                  #                         - field: cleric-doctrine-#{i}
-                  #                           width: stretch
-                  #                           frame: none
-                  #                           repeat: 2
-                  #                           merge-bottom: true
 
                   - section: "_{Anathema}"
                     flex: small
@@ -211,93 +173,215 @@ inc:
                     contents:
                       - row: split
                         contents:
-                          - calc:
-                            output:
-                              field: divine-font-per-day
-                              legend: "_{Uses per day}"
-                              width: huge
-                              eq: "1+%{CHA}"
-                            inputs:
-                              - span: "1 +"
-                              - field:
-                                ref: CHA
-                                label: "_{CHA}"
-                                underlay: "_{CHA}"
+                          - field: divine-font-per-day
+                            legend: "_{Uses per day}"
+                            width: large
+                            border: full
+                            eq: "1+%{CHA}"
+                            
+                          - span: "= 4"
+
+                          - vr:
+                          - level-marker: 5
+                          - span: 5
+
+                          - vr:
+                          - level-marker: 15
+                          - span: 6
+
+                          - spacer:
                           - field: divine-font-today
                             label: "_{Used today}"
                             control: checkgrid
                             depth: 2
                             max: 10
                         
-                      - table: "##:actions"
-                        collapse: true
-                        columns:
-                          - label:
-                          - label:
-                        rows:
-                          - row:
-                            contents:
-                              - icon: action
-                                align: left
-                              - icon: action2
-                                align: left
-                              - icon: action3
-                                align: left
-                          - row:
-                            contents:
+                      - g:
+                        pad: true
+                        contents:
+                          - table:
+                            columns:
+                              - "_{Action}"
+                              - "_{Healing / Damage}"
+                              - "_{Target}"
+                              - "_{Range}"
+                            rows:
                               - row:
                                 contents:
-                                  - field: divine-font-dmg
-                                    legend: "_{Healing / Damage}"
-                                    control: compound
-                                    border: full
-                                    parts:
-                                      - field:
-                                        size: small
-                                        ruby: "_{Level}"
-                                        ref: level
-                                      - span: "_{d}"
-                                      - subid: die
-                                        size: tiny
-                                        underlay: "8"
-                                    width: huge
-                                  - spacer:
-                                  - vr:
-                              - row:
-                                contents:
+                                  - action:
                                   - row:
                                     contents:
-                                  - span: "+"
-                                  - field:
-                                    ref: level
-                                    label: "_{Level}"
-                                  - span: "&times; 8"
-                                  - spacer:
-                                  - field: divine-font-range
-                                    label: "_{Range}"
-                                    control: value
-                                    value: "_{30ft}"
-                                  - vr:
+                                      - field: "##:divine-font/1/damage"
+                                        width: large
+                                        frame: none
+                                        icon: damage
+                                        control: compound
+                                        parts:
+                                          - subid: dice
+                                            suffix: "_{d}"
+                                            eq: "%{##:divine-font/dice}"
+                                          - subid: die
+                                            damage-die: true
+                                            eq: "%{##:divine-font/die}"
+                                      - spacer:
+                                  - span: "1"
+                                  - span: "_{Touch}"
+
                               - row:
                                 contents:
-                                  - p: "_{All allies and enemies in range}"
-                                    blk: false
+                                  - action: 2
+                                  - row:
+                                    contents:
+                                      - field: "##:divine-font/2/damage"
+                                        width: large
+                                        frame: none
+                                        icon: damage
+                                        control: compound
+                                        parts:
+                                          - subid: dice
+                                            suffix: "_{d}"
+                                            eq: "%{##:divine-font/dice}"
+                                          - subid: die
+                                            damage-die: true
+                                            eq: "%{##:divine-font/die}"
+                                      - unspacer:
+                                      - field: "##:divine-font/2/damage/bonus"
+                                        prefix: "+"
+                                        frame: none
+                                        eq: "%{##:divine-font/bonus}"
+                                      - spacer:
+                                  - span: "1"
+                                  - span: "_{30ft}"
 
-                      - calc:
-                        output:
-                          field: "##:divine-font/damage"
-                          legend: "_{Healing/\ndamage\ndice}"
-                          eq: "floor(%{level}/2)"
-                          width: huge
-                        inputs:
-                          - ruby-round-up:
+                              - row:
+                                contents:
+                                  - action: 3
+                                  - row:
+                                    contents:
+                                      - field: "##:divine-font/3/damage"
+                                        width: large
+                                        frame: none
+                                        icon: damage
+                                        control: compound
+                                        parts:
+                                          - subid: dice
+                                            suffix: "_{d}"
+                                            eq: "%{##:divine-font/dice}"
+                                          - subid: die
+                                            damage-die: true
+                                            eq: "%{##:divine-font/die}"
+                                      - spacer:
+                                  - span: "_{All}"
+                                  - span: "_{30ft burst}"
+
+                          - p: "&nbsp;"
+                          - p: "&nbsp;"
+
+                          - row:
                             contents:
-                              - field:
-                                ref: level
-                                label: "_{Level}"
-                              - span: "&divide; 2"
+                              - calc: 
+                                output:
+                                  field: "##:divine-font/dice"
+                                  legend: "_{Dice}"
+                                  icon: d8
+                                  eq: "%{focus-level}"
+                                inputs:
+                                  - field:
+                                    ref: focus-level
+                                    label: "_{Spell Level}"
 
-                      # - p: "_{Healing/damage dice = Max Spell Level}"
+                              - spacer:
+                              - field: "##:divine-font/die"
+                                legend: "_{Die}"
+                                underlay: "8"
+                                border: full
+                                prefix: "_{d}"
+                                eq: "(((%{##:holy} || %{##:versatile-font}) && %{##:divine-font/healing-hands}) || ((%{##:unholy} || %{##:versatile-font}) && %{##:divine-font/harming-hands}))?10:8"
+                              - spacer:
+
+                              - calc:
+                                output:
+                                  field: "##:divine-font/bonus"
+                                  legend: "_{Bonus}"
+                                  width: lage
+                                  eq: "%{focus-level}*8"
+                                inputs:
+                                  - field:
+                                    ref: focus-level
+                                    label: "_{Spell Level}"
+                                  - span: "&times; 8"
+
+                          - arrow: up
+                            from: "field-##:divine-font/dice"
+                            to: "##:divine-font/3/damage-dice"
+                            anchor: to
+
+                          - arrow: up
+                            from: "field-##:divine-font/die"
+                            to: "##:divine-font/3/damage-die"
+                            anchor: to
+
+                          - arrow: up
+                            from: "field-##:divine-font/bonus"
+                            to: "field-##:divine-font/2/damage/bonus"
+                            anchor: to
+
+                      - p: "_{Targets get a basic Fortitude save against damage}"
+
+                      - g:
+                        optional: true
+                        contents:
+                          - hr:
+
+                          - list:
+                            hr: true
+                            light: true
+                            contents:
+                              - row:
+                                contents:
+                                  - selectable: "##:divine-font/healing-hands"
+                                    contents:
+                                      - p:
+                                        title: "_{Healing hands}"
+                                  - selectable: "##:divine-font/harming-hands"
+                                    contents:
+                                      - p:
+                                        title: "_{Harming hands}"
+                                  - span: "_{d10}"
+
+                              - row:
+                                contents:
+                                  - selectable: "##:divine-font/communal-healing"
+                                    contents:
+                                      - p:
+                                        title: "_{Communal Healing}"
+                                              
+                                  - selectable: "##:divine-font/sap-life"
+                                    contents:
+                                      - p:
+                                        title: "_{Sap Life}"
+
+                                  - calc:
+                                    output:
+                                      field: "##:divine-font/communal-healing/hp"
+                                      label: "_{Heal Self}"
+                                      eq: "%{focus-level}"
+                                    inputs:
+                                      - field:
+                                        ref: "focus-level"
+                                        label: "_{Spell Level}"
+
+                              - selectable: "##:divine-font/versatile-font"
+                                contents:
+                                  - p:
+                                    title: "_{Versatile Font}"
+                                    content: "_{May prepare heal or harm}"
+
+                              - selectable: "##:divine-font/turn-undead"
+                                contents:
+                                  - p:
+                                    title: "_{Turn undead}"
+                                    content: "_{Undead who critically fail are fleeing 1}"      
 
                   - tail:
                   - spacer:

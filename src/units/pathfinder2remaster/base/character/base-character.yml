@@ -32,7 +32,7 @@ form:
     default: half
 
 require:
-  - unit: prototype/class
+  - unit: defs/prototypes
 
 inc:
 
@@ -96,6 +96,7 @@ inc:
                   - section:
                     id: ident
                     untitled: true
+                    flex: none
                     contents:
                       - list:
                         zebra: true
@@ -162,6 +163,7 @@ inc:
                                 reduce: 1
                                 merge-bottom: true
                           - g:
+                            flex: none
                             contents:
                               - h5: "_{Attributes}"
 
@@ -206,6 +208,7 @@ inc:
                                                 underlay: "#{short}"
                                                 format: modifier
                                           - field: "#{code}-half"
+                                            control: checkbox
                                             label: "&half;"
                                             frame: left
 
@@ -737,8 +740,8 @@ inc:
                         avoid-shade: true
                         contents:
                           - slots:
-                            min: 4
-                            max: 5
+                            min: 6
+                            max: 8
                             reduce: 1
                             placeholder:
                               action: template
@@ -748,9 +751,6 @@ inc:
                                   control: p
                                   frame: none
                                   lines: 2
-                                # - article: combat-action-#{i}
-                                #   lines: 1
-                                #   inline: true
                             contents:
                               - sort: order
                                 contents:
@@ -760,90 +760,57 @@ inc:
                     id: focus
                     flex: large
                     contents:
-                      - list:
-                        hr: true
-                        zebra: true
-                        avoid-shade: true
+                      - row:
                         contents:
-                          - each:
-                            template:
-                              - layout: indent-ln
-                                gutter: tiny
+                          - calc:
+                            output:
+                              field: focus-rank
+                              legend: "_{Focus Rank}"
+                              eq: "ceil(%{level}/2)"
+                            inputs:
+                              - ruby-round-up:
                                 contents:
-                                  - h5: "#{i}"
-                                  - item:
-                            contents:
-                              - slots:
-                                min: 3
+                                  - field:
+                                    ref: level
+                                    label: "_{Level}"
+                                    # width: tiny
+                                  - span: "&divide; 2"
+
+                          - spacer:
+                          
+                          - field: focus-points
+                            legend: "_{Focus Points}"
+                            control: compound
+                            border: multi
+                            width: stretch
+                            parts:
+                              - control: checkgrid
+                                subid: total
+                                depth: 1
                                 max: 3
-                                reduce: 1
-                                placeholder:
-                                  - action: template
-                                    id: "focus-action-#{i}"
-                                    contents:
-                                      - field: "focus-spell-#{i}"
-                                        control: p
-                                        frame: none
-                                        lines: 2
+                                ruby: "_{Total}"
+                                border: none
+                                style: progress
+                              - type: vr
+                              - control: checkgrid
+                                subid: current
+                                depth: 1
+                                max: 3
+                                ruby: "_{Current}"
+                                border: none
+                                style: progress
 
-                                contents:
-                                  - sort: order
-                                    contents:
-                                      - zone: '@focus-spells'
-                          - g:
+                      - hr:
+                      - paste: 10mins
+                        contents:
+                          - layout: indent-r
                             contents:
-                              - row:
-                                contents:
-                                  - calc:
-                                    output:
-                                      field: focus-rank
-                                      legend: "_{Focus Rank}"
-                                      eq: "ceil(%{level}/2)"
-                                    inputs:
-                                      - ruby-round-up:
-                                        contents:
-                                          - field:
-                                            ref: level
-                                            label: "_{Level}"
-                                            # width: tiny
-                                          - span: "&divide; 2"
-
-                                  - spacer:
-                                  
-                                  - field: focus-points
-                                    legend: "_{Focus Points}"
-                                    control: compound
-                                    border: multi
-                                    width: stretch
-                                    parts:
-                                      - control: checkgrid
-                                        subid: total
-                                        depth: 1
-                                        max: 3
-                                        ruby: "_{Total}"
-                                        border: none
-                                        style: progress
-                                      - type: vr
-                                      - control: checkgrid
-                                        subid: current
-                                        depth: 1
-                                        max: 3
-                                        ruby: "_{Current}"
-                                        border: none
-                                        style: progress
-
-                                  # - spacer:
-                                  # - field: refocus
-                                  #   label: "_{Refocus}"
-                                  #   border: full
-                                  #   width: large
-                                  #   prefix: "+"
-                                  #   underlay: "1"
-                                  #   suffix: "_{pt}"
-                                  #   ruby: "_{Once only}"
-                                  #   format: int
-
-                  - zone: '@weapon-spec-section'
+                              - p:
+                                title: "_{Refocus}"
+                                content: "_{Regain once between spending focus}"
+                              - cost: "+1"
+                                unit: "_{Focus\nPoint}"
+                          - p: "_{Also treat wounds, repair an item, identify an item, or change armour}"
 
               - g:
                 contents:
@@ -1059,6 +1026,54 @@ inc:
                             size: medium
                             optional: true
 
+                      - field: hp-more
+                        width: stretch
+                        frame: none
+                        control: p
+                        with-title: false
+                        lines: 3
+                      - hr:
+                        light: true
+
+                      - row:
+                        colour: CON
+                        contents:
+                          - calc:
+                            output:
+                              field: rest-hp
+                              legend: "_{Overnight Healing}"
+                              icon: hp-o
+                              suffix: "_{hp}"
+                              width: large
+                              prefix: "+"
+                              eq: "req(['level'],max(1,%{CON})*%{level}*(%{fast-recovery-checked}?2:1))"
+                            inputs:
+                              - ruby: "_{Min 1}"
+                                contents:
+                                  - field:
+                                    ref: CON
+                                    label: "_{CON}"
+                                    underlay: "_{CON}"
+                              - span: "&times;"
+                              - field:
+                                ref: level
+                                label: "_{Level}"
+                          - vr:
+                          - field: fast-recovery
+                            label: "_{Fast Recovery}"
+                            control: compound
+                            border: none
+                            parts:
+                              - subid: checked
+                                control: checkbox
+                              - control: value
+                                value: "&times; 2"
+                          - spacer:
+                            flex: tiny
+                          - p:
+                            title: "_{Recover}"
+                            content: "_{Fatigued, Doomed 1, Drained 1}"
+
                   - section: "_{Armour Class}"
                     id: armour
                     contents:
@@ -1148,25 +1163,18 @@ inc:
                             has-bonus: false
                             border: none
                             label: "_{Heavy}"
-                      - layout: 2e
+                      - hr:
+                      - layout: 2r
                         contents:
-                          - section:
-                            untitled: true
+                          - g:
                             mark: shield
                             contents:
-                              - hr:
                               - list:
                                 hr: true
                                 light: true
                                 contents:
                                   - g:
                                     contents:
-                                      # - field: shield
-                                      #   legend: "_{Shield}"
-                                      #   size: large
-                                      #   width: stretch
-                                      #   flex: none
-                                      #   icon: shield
                                       - row:
                                         contents:
                                           - action:
@@ -1186,145 +1194,58 @@ inc:
                                     contents:
                                       - selectable: 'shield-block'
                                         contents:
-                                          - p:
-                                            title: "_{Shield Block}"
-                                            content: "_{Deduct hardness, then apply remaining damage to both shield and yourself.}"
-                                            optional: true
-
-                                      - action: reaction
-                                        contents:
-                                          - row:
+                                          - action: reaction
                                             contents:
-                                              - spacer:
-                                              - field: shield-hardness
-                                                label: "_{Hardness}"
-                                                border: full
-                                                blk: true
-                                                width: large
-                                              - field: shield-hp
-                                                label: "_{Shield Hit Points}"
-                                                control: compound
-                                                border: multi
-                                                blk: true
-                                                width: gargantuan
-                                                parts:
-                                                  - subid: total
-                                                    ruby: "_{Total}"
-                                                    border: full
-                                                    suffix: "_{hp}"
-                                                    format: int
-                                                  - subid: current
-                                                    ruby: "_{Current}"
-                                                    border: full
-                                                    temp: true
-                                                    suffix: "_{hp}"
-                                                    format: int
+                                              - p:
+                                                title: "_{Shield Block}"
+                                                content: "_{Deduct hardness, then apply remaining damage to both shield and yourself.}"
+                                                optional: true
 
                           - g:
                             contents:
-                              # - section:
-                              #   untitled: true
-                              #   mark: armour
-                              #   contents:
-                              #     - hr:
-                              #     - list:
-                              #       hr: true
-                              #       contents:
-                              #         - g:
-                              #           contents:
-                              #             - field: shield
-                              #               legend: "_{Shield}"
-                              #               size: large
-                              #               width: stretch
-                              #               flex: none
-                              #               icon: shield
-                              #               merge-bottom: true
-                              #         - g:
-                              #           contents:
-                              #             - field: armour
-                              #               legend: "_{Armour}"
-                              #               size: large
-                              #               width: stretch
-                              #               flex: none
-                              #               icon: armour
-                              #               merge-bottom: true
-                                      # - g:
-                                      #   contents:
-                                      #     - slots:
-                                      #       min: 3
-                                      #       reduce: 1
-                                      #       contents:
-                                      #         - zone: '@ac-conditional'
-                                      #       placeholder:
-                                      #         - field: "ac-conditional-#{i}"
-                                      #           frame: none
-                                      #           width: stretch
-                              - section: "_{Rest}"
-                                # untitled: true
-                                merge-bottom: true
+                              - row:
                                 contents:
-                                  - paste: 10mins
-                                    contents:
-                                      - layout: 2r
-                                        contents:
-                                          # - g:
-                                          #   contents:
-                                          #     - ul:
-                                          #       contents:
-                                          #         - li: "_{Treat wounds}"
-                                          #         - li: "_{Repair an item}"
-                                          #         - li: "_{Identify an item}"
-                                          # - g:
-                                          #   contents:
-                                          - p: "_{Treat wounds, repair an item, identify an item, change armour}"
-                                          - field: refocus
-                                            label: "_{Refocus}"
-                                            border: full
-                                            width: large
-                                            prefix: "+"
-                                            # underlay: "1"
-                                            value: 1
-                                            suffix: "_{pt}"
-                                            ruby: "_{Once only}"
-                                            format: int
-                                  - hr: true
-                                  - row:
-                                    colour: CON
-                                    contents:
-                                      - calc:
-                                        output:
-                                          field: rest-hp
-                                          legend: "_{Rest Healing}"
-                                          suffix: "_{hp}"
-                                          width: large
-                                          prefix: "+"
-                                          eq: "max(1,%{CON})*%{level}*(%{fast-recovery-checked}?2:1)"
-                                        inputs:
-                                          - ruby: "_{Min 1}"
-                                            contents:
-                                              - field:
-                                                ref: CON
-                                                label: "_{CON}"
-                                                underlay: "_{CON}"
-                                          - span: "&times;"
-                                          - field:
-                                            ref: level
-                                            label: "_{Level}"
-                                      - vr:
-                                      - field: fast-recovery
-                                        label: "_{Fast Recovery}"
-                                        control: compound
-                                        border: none
-                                        parts:
-                                          - subid: checked
-                                            control: checkbox
-                                          - control: value
-                                            value: "&times; 2"
+                                  - field: shield-hardness
+                                    label: "_{Hardness}"
+                                    border: full
+                                    blk: true
+                                    width: large
+                                  - field: shield-hp
+                                    label: "_{Shield Hit Points}"
+                                    control: compound
+                                    border: multi
+                                    blk: true
+                                    width: gargantuan
+                                    parts:
+                                      - subid: 
+                                        ruby: "_{Total}"
+                                        border: full
+                                        suffix: "_{hp}"
+                                        format: int
+                                      - subid: current
+                                        ruby: "_{Current}"
+                                        border: full
+                                        temp: true
+                                        suffix: "_{hp}"
+                                        format: int
 
-                                  - p:
-                                    title: "_{Recover}"
-                                    content: "_{Fatigued, Doomed 1, Drained 1}"
-
+                              - row:
+                                contents:
+                                  - field: shield-broken
+                                    frame: right
+                                    control: checkbox
+                                    label: "_{Broken}"
+                                    eq: "%{shield-hp-current}<%{shield-bt}"
+                                    
+                                  - spacer:
+                                  - field: shield-bt
+                                    label: "_{Broken}"
+                                    suffix: "_{hp}"
+                                    border: full
+                                    prefix: "&le;"
+                                    width: large
+                                    optional: true
+                                    eq: "floor(%{shield-hp}/2)"
 
                   - tail:
 
@@ -1430,7 +1351,7 @@ inc:
                         light: true
 
                       - slots:
-                        min: 6
+                        min: 5
                         reduce: 1
                         merge-bottom: true
                         contents:
@@ -1441,39 +1362,39 @@ inc:
                             align: left
                             width: stretch
 
-                      # - hr:
-                      # - h5: "_{Effects}"
-                      # - list:
-                      #   hr: true
-                      #   zebra: true
-                      #   contents:
-                      #     - repeat: 2
-                      #       reduce: 1
-                      #       contents:
-                      #         - g:
-                      #           contents:
-                      #             - row:
-                      #               contents:
-                      #                 - field: effect-#{i}
-                      #                   control: progression
-                      #                   frame: none
-                      #                   max: 3
-                      #                 - field: effect-#{i}
-                      #                   width: stretch
-                      #                   frame: none
-                      #                   merge-bottom: true
-                      #                 - field: effect-#{i}-duration
-                      #                   frame: none
-                      #                   underlay: "#"
-                      #                   affix: "_{rds}"
-                      #                   width: small
-                      #                   merge-bottom: true
-                      #                   format: int
-                      #                 - field: effect-#{i}-rounds
-                      #                   control: checkgrid
-                      #                   frame: none
-                      #                   max: 6
-                      #                   depth: 2
+                      - hr:
+                      - h5: "_{Effects}"
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - repeat: 2
+                            reduce: 1
+                            contents:
+                              - g:
+                                contents:
+                                  - row:
+                                    contents:
+                                      - field: effect-#{i}
+                                        control: progression
+                                        frame: none
+                                        max: 3
+                                      - field: effect-#{i}
+                                        width: stretch
+                                        frame: none
+                                        merge-bottom: true
+                                      - field: effect-#{i}-duration
+                                        frame: none
+                                        underlay: "#"
+                                        affix: "_{rds}"
+                                        width: small
+                                        merge-bottom: true
+                                        format: int
+                                      - field: effect-#{i}-rounds
+                                        control: checkgrid
+                                        frame: none
+                                        max: 6
+                                        depth: 2
 
                   - tail:
 
@@ -1621,23 +1542,25 @@ inc:
                                     max: 1
                                     placeholder:
                                       article: 'skill-feat-#{level}'
-                                      lines: 3
+                                      lines: 4
                                     contents:
                                       - zone: '@skill-feats'
 
-                      - section: "_{Notes}"
+                      - zone: '@class-feats-section'
                         contents:
-                          - layout: 2e
+                          - section: "_{Notes}"
                             contents:
-                              - repeat: 2
+                              - layout: 2e
                                 contents:
-                                  - field: skill-notes-#{i}
-                                    flex: small
-                                    width: stretch
-                                    frame: none
-                                    repeat: 20
-                                    reduce: 6
-                                    merge-bottom: true
+                                  - repeat: 2
+                                    contents:
+                                      - field: skill-notes-#{i}
+                                        flex: small
+                                        width: stretch
+                                        frame: none
+                                        repeat: 14
+                                        reduce: 6
+                                        merge-bottom: true
                                     
                   - section: "_{Proficiencies}"
                     contents:

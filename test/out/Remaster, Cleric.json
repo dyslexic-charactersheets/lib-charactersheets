@@ -1053,7 +1053,7 @@
                     "icon": "hp",
                     "suffix": "_{hp}",
                     "width": "large",
-                    "eq": "%{build/hp-ancestry}+((%{build/hp-class}+%{build/CON})*%{build/level})+%{build/hp-misc}"
+                    "eq": "%{build/hp-ancestry}+((%{build/hp-class}+%{build/CON})*%{build/level})"
                   },
                   "inputs": [
                     {
@@ -5762,6 +5762,859 @@
                               "pad": true
                             }
                           ]
+                        },
+                        {
+                          "type": "g",
+                          "contents": [
+                            {
+                              "type": "row",
+                              "layout": null,
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": "attack-1",
+                                  "width": "stretch",
+                                  "frame": "none",
+                                  "align": "left",
+                                  "size": "large",
+                                  "icon": "sword"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "row",
+                              "layout": null,
+                              "contents": [
+                                {
+                                  "type": "calc",
+                                  "output": {
+                                    "type": "field",
+                                    "id": "attack-1-bonus",
+                                    "label": "_{Attack Bonus}",
+                                    "width": "huge",
+                                    "attack": true,
+                                    "icon": "bonus",
+                                    "eq": "%{attack-1-ability}+%{attack-1-proficiency-bonus}+%{attack-1-potency[rank]}+%{attack-1-misc}",
+                                    "format": "modifier"
+                                  },
+                                  "inputs": [
+                                    {
+                                      "type": "field",
+                                      "id": "attack-1-ability",
+                                      "ref": true,
+                                      "misc": true,
+                                      "label": "_{Ability}",
+                                      "control": "ref-switch",
+                                      "abilities": "str,dex"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "attack-1-proficiency",
+                                      "control": "proficiency",
+                                      "label": "_{Proficiency}"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "attack-1-potency",
+                                      "control": "counter",
+                                      "label": "_{Potency}"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-1-damage",
+                                  "border": "full",
+                                  "label": "_{Damage}",
+                                  "width": "huge",
+                                  "icon": "damage",
+                                  "control": "compound",
+                                  "parts": [
+                                    {
+                                      "subid": "ndice",
+                                      "width": "tiny",
+                                      "align": "right",
+                                      "format": "int"
+                                    },
+                                    {
+                                      "type": "label",
+                                      "label": "_{d}"
+                                    },
+                                    {
+                                      "subid": "die",
+                                      "width": "tiny",
+                                      "align": "left",
+                                      "damage-die": true,
+                                      "format": "int"
+                                    },
+                                    {
+                                      "type": "label",
+                                      "label": "+"
+                                    },
+                                    {
+                                      "subid": "extra",
+                                      "width": "tiny",
+                                      "format": "int"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-1-damage-type",
+                                  "label": "_{Type}",
+                                  "width": "small",
+                                  "control": "enum",
+                                  "value": "",
+                                  "options": [
+                                    "",
+                                    "_{P}",
+                                    "_{S}",
+                                    "_{B}",
+                                    "_{P}/_{S}",
+                                    "_{P}/_{B}",
+                                    "_{S}/_{B}"
+                                  ]
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-1-striking",
+                                  "label": "_{Striking}",
+                                  "control": "counter"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-1-type",
+                                  "label": "_{Misc}",
+                                  "misc": true,
+                                  "optional": true,
+                                  "format": "int"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "row",
+                              "layout": null,
+                              "flex": "huge",
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": "attack-1-details",
+                                  "label": "_{Weapon Traits}",
+                                  "width": "stretch",
+                                  "align": "left",
+                                  "merge-bottom": true
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-1-critical",
+                                  "label": "_{Critical}",
+                                  "width": "stretch",
+                                  "align": "right",
+                                  "merge-bottom": true
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-1-critical-unlocked",
+                                  "frame": "none",
+                                  "control": "checkbox"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "g",
+                          "contents": [
+                            {
+                              "type": "row",
+                              "layout": null,
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": "attack-2",
+                                  "width": "stretch",
+                                  "frame": "none",
+                                  "align": "left",
+                                  "size": "large",
+                                  "icon": "sword"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "row",
+                              "layout": null,
+                              "contents": [
+                                {
+                                  "type": "calc",
+                                  "output": {
+                                    "type": "field",
+                                    "id": "attack-2-bonus",
+                                    "label": "_{Attack Bonus}",
+                                    "width": "huge",
+                                    "attack": true,
+                                    "icon": "bonus",
+                                    "eq": "%{attack-2-ability}+%{attack-2-proficiency-bonus}+%{attack-2-potency[rank]}+%{attack-2-misc}",
+                                    "format": "modifier"
+                                  },
+                                  "inputs": [
+                                    {
+                                      "type": "field",
+                                      "id": "attack-2-ability",
+                                      "ref": true,
+                                      "misc": true,
+                                      "label": "_{Ability}",
+                                      "control": "ref-switch",
+                                      "abilities": "str,dex"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "attack-2-proficiency",
+                                      "control": "proficiency",
+                                      "label": "_{Proficiency}"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "attack-2-potency",
+                                      "control": "counter",
+                                      "label": "_{Potency}"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-2-damage",
+                                  "border": "full",
+                                  "label": "_{Damage}",
+                                  "width": "huge",
+                                  "icon": "damage",
+                                  "control": "compound",
+                                  "parts": [
+                                    {
+                                      "subid": "ndice",
+                                      "width": "tiny",
+                                      "align": "right",
+                                      "format": "int"
+                                    },
+                                    {
+                                      "type": "label",
+                                      "label": "_{d}"
+                                    },
+                                    {
+                                      "subid": "die",
+                                      "width": "tiny",
+                                      "align": "left",
+                                      "damage-die": true,
+                                      "format": "int"
+                                    },
+                                    {
+                                      "type": "label",
+                                      "label": "+"
+                                    },
+                                    {
+                                      "subid": "extra",
+                                      "width": "tiny",
+                                      "format": "int"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-2-damage-type",
+                                  "label": "_{Type}",
+                                  "width": "small",
+                                  "control": "enum",
+                                  "value": "",
+                                  "options": [
+                                    "",
+                                    "_{P}",
+                                    "_{S}",
+                                    "_{B}",
+                                    "_{P}/_{S}",
+                                    "_{P}/_{B}",
+                                    "_{S}/_{B}"
+                                  ]
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-2-striking",
+                                  "label": "_{Striking}",
+                                  "control": "counter"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-2-type",
+                                  "label": "_{Misc}",
+                                  "misc": true,
+                                  "optional": true,
+                                  "format": "int"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "row",
+                              "layout": null,
+                              "flex": "huge",
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": "attack-2-details",
+                                  "label": "_{Weapon Traits}",
+                                  "width": "stretch",
+                                  "align": "left",
+                                  "merge-bottom": true
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-2-critical",
+                                  "label": "_{Critical}",
+                                  "width": "stretch",
+                                  "align": "right",
+                                  "merge-bottom": true
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-2-critical-unlocked",
+                                  "frame": "none",
+                                  "control": "checkbox"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "g",
+                          "contents": [
+                            {
+                              "type": "row",
+                              "layout": null,
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": "attack-3",
+                                  "width": "stretch",
+                                  "frame": "none",
+                                  "align": "left",
+                                  "size": "large",
+                                  "icon": "sword"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "row",
+                              "layout": null,
+                              "contents": [
+                                {
+                                  "type": "calc",
+                                  "output": {
+                                    "type": "field",
+                                    "id": "attack-3-bonus",
+                                    "label": "_{Attack Bonus}",
+                                    "width": "huge",
+                                    "attack": true,
+                                    "icon": "bonus",
+                                    "eq": "%{attack-3-ability}+%{attack-3-proficiency-bonus}+%{attack-3-potency[rank]}+%{attack-3-misc}",
+                                    "format": "modifier"
+                                  },
+                                  "inputs": [
+                                    {
+                                      "type": "field",
+                                      "id": "attack-3-ability",
+                                      "ref": true,
+                                      "misc": true,
+                                      "label": "_{Ability}",
+                                      "control": "ref-switch",
+                                      "abilities": "str,dex"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "attack-3-proficiency",
+                                      "control": "proficiency",
+                                      "label": "_{Proficiency}"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "attack-3-potency",
+                                      "control": "counter",
+                                      "label": "_{Potency}"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-3-damage",
+                                  "border": "full",
+                                  "label": "_{Damage}",
+                                  "width": "huge",
+                                  "icon": "damage",
+                                  "control": "compound",
+                                  "parts": [
+                                    {
+                                      "subid": "ndice",
+                                      "width": "tiny",
+                                      "align": "right",
+                                      "format": "int"
+                                    },
+                                    {
+                                      "type": "label",
+                                      "label": "_{d}"
+                                    },
+                                    {
+                                      "subid": "die",
+                                      "width": "tiny",
+                                      "align": "left",
+                                      "damage-die": true,
+                                      "format": "int"
+                                    },
+                                    {
+                                      "type": "label",
+                                      "label": "+"
+                                    },
+                                    {
+                                      "subid": "extra",
+                                      "width": "tiny",
+                                      "format": "int"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-3-damage-type",
+                                  "label": "_{Type}",
+                                  "width": "small",
+                                  "control": "enum",
+                                  "value": "",
+                                  "options": [
+                                    "",
+                                    "_{P}",
+                                    "_{S}",
+                                    "_{B}",
+                                    "_{P}/_{S}",
+                                    "_{P}/_{B}",
+                                    "_{S}/_{B}"
+                                  ]
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-3-striking",
+                                  "label": "_{Striking}",
+                                  "control": "counter"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-3-type",
+                                  "label": "_{Misc}",
+                                  "misc": true,
+                                  "optional": true,
+                                  "format": "int"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "row",
+                              "layout": null,
+                              "flex": "huge",
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": "attack-3-details",
+                                  "label": "_{Weapon Traits}",
+                                  "width": "stretch",
+                                  "align": "left",
+                                  "merge-bottom": true
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-3-critical",
+                                  "label": "_{Critical}",
+                                  "width": "stretch",
+                                  "align": "right",
+                                  "merge-bottom": true
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-3-critical-unlocked",
+                                  "frame": "none",
+                                  "control": "checkbox"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "g",
+                          "contents": [
+                            {
+                              "type": "row",
+                              "layout": null,
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": "attack-4",
+                                  "width": "stretch",
+                                  "frame": "none",
+                                  "align": "left",
+                                  "size": "large",
+                                  "icon": "bow"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-4-range",
+                                  "control": "speed",
+                                  "width": "huge",
+                                  "border": "full",
+                                  "frame": "none"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "row",
+                              "layout": null,
+                              "contents": [
+                                {
+                                  "type": "calc",
+                                  "output": {
+                                    "type": "field",
+                                    "id": "attack-4-bonus",
+                                    "label": "_{Attack Bonus}",
+                                    "width": "huge",
+                                    "attack": true,
+                                    "icon": "bonus",
+                                    "format": "modifier",
+                                    "eq": "%{attack-4-ability}+%{attack-4-proficiency-bonus}+%{attack-4-potency[rank]}+%{attack-4-misc}"
+                                  },
+                                  "inputs": [
+                                    {
+                                      "type": "field",
+                                      "id": "attack-4-ability",
+                                      "misc": true,
+                                      "label": "_{Ability}",
+                                      "control": "ref-switch",
+                                      "ref": "str,dex"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "attack-4-proficiency",
+                                      "control": "proficiency",
+                                      "label": "_{Proficiency}"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "attack-4-potency",
+                                      "control": "counter",
+                                      "label": "_{Potency}"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-4-damage",
+                                  "border": "full",
+                                  "label": "_{Damage}",
+                                  "width": "huge",
+                                  "icon": "damage",
+                                  "control": "compound",
+                                  "parts": [
+                                    {
+                                      "subid": "ndice",
+                                      "width": "tiny",
+                                      "align": "right",
+                                      "format": "int"
+                                    },
+                                    {
+                                      "type": "label",
+                                      "label": "_{d}"
+                                    },
+                                    {
+                                      "subid": "die",
+                                      "width": "tiny",
+                                      "align": "left",
+                                      "damage-die": true,
+                                      "format": "int"
+                                    },
+                                    {
+                                      "type": "label",
+                                      "label": "+"
+                                    },
+                                    {
+                                      "subid": "extra",
+                                      "width": "tiny",
+                                      "format": "int"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-4-damage-type",
+                                  "label": "_{Type}",
+                                  "width": "small",
+                                  "control": "enum",
+                                  "value": "",
+                                  "options": [
+                                    "",
+                                    "_{P}",
+                                    "_{S}",
+                                    "_{B}",
+                                    "_{P}/_{S}",
+                                    "_{P}/_{B}",
+                                    "_{S}/_{B}"
+                                  ]
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-4-striking",
+                                  "label": "_{Striking}",
+                                  "control": "counter"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-4-type",
+                                  "label": "_{Misc}",
+                                  "misc": true,
+                                  "optional": true,
+                                  "format": "int"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "row",
+                              "layout": null,
+                              "flex": "huge",
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": "ammo-4",
+                                  "label": "_{Ammo}",
+                                  "unlined": true,
+                                  "width": "small",
+                                  "size": "huge",
+                                  "underlay": "#",
+                                  "merge-bottom": true,
+                                  "format": "int"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "ammo-4-count",
+                                  "frame": "none",
+                                  "control": "checkgrid",
+                                  "max": 30,
+                                  "depth": 3
+                                },
+                                {
+                                  "type": "vr"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-4-details",
+                                  "label": "_{Weapon Traits}",
+                                  "width": "stretch",
+                                  "align": "left",
+                                  "merge-bottom": true
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-4-critical",
+                                  "label": "_{Critical}",
+                                  "width": "stretch",
+                                  "align": "right",
+                                  "merge-bottom": true
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-4-critical-unlocked",
+                                  "frame": "none",
+                                  "control": "checkbox"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "g",
+                          "contents": [
+                            {
+                              "type": "row",
+                              "layout": null,
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": "attack-5",
+                                  "width": "stretch",
+                                  "frame": "none",
+                                  "align": "left",
+                                  "size": "large",
+                                  "icon": "bow"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-5-range",
+                                  "control": "speed",
+                                  "width": "huge",
+                                  "border": "full",
+                                  "frame": "none"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "row",
+                              "layout": null,
+                              "contents": [
+                                {
+                                  "type": "calc",
+                                  "output": {
+                                    "type": "field",
+                                    "id": "attack-5-bonus",
+                                    "label": "_{Attack Bonus}",
+                                    "width": "huge",
+                                    "attack": true,
+                                    "icon": "bonus",
+                                    "format": "modifier",
+                                    "eq": "%{attack-5-ability}+%{attack-5-proficiency-bonus}+%{attack-5-potency[rank]}+%{attack-5-misc}"
+                                  },
+                                  "inputs": [
+                                    {
+                                      "type": "field",
+                                      "id": "attack-5-ability",
+                                      "misc": true,
+                                      "label": "_{Ability}",
+                                      "control": "ref-switch",
+                                      "ref": "str,dex"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "attack-5-proficiency",
+                                      "control": "proficiency",
+                                      "label": "_{Proficiency}"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "attack-5-potency",
+                                      "control": "counter",
+                                      "label": "_{Potency}"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-5-damage",
+                                  "border": "full",
+                                  "label": "_{Damage}",
+                                  "width": "huge",
+                                  "icon": "damage",
+                                  "control": "compound",
+                                  "parts": [
+                                    {
+                                      "subid": "ndice",
+                                      "width": "tiny",
+                                      "align": "right",
+                                      "format": "int"
+                                    },
+                                    {
+                                      "type": "label",
+                                      "label": "_{d}"
+                                    },
+                                    {
+                                      "subid": "die",
+                                      "width": "tiny",
+                                      "align": "left",
+                                      "damage-die": true,
+                                      "format": "int"
+                                    },
+                                    {
+                                      "type": "label",
+                                      "label": "+"
+                                    },
+                                    {
+                                      "subid": "extra",
+                                      "width": "tiny",
+                                      "format": "int"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-5-damage-type",
+                                  "label": "_{Type}",
+                                  "width": "small",
+                                  "control": "enum",
+                                  "value": "",
+                                  "options": [
+                                    "",
+                                    "_{P}",
+                                    "_{S}",
+                                    "_{B}",
+                                    "_{P}/_{S}",
+                                    "_{P}/_{B}",
+                                    "_{S}/_{B}"
+                                  ]
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-5-striking",
+                                  "label": "_{Striking}",
+                                  "control": "counter"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-5-type",
+                                  "label": "_{Misc}",
+                                  "misc": true,
+                                  "optional": true,
+                                  "format": "int"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "row",
+                              "layout": null,
+                              "flex": "huge",
+                              "contents": [
+                                {
+                                  "type": "field",
+                                  "id": "ammo-5",
+                                  "label": "_{Ammo}",
+                                  "unlined": true,
+                                  "width": "small",
+                                  "size": "huge",
+                                  "underlay": "#",
+                                  "merge-bottom": true,
+                                  "format": "int"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "ammo-5-count",
+                                  "frame": "none",
+                                  "control": "checkgrid",
+                                  "max": 30,
+                                  "depth": 3
+                                },
+                                {
+                                  "type": "vr"
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-5-details",
+                                  "label": "_{Weapon Traits}",
+                                  "width": "stretch",
+                                  "align": "left",
+                                  "merge-bottom": true
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-5-critical",
+                                  "label": "_{Critical}",
+                                  "width": "stretch",
+                                  "align": "right",
+                                  "merge-bottom": true
+                                },
+                                {
+                                  "type": "field",
+                                  "id": "attack-5-critical-unlocked",
+                                  "frame": "none",
+                                  "control": "checkbox"
+                                }
+                              ]
+                            }
+                          ]
                         }
                       ]
                     }
@@ -6328,7 +7181,8 @@
                                 },
                                 {
                                   "type": "p",
-                                  "content": "_{Recover from Fatigued, Doomed 1, Drained 1.}"
+                                  "content": "_{Fatigued, Doomed 1, Drained 1}",
+                                  "title": "_{Recover}"
                                 }
                               ]
                             }
@@ -6692,13 +7546,15 @@
                       "type": "arrow",
                       "direction": "right-up",
                       "from": "p-save-upgrade-success",
-                      "to": "field-will-upgrade-success"
+                      "to": "field-will-upgrade-success",
+                      "anchor": "to"
                     },
                     {
                       "type": "arrow",
                       "direction": "right-up",
                       "from": "p-save-reduce-fail",
-                      "to": "field-will-reduce-fail"
+                      "to": "field-will-reduce-fail",
+                      "anchor": "to"
                     },
                     {
                       "type": "hr",
@@ -8816,10 +9672,9 @@
                       "contents": [
                         {
                           "type": "field",
-                          "id": "class/remaster/cleric:sanctification",
-                          "value": "holy",
+                          "id": "class/remaster/cleric:holy",
                           "frame": "left",
-                          "control": "radio",
+                          "control": "checkbox",
                           "label": "_{Holy}"
                         },
                         {
@@ -8836,10 +9691,9 @@
                         },
                         {
                           "type": "field",
-                          "id": "class/remaster/cleric:sanctification",
-                          "value": "unholy",
+                          "id": "class/remaster/cleric:unholy",
                           "frame": "right",
-                          "control": "radio",
+                          "control": "checkbox",
                           "label": "_{Unholy}"
                         }
                       ]
@@ -9282,6 +10136,98 @@
                       "layout": false,
                       "_headings": [],
                       "_direct": true
+                    },
+                    {
+                      "type": "calc",
+                      "output": {
+                        "type": "field",
+                        "id": "spell-attack",
+                        "legend": "_{Spell\nAttack}",
+                        "width": "large",
+                        "overprint": true,
+                        "icon": "bonus",
+                        "format": "modifier",
+                        "eq": "%{spell-attack-ability}+%{spell-attack-proficiency-bonus}+%{spell-attack-misc}"
+                      },
+                      "inputs": [
+                        {
+                          "type": "field",
+                          "id": "spell-attack-ability",
+                          "label": "_{Key Ability}",
+                          "ref": "=key-ability",
+                          "misc": true
+                        },
+                        {
+                          "type": "span",
+                          "content": "+"
+                        },
+                        {
+                          "type": "field",
+                          "id": "spell-attack-proficiency",
+                          "label": "_{Proficiency}",
+                          "control": "proficiency"
+                        },
+                        {
+                          "type": "span",
+                          "content": "+",
+                          "optional": true
+                        },
+                        {
+                          "type": "field",
+                          "id": "spell-attack-misc",
+                          "label": "_{Misc}",
+                          "misc": true,
+                          "optional": true
+                        }
+                      ]
+                    },
+                    {
+                      "type": "calc",
+                      "output": {
+                        "type": "field",
+                        "id": "spell-dc",
+                        "legend": "_{Spell Save DC}",
+                        "underlay": "_{DC}",
+                        "width": "large",
+                        "overprint": true,
+                        "icon": "dc",
+                        "eq": "10+%{spell-dc-ability}+%{spell-dc-proficiency-bonus}+%{spell-dc-misc}"
+                      },
+                      "inputs": [
+                        {
+                          "type": "span",
+                          "content": "10 +"
+                        },
+                        {
+                          "type": "field",
+                          "id": "spell-dc-ability",
+                          "label": "_{Key Ability}",
+                          "ref": "=key-ability",
+                          "misc": true
+                        },
+                        {
+                          "type": "span",
+                          "content": "+"
+                        },
+                        {
+                          "type": "field",
+                          "id": "spell-dc-proficiency",
+                          "label": "_{Proficiency}",
+                          "control": "proficiency"
+                        },
+                        {
+                          "type": "span",
+                          "content": "+",
+                          "optional": true
+                        },
+                        {
+                          "type": "field",
+                          "id": "spell-dc-misc",
+                          "label": "_{Misc}",
+                          "misc": true,
+                          "optional": true
+                        }
+                      ]
                     }
                   ]
                 },
@@ -9295,27 +10241,41 @@
                       "layout": "split",
                       "contents": [
                         {
-                          "type": "calc",
-                          "output": {
-                            "type": "field",
-                            "id": "divine-font-per-day",
-                            "legend": "_{Uses per day}",
-                            "width": "huge",
-                            "eq": "1+%{CHA}"
-                          },
-                          "inputs": [
-                            {
-                              "type": "span",
-                              "content": "1 +"
-                            },
-                            {
-                              "type": "field",
-                              "id": null,
-                              "ref": "CHA",
-                              "label": "_{CHA}",
-                              "underlay": "_{CHA}"
-                            }
-                          ]
+                          "type": "field",
+                          "id": "divine-font-per-day",
+                          "legend": "_{Uses per day}",
+                          "width": "large",
+                          "border": "full",
+                          "eq": "1+%{CHA}"
+                        },
+                        {
+                          "type": "span",
+                          "content": "= 4"
+                        },
+                        {
+                          "type": "vr"
+                        },
+                        {
+                          "type": "level-marker",
+                          "level": 5
+                        },
+                        {
+                          "type": "span",
+                          "content": 5
+                        },
+                        {
+                          "type": "vr"
+                        },
+                        {
+                          "type": "level-marker",
+                          "level": 15
+                        },
+                        {
+                          "type": "span",
+                          "content": 6
+                        },
+                        {
+                          "type": "spacer"
                         },
                         {
                           "type": "field",
@@ -9328,218 +10288,573 @@
                       ]
                     },
                     {
-                      "type": "table",
-                      "rows": [
+                      "type": "g",
+                      "contents": [
                         {
-                          "params": {
-                            "type": "row",
-                            "layout": null,
-                            "contents": [
-                              {
-                                "type": "icon",
-                                "icon": "action",
-                                "align": "left"
-                              },
-                              {
-                                "type": "icon",
-                                "icon": "action2",
-                                "align": "left"
-                              },
-                              {
-                                "type": "icon",
-                                "icon": "action3",
-                                "align": "left"
-                              }
-                            ],
-                            "i": 1
-                          },
-                          "cells": [
+                          "type": "table",
+                          "rows": [
                             {
-                              "type": "icon",
-                              "icon": "action",
-                              "align": "left"
-                            },
-                            {
-                              "type": "icon",
-                              "icon": "action2",
-                              "align": "left"
-                            },
-                            {
-                              "type": "icon",
-                              "icon": "action3",
-                              "align": "left"
-                            }
-                          ]
-                        },
-                        {
-                          "params": {
-                            "type": "row",
-                            "layout": null,
-                            "contents": [
-                              {
+                              "params": {
                                 "type": "row",
                                 "layout": null,
                                 "contents": [
                                   {
-                                    "type": "field",
-                                    "id": "divine-font-dmg",
-                                    "legend": "_{Healing / Damage}",
-                                    "control": "compound",
-                                    "border": "full",
-                                    "parts": [
-                                      {
-                                        "type": "field",
-                                        "id": null,
-                                        "size": "small",
-                                        "ruby": "_{Level}",
-                                        "ref": "level"
-                                      },
-                                      {
-                                        "type": "span",
-                                        "content": "_{d}"
-                                      },
-                                      {
-                                        "subid": "die",
-                                        "size": "tiny",
-                                        "underlay": "8"
-                                      }
-                                    ],
-                                    "width": "huge"
+                                    "type": "action",
+                                    "action": null
                                   },
-                                  {
-                                    "type": "spacer"
-                                  },
-                                  {
-                                    "type": "vr"
-                                  }
-                                ]
-                              },
-                              {
-                                "type": "row",
-                                "layout": null,
-                                "contents": [
                                   {
                                     "type": "row",
                                     "layout": null,
-                                    "contents": []
+                                    "contents": [
+                                      {
+                                        "type": "field",
+                                        "id": "class/remaster/cleric:divine-font/1/damage",
+                                        "width": "large",
+                                        "frame": "none",
+                                        "icon": "damage",
+                                        "control": "compound",
+                                        "parts": [
+                                          {
+                                            "subid": "dice",
+                                            "suffix": "_{d}",
+                                            "eq": "%{class/remaster/cleric:divine-font/dice}"
+                                          },
+                                          {
+                                            "subid": "die",
+                                            "damage-die": true,
+                                            "eq": "%{class/remaster/cleric:divine-font/die}"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "spacer"
+                                      }
+                                    ]
                                   },
                                   {
                                     "type": "span",
-                                    "content": "+"
-                                  },
-                                  {
-                                    "type": "field",
-                                    "id": null,
-                                    "ref": "level",
-                                    "label": "_{Level}"
+                                    "content": "1"
                                   },
                                   {
                                     "type": "span",
-                                    "content": "&times; 8"
-                                  },
-                                  {
-                                    "type": "spacer"
-                                  },
-                                  {
-                                    "type": "field",
-                                    "id": "divine-font-range",
-                                    "label": "_{Range}",
-                                    "control": "value",
-                                    "value": "_{30ft}"
-                                  },
-                                  {
-                                    "type": "vr"
+                                    "content": "_{Touch}"
                                   }
-                                ]
+                                ],
+                                "i": 1
                               },
-                              {
-                                "type": "row",
-                                "layout": null,
-                                "contents": [
-                                  {
-                                    "type": "p",
-                                    "content": "_{All allies and enemies in range}",
-                                    "blk": false
-                                  }
-                                ]
-                              }
-                            ],
-                            "i": 2
-                          },
-                          "cells": [
-                            {
-                              "type": "row",
-                              "layout": null,
-                              "contents": [
+                              "cells": [
                                 {
-                                  "type": "field",
-                                  "id": "divine-font-dmg",
-                                  "legend": "_{Healing / Damage}",
-                                  "control": "compound",
-                                  "border": "full",
-                                  "parts": [
+                                  "type": "layout",
+                                  "layout": "indent-l",
+                                  "blk": false,
+                                  "order": 1,
+                                  "contents": [
+                                    {
+                                      "type": "g",
+                                      "contents": [
+                                        {
+                                          "type": "icon",
+                                          "icon": "action"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "g",
+                                      "contents": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "row",
+                                  "layout": null,
+                                  "contents": [
                                     {
                                       "type": "field",
-                                      "id": null,
-                                      "size": "small",
-                                      "ruby": "_{Level}",
-                                      "ref": "level"
+                                      "id": "class/remaster/cleric:divine-font/1/damage",
+                                      "width": "large",
+                                      "frame": "none",
+                                      "icon": "damage",
+                                      "control": "compound",
+                                      "parts": [
+                                        {
+                                          "subid": "dice",
+                                          "suffix": "_{d}",
+                                          "eq": "%{class/remaster/cleric:divine-font/dice}"
+                                        },
+                                        {
+                                          "subid": "die",
+                                          "damage-die": true,
+                                          "eq": "%{class/remaster/cleric:divine-font/die}"
+                                        }
+                                      ]
                                     },
                                     {
-                                      "type": "span",
-                                      "content": "_{d}"
-                                    },
-                                    {
-                                      "subid": "die",
-                                      "size": "tiny",
-                                      "underlay": "8"
+                                      "type": "spacer"
                                     }
-                                  ],
-                                  "width": "huge"
+                                  ]
                                 },
                                 {
-                                  "type": "spacer"
+                                  "type": "span",
+                                  "content": "1"
                                 },
                                 {
-                                  "type": "vr"
+                                  "type": "span",
+                                  "content": "_{Touch}"
                                 }
                               ]
                             },
                             {
-                              "type": "row",
-                              "layout": null,
-                              "contents": [
+                              "params": {
+                                "type": "row",
+                                "layout": null,
+                                "contents": [
+                                  {
+                                    "type": "action",
+                                    "action": 2
+                                  },
+                                  {
+                                    "type": "row",
+                                    "layout": null,
+                                    "contents": [
+                                      {
+                                        "type": "field",
+                                        "id": "class/remaster/cleric:divine-font/2/damage",
+                                        "width": "large",
+                                        "frame": "none",
+                                        "icon": "damage",
+                                        "control": "compound",
+                                        "parts": [
+                                          {
+                                            "subid": "dice",
+                                            "suffix": "_{d}",
+                                            "eq": "%{class/remaster/cleric:divine-font/dice}"
+                                          },
+                                          {
+                                            "subid": "die",
+                                            "damage-die": true,
+                                            "eq": "%{class/remaster/cleric:divine-font/die}"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "unspacer"
+                                      },
+                                      {
+                                        "type": "field",
+                                        "id": "class/remaster/cleric:divine-font/2/damage/bonus",
+                                        "prefix": "+",
+                                        "frame": "none",
+                                        "eq": "%{class/remaster/cleric:divine-font/bonus}"
+                                      },
+                                      {
+                                        "type": "spacer"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "span",
+                                    "content": "1"
+                                  },
+                                  {
+                                    "type": "span",
+                                    "content": "_{30ft}"
+                                  }
+                                ],
+                                "i": 2
+                              },
+                              "cells": [
+                                {
+                                  "type": "layout",
+                                  "layout": "indent-l",
+                                  "blk": false,
+                                  "order": 1,
+                                  "contents": [
+                                    {
+                                      "type": "g",
+                                      "contents": [
+                                        {
+                                          "type": "icon",
+                                          "icon": "action2"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "g",
+                                      "contents": []
+                                    }
+                                  ]
+                                },
                                 {
                                   "type": "row",
                                   "layout": null,
-                                  "contents": []
+                                  "contents": [
+                                    {
+                                      "type": "field",
+                                      "id": "class/remaster/cleric:divine-font/2/damage",
+                                      "width": "large",
+                                      "frame": "none",
+                                      "icon": "damage",
+                                      "control": "compound",
+                                      "parts": [
+                                        {
+                                          "subid": "dice",
+                                          "suffix": "_{d}",
+                                          "eq": "%{class/remaster/cleric:divine-font/dice}"
+                                        },
+                                        {
+                                          "subid": "die",
+                                          "damage-die": true,
+                                          "eq": "%{class/remaster/cleric:divine-font/die}"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "unspacer"
+                                    },
+                                    {
+                                      "type": "field",
+                                      "id": "class/remaster/cleric:divine-font/2/damage/bonus",
+                                      "prefix": "+",
+                                      "frame": "none",
+                                      "eq": "%{class/remaster/cleric:divine-font/bonus}"
+                                    },
+                                    {
+                                      "type": "spacer"
+                                    }
+                                  ]
                                 },
                                 {
                                   "type": "span",
-                                  "content": "+"
+                                  "content": "1"
                                 },
+                                {
+                                  "type": "span",
+                                  "content": "_{30ft}"
+                                }
+                              ]
+                            },
+                            {
+                              "params": {
+                                "type": "row",
+                                "layout": null,
+                                "contents": [
+                                  {
+                                    "type": "action",
+                                    "action": 3
+                                  },
+                                  {
+                                    "type": "row",
+                                    "layout": null,
+                                    "contents": [
+                                      {
+                                        "type": "field",
+                                        "id": "class/remaster/cleric:divine-font/3/damage",
+                                        "width": "large",
+                                        "frame": "none",
+                                        "icon": "damage",
+                                        "control": "compound",
+                                        "parts": [
+                                          {
+                                            "subid": "dice",
+                                            "suffix": "_{d}",
+                                            "eq": "%{class/remaster/cleric:divine-font/dice}"
+                                          },
+                                          {
+                                            "subid": "die",
+                                            "damage-die": true,
+                                            "eq": "%{class/remaster/cleric:divine-font/die}"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "spacer"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "span",
+                                    "content": "_{All}"
+                                  },
+                                  {
+                                    "type": "span",
+                                    "content": "_{30ft burst}"
+                                  }
+                                ],
+                                "i": 3
+                              },
+                              "cells": [
+                                {
+                                  "type": "layout",
+                                  "layout": "indent-lw",
+                                  "blk": false,
+                                  "order": 1,
+                                  "contents": [
+                                    {
+                                      "type": "g",
+                                      "contents": [
+                                        {
+                                          "type": "icon",
+                                          "icon": "action3"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "g",
+                                      "contents": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "row",
+                                  "layout": null,
+                                  "contents": [
+                                    {
+                                      "type": "field",
+                                      "id": "class/remaster/cleric:divine-font/3/damage",
+                                      "width": "large",
+                                      "frame": "none",
+                                      "icon": "damage",
+                                      "control": "compound",
+                                      "parts": [
+                                        {
+                                          "subid": "dice",
+                                          "suffix": "_{d}",
+                                          "eq": "%{class/remaster/cleric:divine-font/dice}"
+                                        },
+                                        {
+                                          "subid": "die",
+                                          "damage-die": true,
+                                          "eq": "%{class/remaster/cleric:divine-font/die}"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "spacer"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "span",
+                                  "content": "_{All}"
+                                },
+                                {
+                                  "type": "span",
+                                  "content": "_{30ft burst}"
+                                }
+                              ]
+                            }
+                          ],
+                          "flip": false,
+                          "width": "",
+                          "blk": false,
+                          "merge-bottom": false,
+                          "zebra": false,
+                          "collapse": false,
+                          "fixed": false,
+                          "layout": false,
+                          "_headings": [
+                            {
+                              "type": "label",
+                              "label": "_{Action}",
+                              "misc": false
+                            },
+                            {
+                              "type": "label",
+                              "label": "_{Healing / Damage}",
+                              "misc": false
+                            },
+                            {
+                              "type": "label",
+                              "label": "_{Target}",
+                              "misc": false
+                            },
+                            {
+                              "type": "label",
+                              "label": "_{Range}",
+                              "misc": false
+                            }
+                          ],
+                          "_direct": true
+                        },
+                        {
+                          "type": "p",
+                          "content": "&nbsp;"
+                        },
+                        {
+                          "type": "p",
+                          "content": "&nbsp;"
+                        },
+                        {
+                          "type": "row",
+                          "layout": null,
+                          "contents": [
+                            {
+                              "type": "calc",
+                              "output": {
+                                "type": "field",
+                                "id": "class/remaster/cleric:divine-font/dice",
+                                "legend": "_{Dice}",
+                                "icon": "d8",
+                                "eq": "%{focus-level}"
+                              },
+                              "inputs": [
                                 {
                                   "type": "field",
                                   "id": null,
-                                  "ref": "level",
-                                  "label": "_{Level}"
+                                  "ref": "focus-level",
+                                  "label": "_{Spell Level}"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "spacer"
+                            },
+                            {
+                              "type": "field",
+                              "id": "class/remaster/cleric:divine-font/die",
+                              "legend": "_{Die}",
+                              "underlay": "8",
+                              "border": "full",
+                              "prefix": "_{d}",
+                              "eq": "(((%{class/remaster/cleric:holy} || %{class/remaster/cleric:versatile-font}) && %{class/remaster/cleric:divine-font/healing-hands}) || ((%{class/remaster/cleric:unholy} || %{class/remaster/cleric:versatile-font}) && %{class/remaster/cleric:divine-font/harming-hands}))?10:8"
+                            },
+                            {
+                              "type": "spacer"
+                            },
+                            {
+                              "type": "calc",
+                              "output": {
+                                "type": "field",
+                                "id": "class/remaster/cleric:divine-font/bonus",
+                                "legend": "_{Bonus}",
+                                "width": "lage",
+                                "eq": "%{focus-level}*8"
+                              },
+                              "inputs": [
+                                {
+                                  "type": "field",
+                                  "id": null,
+                                  "ref": "focus-level",
+                                  "label": "_{Spell Level}"
                                 },
                                 {
                                   "type": "span",
                                   "content": "&times; 8"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "arrow",
+                          "direction": "up",
+                          "from": "field-class/remaster/cleric:divine-font/dice",
+                          "to": "class/remaster/cleric:divine-font/3/damage-dice",
+                          "anchor": "to"
+                        },
+                        {
+                          "type": "arrow",
+                          "direction": "up",
+                          "from": "field-class/remaster/cleric:divine-font/die",
+                          "to": "class/remaster/cleric:divine-font/3/damage-die",
+                          "anchor": "to"
+                        },
+                        {
+                          "type": "arrow",
+                          "direction": "up",
+                          "from": "field-class/remaster/cleric:divine-font/bonus",
+                          "to": "field-class/remaster/cleric:divine-font/2/damage/bonus",
+                          "anchor": "to"
+                        }
+                      ],
+                      "pad": true
+                    },
+                    {
+                      "type": "p",
+                      "content": "_{Targets get a basic Fortitude save against damage}"
+                    },
+                    {
+                      "type": "g",
+                      "contents": [
+                        {
+                          "type": "hr"
+                        },
+                        {
+                          "type": "list",
+                          "hr": true,
+                          "light": true,
+                          "contents": [
+                            {
+                              "type": "row",
+                              "layout": null,
+                              "contents": [
+                                {
+                                  "type": "layout",
+                                  "layout": "indent-l",
+                                  "blk": false,
+                                  "order": null,
+                                  "contents": [
+                                    {
+                                      "type": "g",
+                                      "contents": [
+                                        {
+                                          "type": "field",
+                                          "id": "class/remaster/cleric:divine-font/healing-hands",
+                                          "control": "checkbox",
+                                          "frame": "none",
+                                          "value": false,
+                                          "style": ""
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "g",
+                                      "pad": false,
+                                      "contents": [
+                                        {
+                                          "type": "p",
+                                          "content": null,
+                                          "title": "_{Healing hands}"
+                                        }
+                                      ]
+                                    }
+                                  ]
                                 },
                                 {
-                                  "type": "spacer"
+                                  "type": "layout",
+                                  "layout": "indent-l",
+                                  "blk": false,
+                                  "order": null,
+                                  "contents": [
+                                    {
+                                      "type": "g",
+                                      "contents": [
+                                        {
+                                          "type": "field",
+                                          "id": "class/remaster/cleric:divine-font/harming-hands",
+                                          "control": "checkbox",
+                                          "frame": "none",
+                                          "value": false,
+                                          "style": ""
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "g",
+                                      "pad": false,
+                                      "contents": [
+                                        {
+                                          "type": "p",
+                                          "content": null,
+                                          "title": "_{Harming hands}"
+                                        }
+                                      ]
+                                    }
+                                  ]
                                 },
                                 {
-                                  "type": "field",
-                                  "id": "divine-font-range",
-                                  "label": "_{Range}",
-                                  "control": "value",
-                                  "value": "_{30ft}"
-                                },
-                                {
-                                  "type": "vr"
+                                  "type": "span",
+                                  "content": "_{d10}"
                                 }
                               ]
                             },
@@ -9548,62 +10863,156 @@
                               "layout": null,
                               "contents": [
                                 {
-                                  "type": "p",
-                                  "content": "_{All allies and enemies in range}",
-                                  "blk": false
+                                  "type": "layout",
+                                  "layout": "indent-l",
+                                  "blk": false,
+                                  "order": null,
+                                  "contents": [
+                                    {
+                                      "type": "g",
+                                      "contents": [
+                                        {
+                                          "type": "field",
+                                          "id": "class/remaster/cleric:divine-font/communal-healing",
+                                          "control": "checkbox",
+                                          "frame": "none",
+                                          "value": false,
+                                          "style": ""
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "g",
+                                      "pad": false,
+                                      "contents": [
+                                        {
+                                          "type": "p",
+                                          "content": null,
+                                          "title": "_{Communal Healing}"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "layout",
+                                  "layout": "indent-l",
+                                  "blk": false,
+                                  "order": null,
+                                  "contents": [
+                                    {
+                                      "type": "g",
+                                      "contents": [
+                                        {
+                                          "type": "field",
+                                          "id": "class/remaster/cleric:divine-font/sap-life",
+                                          "control": "checkbox",
+                                          "frame": "none",
+                                          "value": false,
+                                          "style": ""
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "g",
+                                      "pad": false,
+                                      "contents": [
+                                        {
+                                          "type": "p",
+                                          "content": null,
+                                          "title": "_{Sap Life}"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "calc",
+                                  "output": {
+                                    "type": "field",
+                                    "id": "class/remaster/cleric:divine-font/communal-healing/hp",
+                                    "label": "_{Heal Self}",
+                                    "eq": "%{focus-level}"
+                                  },
+                                  "inputs": [
+                                    {
+                                      "type": "field",
+                                      "id": null,
+                                      "ref": "focus-level",
+                                      "label": "_{Spell Level}"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "layout",
+                              "layout": "indent-l",
+                              "blk": false,
+                              "order": null,
+                              "contents": [
+                                {
+                                  "type": "g",
+                                  "contents": [
+                                    {
+                                      "type": "field",
+                                      "id": "class/remaster/cleric:divine-font/versatile-font",
+                                      "control": "checkbox",
+                                      "frame": "none",
+                                      "value": false,
+                                      "style": ""
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "g",
+                                  "pad": false,
+                                  "contents": [
+                                    {
+                                      "type": "p",
+                                      "content": "_{May prepare heal or harm}",
+                                      "title": "_{Versatile Font}"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "layout",
+                              "layout": "indent-l",
+                              "blk": false,
+                              "order": null,
+                              "contents": [
+                                {
+                                  "type": "g",
+                                  "contents": [
+                                    {
+                                      "type": "field",
+                                      "id": "class/remaster/cleric:divine-font/turn-undead",
+                                      "control": "checkbox",
+                                      "frame": "none",
+                                      "value": false,
+                                      "style": ""
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "g",
+                                  "pad": false,
+                                  "contents": [
+                                    {
+                                      "type": "p",
+                                      "content": "_{Undead who critically fail are fleeing 1}",
+                                      "title": "_{Turn undead}"
+                                    }
+                                  ]
                                 }
                               ]
                             }
                           ]
                         }
                       ],
-                      "flip": false,
-                      "width": "",
-                      "blk": false,
-                      "merge-bottom": false,
-                      "zebra": false,
-                      "collapse": true,
-                      "fixed": false,
-                      "layout": false,
-                      "_headings": [
-                        {
-                          "type": "label",
-                          "label": null
-                        },
-                        {
-                          "type": "label",
-                          "label": null
-                        }
-                      ],
-                      "_direct": true
-                    },
-                    {
-                      "type": "calc",
-                      "output": {
-                        "type": "field",
-                        "id": "class/remaster/cleric:divine-font/damage",
-                        "legend": "_{Healing/\ndamage\ndice}",
-                        "eq": "floor(%{level}/2)",
-                        "width": "huge"
-                      },
-                      "inputs": [
-                        {
-                          "type": "ruby",
-                          "ruby": "[b]_{(Round up)}[/b]",
-                          "contents": [
-                            {
-                              "type": "field",
-                              "id": null,
-                              "ref": "level",
-                              "label": "_{Level}"
-                            },
-                            {
-                              "type": "span",
-                              "content": "&divide; 2"
-                            }
-                          ]
-                        }
-                      ]
+                      "optional": true
                     }
                   ]
                 },

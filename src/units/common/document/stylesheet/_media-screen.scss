@@ -111,52 +111,83 @@ body {
   }
 
   .toggle {
-    $height: 16pt;
-    $width: 28pt;
-    $gap: 2pt;
-    $puck: $height - $gap * 2;
-
-    input[type=checkbox] {
-      display: none;
-    }
-
-    .toggle-switch {
-      display: inline-block;
-      vertical-align: middle;
-      margin: 0 6pt;
-
-      position: relative;
-      background: $colour_screen_toggle_switch;
-      border-radius: 10pt;
-      // border: 0.1rem solid white;
-      height: $height;
-      width: $width;
-      box-shadow: inset 0 $gap/2 $gap rgba(0, 0, 0, 0.4);
-
-      &:after {
-        content: "";
-        display: block;
-        position: absolute;
-
-        height: $puck;
-        width: $puck;
-        border-radius: 10pt;
-        top: $gap;
-        left: $gap;
-        background: white;
-        box-shadow: 0 $gap/2 $gap rgba(0, 0, 0, 0.4);
-
-
-        transition: left 0.3s ease-in-out;
+    span {
+      color: black;
+      @media (prefers-color-scheme: dark) {
+        color: white;
       }
     }
+  }
+}
 
-    input[type=checkbox]:checked + .toggle-switch {
-      background: $colour_screen_toggle_switch_checked;
+.toggle {
+  $height: 16pt;
+  $width: 28pt;
+  $gap: 2pt;
+  $puck: $height - $gap * 2;
 
-      &:after {
-        left: $width - $puck - $gap;
-      }
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  
+  white-space: nowrap;
+  
+  span {
+    white-space: nowrap;
+    &.left-label {
+      flex: 1 1 50%;
+      text-align: right;
+    }
+    &.right-label {
+      flex: 1 1 50%;
+      text-align: left;
+    }
+  }
+
+  input[type=checkbox] {
+    display: none;
+  }
+
+  .toggle-switch {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 6pt;
+
+    position: relative;
+    background: $colour_screen_toggle_switch;
+    border-radius: $height;
+    // border: 0.1rem solid white;
+    height: $height;
+    width: $width;
+    flex: 0 0 $width;
+    box-shadow: inset 0 $gap/2 $gap rgba(0, 0, 0, 0.4);
+
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+
+      height: $puck;
+      width: $puck;
+      border-radius: $height;
+      top: $gap;
+      left: $gap;
+      background: white;
+      box-shadow: 0 $gap/2 $gap rgba(0, 0, 0, 0.4);
+
+
+      transition: left 0.3s ease-in-out;
+    }
+  }
+
+  input[type=checkbox]:checked + .toggle-switch {
+    background: $colour_screen_toggle_switch_checked;
+
+    &:after {
+      left: $width - $puck - $gap;
+      // left: unset;
+      // right: $gap;
     }
   }
 }
@@ -175,6 +206,7 @@ body {
   justify-content: center;
   align-items: start;
   gap: $page-height * 0.3;
+  z-index: 100;
 
   button.index-button {
     background: none;

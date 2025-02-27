@@ -1,0 +1,45 @@
+unit: ancestry/remaster/dwarf
+in: ancestry
+group: "_{Player Core}"
+name: "_{Dwarf}"
+
+form:
+  - select: heritage/dwarf
+    name: "_{Dwarf Heritage}"
+    max: 1
+
+inc:
+  - set: ancestry
+    value: "_{Dwarf}"
+  - set: hp-ancestry
+    value: 10
+  - set: perception-darkvision
+    value: true
+  - set: build-boost-CON-ancestry
+    value: 1
+  - set: build-boost-WIS-ancestry
+    value: 1
+  - set: build-boost-CHA-ancestry
+    value: -1
+  - set: languages
+    value: "_{Common}, _{Dwarven}"
+
+  - at: '@ancestry'
+    replace:
+      - article: ancestry
+        title: "_{Dwarf}"
+        contents:
+          - flags:
+              - "_{Dwarf}"
+              - "_{Humanoid}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{20ft}"
+          - paste: darkvision
+          - hr:
+          - field:
+            label: "_{Clan Dagger}"
+            width: stretch
+            

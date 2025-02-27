@@ -15,7 +15,10 @@ function unzoomTo(pageId) {
     console.log("Scroll to", pageId);
 
     let page = document.getElementById("page-"+pageId);
-    window.scrollTo(0, page.offsetTop);
+    page.scrollIntoView({
+      behavior: 'smooth'
+    });
+    // window.scrollTo(0, page.offsetTop);
   }, 1);
 }
 
@@ -28,4 +31,16 @@ for (let btn of document.getElementsByClassName('page-zoom-button')) {
     let pageId = btn.dataset.page;
     btn.addEventListener('click', () => unzoomTo(pageId));
   })(btn);
+}
+
+for (let toggle of document.getElementsByClassName('toggle-print-page')) {
+  for (let checkbox of toggle.getElementsByTagName('input')) {
+    ((checkbox) => {
+      let page = checkbox.closest('.page-container').querySelector('.page');
+      page.classList.toggle('page--no-print', !checkbox.checked);
+      checkbox.addEventListener('change', () => {
+        page.classList.toggle('page--no-print', !checkbox.checked);
+      });
+    })(checkbox);
+  }
 }
