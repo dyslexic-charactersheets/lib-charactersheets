@@ -38,6 +38,7 @@ module.exports = {
     switch (game) {
       case "pathfinder2":
       case "pathfinder2remaster":
+      case "starfinder2":
         baseSelects["heritage/versatile"] = {
           select: "heritage/versatile",
           name: "Versatile Heritages",
@@ -88,6 +89,10 @@ module.exports = {
           code: unit.code,
           group: unit.group,
           name: unit.name,
+          meta: {
+            rarity: 'common',
+            ...unit.meta
+          }
         };
 
         if (_.has(unit, "badge"))
@@ -147,6 +152,7 @@ module.exports = {
     // TODO language completion
     
     return {
+      edition: game,
       selects: baseSelects,
       options: baseOptions,
       languages: languages,

@@ -1,0 +1,122 @@
+unit: option/inventory/double
+in: option/inventory
+name: "_{Inventory (double size)}"
+group: "_{Player Core}"
+
+require:
+  - unit: option/inventory/full
+
+inc:
+  - copy: inventory-full-column
+    params:
+      col: ''
+    contents:
+      - hr:
+        blk: false
+      - list:
+        hr: true
+        contents:
+          - repeat: 3
+            contents:
+              - g:
+                blk: false
+                contents:
+                  - list:
+                    zebra: true
+                    # zebra-inverse: "#{i}"
+                    contents:
+                      - repeat: 16
+                        reduce: 3
+                        merge-bottom: true
+                        index: j
+                        contents:
+                          - row:
+                            contents:
+                              - field: inventory-extra-#{col}-#{i}-#{j}
+                                frame: none
+                                width: stretch
+                              - field: inventory-extra-#{col}-#{i}-#{j}-value
+                                frame: none
+                              - field: inventory-extra-#{col}-#{i}-#{j}-weight
+                                frame: none
+      - tail:
+
+  - copy: inventory-container
+    params:
+      group: ''
+    contents:
+      - section: "_{Container}"
+        primary: true
+        contents:
+          - field: inventory-extra-group-#{group}
+            size: large
+            width: stretch
+          - list:
+            zebra: true
+            contents:
+              - repeat: 13
+                reduce: 5
+                merge-bottom: true
+                contents:
+                  - row:
+                    contents:
+                      - field: inventory-extra-#{group}-#{i}
+                        frame: none
+                        width: stretch
+                      - field: inventory-extra-#{group}-#{i}-value
+                        frame: none
+                      - field: inventory-extra-#{group}-#{i}-weight
+                        frame: none
+                  
+  - at: '@pages'
+    add:
+      - page: inventory-more
+        name: "_{Inventory (extra)}"
+        order: 17
+        flex: true
+        contents:
+          - layout: 3e
+            contents:
+              - g:
+                contents:
+                  - paste: inventory-full-column
+                    params:
+                      col: left
+
+              - g:
+                contents:
+                  - h2: "_{Inventory}"
+                  
+                  - spacer:
+                  - paste: inventory-container
+                    params:
+                      group: first
+                  - spacer:
+                  - paste: inventory-container
+                    params:
+                      group: second
+                  # - spacer:
+
+                  - list:
+                    zebra: true
+                    contents:
+                      - repeat: 16
+                        reduce: 5
+                        merge-bottom: true
+                        contents:
+                          - row:
+                            contents:
+                              - field: inventory-extra-#{i}
+                                frame: none
+                                width: stretch
+                              - field: inventory-extra-#{i}-value
+                                frame: none
+                              - field: inventory-extra-#{i}-weight
+                                frame: none
+                  - tail:
+
+              - g:
+                contents:
+                  - paste: inventory-full-column
+                    params:
+                      col: right

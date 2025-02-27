@@ -535,7 +535,7 @@ export class Document {
       function transformCalculation(id, eq) {
         let requiredFields = new Set();
         eq = eq.replace(/#\{(.*?)\}/g, (match, field) => {
-          warn("Document", "Transform calculation: Unknown interpolation", field, element);
+          warn("Document", `Transform calculation: Unknown interpolation '${field}'`, element);
           return 0;
         });
         eq = eq.replace(/_\{(.*?)\}/g, (match, string) => {
@@ -984,10 +984,10 @@ ${showSpotlight ? `<div id='spotlight'></div>` : ''}
 ${isLoggedIn ? `
 <div id='screen-buttons__left'>
 <label for='show-values' class='toggle'>
-Hide values
+<span class='left-label'>${__('Hide values')}</span>
 <input type='checkbox' id='show-values' checked>
 <span class='toggle-switch'></span>
-Show values
+<span class='right-label'>${__('Show values')}</span>
 </label>
 </div>
 ` : ''}

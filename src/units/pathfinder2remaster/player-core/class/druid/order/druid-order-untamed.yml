@@ -4,7 +4,7 @@ group: "_{Player Core}"
 name: "_{Untamed}"
 
 require:
-  - unit: option/wild-shape
+  - unit: option/untamed-form
   
 inc:
   - set: intimidation-proficiency
@@ -16,21 +16,25 @@ inc:
 
   - at: '@druid/order-feat'
     replace:
-      - nothing:
+      - article: "##:feat/untamed-form"
+        title: "_{Untamed Form}"
+        cat: "_{Feat}"
+        contents:
+          - p: "_{Transform yourself into another form.}"
 
   - at: '@focus-spells'
     add:
       - action: 2
         contents:
           - p:
-            title: "_{Wild Shape}"
+            title: "_{Untamed Form}"
             content: "_{Transform yourself into another form.}"
 
-  - at: '@wild-shape/high'
+  - at: '@untamed-form/high'
     add:
-      - section: "_{Wild Shape}"
+      - section: "_{Untamed Form}"
         contents:
-          - table: "##:wild-shapes"
+          - table: "##:untamed-forms"
             rows:
               - duration: "10 mins"
                 class: "Pest form"
@@ -40,15 +44,15 @@ inc:
               - "Duration"
               - "Wild Shapes"
             template:
-              - field: druid-wild-shape-duration
+              - field: druid-untamed-form-duration
                 frame: none
                 control: value
                 value: '#{duration}'
               - p: '#{class}'
 
-  - at: '@wild-shape/attacks'
+  - at: '@untamed-form/attacks'
     add:
-      - field: druid-wild-shape-attack
+      - field: druid-untamed-form-attack
         label: "_{When using your own attack bonus}"
         frame: right
         border: none
@@ -69,10 +73,10 @@ inc:
                 contents:
                   - row:
                     contents:
-                      - field: druid-wild-shape-#{i}
+                      - field: druid-untamed-form-#{i}
                         width: stretch
                         frame: none
-                      - field: druid-wild-shape-#{i}-size
+                      - field: druid-untamed-form-#{i}-size
                         frame: none
                         icon: size
 

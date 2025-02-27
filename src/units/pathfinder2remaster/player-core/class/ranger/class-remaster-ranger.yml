@@ -1,0 +1,281 @@
+unit: class/remaster/ranger
+in: class
+group: "_{Player Core}"
+name: "_{Ranger}"
+
+form:
+  - select: ranger/hunters-edge
+    name: "_{Hunter's Edge}"
+    max: 1
+  - select: feat/ranger
+    name: "_{Ranger Feats}"
+    max: 8
+    levels: [ 1, 2, 4, 6, 8, 10, 14, 16, 18, 20 ]
+
+require:
+  - unit: option/animal-companion
+  - unit: weapon-spec/fast
+  - with: option/reference
+    unit: class/ranger/reference
+  - deny: archetype/ranger
+
+inc:
+  - set: class
+    value: "_{Ranger}"
+  - set: hp-class
+    value: 10
+  - set: class-icon
+    value: ranger
+  - set: subclass-label
+    value: "_{Hunter's Edge}"
+
+  - set: ranger-class-dc-proficiency
+    value: trained
+
+  - set: perception-proficiency
+    value: expert
+  - set: fortitude-proficiency
+    value: expert
+  - set: reflex-proficiency
+    value: expert
+  - set: will-proficiency
+    value: trained
+  - set: nature-proficiency
+    value: trained
+  - set: survival-proficiency
+    value: trained
+    
+  - set: unarmoured-proficiency
+    value: trained
+  - set: light-armour-proficiency
+    value: trained
+  - set: medium-armour-proficiency
+    value: trained
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        class-feat: true
+      - level: 1
+        gain: "_{Hunter's Edge}"
+      - level: 5
+        advance: "_{Trackless Journey}"
+      - level: 9
+        advance: "_{Nature's Edge}"
+      - level: 11
+        advance: "_{Unimpeded Journey}"
+      - level: 17
+        advance: "_{Masterful Hunter}"
+      - level: 19
+        advance: "_{Swift Prey}"
+        
+      - level: 3
+        advance: "_{Will saves}"
+        proficiency: expert
+        colour: WIS
+      - level: 7
+        advance: "_{Reflex saves}"
+        proficiency: master
+        colour: DEX
+      - level: 7
+        advance: "_{Perception}"
+        proficiency: master
+        colour: WIS
+      - level: 9
+        advance: "_{Ranger class DC}"
+        proficiency: expert
+      - level: 11
+        advance: "_{Fortitude saves}"
+        proficiency: master
+        colour: CON
+      - level: 11
+        advance: "_{Light armour}, _{Medium armour}, _{Unarmoured defence}"
+        proficiency: expert
+      - level: 13
+        advance: "_{Simple weapons}, _{Martial weapons}"
+        proficiency: master
+      - level: 15
+        advance: "_{Reflex saves}"
+        proficiency: legendary
+        colour: DEX
+      - level: 15
+        advance: "_{Perception}"
+        proficiency: legendary
+        colour: WIS
+      - level: 17
+        advance: "_{Ranger class DC}"
+        proficiency: master
+      - level: 19
+        advance: "_{Light armour}, _{Medium armour}, _{Unarmoured defence}"
+        proficiency: master
+
+
+  - at: '@skill-actions'
+    add:
+      - paste: 10mins
+        contents:
+          - p:
+            title: "_{Identify Magic (Nature/other)}"
+            content: "_{Take 10 minutes to identify a magical item, location or effect.}"
+            colour: WIS
+      - action:
+        contents:
+          - p:
+            title: "_{Command An Animal (Nature)}"
+            content: "_{Attempt a check against the target's Will DC; the GM may adjust the DC based on attitude or circumstances. Fail if the target is hostile or unfriendly.}"
+            colour: WIS
+      - indent: left
+        contents:
+          - p:
+            title: "_{Track (Survival)}"
+            content: "_{Move at up to half your travel speed while making checks every hour.}"
+            colour: WIS
+
+  - at: '@saving-throws'
+    add:
+      - level: 7
+        contents:
+          - paste: evasion
+            param:
+              title: "_{Natural Reflexes}"
+      - level: 11
+        contents:
+          - paste: juggernaut
+            param:
+              title: "_{Wanderer's Endurance}"
+      - level: 15
+        contents:
+          - paste: improved-evasion
+            param:
+              title: "_{Greater Natural Reflexes}"
+
+  - at: '@pages'
+    add:
+      - page: ranger
+        name: "_{Ranger}"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: ranger
+                  - class-name: "_{Ranger}"
+
+                  - section: "_{Hunter's Edge}"
+                    primary: true
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - zone: '@ranger/hunters-edge'
+                            contents:
+                              - article: ranger:hunters-edge
+                                lines: 4
+                              - level: 17
+                                contents:
+                                  - h5: "_{Masterful Hunter}"
+                                  - field: ranger:masterful-hunter/details
+                                    width: stretch
+                                    frame: none
+                                    control: p
+                                    lines: 3
+                                    with-title: false
+                                    merge-bottom: true
+
+                  - section: "_{Class DC}"
+                    contents:
+                      - paste: class-dc
+                        params:
+                          id: ranger-class-dc
+                          legend: "_{Ranger\nClass DC}"
+                          misc: false
+
+                  - section: "_{Trackless Journey}"
+                    contents:
+                      - level: 5
+                        contents:
+                          - p: "_{Gain the benefit of the Cover Tracks action at all times. Anyone tracking you must make a Survival check against your Survival DC.}"
+
+                  - section: "_{Nature's Edge}"
+                    contents:
+                      - level: 9
+                        contents:
+                          - p: "_{Enemies are flat-footed to you (-2 to AC) when in difficult terrain.}"
+
+                  - section: "_{Unimpeded Journey}"
+                    contents:
+                      - level: 11
+                        contents:
+                          - p: "_{Ignore non-magical difficult terrain.}"
+
+                  - zone: '@ranger/left'
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+                  - section: "_{Hunt Prey}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - action:
+                            contents:
+                              - p: "_{Designate a single creature you can see or hear as your target.}"
+                              - row:
+                                contents:
+                                  - field: ranger:hunt-prey/perception
+                                    border: full
+                                    legend: "_{Perception Bonus}"
+                                    width: large
+                                    control: value
+                                    value: "+2"
+                                  - spacer:
+                                  - field: ranger:hunt-prey/survival
+                                    border: full
+                                    legend: "_{Survival\nBonus}"
+                                    width: large
+                                    control: value
+                                    value: "+2"
+                                  - p: "_{To Track your prey.}"
+                                  - spacer:
+                              - p: "_{Ignore the first ranged increment penalty when within second range}"
+                          - level: 19
+                            contents:
+                              - action: free
+                                contents:
+                                  - h5: "_{Swift Prey}"
+                                  - p: "_{Use Hunt Prey as a free action a the start of your turn.}"
+
+                  - zone: '@ranger/right'
+
+                  - paste: class-feats
+                    params:
+                      id: ranger-feats
+                      title: "_{Ranger Feats}"
+                      mark: ranger
+                      lines: 3
+                      slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+
+                  - tail:
+                  - spacer:
+
+  - at: '@actions'
+    add:
+      - action:
+        contents:
+          - p:
+            title: "_{Hunt Prey}"
+            content: "_{Pick a single target you can see or hear. Get a bonus to Perception and Track your prey.}"
+
+  - at: '@perception-misc'
+    add:
+      - field: ranger:hunt-prey/perception
+        border: full
+        label: "_{Hunt Prey}"
+        prefix: "+"
+        width: large
+

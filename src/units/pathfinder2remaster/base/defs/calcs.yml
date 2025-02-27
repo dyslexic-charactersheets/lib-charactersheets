@@ -1,0 +1,67 @@
+unit: defs/calcs
+group: "_{Player Core}"
+
+inc:
+  - copy: half-level
+    params:
+      id: ''
+      label: "_{Class DC}"
+      width: large
+    contents:
+      - calc:
+        output:
+          field: '#{id}'
+          frame: left
+          width: "#{width}"
+          label: "#{label}"
+          eq: "floor(%{level}/2)"
+        inputs:
+          - ruby-round-down:
+            contents:
+              - field:
+                ref: level
+                label: "_{Level}"
+              - span: "&divide; 2"
+
+  - copy: focus-level
+    params:
+      id: ''
+      label: "_{Focus Level}"
+      width: large
+    contents:
+      - calc:
+        output:
+          field: '#{id}'
+          width: "#{width}"
+          legend: "#{label}"
+          eq: "floor(%{level}/2)"
+        inputs:
+          - ruby-round-up:
+            contents:
+              - field:
+                ref: level
+                label: "_{Level}"
+              - span: "&divide; 2"
+
+  - copy: heighten
+    params:
+      id: ''
+      label: "_{Focus}"
+      level: 1
+      heighten: "+1"
+      max: 4
+    contents:
+      - row:
+        valign: center
+        contents:
+          - h6: "#{label} [b]#{level}[/b]&nbsp;"
+          - vr:
+          - h6: "&nbsp;_{Heighten} [b]#{heighten}[/b]&nbsp;&nbsp;"
+          - field: "#{id}-heighten-progress"
+            frame: none
+            control: checkgrid
+            style: progress
+            max: "#{max}"
+            depth: 1
+          - spacer:
+      - item:

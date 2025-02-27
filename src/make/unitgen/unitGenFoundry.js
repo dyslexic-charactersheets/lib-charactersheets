@@ -128,7 +128,11 @@ function makeDescription(description) {
 }
 
 // Known units
-let knownUnits = [];
+let knownUnits = {
+  pathfinder2: [],
+  pathfinder2remaster: [],
+  starfinder2: []
+};
 
 function preloadUnits(game) {
   let units = [];
@@ -153,23 +157,46 @@ function preloadUnits(game) {
   }
 
   walkFiles(baseDir);
-  knownUnits = units;
+  knownUnits[game] = units;
   log("unitGen", "Units loaded");
 }
 
 function generateUnits() {
   // read the background files from the Foundry VTT source :D
-  const datadir = '../foundry-pf2e/packs/data/backgrounds.db';
-  for (let file of fs.readdirSync(datadir)) {
+  const datadir = '../foundry-pf2e/packs/backgrounds';
+  generateUnitsForFolder(datadir);
+}
+
+function generateUnitsForFolder(dir) {
+  for (let file of fs.readdirSync(dir)) {
     if (!file.match(/\.json$/)) {
+      let filepath = dir+'/'+file;
+      if (fs.lstatSync(filepath).isDirectory() ) {
+        generateUnitsForFolder(filepath);
+        continue;
+      }
+
       warn("unitGen", "Not a JSON file:", file);
+      continue;
+    }
+    if (file == "_folders.json") {
+      continue;
     }
 
     ((file) => {
-      fs.readFile(datadir+'/'+file, 'utf-8', (err, data) => {
+      // console.log("Reading", file);
+      fs.readFile(dir+'/'+file, 'utf-8', (err, data) => {
+        if (err) {
+          console.log("ERROR", err);
+          return;
+        }
         let json = JSON.parse(data);
+        if (json == null) {
+          console.log("Cannot parse file", file);
+          return;
+        }
         
-        let [book, group] = bookData(json.system.source.value);
+        let [book, group, edition] = bookData(json.system.publication.title);
 
         // fields
         let name = inputYaml(json.name);
@@ -191,13 +218,13 @@ function generateUnits() {
         let bookref = '';
         let loreskills = inputYaml(json.system.trainedLore).split(/, */).filter((lore) => lore !== undefined && lore !== null && lore != "" && !lore.match(/<.*>/)).map((lore) => lore.match(/Lore$/) ? lore : lore+" Lore");
 
-        createBackgroundUnit(name, description, book, bookref, feat, group, skillChoice, skills, loreskills, rarity, badge);
+        createBackgroundUnit(name, description, book, bookref, feat, group, edition, skillChoice, skills, loreskills, rarity, badge);
       });
     })(file);
   }
 }
 
-function createBackgroundUnit(name, description, book, bookref, feat, group, skillChoice, skills, loreskills, rarity, badge) {
+function createBackgroundUnit(name, description, book, bookref, feat, group, edition, skillChoice, skills, loreskills, rarity, badge) {
   // find the unit ID and filename
   // log("unitGen", name);
   let slug = slugify(name);
@@ -207,25 +234,37 @@ function createBackgroundUnit(name, description, book, bookref, feat, group, ski
     id = 'background/'+group+'/'+slug;
   }
   // log("unitGen", "Unit", id, unitfile);
-  unitfile = path.normalize(__dirname+'/../../units/pathfinder2/'+unitfile);
+  unitfile = path.normalize(`${__dirname}/../../units/${edition}/${unitfile}`);
   // log("unitGen", "File", unitfile);
+
+
+  let ogl = edition == "pathfinder2";
 
   // check if the feat exists
   let featUnit = "feat/"+slugify(feat);
-  let featExists = knownUnits.includes(featUnit);
+  let featExists = knownUnits[edition].includes(featUnit);
   if (!featExists) {
     if (feat != "") {
-      warn("unitGen", `Feat does not exist: ${featUnit} (${name})`);
+      warn("unitGen", `Feat does not exist: ${featUnit} (${name}) [${edition}]`);
     }
   }
 
   // generate the unit data
-  let unitdata = `unit: ${id}
+  let unitdata = `${ogl ? `# This file is compliant with the Open Game License (OGL)
+# and is suitable for use with the Pathfinder Roleplaying Game (Second Edition).
+# See the text of the OGL within this repository.
+` : `# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+`}
+
+unit: ${id}
 in: background
 group: "_{${book}}"
 name: "_{${name}}"
 ${(badge !== "") ? `badge: "_{${badge}}"`: ''}
-rarity: ${rarity}
+
+meta:
+  rarity: ${rarity}
 ${featExists ? `
 require:
   - unit: ${featUnit}
@@ -306,103 +345,126 @@ ${loreskills.map((skill) => `
 
 function bookData(source) {
   switch (source) {
+
+    // PF2e ORIGINAL
+
     // Rulebooks
     case "Pathfinder Core Rulebook":
-      return ["Core Rulebook", "core"];
+      return ["Core Rulebook", "core", "pathfinder2"];
 
     case "Pathfinder Advanced Player's Guide":
-      return ["Advanced Player's Guide", "apg"];
+      return ["Advanced Player's Guide", "apg", "pathfinder2"];
     
     case "Pathfinder Secrets of Magic":
-      return ["Secrets of Magic", "secrets-of-magic"];
+      return ["Secrets of Magic", "secrets-of-magic", "pathfinder2"];
 
     case "Pathfinder Guns and Gears":
     case "Pathfinder Guns & Gears":
-      return ["Guns and Gears", "guns-and-gears"];
+      return ["Guns and Gears", "guns-and-gears", "pathfinder2"];
       
     case "Pathfinder Book of the Dead":
-      return ["Book of the Dead", "book-of-the-dead"];
+      return ["Book of the Dead", "book-of-the-dead", "pathfinder2"];
 
     case "Pathfinder Dark Archive":
-      return ["Dark Archive", "dark-archive"];
+      return ["Dark Archive", "dark-archive", "pathfinder2"];
+
+    case "Pathfinder Rage of Elements":
+      return ["Rage of Elements", "rage-of-elements", "pathfinder2"];
 
     // Beginner's Box
     case "Pathfinder Beginner Box: Hero's Handbook":
-      return ["Pathfinder Beginner Box", "beginner-box"];
+      return ["Pathfinder Beginner Box", "beginner-box", "pathfinder2"];
   
     // Lost Omens books
     case "Pathfinder Lost Omens: World Guide":
-      return ["Lost Omens World Guide", "lost-omens/world-guide"];
+      return ["Lost Omens World Guide", "lost-omens/world-guide", "pathfinder2"];
 
     case "Pathfinder Lost Omens: Pathfinder Society Guide":
-      return ["Lost Omens Pathfinder Society Guide", "lost-omens/pathfinder-society-guide"];
+      return ["Lost Omens Pathfinder Society Guide", "lost-omens/pathfinder-society-guide", "pathfinder2"];
 
     case "Pathfinder Lost Omens: Travel Guide":
-      return ["Lost Omens Travel Guide", "lost-omens/travel-guide"];
+      return ["Lost Omens Travel Guide", "lost-omens/travel-guide", "pathfinder2"];
 
     case "Pathfinder Lost Omens: Gods & Magic":
-      return ["Lost Omens Gods & Magic", "lost-omens/gods-and-magic"];
+      return ["Lost Omens Gods & Magic", "lost-omens/gods-and-magic", "pathfinder2"];
 
     case "Pathfinder Lost Omens: Knights of Lastwall":
-      return ["Lost Omens Knights of Lastwall", "lost-omens/knights-of-lastwall"];
+      return ["Lost Omens Knights of Lastwall", "lost-omens/knights-of-lastwall", "pathfinder2"];
 
     case "Pathfinder Lost Omens: Firebrands":
-      return ["Lost Omens Firebrands", "lost-omens/firebrands"];
+      return ["Lost Omens Firebrands", "lost-omens/firebrands", "pathfinder2"];
 
     // Adventure Paths
     case "Pathfinder: Age of Ashes Player's Guide":
+    case "Pathfinder Age of Ashes Player's Guide":
     case "Pathfinder #148: Fires of the Haunted City":
     case "Pathfinder #150: Broken Promises":
-      return ["Age of Ashes", "adventure/age-of-ashes"];
+      return ["Age of Ashes", "adventure/age-of-ashes", "pathfinder2"];
 
     case "Pathfinder: Extinction Curse Player's Guide":
+    case "Pathfinder Extinction Curse Player's Guide":
     case "Pathfinder #153: Life's Long Shadows":
-      return ["Extinction Curse", "adventure/extinction-curse"];
+      return ["Extinction Curse", "adventure/extinction-curse", "pathfinder2"];
 
     case "Pathfinder: Agents of Edgewatch Player's Guide":
+    case "Pathfinder Agents of Edgewatch Player's Guide":
     case "Pathfinder #160: Assault on Hunting Lodge Seven":
-      return ["Agents of Edgewatch", "adventure/agents-of-edgewatch"];
+      return ["Agents of Edgewatch", "adventure/agents-of-edgewatch", "pathfinder2"];
 
     case "Fists of the Ruby Phoenix Player's Guide":
     case "Pathfinder: Fists of the Ruby Phoenix Player's Guide":
-      return ["Fists of the Ruby Phoenix", "adventure/fists-of-the-ruby-phoenix"];
+    case "Pathfinder Fists of the Ruby Phoenix Player's Guide":
+      return ["Fists of the Ruby Phoenix", "adventure/fists-of-the-ruby-phoenix", "pathfinder2"];
 
     case "Pathfinder: Kingmaker Player's Guide":
-      return ["Kingmaker", "adventure/kingmaker"];
+    case "Pathfinder Kingmaker Player's Guide":
+      return ["Kingmaker", "adventure/kingmaker", "pathfinder2"];
 
     case "Pathfinder: Strength of Thousands Player's Guide":
-      return ["Strength of Thousands", "adventure/strength-of-thousands"];
+    case "Pathfinder Strength of Thousands Player's Guide":
+      return ["Strength of Thousands", "adventure/strength-of-thousands", "pathfinder2"];
 
     case "Pathfinder: Outlaws of Alkenstar Player's Guide":
-      return ["Outlaws of Alkenstar", "adventure/outlaws-of-alkenstar"];
+    case "Pathfinder Outlaws of Alkenstar Player's Guide":
+      return ["Outlaws of Alkenstar", "adventure/outlaws-of-alkenstar", "pathfinder2"];
 
     case "Pathfinder: Quest for the Frozen Flame Player's Guide":
-      return ["Quest for the Frozen Flame", "adventure/quest-for-the-frozen-flame"];
+    case "Pathfinder Quest for the Frozen Flame Player's Guide":
+      return ["Quest for the Frozen Flame", "adventure/quest-for-the-frozen-flame", "pathfinder2"];
 
     case "Pathfinder: Gatewalkers Player's Guide":
-      return ["Gatewalkers", "adventure/gatewalkers"];
+    case "Pathfinder Gatewalkers Player's Guide":
+      return ["Gatewalkers", "adventure/gatewalkers", "pathfinder2"];
 
     case "Pathfinder: Blood Lords Player's Guide":
-      return ["Blood Lords", "adventure/blood-lords"];
+    case "Pathfinder Blood Lords Player's Guide":
+      return ["Blood Lords", "adventure/blood-lords", "pathfinder2"];
 
     case "Pathfinder: Stolen Fate Player's Guide":
-      return ["Stolen Fate", "adventure/stolen-fate"];
+    case "Pathfinder Stolen Fate Player's Guide":
+      return ["Stolen Fate", "adventure/stolen-fate", "pathfinder2"];
+
+    case "Pathfinder Sky King's Tomb Player's Guide":
+      return ["Sky King's Tomb", "adventure/sky-kings-tomb", "pathfinder2"];
+    case "Pathfinder Season of Ghosts Player's Guide":
+      return ["Season of Ghosts", "adventure/season-of-ghosts", "pathfinder2"];
+
+    case "Pathfinder Seven Dooms for Sandpoint Player's Guide":
+      return ["Seven Dooms for Sandpoint", "adventure/seven-dooms-for-sandpoint", "pathfinder2"];
 
     // Adventures
     case "Pathfinder Adventure: The Fall of Plaguestone":
-      return ["The Fall of Plaguestone", "adventure/fall-of-plaguestone"];
+      return ["The Fall of Plaguestone", "adventure/fall-of-plaguestone", "pathfinder2"];
 
     case "Pathfinder Adventure: Little Trouble in Big Absalom":
-      return ["Little Trouble in Big Absalom", "adventure/little-trouble-in-big-absalom"];
+      return ["Little Trouble in Big Absalom", "adventure/little-trouble-in-big-absalom", "pathfinder2"];
 
     case "Pathfinder Adventure: Crown of the Kobold King":
-      return ["Crown of the Kobold King", "adventure/crown-of-the-kobold-king"];
+      return ["Crown of the Kobold King", "adventure/crown-of-the-kobold-king", "pathfinder2"];
 
     case "Pathfinder: Abomination Vaults Player's Guide":
-      return ["Abomination Vaults", "adventure/abomination-vaults"];
-
-    case "Pathfinder: Kingmaker Player's Guide":
-      return ["Kingmaker", "adventure/kingmaker"];
+    case "Pathfinder Abomination Vaults Player's Guide":
+      return ["Abomination Vaults", "adventure/abomination-vaults", "pathfinder2"];
 
     // Pathfinder Society
     case "Organized Play Foundation":
@@ -410,15 +472,58 @@ function bookData(source) {
     case "Pathfinder Society Scenario #1-15: The Blooming Catastrophe":
     case "Pathfinder Society Scenario #1-19: Iolite Squad Alpha":
     case "Pathfinder Blog: Pathfinder Society Year 4 Rule Updates":
-      return ["Organized Play Foundation", "pfs"];
+      return ["Organized Play Foundation", "pfs", "pathfinder2"];
+
+
+    // PF2e REMASTER
+
+    // Core Rulebooks
+
+    case "Pathfinder Player Core":
+      return ["Player Core", "player-core", "pathfinder2remaster"];
+
+    case "Pathfinder Player Core 2":
+      return ["Player Core 2", "player-core", "pathfinder2remaster"];
+
+
+  
+    // Lost Omens books
+    case "Pathfinder Lost Omens: Tian Xia Character Guide":
+      return ["Lost Omens Tian Xia Character Guide", "lost-omens/tian-xia", "pathfinder2remaster"];
+    case "Pathfinder Lost Omens: Highhelm":
+      return ["Lost Omens Highhelm", "lost-omens/highhelm", "pathfinder2remaster"];
+
+
+    // Adventures
+    case "Pathfinder Wardens of Wildwood Player's Guide":
+      return ["Wardens of Wildwood", "adventure/wardens-of-wildwood", "pathfinder2remaster"];
+    case "Pathfinder Curtain Call Player's Guide":
+      return ["Curtain Call", "adventure/curtain-call", "pathfinder2remaster"];
+    case "Pathfinder Triumph of The Tusk Player's Guide":
+      return ["Triumph of the Tusk", "adventure/triumph-of-the-tusk", "pathfinder2remaster"];
+    case "Pathfinder Spore War Player's Guide":
+      return ["Spore War", "adventure/spore-war", "pathfinder2remaster"];
+
+    case "Pathfinder Adventure: Rusthenge":
+      return ["Rusthenge", "adventure/rusthenge", "pathfinder2remaster"];
+
+    case "Pathfinder Wake the Dead #1":
+    case "Pathfinder Wake the Dead #2":
+    case "Pathfinder Wake the Dead #5":
+      return ["Wake the Dead", "adventure/wake-the-dead", "pathfinder2remaster"];
+
+    // Pathfinder Society
+    case "Pathfinder #192: Worst of All Possible Worlds":
+      return ["Worst of All Possible Worlds", "pfs", "pathfinder2remaster"];
 
     default:
-      log("unitGen", "Unknown source:", json.system.source.value);
-      return [source, 'adventure/'+slugify(source)];
+      log("unitGen", "Unknown source:", source);
+      return [source, 'adventure/'+slugify(source), "pathfinder2remaster"];
   }
 }
 
 
 preloadUnits("pathfinder2");
+preloadUnits("pathfinder2remaster");
 
 setTimeout(generateUnits, 1000);

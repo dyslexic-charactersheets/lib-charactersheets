@@ -1,6 +1,10 @@
 .page-zoom-button {
   display: none;
 }
+  
+.toggle-print-page {
+  display: none;
+}
 
 @media screen {
   $factor: 2.5;
@@ -20,6 +24,7 @@
     background-color: transparent;
     box-shadow: none;
     border: 0 none;
+    padding: 0 10px;
 
     span {
       font-weight: bold;
@@ -33,6 +38,13 @@
 
   html.zoom {
     font-size: 10pt/$factor;
+
+    .zoom-button {
+      background: rgba(0,0,0,0.5);
+      margin: -1rem 0;
+      border-radius: 5px;
+      box-shadow: 0 0 10px 5px rgba(0,0,0,0.5);
+    }
     
     main {
       padding: 30pt 60pt;
@@ -42,6 +54,10 @@
       justify-content: center;
       align-items: center;
       gap: 20pt;
+    }
+
+    .page-container {
+      margin-bottom: 5rem;
     }
     
     .page {
@@ -55,6 +71,25 @@
       &--landscape {
         width: $page_height/$factor;
         height: $page_width/$factor;
+      }
+
+      &--no-print {
+        opacity: 0.5;
+        // .page__contents {
+        //   opacity: 0.5;
+        // }
+
+        // + .no-print-label {
+        //   display: block;
+        //   position: absolute;
+        //   left: 0;
+        //   right: 0;
+        //   top: 40%;
+        //   font-size: 10rem;
+        //   text-align: center;
+        //   z-index: 100;
+        //   color: black;
+        // }
       }
     }
 
@@ -83,11 +118,31 @@
       z-index: 100;
       opacity: 0;
     }
+
+    .toggle-print-page {
+      display: flex;
+      position: absolute;
+      bottom: -5rem;
+      left: 0;
+      right: 0;
+
+      span {
+        color: black;
+        font-size: 3rem;
+      }
+    }
   }
 }
 
 @media print {
+  .page--no-print {
+    display: none !important;
+  }
+
   .page-zoom-button {
+    display: none;
+  }
+  .toggle-print-page {
     display: none;
   }
 }

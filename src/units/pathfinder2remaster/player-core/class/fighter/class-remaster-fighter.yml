@@ -1,0 +1,263 @@
+unit: class/remaster/fighter
+in: class
+group: "_{Player Core}"
+name: "_{Fighter}"
+
+form:
+  - select: feat/fighter
+    name: "_{Fighter Feats}"
+    max: 8
+    levels: [ 1, 2, 4, 6, 8, 10, 14, 16, 18, 20 ]
+
+require:
+  - deny: archetype/fighter
+  - unit: weapon-spec/fast
+  - with: option/reference
+    unit: class/fighter/reference
+  - unit: feat/reactive-strike
+
+inc:
+  - set: class
+    value: "_{Fighter}"
+  - set: hp-class
+    value: 10
+  - set: class-icon
+    value: fighter
+  - set: subclass-label
+    value: ""
+
+  - set: fighter-class-dc-proficiency
+    value: trained
+  - set: perception-proficiency
+    value: expert
+
+  - set: fortitude-proficiency
+    value: expert
+  - set: reflex-proficiency
+    value: expert
+  - set: will-proficiency
+    value: trained
+    
+  - set: unarmoured-proficiency
+    value: trained
+  - set: light-armour-proficiency
+    value: trained
+  - set: medium-armour-proficiency
+    value: trained
+  - set: heavy-armour-proficiency
+    value: trained
+
+  - at: '@skill-actions'
+    add:
+      - action:
+        contents:
+          - p:
+            title: "_{Tumble Through (Acrobatics)}"
+            content: "_{Attempt a check against an enemy's Reflex DC. If successful, move through their space at half speed. If you fail, trigger reactions.}"
+            colour: DEX
+      - action:
+        contents:
+          - p:
+            title: "_{Grapple (Athletics)}"
+            content: "_{Attempt an Athletics check against an enemy's Fortitude DC. If successful, enemy is grabbed; or restrained on a critical success.}"
+            colour: STR
+      - indent: left
+        contents:
+          - action:
+            contents:
+              - p:
+                title: "_{Escape (Unarmed Attack)}"
+                content: "_{Attempt an unarmed attack against the Athletics DC of a creature grabbing you (or Thievery DC of one who tied you up). Escape if successful; move 5ft on a critical success.}"
+                colour: STR
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        class-feat: true
+      - level: 3
+        advance: "_{Bravery}"
+
+      - level: 5
+        advance: "_{Weapon Mastery}"
+        proficiency: master
+      - level: 13
+        advance: "_{Weapon Legend}"
+      - level: 19
+        advance: "_{Versatile Legend}"
+
+      - level: 9
+        advance: "_{Combat Flexibility}"
+      - level: 15
+        advance: "_{Improved Flexibility}"
+        
+      - level: 3
+        advance: "_{Will saves}"
+        proficiency: expert
+        colour: WIS
+      - level: 7
+        advance: "_{Perception}"
+        proficiency: master
+        colour: WIS
+      - level: 9
+        advance: "_{Fortitude saves}"
+        proficiency: master
+        colour: CON
+      - level: 11
+        advance: "_{Light armour}, _{Medium armour}, _{Heavy armour}, _{Unarmoured defence}"
+        proficiency: expert
+      - level: 11
+        advance: "_{Fighter class DC}"
+        proficiency: expert
+      - level: 15
+        advance: "_{Reflex saves}"
+        proficiency: master
+        colour: DEX
+      - level: 17
+        advance: "_{Light armour}, _{Medium armour}, _{Heavy armour}, _{Unarmoured defence}"
+        proficiency: master
+
+  - at: '@saving-throws'
+    add:
+      - level: 3
+        contents:
+          - paste: bravery
+          - p: "_{When you become frightened, reduce it by 1.}"
+      - level: 9
+        contents:
+          - paste: juggernaut
+            params:
+              title: "_{Battle Hardened}"
+      - level: 15
+        contents:
+          - paste: evasion
+            params:
+              title: "_{Tempered Reflexes}"
+
+  - at: '@perception'
+    replace:
+      - level: 7
+        contents:
+          - field: "##:initiative-bonus"
+            frame: right
+            control: value
+            value: "+2"
+            label: "_{To initiative}"
+
+  - at: '@actions'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{Reactive Strike}"
+            content: "_{Make a melee strike when a creature within your reach acts, attacks or moves.} _{On a critical hit, their action is disrupted.}"
+
+  - at: '@pages'
+    add:
+      - page: fighter
+        name: "_{Fighter}"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: fighter
+                    optional: true
+                  - class-name: "_{Fighter}"
+
+                  - section: "_{Class DC}"
+                    id: class-dc
+                    contents:
+                      - paste: class-dc
+                        params:
+                          id: fighter-class-dc
+                          legend: "_{Fighter\nClass DC}"
+
+                  - section: "_{Reactive Strike}"
+                    contents:
+                      - paste: feat/reactive-strike
+
+                  - section: "_{Bravery}"
+                    contents:
+                      - level: 3
+                        contents:
+                          - p: "_{Any time you become frightened, reduce the amount by 1.}"
+
+                  - section: "_{Fighter Weapon Mastery}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - level: 5
+                            contents:
+                              - field: "##:weapon-mastery"
+                                label: "_{Weapon Group}"
+                                width: stretch
+                              - proficiency: master
+                                content: "_{Simple and martial weapons.}"
+                              - proficiency: expert
+                                content: "_{Advanced weapons.}"
+                              - p: "_{Gain the critical specialisation effect for all weapons for which you have master proficiency.}"
+                          - level: 13
+                            contents:
+                              - field: "##:weapon-legend"
+                                label: "_{Weapon Legend}"
+                                width: stretch
+                              - proficiency: legendary
+                                content: "_{Simple and martial weapons.}"
+                              - proficiency: master
+                                content: "_{Advanced weapons.}"
+                              - hr:
+                              - proficiency: master
+                                content: "_{All simple and martial weapons.}"
+                              - proficiency: expert
+                                content: "_{All advanced weapons.}"
+                          - level: 19
+                            contents:
+                              - h5: "_{Versatile Legend}"
+                              - proficiency: legendary
+                                content: "_{All simple and martial weapons.}"
+                              - proficiency: master
+                                content: "_{All advanced weapons.}"
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+                  
+                  - paste: class-feats
+                    params:
+                      id: fighter-feats
+                      title: "_{Fighter Feats}"
+                      mark: fighter
+                      slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                      
+                  - section: "_{Combat Flexibility}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - level: 9
+                            contents:
+                              - p: "_{Choose a temporary feat each day, up to level 8. You must qualify for the feat.}"
+                          - list:
+                            columns: 2
+                            hr: true
+                            zebra: true
+                            contents:
+                              - repeat: 10
+                                contents:
+                                  - selectable: "##:combat-flexibility"
+                                    contents:
+                                      - article: "##:combat-flexibility/feat"
+                                        show-level: true
+                                        lines: 3
+                          - level: 15
+                            contents:
+                              - h5: "_{Improved Flexibility}"
+                              - p: "_{Gain a second temporary feat, up to level 14. Your first temporary feat may be used to qualify for the second feat.}"
+
+                  - tail:
+                  # - spacer:

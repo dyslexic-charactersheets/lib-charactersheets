@@ -14,10 +14,10 @@ const systems = [
         code: "pathfinder2",
         name: "Pathfinder 2nd Edition"
     },
-    // {
-    //     code: "pathfinder2remaster",
-    //     name: "Pathfinder 2nd Edition Remaster"
-    // },
+    {
+        code: "pathfinder2remaster",
+        name: "Pathfinder 2nd Edition Remaster"
+    },
     // {
     //     code: "starfinder2",
     //     name: "Starfinder 2nd Edition"

@@ -62,7 +62,7 @@ inc:
       - level: 1
         gain: "_{Druidic Order}"
       - level: 1
-        advance: "_{Wild Empathy}"
+        advance: "_{Voice of Nature}"
       - level: 1
         advance: "_{Shield Block}"
       - levels: [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
@@ -109,6 +109,8 @@ inc:
       - level: 9
         contents:
           - paste: resolve
+            params:
+              title: "_{Wild Willpower}"
 
   - at: '@cover-class'
     replace:
@@ -176,13 +178,13 @@ inc:
                                         label: "_{Order Anathema}"
                                         repeat: 3
                                         merge-bottom: 2
+                          - g:
+                            contents:
+                              - zone: '@druid/order-feat'
+                                contents:
+                                  - article: druid:order/feat
+                                    lines: 3
 
-                  - zone: '@druid/order-feat'
-                    contents:
-                      - section: "_{Order Feat}"
-                        contents:
-                          - article: druid:order/feat
-                            lines: 3
 
                   - zone: '@druid/order-power'
                     contents:
@@ -211,9 +213,27 @@ inc:
                       - paste: spell-attack
                       - paste: spell-dc
 
-                  - section: "_{Wild Empathy}"
+                  - section: "_{Voice of Nature}"
                     contents:
-                      - p: "_{Communicate with creatures on a rudimentary level. You can use Diplomacy to Make an Impression on animals and to make very simple Requests of them.}"
+                      - list:
+                        hr: true
+                        light: true
+                        zebra: true
+                        contents:
+                          - selectable: "##:feat/animal-empathy"
+                            contents:
+                              - article: feat/druid/animal-empathy
+                                title: "_{Animal Empathy}"
+                                cat: "_{Feat}"
+                                contents:
+                                  - p: "_{Communicate with creatures on a rudimentary level. You can use Diplomacy to Make an Impression on animals and to make very simple Requests of them.}"
+                          - selectable: "##:feat/plant-empathy"
+                            contents:
+                              - article: feat/druid/plant-empathy
+                                title: "_{Plant Empathy}"
+                                cat: "_{Feat}"
+                                contents:
+                                  - p: "_{Communicate with plants and fungus on a rudimentary level. You can ask questions and use Diplomacy on plants and fungus.}"
 
                   - tail:
                   - spacer:
