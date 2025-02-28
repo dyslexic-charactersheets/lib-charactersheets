@@ -4326,71 +4326,6 @@ For more information about Paizo Inc. and Paizo products, visit <a href='https:/
 <nav id='enum-menu' class='control-menu'><div id='enum-menu__holder'></div></nav>
 
 <script type='text/javascript'>
-
-var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-if (isSafari) {
-  document.documentElement.classList.add("html--safari");
-}
-
-// click buttons to scroll
-for (let btn of document.getElementsByClassName('index-button')) {
-  ((btn) => {
-    let id = btn.dataset.page;
-    btn.addEventListener('click', (evt) => {
-      document.getElementById('page-'+id).scrollIntoView({
-        behavior: 'smooth'
-      });
-    });
-  })(btn);
-}
-
-// on scroll, highlight the current page
-
-// if (document.getElementsByClassName('page').length > 15) {
-//   document.getElementById('index-buttons').classList.add('index-buttons--many');
-// }
-
-let scrollPages = [];
-function findScrollPages() {
-  scrollPages = [];
-  for (let page of document.getElementsByClassName('page')) {
-    let pageid = page.dataset.page;
-    let pagey = page.offsetTop + page.offsetHeight / 2;
-    scrollPages.push({y: pagey, id: pageid});
-  }
-  updateScroll();
-}
-findScrollPages();
-addEventListener("resize", findScrollPages);
-
-function updateScroll() {
-  let y = window.scrollY + window.innerHeight / 2;
-  let closestPage = scrollPages[0];
-  let closestDiff = 10000000;
-  for (let page of scrollPages) {
-    let diff = Math.abs(page.y - y);
-    if (diff < closestDiff) {
-      closestPage = page;
-      closestDiff = diff;
-    }
-  }
-
-  for (let btn of document.getElementsByClassName('index-button')) {
-    let page = btn.dataset.page;
-    if (page == closestPage.id) {
-      btn.classList.add('index-button--current');
-    } else {
-      btn.classList.remove('index-button--current');
-    }
-  }
-}
-
-document.addEventListener("scroll", (event) => {
-  updateScroll();
-});
-
-
 // Arrows
 for (let arrowElem of document.getElementsByClassName('arrow')) {
   let from = document.getElementById(arrowElem.dataset.from);
@@ -4594,6 +4529,71 @@ for (let arrowElem of document.getElementsByClassName('arrow')) {
   }
 }
 
+
+var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+if (isSafari) {
+  document.documentElement.classList.add("html--safari");
+}
+
+// click buttons to scroll
+for (let btn of document.getElementsByClassName('index-button')) {
+  ((btn) => {
+    let id = btn.dataset.page;
+    btn.addEventListener('click', (evt) => {
+      document.getElementById('page-'+id).scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  })(btn);
+}
+
+// on scroll, highlight the current page
+
+// if (document.getElementsByClassName('page').length > 15) {
+//   document.getElementById('index-buttons').classList.add('index-buttons--many');
+// }
+
+let scrollPages = [];
+function findScrollPages() {
+  scrollPages = [];
+  for (let page of document.getElementsByClassName('page')) {
+    let pageid = page.dataset.page;
+    let pagey = page.offsetTop + page.offsetHeight / 2;
+    scrollPages.push({y: pagey, id: pageid});
+  }
+  updateScroll();
+}
+findScrollPages();
+addEventListener("resize", findScrollPages);
+
+function updateScroll() {
+  let y = window.scrollY + window.innerHeight / 2;
+  let closestPage = scrollPages[0];
+  let closestDiff = 10000000;
+  for (let page of scrollPages) {
+    let diff = Math.abs(page.y - y);
+    if (diff < closestDiff) {
+      closestPage = page;
+      closestDiff = diff;
+    }
+  }
+
+  for (let btn of document.getElementsByClassName('index-button')) {
+    let page = btn.dataset.page;
+    if (page == closestPage.id) {
+      btn.classList.add('index-button--current');
+    } else {
+      btn.classList.remove('index-button--current');
+    }
+  }
+}
+
+document.addEventListener("scroll", (event) => {
+  updateScroll();
+});
+
+
 // field interactions: ACTIONS
 
 function showActionMenu(event) {
@@ -4678,23 +4678,6 @@ for (var field of document.getElementsByClassName("field--control_action-icon"))
   for (var icon of field.getElementsByClassName("icon")) {
     icon.addEventListener('click', showActionMenu);
   }
-}
-
-// field interactions: checkboxes
-for (let field of document.getElementsByClassName('field--control_checkbox')) {
-  ((field) => {
-    let name = field.getAttribute('name').replace(/^field-/, '');
-    for (let checkbox of field.getElementsByTagName('input')) {
-      checkbox.addEventListener('input', (evt) => {
-        let checked = checkbox.checked;
-        for (let otherCheckbox of document.querySelectorAll('input[name="'+name+'"]')) {
-          if (checkbox == otherCheckbox)
-            continue;
-          otherCheckbox.checked = checked;
-        }
-      });
-    }
-  })(field);
 }
 
 // field interactions: ALIGNMENT
@@ -4846,6 +4829,80 @@ for (var field of document.getElementsByClassName("field--control_counter")) {
   })(field);
 }
 
+// Enum
+
+function showEnumMenu(event) {
+  var field = event.target.closest('.field');
+  showMenu(event, 'enum', field);
+
+  var value = getEnumValue(field.id);
+  menus.currentValue = value;
+  
+  // click actions
+  for (var optionHolder of field.getElementsByClassName('field--control_enum__options')) {
+    var optionHtml = optionHolder.innerHTML;
+    var enumMenuHolder = document.getElementById('enum-menu__holder');
+    enumMenuHolder.innerHTML = optionHtml;
+    for (var input of enumMenuHolder.getElementsByTagName("input")) {
+      ((input) => {
+        // set value
+        var checked = input.getAttribute('data-value') == value;
+        input.checked = checked;
+        // event handler
+        var itemSlug = input.getAttribute('value');
+        var itemValue = input.getAttribute('data-value');
+        input.addEventListener("change", function () {
+          setEnumValue(field, itemSlug, itemValue);
+          dismissMenus();
+        });
+        input.closest('label').addEventListener("click", function (event) {
+          input.checked = true;
+          input.dispatchEvent(new Event("change"));
+          event.preventDefault();
+        });
+      })(input);
+    }
+  }
+}
+
+function getEnumValue(fieldId) {
+  var field = document.getElementById(fieldId);
+  for (var input of field.getElementsByTagName('input')) {
+    return input.value;
+  }
+}
+
+function setEnumValue(field, slug, value) {
+  for (var input of field.getElementsByTagName('input')) {
+    input.value = value;
+    input.dispatchEvent(new Event("change"));
+  }
+}
+
+// enum menu click actions
+for (var field of document.getElementsByClassName("field--control_enum")) {
+  for (var box of field.getElementsByClassName("field__frame")) {
+    box.addEventListener('click', showEnumMenu);
+  }
+}
+
+// field interactions: checkboxes
+for (let field of document.getElementsByClassName('field--control_checkbox')) {
+  ((field) => {
+    let name = field.getAttribute('name').replace(/^field-/, '');
+    for (let checkbox of field.getElementsByTagName('input')) {
+      checkbox.addEventListener('input', (evt) => {
+        let checked = checkbox.checked;
+        for (let otherCheckbox of document.querySelectorAll('input[name="'+name+'"]')) {
+          if (checkbox == otherCheckbox)
+            continue;
+          otherCheckbox.checked = checked;
+        }
+      });
+    }
+  })(field);
+}
+
 // Mutating dice icon
 
 for (let icon of document.getElementsByClassName("icon_damage")) {
@@ -4942,6 +4999,107 @@ for (let field of document.getElementsByClassName('field--control_p')) {
       });
     })(control);
   }
+}
+
+// field interactions: PROFICIENCY
+
+function showProficiencyMenu(event) {
+  var field = event.target.closest('.field');
+  showMenu(event, 'proficiency', field);
+
+  var teml = getProficiencyValue(field.id);
+  menus.currentValue = teml;
+
+  document.getElementById('proficiency-menu-untrained').checked = false;
+  document.getElementById('proficiency-menu-trained').checked = false;
+  document.getElementById('proficiency-menu-expert').checked = false;
+  document.getElementById('proficiency-menu-master').checked = false;
+  document.getElementById('proficiency-menu-legendary').checked = false;
+
+  var hint = document.getElementById('proficiency-menu__level-hint');
+  hint.classList.add('row--fade');
+  if (teml !== null && teml !== "" && ['untrained', 'trained', 'expert', 'master', 'legendary'].includes(teml)) {
+    var radio = document.getElementById('proficiency-menu-'+teml);
+    if (radio !== null) {
+      radio.checked = true;
+    }
+
+    var bonuses = {
+      'untrained': 0,
+      'trained': 2,
+      'expert': 4,
+      'master': 6,
+      'legendary': 8
+    };
+    document.getElementById('proficiency-menu__plus').innerText = bonuses[teml];
+    if (teml != 'untrained') {
+      hint.classList.remove('row--fade');
+    }
+  }
+  
+  // level hint
+  var level = '';
+  for (var levelInput of document.getElementsByName('level')) {
+    level = levelInput.value;
+  }
+  var output = document.getElementById('proficiency-menu__ref-level');
+  output.innerHTML = level;
+}
+
+function getProficiencyValue(fieldId) {
+  var field = document.getElementById(fieldId);
+  for (var rankControl of field.getElementsByClassName('field--control_proficiency__rank')) {
+    return rankControl.value;
+  }
+  return 'untrained';
+}
+
+function setProficiencyValue(fieldId, value) {
+  for (var field of document.getElementsByName(fieldId)) {
+    // update icon
+    var icon = field.getElementsByClassName('field--control_proficiency__icon')[0];
+    icon.classList.remove('icon_proficiency-untrained');
+    icon.classList.remove('icon_proficiency-trained');
+    icon.classList.remove('icon_proficiency-expert');
+    icon.classList.remove('icon_proficiency-master');
+    icon.classList.remove('icon_proficiency-legendary');
+    icon.classList.add('icon_proficiency-'+value);
+
+    for (var rankControl of field.getElementsByClassName('field--control_proficiency__rank')) {
+      rankControl.value = value;
+      redoProficiency();
+    }
+
+    for (var bonusControl of field.getElementsByClassName('field--control_proficiency__bonus')) {
+      bonusControl.dispatchEvent(new Event('change'));
+    }
+  }
+}
+
+for (var teml of ['untrained', 'trained', 'expert', 'master', 'legendary']) {
+  (function (teml) {
+    document.getElementById('proficiency-menu-'+teml).addEventListener('change', function (event) {
+      if (menus.currentFieldId !== null) {
+        if (menus.currentValue === null || menus.currentValue !== teml) {
+          setProficiencyValue(menus.currentFieldId, teml);
+          dismissMenus();
+        }
+      }
+    });
+  })(teml);
+}
+
+document.getElementById("proficiency-menu").addEventListener('click', function (event) {
+  event.stopPropagation();
+});
+
+for (var field of document.getElementsByClassName("field--control_proficiency")) {
+  for (var icon of field.getElementsByClassName("field__frame")) {
+    icon.addEventListener('click', showProficiencyMenu);
+  }
+  // for (var icon of field.getElementsByClassName("field__control--control_icon")) {
+  //   icon.addEventListener('click', showProficiencyMenu);
+  // }
 }
 
 // Ref Switch
@@ -5089,164 +5247,6 @@ for (var field of document.getElementsByClassName("field--control_ref-switch")) 
       frame.addEventListener('click', showRefSwitchMenu);
     }
   }
-}
-
-// Enum
-
-function showEnumMenu(event) {
-  var field = event.target.closest('.field');
-  showMenu(event, 'enum', field);
-
-  var value = getEnumValue(field.id);
-  menus.currentValue = value;
-  
-  // click actions
-  for (var optionHolder of field.getElementsByClassName('field--control_enum__options')) {
-    var optionHtml = optionHolder.innerHTML;
-    var enumMenuHolder = document.getElementById('enum-menu__holder');
-    enumMenuHolder.innerHTML = optionHtml;
-    for (var input of enumMenuHolder.getElementsByTagName("input")) {
-      ((input) => {
-        // set value
-        var checked = input.getAttribute('data-value') == value;
-        input.checked = checked;
-        // event handler
-        var itemSlug = input.getAttribute('value');
-        var itemValue = input.getAttribute('data-value');
-        input.addEventListener("change", function () {
-          setEnumValue(field, itemSlug, itemValue);
-          dismissMenus();
-        });
-        input.closest('label').addEventListener("click", function (event) {
-          input.checked = true;
-          input.dispatchEvent(new Event("change"));
-          event.preventDefault();
-        });
-      })(input);
-    }
-  }
-}
-
-function getEnumValue(fieldId) {
-  var field = document.getElementById(fieldId);
-  for (var input of field.getElementsByTagName('input')) {
-    return input.value;
-  }
-}
-
-function setEnumValue(field, slug, value) {
-  for (var input of field.getElementsByTagName('input')) {
-    input.value = value;
-    input.dispatchEvent(new Event("change"));
-  }
-}
-
-// enum menu click actions
-for (var field of document.getElementsByClassName("field--control_enum")) {
-  for (var box of field.getElementsByClassName("field__frame")) {
-    box.addEventListener('click', showEnumMenu);
-  }
-}
-
-// field interactions: PROFICIENCY
-
-function showProficiencyMenu(event) {
-  var field = event.target.closest('.field');
-  showMenu(event, 'proficiency', field);
-
-  var teml = getProficiencyValue(field.id);
-  menus.currentValue = teml;
-
-  document.getElementById('proficiency-menu-untrained').checked = false;
-  document.getElementById('proficiency-menu-trained').checked = false;
-  document.getElementById('proficiency-menu-expert').checked = false;
-  document.getElementById('proficiency-menu-master').checked = false;
-  document.getElementById('proficiency-menu-legendary').checked = false;
-
-  var hint = document.getElementById('proficiency-menu__level-hint');
-  hint.classList.add('row--fade');
-  if (teml !== null && teml !== "" && ['untrained', 'trained', 'expert', 'master', 'legendary'].includes(teml)) {
-    var radio = document.getElementById('proficiency-menu-'+teml);
-    if (radio !== null) {
-      radio.checked = true;
-    }
-
-    var bonuses = {
-      'untrained': 0,
-      'trained': 2,
-      'expert': 4,
-      'master': 6,
-      'legendary': 8
-    };
-    document.getElementById('proficiency-menu__plus').innerText = bonuses[teml];
-    if (teml != 'untrained') {
-      hint.classList.remove('row--fade');
-    }
-  }
-  
-  // level hint
-  var level = '';
-  for (var levelInput of document.getElementsByName('level')) {
-    level = levelInput.value;
-  }
-  var output = document.getElementById('proficiency-menu__ref-level');
-  output.innerHTML = level;
-}
-
-function getProficiencyValue(fieldId) {
-  var field = document.getElementById(fieldId);
-  for (var rankControl of field.getElementsByClassName('field--control_proficiency__rank')) {
-    return rankControl.value;
-  }
-  return 'untrained';
-}
-
-function setProficiencyValue(fieldId, value) {
-  for (var field of document.getElementsByName(fieldId)) {
-    // update icon
-    var icon = field.getElementsByClassName('field--control_proficiency__icon')[0];
-    icon.classList.remove('icon_proficiency-untrained');
-    icon.classList.remove('icon_proficiency-trained');
-    icon.classList.remove('icon_proficiency-expert');
-    icon.classList.remove('icon_proficiency-master');
-    icon.classList.remove('icon_proficiency-legendary');
-    icon.classList.add('icon_proficiency-'+value);
-
-    for (var rankControl of field.getElementsByClassName('field--control_proficiency__rank')) {
-      rankControl.value = value;
-      redoProficiency();
-    }
-
-    for (var bonusControl of field.getElementsByClassName('field--control_proficiency__bonus')) {
-      bonusControl.dispatchEvent(new Event('change'));
-    }
-  }
-}
-
-for (var teml of ['untrained', 'trained', 'expert', 'master', 'legendary']) {
-  (function (teml) {
-    document.getElementById('proficiency-menu-'+teml).addEventListener('change', function (event) {
-      if (menus.currentFieldId !== null) {
-        if (menus.currentValue === null || menus.currentValue !== teml) {
-          setProficiencyValue(menus.currentFieldId, teml);
-          dismissMenus();
-        }
-      }
-    });
-  })(teml);
-}
-
-document.getElementById("proficiency-menu").addEventListener('click', function (event) {
-  event.stopPropagation();
-});
-
-for (var field of document.getElementsByClassName("field--control_proficiency")) {
-  for (var icon of field.getElementsByClassName("field__frame")) {
-    icon.addEventListener('click', showProficiencyMenu);
-  }
-  // for (var icon of field.getElementsByClassName("field__control--control_icon")) {
-  //   icon.addEventListener('click', showProficiencyMenu);
-  // }
 }
 
 var filename = "Remaster, Witch.html";
