@@ -4680,6 +4680,23 @@ for (var field of document.getElementsByClassName("field--control_action-icon"))
   }
 }
 
+// field interactions: checkboxes
+for (let field of document.getElementsByClassName('field--control_checkbox')) {
+  ((field) => {
+    let name = field.getAttribute('name').replace(/^field-/, '');
+    for (let checkbox of field.getElementsByTagName('input')) {
+      checkbox.addEventListener('input', (evt) => {
+        let checked = checkbox.checked;
+        for (let otherCheckbox of document.querySelectorAll('input[name="'+name+'"]')) {
+          if (checkbox == otherCheckbox)
+            continue;
+          otherCheckbox.checked = checked;
+        }
+      });
+    }
+  })(field);
+}
+
 // field interactions: ALIGNMENT
 
 function showAlignmentMenu(event) {
@@ -4829,78 +4846,49 @@ for (var field of document.getElementsByClassName("field--control_counter")) {
   })(field);
 }
 
-// Enum
+// field interactions: PARA
 
-function showEnumMenu(event) {
-  var field = event.target.closest('.field');
-  showMenu(event, 'enum', field);
+for (let field of document.getElementsByClassName('field--control_p')) {
+  for (let control of field.getElementsByClassName('field__control')) {
+    ((control) => {
+      function updateEmpty() {
+        let empty = true;
+        for (let part of control.getElementsByClassName('p__editpart')) {
+          if (part.innerText != "") {
+            empty = false;
+          }
+        }
+        control.classList.toggle('field__control--empty', empty);
+      }
 
-  var value = getEnumValue(field.id);
-  menus.currentValue = value;
-  
-  // click actions
-  for (var optionHolder of field.getElementsByClassName('field--control_enum__options')) {
-    var optionHtml = optionHolder.innerHTML;
-    var enumMenuHolder = document.getElementById('enum-menu__holder');
-    enumMenuHolder.innerHTML = optionHtml;
-    for (var input of enumMenuHolder.getElementsByTagName("input")) {
-      ((input) => {
-        // set value
-        var checked = input.getAttribute('data-value') == value;
-        input.checked = checked;
-        // event handler
-        var itemSlug = input.getAttribute('value');
-        var itemValue = input.getAttribute('data-value');
-        input.addEventListener("change", function () {
-          setEnumValue(field, itemSlug, itemValue);
-          dismissMenus();
-        });
-        input.closest('label').addEventListener("click", function (event) {
-          input.checked = true;
-          input.dispatchEvent(new Event("change"));
-          event.preventDefault();
-        });
-      })(input);
-    }
-  }
-}
+      for (let part of control.getElementsByClassName('p__editpart')) {
+        part.addEventListener('input', updateEmpty);
+        ((part) => {
+          part.addEventListener('click', (evt) => {
+            setTimeout(() => {
+              part.focus();
+            }, 0);
+            evt.stopPropagation(); // don't fall back to the bigger click
+          })
+        })(part);
+      }
 
-function getEnumValue(fieldId) {
-  var field = document.getElementById(fieldId);
-  for (var input of field.getElementsByTagName('input')) {
-    return input.value;
-  }
-}
-
-function setEnumValue(field, slug, value) {
-  for (var input of field.getElementsByTagName('input')) {
-    input.value = value;
-    input.dispatchEvent(new Event("change"));
-  }
-}
-
-// enum menu click actions
-for (var field of document.getElementsByClassName("field--control_enum")) {
-  for (var box of field.getElementsByClassName("field__frame")) {
-    box.addEventListener('click', showEnumMenu);
-  }
-}
-
-// field interactions: checkboxes
-for (let field of document.getElementsByClassName('field--control_checkbox')) {
-  ((field) => {
-    let name = field.getAttribute('name').replace(/^field-/, '');
-    for (let checkbox of field.getElementsByTagName('input')) {
-      checkbox.addEventListener('input', (evt) => {
-        let checked = checkbox.checked;
-        for (let otherCheckbox of document.querySelectorAll('input[name="'+name+'"]')) {
-          if (checkbox == otherCheckbox)
-            continue;
-          otherCheckbox.checked = checked;
+      control.addEventListener('click', () => {
+        for (let part of control.getElementsByClassName('p__body')) {
+          ((part) => {
+            setTimeout(() => {
+              part.focus();
+              // set caret at end
+              let sel = window.getSelection();
+              sel.selectAllChildren(part);
+              sel.collapseToEnd();
+            }, 0);
+            return;
+          })(part);
         }
       });
-    }
-  })(field);
+    })(control);
+  }
 }
 
 // Mutating dice icon
@@ -4953,51 +4941,6 @@ for (let icon of document.getElementsByClassName("icon_damage")) {
         });
       })(icon, dieInput);
     }
-  }
-}
-
-// field interactions: PARA
-
-for (let field of document.getElementsByClassName('field--control_p')) {
-  for (let control of field.getElementsByClassName('field__control')) {
-    ((control) => {
-      function updateEmpty() {
-        let empty = true;
-        for (let part of control.getElementsByClassName('p__editpart')) {
-          if (part.innerText != "") {
-            empty = false;
-          }
-        }
-        control.classList.toggle('field__control--empty', empty);
-      }
-
-      for (let part of control.getElementsByClassName('p__editpart')) {
-        part.addEventListener('input', updateEmpty);
-        ((part) => {
-          part.addEventListener('click', (evt) => {
-            setTimeout(() => {
-              part.focus();
-            }, 0);
-            evt.stopPropagation(); // don't fall back to the bigger click
-          })
-        })(part);
-      }
-
-      control.addEventListener('click', () => {
-        for (let part of control.getElementsByClassName('p__body')) {
-          ((part) => {
-            setTimeout(() => {
-              part.focus();
-              // set caret at end
-              let sel = window.getSelection();
-              sel.selectAllChildren(part);
-              sel.collapseToEnd();
-            }, 0);
-            return;
-          })(part);
-        }
-      });
-    })(control);
   }
 }
 
@@ -5100,6 +5043,63 @@ for (var field of document.getElementsByClassName("field--control_proficiency"))
   // for (var icon of field.getElementsByClassName("field__control--control_icon")) {
   //   icon.addEventListener('click', showProficiencyMenu);
   // }
+}
+
+// Enum
+
+function showEnumMenu(event) {
+  var field = event.target.closest('.field');
+  showMenu(event, 'enum', field);
+
+  var value = getEnumValue(field.id);
+  menus.currentValue = value;
+  
+  // click actions
+  for (var optionHolder of field.getElementsByClassName('field--control_enum__options')) {
+    var optionHtml = optionHolder.innerHTML;
+    var enumMenuHolder = document.getElementById('enum-menu__holder');
+    enumMenuHolder.innerHTML = optionHtml;
+    for (var input of enumMenuHolder.getElementsByTagName("input")) {
+      ((input) => {
+        // set value
+        var checked = input.getAttribute('data-value') == value;
+        input.checked = checked;
+        // event handler
+        var itemSlug = input.getAttribute('value');
+        var itemValue = input.getAttribute('data-value');
+        input.addEventListener("change", function () {
+          setEnumValue(field, itemSlug, itemValue);
+          dismissMenus();
+        });
+        input.closest('label').addEventListener("click", function (event) {
+          input.checked = true;
+          input.dispatchEvent(new Event("change"));
+          event.preventDefault();
+        });
+      })(input);
+    }
+  }
+}
+
+function getEnumValue(fieldId) {
+  var field = document.getElementById(fieldId);
+  for (var input of field.getElementsByTagName('input')) {
+    return input.value;
+  }
+}
+
+function setEnumValue(field, slug, value) {
+  for (var input of field.getElementsByTagName('input')) {
+    input.value = value;
+    input.dispatchEvent(new Event("change"));
+  }
+}
+
+// enum menu click actions
+for (var field of document.getElementsByClassName("field--control_enum")) {
+  for (var box of field.getElementsByClassName("field__frame")) {
+    box.addEventListener('click', showEnumMenu);
+  }
 }
 
 // Ref Switch
