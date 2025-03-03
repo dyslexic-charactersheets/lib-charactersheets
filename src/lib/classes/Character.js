@@ -34,7 +34,8 @@ function parseCharacter(primary, request) {
     heritage: false,
     background: false,
     class: false,
-    archetypes: false,
+    multiclass: [],
+    archetypes: [],
     description: '',
 
     printLarge: false,
@@ -72,6 +73,7 @@ function parseCharacter(primary, request) {
     heritage: false,
     background: false,
     classes: [],
+    multiclass: [],
     archetypes: [],
     feats: [],
     options: {
@@ -286,18 +288,31 @@ function parseCharacter(primary, request) {
         }
       }
 
-      if (attr.archetypes && isArray(attr.archetypes)) {
-        attr.archetypes.forEach(archetype => {
-          if (isString(archetype)) {
-            let archetypeName = 'archetype/' + archetype.replace(/^archetype[\/-]/, '');
-            char.units.push(archetypeName);
-            char.archetypes.push(archetypeName);
-            // log("Character", "Archetype:", "archetype/"+archetype);
+      let archetypes = [...attr.multiclass, ...attr.archetypes];
+      for (let archetype of archetypes) {
+        if (isString(archetype)) {
+          let archetypeName = 'archetype/' + archetype.replace(/^archetype[\/-]/, '');
+          char.units.push(archetypeName);
+          char.archetypes.push(archetypeName);
+          // log("Character", "Archetype:", "archetype/"+archetype);
 
-            getUnitOptions(archetypeName);
-          }
-        });
+          getUnitOptions(archetypeName);
+        }
       }
+
+
+      // if (attr.archetypes && isArray(attr.archetypes)) {
+      //   attr.archetypes.forEach(archetype => {
+      //     if (isString(archetype)) {
+      //       let archetypeName = 'archetype/' + archetype.replace(/^archetype[\/-]/, '');
+      //       char.units.push(archetypeName);
+      //       char.archetypes.push(archetypeName);
+      //       // log("Character", "Archetype:", "archetype/"+archetype);
+
+      //       getUnitOptions(archetypeName);
+      //     }
+      //   });
+      // }
 
       if (attr.feats) {
         char.feats = parseFeats(attr.feats);

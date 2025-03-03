@@ -99,349 +99,353 @@ function getDataURL(unit, filename) {
 
 
 
-function loadSystem (system, systemName, callback) {
-  var unitsBase = __dirname + '/../units/' + system;
-  var debugDir = __dirname + '/../../test/debug/' + system;
+function loadSystem (system, systemName) {
+  return new Promise((resolve, reject) => {
+    var unitsBase = __dirname + '/../units/' + system;
+    var debugDir = __dirname + '/../../test/debug/' + system;
 
-  if (!fs.existsSync(unitsBase)) {
-    warn("units", "System not found:", systemName);
-    return;
-  }
-
-  // load units
-  var systemUnits = [];
-
-  let loadQueue = new LoadQueue(systemName, 20000);
-
-  // log("units", "Searching for units in units/"+system);
-  loadQueue.walkDirectory('units', unitsBase, fn => fn.match(/\.yml$/), (loaded) => {
-    // log("units", "Walked unit file", loaded);
-    let unitfile = loaded.filename;
-    // log("units", "Loading unit", unitfile);
-
-    var shortfile = path.basename(unitfile);
-    var unitdir = path.dirname(unitfile);
-
-    var unitdata;
-
-    // parse the data
-    try {
-      // log("units", "Loading unit", unitfile);
-      unitdata = jsYaml.safeLoad(loaded.data);
-      if (unitdata == null) {
-        error("units", "Empty unit", shortfile);
-        return;
-      }
-    } catch (exception) {
-      error("units", "Error parsing", shortfile, exception);
-
-      // print an excerpt to make debugging easier
-      if (_.has(exception, "source") && _.has(exception.source, "range")) {
-        var range = exception.source.range;
-        var start = data.lastIndexOf("\n", range.start);
-        var end = data.indexOf("\n", range.end);
-        for (var i = 0; i < ERR_LEEWAY; i++) {
-          start = data.lastIndexOf("\n", start - 1);
-          end = data.indexOf("\n", end + 1);
-        }
-        var excerpt = data.substring(start, end);
-        error("units", excerpt);
-        // console.log(excerpt);
-      }
-
+    if (!fs.existsSync(unitsBase)) {
+      warn("units", "System not found:", systemName);
+      reject("System not found");
       return;
     }
 
-    try {
-      if (!_.has(unitdata, "unit")) {
-        return;
-      }
+    // load units
+    var systemUnits = [];
 
-      var enabled = _.has(unitdata, "enabled") ? unitdata.enabled : true;
-      if (!enabled) {
-        return;
-      }
+    let loadQueue = new LoadQueue(systemName, 20000);
 
-      // scan the unit
-      var meta = {};
-      if (_.has(unitdata, "name")) {
-        meta['Unit'] = unitdata.name.replace(/_\{(.*?)\}/g, '$1');
-      }
-      if (_.has(unitdata, "group")) {
-        meta['Source'] = unitdata.group.replace(/_\{(.*?)\}/g, '$1');
-      }
+    // log("units", "Searching for units in units/"+system);
+    loadQueue.walkDirectory('units', unitsBase, fn => fn.match(/\.yml$/), (loaded) => {
+      // log("units", "Walked unit file", loaded);
+      let unitfile = loaded.filename;
+      // log("units", "Loading unit", unitfile);
 
-      i18n.scan(loaded.data, unitfile, system, meta);
+      var shortfile = path.basename(unitfile);
+      var unitdir = path.dirname(unitfile);
 
-      var unitid = unitdata.unit;
-      unitdata.id = unitid;
-      delete unitdata.unit;
+      var unitdata;
 
-      // log("units", "Loading unit", unitid, "-", unitdata.name);
-
-      // Only expand the 'inc' section, it messes things up if you do the whole thing.
-      if (_.has(unitdata, "inc")) {
-        unitdata.inc = util.interpolate(unitdata.inc, {
-          unit: unitid,
-        });
-        unitdata.inc = unitdata.inc.map(unitExpander.expandZone);
-      }
-
-      // Write the debug data
-      var debugData;
+      // parse the data
       try {
-        debugData = jsYaml.safeDump(unitdata);
+        // log("units", "Loading unit", unitfile);
+        unitdata = jsYaml.safeLoad(loaded.data);
+        if (unitdata == null) {
+          error("units", "Empty unit", shortfile);
+          return;
+        }
       } catch (exception) {
-        error("units", "Error writing", shortfile, exception);
-        warn("units", JSON.stringify(unitdata, null, 2));
+        error("units", "Error parsing", shortfile, exception);
+
+        // print an excerpt to make debugging easier
+        if (_.has(exception, "source") && _.has(exception.source, "range")) {
+          var range = exception.source.range;
+          var start = data.lastIndexOf("\n", range.start);
+          var end = data.indexOf("\n", range.end);
+          for (var i = 0; i < ERR_LEEWAY; i++) {
+            start = data.lastIndexOf("\n", start - 1);
+            end = data.indexOf("\n", end + 1);
+          }
+          var excerpt = data.substring(start, end);
+          error("units", excerpt);
+          // console.log(excerpt);
+        }
+
+        return;
       }
-      fs.mkdir(debugDir, { recursive: true }, () => {
-        fs.writeFile(`${debugDir}/${unitid.replace(/\//g, '-')}.yml`, debugData, err => {
-          if (err) error("units", "Error saving unit", unitid, err);
-        });
-      });
 
-      unitdata.stylesheet = '';
-      systemUnits.push(unitdata);
-      _units[unitid] = unitdata;
-      _assets[unitid] = {};
-
-
-
-      // =============================
-      // LINT! Look for things to fix
-      // =============================
-
-      function walkElement(elem) {
-        if (Array.isArray(elem)) {
-          _.each(elem, (sub) => {
-            walkElement(sub);
-          });
+      try {
+        if (!_.has(unitdata, "unit")) {
           return;
         }
 
-        if (_.has(elem, "type")) {
-          switch (elem.type) {
-            case "calc":
-              var output = elem.output;
-              if (output.type == "field" && !_.has(output, "eq") && output.control != "compound") {
-                warn("units", `${unitdata.id}: Calculation without eq: ${output.id}`);
-              }
-              break;
-            case "field":
-              if (!_.has(elem, "id") && !_.has(elem, "ref")) {
-                warn("units", `${unitdata.id}: Field without ID or reference`, elem);
-              }
-              break;
-          }
-
-          if (_.has(elem, "contents")) {
-            walkElement(elem.contents);
-          }
+        var enabled = _.has(unitdata, "enabled") ? unitdata.enabled : true;
+        if (!enabled) {
+          return;
         }
-      }
 
-      if (_.has(unitdata, "inc")) {
-        _.each(unitdata.inc, (inc) => {
-          if (_.has(inc, "add")) {
-            walkElement(inc.add);
-          } else if(_.has(inc, "replace")) {
-            walkElement(inc.replace);
-          }
-        })
-      }
+        // scan the unit
+        var meta = {};
+        if (_.has(unitdata, "name")) {
+          meta['Unit'] = unitdata.name.replace(/_\{(.*?)\}/g, '$1');
+        }
+        if (_.has(unitdata, "group")) {
+          meta['Source'] = unitdata.group.replace(/_\{(.*?)\}/g, '$1');
+        }
 
+        i18n.scan(loaded.data, unitfile, system, meta);
 
-      // ==================
-      //       ASSETS
-      // ==================
+        var unitid = unitdata.unit;
+        unitdata.id = unitid;
+        delete unitdata.unit;
 
-      var assetsDir = `${unitsBase}/${unitdir}/assets`;
-      if (fs.existsSync(assetsDir)) {
-        if (loadQueue.debug) log("unit", "Looking for assets:", assetsDir);
-        loadQueue.walkDirectory('assets', assetsDir, fn => true, (loaded) => {
-          let {data, filename} = loaded;
-          if (loadQueue.debug) log("units", "Asset loaded", unitid+": "+filename);
+        // log("units", "Loading unit", unitid, "-", unitdata.name);
 
-          // unitassets[assetfile] = data;
-          _assets[unitid][filename] = data;
-          _allAssets[filename] = data;
+        // Only expand the 'inc' section, it messes things up if you do the whole thing.
+        if (_.has(unitdata, "inc")) {
+          unitdata.inc = util.interpolate(unitdata.inc, {
+            unit: unitid,
+          });
+          unitdata.inc = unitdata.inc.map(unitExpander.expandZone);
+        }
+
+        // Write the debug data
+        var debugData;
+        try {
+          debugData = jsYaml.safeDump(unitdata);
+        } catch (exception) {
+          error("units", "Error writing", shortfile, exception);
+          warn("units", JSON.stringify(unitdata, null, 2));
+        }
+        fs.mkdir(debugDir, { recursive: true }, () => {
+          fs.writeFile(`${debugDir}/${unitid.replace(/\//g, '-')}.yml`, debugData, err => {
+            if (err) error("units", "Error saving unit", unitid, err);
+          });
         });
 
-        // Unit required assets
-        if (_.has(unitdata, "assets")) {
-          var assets = unitdata.assets;
-          loadQueue.readyByCategory('assets').then(() => {
-            if (loadQueue.debug) log("units", "Unit assets ready");
-            unitdata.assets = [];
-            _.each(assets, filename => {
-              var assetdata = { name: filename };
-              if (filename.match(/\.svg$/)) {
-                assetdata.data = (_.has(_assets, unitid) && _.has(_assets[unitid], filename) && !_.isEmpty(_assets[unitid][filename])) ?
-                  _assets[unitid][filename] :
-                  _allAssets[filename];
-              } else {
-                var base64name = filename + ".base64";
-                assetdata.base64 = (_.has(_assets, unitid) && _.has(_assets[unitid], base64name) && !_.isEmpty(_assets[unitid][base64name])) ?
-                  _assets[unitid][base64name] :
-                  _allAssets[base64name];
-              }
-              unitdata.assets.push(assetdata);
-            })
-          }).catch((err) => {
-            error("units", "Error loading assets", err);
-          });
-        }
-      }
+        unitdata.stylesheet = '';
+        systemUnits.push(unitdata);
+        _units[unitid] = unitdata;
+        _assets[unitid] = {};
 
 
 
-      // ===================
-      //     STYLESHEET
-      // ===================
+        // =============================
+        // LINT! Look for things to fix
+        // =============================
 
-      var stylesheetfile = `${unitsBase}/${unitdir}/stylesheet/${shortfile.replace(/\.yml$/, '.scss')}`;
+        function walkElement(elem) {
+          if (Array.isArray(elem)) {
+            _.each(elem, (sub) => {
+              walkElement(sub);
+            });
+            return;
+          }
 
-      if (fs.existsSync(stylesheetfile)) {
-        loadQueue.enqueue('stylesheets', stylesheetfile, new Promise((resolve, reject) => {
-          if (loadQueue.debug) log("units", "Loading stylesheet", unitid);
-
-          sass.render({
-            file: stylesheetfile,
-            // outputStyle: 'compressed',
-            outputStyle: 'compact',
-          }, function (err, result) {
-            if (err) {
-              error("units", "Error rendering", unitid, err);
-              reject(err);
-              return;
+          if (_.has(elem, "type")) {
+            switch (elem.type) {
+              case "calc":
+                var output = elem.output;
+                if (output.type == "field" && !_.has(output, "eq") && output.control != "compound") {
+                  warn("units", `${unitdata.id}: Calculation without eq: ${output.id}`);
+                }
+                break;
+              case "field":
+                if (!_.has(elem, "id") && !_.has(elem, "ref")) {
+                  warn("units", `${unitdata.id}: Field without ID or reference`, elem);
+                }
+                break;
             }
 
-            if (loadQueue.debug) log("units", "Stylesheet rendered", unitid);
-            var css = result.css.toString();
+            if (_.has(elem, "contents")) {
+              walkElement(elem.contents);
+            }
+          }
+        }
+
+        if (_.has(unitdata, "inc")) {
+          _.each(unitdata.inc, (inc) => {
+            if (_.has(inc, "add")) {
+              walkElement(inc.add);
+            } else if(_.has(inc, "replace")) {
+              walkElement(inc.replace);
+            }
+          })
+        }
+
+
+        // ==================
+        //       ASSETS
+        // ==================
+
+        var assetsDir = `${unitsBase}/${unitdir}/assets`;
+        if (fs.existsSync(assetsDir)) {
+          if (loadQueue.debug) log("unit", "Looking for assets:", assetsDir);
+          loadQueue.walkDirectory('assets', assetsDir, fn => true, (loaded) => {
+            let {data, filename} = loaded;
+            if (loadQueue.debug) log("units", "Asset loaded", unitid+": "+filename);
+
+            // unitassets[assetfile] = data;
+            _assets[unitid][filename] = data;
+            _allAssets[filename] = data;
+          });
+
+          // Unit required assets
+          if (_.has(unitdata, "assets")) {
+            var assets = unitdata.assets;
             loadQueue.readyByCategory('assets').then(() => {
-              if (loadQueue.debug) log("units", "Assets loaded, embedding stylesheet", unitid);
-              var template = Handlebars.compile(css);
-              var rendered = `/* ${unitid} */\n` + template({
-                unit: unitid
-              });
-
-              // Firefox doesn't obey `color-adjust: exact`, so we cheat by replacing all the text colours
-              // with zero-blur text shadows in the right colour underneath transparent text
-              rendered = rendered.replace(/(?<!-)color: *(.*?);/g, function (match, colour) {
-                if (colour == "transparent") {
-                  return match;
+              if (loadQueue.debug) log("units", "Unit assets ready");
+              unitdata.assets = [];
+              _.each(assets, filename => {
+                var assetdata = { name: filename };
+                if (filename.match(/\.svg$/)) {
+                  assetdata.data = (_.has(_assets, unitid) && _.has(_assets[unitid], filename) && !_.isEmpty(_assets[unitid][filename])) ?
+                    _assets[unitid][filename] :
+                    _allAssets[filename];
+                } else {
+                  var base64name = filename + ".base64";
+                  assetdata.base64 = (_.has(_assets, unitid) && _.has(_assets[unitid], base64name) && !_.isEmpty(_assets[unitid][base64name])) ?
+                    _assets[unitid][base64name] :
+                    _allAssets[base64name];
                 }
-                if (colour.match(/!important$/)) {
-                  // log("units", "Locked colour:", colour);
-                  return match;
-                }
-
-                return `text-shadow: 0 0 0 ${colour}; color: transparent;`;
-              });
-
-              fs.writeFile(`${debugDir}/${unitid.replace(/\//g, '-')}.css`, rendered, err => {
-                if (err) error("units", "Error saving unit", unitid, err);
-              });
-              if (loadQueue.debug) log("units", "Stylesheet done", unitid);
-              _units[unitid].stylesheet = rendered;
-              resolve();
+                unitdata.assets.push(assetdata);
+              })
             }).catch((err) => {
-              error("units", "Error loading assets for stylesheet", shortfile, err);
+              error("units", "Error loading assets", err);
             });
-          });
-        }));
-      }
-
-
-
-      // ==================
-      //     JAVASCRIPT
-      // ==================
-      
-      loadQueue.enqueue('javascripts', unitdir+"/js", new Promise((resolve, reject) => {
-        let jsDir = `${unitsBase}/${unitdir}/js`;
-        let jsPromises = [];
-        let jsParts = [];
-
-        if (fs.existsSync(jsDir)) {
-          fs.readdir(jsDir, (err, files) => {
-            if (err) {
-              error("units", "Error reading JS directory", jsDir);
-              reject(err);
-              return;
-            }
-
-            for (let file of files) {
-              if (file.endsWith(".js")) {
-                let filePromise = loadQueue.loadFile('javascripts', file, `${jsDir}/${file}`).then((loaded) => {
-                  let {data, filename} = loaded;
-                  if (data != "") {
-                    // log("units", `Templating JS for ${unitid}: ${file}`);
-                    var template = Handlebars.compile(data);
-                    var rendered = template({
-                      unit: unitid
-                    });
-      
-                    jsParts.push(rendered);
-                  }
-                });
-                jsPromises.push(filePromise.promise);
-              } else {
-                error("units", "Not a JS file?", file);
-              }
-            }
-
-            if (loadQueue.debug) log("units", `Waiting on ${jsParts.length} JS parts for ${unitid}`);
-            Promise.allSettled(jsPromises).then(() => {
-              if (loadQueue.debug) log("units", `Found ${jsParts.length} JS parts for ${unitid}`);
-              _units[unitid].js = jsParts.join("\n");
-              resolve();
-            }).catch((x) => {
-              error("units", "Error loading JavaScript", x, x.stack);
-              reject();
-            });
-          });
-        } else {
-          resolve();
+          }
         }
-      }));
 
-    } catch (exception) {
-      error("units", "Error reading", shortfile, exception);
-    }
-  });
 
-  
 
-  // =======================
-  //     SYSTEM FINISHED
-  // =======================
+        // ===================
+        //     STYLESHEET
+        // ===================
 
-  // report progress
-  let progressInterval = setInterval(() => {
-    loadQueue.progress();
-  }, 2000);
-  let debugTimeout = setTimeout(() => {
-    loadQueue.debug();
-  }, 30000);
-  
-  // delay this so that the list of promises is fully populated
-  setTimeout(() => {
-    loadQueue.readyAll().then(() => {
-      clearInterval(progressInterval);
-      clearTimeout(debugTimeout);
+        var stylesheetfile = `${unitsBase}/${unitdir}/stylesheet/${shortfile.replace(/\.yml$/, '.scss')}`;
 
-      // write the translation template
-      i18n.writePot(system, systemName);
+        if (fs.existsSync(stylesheetfile)) {
+          loadQueue.enqueue('stylesheets', stylesheetfile, new Promise((resolve, reject) => {
+            if (loadQueue.debug) log("units", "Loading stylesheet", unitid);
 
-      // return the units
-      let units = _.sortBy(systemUnits, ['id']);
-      callback(units);
-    }).catch((err) => {
-      error("units", "Cannot build", systemName, err);
+            sass.render({
+              file: stylesheetfile,
+              // outputStyle: 'compressed',
+              outputStyle: 'compact',
+            }, function (err, result) {
+              if (err) {
+                error("units", "Error rendering", unitid, err);
+                reject(err);
+                return;
+              }
+
+              if (loadQueue.debug) log("units", "Stylesheet rendered", unitid);
+              var css = result.css.toString();
+              loadQueue.readyByCategory('assets').then(() => {
+                if (loadQueue.debug) log("units", "Assets loaded, embedding stylesheet", unitid);
+                var template = Handlebars.compile(css);
+                var rendered = `/* ${unitid} */\n` + template({
+                  unit: unitid
+                });
+
+                // Firefox doesn't obey `color-adjust: exact`, so we cheat by replacing all the text colours
+                // with zero-blur text shadows in the right colour underneath transparent text
+                rendered = rendered.replace(/(?<!-)color: *(.*?);/g, function (match, colour) {
+                  if (colour == "transparent") {
+                    return match;
+                  }
+                  if (colour.match(/!important$/)) {
+                    // log("units", "Locked colour:", colour);
+                    return match;
+                  }
+
+                  return `text-shadow: 0 0 0 ${colour}; color: transparent;`;
+                });
+
+                fs.writeFile(`${debugDir}/${unitid.replace(/\//g, '-')}.css`, rendered, err => {
+                  if (err) error("units", "Error saving unit", unitid, err);
+                });
+                if (loadQueue.debug) log("units", "Stylesheet done", unitid);
+                _units[unitid].stylesheet = rendered;
+                resolve();
+              }).catch((err) => {
+                error("units", "Error loading assets for stylesheet", shortfile, err);
+              });
+            });
+          }));
+        }
+
+
+
+        // ==================
+        //     JAVASCRIPT
+        // ==================
+        
+        loadQueue.enqueue('javascripts', unitdir+"/js", new Promise((resolve, reject) => {
+          let jsDir = `${unitsBase}/${unitdir}/js`;
+          let jsPromises = [];
+          let jsParts = [];
+
+          if (fs.existsSync(jsDir)) {
+            fs.readdir(jsDir, (err, files) => {
+              if (err) {
+                error("units", "Error reading JS directory", jsDir);
+                reject(err);
+                return;
+              }
+
+              for (let file of files) {
+                if (file.endsWith(".js")) {
+                  let filePromise = loadQueue.loadFile('javascripts', file, `${jsDir}/${file}`).then((loaded) => {
+                    let {data, filename} = loaded;
+                    if (data != "") {
+                      // log("units", `Templating JS for ${unitid}: ${file}`);
+                      var template = Handlebars.compile(data);
+                      var rendered = template({
+                        unit: unitid
+                      });
+        
+                      jsParts.push(rendered);
+                    }
+                  });
+                  jsPromises.push(filePromise.promise);
+                } else {
+                  error("units", "Not a JS file?", file);
+                }
+              }
+
+              if (loadQueue.debug) log("units", `Waiting on ${jsParts.length} JS parts for ${unitid}`);
+              Promise.allSettled(jsPromises).then(() => {
+                if (loadQueue.debug) log("units", `Found ${jsParts.length} JS parts for ${unitid}`);
+                _units[unitid].js = jsParts.join("\n");
+                resolve();
+              }).catch((x) => {
+                error("units", "Error loading JavaScript", x, x.stack);
+                reject();
+              });
+            });
+          } else {
+            resolve();
+          }
+        }));
+
+      } catch (exception) {
+        error("units", "Error reading", shortfile, exception);
+      }
     });
-  }, 3000);
+
+    
+
+    // =======================
+    //     SYSTEM FINISHED
+    // =======================
+
+    // report progress
+    let progressInterval = setInterval(() => {
+      loadQueue.progress();
+    }, 2000);
+    let debugTimeout = setTimeout(() => {
+      loadQueue.debug();
+    }, 30000);
+    
+    // delay this so that the list of promises is fully populated
+    setTimeout(() => {
+      loadQueue.readyAll().then(() => {
+        clearInterval(progressInterval);
+        clearTimeout(debugTimeout);
+
+        // write the translation template
+        i18n.writePot(system, systemName);
+
+        // return the units
+        let units = _.sortBy(systemUnits, ['id']);
+        resolve(units);
+      }).catch((err) => {
+        error("units", "Cannot build", systemName, err);
+        reject();
+      });
+    }, 3000);
+  });
 }
 
   
