@@ -193,7 +193,7 @@ export function fieldInner(args, reg, doc, decoration) {
         continue;
       }
 
-      const partArgs = {...args, label: '', control: 'input', border: 'full', width: 'medium', ...part, value};
+      let partArgs = {...args, label: '', control: 'input', border: 'full', width: 'medium', ...part, value};
       partArgs = {...partArgs, id: (has(part, 'subid') ? args.id+'-'+part.subid : args.id), type: 'control:' + partArgs.control};
       const control = reg.renderItem(partArgs, doc);
       
