@@ -1,0 +1,50 @@
+unit: ancestry/remaster/<ancestry>
+in: ancestry
+group: "_{Player Core}"
+name: "_{<ancestry>}"
+
+form:
+  - select: heritage/<ancestry>
+    name: "_{<ancestry> Heritage}"
+    max: 1
+
+inc:
+  - set: ancestry
+    value: "_{<ancestry>}"
+  - set: hp-ancestry
+    value: <ancestry hp>
+// set darkvision / low vision light
+  - set: perception-darkvision
+    value: true
+// stat boosts
+  - set: build-boost-CON-ancestry
+    value: 1
+  - set: build-boost-WIS-ancestry
+    value: 1
+  - set: build-boost-CHA-ancestry
+    value: -1
+// set languages
+  - set: languages
+    value: "_{Common}, _{Dwarven}"
+
+// write ancestry short descriptions
+  - at: '@ancestry'
+    replace:
+      - article: ancestry
+        title: "_{<ancestry>}"
+        contents:
+          - flags:
+              - "_{<ancestry>}"
+              - "_{Humanoid}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{25ft}"
+          - paste: darkvision
+          - hr:
+          - field:
+            label: "_{Clan Dagger}"
+            id: "##/clan-dagger"
+            width: stretch
+            
