@@ -1,42 +1,46 @@
-unit: ancestry/remaster/dwarf
+unit: ancestry/remaster/<ancestry>
 in: ancestry
 group: "_{Player Core}"
-name: "_{Dwarf}"
+name: "_{<ancestry>}"
 
 form:
-  - select: heritage/dwarf
-    name: "_{Dwarf Heritage}"
+  - select: heritage/<ancestry>
+    name: "_{<ancestry> Heritage}"
     max: 1
 
 inc:
   - set: ancestry
-    value: "_{Dwarf}"
+    value: "_{<ancestry>}"
   - set: hp-ancestry
-    value: 10
+    value: <ancestry hp>
+// set darkvision / low vision light
   - set: perception-darkvision
     value: true
+// stat boosts
   - set: build-boost-CON-ancestry
     value: 1
   - set: build-boost-WIS-ancestry
     value: 1
   - set: build-boost-CHA-ancestry
     value: -1
+// set languages
   - set: languages
     value: "_{Common}, _{Dwarven}"
 
+// write ancestry short descriptions
   - at: '@ancestry'
     replace:
       - article: ancestry
-        title: "_{Dwarf}"
+        title: "_{<ancestry>}"
         contents:
           - flags:
-              - "_{Dwarf}"
+              - "_{<ancestry>}"
               - "_{Humanoid}"
           - field: ancestry-speed
             frame: right
             label: "_{Speed}"
             control: value
-            value: "_{20ft}"
+            value: "_{25ft}"
           - paste: darkvision
           - hr:
           - field:
