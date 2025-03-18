@@ -24,6 +24,8 @@ inc:
           - p:
             title: "_{<reaction name>}"
             content: "_{<short desctiption>}"
+            //  "_{<element> Resistance = Level / 2}"
+            //  "_{Treat environmental <heat/cold> as one step less extreme.}"
 
   // add a heritage savign throw reaction with a numeric bonus
   - at: '@saving-throws'
@@ -34,4 +36,17 @@ inc:
             title: "_{<reaction name>}"
           - value-block: "_{+N}"
             content: "_{<short desctiption>}"
+
+  // add an elemental resistance
+  - at: "@ac-conditional"
+  add:
+    - paste: half-level
+      params:
+        id: <ancestry>/<heritage>/<element>-resistance
+        label: "_{<element> Resistance}"
+
+  // add a temperature resistance
+  - at: "@ac-conditional"
+  add:
+    - p: "_{Treat environmental <heat/cold> as one step less extreme.}"
 
