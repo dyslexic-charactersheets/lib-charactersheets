@@ -4,9 +4,11 @@ group: "_{Player Core}"
 name: "_{<heritage> <ancestry>}"
 
 inc:
+  // set the heritage name
   - set: heritage
     value: "_{<heritage> <ancestry>}"
 
+  // create the heritage text block
   - at: '@heritage'
     replace:
       - article:
@@ -22,3 +24,14 @@ inc:
           - p:
             title: "_{<reaction name>}"
             content: "_{<short desctiption>}"
+
+  // add a heritage savign throw reaction with a numeric bonus
+  - at: '@saving-throws'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{<reaction name>}"
+          - value-block: "_{+N}"
+            content: "_{<short desctiption>}"
+
