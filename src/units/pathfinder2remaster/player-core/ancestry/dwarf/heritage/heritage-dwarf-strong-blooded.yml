@@ -12,16 +12,19 @@ inc:
       - article:
         title: "_{Strong-Blooded Dwarf}"
         contents:
-          - p: "_{Poison Resistance} = _{Level} &divide; 2"
+          - calc:
+            output:
+              field: heritage/strong-blooded-dwarf:poison-resistance
+              width: large
+              border: full
+              legend: "_{Poison Resistance}"
+              eq: "min1(floor(%{level}/2))"
+            inputs:
+              - field:
+                ref: level
+                label: "_{Level}"
+              - span: "&divide; 2"
           - p: "_{Successful saving throws against poison reduce stage by 2, or by 3 for a critical success.}"
-
-  - at: '@ac-conditional'
-    add:
-      - paste: half-level
-        params:
-          id: dwarf/strong-blooded/poison-resistance
-          label: "_{Poison Resistance}"
-          width: medium
 
   - at: '@saving-throws'
     add:
