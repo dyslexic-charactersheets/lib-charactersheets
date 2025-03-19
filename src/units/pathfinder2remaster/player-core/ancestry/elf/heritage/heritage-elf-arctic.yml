@@ -1,0 +1,30 @@
+unit: heritage/elf/remaster/arctic
+in: heritage/elf
+group: "_{Player Core}"
+name: "_{Arctic Elf}"
+
+inc:
+  - set: heritage
+    value: "_{Arctic Elf}"
+
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Arctic Elf}"
+        contents:
+          # leveled formula
+          - calc:
+            output:
+              field: heritage/<heritage>:<type>
+              width: large
+              border: full
+              legend: "_{Cold Resistance}"
+              eq: "min1(floor(%{level}/2))"
+            inputs:
+              - field:
+                ref: level
+                label: "_{Level}"
+              - span: "&divide; 2"
+
+            #  temperature adjustment
+            - p: "_{Treat environmental cold as one step less extreme.}"
