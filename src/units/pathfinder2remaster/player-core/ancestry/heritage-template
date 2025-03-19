@@ -4,20 +4,20 @@ group: "_{Player Core}"
 name: "_{<heritage> <ancestry>}"
 
 inc:
-  // set the heritage name
+  # set the heritage name
   - set: heritage
     value: "_{<heritage> <ancestry>}"
 
-  // create the heritage text block
+  # create the heritage text block
   - at: '@heritage'
     replace:
       - article:
         title: "_{<heritage> <ancestry>}"
         contents:
-          // simple description
+          # simple description
           - p: "_{<short desctiption>}"
 
-          // leveled formula
+          # leveled formula
           - calc:
             output:
               field: heritage/<heritage>:<type>
@@ -31,11 +31,11 @@ inc:
                 label: "_{Level}"
               - span: "&divide; 2"
 
-            //  temperature adjustment
+            #  temperature adjustment
             - p: "_{Treat environmental <heat/cold> as one step less extreme.}"
   
 
-  // add a heritage savign throw reaction
+  # add a heritage savign throw reaction
   - at: '@saving-throws'
     add:
       - action: reaction
@@ -44,7 +44,7 @@ inc:
             title: "_{<reaction name>}"
             content: "_{<short desctiption>}"
 
-  // add a heritage savign throw reaction with a numeric bonus
+  # add a heritage savign throw reaction with a numeric bonus
   - at: '@saving-throws'
     add:
       - action: reaction
@@ -54,8 +54,8 @@ inc:
           - value-block: "_{+N}"
             content: "_{<short desctiption>}"
 
-  // possibly obsolete elements.
-  // add an elemental resistance  
+  # possibly obsolete elements.
+  # add an elemental resistance  
   - at: "@ac-conditional"
   add:
     - paste: half-level
@@ -63,7 +63,7 @@ inc:
         id: <ancestry>/<heritage>/<element>-resistance
         label: "_{<element> Resistance}"
 
-  // add a temperature resistance
+  # add a temperature resistance
   - at: "@ac-conditional"
   add:
     - p: "_{Treat environmental <heat/cold> as one step less extreme.}"
