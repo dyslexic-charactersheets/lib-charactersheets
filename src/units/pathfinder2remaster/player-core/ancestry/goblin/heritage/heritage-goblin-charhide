@@ -1,0 +1,34 @@
+unit: heritage/goblin/remaster/charhide
+in: heritage/<goblin
+group: "_{Player Core}"
+name: "_{Charhide Goblin}"
+
+inc:
+  # set the heritage name
+  - set: heritage
+    value: "_{Charhide Goblin}"
+
+  # create the heritage text block
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Charhide Goblin}"
+        contents:
+          # Fire Resistance
+          - calc:
+            output:
+              field: heritage/charhide:fire-resistance
+              width: large
+              border: full
+              legend: "_{Fire Resistance}"
+              eq: "min1(floor(%{level}/2))"
+            inputs:
+              - field:
+                ref: level
+                label: "_{Level}"
+              - span: "&divide; 2"
+          - hr
+          - value-block: "_{DC 10}"
+            content: "&nbsp;&nbsp;_{to remove persistent fire damage.  DC 5 if someone helps you.}"
+          - hr 
+          - p: "_{Check to remove persistent fire damage is 10 rather than 15, or 5 if somebody helps you.}"
