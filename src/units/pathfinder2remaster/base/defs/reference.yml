@@ -46,16 +46,47 @@ inc:
       - value-block: "#{range}"
         content: "_{Range}"
 
+  - copy: damage-resist-more-hp
+    params:
+      id: ''
+      type: "_{Damage}"
+      width: large
+    contents:
+      - calc:
+        output:
+          field: '#{id}'
+          frame: left
+          width: "#{width}"
+          label: "#{type} _{Resistance}"
+          eq: "min1(floor(%{level}/2))"
+        inputs:
+          - ruby-round-down:
+            contents:
+              - field:
+                ref: level
+                label: "_{Level}"
+                frame: left
+              - span: "&divide; 2"
+              
   - copy: damage-resist
     params:
       id: ""
       width: "large"
       type: "_{Damage}"
     contents:
-      - paste: half-level-min-1
-        params:
+      - calc:
+        output:
           field: '#{id}'
           width: "#{width}"
-          label: "#{type} _{Resistance}"
+          border: full
+          legend: "#{type} _{Resistance}"
+          eq: "min1(floor(%{level}/2))"
+        inputs:
+          - ruby-round-down:
+            contents:
+            - field:
+              ref: level
+              label: "_{Level}"
+            - span: "&divide; 2"
              
   
