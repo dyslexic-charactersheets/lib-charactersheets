@@ -20,10 +20,12 @@ inc:
               legend: "_{Fire Resistance}"
               eq: "min1(floor(%{level}/2))"
             inputs:
-              - field:
-                ref: level
-                label: "_{Level}"
-              - span: "&divide; 2"
+              - ruby-round-down:
+                contents:
+                - field:
+                  ref: level
+                  label: "_{Level}"
+                - span: "&divide; 2"
           - p: "_{Treat environmental heat as one step less extreme.}"
           
   - at: '@health'
