@@ -46,33 +46,13 @@ inc:
       - value-block: "#{range}"
         content: "_{Range}"
 
-  - copy: damage-resist-more-hp
-    params:
-      id: ''
-      type: "_{Damage}"
-      width: large
-    contents:
-      - calc:
-        output:
-          field: '#{id}'
-          frame: left
-          width: "#{width}"
-          label: "#{type} _{Resistance}"
-          eq: "min1(floor(%{level}/2))"
-        inputs:
-          - ruby-round-down:
-            contents:
-              - field:
-                ref: level
-                label: "_{Level}"
-                frame: left
-              - span: "&divide; 2"
-              
+  # Damage resistance macro for columns.
   - copy: damage-resist
     params:
       id: ""
       width: "large"
       type: "_{Damage}"
+      perNLevels: '2'
     contents:
       - calc:
         output:
@@ -80,13 +60,36 @@ inc:
           width: "#{width}"
           border: full
           legend: "#{type} _{Resistance}"
-          eq: "min1(floor(%{level}/2))"
+          eq: "min1(floor(%{level}/#{perNLevels})"
         inputs:
           - ruby-round-down:
             contents:
             - field:
               ref: level
               label: "_{Level}"
-            - span: "&divide; 2"
+            - span: "&divide; #{perNLevels}"
+
+  - copy: damage-resist-more-hp
+    params:
+      id: ''
+      type: "_{Damage}"
+      width: large
+      perNLevels: '2'
+    contents:
+      - calc:
+        output:
+          field: '#{id}'
+          frame: left
+          width: "#{width}"
+          label: "#{type} _{Resistance}"
+          eq: "min1(floor(%{level}/ #{perNLevels}))"
+        inputs:
+          contents:
+            - field:
+              ref: level
+              label: "_{Level}"
+              frame: left
+            - span: "&divide;  #{perNLevels} (Round down)"
+              
              
   
