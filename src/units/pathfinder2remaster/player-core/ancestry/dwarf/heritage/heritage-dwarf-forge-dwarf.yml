@@ -12,25 +12,15 @@ inc:
       - article:
         title: "_{Forge Dwarf}"
         contents:
-          - calc:
-            output:
-              field: heritage/forge-dwarf:fire-resistance
-              width: large
-              border: full
-              legend: "_{Fire Resistance}"
-              eq: "min1(floor(%{level}/2))"
-            inputs:
-              - ruby-round-down:
-                contents:
-                - field:
-                  ref: level
-                  label: "_{Level}"
-                - span: "&divide; 2"
+          - paste: damage-resist
+            params:
+              id: dwarf/forge/fire-resistance
+              type: "_{Fire}"
           - p: "_{Treat environmental heat as one step less extreme.}"
           
   - at: '@health'
     add:
-      - paste: damage-resist
+      - paste: damage-resist-more-hp
         params:
           id: dwarf/forge/fire-resistance-more-hp
           type: "_{Fire}"
