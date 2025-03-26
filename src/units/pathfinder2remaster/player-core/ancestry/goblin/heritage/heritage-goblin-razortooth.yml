@@ -13,47 +13,25 @@ inc:
     replace:
       - article:
         title: "_{Razortooth Goblin}"
-        content: "_{Gain a jaws attack (finesse, unarmed, brawling) that deals 1d6 piercing damage.}"
+        contents: 
+          # add a weapon
+          - paste: natural-weapon
+            params:
+              name: "_{Jaws}"
+              damage: "_{1d6}"
+              type: "_{Piercing}"
+          - flags:
+              - "_{Brawling}"
+              - "_{Finesse}"
+              - "_{Unarmed}"
 
   # Refactor
   - at: '@actions'
     add:
-      - action: 1
-        contents:
-          - article:
-            title: "_{Jaws attack}"
-            contents:
-              - row:
-                merge-bottom: no
-                contents:
-                  - calc:
-                    output:
-                      field: goblin/razortooth/jaws-attack-bonus
-                      label: "_{Attack Bonus}"
-                      width: large
-                      attack: true
-                      icon: bonus
-                      eq: "%{DEX}+%{goblin/razortooth/jaws-attack-proficiency-bonus}"
-                    inputs:
-                      - field:
-                        ref: DEX
-                        underlay: "_{DEX}"
-                        width: small
-                        label: "_{DEX}"
-                        merge-bottom: no
-                      - field: goblin/razortooth/jaws-attack-proficiency
-                        control: proficiency
-                        label: "_{Proficiency}"
-                        width: small
-                        merge-bottom: no
-
-                  - field: goblin/razortooth/jaws-attack-damage
-                    border: full
-                    label: "_{Damage}"
-                    width: large
-                    icon: damage
-                    control: compound
-                    parts:
-                      - label: "_{1d6} +"
-                      - subid: extra
-                        width: tiny
+      - paste: natural-weapon-action
+        params:
+          id: goblin/razortooth/jaws
+          name: "_{Jaws}"
+          damage: "_{1d6}"
+          type: "_{P}"
+          
