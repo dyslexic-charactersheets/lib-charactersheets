@@ -1,0 +1,31 @@
+unit: heritage/goblin/remaster/snow
+in: heritage/goblin
+group: "_{Player Core}"
+name: "_{Snow Goblin}"
+
+inc:
+  # set the heritage name
+  - set: heritage
+    value: "_{Snow Goblin}"
+
+  # create the heritage text block
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Snow Goblin}"
+        contents:
+          # Cold Resistance
+          - paste: leveled-damage-resist
+            params:
+              id: goblin/snow/fire-resistance
+              type: "_{Cold}"
+          - paste: temperature-tolerance
+            params: 
+              temp: "_{cold}"
+          
+  - at: '@health'
+    add:
+      - paste: leveled-damage-resist-health
+        params:
+          id: goblin/snow/fire-resistance-more-hp
+          type: "_{Cold}"
