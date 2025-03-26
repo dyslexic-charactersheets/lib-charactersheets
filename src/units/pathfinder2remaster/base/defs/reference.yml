@@ -47,7 +47,7 @@ inc:
         content: "_{Range}"
 
   # Damage resistance macro for columns.
-  - copy: damage-resist
+  - copy: leveled-damage-resist
     params:
       id: ""
       width: "large"
@@ -70,7 +70,7 @@ inc:
             - span: "&divide; #{perNLevels}"
 
   # Damage Resistance Macro for the "more hp" info slots.
-  - copy: damage-resist-health
+  - copy: leveled-damage-resist-health
     params:
       id: ''
       type: "_{Damage}"
@@ -85,12 +85,21 @@ inc:
           label: "#{type} _{Resistance}"
           eq: "min1(floor(%{level}/#{perNLevels}))"
         inputs:
-          - field:
-            ref: level
-            label: "_{Level}"
-            frame: left
-          - span: "&divide;  #{perNLevels}"
-          - p: "(Round down)"
-              
-             
+          - ruby-round-down:
+            contents:
+              - field:
+                ref: level
+                label: "_{Level}"
+                frame: left
+              - span: "&divide;  #{perNLevels}"
+
+  # Cold and Hot weather heritages temperature tolerances.  
+  # 'temp' should be "_{heat}" or "_{cold}"
+  - copy: temperature-tolerance
+    params:
+      id: ''
+      temp: "_{temperature}"
+    contents:
+      - p: "_{Treat environmental} #{temp} _{heat as one step less extreme.}"
+
   
