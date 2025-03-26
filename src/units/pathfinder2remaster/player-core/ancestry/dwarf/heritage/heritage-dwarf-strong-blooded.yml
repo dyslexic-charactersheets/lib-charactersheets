@@ -12,19 +12,18 @@ inc:
       - article:
         title: "_{Strong-Blooded Dwarf}"
         contents:
-          - calc:
-            output:
-              field: heritage/strong-blooded-dwarf:poison-resistance
-              width: large
-              border: full
-              legend: "_{Poison Resistance}"
-              eq: "min1(floor(%{level}/2))"
-            inputs:
-              - field:
-                ref: level
-                label: "_{Level}"
-              - span: "&divide; 2"
+          - paste: leveled-damage-resist
+            params:
+              id: dwarf/strong-blooded/poison-resistance
+              type: "_{Poison}"
           - p: "_{Successful saving throws against poison reduce stage by 2, or by 3 for a critical success.}"
+          
+  - at: '@health'
+    add:
+      - paste: leveled-damage-resist-health
+        params:
+          id: dwarf/strong-blooded/poison-resistance-more-hp
+          type: "_{Poison}"
 
   - at: '@saving-throws'
     add:
