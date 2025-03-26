@@ -1,0 +1,59 @@
+unit: heritage/goblin/remaster/razortooth
+in: heritage/goblin
+group: "_{Player Core}"
+name: "_{Razortooth Goblin}"
+
+inc:
+  # set the heritage name
+  - set: heritage
+    value: "_{Razortooth Goblin}"
+
+  # create the heritage text block
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Razortooth Goblin}"
+        contents: "_{Gain a jaws attack (finesse, unarmed, brawling) that deals 1d6 piercing damage.}"
+        
+  # Need to refactor
+  - at: '@actions'
+    add:
+      - action: 1
+        contents:
+          - article:
+            title: "_{Jaws attack}"
+            contents:
+              - row:
+                merge-bottom: no
+                contents:
+                  - calc:
+                    output:
+                      field: goblin/razortooth/jaws-attack-bonus
+                      label: "_{Attack Bonus}"
+                      width: large
+                      attack: true
+                      icon: bonus
+                      eq: "%{DEX}+%{goblin/razortooth/jaws-attack-proficiency-bonus}"
+                    inputs:
+                      - field:
+                        ref: DEX
+                        underlay: "_{DEX}"
+                        width: small
+                        label: "_{DEX}"
+                        merge-bottom: no
+                      - field: goblin/razortooth/jaws-attack-proficiency
+                        control: proficiency
+                        label: "_{Proficiency}"
+                        width: small
+                        merge-bottom: no
+
+                  - field: goblin/razortooth/jaws-attack-damage
+                    border: full
+                    label: "_{Damage}"
+                    width: large
+                    icon: damage
+                    control: compound
+                    parts:
+                      - label: "_{1d6} +"
+                      - subid: extra
+                        width: tiny
