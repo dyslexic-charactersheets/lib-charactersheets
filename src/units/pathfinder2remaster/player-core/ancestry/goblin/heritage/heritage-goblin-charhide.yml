@@ -15,16 +15,15 @@ inc:
         title: "_{Charhide Goblin}"
         contents:
           # Fire Resistance
-          - calc:
-            output:
-              field: heritage/charhide:fire-resistance
-              width: large
-              border: full
-              legend: "_{Fire Resistance}"
-              eq: "min1(floor(%{level}/2))"
-            inputs:
-              - field:
-                ref: level
-                label: "_{Level}"
-              - span: "&divide; 2"
+          - paste: leveled-damage-resist
+            params:
+              id: goblin/charhide/fire-resistance
+              type: "_{Fire}"
           - p: "_{Check to remove persistent fire damage is 10 rather than 15, or 5 if somebody helps you.}"
+          
+  - at: '@health'
+    add:
+      - paste: leveled-damage-resist-health
+        params:
+          id: goblin/charhide/fire-resistance-more-hp
+          type: "_{Fire}"
