@@ -13,18 +13,17 @@ inc:
         title: "_{Arctic Elf}"
         contents:
           # leveled formula
-          - calc:
-            output:
-              field: heritage/<heritage>:<type>
-              width: large
-              border: full
-              legend: "_{Cold Resistance}"
-              eq: "min1(floor(%{level}/2))"
-            inputs:
-              - field:
-                ref: level
-                label: "_{Level}"
-              - span: "&divide; 2"
-
-          #  temperature adjustment
-          - p: "_{Treat environmental cold as one step less extreme.}"
+          - paste: leveled-damage-resist
+            params:
+              id: elf/arctic/cold-resistance
+              type: "_{Cold}"
+          - paste: temperature-tolerance
+            params: 
+              temp: "_{cold}"
+          
+  - at: '@health'
+    add:
+      - paste: leveled-damage-resist-health
+        params:
+          id: elf/arctic/cold-resistance-more-hp
+          type: "_{Cold}"
