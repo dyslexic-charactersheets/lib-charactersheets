@@ -13,11 +13,63 @@ inc:
     replace:
       - article:
         title: "_{Razortooth Goblin}"
-        contents: "_{Gain a jaws attack (finesse, unarmed, brawling) that deals 1d6 piercing damage.}"
+        content: "_{Gain a jaws attack  that deals 1d6 piercing damage.}"
 
   # Refactor
+
+unit: heritage/goblin/razortooth
+in: heritage/goblin
+group: "_{Core Rulebook}"
+name: "_{Razortooth Goblin}"
+
+inc:
+  - set: heritage
+    value: "_{Razortooth Goblin}"
+
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Razortooth Goblin}"
+        content: "_{Gain a jaws attack (finesse, unarmed, brawling) that deals 1d6 piercing damage.}"
+
   - at: '@actions'
     add:
       - action: 1
         contents:
-          - p: "Test"
+          - article:
+            title: "_{Jaws attack}"
+            contents:
+              - row:
+                merge-bottom: no
+                contents:
+                  - calc:
+                    output:
+                      field: goblin/razortooth/jaws-attack-bonus
+                      label: "_{Attack Bonus}"
+                      width: large
+                      attack: true
+                      icon: bonus
+                      eq: "%{DEX}+%{goblin/razortooth/jaws-attack-proficiency-bonus}"
+                    inputs:
+                      - field:
+                        ref: DEX
+                        underlay: "_{DEX}"
+                        width: small
+                        label: "_{DEX}"
+                        merge-bottom: no
+                      - field: goblin/razortooth/jaws-attack-proficiency
+                        control: proficiency
+                        label: "_{Proficiency}"
+                        width: small
+                        merge-bottom: no
+
+                  - field: goblin/razortooth/jaws-attack-damage
+                    border: full
+                    label: "_{Damage}"
+                    width: large
+                    icon: damage
+                    control: compound
+                    parts:
+                      - label: "_{1d6} +"
+                      - subid: extra
+                        width: tiny
