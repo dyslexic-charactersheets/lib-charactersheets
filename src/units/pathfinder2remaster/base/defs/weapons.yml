@@ -89,30 +89,30 @@ inc:
                   # to hit block
                   - calc:
                     output:
-                      field: #{id}-bonus
+                      field: attack-#{id}-bonus
                       label: "_{Attack Bonus}"
                       width: large
                       attack: true
                       icon: bonus
-                      eq: "%{jaws-ability}+%{jaws-proficiency-bonus}+%{jaws-potency[rank]}"
+                      eq: "%{attack-#{id}-ability}+%{attack-#{id}-proficiency}+%{attack-#{id}-potency[rank]}"
                     inputs:
-                      - field: #{id}-ability
+                      - field: attack-#{id}-ability
                         ref: true
                         misc: true
                         label: "_{Ability}"
                         control: ref-switch
                         abilities: "str,dex"
-                      - field: #{id}-proficiency
+                      - field: attack-#{id}-proficiency
                         control: proficiency
                         label: "_{Proficiency}"
                       - zone: '@attack-potency'
                         contents:
-                          - field: #{id}-potency
+                          - field: attack-#{id}-potency
                             control: counter
                             label: "_{Potency}"
                             
                   # damage block
-                  - field: #{id}-damage
+                  - field: attack-#{id}-damage
                     border: full
                     label: "_{Damage}"
                     width: large
