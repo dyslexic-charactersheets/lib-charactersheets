@@ -42,8 +42,16 @@ inc:
                 label: "_{Level}"
               - span: "&divide; 2"
 
+            # damage resist
+            - paste: leveled-damage-resist
+              params:
+                id: <ancestry>/<heritage>/<type>-resistance
+                type: "_{<Type>}"
+
             #  temperature adjustment
-            - p: "_{Treat environmental <heat/cold> as one step less extreme.}"
+            - paste: temperature-tolerance
+              params: 
+                temp: "_{<temp>}"
   
 
   # add a heritage savign throw reaction
@@ -65,6 +73,34 @@ inc:
           - value-block: "_{+N}"
             content: "_{<short desctiption>}"
 
+  # add a damage resist
+  - at: '@health'
+    add:
+      - paste: leveled-damage-resist-health
+        params:
+          id: <unique id>
+          type: "_{<Type>}"
+
+  # add a natural weapon
+  - at: '@actions'
+    add:
+      - action: 1
+        contents:
+          - article:
+            title: "_{<Attack Name> attack}"
+            contents:
+              - paste: natural-weapon-action
+                params:
+                  id: <unique id>
+                  name: "_{<Attack Name>}"
+                  damage: "_{<Attack Die>}"
+                  type: "_{<Damage Type Initial>}"
+              - flags:
+                  - "_{Brawling}"
+                  - "_{Finesse}"
+                  - "_{Unarmed}"
+
+  
   # possibly obsolete elements.
   # add an elemental resistance  
   - at: "@ac-conditional"
@@ -79,5 +115,4 @@ inc:
   add:
     - p: "_{Treat environmental <heat/cold> as one step less extreme.}"
 
-  # add a natural weapon
 
