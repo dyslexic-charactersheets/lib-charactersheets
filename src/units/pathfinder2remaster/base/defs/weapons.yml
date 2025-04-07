@@ -78,59 +78,48 @@ inc:
       name: "_{Natural Attack}"
       damage: "_{1d4}"
     contents:
-      - action: 1
+      - row:
+        merge-bottom: no
         contents:
-          - article:
-            title: "#{name}"
-            contents:
-              - row:
-                merge-bottom: no
+          # to hit block
+          - calc:
+            output:
+              field: "#{id}-bonus"
+              label: "_{Attack Bonus}"
+              width: large
+              attack: true
+              icon: bonus
+              eq: "%{#{id}-ability}+%{#{id}-proficiency-bonus}+%{#{id}-potency[rank]}"
+            inputs:
+              - field: attack-#{id}-ability
+                ref: true
+                misc: true
+                label: "_{Ability}"
+                control: ref-switch
+                abilities: "str,dex"
+              - field: "#{id}-proficiency"
+                control: proficiency
+                label: "_{Proficiency}"
+              - zone: '@attack-potency'
                 contents:
-                  # to hit block
-                  - calc:
-                    output:
-                      field: attack-#{id}-bonus
-                      label: "_{Attack Bonus}"
-                      width: large
-                      attack: true
-                      icon: bonus
-                      eq: "%{attack-#{id}-ability}+%{attack-#{id}-proficiency-bonus}+%{attack-#{id}-potency[rank]}"
-                    inputs:
-                      - field: attack-#{id}-ability
-                        ref: true
-                        misc: true
-                        label: "_{Ability}"
-                        control: ref-switch
-                        abilities: "str,dex"
-                      - field: attack-#{id}-proficiency
-                        control: proficiency
-                        label: "_{Proficiency}"
-                      - zone: '@attack-potency'
-                        contents:
-                          - field: attack-#{id}-potency
-                            control: counter
-                            label: "_{Potency}"
+                  - field: "#{id}-potency"
+                    control: counter
+                    label: "_{Potency}"
                             
-                  # damage block
-                  - field: attack-#{id}-damage
-                    border: full
-                    label: "_{Damage}"
-                    width: large
-                    icon: damage
-                    control: compound
-                    parts:
-                      - label: "#{damage} +"
-                      - subid: extra
-                        width: tiny
-                  - if: "#{type}!="
-                    then:
-                      - p: "#{type}"
-              - if: "#{traits}!="
-                then:
-                  - flags: 
-
-
-
+          # damage block
+          - field: "#{id}-damage"
+            border: full
+            label: "_{Damage}"
+            width: large
+            icon: damage
+            control: compound
+            parts:
+              - label: "#{damage} +"
+              - subid: extra
+                width: tiny
+          - if: "#{type}!="
+            then:
+              - p: "#{type}"
 
   - copy: weapon-damage-block
     params:
