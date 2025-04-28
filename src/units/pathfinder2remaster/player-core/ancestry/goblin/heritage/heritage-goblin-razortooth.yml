@@ -1,0 +1,48 @@
+unit: heritage/goblin/remaster/razortooth
+in: heritage/goblin
+group: "_{Player Core}"
+name: "_{Razortooth Goblin}"
+
+inc:
+  # set the heritage name
+  - set: heritage
+    value: "_{Razortooth Goblin}"
+
+  # create the heritage text block
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Razortooth Goblin}"
+        contents: 
+          - p: ##
+          # add a weapon
+          - paste: natural-weapon
+            params:
+              name: "_{Jaws}"
+              damage: "_{1d6}"
+              type: "_{Piercing}"
+          - flags:
+              - "_{Brawling}"
+              - "_{Finesse}"
+              - "_{Unarmed}"
+
+  # create natural attack stat block
+  - at: '@actions'
+    add:
+      - action: 1
+        contents:
+          - article:
+            title: "_{Jaws attack}"
+            contents:
+              - paste: natural-weapon-action
+                params:
+                  id: goblin/razertooth/jaws
+                  name: "_{Jaws}"
+                  damage: "_{1d6}"
+                  type: "_{P}"
+              - flags:
+                  - "_{Brawling}"
+                  - "_{Finesse}"
+                  - "_{Unarmed}"
+
+          

@@ -1,0 +1,108 @@
+unit: heritage/<ancestry>/remaster/<heritage>
+in: heritage/<ancestry>
+group: "_{Player Core}"
+name: "_{<heritage> <ancestry>}"
+
+inc:
+  # set the heritage name
+  - set: heritage
+    value: "_{<heritage> <ancestry>}"
+
+  # create the heritage text block
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{<heritage> <ancestry>}"
+        contents:
+          # simple description
+          - p: "_{<short desctiption>}"
+
+          # add a weapon
+          - paste: natural-weapon
+            params:
+              name: "_{Spines}"
+              damage: "_{1d6}"
+              type: "_{Piercing}"
+          - flags:
+              - "_{Brawling}"
+              - "_{Finesse}"
+              - "_{Unarmed}"
+
+          # leveled formula
+          - calc:
+            output:
+              field: heritage/<heritage>:<type>
+              width: large
+              border: full
+              legend: "_{<description>}"
+              eq: "min1(floor(%{level}/2))"
+            inputs:
+              - field:
+                ref: level
+                label: "_{Level}"
+              - span: "&divide; 2"
+
+            # damage resist
+            - paste: leveled-damage-resist
+              params:
+                id: <ancestry>/<heritage>/<type>-resistance
+                type: "_{<Type>}"
+
+            #  temperature adjustment
+            - paste: temperature-tolerance
+              params: 
+                temp: "_{<temp>}"
+  
+
+  # add a heritage savign throw reaction
+  - at: '@saving-throws'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{<reaction name>}"
+            content: "_{<short desctiption>}"
+
+  # add a heritage savign throw reaction with a numeric bonus
+  - at: '@saving-throws'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{<reaction name>}"
+          - value-block: "_{+N}"
+            content: "_{<short desctiption>}"
+
+  # add a damage resist
+  - at: '@health'
+    add:
+      - paste: leveled-damage-resist-health
+        params:
+          id: <unique id>
+          type: "_{<Type>}"
+
+  # add a natural weapon
+  - at: '@actions'
+    add:
+      - action: 1
+        contents:
+          - article:
+            title: "_{<Attack Name> attack}"
+            contents:
+              - paste: natural-weapon-action
+                params:
+                  id: <unique id>
+                  name: "_{<Attack Name>}"
+                  damage: "_{<Attack Die>}"
+                  type: "_{<Damage Type Initial>}"
+              - flags:
+                  - "_{Brawling}"
+                  - "_{Finesse}"
+                  - "_{Unarmed}"
+
+  # add perception
+  - at: '@perception'
+    replace:
+      - p:
+        title: "_{Keen Eyes}"
+        content: "_{+2 to seek out hidden or undetected creatures within 30ft. DC 3 to target a concealed creature, DC 9 to target a hidden creature.}"

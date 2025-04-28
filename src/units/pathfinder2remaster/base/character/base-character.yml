@@ -1026,12 +1026,28 @@ inc:
                             size: medium
                             optional: true
 
-                      - field: hp-more
-                        width: stretch
-                        frame: none
-                        control: p
-                        with-title: false
-                        lines: 3
+                      # Replaced hp-more field with slots so other units can backfill it.
+                      # - field: hp-more
+                      #   width: stretch
+                      #   frame: none
+                      #   control: p
+                      #   with-title: false
+                      #   lines: 3
+                      
+                      - slots:
+                        min: 3
+                        reduce: 1
+                        merge-bottom: true
+                        contents:
+                          - zone: '@health'
+                        placeholder:
+                          - field: 'hp-more-#{i}'
+                            frame: none
+                            align: left
+                            width: stretch
+                            
+
+                      
                       - hr:
                         light: true
 

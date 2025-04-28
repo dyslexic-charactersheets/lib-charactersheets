@@ -1,0 +1,29 @@
+unit: heritage/elf/remaster/arctic
+in: heritage/elf
+group: "_{Player Core}"
+name: "_{Arctic Elf}"
+
+inc:
+  - set: heritage
+    value: "_{Arctic Elf}"
+
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Arctic Elf}"
+        contents:
+          # leveled formula
+          - paste: leveled-damage-resist
+            params:
+              id: elf/arctic/cold-resistance
+              type: "_{Cold}"
+          - paste: temperature-tolerance
+            params: 
+              temp: "_{cold}"
+          
+  - at: '@health'
+    add:
+      - paste: leveled-damage-resist-health
+        params:
+          id: elf/arctic/cold-resistance-more-hp
+          type: "_{Cold}"

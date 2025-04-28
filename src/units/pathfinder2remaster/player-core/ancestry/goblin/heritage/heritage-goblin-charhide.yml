@@ -1,0 +1,29 @@
+unit: heritage/goblin/remaster/charhide
+in: heritage/goblin
+group: "_{Player Core}"
+name: "_{Charhide Goblin}"
+
+inc:
+  # set the heritage name
+  - set: heritage
+    value: "_{Charhide Goblin}"
+
+  # create the heritage text block
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Charhide Goblin}"
+        contents:
+          # Fire Resistance
+          - paste: leveled-damage-resist
+            params:
+              id: goblin/charhide/fire-resistance
+              type: "_{Fire}"
+          - p: "_{Check to remove persistent fire damage is 10 rather than 15, or 5 if somebody helps you.}"
+          
+  - at: '@health'
+    add:
+      - paste: leveled-damage-resist-health
+        params:
+          id: goblin/charhide/fire-resistance-more-hp
+          type: "_{Fire}"
