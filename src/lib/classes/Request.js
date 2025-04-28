@@ -10,6 +10,7 @@ import { events } from './Events';
 import { isArray } from '../util';
 import { has } from '../util/objects';
 import { Custom } from './Custom';
+import { isObject } from 'lodash';
 
 function randomID() {
   return Math.random().toString(16).substring(2, 9)
@@ -52,11 +53,19 @@ export class Request {
   }
 
   getInstance(id) {
-    if (has(this.instances, id)) {
-      // log("Request", "getInstance: found", id);
-      return this.instances[id];
+    let type = null;
+    if (isObject(id)) {
+      type = has(id, "type") ? id.type : null;
+      id = id.id;
     }
-    // log("Request", "getInstance: not found", id);
+    if (has(this.instances, id)) {
+      if (type === null || type == this.instances[id].type) {
+        log("Request", "getInstance: found", id);
+        return this.instances[id];
+      }
+    }
+    log("Request", "getInstance: not found", id);
+    log("Request", "known instances:", Object.keys(this.instances));
     return null;
   }
 

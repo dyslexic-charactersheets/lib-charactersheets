@@ -1,5 +1,5 @@
 import { existsSync } from 'fs';
-import { warn } from './log';
+import { log, warn, error } from './log';
 
 const MIME_SVG = 'image/svg+xml';
 const MIME_PNG = 'image/png';
@@ -70,6 +70,11 @@ export function toDataURL(data, mimeType) {
     return '';
   }
 
+  if (data.startsWith('data:')) {
+    warn('data', 'Data URL already encoded');
+    return data;
+  }
+
   switch (mimeType) {
     case MIME_SVG: {
       const svg = processSVG(data);
@@ -96,11 +101,11 @@ export function addAssetsDir(dir) {
 export function locateAsset(name, cb) {
   try {
     let filename = needsBase64(name) ? `${name}.base64` : name;
-    // log("data", "Locating asset:", filename, assetsDirs);
+    log("data", "Locating asset:", filename, assetsDirs);
     assetsDirs.flatMap((dir) => {
       const file = dir + filename;
       if (existsSync(file)) {
-        // log("data", "Located asset", name);
+        log("data", "Located asset", name);
         cb(file);
       }
     });

@@ -365,11 +365,11 @@ function parseCharacter(primary, request) {
   ["printPortrait", "animalPortrait", "printLogo", "printBackground"].forEach(field => {
     if (attr[field]) {
       const id = attr[field];
-      // log("Character", "Asset:", field, "=", id);
+      log("Character", "Asset:", field, "=", id);
       const instance = request.getInstance(id);
       if (!isNull(instance)) {
-        // log("Character", "Asset known:", field, "=", id);
-        char.instances[id] = instance.attributes;
+        log("Character", "Asset known:", field, "=", id);
+        char.instances[instance.id] = instance;
       }
     }
   });
