@@ -5,6 +5,7 @@ name: "_{Faith's Flamekeeper}"
 
 require:
   - unit: spell/stoke-the-heart
+  - unit: spell/command
 
 inc:
   - set: witch/patron/theme
@@ -16,6 +17,8 @@ inc:
     value: "_{Divine}"
   - set: witch/patron/cantrip
     value: "_{Stoke the heart}"
+  - set: witch/patron/familiar-spell
+    value: "_{Command}"
 
   - at: '@witch/patron/theme'
     replace:
@@ -23,3 +26,24 @@ inc:
         align: left
       - h4: "_{Faith's Flamekeeper}"
         size: small
+
+  - at: '@witch/patron/theme/familiar-ability'
+    replace:
+      - article: 'witch/patron/theme/familiar-ability'
+        title: 'Familiar of Restored Spirit'
+        contents:
+          - p: "_{When you Cast or Sustain a hex, a willing creature within 15ft of your familiar gains temporary hit points this turn.}"
+          - calc:
+            output:
+              field: '##:familiar-ability/temp-hp'
+              legend: "_{Temp HP}"
+              border: full
+              width: large
+              eq: "2+floor(%{level}/2)"
+            inputs:
+              - span: "2 +"
+              - span: "("
+              - field:
+                ref: level
+                label: "_{Level}"
+              - span: "&divide; 2 )"
