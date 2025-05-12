@@ -23,6 +23,27 @@ inc:
                 label: "_{Level}"
               - span: "&divide; 2"
 
+  - copy: half-level-min-1
+    params:
+      id: ''
+      label: "_{Rank}"
+      width: large
+    contents:
+      - calc:
+        output:
+          field: '#{id}'
+          frame: left
+          width: "#{width}"
+          label: "#{label}"
+          eq: "min1(floor(%{level}/2))"
+        inputs:
+          - ruby-round-down:
+            contents:
+              - field:
+                ref: level
+                label: "_{Level}"
+              - span: "&divide; 2"
+
   - copy: focus-level
     params:
       id: ''

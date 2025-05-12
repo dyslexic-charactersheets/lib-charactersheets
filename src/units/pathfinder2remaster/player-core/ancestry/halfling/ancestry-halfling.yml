@@ -1,0 +1,56 @@
+unit: ancestry/remaster/halfling
+in: ancestry
+group: "_{Player Core}"
+name: "_{Halfling}"
+
+form:
+  - select: heritage/halfling
+    name: "_{Halfling Heritage}"
+    max: 1
+
+inc:
+  - set: ancestry
+    value: "_{halfling}"
+  - set: hp-ancestry
+    value: 6
+# stat boosts
+  - set: build-boost-DEX-ancestry
+    value: 1
+  - set: build-boost-WIS-ancestry
+    value: 1
+  - set: build-boost-STR-ancestry
+    value: -1
+# set languages
+  - set: languages
+    value: "_{Common}, _{Halfling}"
+
+# write ancestry short descriptions
+  - at: '@ancestry'
+    replace:
+      - article: ancestry
+        title: "_{Halfling}"
+        contents:
+          - flags:
+              - "_{Halfling}"
+              - "_{Humanoid}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{25ft}"
+          - hr:
+            light: true
+          - p: 
+            title: "_{Keen Eyes}"
+          - value-block: "_{+2}"
+            content: "_{to detect creatures within 30ft.}"
+          - value-block: "_{DC 3}"
+            content: "&nbsp; _{to target concealed target.}"
+          - value-block: "_{DC 9}"
+            content: "&nbsp; _{to target hidden target.}"
+
+  - at: '@perception'
+    replace:
+      - p:
+        title: "_{Keen Eyes}"
+        content: "_{+2 to seek out hidden or undetected creatures within 30ft. DC 3 to target a concealed creature, DC 9 to target a hidden creature.}"

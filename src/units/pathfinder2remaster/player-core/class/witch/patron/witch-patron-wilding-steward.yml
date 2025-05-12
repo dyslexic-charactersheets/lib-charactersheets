@@ -1,0 +1,58 @@
+unit: witch/patron/wilding-steward
+in: witch/patron
+group: "_{Player Core}"
+name: "_{Wilding Steward}"
+
+require:
+  - unit: spell/wilding-word
+  - unit: spell/summon-animal
+
+inc:
+  - set: witch/patron/theme
+    value: "_{Wilding Steward}"
+  - set: nature-proficiency
+    value: trained
+
+  - set: witch/patron/tradition
+    value: "_{Occult}"
+  - set: witch/patron/cantrip
+    value: "_{Wilding word}"
+  - set: witch/patron/familiar-spell
+    value: "_{Summon animal / plant / fungus}"
+
+  - at: '@witch/patron/theme'
+    replace:
+      - label: "_{Patron Theme}"
+        align: left
+      - h4: "_{Wilding Steward}"
+        size: small
+
+  - at: '@witch/patron/familiar-spell'
+    replace:
+      - row:
+        contents:
+          - field: 'witch/patron/familiar-spell'
+            control: radio
+            value: summon-animal
+            label: "_{Summon\nAnimal}"
+            frame: right
+          - field: 'witch/patron/familiar-spell'
+            control: radio
+            value: summon-plant
+            label: "_{Summon\nPlant}"
+            frame: right
+          - field: 'witch/patron/familiar-spell'
+            control: radio
+            value: summon-fungus
+            label: "_{Summon\nFungus}"
+            frame: right
+
+  - at: '@witch/patron/theme/familiar-ability'
+    replace:
+      - article: 'witch/patron/theme/familiar-ability'
+        title: 'Familiar of Keen Senses'
+        contents:
+          - p: "_{When you Cast or Sustain a hex, your familiar gains imprecise scent, tremorsense or wavesense 60ft this turn.}"
+          - action: free
+            contents:
+              - p: "_{Point Out}"

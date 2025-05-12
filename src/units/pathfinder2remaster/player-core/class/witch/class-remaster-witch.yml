@@ -141,7 +141,6 @@ inc:
                           cantrips-text: "_{Prepare 5 cantrips each morning from your familiar. Cast them indefinitely.}"
                           spells-icon: familiar
                           spells-text: "_{Prepare spells each morning from your familiar.}"
-                          # heighten: "_{Prepare a spell in a higher slot to heighten}"
 
                       - spells-table:
                         flip: true
@@ -157,7 +156,7 @@ inc:
                                 content: "_{Make an Arcana check and pay the cost to learn an extra spell.}"
                               - paste: book-ref
                                 params:
-                                  page-ref: "_{CRB p238}"
+                                  page-ref: "_{PC p230}"
 
                       - hr:
 
@@ -286,13 +285,30 @@ inc:
                                   - field: witch/patron/theme
                                     width: stretch
                                     label: "_{Patron Theme}"
-                                    merge-bottom: true
-                          - g:
-                            contents:
+                                    size: large
+                                    
                               - field: witch/patron/tradition
                                 width: stretch
                                 label: "_{Spellcasting Tradition}"
-                                merge-bottom: true
+                                
+                              - zone: '@witch/patron/familiar-spell'
+                                contents:
+                                  - field: witch/patron/familiar-spell
+                                    width: stretch
+                                    label: "_{Familiar Spell}"
+                                    merge-bottom: true
+                                
+                          - g:
+                            contents:
+                              - zone: '@witch/patron/theme/familiar-ability'
+                                contents:
+                                  - label: "_{Familiar Ability}"
+                                    align: left
+                                  - article: 'witch/patron/theme/familiar-ability'
+                                    lines: 4
+                                    reduce: 2
+                                    merge-bottom: true
+                              - spacer:
 
                   - section: "_{Cantrips}"
                     flex: small
@@ -300,7 +316,7 @@ inc:
                       - spells-list:
                         min: 0
                         max: 0
-                        spells: 10
+                        spells: 5
                         special: "_{Patron}"
                         special-value: "#{witch/patron/cantrip}"
 

@@ -1,0 +1,44 @@
+unit: ancestry/remaster/elf
+in: ancestry
+group: "_{Player Core}"
+name: "_{Elf}"
+
+# if the ancestry has low light:
+require:
+  - unit: optional-darkvision/trigger
+  
+form:
+  - select: heritage/elf
+    name: "_{Elf Heritage}"
+    max: 1
+  
+inc:
+  - set: ancestry
+    value: "_{Elf}"
+  - set: hp-ancestry
+    value: 6
+  - set: perception-low-light
+    value: true
+  - set: build-boost-DEX-ancestry
+    value: 1
+  - set: build-boost-INT-ancestry
+    value: 1
+  - set: build-boost-CON-ancestry
+    value: -1
+  - set: languages
+    value: "_{Common}, _{Elven}, _{Test}"
+
+  - at: '@ancestry'
+    replace:
+      - article: ancestry
+        title: "_{Elf}"
+        contents:
+          - flags:
+              - "_{Elf}"
+              - "_{Humanoid}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{30ft}"
+          - paste: low-light-vision
