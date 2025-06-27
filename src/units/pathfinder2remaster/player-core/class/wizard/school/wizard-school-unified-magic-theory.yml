@@ -1,0 +1,70 @@
+unit: wizard/school/unified-magical-theory
+in: wizard/school
+group: "_{Player Core}"
+name: "_{Unified Magical Theory}"
+
+require:
+  - unit: spell/hand-of-the-apprentice
+  - unit: spell/interdisciplinary-incantation
+
+inc:
+  - paste: prototype-wizard/school
+    params:
+      name: "_{Unified Magical Theory}"
+      initial: "_{Hand of the apprentice}"
+      advanced: "_{Interdisciplinary incantation}"
+      
+      spellbook-initial: spell/hand-of-the-apprentice
+      spellbook-advanced: spell/interdisciplinary-incantation
+
+  - at: '@wizard/drain-bonded-item/text'
+    replace:
+      - p: "_{Expend the power stored in your arcane bond to cast spells you prepared and cast today, without spending a spell slot.}"
+  
+  - at: '@wizard/drain-bonded-item/text--familiar'
+    replace:
+      - p: "_{Expend the power stored in your familiar to cast spells you prepared and cast today, without spending a spell slot.}"
+  
+  - at: '@wizard/drain-bonded-item/today'
+    replace:
+      - field: wizard:drain-bonded-item/today
+        control: checkgrid
+        max: 10
+        label: "_{Used today}"
+
+  - at: '@wizard/cantrips-section'
+    replace:
+      - spells-list:
+        min: 0
+        max: 0
+        spells: 12
+        checks: 1
+
+  - at: '@wizard/spells-section'
+    replace:
+      - spells-list:
+        min: 1
+        max: 1
+        spells: 6
+        style: prepared
+        special: "_{School}"
+        flex: huge
+      - spells-list:
+        min: 2
+        max: 6
+        spells: 5
+        style: prepared
+        flex: huge
+      - spells-list:
+        min: 7
+        max: 9
+        spells: 3
+        style: prepared
+        flex: huge
+      - spells-list:
+        min: 10
+        max: 10
+        spells: 1
+        checks: 1
+        style: prepared
+        flex: tiny

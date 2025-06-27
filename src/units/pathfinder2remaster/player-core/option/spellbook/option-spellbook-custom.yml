@@ -1,0 +1,102 @@
+unit: option/spellbook/custom
+name: "_{Spellbook}"
+group: "_{Core Rulebook}"
+
+require:
+  - unit: option/spellbook
+  
+inc:
+  - copy: spellbook/custom/items
+    params:
+      col-id:
+      zone-id:
+    contents:
+      - list:
+        zebra: true
+        hr: true
+        flex: true
+        contents:
+          - slots:
+            min: 5
+            max: 8
+            reduce: 1
+            index: j
+            contents:
+              - zone: '#{zone-id}'
+            placeholder:
+              paste: spellbook/spell
+              params:
+                id: spellbook-#{book}/col-#{col-id}/spell-#{j}
+
+  - at: '@pages'
+    add:
+      - page: spellbook-custom
+        name: "_{Spellbook}"
+        order: 11
+        flex: true
+        contents:
+          - zone: '@spellbook/title'
+            contents:
+              - h2: "_{Spellbook}"
+          - layout: 3e
+            flex: tiny
+            contents:
+              - g:
+                contents:
+                  - zone: '@spellbook/left/header'
+                    contents:
+                      - paste: spellbook/header
+                        params:
+                          book: special
+                          i: 1
+              - g:
+                contents:
+                  - zone: '@spellbook/middle/header'
+                    contents:
+                      - paste: spellbook/header
+                        params:
+                          book: special
+                          i: 2
+              - g:
+                contents:
+                  - zone: '@spellbook/right/header'
+                    contents:
+                      - paste: spellbook/header
+                        params:
+                          book: special
+                          i: 3
+          - layout: 3e
+            contents:
+              - g:
+                contents:
+                  - zone: '@spellbook/left'
+                    contents:
+                      - paste: spellbook/custom/items
+                        params:
+                          book: special
+                          col-id: custom-left
+                          zone-id: '@spellbook/left/first'
+                      - tail:
+                      - spacer:
+              - g:
+                contents:
+                  - zone: '@spellbook/middle'
+                    contents:
+                      - paste: spellbook/custom/items
+                        params:
+                          book: special
+                          col-id: custom-middle
+                          zone-id: '@spellbook/middle/first'
+                      - tail:
+                      - spacer:
+              - g:
+                contents:
+                  - zone: '@spellbook/right'
+                    contents:
+                      - paste: spellbook/custom/items
+                        params:
+                          book: special
+                          col-id: custom-right
+                          zone-id: '@spellbook/right/first'
+                      - tail:
+                      - spacer:

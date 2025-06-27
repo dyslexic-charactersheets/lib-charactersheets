@@ -1,0 +1,520 @@
+unit: class/remaster/wizard
+in: class
+group: "_{Core Rulebook}"
+name: "_{Wizard}"
+
+form:
+  - select: wizard/thesis
+    name: "_{Arcane Thesis}"
+    max: 1
+  - select: wizard/school
+    name: "_{Arcane School}"
+    max: 1
+  - select: feat/wizard
+    name: "_{Wizard Feats}"
+    max: 9
+    levels: [ 2, 4, 6, 8, 10, 14, 16, 18, 20 ]
+
+require:
+  - unit: weapon-spec/slow
+  - unit: option/spellbook
+  - unit: option/spellbook/custom
+  - with: option/reference
+    unit: class/wizard/reference
+  - deny: archetype/wizard
+  - with: option/level-up
+    unit: option/level-up/spell-retraining
+
+inc:
+  - set: class
+    value: "_{Wizard}"
+  - set: hp-class
+    value: 6
+  - set: class-icon
+    value: wizard
+  - set: subclass-label
+    value: "_{Arcane Thesis}"
+
+  - set: perception-proficiency
+    value: trained
+
+  - set: unarmoured-proficiency
+    value: trained
+
+  - set: fortitude-proficiency
+    value: trained
+  - set: reflex-proficiency
+    value: trained
+  - set: will-proficiency
+    value: expert
+
+  - set: arcana-proficiency
+    value: trained
+
+  - at: '@key-ability-field'
+    replace:
+      - field: key-ability
+        label: "_{INT}"
+        underlay: "_{INT}"
+        ref: INT
+
+  - at: '@familiar/key-ability'
+    replace:
+      - field: familiar/key-ability
+        label: "_{INT}"
+        underlay: "_{INT}"
+        ref: INT
+
+  - at: '@skill-actions'
+    add:
+      - paste: 10mins
+        contents:
+          - p:
+            title: "_{Identify Magic (Arcana/other)}"
+            content: "_{Take 10 minutes to identify a magical item, location or effect.}"
+            colour: INT
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        gain: "_{Arcane Thesis}"
+      - level: 1
+        gain: "_{Arcane School}"
+      - level: 1
+        advance: "_{Learn 5 cantrips}"
+      - levels: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 ]
+        spell-level: [ "_{1st}", "_{1st}", "_{2nd}", "_{2nd}", "_{3rd}", "_{3rd}", "_{4th}", "_{4th}", "_{5th}", "_{5th}", "_{6th}", "_{6th}", "_{7th}", "_{7th}", "_{8th}", "_{8th}", "_{9th}", "_{9th}", "_{10th}" ]
+        spell-num: [ 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1 ]
+      - levels: [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
+        school-spell-level: [ "_{1st}", "_{1st}", "_{2nd}", "_{2nd}", "_{3rd}", "_{3rd}", "_{4th}", "_{4th}", "_{5th}", "_{5th}", "_{6th}", "_{6th}", "_{7th}", "_{7th}", "_{8th}", "_{8th}", "_{9th}", "_{9th}", "_{10th}" ]
+        school-spell-num: [ 2, 1, 1, 1, 1, 1, 1, 1, 1, 1 ]
+      - level: 19
+        advance: "_{Archwizard's Spellcraft}"
+        
+      - level: 5
+        advance: "_{Reflex saves}"
+        proficiency: expert
+        colour: DEX
+      - level: 7
+        advance: "_{Spell attacks and DCs}"
+        proficiency: expert
+      - level: 9
+        advance: "_{Fortitude saves}"
+        proficiency: expert
+        colour: CON
+      - level: 11
+        advance: "_{Perception}"
+        proficiency: expert
+        colour: WIS
+      - level: 11
+        advance: "_{Simple weapons}"
+        proficiency: expert
+      - level: 13
+        advance: "_{Unarmoured defence}"
+        proficiency: expert
+      - level: 15
+        advance: "_{Spell attacks and DCs}"
+        proficiency: master
+      - level: 17
+        advance: "_{Will saves}"
+        proficiency: master
+        colour: WIS
+      - level: 19
+        advance: "_{Spell attacks and DCs}"
+        proficiency: legendary
+
+  - at: '@advancement-fields'
+    add:
+      - name: "_{Spells}"
+        key: spells
+        format: checkgrid
+        label: "#{spell-level}"
+        max: "#{spell-num}"
+      - name: "_{School\nSpell}"
+        key: school-spell
+        format: checkgrid
+        label: "#{school-spell-level}"
+        max: "#{school-spell-num}"
+
+  - at: '@saving-throws'
+    add:
+      - level: 17
+        contents:
+          - paste: resolve
+
+  - at: '@actions'
+    add:
+      - zone: '@wizard/action-drain-bonded-item'
+        contents:
+          - action: free
+            contents:
+              - p:
+                title: "_{Drain Bonded Item}"
+                content: "_{Cast one spell you already cast today, without spending a spell slot.}"
+
+  - at: '@pages'
+    add:
+      - page: wizard
+        name: "_{Wizard}"
+        order: 10
+        flex: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: wizard
+                    optional: true
+                  - class-name: "_{Wizard}"
+                  - section: "_{Thesis}"
+                    primary: true
+                    contents:
+                      - zone: '@wizard/thesis'
+                        contents:
+                          - article: wizard-thesis
+                            lines: 9
+                            reduce: 3
+                            merge-bottom: true
+                  - zone: '@wizard/left'
+
+                  - section: "_{Arcane School}"
+                    primary: true
+                    contents:
+                      - zone: '@wizard/school'
+                        contents:
+                          - field: wizard:school
+                            frame: none
+                            width: stretch
+                            align: left
+                            size: large
+                            merge-bottom: true
+                      - hr:
+                        swash: true
+                      - h5: "_{School Spells}"
+                      - paste: focus
+                        contents:
+                          - field: wizard/arcane-school/school-spell/initial
+                            width: stretch
+                            label: "_{Initial}"
+                          - row:
+                            contents:
+                              - field: wizard/feat/advanced-school-spell
+                                control: checkbox
+                                frame: none
+                              - field: wizard/arcane-school/school-spell/advanced
+                                width: stretch
+                                label: "_{Advanced}"
+                      - p: "_{Learn a spell from your curriculum at each rank.}"
+
+                  - section: "_{Spellcasting}"
+                    contents:
+                      - paste: spellcasting-prepared
+                        params:
+                          cantrips-text: "_{Prepare 5 cantrips each morning from your spellbook, plus 1 from your school. Cast them indefinitely.}"
+                          spells-text: "_{Prepare spells each morning from your spellbook, plus 1 from your school.}"
+
+                      - spells-table:
+                        flip: true
+                        max: 10
+                        merge-bottom: false
+
+                      - g:
+                        pad: true
+                        contents:
+                          - paste: 1hour
+                            contents:
+                              - row:
+                                contents:
+                                  - p:
+                                    title: "_{Learn a Spell}"
+                                    content: "_{Make an Arcana check and pay the cost to learn an extra spell.}"
+                                  - paste: book-ref
+                                    params:
+                                      page-ref: "_{CRB p238}"
+
+                          - hr:
+                            light: true
+
+                          - paste: spell-attack
+                            params:
+                              id: spell-attack
+                              legend: "_{Spell\nAttack}"
+
+                          - paste: spell-dc
+                            params:
+                              id: spell-dc
+                              legend: "_{Spell\nSave DC}"
+
+                  - section: "_{Arcane Bond}"
+                    contents:
+                      - field: wizard:arcane-focus-item
+                        label: "_{Bonded Item}"
+                        width: stretch
+                        align: left
+                      - zone: '@wizard/drain-bonded-item'
+                        contents:
+                          - action: free
+                            contents:
+                              - article:
+                                title: "_{Drain Bonded Item}"
+                                contents:
+                                  - layout: indent-r
+                                    contents:
+                                      - zone: '@wizard/drain-bonded-item/text'
+                                        contents:
+                                          - p: "_{Expend the power stored in your arcane bond to cast one spell you prepared and cast today, without spending a spell slot.}"
+                                      - zone: '@wizard/drain-bonded-item/today'
+                                        contents:
+                                          - field: wizard:drain-bonded-item/today
+                                            control: checkbox
+                                            label: "_{Used today}"
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+                  - section: "_{Cantrips}"
+                    flex: small
+                    contents:
+                      - zone: '@wizard/cantrips-section'
+                        contents:
+                          - spells-list:
+                            min: 0
+                            max: 0
+                            spells: 12
+                            checks: 1
+                            special:
+                              - "_{School}"
+                              - "_{School}"
+                            special-value:
+                              - "#{wizard/arcane-school/cantrip/1}"
+                              - "#{wizard/arcane-school/cantrip/2}"
+
+                  - section: "_{Spells}"
+                    contents:
+                      - list:
+                        hr: true
+                        zebra: true
+                        flatten: true
+                        avoid-shade: true
+                        contents:
+                          - zone: '@wizard/spells-section'
+                            contents:
+                              - spells-list:
+                                min: 1
+                                max: 1
+                                spells: 5
+                                style: prepared
+                                special: 
+                                  - "_{School}"
+                                  - "_{School}"
+                                special-checks: 1
+                                flex: huge
+                              - spells-list:
+                                min: 2
+                                max: 6
+                                spells: 5
+                                style: prepared
+                                special: "_{School}"
+                                special-checks: 1
+                                flex: huge
+                              - spells-list:
+                                min: 7
+                                max: 9
+                                spells: 3
+                                style: prepared
+                                special: "_{School}"
+                                special-checks: 1
+                                flex: huge
+                              - spells-list:
+                                min: 10
+                                max: 10
+                                spells: 1
+                                checks: 1
+                                style: prepared
+                                flex: tiny
+
+                  - paste: class-feats
+                    params:
+                      id: wizard-feats
+                      title: "_{Wizard Feats}"
+                      mark: wizard
+                      
+                  - tail:
+                  # - spacer:
+
+      - page: 'wizard-thesis'
+        name: "_{Thesis}"
+        order: 11
+        flex: true
+        landscape: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - spacer:
+                  - layout: 1e
+                    contents:
+                      - field: wizard:thesis/title
+                        width: stretch
+                        size: huge
+                        align: center
+                        legend: "_{Thesis}"
+                        control: p
+                        lines: 2
+                        with-title: false
+                      - hr:
+                        light: true
+                  - layout: 1n
+                    contents:
+                      - field: name
+                        width: stretch
+                        label: "_{by}"
+                        size: large
+                        align: center
+
+                  - spacer:
+                  - layout: 1n
+                    contents:
+                      - field: wizard:thesis/abstract
+                        width: stretch
+                        legend: "_{Abstract}"
+                        control: p
+                        lines: 10
+                        with-title: false
+
+                  - spacer:
+                  - layout: 2e
+                    contents:
+                      - g:
+                        contents:
+                          - h6: "_{Introduction}"
+                          - field: wizard:thesis/p1-left
+                            width: stretch
+                            control: p
+                            lines: 10
+                            with-title: false
+                            frame: none
+                          - hr:
+                      - g:
+                        contents:
+                          - field: wizard:thesis/p1-right
+                            width: stretch
+                            control: p
+                            lines: 11
+                            with-title: false
+                            frame: none
+                          - hr:
+                
+              - g:
+                contents:
+                  - layout: 2e
+                    contents:
+                      - g:
+                        contents:
+                          - hr:
+                          - field: wizard:thesis/p2-left-high
+                            width: stretch
+                            frame: none
+                            control: p
+                            lines: 8
+                            merge-bottom: true
+                            with-title: false
+                          - hr:
+                          - spacer:
+                          - p: "_{Fig. 1}"
+                          - hr:
+                          - field: wizard:thesis/p2-left-low
+                            width: stretch
+                            frame: none
+                            control: p
+                            lines: 16
+                            with-title: false
+                          - hr:
+                      - g:
+                        contents:
+                          - hr:
+                          - field: wizard:thesis/p2-right-high
+                            width: stretch
+                            frame: none
+                            control: p
+                            lines: 16
+                            with-title: false
+                            merge-bottom: true
+                          - hr:
+                          - spacer:
+                          - p: "_{Fig. 2}"
+                          - hr:
+                          - field: wizard:thesis/p2-right-low
+                            width: stretch
+                            frame: none
+                            control: p
+                            lines: 8
+                            with-title: false
+                          - hr:
+
+  - at: '@spellbook/left/first'
+    replace:
+      - g:
+        contents:
+          - h5: "_{Curriculum Cantrips}"
+          - zone: '@spellbook/wizard/school'
+          
+  - at: '@spellbook/middle/first'
+    replace:
+      - g:
+        contents:
+          - h5: "_{Initial School Spell}"
+          - zone: '@spellbook/wizard/initial'
+          
+  - at: '@spellbook/right/first'
+    replace:
+      - g:
+        contents:
+          - h5: "_{Advanced School Spell}"
+          - zone: '@spellbook/wizard/advanced'
+
+  - copy: prototype-wizard/school
+    params:
+      name:
+      initial: ""
+      advanced: ""
+      cantrip1:
+      cantrip2:
+      spellbook-cantrip1:
+      spellbook-cantrip2:
+      spellbook-initial:
+      spellbook-advanced:
+    contents:
+
+      - at: '@wizard/school'
+        replace:
+          - h4: "#{name}"
+
+      - set: wizard/arcane-school/school-spell/initial
+        value: "#{initial}"
+        
+      - set: wizard/arcane-school/school-spell/advanced
+        value: "#{advanced}"
+
+      - set: wizard/arcane-school/cantrip/1
+        value: "#{cantrip1}"
+
+      - set: wizard/arcane-school/cantrip/2
+        value: "#{cantrip2}"
+
+      
+      - at: '@spellbook/wizard/cantrips'
+        replace:
+          - paste: "#{spellbook-cantrip1}"
+          - paste: "#{spellbook-cantrip2}"
+
+      - at: '@spellbook/wizard/initial'
+        replace:
+          - paste: "#{spellbook-initial}"
+          
+      - at: '@spellbook/wizard/advanced'
+        replace:
+          - paste: "#{spellbook-advanced}"

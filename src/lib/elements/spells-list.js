@@ -1,5 +1,5 @@
-import { isArray, isString } from '../util';
-import { interpolate } from '../util/objects';
+import { isArray, isEmpty, isNumber, isString } from '../util';
+import { has, interpolate } from '../util/objects';
 import { log } from '../log';
 
 function spellField(lvl, style, checks, n, annotation, value) {
@@ -60,7 +60,7 @@ function spellField(lvl, style, checks, n, annotation, value) {
   }
 }
 
-function spellLevel(lvl, ord, style, checks, slots, special, special_value) {
+function spellLevel(lvl, ord, style, checks, slots, special, special_checks, special_value) {
   // log("spells", "Spell level:", lvl);
   const level_marker = {
     type: "level-marker",
@@ -68,15 +68,33 @@ function spellLevel(lvl, ord, style, checks, slots, special, special_value) {
     marker: '',
   };
 
+  function makeSpecialField(special, index) {
+    if (isArray(special)) {
+      return special.map((s, i) => makeSpecialField(s, i));
+    }
+    if (isString(special)) {
+      let value = special_value;
+      if (isArray(value)) {
+        value = value[index];
+      }
+      let schecks = isEmpty(special_checks) ? checks : special_checks;
+      special = spellField(lvl, style, schecks, "special", special, value);
+    }
+    return interpolate(special, { 'level': lvl });
+  }
+
   // number of spells
   let fields = [];
   if (special) {
-    if (isString(special)) {
-      // log("spells", "Adding special entry", special);
-      special = spellField(lvl, style, checks, "special", special, special_value);
-      // log("spells", "Special", special);
-    }
-    special = interpolate(special, { 'level': lvl });
+    special = makeSpecialField(special, 0);
+
+    // if (isString(special)) {
+    //   // log("spells", "Adding special entry", special);
+    //   special = spellField(lvl, style, checks, "special", special, special_value);
+    //   // log("spells", "Special", special);
+    // }
+    // special = interpolate(special, { 'level': lvl });
+    
     if (isArray(special)) fields = special;
     else fields.push(special);
   }
@@ -218,16 +236,25 @@ export let spells_list = {
     if (args.special && isArray(args["special-value"])) {
       specialValues = args["special-value"];
     }
-    log("spells-list", "Special values", specialValues);
+    let specialChecks = [];
+    if (has(args, ['special-checks'])) {
+      specialChecks = args['special-checks'];
+    }
+    log("spells-list", "Special values", specialValues, "Checks", specialChecks);
 
     for (let lvl = min; lvl <= max; lvl++) {
       const ord = args.ordinal ? ordinal(lvl) : lvl;
-      let special_value = "";
-      if (specialValues.length >= lvl) {
-        special_value = specialValues[lvl - min];
+
+      let special_checks = 0;
+      if (isArray(specialChecks)) {
+        if (specialChecks.length >= lvl - min)
+        special_checks = specialChecks[lvl - min];
+      } else if (isNumber(specialChecks)) {
+        special_checks = specialChecks;
       }
-      log("spells-list", "Special value", ord, special_value);
-      spell_levels.push(spellLevel(lvl, ord, args.style, args.checks, slots[lvl], args.special, special_value));
+      
+      log("spells-list", "Special value", ord, specialValues, "check", special_checks);
+      spell_levels.push(spellLevel(lvl, ord, args.style, args.checks, slots[lvl], args.special, special_checks, specialValues));
     }
 
     return [
