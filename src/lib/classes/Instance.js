@@ -14,17 +14,17 @@ export class Instance {
 
   getAsset(asset, callback) {
     if (isString(asset) && !isEmpty(asset) && has(this.data.instances, asset)) {
-      log("Instance", "getAsset: known instance (str)", asset);
+      // log("Instance", "getAsset: known instance (str)", asset);
       asset = this.data.instances[asset];
     }
 
     if (isObject(asset) && has(asset, "id") && !has(asset, "data")) {
-      log("Instance", "getAsset: looking for", asset);
-      log("Instance", "known instances", Object.keys(this.data.instances));
+      // log("Instance", "getAsset: looking for", asset);
+      // log("Instance", "known instances", Object.keys(this.data.instances));
       if (has(this.data.instances, asset.id)) {
         let instance = this.data.instances[asset.id];
         if (!has(asset, "type") || asset.type == instance.type) {
-          log("Instance", "getAsset: known instance (obj)", asset);
+          // log("Instance", "getAsset: known instance (obj)", asset);
           asset = instance;
         } else {
           warn("Instance", "getAsset: known instance (obj) but wrong type: %s != %s", asset.type, instance.type, asset);
@@ -34,17 +34,17 @@ export class Instance {
   
 
     if (asset === null) {
-      log("Instance", "getAsset: null");
+      // log("Instance", "getAsset: null");
       return;
     } else if (isObject(asset)) {
-      log("Instance", "getAsset: object");
+      // log("Instance", "getAsset: object");
       if (!has(asset, "data")) {
         error("Instance", "getAsset: No data", asset);
       }
       const dataURL = toDataURL(asset.data, asset.mimeType);
       callback(dataURL, true, asset);
     } else if (isString(asset)) {
-      log("Instance", "getAsset: string", asset);
+      // log("Instance", "getAsset: string", asset);
       locateAsset(asset, assetFile => {
         this.loadQueue.loadEmbed(assetFile).then(data => {
           const mimeType = inferMimeType(asset);

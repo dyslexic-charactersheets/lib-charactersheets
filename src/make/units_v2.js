@@ -8,8 +8,7 @@ const Handlebars = require('handlebars');
 const i18n = require('./i18n');
 const unitExpander = require('./unitExpander');
 const {walkDirectory, loadFile, loadRawFile} = require('./load.js');
-const {has, interpolate} = require('./util.js');
-const { isEmpty } = require('lodash');
+const {has, interpolate, isEmpty} = require('./util.js');
 require('./helpers.js');
 
 

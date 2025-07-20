@@ -4,7 +4,6 @@ const fs = require('fs');
 const fsPromises = require('node:fs/promises');
 const path = require('path');
 
-const _ = require('lodash');
 const jsYaml = require('js-yaml');
 const sass = require('node-sass');
 const Handlebars = require('handlebars');
@@ -12,7 +11,7 @@ const Handlebars = require('handlebars');
 
 const LoadQueue = require('./LoadQueue.js');
 const unitExpander = require('./unitExpander');
-const util = require('./util');
+const {interpolate, has} = require('./util');
 const i18n = require('./i18n');
 
 const dataURLs = require('./dataURLs');
@@ -76,21 +75,21 @@ Handlebars.registerHelper('color', function (colour, options) {
 
 function getDataURL(unit, filename) {
   // log("data", "getDataURL", unit+":"+filename);
-  var data = (_.has(_assets, unit) && _.has(_assets[unit], filename) && !_.isEmpty(_assets[unit][filename])) ?
+  var data = (has(_assets, unit) && has(_assets[unit], filename) && !isEmpty(_assets[unit][filename])) ?
     _assets[unit][filename] :
     _allAssets[filename];
 
   var base64name = filename + ".base64";
-  var base64 = (_.has(_assets, unit) && _.has(_assets[unit], base64name) && !_.isEmpty(_assets[unit][base64name])) ?
+  var base64 = (has(_assets, unit) && has(_assets[unit], base64name) && !isEmpty(_assets[unit][base64name])) ?
     _assets[unit][base64name] :
     _allAssets[base64name];
 
 
-  if (_.isNull(data) && _.isNull(base64)) {
+  if (isNull(data) && isNull(base64)) {
     log("data", "Data URL: Data not found", unit + ":" + filename);
     return '';
   } else {
-    // log("data", "Data URL: data:", _.isNull(data) ? "no" : "yes", " base64:", _.isNull(base64) ? "no" : "yes");
+    // log("data", "Data URL: data:", isNull(data) ? "no" : "yes", " base64:", isNull(base64) ? "no" : "yes");
   }
   var url = dataURLs.toDataURL(data, base64, filename);
   // log("data", "URL:", url.substr(0, 30)+"...");
@@ -138,7 +137,7 @@ function loadSystem (system, systemName) {
         error("units", "Error parsing", shortfile, exception);
 
         // print an excerpt to make debugging easier
-        if (_.has(exception, "source") && _.has(exception.source, "range")) {
+        if (has(exception, "source") && has(exception.source, "range")) {
           var range = exception.source.range;
           var start = data.lastIndexOf("\n", range.start);
           var end = data.indexOf("\n", range.end);
@@ -155,21 +154,21 @@ function loadSystem (system, systemName) {
       }
 
       try {
-        if (!_.has(unitdata, "unit")) {
+        if (!has(unitdata, "unit")) {
           return;
         }
 
-        var enabled = _.has(unitdata, "enabled") ? unitdata.enabled : true;
+        var enabled = has(unitdata, "enabled") ? unitdata.enabled : true;
         if (!enabled) {
           return;
         }
 
         // scan the unit
         var meta = {};
-        if (_.has(unitdata, "name")) {
+        if (has(unitdata, "name")) {
           meta['Unit'] = unitdata.name.replace(/_\{(.*?)\}/g, '$1');
         }
-        if (_.has(unitdata, "group")) {
+        if (has(unitdata, "group")) {
           meta['Source'] = unitdata.group.replace(/_\{(.*?)\}/g, '$1');
         }
 
@@ -182,8 +181,8 @@ function loadSystem (system, systemName) {
         // log("units", "Loading unit", unitid, "-", unitdata.name);
 
         // Only expand the 'inc' section, it messes things up if you do the whole thing.
-        if (_.has(unitdata, "inc")) {
-          unitdata.inc = util.interpolate(unitdata.inc, {
+        if (has(unitdata, "inc")) {
+          unitdata.inc = interpolate(unitdata.inc, {
             unit: unitid,
           });
           unitdata.inc = unitdata.inc.map(unitExpander.expandZone);
@@ -216,41 +215,41 @@ function loadSystem (system, systemName) {
 
         function walkElement(elem) {
           if (Array.isArray(elem)) {
-            _.each(elem, (sub) => {
+            for (let sub of elem) {
               walkElement(sub);
-            });
+            }
             return;
           }
 
-          if (_.has(elem, "type")) {
+          if (has(elem, "type")) {
             switch (elem.type) {
               case "calc":
                 var output = elem.output;
-                if (output.type == "field" && !_.has(output, "eq") && output.control != "compound") {
+                if (output.type == "field" && !has(output, "eq") && output.control != "compound") {
                   warn("units", `${unitdata.id}: Calculation without eq: ${output.id}`);
                 }
                 break;
               case "field":
-                if (!_.has(elem, "id") && !_.has(elem, "ref")) {
+                if (!has(elem, "id") && !has(elem, "ref")) {
                   warn("units", `${unitdata.id}: Field without ID or reference`, elem);
                 }
                 break;
             }
 
-            if (_.has(elem, "contents")) {
+            if (has(elem, "contents")) {
               walkElement(elem.contents);
             }
           }
         }
 
-        if (_.has(unitdata, "inc")) {
-          _.each(unitdata.inc, (inc) => {
-            if (_.has(inc, "add")) {
+        if (has(unitdata, "inc")) {
+          for (let inc of unitdata.inc) {
+            if (has(inc, "add")) {
               walkElement(inc.add);
-            } else if(_.has(inc, "replace")) {
+            } else if(has(inc, "replace")) {
               walkElement(inc.replace);
             }
-          })
+          }
         }
 
 
@@ -271,7 +270,7 @@ function loadSystem (system, systemName) {
           });
 
           // Unit required assets
-          if (_.has(unitdata, "assets")) {
+          if (has(unitdata, "assets")) {
             var assets = unitdata.assets;
             loadQueue.readyByCategory('assets').then(() => {
               if (loadQueue.debug) log("units", "Unit assets ready");
@@ -279,12 +278,12 @@ function loadSystem (system, systemName) {
               _.each(assets, filename => {
                 var assetdata = { name: filename };
                 if (filename.match(/\.svg$/)) {
-                  assetdata.data = (_.has(_assets, unitid) && _.has(_assets[unitid], filename) && !_.isEmpty(_assets[unitid][filename])) ?
+                  assetdata.data = (has(_assets, unitid) && has(_assets[unitid], filename) && !isEmpty(_assets[unitid][filename])) ?
                     _assets[unitid][filename] :
                     _allAssets[filename];
                 } else {
                   var base64name = filename + ".base64";
-                  assetdata.base64 = (_.has(_assets, unitid) && _.has(_assets[unitid], base64name) && !_.isEmpty(_assets[unitid][base64name])) ?
+                  assetdata.base64 = (has(_assets, unitid) && has(_assets[unitid], base64name) && !isEmpty(_assets[unitid][base64name])) ?
                     _assets[unitid][base64name] :
                     _allAssets[base64name];
                 }

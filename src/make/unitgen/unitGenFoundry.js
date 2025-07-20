@@ -2,7 +2,6 @@
 
 require('../log.js');
 const fs = require('fs');
-const _ = require('lodash');
 const jsYaml = require('js-yaml');
 const path = require('path');
 
@@ -73,8 +72,8 @@ function indent(str, num) {
 function splitAnyCase(str) {
   // log("unitGen", "splitAnyCase", str);
   let words = str.split(/[ _/-]+/);
-  words = _.flatMap(words, word => word.split(/([A-Z][a-z]+)/));
-  words = _.map(words, word => word.toLowerCase());
+  words = words.flatMap(word => word.split(/([A-Z][a-z]+)/));
+  words = words.map(word => word.toLowerCase());
   words = words.filter(word => word != '');
   return words;
 }

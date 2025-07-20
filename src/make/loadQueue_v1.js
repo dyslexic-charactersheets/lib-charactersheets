@@ -2,8 +2,6 @@
 
 const fs = require('fs');
 
-const _ = require('lodash');
-
 const { has } = require('./util.js');
 
 let allPromises = [];

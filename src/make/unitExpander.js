@@ -1,6 +1,6 @@
 'use strict';
 
-const _ = require('lodash');
+const { isEmpty, isArray, isObject, has } = require('./util');
 
 // This list of element names and key fields is duplicated from the data in src/lib/elements,
 // because that's loaded into the library, and this is needed 
@@ -88,7 +88,7 @@ const expansion = {
 
 function expandTopObject (object) {
     // console.log(`[expand] expandObject ${JSON.stringify(object)}`);
-    var kv = _.toPairs(object);
+    var kv = Object.entries(object);
     
     if (kv[0][0] == 'paste') {
       object = { 'paste': kv[0][1] };
@@ -100,7 +100,7 @@ function expandTopObject (object) {
 
 function expandObject (object) {
     // console.log(`[expand] expandObject ${JSON.stringify(object)}`);
-    var kv = _.toPairs(object);
+    var kv = Object.entries(object);
     return expandObjectKV(kv);
 }
 
@@ -128,13 +128,13 @@ function expandObjectKV(kv) {
         return expandContinuation(object, kv);
     }
 
-    if (_.has(expansion, objtype)) {
+    if (has(expansion, objtype)) {
         var object = {type: objtype};
 
         var exp = expansion[objtype];
         // console.log("[expand]   exp", objtype, exp.expected);
         // console.log(`[expand]   ${exp.key} = ${value}`);
-        if (exp != "" && !_.isUndefined(value)) {
+        if (exp != "" && !isEmpty(value)) {
             object[exp] = value;
         }
         // console.log(`[expand]   ${JSON.stringify(object)}`);
@@ -157,8 +157,8 @@ function expandContinuation(object, kv) {
     var value = pair[1];
     // console.log(`[expand] expandContinuation ${object.type}: ${key} =`, value);
 
-    if (key == 'contents') {
-        object.contents = _.map(value, expandValue);
+    if (key == 'contents' && isArray(value)) {
+        object.contents = value.map(expandValue);
         // console.log(`[expand]   kv ${object.type} contents:`, object.contents);
         return expandContinuation(object, kv);
     }
@@ -183,9 +183,9 @@ function expandValues(object, kv) {
 
 function expandValue(value) {
     // console.log(`[expand] expandValue ${value}`);
-    if (_.isArray(value)) {
-        return _.map(value, expandValue);
-    } else if (_.isPlainObject(value)) {
+    if (isArray(value)) {
+        return value.map(expandValue);
+    } else if (isObject(value)) {
         return expandObject(value);
     } else {
         return value;

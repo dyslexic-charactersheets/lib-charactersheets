@@ -24,7 +24,7 @@ const knownVars = [
 function parseCharacter(primary, request) {
   // attributes
   let attr = {
-    name: false,
+    name: '',
     game: 'pathfinder2',
     theme: 'adventurer',
     language: 'en',
@@ -90,8 +90,8 @@ function parseCharacter(primary, request) {
     miniSize: attr.miniSize,
 
     browserTarget: attr.browserTarget,
-    printLarge: attr.printLarge,
-    printHighContrast: attr.printHighContrast,
+    printLarge: attr.printLarge || attr.optionLargePrint,
+    printHighContrast: attr.printHighContrast || attr.optionHighContrast,
     printDyslexic: attr.printDyslexic,
     printDyslexicFont: attr.printDyslexicFont,
 
@@ -431,7 +431,7 @@ export class Character extends Instance {
           // language
           document.language = data.language;
           document.setMeasurementUnits(data.measurementUnits);
-          log("Character", "Doc measurement units", document.measurementUnits);
+          // log("Character", "Doc measurement units", document.measurementUnits);
           if (document.measurementUnits == "metric") {
             this.data.units.push("core/metric");
           }

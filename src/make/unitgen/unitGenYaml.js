@@ -2,14 +2,13 @@
 
 const fs = require('fs');
 const path = require('path');
-const _ = require('lodash');
 const jsYaml = require('js-yaml');
 
 // Convert string case
 function splitAnyCase(str) {
   let words = str.split(/[ _/-]+/);
-  words = _.flatMap(words, word => word.split(/([A-Z][a-z]+)/));
-  words = _.map(words, word => word.toLowerCase());
+  words = words.flatMap(word => word.split(/([A-Z][a-z]+)/));
+  words = words.map(word => word.toLowerCase());
   words = words.filter(word => word != '');
   return words;
 }

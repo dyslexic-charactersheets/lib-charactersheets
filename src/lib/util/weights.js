@@ -2,8 +2,7 @@
 // return an integer in an arbitrary unit of "lines" roughly equal to a calculation row
 // this won't be exact
 
-import { isNull } from "lodash";
-import { isArray, isNumber } from "../util";
+import { isArray, isNumber, isNull } from "../util";
 import { has } from "./objects";
 import { log, warn } from "../log";
 

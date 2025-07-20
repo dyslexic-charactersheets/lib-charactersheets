@@ -1,13 +1,6 @@
 'use strict';
 
-// import { log } from '../log';
-
 require('./log');
-
-// const fs = require('fs');
-// const path = require('path');
-
-const _ = require('lodash');
 
 const { has, isEmpty, isNull } = require('./util.js');
 

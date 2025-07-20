@@ -7,10 +7,9 @@ import { GM_Party } from './GM_Party';
 import { GM_Maps } from './GM_Maps';
 import { Build } from './Build';
 import { events } from './Events';
-import { isArray } from '../util';
+import { isArray, isObject } from '../util';
 import { has } from '../util/objects';
 import { Custom } from './Custom';
-import { isObject } from 'lodash';
 
 function randomID() {
   return Math.random().toString(16).substring(2, 9)

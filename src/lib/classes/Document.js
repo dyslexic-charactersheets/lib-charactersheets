@@ -106,7 +106,7 @@ export class Document {
           break;
       }
     }
-    log("Document", "Measurement units", this.language, units);
+    // log("Document", "Measurement units", this.language, units);
     this.measurementUnits = units;
   }
 

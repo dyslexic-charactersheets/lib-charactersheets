@@ -1,6 +1,5 @@
 const fs = require('fs');
-
-const _ = require('lodash');
+const {has} = require('./util.js');
 
 var entries = {};
 
@@ -89,20 +88,20 @@ function pushEntry(system, message, context, reference, comment, meta) {
   // if (message === undefined || message == "") {
   //   return;
   // }
-  if (!_.has(entries, system)) {
+  if (!has(entries, system)) {
     entries[system] = {};
   }
   var id = (context == "") ? message : (context+"/"+message);
-  if (_.has(meta, "Source")) {
+  if (has(meta, "Source")) {
     id = id + "@" + meta["Source"];
   } else {
     warn("i18n", "No source", reference);
   }
-  if (_.has(meta, "Unit")) {
+  if (has(meta, "Unit")) {
     id = id + "!" + meta["Unit"];
   }
 
-  if (!_.has(entries[system], id)) {
+  if (!has(entries[system], id)) {
     entries[system][id] = [];
   }
 
@@ -182,7 +181,7 @@ function scanString(data, source, system, meta) {
 /*
 function scanUnit(unit, source, system, meta) {
   function getElementType(elem) {
-    if (_.has(elem, "type")) {
+    if (has(elem, "type")) {
       return elem.type;
     }
     
@@ -204,7 +203,7 @@ function scanUnit(unit, source, system, meta) {
 
     // strings
     ["content", "title", "label", "legend"].forEach(key => {
-      if (_.has(elem, key) && _.isString(elem[key]) && elem[key] != "" ) {
+      if (has(elem, key) && _.isString(elem[key]) && elem[key] != "" ) {
         log("i18n", `${unit.unit}: ${type}.${key} = "${elem[key]}"`);
 
       }
@@ -212,7 +211,7 @@ function scanUnit(unit, source, system, meta) {
 
     // recurse
     ["contents", "template", "add", "replace"].forEach(key => {
-      if (_.has(elem, key) && _.isArray(elem[key])) {
+      if (has(elem, key) && _.isArray(elem[key])) {
         elem[key].forEach(subelem => {
           scanElement(subelem);
         })
@@ -221,7 +220,7 @@ function scanUnit(unit, source, system, meta) {
   }
 
   log("i18n", "Scan unit", unit.unit);
-  if (_.has(unit, "inc")) {
+  if (has(unit, "inc")) {
     unit.inc.forEach(elem => {
       scanElement(elem);
     });
@@ -284,7 +283,7 @@ function writePot(system, systemName) {
 
   // delay running so we can be sure the scanners are all complete
   setTimeout(() => {
-    if (!_.has(entries, system)) {
+    if (!has(entries, system)) {
       return;
     }
 
@@ -340,7 +339,7 @@ msgstr ${embedPoString(headers)}
           if (value === undefined || value == "") {
             return;
           }
-          if (!_.has(metaByKey, key)) {
+          if (!has(metaByKey, key)) {
             metaByKey[key] = {};
           }
           metaByKey[key][value] = true;

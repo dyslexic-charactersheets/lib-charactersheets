@@ -240,7 +240,7 @@ export let spells_list = {
     if (has(args, ['special-checks'])) {
       specialChecks = args['special-checks'];
     }
-    log("spells-list", "Special values", specialValues, "Checks", specialChecks);
+    // log("spells-list", "Special values", specialValues, "Checks", specialChecks);
 
     for (let lvl = min; lvl <= max; lvl++) {
       const ord = args.ordinal ? ordinal(lvl) : lvl;
@@ -253,7 +253,7 @@ export let spells_list = {
         special_checks = specialChecks;
       }
       
-      log("spells-list", "Special value", ord, specialValues, "check", special_checks);
+      // log("spells-list", "Special value", ord, specialValues, "check", special_checks);
       spell_levels.push(spellLevel(lvl, ord, args.style, args.checks, slots[lvl], args.special, special_checks, specialValues));
     }
 

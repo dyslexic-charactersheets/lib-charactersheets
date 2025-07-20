@@ -1,8 +1,7 @@
 import { isArray, isString } from '../util';
 import { cloneDeep, has, interpolate } from '../util/objects';
 import { mergeBottom } from '../util/elements';
-import { log, warn } from '../log';
-// import { mergeBottom } from '../classes/Registry';
+import { log, warn, trace } from '../log';
 
 export let slots = {
   name: 'slots',
@@ -18,9 +17,14 @@ export let slots = {
     index: 'i',
     even: false,
     contents: [],
+    title: "",
   },
-  transform(args, ctx) {
-    // log("slots", "Args slots:", args.slots);
+  transform(args, ctx, reg) {
+    let debug = args.title != "";
+    if (debug) {
+      warn("slots", "SLOTS", args.title);
+      log("slots", "Args slots:", args.slots);
+    }
 
     let placeholder = args.placeholder;
     if (!isArray(placeholder))
@@ -32,13 +36,13 @@ export let slots = {
     }
 
     function slotItems(items, slotValues) {
-      // log("slots", "Slot items", items, slotValues);
+      if (debug) log("slots", "Slot items", items, slotValues);
       if (args.min && items.length < args.min) {
         const n = args.min - items.length;
         for (let i = 0; i < n; i++) {
           let values = cloneDeep(slotValues);
           values[args.index] = i;
-          // log("slots", "Placeholder slot", values);
+          if (debug) log("slots", "Placeholder slot", values);
 
           let placeholder = interpolate(cloneDeep(args.placeholder), values);
           items = items.concat(placeholder);
@@ -51,8 +55,8 @@ export let slots = {
       return items;
     }
 
-    if (args.slots === null || args.slots == []) {
-      // log("slots","Single slot");
+    if (args.slots === null || args.slots.length == 0) {
+      if (debug) log("slots","Single slot");
       let contents = slotItems(args.contents, {});
       if (args['merge-bottom']) {
         contents = mergeBottom(contents);
@@ -78,7 +82,7 @@ export let slots = {
       slots[s][args.index] = i++;
     });
 
-    // log("slots","Filled", slots);
+    if (debug) log("slots","Filled", slots);
     args.contents.forEach(item => {
       if (!has(item, args.key))
         return;
@@ -87,13 +91,13 @@ export let slots = {
       }
     });
     for (const [n, s] of Object.entries(slots)) {
-      // log("slots","Slot", s.key);
+      if (debug) log("slots","Slot", s.key);
       s.contents = slotItems(s.contents, s);
       s.contents.forEach(item => item[args.key] = s.key);
-      // log("slots","Slot", s.key, "items", s.contents);
+      if (debug) log("slots","Slot", s.key, "items", s.contents);
     };
 
-    // log("slots", "Final slots:", JSON.stringify(slots, null, 2));
+    if (debug) log("slots", "Final slots:", JSON.stringify(slots, null, 2));
     let contents = Object.values(slots).flatMap(s => s.contents);
 
     //let blank = {};
@@ -106,7 +110,7 @@ export let slots = {
     for (let j = 0; j < args.extra; j++) {
       let values = cloneDeep(blank);
       values[args.index] = 'extra-'+i++;
-      log("slots", "Extra slots", values);
+      if (debug) log("slots", "Extra slots", values);
 
       let add = cloneDeep(args.placeholder);
       add = interpolate(add, values);
@@ -117,17 +121,17 @@ export let slots = {
     if (args.even && contents.length % 2 != 0) {
       let values = cloneDeep(blank);
       values[args.index] = 'extra-'+i++;
-      // log("slots", "Balance slot", values);
+      if (debug) log("slots", "Balance slot", values);
 
       let add = cloneDeep(args.placeholder);
       add = interpolate(add, values);
       contents = contents.concat(add);
     }
 
-    // log("slots", contents);
     if (args['merge-bottom']) {
       contents = mergeBottom(contents);
     }
+    if (debug) log("slots", "Final contents", contents);
     return contents;
   }
 }

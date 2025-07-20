@@ -49,9 +49,11 @@ export function adjustColour(c, documentColour, intensity, highContrast) {
     c = c.trim();
     if (c == "")
       c = "#808080";
+    c = colourFromName(c);
     documentColour = documentColour.trim();
     if (documentColour == "")
       documentColour = "#808080";
+    documentColour = colourFromName(documentColour);
     const base = color(c);
     let col = color(documentColour);
 
@@ -120,6 +122,41 @@ export function adjustColour(c, documentColour, intensity, highContrast) {
   } catch (x) {
     error('util', 'Colour error:', x, x.stack);
     return c;
+  }
+}
+
+function colourFromName(colour) {
+  switch(colour) {
+    case 'none':      return '';
+    case 'black':     return '#404040';
+
+    case 'red':       return '#BF4C4C';
+    case 'orange':    return '#CC843D';
+    case 'gold':      return '#CCAF1F';
+    case 'lime':      return '#76A632';
+    case 'green':     return '#42A642';
+    case 'teal':      return '#3AA66E';
+    case 'cyan':      return '#32A6A6';
+    case 'azure':     return '#3f83b3';
+    case 'blue':      return '#485ab3';
+    case 'indigo':    return '#663fb3';
+    case 'violet':    return '#a03fb3';
+    case 'magenta':   return '#B33F7A';
+
+    case 'red2':      return '#BF6969';
+    case 'orange2':   return '#BF8A56';
+    case 'gold2':     return '#CCB952';
+    case 'lime2':     return '#91B362';
+    case 'green2':    return '#6BB36B';
+    case 'teal2':     return '#62B389';
+    case 'cyan2':     return '#74B3B3';
+    case 'azure2':    return '#699bbf';
+    case 'blue2':     return '#7380bf';
+    case 'indigo2':   return '#8669bf';
+    case 'violet2':   return '#b169bf';
+    case 'magenta2':  return '#BF6994';
+
+    default:          return colour;
   }
 }
 

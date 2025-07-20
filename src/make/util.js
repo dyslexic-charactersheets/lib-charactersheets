@@ -1,6 +1,5 @@
 'use strict';
 
-// const _ = require('lodash');
 
 // Polyfills
 
@@ -130,5 +129,9 @@ module.exports = {
   has,
   isEmpty,
   isNull,
+  isArray,
+  isNumber,
+  isString,
+  isObject,
   interpolate,
 };

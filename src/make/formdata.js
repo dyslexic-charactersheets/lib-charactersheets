@@ -1,5 +1,7 @@
-const _ = require('lodash');
+
 require('./log');
+
+const { has } = require('./util.js');
 
 module.exports = {
   summarise: function(game, units) {
@@ -50,9 +52,9 @@ module.exports = {
     }
 
     units.forEach(unit => {
-      if (_.has(unit, "in")) {
+      if (has(unit, "in")) {
         // get a shorter unit code
-        if (!_.has(unit, "code")) {
+        if (!has(unit, "code")) {
           unit.code = unit.id;
           if (unit.in == "heritage/versatile/") {
             unit.code = unit.id.substr("heritage/".length);
@@ -65,7 +67,7 @@ module.exports = {
         
         var unlocks = [];
         var exclude_from = [];
-        if (_.has(unit, "form") && unit.id != "base") {
+        if (has(unit, "form") && unit.id != "base") {
           unit.form.forEach(item => {
             var key = Object.keys(item)[0];
             switch (key) {
@@ -81,7 +83,7 @@ module.exports = {
         }
 
         // Store that unit in the right slot
-        if (!_.has(slotValues, unit.in))
+        if (!has(slotValues, unit.in))
           slotValues[unit.in] = {};
 
         let item = {
@@ -95,14 +97,14 @@ module.exports = {
           }
         };
 
-        if (_.has(unit, "badge"))
+        if (has(unit, "badge"))
           item.badge = unit.badge;
-        if (_.has(unit, "level"))
+        if (has(unit, "level"))
           item.level = unit.level;
-        if (_.has(unit, "order"))
+        if (has(unit, "order"))
           item.order = unit.order;
         if (unit.in == "archetype")
-          item.multiclass = _.has(unit, "multiclass") && unit.multiclass;
+          item.multiclass = has(unit, "multiclass") && unit.multiclass;
         if (unlocks.length > 0)
           item["selects"] = unlocks;
         if (exclude_from.length > 0)
@@ -110,28 +112,28 @@ module.exports = {
 
         slotValues[unit.in][unit.code] = item;
 
-        if (_.has(unit, "group")) {
-          if (!_.has(slotGroups, unit.in))
+        if (has(unit, "group")) {
+          if (!has(slotGroups, unit.in))
             slotGroups[unit.in] = {};
-          if (!_.has(slotGroups[unit.in], unit.group))
+          if (!has(slotGroups[unit.in], unit.group))
             slotGroups[unit.in][unit.group] = [];
           slotGroups[unit.in][unit.group].push(unit.code);
         }
       }
 
       // make a note of all the form slots unlocked by this unit
-      if (_.has(unit, "form")) {
+      if (has(unit, "form")) {
         unit.form.forEach(item => {
           var key = Object.keys(item)[0];
           if (key == "select") {
-            if (!_.has(baseSelects, item.select)) {
-              item.base = (_.has(item, "base") && item.base) || (unit.id == "base");
+            if (!has(baseSelects, item.select)) {
+              item.base = (has(item, "base") && item.base) || (unit.id == "base");
               baseSelects[item.select] = item;
             } else {
-              warn("formdata", "Not adding duplicate select", item, "from", unit.id);
+              // warn("formdata", "Not adding duplicate select", item, "from", unit.id);
             }
           } else if (key == "option") {
-            item.base = (_.has(item, "base") && item.base) || (unit.id == "base");
+            item.base = (has(item, "base") && item.base) || (unit.id == "base");
             baseOptions.push(item);
           }
         });
@@ -142,9 +144,9 @@ module.exports = {
     baseSelects.sort((a, b) => ('' + a.select).localeCompare(b.select));
 
     for (let sel of baseSelects) {
-      sel.values = _.has(slotValues, sel.select) ? Object.values(slotValues[sel.select]) : [];
+      sel.values = has(slotValues, sel.select) ? Object.values(slotValues[sel.select]) : [];
       sel.values.sort((a, b) => ('' + a.id).localeCompare(b.id));
-      sel.groups = _.has(slotGroups, sel.select) ? slotGroups[sel.select] : {};
+      sel.groups = has(slotGroups, sel.select) ? slotGroups[sel.select] : {};
       // log("formdata", `Slot ${sel.select}: ${sel.values.length} units`);
     }
 

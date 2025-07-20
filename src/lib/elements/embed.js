@@ -1,9 +1,8 @@
-import { isEmpty } from '../util';
+import { isEmpty, isNumber } from '../util';
 import { __, _e } from '../i18n';
 import { elementID, elementClass } from '../util/elements';
 import { interpolate } from '../util/objects';
 import { log } from '../log';
-import { isNumber } from 'lodash';
 
 export let embed = {
   name: 'embed',
