@@ -1,0 +1,240 @@
+unit: option/actions
+name: "_{Actions}"
+group: "_{Core Rulebook}"
+
+inc:
+  - copy: action-block
+    params:
+      id:
+    contents:
+      - g:
+        contents:
+          - action: template
+            id: "#{id}-action"
+            contents:
+              - article: "#{id}"
+                lines: 3
+
+  - copy: action-block-list
+    params:
+      id:
+      num: 6
+    contents:
+      - list:
+        hr: true
+        zebra: true
+        contents:
+          - repeat: "#{num}"
+            contents:
+              - paste: action-block
+                params:
+                  id: "more-actions--#{id}-#{i}"
+
+  - at: '@pages'
+    add:
+      - page: actions
+        name: "_{Actions}"
+        order: 8
+        flex: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - class-name: "_{Actions}"
+                  
+                  - layout: 5e
+                    contents:
+                      - g:
+                        align: center
+                        valign: top
+                        contents:
+                          - icon: action
+                            size: large
+                          - h6: "_{Single Action}"
+                      - g:
+                        align: center
+                        valign: top
+                        contents:
+                          - icon: action2
+                            size: large
+                          - h6: "_{2-Action Activity}"
+                      - g:
+                        align: center
+                        valign: top
+                        contents:
+                          - icon: action3
+                            size: large
+                          - h6: "_{3-Action Activity}"
+                      - g:
+                        align: center
+                        valign: top
+                        contents:
+                          - icon: reaction
+                            size: large
+                          - h6: "_{Reaction}"
+                      - g:
+                        align: center
+                        valign: top
+                        contents:
+                          - icon: free-action
+                            size: large
+                          - h6: "_{Free Action}"
+
+                  - section: "_{Common Actions}"
+                    contents:
+
+                      - list:
+                        # hr: true
+                        # light: true
+                        # zebra: true
+                        contents:
+                          - action:
+                            contents:
+                              - p:
+                                title: "_{Stride}"
+                                content: "_{Move up to your speed.}"
+
+                          - action:
+                            contents:
+                              - p:
+                                title: "_{Step}"
+                                content: "_{Carefully step 5ft without provoking reactions.}"
+                              - p: "_{Can't step into difficult terrain.}"
+
+                          - action:
+                            contents:
+                              - p:
+                                title: "_{Strike}"
+                                content: "_{Attack with a weapon or unarmed. On a critical success, deal double damage and possibly other effects.}"
+
+                          - action: free
+                            contents:
+                              - p:
+                                title: "_{Release}"
+                                content: "_{Drop an item or take one hand off a weapon. Does not trigger reactions.}"
+
+                          - action: free
+                            contents:
+                              - p:
+                                title: "_{Delay}"
+                                content: "_{Postpone your turn until later; jump in as a free action. You cannot use reactions until then.}"
+
+                          - action: reaction
+                            contents:
+                              - p:
+                                title: "_{Aid}"
+                                content: "_{Attempt a check to assist an ally with a check - at the risk of hindering them on a failure.}"
+
+                          - action: 2
+                            contents:
+                              - p:
+                                title: "_{Ready}"
+                                content: "_{Prepare an action to take outside your turn on a certain trigger.}"
+
+                              
+                          - hr:
+
+                          - sort: ".title"
+                            contents:
+
+                              - action:
+                                contents:
+                                  - p:
+                                    title: "_{Drop Prone}"
+                                    content: ""
+
+                              - action:
+                                contents:
+                                  - p: 
+                                    title: "_{Crawl}"
+                                    content: ""
+
+                          # crawl
+                          # drop-prone
+                          # escape
+                          # interact
+                          # leap
+                          # seek
+                          # sense motive
+                          # stand
+                          # take cover
+
+                          # - hr:
+                          
+                          # arrest a fall
+                          # avert gaze
+                          # burrow
+                          # fly 
+                          # grab an edge
+                          # mount
+                          # point out
+                          # raise a shield
+
+                          - lookup:
+                              refocus:
+                                layout: indent-l
+                                contents:
+                                  - cost: "10"
+                                    unit: "_{mins}"
+                                  - g:
+                                    contents:
+                                      - p:
+                                        title: "_{Refocus}"
+                                        desc: "_{Spend actions to add effects to bombs and elixirs. Can only use one additive effect at once. Additive number + item level cannot exceed your level.}"
+                              sustain:
+                                action:
+                                contents:
+                                  - p:
+                                    title: "_{Sustain}"
+                                    content: "_{Keep a spell effect going for another round.}"
+                            contents:
+                              - zone: '@reference/set-actions'
+
+                          - zone: '@reference/actions'
+                          
+                          - paste: book-ref
+                            params:
+                              page-ref: "_{CRB p470}"
+
+                  - tail:
+                  - spacer:
+
+                  - section: "_{Focus Actions}"
+                    contents:
+                      - calc:
+                        output:
+                          field: focus-level
+                          legend: "_{Focus Level}"
+                          eq: "ceil(%{level}/2)"
+                          width: large
+                        inputs:
+                          - ruby-round-up:
+                            contents:
+                              - field:
+                                ref: level
+                                label: "_{Level}"
+                              - span: "&divide; 2"
+                      - hr:
+                      - paste: action-block-list
+                        params:
+                          id: "focus-actions"
+                          num: 4
+
+                  - tail:
+
+              - g:
+                contents:
+                  - section: "_{Actions}"
+                    contents:
+                      - paste: action-block-list
+                        params:
+                          id: "actions"
+
+                  - section: "_{Skill Actions}"
+                    contents:
+                      - paste: action-block-list
+                        params:
+                          id: "skill-actions"
+                          
+                  - tail:

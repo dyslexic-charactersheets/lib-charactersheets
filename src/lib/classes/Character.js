@@ -82,7 +82,8 @@ function parseCharacter(primary, request) {
       'permission': false,
       'build': false,
       'mini': false,
-      'spellbook': false
+      'spellbook': false,
+      'character-background': false,
     },
     spellbookStyle: 'normal',
     archetypeStyle: attr.archetypeStyle,
@@ -92,7 +93,7 @@ function parseCharacter(primary, request) {
     browserTarget: attr.browserTarget,
     printLarge: attr.printLarge || attr.optionLargePrint,
     printHighContrast: attr.printHighContrast || attr.optionHighContrast,
-    printDyslexic: attr.printDyslexic,
+    printDyslexic: attr.printDyslexic || attr.optionDyslexic,
     printDyslexicFont: attr.printDyslexicFont,
 
     printColour: attr.printColour,
@@ -273,11 +274,14 @@ function parseCharacter(primary, request) {
           break;
 
         case "double":
-          char.units.push("option/inventory/double");
+          char.units.push("option/inventory-extra");
           break;
 
         default:
           char.units.push("option/inventory/half");
+      }
+      if (attr.inventoryExtra) {
+        char.units.push("option/inventory-extra");
       }
 
       if (char.units.includes("option/archetype-generic")) {
@@ -444,7 +448,7 @@ export class Character extends Instance {
           if (data.printHighContrast) {
             document.highContrast = true;
           }
-          if (data.printDyslexic && (data.printDyslexicFont == 'dyslexie' || data.printDyslexicFont == 'lexend')) {
+          if (data.optionDyslexic && (data.printDyslexicFont == 'dyslexie' || data.printDyslexicFont == 'lexend')) {
             document.skipOptional = true;
           }
 
