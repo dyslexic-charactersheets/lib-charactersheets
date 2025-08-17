@@ -15,6 +15,9 @@ export function vibrantColour(baseColour, saturation = 0.9) {
 }
 
 export function replaceColours(str, documentColour, accentColour = false, intensity = 0, highContrast = false) {
+  documentColour = colourFromName(documentColour);
+  accentColour = colourFromName(accentColour);
+  
   str = str.replace(/#[0-9a-fA-F]{6}/g, (c) => adjustColour(c, documentColour, intensity, highContrast));
   str = str.replace(/%23[0-9a-fA-F]{6}/g, (c) => {
     c = c.replace('%23', '#');

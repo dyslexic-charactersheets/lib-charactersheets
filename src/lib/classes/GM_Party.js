@@ -22,6 +22,11 @@ function parseGM_Party(primary, request) {
     printIntensity: 0,
     printWatermark: '',
     printBackground: false,
+
+    optionGmParty: false,
+    optionGmNpcParty: false,
+    optionGmNpc: false,
+
     ...primary.attributes
   };
 
@@ -76,20 +81,26 @@ function parseGM_Party(primary, request) {
   }
 
   // game-specific settings
-  // log("GM", "Attributes", attr);
+  log("GM Party", "Attributes", attr);
   switch (attr.game) {
     case 'pathfinder2':
-      [ "party", "npc-party", "npc" ].forEach(option => {
-        let optionKey = "option-gm-"+option;
-        // log("GM", "Option", option, attr[option]);
-        if (has(attr, optionKey) && attr[optionKey]) {
-          gm.units.push("option/gm/"+option);
-        }
-      });
+    case 'pathfinder2remaster':
+    case 'starfinder2':
+      gm.isParty = attr.optionGmParty;
+      if (gm.isParty) {
+        gm.units.push("option/gm/party");
+      }
 
-      gm.isParty = has(attr, "option-gm-party") && attr["option-gm-party"];
-      gm.isNPC = has(attr, "option-gm-npc") && attr["option-gm-npc"];
-      gm.isNPCParty = has(attr, "option-gm-npc-party") && attr["option-gm-npc-party"];
+      gm.isNPC = attr.optionGmNpc;
+      if (gm.isNPC) {
+        gm.units.push("option/gm/npc");
+      }
+
+      gm.isNPCParty = attr.optionGmNpcParty;
+      if (gm.isNPCParty) {
+        gm.units.push("option/gm/npc-party");
+      }
+      log("GM Party", "party =", gm.isParty, "npc =", gm.isNPC, "npc party =", gm.isNPCParty);
       break;
   }
 
@@ -106,7 +117,7 @@ function parseGM_Party(primary, request) {
     }
   });
 
-  // log("GM", "GM data", gm);
+  log("GM", "GM data", gm);
   return gm;
 }
 

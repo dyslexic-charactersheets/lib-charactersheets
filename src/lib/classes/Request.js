@@ -109,8 +109,11 @@ export class Request {
               return new GM_Party(primary, this, registry);
             case 'maps':
               return new GM_Maps(primary, this, registry);
+            case 'kingmaker':
+              return new Kingdom(primary, this, registry);
             default:
               warn("Request", "No valid primary in GM request");
+              return null;
           }
 
         case 'quick':
