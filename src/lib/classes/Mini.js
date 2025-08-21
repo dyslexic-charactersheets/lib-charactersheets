@@ -15,14 +15,14 @@ const knownVars = [
   "language",
 ];
 
-function parseKingdom(primary, request) {
+function parseMini(primary, request) {
   let attr = {
     name: false,
     game: 'pathfinder2',
     theme: 'adventurer',
     language: 'en',
     
-    sheet: 'kingdom',
+    sheet: 'mini',
 
     printLarge: false,
     printHighContrast: false,
@@ -46,14 +46,12 @@ function parseKingdom(primary, request) {
     name: attr.name,
     game: attr.game,
     sheet: attr.sheet,
-    units: ['core', 'base', 'theme/' + attr.theme],
+    units: ['core', 'base', 'option/minis', 'theme/' + attr.theme],
     language: attr.language,
     
     feats: [],
     options: {
-      'kingdom-funds': false,
       'permission': false,
-      'build': false,
     },
 
     browserTarget: attr.browserTarget,
@@ -67,6 +65,7 @@ function parseKingdom(primary, request) {
     printIntensity: attr.printIntensity,
     printLogo: attr.printLogo,
     favicon: 'favicon.svg',
+    printPortrait: attr.printPortrait,
     printBackground: attr.printBackground,
     printWatermark: attr.printWatermark,
 
@@ -74,20 +73,6 @@ function parseKingdom(primary, request) {
     isNoCalc: attr.browserTarget == "pdf",
     debug: primary.debug,
     instances: {},
-  }
-
-  switch (char.sheet) {
-    case 'kingdom':
-      char.units.push('base/kingdom'); //, 'option/kingdom-action-reference');
-      break;
-
-    case 'settlement':
-      char.units.push('base/settlement');
-      break;
-
-    case 'army':
-      char.units.push('base/army');
-      break;
   }
 
   // log("Kingdom", "Print colour", char.printColour, char.accentColour);
@@ -108,7 +93,7 @@ function parseKingdom(primary, request) {
         if (['permission'].includes(option)) {
           char.units.push('option/'+option);
         } else {
-          char.units.push('option/kingdom/' + option);
+          char.units.push('option/mini/' + option);
         }
       }
     }
@@ -122,7 +107,7 @@ function parseKingdom(primary, request) {
     char.units.push('high-contrast');
   }
   if (attr.printDyslexic) {
-    log("Character", "Dyslexic font", attr.printDyslexicFont);
+    log("Mini", "Dyslexic font", attr.printDyslexicFont);
     switch(attr.printDyslexicFont) {
       case 'dyslexie':
         char.units.push('dyslexie');
@@ -139,16 +124,16 @@ function parseKingdom(primary, request) {
   const system = getSystemStack(attr.game);
   
   // included assets
-  ["printLogo", "printBackground"].forEach(field => {
+  ["printPortrait", "printBackground"].forEach(field => {
     if (attr[field]) {
       let id = attr[field];
       if (isObject(id)) {
         id = id.id;
       }
-      log("Character", "Asset:", field, "=", id);
+      log("Mini", "Asset:", field, "=", id);
       const instance = request.getInstance(id);
       if (!isNull(instance)) {
-        log("Character", "Asset known:", field, "=", id);
+        log("Mini", "Asset known:", field, "=", id);
         char.instances[id] = instance;
       }
     }
@@ -157,7 +142,7 @@ function parseKingdom(primary, request) {
   return char;
 }
 
-export class Kingdom extends Instance {
+export class Mini extends Instance {
   constructor(primary, request, registry) {
     super();
     this.registry = registry;
@@ -166,7 +151,7 @@ export class Kingdom extends Instance {
     
     this.promise = new Promise((resolve, reject) => {
       systemsReady(() => {
-        this.data = parseKingdom(primary, request);
+        this.data = parseMini(primary, request);
         this.data.units = [...this.data.units, ...this.getDataUnits(this.data.isLoggedIn, this.data.isNoCalc)];
         resolve(this.data);
       });
@@ -183,15 +168,15 @@ export class Kingdom extends Instance {
     const promise = this.promise;
     return new Promise((resolve, reject) => {
       promise.then((data) => {
-        // log("Character", "Render character");
-        // log("Character", `Name: ${this.data.name}, game: ${this.data.game}`);
-        log("Character", `Units: ${this.data.units}`);
+        // log("Mini", "Render character");
+        // log("Mini", `Name: ${this.data.name}, game: ${this.data.game}`);
+        log("Mini", `Units: ${this.data.units}`);
 
         systemsReady(() => {
           try {
             const system = getSystemStack(data.game);
             if (system === null) {
-              error("Character", "System not found:", data.game);
+              error("Mini", "System not found:", data.game);
               reject();
               return;
             }
@@ -225,11 +210,26 @@ export class Kingdom extends Instance {
               });
             }
 
-            if (data.printLogo) {
-              self.getAsset(data.printLogo, dataURL => {
-                document.logoURL = dataURL;
+            log("Mini", "Assets");
+            if (data.printPortrait) {
+              log("Mini", "Portrait", data.printPortrait);
+              self.getAsset(data.printPortrait, (dataURL, custom, path) => {
+                // log("Mini", "Portrait URL", dataURL);
+                document.portraitURL = dataURL;
+                if (custom) {
+                  document.portraitCopyright = null;
+                } else {
+                  warn("Mini", "Portrait copyright?", path);
+                  document.portraitCopyright = "paizo";
+                }
               });
             }
+
+            // if (data.printLogo) {
+            //   self.getAsset(data.printLogo, dataURL => {
+            //     document.logoURL = dataURL;
+            //   });
+            // }
 
             if (data.printBackground) {
               const printBackground = data.printBackground;
@@ -251,7 +251,7 @@ export class Kingdom extends Instance {
             // set target
             if (has(data, "browserTarget") && data.browserTarget) {
               document.browserTarget = data.browserTarget;
-              log("Character", "Browser target", data.browserTarget);
+              log("Mini", "Browser target", data.browserTarget);
             }
 
             document.printColour = data.printColour;
@@ -259,7 +259,7 @@ export class Kingdom extends Instance {
             document.accentColour = data.accentColour;
             document.watermark = data.printWatermark;
 
-            log("Kingdom", "Document colour", document.printColour);
+            log("Mini", "Document colour", document.printColour);
 
             // get known vars from the data
             knownVars.forEach(varname => {
@@ -277,8 +277,8 @@ export class Kingdom extends Instance {
             let units = system.getUnits(data.units);
             units = system.inferUnits(units);
 
-            document.title = __("Kingdom");
-            document.summary = __("Kingdom");
+            document.title = __("Map Mini");
+            document.summary = __("Map Mini");
 
             // make the element tree
             units.forEach(unit => document.addUnit(unit));
@@ -310,7 +310,7 @@ export class Kingdom extends Instance {
               });
             });
           } catch (err) {
-            error("Character", "Error:", err);
+            error("Mini", "Error:", err);
             reject({
               error: err
             });

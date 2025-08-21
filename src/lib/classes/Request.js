@@ -5,6 +5,7 @@ import { Party } from './Party';
 import { Kingdom } from './Kingdom';
 import { GM_Party } from './GM_Party';
 import { GM_Maps } from './GM_Maps';
+import { Mini } from './Mini';
 import { Build } from './Build';
 import { events } from './Events';
 import { isArray, isObject } from '../util';
@@ -101,6 +102,7 @@ export class Request {
           return new Party(primary, this, registry);
 
         case 'kingmaker':
+        case 'kingdom':
           return new Kingdom(primary, this, registry);
 
         case 'gm':
@@ -115,6 +117,9 @@ export class Request {
               warn("Request", "No valid primary in GM request");
               return null;
           }
+        
+        case 'mini':
+          return new Mini(primary, this, registry);
 
         case 'quick':
           switch(primary.attributes['quick']) {

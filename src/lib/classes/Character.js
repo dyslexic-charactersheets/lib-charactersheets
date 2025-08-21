@@ -368,7 +368,10 @@ function parseCharacter(primary, request) {
   // included assets
   ["printPortrait", "animalPortrait", "printLogo", "printBackground"].forEach(field => {
     if (attr[field]) {
-      const id = attr[field];
+      let id = attr[field];
+      if (isObject(id)) {
+        id = id.id;
+      }
       log("Character", "Asset:", field, "=", id);
       const instance = request.getInstance(id);
       if (!isNull(instance)) {

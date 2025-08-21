@@ -79,7 +79,10 @@ function parseGM_Maps(primary, request) {
   // included assets
   ["printLogo", "printBackground"].forEach(field => {
     if (attr[field]) {
-      const id = attr[field];
+      let id = attr[field];
+      if (isObject(id)) {
+        id = id.id;
+      }
       // log("Character", "Asset:", field, "=", id);
       const instance = request.getInstance(id);
       if (!isNull(instance)) {

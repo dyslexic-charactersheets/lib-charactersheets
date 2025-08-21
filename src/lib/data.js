@@ -65,7 +65,7 @@ function needsBase64(filename) {
 }
 
 export function toDataURL(data, mimeType) {
-  if (data === null) {
+  if (data === null || data === undefined) {
     warn('data', 'No data');
     return '';
   }
