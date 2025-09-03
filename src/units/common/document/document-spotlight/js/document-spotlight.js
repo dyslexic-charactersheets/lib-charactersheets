@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 const spotlightBox = document.getElementById('focus');
 
 function spotlight(target) {

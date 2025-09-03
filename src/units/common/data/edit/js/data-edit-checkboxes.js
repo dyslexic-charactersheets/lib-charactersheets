@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 // field interactions: checkboxes
 for (let field of document.getElementsByClassName('field--control_checkbox')) {
   ((field) => {

@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 // Arrows
 for (let arrowElem of document.getElementsByClassName('arrow')) {
   let from = document.getElementById(arrowElem.dataset.from);

@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 import { isArray, isString } from '../util';
 import { cloneDeep, has, interpolate } from '../util/objects';
 import { mergeBottom } from '../util/elements';

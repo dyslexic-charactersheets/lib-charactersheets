@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 import { isEmpty, isNull } from '../util';
 import { elementClass, mergeBottom } from '../util/elements';
 import { has } from '../util/objects';

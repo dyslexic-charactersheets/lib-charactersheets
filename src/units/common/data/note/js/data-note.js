@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 for (var note of document.getElementsByClassName('page__note')) {
   (function (note) {
     let control = note.getElementsByClassName('page__note__control')[0];

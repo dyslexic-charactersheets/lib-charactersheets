@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 {{! /* function isSafari() {
   var parser = new UAParser();
   var result = parser.getResult();

@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 // estimate the visual height of an element
 // return an integer in an arbitrary unit of "lines" roughly equal to a calculation row
 // this won't be exact

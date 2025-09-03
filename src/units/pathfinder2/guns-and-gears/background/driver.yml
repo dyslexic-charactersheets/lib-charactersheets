@@ -1,8 +1,19 @@
+# This file is compliant with the Open Game License (OGL)
+# and is suitable for use with the Pathfinder Roleplaying Game (Second Edition).
+# See the text of the OGL within this repository.
+
+
 unit: background/guns-and-gears/driver
 in: background
 group: "_{Guns and Gears}"
 name: "_{Driver}"
 
+
+meta:
+  rarity: Common
+
+require:
+  - unit: feat/assurance
 
 inc:
   - set: char-background
@@ -13,11 +24,7 @@ inc:
       - article: char-background
         title: "_{Driver}"
         contents:
-          # Skills:  | Piloting Lore
-
-          - p: "_{Trained in Piloting Lore}"
-            icon: proficiency-trained
-            blk: false
+          # Skills:  | 
 
           - field: char-background-details
             width: stretch
@@ -25,13 +32,9 @@ inc:
             reduce: 1
 
 
-
-  - at: '@lore-skills'
-    add:
-
-      - skill: piloting-lore
-        name: "_{Piloting Lore}"
-        ability: "_{INT}"
-        abilityref: INT
-        acp: false
+  - at: '@background-skill-feat'
+    replace:
+      - paste: feat/assurance
+        params:
+          level: 1
 

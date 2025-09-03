@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 var filename = "\{{ title }}.html";
 /* ### START REQUEST SECTION ### */
 var request = \{{{ request }}};

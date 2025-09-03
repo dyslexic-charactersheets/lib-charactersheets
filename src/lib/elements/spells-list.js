@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 import { isArray, isEmpty, isNumber, isString } from '../util';
 import { has, interpolate } from '../util/objects';
 import { log } from '../log';

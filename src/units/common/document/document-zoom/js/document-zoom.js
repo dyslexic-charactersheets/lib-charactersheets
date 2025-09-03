@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 function zoom() {
   let html = document.getElementsByTagName('html')[0];
   html.classList.toggle('zoom');

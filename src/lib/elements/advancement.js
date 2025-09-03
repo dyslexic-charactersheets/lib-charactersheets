@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 import { isEmpty, isArray } from '../util';
 import { toKebabCase } from '../util/strings';
 import { cloneDeep, has, interpolate } from '../util/objects';

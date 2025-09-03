@@ -1,4 +1,7 @@
 #!/bin/bash
+# Copyright 2025 Marcus Downing
+# Licensed under the Artistic License 2.0
+
 cd "$(dirname "$0")"
 cd ../assets
 

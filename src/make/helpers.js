@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 const Handlebars = require('handlebars');
 
 const {has, isEmpty, isNull} = require('./util.js');

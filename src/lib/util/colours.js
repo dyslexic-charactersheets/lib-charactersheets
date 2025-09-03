@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 import { isEmpty, isNumber, isNull } from '../util';
 import { log, error } from '../log';
 import { has } from './objects';

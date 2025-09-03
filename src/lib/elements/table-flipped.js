@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 import { isNull, isString, isEmpty, isObject } from '../util';
 import { elementClass } from '../util/elements';
 import { log, warn } from '../log';

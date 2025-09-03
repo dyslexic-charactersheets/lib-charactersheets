@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 // Mutating dice icon
 
 for (let icon of document.getElementsByClassName("icon_damage")) {

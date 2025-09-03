@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 import { isNull, isString, isArray, isObject, isEmpty, isFunction } from '../util';
 import { log } from '../log';
 

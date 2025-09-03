@@ -1,4 +1,9 @@
 /**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
+/**
  * Dyslexic Character Sheets module.
  * @module dyslexic-charactersheets
  */

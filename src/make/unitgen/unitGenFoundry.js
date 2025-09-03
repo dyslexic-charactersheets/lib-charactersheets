@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 'use strict';
 
 require('../log.js');
@@ -376,22 +381,33 @@ function bookData(source) {
   
     // Lost Omens books
     case "Pathfinder Lost Omens: World Guide":
+    case "Pathfinder Lost Omens World Guide":
       return ["Lost Omens World Guide", "lost-omens/world-guide", "pathfinder2"];
 
     case "Pathfinder Lost Omens: Pathfinder Society Guide":
+    case "Pathfinder Lost Omens Pathfinder Society Guide":
       return ["Lost Omens Pathfinder Society Guide", "lost-omens/pathfinder-society-guide", "pathfinder2"];
 
     case "Pathfinder Lost Omens: Travel Guide":
+    case "Pathfinder Lost Omens Travel Guide":
       return ["Lost Omens Travel Guide", "lost-omens/travel-guide", "pathfinder2"];
 
     case "Pathfinder Lost Omens: Gods & Magic":
+    case "Pathfinder Lost Omens Gods & Magic":
       return ["Lost Omens Gods & Magic", "lost-omens/gods-and-magic", "pathfinder2"];
 
     case "Pathfinder Lost Omens: Knights of Lastwall":
+    case "Pathfinder Lost Omens Knights of Lastwall":
       return ["Lost Omens Knights of Lastwall", "lost-omens/knights-of-lastwall", "pathfinder2"];
 
     case "Pathfinder Lost Omens: Firebrands":
+    case "Pathfinder Lost Omens Firebrands":
       return ["Lost Omens Firebrands", "lost-omens/firebrands", "pathfinder2"];
+
+    case "Pathfinder Lost Omens: Highhelm":
+    case "Pathfinder Lost Omens Highhelm":
+      return ["Lost Omens Highhelm", "lost-omens/highhelm", "pathfinder2"];
+
 
     // Adventure Paths
     case "Pathfinder: Age of Ashes Player's Guide":
@@ -451,6 +467,7 @@ function bookData(source) {
     case "Pathfinder Seven Dooms for Sandpoint Player's Guide":
       return ["Seven Dooms for Sandpoint", "adventure/seven-dooms-for-sandpoint", "pathfinder2"];
 
+
     // Adventures
     case "Pathfinder Adventure: The Fall of Plaguestone":
       return ["The Fall of Plaguestone", "adventure/fall-of-plaguestone", "pathfinder2"];
@@ -488,9 +505,12 @@ function bookData(source) {
   
     // Lost Omens books
     case "Pathfinder Lost Omens: Tian Xia Character Guide":
+    case "Pathfinder Lost Omens Tian Xia Character Guide":
       return ["Lost Omens Tian Xia Character Guide", "lost-omens/tian-xia", "pathfinder2remaster"];
-    case "Pathfinder Lost Omens: Highhelm":
-      return ["Lost Omens Highhelm", "lost-omens/highhelm", "pathfinder2remaster"];
+
+    case "Pathfinder Lost Omens: Rival Academies":
+    case "Pathfinder Lost Omens Rival Academies":
+      return ["Lost Omens Rival Academies", "lost-omens/rival-academies", "pathfinder2remaster"];
 
 
     // Adventures
@@ -502,6 +522,8 @@ function bookData(source) {
       return ["Triumph of the Tusk", "adventure/triumph-of-the-tusk", "pathfinder2remaster"];
     case "Pathfinder Spore War Player's Guide":
       return ["Spore War", "adventure/spore-war", "pathfinder2remaster"];
+    case "Pathfinder Shades of Blood Player's Guide":
+      return ["Shades of Blood", "adventure/shades-of-blood", "pathfinder2remaster"];
 
     case "Pathfinder Adventure: Rusthenge":
       return ["Rusthenge", "adventure/rusthenge", "pathfinder2remaster"];

@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 import { getSystem, COMMON, PREMIUM, PATHFINDER_2, PATHFINDER_2_REMASTER, STARFINDER_2 } from "./System";
 import { isNull, isArray } from '../util';
 import { log, warn } from "../log";

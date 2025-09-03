@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 import { GM_Instance } from "./GM_Instance";
 import { isEmpty, isNull } from '../util';
 import { adjustColour } from '../util/colours';

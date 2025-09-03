@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 export let spells_list2 = {
   name: 'spells-list2',
   defaults: {

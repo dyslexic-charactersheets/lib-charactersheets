@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 import { isString, isEmpty, isObject } from '../util';
 import { elementClass, getLabelHeight, getRubyHeight } from '../util/elements';
 import { elementColour } from '../util/colours';

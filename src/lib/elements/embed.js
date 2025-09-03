@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 import { isEmpty, isNumber } from '../util';
 import { __, _e } from '../i18n';
 import { elementID, elementClass } from '../util/elements';

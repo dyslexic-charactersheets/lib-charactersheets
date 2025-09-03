@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 import { readFile } from 'fs';
 import { log, warn, error, trace, stackTrace } from '../log';
 import { isNull, isArray } from '../util';

@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 import { fieldIdent, fieldRadioIdent, fieldDefaults } from './field';
 import { log, warn, error } from '../log';
 import { isArray, isNull, isBoolean, isEmpty } from '../util';

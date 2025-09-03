@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 import { isObject, isString, isArray, isNull, isEmpty } from '../util';
 import { cloneDeep, has, interpolate } from '../util/objects';
 import { elementColour } from '../util/colours';

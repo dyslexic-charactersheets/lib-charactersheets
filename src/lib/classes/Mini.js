@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 import { Instance } from './Instance';
 import { log, warn, error } from '../log';
 import { ready as systemsReady } from './System';

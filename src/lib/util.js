@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 // Polyfills
 
 // polyfill for Array.flat and Array.flatMap, which aren't well supported even with Babel

@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 import { interpolate } from '../util/objects';
 import { elementID, elementClass } from '../util/elements';
 import { log, error } from '../log';

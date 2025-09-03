@@ -1,3 +1,8 @@
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 import { log, warn, error } from '../log';
 import { LoadQueue } from './LoadQueue';
 import { isString, isObject, isNull, isArray, isEmpty } from '../util';
