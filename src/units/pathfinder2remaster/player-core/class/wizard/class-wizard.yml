@@ -30,30 +30,21 @@ require:
     unit: option/level-up/spell-retraining
 
 inc:
-  - set: class
-    value: "_{Wizard}"
-  - set: hp-class
-    value: 6
-  - set: class-icon
-    value: wizard
-  - set: subclass-label
-    value: "_{Arcane Thesis}"
+  - paste: prototype-class
+    params:
+      class: wizard
+      class-name: "_{Wizard}"
+      subclass: arcane-thesis
+      subclass-name: "_{Arcane Thesis}"
+      hp: 6
 
-  - set: perception-proficiency
-    value: trained
+      perception: trained
+      unarmoured: trained
+      skill: arcana
 
-  - set: unarmoured-proficiency
-    value: trained
-
-  - set: fortitude-proficiency
-    value: trained
-  - set: reflex-proficiency
-    value: trained
-  - set: will-proficiency
-    value: expert
-
-  - set: arcana-proficiency
-    value: trained
+      fortitude: trained
+      reflex: trained
+      will: expert
 
   - at: '@key-ability-field'
     replace:
@@ -77,6 +68,17 @@ inc:
             title: "_{Identify Magic (Arcana/other)}"
             content: "_{Take 10 minutes to identify a magical item, location or effect.}"
             colour: INT
+
+  - at: '@class-specialisation'
+    replace:
+      - field: subclass
+        label: "#{subclass-label}"
+        width: stretch
+        merge-bottom: true
+      - field: wizard-school
+        label: "_{School}"
+        width: stretch
+        merge-bottom: true
 
   - at: '@advancement'
     add:

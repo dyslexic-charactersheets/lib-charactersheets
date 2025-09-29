@@ -93,11 +93,11 @@ export function getSystemStack(code) {
   let stack = code.split(',').map((systemCode) => {
     switch (systemCode) {
       case PATHFINDER_2:
-        return [PATHFINDER_2];
+        return [PATHFINDER_2, PATHFINDER_2_REMASTER];
       case PATHFINDER_2_REMASTER:
-        return [PATHFINDER_2_REMASTER];
+        return [PATHFINDER_2_REMASTER, PATHFINDER_2];
       case STARFINDER_2:
-        return [STARFINDER_2];
+        return [STARFINDER_2, PATHFINDER_2_REMASTER, PATHFINDER_2];
       default:
         return [systemCode];
     }

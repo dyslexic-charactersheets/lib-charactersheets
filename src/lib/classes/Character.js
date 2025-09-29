@@ -7,7 +7,7 @@ import { log, error } from '../log';
 import { interpolate } from '../util/objects';
 import { replaceColours, adjustColour, vibrantColour } from '../util/colours';
 import { __ } from '../i18n';
-import { BLACK_FLAG, PATHFINDER_2, PATHFINDER_2_REMASTER, ready as systemsReady } from './System';
+import { BLACK_FLAG, PATHFINDER_2, PATHFINDER_2_REMASTER, STARFINDER_2, ready as systemsReady } from './System';
 import { getSystemStack } from './SystemStack';
 import { Instance } from './Instance';
 import { Document } from './Document';
@@ -38,7 +38,7 @@ function parseCharacter(primary, request) {
     ancestry: false,
     heritage: false,
     background: false,
-    class: false,
+    classes: [],
     multiclass: [],
     archetypes: [],
     description: '',
@@ -63,6 +63,8 @@ function parseCharacter(primary, request) {
     isNoCalc: false,
     ...primary.attributes
   };
+  
+  log("Character", "Request attributes", attr);
 
   // an object to start with
   let char = {
@@ -119,7 +121,6 @@ function parseCharacter(primary, request) {
 
   // log("Character", "Is logged in?", attr.isLoggedIn, char.isLoggedIn);
   // log("Character", "Is no calc?", char.isNoCalc, attr.browserTarget);
-  // log("Character", "Request attributes", attr);
 
   // log("Character", "Print intensity", char.printIntensity);
   if (isEmpty(char.accentColour)) {
@@ -187,10 +188,11 @@ function parseCharacter(primary, request) {
     });
   }
 
-  // log("Character", "System", system);
+  log("Character", "System", attr.game);
   switch (attr.game) {
     case PATHFINDER_2:
     case PATHFINDER_2_REMASTER:
+    case STARFINDER_2:
       if (attr.ancestry) {
         let ancestryName = 'ancestry/' + attr.ancestry.replace(/^ancestry[\/-]/, '');
         char.units.push(ancestryName);
@@ -210,27 +212,25 @@ function parseCharacter(primary, request) {
         char.units.push('background/' + attr.background.replace(/^background[\/-]/, ''));
       }
 
-      if (attr.class) {
-        let className = attr.class.replace(/^class[\/-]/, '');
-        let classShortName = className.replace(/^.*\//, '');
-        if (attr.game == PATHFINDER_2_REMASTER && !className.match(/^remaster\//)) {
-          char.units.push('class/remaster/' + className);
-        } else {
+      if (attr.classes) {
+        for (let cls of attr.classes) {
+          let className = cls.replace(/^class[\/-]/, '');
+          let classShortName = className.replace(/^.*\//, '');
           char.units.push('class/' + className);
-        }
-        char.classes.push(className);
-        let classPrefix = toCamelCase('class ' + classShortName);
-        // log("Character", "Class name", className, ", prefix", classPrefix);
+          char.classes.push(className);
+          let classPrefix = toCamelCase('class ' + classShortName);
+          // log("Character", "Class name", className, ", prefix", classPrefix);
 
-        getUnitOptions('class/' + className);
+          getUnitOptions('class/' + className);
 
-        let classFeatsKey = classPrefix + 'Feats';
-        if (attr[classFeatsKey]) {
-          char.classFeats = parseFeats(attr[classFeatsKey]);
-          char.classFeats.forEach(feat => {
-            log("Character", "Class feat:", feat);
-            char.units.push('feat/' + className + '/' + feat);
-          });
+          let classFeatsKey = classPrefix + 'Feats';
+          if (attr[classFeatsKey]) {
+            char.classFeats = parseFeats(attr[classFeatsKey]);
+            char.classFeats.forEach(feat => {
+              log("Character", "Class feat:", feat);
+              char.units.push('feat/' + className + '/' + feat);
+            });
+          }
         }
 
         // Object.keys(attr).forEach(key => {
