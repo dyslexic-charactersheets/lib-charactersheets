@@ -3,7 +3,7 @@
  * Licensed under the Artistic License 2.0
  */
 
-import { log, error } from '../log';
+import { log, warn, error } from '../log';
 import { interpolate } from '../util/objects';
 import { replaceColours, adjustColour, vibrantColour } from '../util/colours';
 import { __ } from '../i18n';
