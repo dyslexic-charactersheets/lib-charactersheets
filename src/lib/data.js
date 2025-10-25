@@ -106,11 +106,11 @@ export function addAssetsDir(dir) {
 export function locateAsset(name, cb) {
   try {
     let filename = needsBase64(name) ? `${name}.base64` : name;
-    log("data", "Locating asset:", filename, assetsDirs);
+    // log("data", "Locating asset:", filename, assetsDirs);
     assetsDirs.flatMap((dir) => {
       const file = dir + filename;
       if (existsSync(file)) {
-        log("data", "Located asset", name);
+        // log("data", "Located asset", name);
         cb(file);
       }
     });

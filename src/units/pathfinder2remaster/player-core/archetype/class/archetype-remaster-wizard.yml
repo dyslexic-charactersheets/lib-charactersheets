@@ -1,0 +1,78 @@
+unit: archetype/remaster/wizard
+in: archetype
+group: "_{Player Core}"
+name: "_{Wizard}"
+multiclass: true
+
+require:
+  - unit: defs/archetypes
+  - deny: archetype/wizard
+  - unit: option/spellbook
+
+inc:
+  - set: arcana-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Wizard}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-wizard
+        name: "_{Wizard}"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: wizard
+                        optional: true
+                      - class-name: "_{Wizard}"
+
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Trained in Arcana}"
+                        icon: proficiency-trained
+
+                  - section: "_{Arcane School Spell}"
+                    contents:
+                      - selectable: "##:arcane-school-spell"
+                        contents:
+                          - paste: focus
+                            contents:
+                              - article:
+
+                  - section: "_{Arcana}"
+                    mark: wizard
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: wizard
+                          class-level: "_{Wizard\nLevel}"
+                          basic-title: "_{Basic Arcana}"
+                          advanced-title: "_{Advanced Arcana}"
+                          num: 4
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+                  - paste: archetype-spellcasting
+                    params:
+                      style: prepared
+                      tradition: wizard
+                      tradition-spell-attack: "_{Arcane Spell\nAttack}"
+                      tradition-spell-dc: "_{Arcane Spell\nSave DC}"
+                      ability: "INT"
+                      ability-name: "_{INT}"
+                      breadth: "_{Arcane Breadth}"
+                  - tail:

@@ -1,0 +1,116 @@
+unit: archetype/remaster/fighter
+in: archetype
+group: "_{Player Core}"
+name: "_{Fighter}"
+multiclass: true
+
+require:
+  - unit: defs/archetypes
+  - deny: archetype/fighter
+  - unit: feat/reactive-strike
+
+inc:
+  - set: fighter-class-dc-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Fighter}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-fighter
+        name: "_{Fighter}"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: fighter
+                      - class-name: "_{Fighter}"
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Trained in simple and martial weapons}"
+                        icon: proficiency-trained
+                      - p: "_{Trained in either Acrobatics or Athletics}"
+                        icon: proficiency-trained
+                      - hr:
+                      - g:
+                        pad: true
+                        contents:
+                          - paste: class-dc
+                            params:
+                              id: fighter-class-dc
+                              legend: "_{Fighter\nClass DC}"
+                              misc: false
+
+                  - section: "_{Archetype Feats}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - article: "##:fighter-resiliency"
+                            title: "_{Fighter Resiliency}"
+                            cat: "_{Feat} 4"
+                            contents:
+                              - paste: archetype-resiliency
+                                params:
+                                  class-id: fighter
+                                  class-feats: "_{Fighter Feats}"
+                          - article: "##:reactive-striker"
+                            title: "_{Reactive Striker}"
+                            cat: "_{Feat} 4"
+                            contents:
+                              - selectable: "##:reactive-striker"
+                                contents:
+                                  - paste: reactive-strike
+                          - article: "##:diverse-weapon-expert"
+                            title: "_{Diverse Weapon Expert}"
+                            cat: "_{Feat 6}"
+                            contents:
+                              - selectable: "##:diverse-weapon-expert"
+                                contents:
+                                  - p: "_{Expert in simple and martial weapons}"
+                                    icon: proficiency-expert
+                                  - p: "_{Trained in advanced weapons}"
+                                    icon: proficiency-trained
+                          
+                  # - section: "_{Manoeuvres}"
+                  #   mark: fighter
+                  #   contents:
+                  #     - paste: archetype-feats
+                  #       params:
+                  #         id: fighter-feats
+                  #         class-level: "_{Fighter\nFeats}"
+                  #         basic-title: "_{Basic Manoeuvre}"
+                  #         advanced-title: "_{Advanced Manoeuvres}"
+                  #         show-advanced: false
+                  #         lines: 4
+
+                  - tail:
+                  - spacer:
+                    flex: huge
+
+              - g:
+                contents:
+                  - section: "_{Manoeuvres}"
+                    mark: fighter
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: fighter-feats
+                          class-level: "_{Fighter\nFeats}"
+                          # show-basic: false
+                          basic-title: "_{Basic Manoeuvre}"
+                          advanced-title: "_{Advanced Manoeuvres}"
+                          lines: 4
+
+                  - tail:
+

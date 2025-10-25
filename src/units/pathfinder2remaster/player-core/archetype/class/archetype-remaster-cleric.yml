@@ -1,0 +1,80 @@
+unit: archetype/remaster/cleric
+in: archetype
+group: "_{Player Core}"
+name: "_{Cleric}"
+multiclass: true
+
+require:
+  - unit: defs/archetypes
+  - deny: archetype/cleric
+
+inc:
+  - set: religion-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Cleric}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-cleric
+        name: "_{Cleric}"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: box
+                        optional: true
+                      - class-name: "_{Cleric}"
+                        suffix: "_{of}"
+                        flex: tiny
+                        contents:
+                          - field: cleric-deity
+                            width: stretch
+                            # label: "_{Deity}"
+                            frame: none
+                            align: center
+                            size: huge
+
+                  - section: "_{Dedication}"
+                    primary: true
+                    contents:
+                      - p: "_{Trained in Religion and your deity's skill}"
+                        icon: proficiency-trained
+
+                      - paste: anathema
+                        params:
+                          lines: 3
+
+                  - section: "_{Dogmas}"
+                    mark: cleric
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: cleric
+                          class-level: "_{Cleric\nLevel}"
+                          basic-title: "_{Basic Dogma}"
+                          advanced-title: "_{Advanced Dogmas}"
+                          num: 3
+
+                  - tail:
+                  # - spacer:
+
+              - g:
+                contents:
+                  - paste: archetype-spellcasting
+                    params:
+                      style: prepared
+                      ability: "WIS"
+                      ability-name: "_{WIS}"
+                      breadth: "_{Divine Breadth}"
+                  - tail:

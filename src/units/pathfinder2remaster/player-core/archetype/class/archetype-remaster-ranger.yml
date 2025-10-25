@@ -1,0 +1,96 @@
+unit: archetype/remaster/ranger
+in: archetype
+group: "_{Player Core}"
+name: "_{Ranger}"
+multiclass: true
+
+require:
+  - unit: defs/archetypes
+  - deny: archetype/ranger
+
+inc:
+  - set: ranger-class-dc-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Ranger}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-ranger
+        name: "_{Ranger}"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: ranger
+                      - class-name: "_{Ranger}"
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Trained in Survival}"
+                        icon: proficiency-trained
+                      - hr:
+                      - g:
+                        pad: true
+                        contents:
+                          - paste: class-dc
+                            params:
+                              id: ranger-class-dc
+                              legend: "_{Ranger\nClass DC}"
+                              misc: false
+                      
+                  - section: "_{Archetype Feats}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+
+                          - article: "##:ranger-resiliency"
+                            title: "_{Ranger Resiliency}"
+                            cat: "_{Feat} 4"
+                            contents:
+                              - paste: archetype-resiliency
+                                params:
+                                  class-id: ranger
+                                  class-feats: "_{Ranger Feats}"
+
+                          - article: "##:master-spotter"
+                            title: "_{Master Spotter}"
+                            cat: "_{Feat} 12"
+                            contents:
+                              - selectable: "##:master-spotter"
+                                contents:
+                                  - row:
+                                    contents:
+                                      - icon: proficiency-expert
+                                      - span: "&rarr;"
+                                      - icon: proficiency-master
+                                  - p: "_{Become master in Perception}"
+
+                  - tail:
+                  - spacer:
+                    flex: huge
+
+              - g:
+                contents:
+                  - section: "_{Hunter's Tricks}"
+                    mark: ranger
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: ranger-feats
+                          class-level: "_{Ranger\nLevel}"
+                          basic-title: "_{Basic Hunter's Trick}"
+                          advanced-title: "_{Advanced Hunter's Tricks}"
+
+                  - tail:
+

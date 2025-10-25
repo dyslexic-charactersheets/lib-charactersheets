@@ -1,0 +1,79 @@
+# Copyright 2025 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: defs/feats
+group: "_{Player Core}"
+
+inc:
+  - copy: action-article
+    contents:
+      - article:
+        header:
+          - action: template
+          - field: args.id
+            frame: none
+            align: left
+            width: stretch
+
+  - copy: class-feats
+    params:
+      id: class-feats
+      title: "_{Class Feats}"
+      slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+      columns: 2
+      lines: 2
+      decrement: 0
+      extra: 0
+      mark: ''
+      even: true
+    contents:
+      - section: "#{title}"
+        mark: "#{mark}"
+        contents:
+          - list:
+            zebra: true
+            columns: "#{columns}"
+            flowv: true
+            hr: true
+            contents:
+              - var: article-lines
+                value: "#{lines}"
+                decrement: "#{decrement}"
+                cutoff: 1
+                contents:
+                  - each:
+                    template:
+                      - if: "#{level}"
+                        then:
+                          - level: "#{level}"
+                            contents:
+                              - item:
+                        else:
+                          - layout: indent-l
+                            contents:
+                              - g:
+                                contents:
+                                  - label: "_{Level}"
+                                  - field: "#{id}-#{i}-level"
+                                    width: small
+                                    border: full
+                              - g:
+                                contents:
+                                  - item:
+                      # - level: "#{level}"
+                      #   contents:
+                      #     - item:
+                    contents:
+                      # - log: "EVEN: #{even}"
+                      - slots: "#{slots}"
+                        key: level
+                        min: 1
+                        max: 1
+                        even: "#{even}"
+                        extra: "#{extra}"
+                        placeholder:
+                          article: "#{id}-level-#{level}"
+                          lines: "#{article-lines}"
+                        contents:
+                          - zone: '@#{id}'

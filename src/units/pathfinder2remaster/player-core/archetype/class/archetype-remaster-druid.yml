@@ -1,0 +1,120 @@
+unit: archetype/remaster/druid
+in: archetype
+group: "_{Player Core}"
+name: "_{Druid}"
+multiclass: true
+
+require:
+  - unit: defs/archetypes
+  - deny: archetype/druid
+
+form:
+  - select: druid/order
+    name: "_{Druidic Order}"
+    max: 1
+
+inc:
+  - set: nature-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Druid}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-druid
+        name: "_{Druid}"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: druid
+                        optional: true
+                      - class-name: "_{Druid}"
+
+                  - section: "_{Druidic Order}"
+                    primary: true
+                    contents:
+                      - zone: '@druid/order'
+                        contents:
+                          - field: druid-order
+                            frame: none
+                            size: huge
+                            width: stretch
+                            align: center
+                            merge-bottom: true
+
+                  - section: "_{Dedication}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - g:
+                            contents:
+                              - p: "_{Learn the Druidic language}"
+                              - p: "_{Trained in Nature and your order's skill}"
+                                icon: proficiency-trained
+                          - g:
+                            contents:
+                              - h5: "_{Anathema}"
+                              - ul:
+                                contents:
+                                  - li: "_{Using metal armor or shields}"
+                                  - li: "_{Despoiling natural places}"
+                                  - li: "_{Teaching the Druidic language to nondruids}"
+                                  - zone: '@anathema'
+                                    contents:
+                                      - field: anathema
+                                        width: stretch
+                                        # label: "_{Order Anathema}"
+                                        control: p
+                                        frame: none
+                                        with-title: false
+                                        lines: 2
+                                        merge-bottom: 2
+
+                  - section: "_{Archetype Feats}"
+                    contents:
+                      - article: "##:order-spell"
+                        title: "_{Order Spell}"
+                        cat: "_{Feat} 4"
+                        contents:
+                          - selectable: "##:order-spell"
+                            contents:
+                              - paste: focus
+                                contents:
+                                  - article:
+
+                  - section: "_{Wilding}"
+                    mark: druid
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: druid
+                          class-level: "_{Druid\nLevel}"
+                          basic-title: "_{Basic Wilding}"
+                          advanced-title: "_{Advanced Wildings}"
+                          num: 2
+                          lines: 2
+
+                  - tail:
+                  # - spacer:
+
+              - g:
+                contents:
+                  - paste: archetype-spellcasting
+                    params:
+                      style: prepared
+                      ability: "WIS"
+                      ability-name: "_{WIS}"
+                      breadth: "_{Primal Breadth}"
+                  - tail:

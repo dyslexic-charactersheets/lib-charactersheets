@@ -1,0 +1,137 @@
+unit: archetype/remaster/rogue
+in: archetype
+group: "_{Player Core}"
+name: "_{Rogue}"
+multiclass: true
+
+require:
+  - unit: defs/archetypes
+  - deny: archetype/rogue
+
+inc:
+  - set: rogue-class-dc-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Rogue}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-rogue
+        name: "_{Rogue}"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: rogue
+                      - class-name: "_{Rogue}"
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Stealth or Thievery, and one other skill}"
+                        icon: proficiency-trained
+                      - hr:
+                      - g:
+                        pad: true
+                        contents:
+                          - paste: class-dc
+                            params:
+                              id: rogue-class-dc
+                              legend: "_{Rogue\nClass DC}"
+                              misc: false
+                      - hr:
+                      - p: "_{On the first round of combat, if you roll Deception or Stealth for initiative, creatures that haven't acted yet are flat-footed.}"
+
+                  - section: "_{Archetype Feats}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - article: "##:sneak-attacker"
+                            title: "_{Sneak Attacker}"
+                            cat: "_{Feat} 4"
+                            contents:
+                              - selectable: "##:sneak-attacker"
+                                contents:
+                                  - row:
+                                    contents:
+                                      - value-block: "_{d4}"
+                                        content: "_{Bonus precision damage}"
+                                  - p: "_{When you attack a flat-footed opponent with an agile or finesse weapon/unarmed strike, or a ranged weapon.}"
+                                  - hr:
+                                    light: true
+                                  - level: 6
+                                    contents:
+                                      - value-block: "_{d6}"
+                                        content: "_{Bonus precision damage}"
+
+                          - article: "##:skill-mastery"
+                            title: "_{Skill Mastery}"
+                            cat: "_{Feat} 8"
+                            contents:
+                              - list:
+                                hr: true
+                                light: true
+                                zebra: true
+                                contents:
+                                  - repeat: 5
+                                    contents:
+                                      - selectable: "##:skill-mastery/#{i}"
+                                        contents:
+                                          - row:
+                                            contents:
+                                              - icon: proficiency-expert
+                                              - span: "&rarr;"
+                                              - icon: proficiency-master
+                                              - field: "##:skill-mastery/#{i}/master"
+                                                width: stretch
+                                                frame: none
+                                          - row:
+                                            contents:
+                                              - icon: proficiency-trained
+                                              - span: "&rarr;"
+                                              - icon: proficiency-expert
+                                              - field: "##:skill-mastery/#{i}/expert"
+                                                width: stretch
+                                                frame: none
+                                                merge-bottom: true
+
+                          - article: "##:evasiveness"
+                            title: "_{Evasiveness}"
+                            cat: "_{Feat} 12"
+                            contents:
+                              - selectable: "##:evasiveness"
+                                contents:
+                                  - row:
+                                    contents:
+                                      - icon: proficiency-expert
+                                      - span: "&rarr;"
+                                      - icon: proficiency-master
+                                      - p: "_{Reflex saves}"
+
+                  - tail:
+                  - spacer:
+                    flex: huge
+
+              - g:
+                contents:
+                  - section: "_{Trickery}"
+                    mark: rogue
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: rogue-feats
+                          class-level: "_{Rogue\nLevel}"
+                          basic-title: "_{Basic Trickery}"
+                          advanced-title: "_{Advanced Trickery}"
+
+                  - tail:
+
