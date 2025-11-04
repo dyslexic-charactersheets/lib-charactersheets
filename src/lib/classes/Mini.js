@@ -241,6 +241,7 @@ export class Mini extends Instance {
               // log("Character", "Background:", printBackground);
               const bgColours = {
                 magnolia: '#F4E9D8',
+                lilac: '#D3B9E8',
               };
               if (has(bgColours, printBackground)) {
                 document.backgroundColour = bgColours[printBackground];

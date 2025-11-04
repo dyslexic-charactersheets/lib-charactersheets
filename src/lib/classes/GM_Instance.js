@@ -88,6 +88,7 @@ export class GM_Instance extends Instance {
             const printBackground = data.printBackground;
             const bgColours = {
               magnolia: '#F4E9D8',
+              lilac: '#D3B9E8',
             };
             if (has(bgColours, printBackground)) {
               document.backgroundColour = bgColours[printBackground];

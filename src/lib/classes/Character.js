@@ -436,6 +436,7 @@ export class Character extends Instance {
           }
 
           // start with a document
+          log("Character", "Using system stack", system.code);
           const documentUnit = system.getUnit("document");
           const document = new Document(system, documentUnit, data.id);
           document.request = this.request;
@@ -506,6 +507,7 @@ export class Character extends Instance {
             // log("Character", "Background:", printBackground);
             const bgColours = {
               magnolia: '#F4E9D8',
+              lilac: '#D3B9E8',
             };
             if (has(bgColours, printBackground)) {
               document.backgroundColour = bgColours[printBackground];
