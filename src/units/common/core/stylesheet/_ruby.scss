@@ -1,9 +1,14 @@
+@use "common";
+
 /**
  * Copyright 2025 Marcus Downing
  * Licensed under the Artistic License 2.0
  */
 
+@use "sass:math";
+
 $rb: 0.8rem;
+$halfrb: math.div($rb, 2);
 $rbsp: 0.1rem;
   
 .ruby {
@@ -14,9 +19,9 @@ $rbsp: 0.1rem;
 
   .ruby__sub {
     position: absolute;
-    left: -($rb / 2);
-    right: -($rb / 2);
-    bottom: -($rb + 2 * $pt);
+    left: -$halfrb;
+    right: -$halfrb;
+    bottom: -($rb + 2 * common.$pt);
     height: $rb;
     display: flex;
     flex-direction: row;
@@ -28,10 +33,10 @@ $rbsp: 0.1rem;
       &:before {
         content: "";
         display: block;
-        border-bottom: $pt solid #a0a0a0;
-        border-left: $pt solid #a0a0a0;
-        border-bottom-left-radius: $rb / 2;
-        padding-bottom: $rb / 2;
+        border-bottom: common.$pt solid #a0a0a0;
+        border-left: common.$pt solid #a0a0a0;
+        border-bottom-left-radius: $halfrb;
+        padding-bottom: $halfrb;
         flex: 1 1 $rb;
         margin-bottom: $rb;
       }
@@ -39,10 +44,10 @@ $rbsp: 0.1rem;
       &:after {
         content: "";
         display: block;
-        border-bottom: $pt solid #a0a0a0;
-        border-right: $pt solid #a0a0a0;
-        border-bottom-right-radius: $rb / 2;
-        padding-bottom: $rb / 2;
+        border-bottom: common.$pt solid #a0a0a0;
+        border-right: common.$pt solid #a0a0a0;
+        border-bottom-right-radius: $halfrb;
+        padding-bottom: $halfrb;
         flex: 1 1 $rb;
         margin-bottom: $rb;
       }
@@ -52,7 +57,7 @@ $rbsp: 0.1rem;
   label.ruby__text {
     line-height: $rb;
     white-space: nowrap;
-    padding: 0 $pt;
+    padding: 0 common.$pt;
 
     .rb_1 & {
       bottom: -($rbsp + $rb);

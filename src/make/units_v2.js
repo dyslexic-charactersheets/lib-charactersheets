@@ -7,7 +7,8 @@ const fs = require('fs');
 const path = require('path');
 
 const jsYaml = require('js-yaml');
-const sass = require('node-sass');
+// const sass = require('node-sass');
+const sass = require('sass');
 const Handlebars = require('handlebars');
 
 const i18n = require('./i18n');
@@ -225,9 +226,8 @@ async function loadUnitStylesheet(unitdata, assetStore) {
   var stylesheetfile = `${unitStylesDir}/${unitdata.filename.replace(/\.yml$/, '.scss')}`;
   
   if (fs.existsSync(stylesheetfile)) {
-    const result = sass.renderSync({
-      file: stylesheetfile,
-      outputStyle: 'compact',
+    const result = sass.compile(stylesheetfile, {
+      outputStyle: 'compressed',
     });
     
     // if (result.err) {

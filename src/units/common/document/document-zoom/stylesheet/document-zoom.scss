@@ -3,6 +3,8 @@
  * Licensed under the Artistic License 2.0
  */
 
+@use "sass:math";
+
 .page-zoom-button {
   display: none;
 }
@@ -42,7 +44,7 @@
   }
 
   html.zoom {
-    font-size: 10pt/$factor;
+    font-size: math.div(10pt, $factor);
 
     .zoom-button {
       background: rgba(0,0,0,0.5);
@@ -66,16 +68,16 @@
     }
     
     .page {
-      width: $page_width/$factor;
-      height: $page_height/$factor;
-      padding: 1cm/$factor;
+      width: math.div($page_width, $factor);
+      height: math.div($page_height, $factor);
+      padding: math.div(1cm, $factor);
       
       margin: 0;
-      box-shadow: 0 0 1cm/$factor rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 math.div(1cm, $factor) rgba(0, 0, 0, 0.1);
       
       &--landscape {
-        width: $page_height/$factor;
-        height: $page_width/$factor;
+        width: math.div($page_height, $factor);
+        height: math.div($page_width, $factor);
       }
 
       &--no-print {
@@ -99,10 +101,10 @@
     }
 
     .page__contents {
-      box-shadow: 0 0 30px/$factor rgba(255,255,255,0.6);
+      box-shadow: 0 0 math.div(30px, $factor) rgba(255,255,255,0.6);
       
-      margin: 0 -0.2rem/$factor;
-      padding: 0 0.2rem/$factor;
+      margin: 0 math.div(-0.2rem, $factor);
+      padding: 0 math.div(0.2rem, $factor);
     }
 
     .page-zoom-button {
