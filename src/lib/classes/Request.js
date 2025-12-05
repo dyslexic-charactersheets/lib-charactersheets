@@ -22,18 +22,16 @@ function randomID() {
 }
 
 export class Request {
-  constructor(chardesc) {
+  constructor(request) {
     this.instances = {};
     this.primary = [];
 
-    events.emit('request', {
-      request: chardesc
-    });
-    this.parse(chardesc);
-  }
+    events.emit('request', {request});
 
-  parse(request) {
     // log("Request", "Parsing request", request);
+    this.isLoggedIn = request.data.isLoggedIn;
+    log("Request", "isLoggedIn", this.isLoggedIn);
+
     // included instances go first, in case there's an ID conflict
     if (has(request, "included")) {
       if (isArray(request.included)) {
@@ -47,6 +45,8 @@ export class Request {
     } else {
       this.addInstance(request.data, true);
     }
+
+    
   }
 
   addInstance(instance, primary) {

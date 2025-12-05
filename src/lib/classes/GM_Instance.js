@@ -23,7 +23,6 @@ export class GM_Instance extends Instance {
   parseGM_Instance(primary, request) {
     let attr = {
       optionPermission: false,
-      isLoggedIn: false,
       ...primary.attributes
     };
 
@@ -31,13 +30,13 @@ export class GM_Instance extends Instance {
       this.data.units.push("option/permission");
     }
     
-    this.data.isLoggedIn = attr.isLoggedIn;
+    this.data.isLoggedIn = request.isLoggedIn;
     this.data.isNoCalc = attr.browserTarget == "pdf",
     
-    log("GM", "Is logged in?", attr.isLoggedIn, this.data.isLoggedIn);
+    log("GM", "Is logged in?", request.isLoggedIn, this.data.isLoggedIn);
     log("GM", "Is no calc?", this.data.isNoCalc, attr.browserTarget);
     
-    this.data.units = [...this.data.units, ...this.getDataUnits(attr.isLoggedIn, this.isNoCalc)];
+    this.data.units = [...this.data.units, ...this.getDataUnits(request.isLoggedIn, this.isNoCalc)];
   }
 
   render() {

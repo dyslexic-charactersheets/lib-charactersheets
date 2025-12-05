@@ -41,7 +41,6 @@ function parseKingdom(primary, request) {
     printLogo: false,
     printBackground: false,
 
-    isLoggedIn: false,
     isNoCalc: false,
     ...primary.attributes
   };
@@ -75,7 +74,7 @@ function parseKingdom(primary, request) {
     printBackground: attr.printBackground,
     printWatermark: attr.printWatermark,
 
-    isLoggedIn: attr.isLoggedIn,
+    isLoggedIn: request.isLoggedIn,
     isNoCalc: attr.browserTarget == "pdf",
     debug: primary.debug,
     instances: {},

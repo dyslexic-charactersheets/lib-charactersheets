@@ -41,7 +41,6 @@ function parseMini(primary, request) {
     printLogo: false,
     printBackground: false,
 
-    isLoggedIn: false,
     isNoCalc: false,
     ...primary.attributes
   };
@@ -74,7 +73,7 @@ function parseMini(primary, request) {
     printBackground: attr.printBackground,
     printWatermark: attr.printWatermark,
 
-    isLoggedIn: attr.isLoggedIn,
+    isLoggedIn: request.isLoggedIn,
     isNoCalc: attr.browserTarget == "pdf",
     debug: primary.debug,
     instances: {},

@@ -59,7 +59,6 @@ function parseCharacter(primary, request) {
     animalPortrait: false,
     printBackground: false,
     
-    isLoggedIn: false,
     isNoCalc: false,
     ...primary.attributes
   };
@@ -113,13 +112,13 @@ function parseCharacter(primary, request) {
     printBackground: attr.printBackground,
     printWatermark: attr.printWatermark,
 
-    isLoggedIn: attr.isLoggedIn,
+    isLoggedIn: request.isLoggedIn,
     isNoCalc: attr.browserTarget == "pdf",
     debug: primary.debug,
     instances: {},
   };
 
-  // log("Character", "Is logged in?", attr.isLoggedIn, char.isLoggedIn);
+  log("Character", "Is logged in?", char.isLoggedIn);
   // log("Character", "Is no calc?", char.isNoCalc, attr.browserTarget);
 
   // log("Character", "Print intensity", char.printIntensity);
