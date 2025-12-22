@@ -1,0 +1,41 @@
+# Copyright 2025 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: rogue/racket/remaster/scoundrel
+in: rogue/racket
+group: "_{Player Core}"
+name: "_{Scoundrel}"
+
+inc:
+  - set: subclass
+    value: "_{Scoundrel}"
+
+  - set: deception-proficiency
+    value: trained
+  - set: diplomacy-proficiency
+    value: trained
+
+  - at: '@rogue/racket'
+    replace:
+      - h4: "_{Scoundrel}"
+      - hr:
+        swash: true
+      - action:
+        contents:
+          - article:
+            title: "_{Feint}"
+            contents:
+              - p: "_{Make a deception check against your target's perception DC.}"
+              - dl:
+                div: true
+                defs:
+                  success: "_{Target is off-guard against your melee attacks until the end of your next turn.}"
+                  critical_success: "_{Target is off-guard against all melee attacks, not just yours.}"
+              - action: free
+                contents:
+                  - p: "_{If wielding an agile or finesse melee weapon, step after you Feint}"
+
+      - proficiency: trained
+        contents: 
+          - p: "_{Deception and Diplomacy}"

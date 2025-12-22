@@ -1,0 +1,33 @@
+# Copyright 2025 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: rogue/racket/thief
+in: rogue/racket
+group: "_{Player Core}"
+name: "_{Thief}"
+
+inc:
+  - set: subclass
+    value: "_{Thief}"
+
+  - set: thievery-proficiency
+    value: trained
+
+  - at: '@rogue/racket'
+    replace:
+      - h4: "_{Thief}"
+      - hr:
+        swash: true
+      - row:
+        pad: true
+        contents:
+          - field: "##:dmg-bonus"
+            ref: DEX
+            underlay: "_{DEX}"
+            label: "_{DEX}"
+          - p: "_{When using a finesse melee weapon, you may add DEX to damage rather than STR.}"
+
+      - proficiency: trained
+        contents: 
+          - p: "_{Thievery}"

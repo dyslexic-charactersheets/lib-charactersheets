@@ -1,0 +1,33 @@
+# Copyright 2025 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: rogue/racket/mastermind
+in: rogue/racket
+group: "_{Player Core}"
+name: "_{Mastermind}"
+
+inc:
+  - set: subclass
+    value: "_{Mastermind}"
+
+  - set: society-proficiency
+    value: trained
+
+  - at: '@rogue/racket'
+    replace:
+      - h4: "_{Mastermind}"
+      - hr:
+        swash: true
+      - action: 
+        contents:
+          - p:
+            title: "_{Recall Knowledge}"
+          - p: "_{On success, target is off-guard until the start of your next turn.}"
+            icon: save-succeed
+          - p: "_{On critical success, target is off-guard for 1 minute.}"
+            icon: save-crit-succeed
+
+      - proficiency: trained
+        contents: 
+          - p: "_{Society and one of: Arcana, Nature, Occultism, or Religion}"
