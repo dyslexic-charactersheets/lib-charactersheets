@@ -1,0 +1,57 @@
+unit: ancestry/remaster/catfolk
+in: ancestry
+group: "_{Player Core}"
+name: "_{Catfolk}"
+enabled: false
+
+form:
+  - select: heritage/catfolk
+    name: "_{Catfolk Heritage}"
+    max: 1
+
+inc:
+  - set: ancestry
+    value: "_{Catfolk}"
+  - set: hp-ancestry
+    value: 8
+# set darkvision / low vision light
+  - set: perception-low-light
+    value: true
+# stat boosts
+  - set: build-boost-DEX-ancestry
+    value: 1
+  - set: build-boost-CHA-ancestry
+    value: 1
+  - set: build-boost-WIS-ancestry
+    value: -1
+# set languages
+  - set: languages
+    value: "_{Common}, _{Amurrun}"
+
+# write ancestry short descriptions
+  - at: '@ancestry'
+    replace:
+      - article: ancestry
+        title: "_{Catfolk}"
+        contents:
+          - flags:
+              - "_{Catfolk}"
+              - "_{Humanoid}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: 25
+            value: "_{25ft}"
+          # copy in the low light / dark vision description
+          - paste: lowlight
+          - hr:
+            light: true
+          - p: "_{Take half falling damage, not prone}"
+
+# add a damage resist
+  - at: '@health'
+    add:
+      - p: "_{Take half falling damage, not prone}"
+
+  
+            
