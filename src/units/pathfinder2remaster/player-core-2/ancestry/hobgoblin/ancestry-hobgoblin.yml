@@ -1,0 +1,48 @@
+unit: ancestry/remaster/hobgoblin
+in: ancestry
+group: "_{Player Core}"
+name: "_{Hobgoblin}"
+# enabled: false
+
+form:
+  - select: heritage/hobgoblin
+    name: "_{Hobgoblin Heritage}"
+    max: 1
+
+inc:
+  - set: ancestry
+    value: "_{Hobgoblin}"
+  - set: hp-ancestry
+    value: 8
+# set darkvision / low vision light
+  - set: perception-darkvision
+    value: true
+# stat boosts
+  - set: build-boost-CON-ancestry
+    value: 1
+  - set: build-boost-INT-ancestry
+    value: 1
+  - set: build-boost-WIS-ancestry
+    value: -1
+# set languages
+  - set: languages
+    value: "_{Common}, _{Goblin}"
+
+# write ancestry short descriptions
+  - at: '@ancestry'
+    replace:
+      - article: ancestry
+        title: "_{Hobgoblin}"
+        contents:
+          - flags:
+              - "_{Hobgoblin}"
+              - "_{Humanoid}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{25ft}"
+          # copy in the low light / dark vision description
+          - paste: darkvision
+
+            
