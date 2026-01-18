@@ -61,6 +61,8 @@ function testCondition(condition, ctx) {
     case false:
     case 0:
     case '':
+    case null:
+    case undefined:
       return false;
 
     default:

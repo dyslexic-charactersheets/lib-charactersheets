@@ -1,0 +1,85 @@
+# Copyright 2025 Marcus Downing
+# This file is compliant with the Open Game License (OGL).
+# See the text of the OGL within this repository.
+
+unit: ranger/hunters-edge/remaster/flurry
+in: ranger/hunters-edge
+group: "_{Player Core}"
+name: "_{Flurry}"
+
+inc:
+  - at: '@ranger/hunters-edge'
+    replace:
+      - g:
+        contents:
+          - h4: "_{Flurry}"
+          - table: "##:flurry"
+            collapse: true
+            columns:
+              - h5: "_{Multi-Attack}"
+              - icon: action2nd
+              - icon: action3rd
+            rows:
+              - label: "_{Against your prey:}"
+                map2: -3
+                map3: -6
+              - label: "_{With an agile weapon:}"
+                map2: -2
+                map3: -4
+            template:
+              - h6: "#{label}"
+              - field: map-2
+                frame: none
+                width: large
+                control: value
+                value: "#{map2}"
+              - field: map-3
+                frame: none
+                width: large
+                control: value
+                value: "#{map3}"
+
+  - at: '@ranger/masterful-hunter'
+    replace:
+      - table: "##:masterful-hunter"
+        collapse: true
+        columns:
+          # - h5: "_{Masterful Hunter}"
+          # - span: ""
+          
+          - row:
+            contents:
+              - icon: proficiency-master
+              - span: "&rarr;"
+          - icon: action2nd
+          - icon: action3rd
+        rows:
+          - label: "_{Against your prey:}"
+            map2: -2
+            map3: -4
+          - label: "_{With an agile weapon:}"
+            map2: -1
+            map3: -2
+        template:
+          - h6: "#{label}"
+          - field: "##:masterful-hunter/map-2"
+            frame: none
+            width: large
+            control: value
+            value: "#{map2}"
+          - field: "##:masterful-hunter/map-3"
+            frame: none
+            width: large
+            control: value
+            value: "#{map3}"
+          # - hr:
+          # - field: "##:masterful-hunter/perception"
+          #   frame: right
+          #   label: "_{Perception Bonus}"
+          #   control: value
+          #   value: "+4"
+          # - field: "##:masterful-hunter/track"
+          #   frame: right
+          #   label: "_{Track Bonus}"
+          #   control: value
+          #   value: "+4"
