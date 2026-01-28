@@ -7195,76 +7195,6 @@ For more information about Paizo Inc. and Paizo products, visit <a href='https:/
  * Licensed under the Artistic License 2.0
  */
 
-
-var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-if (isSafari) {
-  document.documentElement.classList.add("html--safari");
-}
-
-// click buttons to scroll
-for (let btn of document.getElementsByClassName('index-button')) {
-  ((btn) => {
-    let id = btn.dataset.page;
-    btn.addEventListener('click', (evt) => {
-      document.getElementById('page-'+id).scrollIntoView({
-        behavior: 'smooth'
-      });
-    });
-  })(btn);
-}
-
-// on scroll, highlight the current page
-
-// if (document.getElementsByClassName('page').length > 15) {
-//   document.getElementById('index-buttons').classList.add('index-buttons--many');
-// }
-
-let scrollPages = [];
-function findScrollPages() {
-  scrollPages = [];
-  for (let page of document.getElementsByClassName('page')) {
-    let pageid = page.dataset.page;
-    let pagey = page.offsetTop + page.offsetHeight / 2;
-    scrollPages.push({y: pagey, id: pageid});
-  }
-  updateScroll();
-}
-findScrollPages();
-addEventListener("resize", findScrollPages);
-
-function updateScroll() {
-  let y = window.scrollY + window.innerHeight / 2;
-  let closestPage = scrollPages[0];
-  let closestDiff = 10000000;
-  for (let page of scrollPages) {
-    let diff = Math.abs(page.y - y);
-    if (diff < closestDiff) {
-      closestPage = page;
-      closestDiff = diff;
-    }
-  }
-
-  for (let btn of document.getElementsByClassName('index-button')) {
-    let page = btn.dataset.page;
-    if (page == closestPage.id) {
-      btn.classList.add('index-button--current');
-    } else {
-      btn.classList.remove('index-button--current');
-    }
-  }
-}
-
-document.addEventListener("scroll", (event) => {
-  updateScroll();
-});
-
-
-/**
- * Copyright 2025 Marcus Downing
- * Licensed under the Artistic License 2.0
- */
-
 // Arrows
 for (let arrowElem of document.getElementsByClassName('arrow')) {
   let from = document.getElementById(arrowElem.dataset.from);
@@ -7473,6 +7403,235 @@ for (let arrowElem of document.getElementsByClassName('arrow')) {
  * Licensed under the Artistic License 2.0
  */
 
+
+var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+if (isSafari) {
+  document.documentElement.classList.add("html--safari");
+}
+
+// click buttons to scroll
+for (let btn of document.getElementsByClassName('index-button')) {
+  ((btn) => {
+    let id = btn.dataset.page;
+    btn.addEventListener('click', (evt) => {
+      document.getElementById('page-'+id).scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  })(btn);
+}
+
+// on scroll, highlight the current page
+
+// if (document.getElementsByClassName('page').length > 15) {
+//   document.getElementById('index-buttons').classList.add('index-buttons--many');
+// }
+
+let scrollPages = [];
+function findScrollPages() {
+  scrollPages = [];
+  for (let page of document.getElementsByClassName('page')) {
+    let pageid = page.dataset.page;
+    let pagey = page.offsetTop + page.offsetHeight / 2;
+    scrollPages.push({y: pagey, id: pageid});
+  }
+  updateScroll();
+}
+findScrollPages();
+addEventListener("resize", findScrollPages);
+
+function updateScroll() {
+  let y = window.scrollY + window.innerHeight / 2;
+  let closestPage = scrollPages[0];
+  let closestDiff = 10000000;
+  for (let page of scrollPages) {
+    let diff = Math.abs(page.y - y);
+    if (diff < closestDiff) {
+      closestPage = page;
+      closestDiff = diff;
+    }
+  }
+
+  for (let btn of document.getElementsByClassName('index-button')) {
+    let page = btn.dataset.page;
+    if (page == closestPage.id) {
+      btn.classList.add('index-button--current');
+    } else {
+      btn.classList.remove('index-button--current');
+    }
+  }
+}
+
+document.addEventListener("scroll", (event) => {
+  updateScroll();
+});
+
+
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
+// field interactions: ALIGNMENT
+
+function showAlignmentMenu(event) {
+  var field = event.target.closest('.field');
+  showMenu(event, 'alignment', field);
+
+  var value = getAlignmentValue(field.id);
+  menus.currentValue = value;
+
+  for (var alignment of ['none', 'lg', 'ln', 'le', 'ng', 'nn', 'ne', 'cg', 'cn', 'ce']) {
+    document.getElementById('alignment-menu-'+alignment).checked = false;
+  }
+  if (value !== null) {
+    if (value == "") {
+      value = "none";
+    }
+    var radio = document.getElementById('alignment-menu-'+value);
+    if (radio !== null) {
+      radio.checked = true;
+    }
+  }
+}
+
+function getAlignmentValue(fieldId) {
+  var field = document.getElementById(fieldId);
+  var value = '';
+
+  var radios = field.getElementsByTagName('input');
+  for (var radio of radios) {
+    if (radio.checked) {
+      value = radio.value;
+    }
+  }
+  return value;
+}
+
+function setAlignmentValue(fieldId, value) {
+  for (var field of document.getElementsByName(fieldId)) {
+    var radios = field.getElementsByTagName('input');
+    for (var radio of radios) {
+      radio.checked = (radio.value == value);
+    }
+
+    // update display
+    var grid = field.getElementsByClassName('field__grid')[0];
+    for (var alignment of ['lg', 'ln', 'le', 'ng', 'nn', 'ne', 'cg', 'cn', 'ce']) {
+      grid.classList.remove('field__grid--alignment_'+alignment);
+    }
+    grid.classList.add('field__grid--alignment_'+value);
+  }
+}
+
+for (var alignment of ['none', 'lg', 'ln', 'le', 'ng', 'nn', 'ne', 'cg', 'cn', 'ce']) {
+  (function (alignment) {
+    document.getElementById('alignment-menu-'+alignment).addEventListener('change', function (event) {
+      if (menus.currentFieldId !== null) {
+        if (alignment == "non") {
+          alignment = "";
+        }
+        setAlignmentValue(menus.currentFieldId, alignment);
+        dismissMenus();
+      }
+    });
+  })(alignment);
+}
+
+
+document.getElementById("alignment-menu").addEventListener('click', function (event) {
+  event.stopPropagation();
+});
+
+for (var field of document.getElementsByClassName("field--control_alignment")) {
+  for (var grid of field.getElementsByClassName("field__frame")) {
+    grid.addEventListener('click', showAlignmentMenu);
+  }
+}
+
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
+// field interactions: COUNTERS (ie runes)
+
+function showCounterMenu(event, field) {
+  showMenu(event, 'counter', field);
+
+  var value = getCounterValue(field.id);
+  menus.currentValue = value;
+
+  document.getElementById('counter-menu-0').checked = false;
+  document.getElementById('counter-menu-1').checked = false;
+  document.getElementById('counter-menu-2').checked = false;
+  document.getElementById('counter-menu-3').checked = false;
+  
+  if (value !== null && value !== "" && ['0', '1', '2', '3'].includes(value)) {
+    var radio = document.getElementById('counter-menu-'+value);
+    if (radio !== null) {
+      radio.checked = true;
+    }
+  }
+}
+
+function getCounterValue(fieldId) {
+  var field = document.getElementById(fieldId);
+  for (var numberControl of field.getElementsByTagName('input')) {
+    return ""+numberControl.value;
+  }
+  return "";
+}
+
+function setCounterValue(fieldId, value) {
+  for (var field of document.getElementsByName(fieldId)) {
+    // update display
+    for (var icon of field.getElementsByClassName('field--control_counter__icon')) {
+      icon.classList.remove('icon_counter-0');
+      icon.classList.remove('icon_counter-1');
+      icon.classList.remove('icon_counter-2');
+      icon.classList.remove('icon_counter-3');
+      icon.classList.add('icon_counter-'+value);
+    }
+
+    for (var numberControl of field.getElementsByClassName('field--control_counter__number')) {
+      numberControl.value = value;
+      numberControl.dispatchEvent(new Event('change'));
+    }
+  }
+}
+
+for (var number of [0, 1, 2, 3]) {
+  (function (number) {
+    document.getElementById('counter-menu-'+number).addEventListener('change', function (event) {
+      if (menus.currentFieldId !== null) {
+        if (menus.currentValue === null || menus.currentValue !== number) {
+          setCounterValue(menus.currentFieldId, number);
+          dismissMenus();
+        }
+      }
+    });
+  })(number);
+}
+
+document.getElementById("counter-menu").addEventListener('click', function (event) {
+  event.stopPropagation();
+});
+
+for (var field of document.getElementsByClassName("field--control_counter")) {
+  (function (field) {
+    field.addEventListener('click', function (event) {
+      showCounterMenu(event, field);
+    });
+  })(field);
+}
+
+/**
+ * Copyright 2025 Marcus Downing
+ * Licensed under the Artistic License 2.0
+ */
+
 // field interactions: ACTIONS
 
 function showActionMenu(event) {
@@ -7564,158 +7723,21 @@ for (var field of document.getElementsByClassName("field--control_action-icon"))
  * Licensed under the Artistic License 2.0
  */
 
-// field interactions: COUNTERS (ie runes)
-
-function showCounterMenu(event, field) {
-  showMenu(event, 'counter', field);
-
-  var value = getCounterValue(field.id);
-  menus.currentValue = value;
-
-  document.getElementById('counter-menu-0').checked = false;
-  document.getElementById('counter-menu-1').checked = false;
-  document.getElementById('counter-menu-2').checked = false;
-  document.getElementById('counter-menu-3').checked = false;
-  
-  if (value !== null && value !== "" && ['0', '1', '2', '3'].includes(value)) {
-    var radio = document.getElementById('counter-menu-'+value);
-    if (radio !== null) {
-      radio.checked = true;
-    }
-  }
-}
-
-function getCounterValue(fieldId) {
-  var field = document.getElementById(fieldId);
-  for (var numberControl of field.getElementsByTagName('input')) {
-    return ""+numberControl.value;
-  }
-  return "";
-}
-
-function setCounterValue(fieldId, value) {
-  for (var field of document.getElementsByName(fieldId)) {
-    // update display
-    for (var icon of field.getElementsByClassName('field--control_counter__icon')) {
-      icon.classList.remove('icon_counter-0');
-      icon.classList.remove('icon_counter-1');
-      icon.classList.remove('icon_counter-2');
-      icon.classList.remove('icon_counter-3');
-      icon.classList.add('icon_counter-'+value);
-    }
-
-    for (var numberControl of field.getElementsByClassName('field--control_counter__number')) {
-      numberControl.value = value;
-      numberControl.dispatchEvent(new Event('change'));
-    }
-  }
-}
-
-for (var number of [0, 1, 2, 3]) {
-  (function (number) {
-    document.getElementById('counter-menu-'+number).addEventListener('change', function (event) {
-      if (menus.currentFieldId !== null) {
-        if (menus.currentValue === null || menus.currentValue !== number) {
-          setCounterValue(menus.currentFieldId, number);
-          dismissMenus();
+// field interactions: checkboxes
+for (let field of document.getElementsByClassName('field--control_checkbox')) {
+  ((field) => {
+    let name = field.getAttribute('name').replace(/^field-/, '');
+    for (let checkbox of field.getElementsByTagName('input')) {
+      checkbox.addEventListener('input', (evt) => {
+        let checked = checkbox.checked;
+        for (let otherCheckbox of document.querySelectorAll('input[name="'+name+'"]')) {
+          if (checkbox == otherCheckbox)
+            continue;
+          otherCheckbox.checked = checked;
         }
-      }
-    });
-  })(number);
-}
-
-document.getElementById("counter-menu").addEventListener('click', function (event) {
-  event.stopPropagation();
-});
-
-for (var field of document.getElementsByClassName("field--control_counter")) {
-  (function (field) {
-    field.addEventListener('click', function (event) {
-      showCounterMenu(event, field);
-    });
+      });
+    }
   })(field);
-}
-
-/**
- * Copyright 2025 Marcus Downing
- * Licensed under the Artistic License 2.0
- */
-
-// field interactions: ALIGNMENT
-
-function showAlignmentMenu(event) {
-  var field = event.target.closest('.field');
-  showMenu(event, 'alignment', field);
-
-  var value = getAlignmentValue(field.id);
-  menus.currentValue = value;
-
-  for (var alignment of ['none', 'lg', 'ln', 'le', 'ng', 'nn', 'ne', 'cg', 'cn', 'ce']) {
-    document.getElementById('alignment-menu-'+alignment).checked = false;
-  }
-  if (value !== null) {
-    if (value == "") {
-      value = "none";
-    }
-    var radio = document.getElementById('alignment-menu-'+value);
-    if (radio !== null) {
-      radio.checked = true;
-    }
-  }
-}
-
-function getAlignmentValue(fieldId) {
-  var field = document.getElementById(fieldId);
-  var value = '';
-
-  var radios = field.getElementsByTagName('input');
-  for (var radio of radios) {
-    if (radio.checked) {
-      value = radio.value;
-    }
-  }
-  return value;
-}
-
-function setAlignmentValue(fieldId, value) {
-  for (var field of document.getElementsByName(fieldId)) {
-    var radios = field.getElementsByTagName('input');
-    for (var radio of radios) {
-      radio.checked = (radio.value == value);
-    }
-
-    // update display
-    var grid = field.getElementsByClassName('field__grid')[0];
-    for (var alignment of ['lg', 'ln', 'le', 'ng', 'nn', 'ne', 'cg', 'cn', 'ce']) {
-      grid.classList.remove('field__grid--alignment_'+alignment);
-    }
-    grid.classList.add('field__grid--alignment_'+value);
-  }
-}
-
-for (var alignment of ['none', 'lg', 'ln', 'le', 'ng', 'nn', 'ne', 'cg', 'cn', 'ce']) {
-  (function (alignment) {
-    document.getElementById('alignment-menu-'+alignment).addEventListener('change', function (event) {
-      if (menus.currentFieldId !== null) {
-        if (alignment == "non") {
-          alignment = "";
-        }
-        setAlignmentValue(menus.currentFieldId, alignment);
-        dismissMenus();
-      }
-    });
-  })(alignment);
-}
-
-
-document.getElementById("alignment-menu").addEventListener('click', function (event) {
-  event.stopPropagation();
-});
-
-for (var field of document.getElementsByClassName("field--control_alignment")) {
-  for (var grid of field.getElementsByClassName("field__frame")) {
-    grid.addEventListener('click', showAlignmentMenu);
-  }
 }
 
 /**
@@ -7785,21 +7807,49 @@ for (var field of document.getElementsByClassName("field--control_enum")) {
  * Licensed under the Artistic License 2.0
  */
 
-// field interactions: checkboxes
-for (let field of document.getElementsByClassName('field--control_checkbox')) {
-  ((field) => {
-    let name = field.getAttribute('name').replace(/^field-/, '');
-    for (let checkbox of field.getElementsByTagName('input')) {
-      checkbox.addEventListener('input', (evt) => {
-        let checked = checkbox.checked;
-        for (let otherCheckbox of document.querySelectorAll('input[name="'+name+'"]')) {
-          if (checkbox == otherCheckbox)
-            continue;
-          otherCheckbox.checked = checked;
+// field interactions: PARA
+
+for (let field of document.getElementsByClassName('field--control_p')) {
+  for (let control of field.getElementsByClassName('field__control')) {
+    ((control) => {
+      function updateEmpty() {
+        let empty = true;
+        for (let part of control.getElementsByClassName('p__editpart')) {
+          if (part.innerText != "") {
+            empty = false;
+          }
+        }
+        control.classList.toggle('field__control--empty', empty);
+      }
+
+      for (let part of control.getElementsByClassName('p__editpart')) {
+        part.addEventListener('input', updateEmpty);
+        ((part) => {
+          part.addEventListener('click', (evt) => {
+            setTimeout(() => {
+              part.focus();
+            }, 0);
+            evt.stopPropagation(); // don't fall back to the bigger click
+          })
+        })(part);
+      }
+
+      control.addEventListener('click', () => {
+        for (let part of control.getElementsByClassName('p__body')) {
+          ((part) => {
+            setTimeout(() => {
+              part.focus();
+              // set caret at end
+              let sel = window.getSelection();
+              sel.selectAllChildren(part);
+              sel.collapseToEnd();
+            }, 0);
+            return;
+          })(part);
         }
       });
-    }
-  })(field);
+    })(control);
+  }
 }
 
 /**
@@ -7857,56 +7907,6 @@ for (let icon of document.getElementsByClassName("icon_damage")) {
         });
       })(icon, dieInput);
     }
-  }
-}
-
-/**
- * Copyright 2025 Marcus Downing
- * Licensed under the Artistic License 2.0
- */
-
-// field interactions: PARA
-
-for (let field of document.getElementsByClassName('field--control_p')) {
-  for (let control of field.getElementsByClassName('field__control')) {
-    ((control) => {
-      function updateEmpty() {
-        let empty = true;
-        for (let part of control.getElementsByClassName('p__editpart')) {
-          if (part.innerText != "") {
-            empty = false;
-          }
-        }
-        control.classList.toggle('field__control--empty', empty);
-      }
-
-      for (let part of control.getElementsByClassName('p__editpart')) {
-        part.addEventListener('input', updateEmpty);
-        ((part) => {
-          part.addEventListener('click', (evt) => {
-            setTimeout(() => {
-              part.focus();
-            }, 0);
-            evt.stopPropagation(); // don't fall back to the bigger click
-          })
-        })(part);
-      }
-
-      control.addEventListener('click', () => {
-        for (let part of control.getElementsByClassName('p__body')) {
-          ((part) => {
-            setTimeout(() => {
-              part.focus();
-              // set caret at end
-              let sel = window.getSelection();
-              sel.selectAllChildren(part);
-              sel.collapseToEnd();
-            }, 0);
-            return;
-          })(part);
-        }
-      });
-    })(control);
   }
 }
 
