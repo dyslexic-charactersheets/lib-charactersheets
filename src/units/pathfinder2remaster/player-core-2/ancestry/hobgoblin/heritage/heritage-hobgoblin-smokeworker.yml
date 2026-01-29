@@ -1,0 +1,41 @@
+# Copyright 2025 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: heritage/hobgoblin/remaster/shortshanks
+in: heritage/lost-omens/character-guide/hobgoblin
+group: "_{Player Core}"
+name: "_{Shortshanks Hobgoblin}"
+# enabled: false
+
+require:
+  - unit: feat/ride
+  
+inc:
+  # set the heritage name
+  - set: heritage
+    value: "_{Shortshanks Hobgoblin}"
+
+  # create the heritage text block
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Shortshanks Hobgoblin}"
+        contents:
+          # simple description
+          - p: "_{Automatically succeed at the check to target a creature concealed only by smoke.}"
+          - hr:
+            light: true
+            # damage resist
+          - paste: leveled-damage-resist
+            params:
+              id: hobgoblin/smokeworker/fire-resistance
+              type: "_{Fire}"
+
+  # add a damage resist
+  - at: '@health'
+    add:
+      - paste: leveled-damage-resist-health
+        params:
+          id: hobgoblin/smokeworker/fire-resistance/health
+          type: "_{Fire}"
