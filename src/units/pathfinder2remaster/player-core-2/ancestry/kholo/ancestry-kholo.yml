@@ -1,0 +1,79 @@
+unit: ancestry/remaster/kholo
+in: ancestry
+group: "_{Player Core 2}"
+name: "_{Kholo}"
+# enabled: false
+
+form:
+  - select: heritage/kholo
+    name: "_{Kholo Heritage}"
+    max: 1
+
+# if the ancestry has low light:
+# require:
+  - unit: optional-darkvision/trigger
+
+inc:
+  - set: ancestry
+    value: "_{Kholo}"
+  - set: hp-ancestry
+    value: 8
+# set darkvision / low vision light
+  - set: perception-low-light
+    value: true
+# stat boosts
+  - set: build-boost-STR-ancestry
+    value: 1
+  - set: build-boost-INT-ancestry
+    value: 1
+  - set: build-boost-WIS-ancestry
+    value: -1
+# set languages
+  - set: languages
+    value: "_{Common}, _{Kholo}"
+
+# write ancestry short descriptions
+  - at: '@ancestry'
+    replace:
+      - article: ancestry
+        title: "_{Kholo}"
+        contents:
+          - flags:
+              - "_{Kholo}"
+              - "_{Humanoid}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{25ft}"
+          # copy in the low light / dark vision description
+          - paste: low-light-vision
+          - hr:
+            light: true
+          - paste: natural-weapon
+            params:
+              name: "_{Bite}"
+              damage: "_{1d6}"
+              type: "_{Piercing}"
+          - flags:
+              - "_{Brawling}"
+              - "_{Unarmed}"
+
+
+  # create natural attack stat block
+  - at: '@actions'
+    add:
+      - action: 1
+        contents:
+          - article:
+            title: "_{Bite attack}"
+            contents:
+              - paste: natural-weapon-action
+                params:
+                  id: kholo/bite
+                  name: "_{Bite}"
+                  damage: "_{1d6}"
+                  type: "_{P}"
+              - flags:
+                  - "_{Brawling}"
+                  - "_{Unarmed}"
