@@ -1,0 +1,57 @@
+unit: ancestry/remaster/leshy
+in: ancestry
+group: "_{Player Core}"
+name: "_{Leshy}"
+# enabled: false
+
+form:
+  - select: heritage/lost-omens/character-guide/leshy
+    name: "_{Lesy Heritage}"
+    max: 1
+
+if the ancestry has low light:
+require:
+ - unit: optional-darkvision/trigger
+
+inc:
+  - set: ancestry
+    value: "_{Leshy}"
+  - set: hp-ancestry
+    value: 8
+# set darkvision / low vision light
+  - set: perception-low-light
+    value: true
+# stat boosts
+  - set: build-boost-CON-ancestry
+    value: 1
+  - set: build-boost-WIS-ancestry
+    value: 1
+  - set: build-boost-INT-ancestry
+    value: -1
+# set languages
+  - set: languages
+    value: "_{Common}, _{Fey}"
+
+# write ancestry short descriptions
+  - at: '@ancestry'
+    replace:
+      - article: ancestry
+        title: "_{Leshy}"
+        contents:
+          - flags:
+              - "_{Leshy}"
+              - "_{Plant}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{25ft}"
+          # copy in the low light / dark vision description
+          - paste: low_light-vision
+          - hr:
+            light: true
+          - zone: '@##:plant-nourishment' # zone since some hertages alter or replace this field.
+            contents:
+              - p:
+                title: "_{Plant Nourishment}"
+                content: "_{Do not normally need food. If you go without sunlight for a week, you begin to starve.}"
