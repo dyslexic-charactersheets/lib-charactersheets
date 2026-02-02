@@ -1,0 +1,37 @@
+# Copyright 2025 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: heritage/leshy/remaster/fruit
+in: heritage/lost-omens/character-guide/leshy
+group: "_{Player Core}"
+name: "_{Fruit Leshy}"
+# enabled: false
+
+inc:
+  # set the heritage name
+  - set: heritage
+    value: "_{Fruit Leshy}"
+
+  # create the heritage text block
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Fruit Leshy}"
+        contents:
+          # simple description
+          - p: "_{Once a day, an ally can eat the fruit you produce.}"
+          - calc:
+            output:
+              field: "##:healing"
+              legend: "_{Healing}"
+              width: large
+              suffix: "_{d8}"
+              icon: d8
+              eq: "1+floor(%{level}/2)"
+            inputs:
+              - span: "1 + ("
+              - field:
+                ref: level
+                label: "_{Level}"
+              - span: "&divide; 2 )"
