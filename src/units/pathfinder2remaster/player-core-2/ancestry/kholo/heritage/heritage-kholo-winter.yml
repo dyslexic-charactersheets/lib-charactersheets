@@ -1,0 +1,40 @@
+# Copyright 2025 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: heritage/kholo/remaster/winter
+in: heritage/lost-omens/mwangi-expanse/gnoll
+group: "_{Player Core 2}"
+name: "_{Winter Kholo}"
+# enabled: false
+
+inc:
+  # set the heritage name
+  - set: heritage
+    value: "_{Winter Kholo}"
+
+  # create the heritage text block
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Winter Kholo}"
+        contents:
+          # simple description
+          # damage resist
+          - paste: leveled-damage-resist
+            params:
+              id: kholo/winter/cold-resistance
+              type: "_{Cold}"
+
+          #  temperature adjustment
+          - paste: temperature-tolerance
+            params: 
+              temp: "_{cold}"
+
+  # add a damage resist
+  - at: '@health'
+    add:
+      - paste: leveled-damage-resist-health
+        params:
+          id: kholo/winter/cold-resistance-health
+          type: "_{cold}"
