@@ -20,4 +20,22 @@ inc:
         title: "_{Fruit Leshy}"
         contents:
           # simple description
-          - p: "_{Once a day, an ally can eat the fruit you produce.}"
+          - p: "_{Once a day, an ally can eat the fruit you produce to heal.}"
+          - calc:
+            output:
+              field: "##:healing"
+              legend: "_{Healing}"
+              width: large
+              suffix: "_{d8}"
+              icon: d8
+              eq: "ceil(%{level}/2)"
+            inputs:
+              - ruby-round-up:
+                contents:
+                  - field:
+                    ref: level
+                    label: "_{Level}"
+                  - span: "&divide; 2"
+          - flags:
+            - "_{Healing}"
+            - "_{Vitality}"
