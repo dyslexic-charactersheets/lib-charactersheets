@@ -52,16 +52,20 @@ inc:
               - p:
                 title: "_{Sunlight Healing}"
                 content: "_{Heal when resting in direct sunlight once a day.}"
+          - p: "_{Once a day, an ally can eat the fruit you produce to heal.}"
           - calc:
             output:
               field: "##:sunlight-healing"
-              suffix: "_{d8}"
               width: large
-              eq: "floor(%{level}/2)"
+              suffix: "_{d8}"
+              icon: d8
+              eq: "ceil(%{level}/2)"
             inputs:
-              - ruby-round-down:
+              - ruby-round-up:
                 contents:
                   - field:
                     ref: level
                     label: "_{Level}"
                   - span: "&divide; 2"
+
+            
