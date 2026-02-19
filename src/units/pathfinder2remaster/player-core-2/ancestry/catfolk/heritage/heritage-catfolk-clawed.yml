@@ -1,0 +1,53 @@
+# Copyright 2025 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: heritage/catfolk/remaster/clawed
+in: heritage/apg/catfolk
+group: "_{Player Core 2}"
+name: "_{Clawed Catfolk}"
+# enabled: false
+
+inc:
+  # set the heritage name
+  - set: heritage
+    value: "_{Clawed Catfolk}"
+
+  # create the heritage text block
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Clawed Catfolk}"
+        contents:
+          # simple description
+          # add a weapon
+          - paste: natural-weapon
+            params:
+              name: "_{Claw}"
+              damage: "_{1d6}"
+              type: "_{Slashing}"
+          - flags:
+              - "_{Brawling}"
+              - "_{agile}"
+              - "_{Finesse}"
+              - "_{Unarmed}"
+
+  # create natural attack stat block
+  - at: '@actions'
+    add:
+      - action: 1
+        contents:
+          - article:
+            title: "_{Claw attack}"
+            contents:
+              - paste: natural-weapon-action
+                params:
+                  id: catfolk/clawed/claw
+                  name: "_{Claw}"
+                  damage: "_{1d6}"
+                  type: "_{S}"
+              - flags:
+                  - "_{Brawling}"
+                  - "_{agile}"
+                  - "_{Finesse}"
+                  - "_{Unarmed}"

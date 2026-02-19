@@ -1,0 +1,42 @@
+# Copyright 2025 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: heritage/hobgoblin/remaster/elfbane
+in: heritage/lost-omens/character-guide/hobgoblin
+group: "_{Player Core 2}"
+name: "_{Elfbane Hobgoblin}"
+# enabled: false
+
+inc:
+  # set the heritage name
+  - set: heritage
+    value: "_{Elfbane Hobgoblin}"
+
+  # create the heritage text block
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Elfbane Hobgoblin}"
+        contents:
+          # simple description
+          - action: reaction
+            contents:
+              - p:
+                title: "_{Resist Elf Magic}"
+              - value-block: "+1"
+                content: "_{Bonus to save against magical effect}"
+              - value-block: "_{+2}"
+                content: "_{if effect is arcane}"
+
+  # add a heritage savign throw reaction with a numeric bonus
+  - at: '@saving-throws'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{Resist Elf Magic}"
+          - value-block: "_{+1}"
+            content: "_{Bonus to save against magical effect}"
+          - value-block: "_{+2}"
+            content: "_{If the effect is arcane}"

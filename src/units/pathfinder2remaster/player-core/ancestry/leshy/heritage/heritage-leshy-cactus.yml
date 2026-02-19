@@ -1,0 +1,52 @@
+# Copyright 2025 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: heritage/leshy/remaster/cactus
+in: heritage/lost-omens/character-guide/leshy
+group: "_{Player Core}"
+name: "_{Cactus Leshy}"
+# enabled: false
+
+inc:
+  # set the heritage name
+  - set: heritage
+    value: "_{Cactus Leshy}"
+
+  # create the heritage text block
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Cactus Leshy}"
+        contents:
+          # simple description
+          # add a weapon
+          - paste: natural-weapon
+            params:
+              name: "_{Spines}"
+              damage: "_{1d6}"
+              type: "_{Piercing}"
+          - flags:
+              - "_{Brawling}"
+              - "_{Finesse}"
+              - "_{Unarmed}"
+
+    # add a natural weapon
+  - at: '@actions'
+    add:
+      - action: 1
+        contents:
+          - article:
+            title: "_{Spine attack}"
+            contents:
+              - paste: natural-weapon-action
+                params:
+                  id: leshy/cactus/spine
+                  name: "_{Spine}"
+                  damage: "_{1d6}"
+                  type: "_{P}"
+              - flags:
+                  - "_{Brawling}"
+                  - "_{Finesse}"
+                  - "_{Unarmed}"
+
