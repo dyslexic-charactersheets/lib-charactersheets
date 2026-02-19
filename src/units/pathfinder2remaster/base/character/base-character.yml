@@ -578,10 +578,21 @@ inc:
                               - subid: total
                                 eq: "(%{#{skill}-assurance-feat})?(10+%{#{skill}-proficiency-bonus}-%{#{skill}-acp}):''"
 
-                      - p:
-                        title: "_{Assurance}"
-                        content: "_{May use 10 + proficiency bonus (inc level, but no other bonuses) rather than roll.}"
+                      - row:
+                        contents:
+                          - p:
+                            title: "_{Assurance}"
+                          - span: "10 +"
+                          - label: "_{Proficiency\nBonus}"
+                          - p: "_{(and nothing else)}"
+                          - vr:
+                          - p: "_{May use rather than roll}"
+                            id: assurance-start
                         optional: true
+
+                      - arrow: right
+                        from: p-assurance-start
+                        to: field-extra-skill-2-assurance
 
                       - hr:
                       - h5: "_{Skill Actions}"
@@ -814,7 +825,7 @@ inc:
                                 content: ""
                               - cost: "+1"
                                 unit: "_{Focus\nPoint}"
-                          - p: "_{Also treat wounds, repair an item, identify an item, or change armour}"
+                      - p: "_{Also treat wounds, repair an item, identify an item, or change armour}"
 
               - g:
                 contents:
