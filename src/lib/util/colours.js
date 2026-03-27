@@ -3,7 +3,7 @@
  * Licensed under the Artistic License 2.0
  */
 
-import { isEmpty, isNumber, isNull } from '../util';
+import { isEmpty, isNumber, isNull, isString } from '../util';
 import { log, error } from '../log';
 import { has } from './objects';
 
@@ -68,6 +68,8 @@ export function adjustColour(c, documentColour, intensity, highContrast) {
     const lmin = 16;
     const lmax = 100;
     let lightness = base.lightness();
+    log("util", `adjustColour: lightness = ${lightness}, intensity = ${intensity}`);
+
     // adjust the lightness based on the selected intensity
     if (lightness < 98) {
       switch (intensity) {
@@ -76,11 +78,12 @@ export function adjustColour(c, documentColour, intensity, highContrast) {
         case 'darker': intensity = -1; break;
         case 'darkest': intensity = -2; break;
       }
-      if (!isNumber(intensity)) intensity = 0;
-      if (intensity > 2) intensity = 2;
-      if (intensity < -2) intensity = -2;
-      // log("util", `Adjusting intensity: lightness = ${lightness}, intensity = ${intensity}`);
+      if (isString(intensity)) intensity = parseInt(intensity);
+      if (!isNumber(intensity) || intensity === NaN) intensity = 0;
+      if (intensity > 4) intensity = 4;
+      if (intensity < -4) intensity = -4;
       lightness += intensity * 7;
+      log("util", `adjustColour: Adjusting intensity: lightness = ${lightness}, intensity = ${intensity}`);
     }
       
     // adjust the lightness if the "high contrast" option is selected
@@ -128,7 +131,7 @@ export function adjustColour(c, documentColour, intensity, highContrast) {
     const result = col.hex();
     return result;
   } catch (x) {
-    error('util', 'Colour error:', x, x.stack);
+    error('util', 'adjustColour: Colour error:', x, x.stack);
     return c;
   }
 }
