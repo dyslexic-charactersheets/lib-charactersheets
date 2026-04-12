@@ -79,8 +79,9 @@ export class Request {
     //   log("Request", "Instances", this.instances);
 
     // log("Request", "Known instances:", Object.keys(this.instances));
+    log("Request", "getPrimaries: received", this.primary.length, "primaries");
 
-    const primaries = this.primary.map(primary => {
+    let primaries = this.primary.map(primary => {
       // swap in linked instances
       if (has(primary, "relationships")) {
         Object.keys(primary.relationships).forEach(relkey => {
@@ -96,8 +97,9 @@ export class Request {
       }
       return primary;
     });
+    log("Request", "getPrimaries: substituted", primaries.length, "primaries");
 
-    return primaries.map(primary => {
+    primaries = primaries.map(primary => {
       // log("Request", "Primary", primary);
       switch (primary.type) {
         case 'character':
@@ -140,5 +142,12 @@ export class Request {
           return null;
       }
     });
+    log("Request", "getPrimaries: decoded", primaries.length, "primaries");
+    
+    primaries = primaries.filter(p => p != null);
+    
+    log("Request", "getPrimaries: filtered", primaries.length, "primaries");
+
+    return primaries;
   }
 }
