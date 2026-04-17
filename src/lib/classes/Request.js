@@ -3,7 +3,7 @@
  * Licensed under the Artistic License 2.0
  */
 
-import { log, warn } from '../log';
+import { log, warn, error } from '../log';
 
 import { Character } from './Character';
 import { Party } from './Party';
@@ -121,7 +121,7 @@ export class Request {
             case 'kingmaker':
               return new Kingdom(primary, this, registry);
             default:
-              warn("Request", "No valid primary in GM request");
+              error("Request", "No valid primary in GM request");
               return null;
           }
         
@@ -138,7 +138,7 @@ export class Request {
           return new Custom(primary, this, registry);
 
         default:
-          warn("Request", "No valid primary in request");
+          error("Request", "No valid primary in request");
           return null;
       }
     });
