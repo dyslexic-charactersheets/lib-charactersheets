@@ -96,6 +96,11 @@ export function create(chardesc) {
       }
       const request = new Request(chardesc);
       const primaries = request.getPrimaries(registry);
+      if (primaries.length == 0) {
+        error("lib", "No primary", chardesc);
+        reject("No primary");
+        return;
+      }
       const promises = primaries.map(p => p.render());
 
       Promise.all(promises).then(() => {

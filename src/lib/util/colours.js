@@ -11,6 +11,7 @@ const color = require('color');
 
 // increase a dull colour's saturation
 export function vibrantColour(baseColour, saturation = 0.9) {
+  baseColour = colourFromName(baseColour);
   let c = color(baseColour);
   let sat = c.saturationl();
   if (sat >= saturation || sat < 0.1)
@@ -68,7 +69,7 @@ export function adjustColour(c, documentColour, intensity, highContrast) {
     const lmin = 16;
     const lmax = 100;
     let lightness = base.lightness();
-    log("util", `adjustColour: lightness = ${lightness}, intensity = ${intensity}`);
+    // log("util", `adjustColour: lightness = ${lightness}, intensity = ${intensity}`);
 
     // adjust the lightness based on the selected intensity
     if (lightness < 98) {
@@ -83,7 +84,7 @@ export function adjustColour(c, documentColour, intensity, highContrast) {
       if (intensity > 4) intensity = 4;
       if (intensity < -4) intensity = -4;
       lightness += intensity * 7;
-      log("util", `adjustColour: Adjusting intensity: lightness = ${lightness}, intensity = ${intensity}`);
+      // log("util", `adjustColour: Adjusting intensity: lightness = ${lightness}, intensity = ${intensity}`);
     }
       
     // adjust the lightness if the "high contrast" option is selected

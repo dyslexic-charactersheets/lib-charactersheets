@@ -3,7 +3,7 @@
  * Licensed under the Artistic License 2.0
  */
 
-import { log, warn } from '../log';
+import { log, warn, error } from '../log';
 
 import { Character } from './Character';
 import { Party } from './Party';
@@ -79,8 +79,9 @@ export class Request {
     //   log("Request", "Instances", this.instances);
 
     // log("Request", "Known instances:", Object.keys(this.instances));
+    log("Request", "getPrimaries: received", this.primary.length, "primaries");
 
-    const primaries = this.primary.map(primary => {
+    let primaries = this.primary.map(primary => {
       // swap in linked instances
       if (has(primary, "relationships")) {
         Object.keys(primary.relationships).forEach(relkey => {
@@ -96,8 +97,9 @@ export class Request {
       }
       return primary;
     });
+    log("Request", "getPrimaries: substituted", primaries.length, "primaries");
 
-    return primaries.map(primary => {
+    primaries = primaries.map(primary => {
       // log("Request", "Primary", primary);
       switch (primary.type) {
         case 'character':
@@ -119,7 +121,7 @@ export class Request {
             case 'kingmaker':
               return new Kingdom(primary, this, registry);
             default:
-              warn("Request", "No valid primary in GM request");
+              error("Request", "No valid primary in GM request");
               return null;
           }
         
@@ -136,9 +138,16 @@ export class Request {
           return new Custom(primary, this, registry);
 
         default:
-          warn("Request", "No valid primary in request");
+          error("Request", "No valid primary in request");
           return null;
       }
     });
+    log("Request", "getPrimaries: decoded", primaries.length, "primaries");
+    
+    primaries = primaries.filter(p => p != null);
+    
+    log("Request", "getPrimaries: filtered", primaries.length, "primaries");
+
+    return primaries;
   }
 }
