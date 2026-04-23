@@ -1,0 +1,38 @@
+# Copyright 2025 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: heritage/dragonet/remaster/pearl
+in: heritage/dragonet
+group: "_{Player Core}"
+name: "_{Pearl Dragonet}"
+
+inc:
+  # set the heritage name
+  - set: heritage
+    value: "_{Pearl Dragonet}"
+
+  # create the heritage text block
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Pearl Dragonet}"
+        contents:
+          # simple description
+          - action: reaction
+            contents: 
+              - article:
+                title: "_{Bounce Away}"
+                contents:
+                  - dl:
+                      frequency: "_{Once per 10 minutes}"
+                      trigger: "_{A melee strike hits you with bludgeoning damage}"
+                  - paste: leveled-damage-resist
+                    params:
+                      id: dragonet/pearl/bludgeoning-strike-resistance
+                      type: "_{Bludgeoning from this strike}"
+                      perNLevels: 1
+                  - p: "_{Then Stride or Fly up to half speed"}
+
+                    
+                  
