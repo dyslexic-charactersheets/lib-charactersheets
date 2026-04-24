@@ -1,0 +1,487 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: class/remaster/alchemist
+in: class
+group: "_{Player Core 2}"
+name: "_{Alchemist}"
+enabled: false
+
+require:
+  - unit: weapon-spec/slow
+  - unit: option/formula-book
+  - with: option/reference
+    unit: class/alchemist/reference
+  - deny: archetype/alchemist
+
+form:
+  - select: remaster/alchemist/research-field
+    name: "_{Research Field}"
+    max: 1
+  - select: feat/alchemist
+    name: "_{Alchemist Feats}"
+    max: 9
+    levels: [ 1, 2, 4, 6, 8, 10, 14, 16, 18, 20 ]
+
+inc:
+
+  - set: class
+    value: "_{Alchemist}"
+  - set: hp-class
+    value: 8
+  - set: class-icon
+    value: alchemist
+  - set: subclass-label
+    value: "_{Research Field}"
+
+  - set: alchemist-class-dc-proficiency
+    value: trained
+  - set: perception-proficiency
+    value: trained
+    
+  - set: unarmoured-proficiency
+    value: trained
+  - set: light-armour-proficiency
+    value: trained
+  - set: medium-armour-proficiency
+    value: trained
+
+  - set: fortitude-proficiency
+    value: expert
+  - set: reflex-proficiency
+    value: expert
+  - set: will-proficiency
+    value: trained
+    
+  - set: crafting-proficiency
+    value: trained
+
+  - at: '@key-ability-field'
+    replace:
+      - field: key-ability
+        label: "_{INT}"
+        underlay: "_{INT}"
+        ref: INT
+
+  - at: '@familiar/key-ability'
+    replace:
+      - field: familiar-key-ability-mod
+        ref: INT
+        underlay: "_{INT}"
+        label: "_{INT}"
+
+  - at: '@skill-actions'
+    add:
+      - paste: 10mins
+        contents:
+          - p:
+            title: "_{Identify Alchemy (Craft)}"
+            content: "_{Take 10 minutes to identify an alchemical item using alchemist's tools.}"
+            colour: INT
+
+  - at: '@actions'
+    add:
+      - action:
+        contents:
+          - p:
+            title: "_{Quick Alchemy}"
+            content: "_{Swiftly mix up an infusion using a formula in your book.}"
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        class-feat: true
+      - level: 1
+        gain: "_{Research Field}"
+
+      - level: 5
+        advance: "_{Field Discovery}"
+      - level: 13
+        advance: "_{Greater Field Discovery}"
+      - level: 7
+        advance: "_{Perpetual Infusions}"
+      - level: 11
+        advance: "_{Perpetual Potency}"
+      - level: 17
+        advance: "_{Perpetual Perfection}"
+        
+      - level: 9
+        advance: "_{Double Brew}"
+      - level: 15
+        advance: "_{Alchemical Alacrity}"
+        
+      - level: 7
+        advance: "_{Simple weapons}, _{Alchemical bombs}"
+        proficiency: expert
+      - level: 7
+        advance: "_{Will saves}"
+        proficiency: expert
+        colour: WIS
+      - level: 9
+        advance: "_{Alchemist class DC}"
+        proficiency: expert
+      - level: 9
+        advance: "_{Perception}"
+        proficiency: expert
+        colour: WIS
+      - level: 11
+        advance: "_{Fortitude saves}"
+        proficiency: expert
+        colour: CON
+      - level: 13
+        advance: "_{Light armour}, _{Unarmoured defence}"
+        proficiency: expert
+      - level: 15
+        advance: "_{Reflex saves}"
+        proficiency: master
+        colour: DEX
+      - level: 17
+        advance: "_{Alchemist class DC}"
+        proficiency: master
+      - level: 19
+        advance: "_{Light armour}, _{Unarmoured defence}"
+        proficiency: master
+
+  - at: '@saving-throws'
+    add:
+      - level: 11
+        contents:
+          - paste: juggernaut
+      - level: 15
+        contents:
+          - paste: evasion
+
+  - at: '@pages'
+    add:
+      - page: alchemist
+        name: "_{Alchemist}"
+        order: 10
+        flex: true
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: alchemist
+                    optional: true
+                  - class-name: '_{Alchemist}'
+
+                  - section: "_{Alchemy}"
+                    contents:
+                      - paste: class-dc
+                        params:
+                          id: alchemist-class-dc
+                          legend: "_{Alchemist\nClass DC}"
+
+                      - row:
+                        contents:
+                          - calc:
+                            output:
+                              field: class/alchemist/throw-bomb
+                              legend: "_{Throw Bomb}"
+                              width: large
+                              attack: true
+                              icon: bonus
+                              eq: "%{DEX}+%{class/alchemist/throw-bomb-proficiency-bonus}"
+                            inputs:
+                              - field:
+                                ref: DEX
+                                label: "_{DEX}"
+                                underlay: "_{DEX}"
+                              - span: "+"
+                              - field: class/alchemist/throw-bomb-proficiency
+                                control: proficiency
+                                label: "_{Proficiency}"
+                          - spacer:
+                          - field: alchemist/splash
+                            legend: "_{Splash}"
+                            # border: full
+                            control: value
+                            value: "_{5ft}"
+                      - p: "_{Splash weapons don't add strength bonus to damage.}"
+                        optional: true
+
+                  - section: "_{Versatile Vials}"
+                    contents:
+                      - row:
+                        contents:
+                          - calc:
+                            output:
+                              field: alchemist/versatile-vials/per-day
+                              legend: "_{Versatile Vials\nPer Day}"
+                              width: large
+                              eq: "2+%{INT}"
+                            inputs:
+                              - span: "2"
+                              - span: "+"
+                              - field: 
+                                ref: INT
+                                label: "_{INT}"
+                                underlay: "_{INT}"
+
+                          - spacer:
+                          - field: alchmist/versatile-vials/today
+                            label: "_{Today}"
+                            temp: true
+                            border: full
+                            width: huge
+                      
+                      - p: "_{Use versatile vials for either Advanced Alchemy or Quick Alchemy.}"
+                        optional: true
+
+                      - hr:
+
+                      - paste: 10mins
+                        contents:
+                          - row:
+                            contents:
+                              - p: "_{Regain versatile vials when in exploration mode}"
+                              - level-marker:
+                                level: "+2"
+                                marker: "_{Versatile\nVials}"
+
+                              - spacer:
+                              - vr:
+                              - spacer:
+
+                              - level-marker:
+                                level: 9
+                                
+                              - level-marker:
+                                level: "+3"
+                                marker: "_{Versatile\nVials}"
+
+                  - section: "_{Advanced Alchemy}"
+                    flex: tiny
+                    contents:
+                      - row:
+
+                      - row:
+                        contents:
+                          - calc:
+                            output:
+                              field: alchemist/
+                              legend: "_{Prepared Items Per Day}"
+                              width: large
+                              eq: "4+%{INT}"
+                            inputs:
+                              - span: "4 +"
+                              - field:
+                                ref: "INT"
+                                underlay: "_{INT}"
+                                label: "_{INT}"
+                          - spacer:
+                          - level-marker:
+                            level: 1
+                            marker: "_{Versatile\nVial}"
+                          - span: "&rarr;"
+                          - level-marker:
+                            level: 2
+                            marker: "_{Alchemical\nItems}"
+                      - h5: "_{Today's Items}"
+                        optional: true
+                      - hr:
+                        blk: false
+                      - list:
+                        zebra: true
+                        merge-bottom: true
+                        avoid-shade: true
+                        contents:
+                          - repeat: 5
+                            reduce: 3
+                            contents:
+                              - row:
+                                contents:
+                                  - field: alchemist-advanced-alchemy-infusion-#{i}
+                                    width: stretch
+                                    frame: none
+                                  - field: alchemist-advanced-alchemy-infusion-#{i}-count
+                                    frame: none
+                                    underlay: "#"
+                                  - field: alchemist-advanced-alchemy-infusion-#{i}-used
+                                    frame: none
+                                    control: checkgrid
+                                    depth: 2
+                                    max: 8
+                        
+                  - section: "_{Quick Alchemy}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - action:
+                            contents:
+                              - row:
+                                contents:
+                                  - level-marker:
+                                    level: 1
+                                    marker: "_{Versatile\nVial}"
+                                  - span: "&rarr;"
+                                  - level-marker:
+                                    level: 1
+                                    marker: "_{Alchemical\nItems}"
+                              - p: "_{Swiftly mix up an infusion using a formula in your book, without spending the normal cost.}"
+                              - p: "_{These last only one round.}"
+                                optional: true
+
+                          - level: 5
+                            contents:
+                              - h5: "_{Powerful Alchemy}"
+                              - p: "_{Use your class DC for infused alchemical items.}"
+
+                          - level: 9
+                            contents:
+                              - h5: "_{Double Brew}"
+                              - action:
+                                contents:
+                                  - row:
+                                    contents:
+                                      - level-marker:
+                                        level: 2
+                                        marker: "_{Versatile\nVials}"
+                                      - span: "&rarr;"
+                                      - level-marker:
+                                        level: 2
+                                        marker: "_{Alchemical\nItems}"
+
+                          - level: 17
+                            contents:
+                              - h5: "_{Abundant Vials}"
+                              - action: action
+                                contents:
+                                  - row:
+                                    contents:
+                                      - p: "_{Quickened action to create one alchemical item.}"
+                                      - level-marker:
+                                        level: 1
+                                        marker: "_{Versatile\nVial}"
+                                      - span: "&rarr;"
+                                      - level-marker:
+                                        level: 1
+                                        marker: "_{Alchemical\nItems}"
+                                  - p: "_{You can stow one of these.}"
+
+                  - tail:
+                  # - spacer:
+
+              - g:
+                contents:
+                  - section: "_{Research Field}"
+                    primary: true
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - zone: '@alchemist/research-field'
+                            contents:
+                              - g:
+                                contents:
+                                  - field: alchemist/research-field
+                                    size: huge
+                                    width: stretch
+                                    frame: none
+                                    merge-bottom: true
+                                  - hr:
+                                    swash: true
+
+                                  - h5: "_{Field Benefit}"
+                                  - field: alchemist/research-field/benefit
+                                    frame: none
+                                    width: stretch
+                                    merge-bottom: true
+                                    control: p
+                                    lines: 2
+                                    with-title: false
+
+                              - g:
+                                contents:
+                                  - h5: "_{Field Vials}"
+                                  - field: alchemist/research-field/vials
+                                    frame: none
+                                    width: stretch
+                                    merge-bottom: true
+                                    control: p
+                                    lines: 2
+                                    with-title: false
+
+                              - level: 5
+                                contents:
+                                  - h5: "_{Field Discovery}"
+                                  - field: alchemist/research-field/discovery
+                                    frame: none
+                                    width: stretch
+                                    # repeat: 2
+                                    merge-bottom: true
+                                    control: p
+                                    lines: 2
+                                    with-title: false
+
+                              - level: 11
+                                contents:
+                                  - h5: "_{Advanced Vials}"
+                                  - field: alchemist/research-field/advanced-vials
+                                    frame: none
+                                    width: stretch
+                                    merge-bottom: true
+                                    control: p
+                                    lines: 2
+                                    with-title: false
+
+                              - level: 13
+                                contents:
+                                  - h5: "_{Greater Field Discovery}"
+                                  - field: alchemist/research-field/greater-discovery
+                                    frame: none
+                                    width: stretch
+                                    merge-bottom: true
+                                    control: p
+                                    lines: 2
+                                    with-title: false
+
+                  - section: "_{Formulas}"
+                    flex: large
+                    contents:
+                      - zone: '@alchemist/research-field/formulas'
+                        contents:
+                          - list:
+                            columns: 2
+                            gutter: small
+                            contents:
+                              - repeat: 2
+                                contents:
+                                  - row:
+                                    contents:
+                                      - field: alchemist/formula-#{i}
+                                        frame: none
+                                        width: stretch
+                                      - span: "1"
+                        
+                      - list:
+                        columns: 3
+                        gutter: small
+                        merge-bottom: true
+                        contents:
+                          - repeat: 24
+                            reduce: 6
+                            contents:
+                              - row:
+                                contents:
+                                  - field: alchemist/formula-#{i}
+                                    frame: none
+                                    width: stretch
+                                  - field: alchemist/formula-#{i}/level
+                                    frame: none
+                                    width: small
+                  
+                  - paste: class-feats
+                    params:
+                      id: alchemist-feats
+                      title: "_{Alchemist Feats}"
+                      slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                      mark: alchemist
+                      lines: 2
+
+                  - tail:
+                  # - spacer:
+
