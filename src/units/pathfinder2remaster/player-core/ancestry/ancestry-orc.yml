@@ -1,0 +1,48 @@
+# Copyright 2025 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: ancestry/remaster/orc
+in: ancestry
+group: "_{Player Core}"
+name: "_{Orc}"
+enabled: false
+
+form:
+  - select: heritage/orc
+    name: "_{Orc Heritage}"
+    max: 1
+
+# if the ancestry has low light:
+# require:
+#  - unit: optional-darkvision/trigger
+
+inc:
+  - set: ancestry
+    value: "_{Orc}"
+  - set: hp-ancestry
+    value: 10
+# set darkvision / low vision light
+  - set: perception-darkvision
+    value: true
+# set languages
+  - set: languages
+    value: "_{Common}, _{Orcish}"
+
+# write ancestry short descriptions
+  - at: '@ancestry'
+    replace:
+      - article: ancestry
+        title: "_{Orc}"
+        contents:
+          - flags:
+              - "_{Orc}"
+              - "_{Humanoid}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{25 ft}"
+          # copy in the low light / dark vision description
+          - paste: darkvision
+            
