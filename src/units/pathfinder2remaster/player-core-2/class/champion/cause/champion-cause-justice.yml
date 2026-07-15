@@ -1,0 +1,98 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/champion/cause/justice
+in: remaster/champion/cause
+group: "_{Player Core 2}"
+name: "_{Justice}"
+
+inc:
+  - set: subclass
+    value: "_{Justice}"
+  - set: champion-cause
+    value: "_{Justice}"
+
+  - at: '@champion/cause/tenets'
+    replace:
+      - ul:
+        contents:
+          - li: "_{Uphold the tenets of good: never commit an evil act, such as murder, torture, or casting an evil spell.}"
+          - li: "_{Never knowingly harm an innocent, or allow harm to come to one when you could reasonably prevent it.}"
+          - li: "_{Act with honour: never take advantage of someone in need, lie, cheat, or engage in torture.}"
+          - li: "_{Uphold the codes of the society you live in for the greater good, so long as they don't conflict with your other tenets.}"
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        advance: "_{Retributive Strike}"
+
+  - at: '@actions'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{Retributive Strike}"
+            content: "_{When an ally is attacked, give them resistance and Strike their attacker.}"
+
+  - at: '@reference/actions'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{Retributive Strike}"
+            content: "_{When an ally is attacked, give them resistance and Strike their attacker.}"
+
+  - at: '@champion/reaction'
+    replace:
+      - section: "_{Retributive Strike}"
+        contents:
+          - list:
+            hr: true
+            contents:
+              - action: reaction
+                contents:
+                  - g:
+                    pad: true
+                    contents:
+                      - p: "_{Trigger: an enemy damages your ally within 15 feet of you. Your ally gains resistance to that damage, and if the enemy is within reach, you make a melee Strike against it.}"
+                      - calc:
+                        output:
+                          field: champion-justice-retributive-strike-resistance
+                          legend: "_{Resistance}"
+                          width: huge
+                          prefix: "+"
+                          eq: "2+%{level}"
+                        inputs:
+                          - span: "2 +"
+                          - field:
+                            ref: level
+                            label: "_{Level}"
+
+              - level: 9
+                contents:
+                  - g:
+                    pad: true
+                    contents:
+                      - h5: "_{Divine Smite}"
+                      - p: "_{If your Strike hits, the target also takes persistent good damage:}"
+                      - calc:
+                        output:
+                          field: champion-divine-smite-justice
+                          legend: "_{Damage}"
+                          suffix: "_{pts}"
+                          width: huge
+                          eq: "%{CHA}"
+                        inputs:
+                          - field:
+                            ref: CHA
+                            label: "_{CHA}"
+                            underlay: "_{CHA}"
+
+              - level: 11
+                contents:
+                  - g:
+                    pad: true
+                    contents:
+                      - h5: "_{Exalt}"
+                      - p: "_{When you use Retributive Strike, each ally within 15 feet who also has line of effect to the foe can spend a reaction to Strike it too, at a -5 penalty.}"

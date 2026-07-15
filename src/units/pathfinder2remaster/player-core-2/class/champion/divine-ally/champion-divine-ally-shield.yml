@@ -1,0 +1,35 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/champion/divine-ally/shield
+in: remaster/champion/divine-ally
+group: "_{Player Core 2}"
+name: "_{Shield Ally}"
+
+inc:
+  - set: champion-divine-ally
+    value: "_{Shield Ally}"
+
+  - at: '@champion/divine-ally'
+    replace:
+      - h5: "_{Shield Ally}"
+      - p: "_{Your shield gains a permanent +2 status bonus to Hardness, and its maximum Hit Points and Broken Threshold are doubled.}"
+      - row:
+        contents:
+          - field: champion-shield-ally-hardness
+            control: value
+            label: "_{Hardness Bonus}"
+            value: "+2"
+            width: large
+          - field: champion-shield-ally-hp
+            label: "_{Shield\nHit Points}"
+            suffix: "hp"
+            width: large
+            border: full
+            icon: shield-o
+          - field: champion-shield-ally-bt
+            label: "_{Broken\nThreshold}"
+            suffix: "hp"
+            width: large
+            eq: "floor(%{champion-shield-ally-hp}/2)"
