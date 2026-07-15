@@ -1,0 +1,72 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/investigator/methodology/forensic-medicine
+in: remaster/investigator/methodology
+group: "_{Player Core 2}"
+name: "_{Forensic Medicine}"
+
+inc:
+  - set: subclass
+    value: "_{Forensic Medicine}"
+
+  - set: investigator-methodology
+    value: "_{Forensic Medicine}"
+  - set: medicine-proficiency
+    value: trained
+
+  - at: '@investigator/methodology'
+    replace:
+      - h4: "_{Forensic Medicine}"
+      - hr:
+        swash: true
+      - layout: 2e
+        contents:
+          - g:
+            contents:
+              - action:
+                contents:
+                  - article:
+                    title: "_{Battle Medicine}"
+                    content: "_{On a success, the target recovers additional Hit Points equal to your level, and becomes temporarily immune for only 1 hour, not 1 day.}"
+
+              - calc:
+                output:
+                  field: investigator/methodology/forensic-medicine/battle-medicine-healing
+                  legend: "_{Extra Healing}"
+                  width: large
+                  eq: "%{level}"
+                inputs:
+                  - field:
+                    ref: level
+                    label: "_{Level}"
+
+          - g:
+            contents:
+              - p:
+                icon: proficiency-trained
+                title: "_{Medicine}"
+
+              - h5: "_{Skill Feats}"
+              - article:
+                title: "_{Forensic Acumen}"
+                content: "_{Roll a Medicine check to Recall Knowledge to make a forensic examination, taking half the time (minimum 5 minutes). On a success, make a further Recall Knowledge check with a bonus based on your Medicine proficiency.}"
+              - table:
+                flip: true
+                rows:
+                  - medicine: trained
+                    bonus: "+2"
+                  - medicine: master
+                    bonus: "+3"
+                  - medicine: legendary
+                    bonus: "+4"
+                template:
+                  - g:
+                    align: center
+                    contents:
+                      - icon: "proficiency-#{medicine}"
+                  - g:
+                    align: center
+                    contents:
+                      - value: "#{bonus}"
