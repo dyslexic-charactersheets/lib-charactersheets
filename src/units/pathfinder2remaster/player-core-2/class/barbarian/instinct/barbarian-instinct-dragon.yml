@@ -1,0 +1,98 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/barbarian/instinct/dragon
+in: remaster/barbarian/instinct
+group: "_{Player Core 2}"
+name: "_{Dragon}"
+
+inc:
+  - set: barbarian-instinct
+    value: "_{Dragon}"
+
+  - at: '@barbarian/instinct'
+    replace:
+      - g:
+        contents:
+          - h4: "_{Dragon}"
+          - hr:
+            swash: true
+          - p: "_{You summon the fury of a mighty dragon and manifest incredible abilities.}"
+          - field: barbarian-dragon-instinct-type
+            label: "_{Dragon type}"
+            size: huge
+            width: stretch
+            align: left
+            merge-bottom: true
+          - hr:
+            light: true
+          - row:
+            contents:
+              - field: barbarian-dragon-instinct-tradition
+                label: "_{Tradition}"
+                width: stretch
+              - field: barbarian-dragon-instinct-breath
+                label: "_{Dragon breath damage}"
+                width: stretch
+
+  - at: '@barbarian/instinct-ability'
+    replace:
+      - nothing:
+
+  - at: '@barbarian/left'
+    add:
+      - section: "[b]_{Draconic Rage!}[/b]"
+        id: draconic-rage
+        contents:
+          - list:
+            hr: true
+            contents:
+              - g:
+                contents:
+                  - p: "_{While raging, you can change your Rage damage type to match your dragon breath instead of your weapon or unarmed attack's damage type. If you do, your Rage action gains the trait matching your instinct's tradition, as well as the trait matching the damage type where applicable.}"
+                  - indent: left
+                    contents:
+                      - field: barbarian-draconic-rage-damage-bonus
+                        label: "_{[b]Draconic Rage![/b] Damage Bonus}"
+                        frame: right
+                        control: value
+                        width: large
+                        value: "4"
+              - level: 7
+                contents:
+                  - h5: "_{Instinct Specialisation}"
+                  - field: barbarian-draconic-rage-damage-bonus
+                    label: "_{[b]Draconic Rage![/b] Damage Bonus}"
+                    frame: right
+                    control: value
+                    width: large
+                    value: "8"
+              - level: 15
+                contents:
+                  - h5: "_{Greater Instinct Specialisation}"
+                  - field: barbarian-draconic-rage-damage-bonus-greater
+                    label: "_{[b]Draconic Rage![/b] Damage Bonus}"
+                    frame: right
+                    control: value
+                    width: large
+                    value: "16"
+
+  - at: '@barbarian/specialisation-ability'
+    replace:
+      - nothing:
+
+  - at: '@barbarian/specialisation-ability/greater'
+    replace:
+      - nothing:
+
+  - at: '@barbarian/raging-resistance'
+    replace:
+      - field: barbarian-raging-resistance-piercing
+        control: checkbox
+        value: true
+        frame: right
+        label: "_{Piercing}"
+      - field: barbarian-raging-resistance-breath-weapon
+        label: "_{Breath weapon damage type}"
+        width: stretch

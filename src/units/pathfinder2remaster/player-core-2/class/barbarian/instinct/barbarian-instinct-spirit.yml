@@ -1,0 +1,85 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/barbarian/instinct/spirit
+in: remaster/barbarian/instinct
+group: "_{Player Core 2}"
+name: "_{Spirit}"
+
+inc:
+  - set: barbarian-instinct
+    value: "_{Spirit}"
+
+  - at: '@barbarian/instinct'
+    replace:
+      - g:
+        contents:
+          - h4: "_{Spirit}"
+          - hr:
+            swash: true
+          - p: "_{Your rage takes the form of a spiritual possession—whether you're sensitive to spirits, worship ancestors, or are haunted by a specter.}"
+
+  - at: '@barbarian/instinct-ability'
+    replace:
+      - nothing:
+
+  - at: '@barbarian/left'
+    add:
+      - section: "[b]_{Spirit Rage!}[/b]"
+        contents:
+          - list:
+            hr: true
+            contents:
+              - g:
+                contents:
+                  - p: "_{While raging, you can increase your additional damage from Rage from 2 to 3 and change its damage type to spirit (choose each time you Rage). If you do, your weapon or unarmed attack gains the effect of the ghost touch rune, and your Rage action gains the divine and spirit traits.}"
+                  - indent: left
+                    contents:
+                      - field: barbarian-spirit-rage-damage-bonus
+                        label: "_{[b]Spirit Rage![/b] Damage Bonus}"
+                        frame: right
+                        control: value
+                        width: large
+                        value: "3"
+              - level: 7
+                contents:
+                  - h5: "_{Instinct Specialisation}"
+                  - field: barbarian-spirit-rage-damage-bonus
+                    label: "_{[b]Spirit Rage![/b] Damage Bonus}"
+                    frame: right
+                    control: value
+                    width: large
+                    value: "7"
+              - level: 15
+                contents:
+                  - h5: "_{Greater Instinct Specialisation}"
+                  - field: barbarian-spirit-rage-bonus-greater
+                    label: "_{[b]Spirit Rage![/b] Damage Bonus}"
+                    frame: right
+                    control: value
+                    width: large
+                    value: "13"
+
+  - at: '@barbarian/specialisation-ability'
+    replace:
+      - nothing:
+
+  - at: '@barbarian/specialisation-ability/greater'
+    replace:
+      - nothing:
+
+  - at: '@barbarian/raging-resistance'
+    replace:
+      - field: barbarian-raging-resistance-void
+        label: "_{Void damage}"
+        width: stretch
+        control: checkbox
+        value: true
+        frame: right
+      - field: barbarian-raging-resistance-undead
+        label: "_{Damage from undead creatures (any type)}"
+        width: stretch
+        control: checkbox
+        value: true
+        frame: right

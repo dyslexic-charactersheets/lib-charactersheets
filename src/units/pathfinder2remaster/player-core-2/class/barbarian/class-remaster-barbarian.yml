@@ -1,0 +1,396 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: class/remaster/barbarian
+in: class
+group: "_{Player Core 2}"
+name: "_{Barbarian}"
+# enabled: false
+
+form:
+  - select: remaster/barbarian/instinct
+    name: "_{Instinct}"
+    max: 1
+  - select: feat/barbarian
+    name: "_{Barbarian Feats}"
+    max: 11
+    levels: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+
+require:
+  - unit: weapon-spec/fast
+  - with: option/reference
+    unit: class/remaster/barbarian/reference
+  - deny: archetype/barbarian
+
+inc:
+
+  - set: class
+    value: "_{Barbarian}"
+  - set: hp-class
+    value: 12
+  - set: class-icon
+    value: barbarian
+  - set: subclass-label
+    value: "_{Instinct}"
+
+  - set: barbarian-class-dc-proficiency
+    value: trained
+  - set: perception-proficiency
+    value: expert
+
+  - set: unarmoured-proficiency
+    value: trained
+  - set: light-armour-proficiency
+    value: trained
+  - set: medium-armour-proficiency
+    value: trained
+
+  - set: fortitude-proficiency
+    value: expert
+  - set: reflex-proficiency
+    value: trained
+  - set: will-proficiency
+    value: expert
+
+  - set: athletics-proficiency
+    value: trained
+
+  - set: key-attribute
+    value: STR
+
+  - at: '@key-attribute-field'
+    replace:
+      - field: key-attribute
+        label: "_{STR}"
+        underlay: "_{STR}"
+        ref: STR
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        class-feat: true
+      - level: 1
+        advance: "[b]_{Rage!}[/b]"
+      - level: 1
+        advance: "_{Quick-Tempered}"
+      - level: 1
+        gain: "_{Instinct}"
+
+      - level: 3
+        advance: "_{Furious Footfalls}"
+      - level: 5
+        advance: "_{Brutality}"
+      - level: 7
+        advance: "_{Juggernaut}"
+      - level: 9
+        advance: "_{Raging Resistance}, _{Reflex Expertise}"
+      - level: 11
+        advance: "[b]_{Mighty Rage!}[/b]"
+      - level: 13
+        advance: "_{Greater Juggernaut}, _{Medium Armour Expertise}, _{Weapon Mastery}"
+      - level: 15
+        advance: "_{Indomitable Will}"
+      - level: 17
+        advance: "_{Perception Mastery}, _{Revitalising Rage}"
+      - level: 19
+        advance: "_{Armour Mastery}, _{Devastator}"
+
+      - level: 5
+        advance: "_{Simple weapons}, _{Martial weapons}, _{Unarmed attacks}"
+        proficiency: expert
+      - level: 7
+        advance: "_{Fortitude saves}"
+        proficiency: master
+        colour: CON
+      - level: 9
+        advance: "_{Reflex saves}"
+        proficiency: expert
+        colour: DEX
+      - level: 11
+        advance: "_{Barbarian class DC}"
+        proficiency: expert
+      - level: 13
+        advance: "_{Fortitude saves}"
+        proficiency: legendary
+        colour: CON
+      - level: 13
+        advance: "_{Light armour}, _{Medium armour}, _{Unarmoured defence}"
+        proficiency: expert
+      - level: 13
+        advance: "_{Simple weapons}, _{Martial weapons}, _{Unarmed attacks}"
+        proficiency: master
+      - level: 15
+        advance: "_{Will saves}"
+        proficiency: master
+        colour: WIS
+      - level: 17
+        advance: "_{Perception}"
+        proficiency: master
+        colour: WIS
+      - level: 19
+        advance: "_{Light armour}, _{Medium armour}, _{Unarmoured defence}"
+        proficiency: master
+      - level: 19
+        advance: "_{Barbarian class DC}"
+        proficiency: master
+
+  - at: '@saving-throws'
+    add:
+      - level: 7
+        contents:
+          - paste: juggernaut
+      - level: 13
+        contents:
+          - paste: greater-juggernaut
+          - p: "_{When you roll a failure on a Fortitude save against an effect that deals damage, halve the damage you take.}"
+      - level: 15
+        contents:
+          - paste: indomitable-will
+
+  - at: '@actions'
+    add:
+      - action: 1
+        contents:
+          - row:
+            contents:
+              - p:
+                title: "[b]_{Rage!}[/b]"
+                content: "_{Fly into a frenzy, gaining temporary hp and a bonus to damage on melee Strikes.}"
+              - field: "##:rage/damage"
+                label: "_{Damage Bonus}"
+                border: full
+                prefix: "+"
+                width: large
+      - action: free
+        contents:
+          - p:
+            title: "_{Quick-Tempered}"
+            content: "_{Trigger: you roll initiative. Requirements: you aren't encumbered or wearing heavy armour. You Rage.}"
+
+  - at: '@pages'
+    add:
+      - page: barbarian
+        name: "_{Barbarian}"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+            - g:
+              contents:
+                - class-icon: barbarian
+                  optional: true
+                - class-name: "_{Barbarian}"
+
+                - section: "_{Instinct}"
+                  primary: true
+                  contents:
+                    - list:
+                      hr: true
+                      contents:
+                        - zone: '@barbarian/instinct'
+                          contents:
+                            - g:
+                              contents:
+                                - field: barbarian-instinct
+                                  frame: none
+                                  size: gargantuan
+                                  width: stretch
+                                  align: left
+                                  merge-bottom: true
+                                - hr:
+                                  swash: true
+                                - h5: "_{Anathema}"
+                                - paste: anathema-fixed
+                                  params:
+                                    id: barbarian/anathema
+                                    lines: 3
+                        - zone: '@barbarian/instinct-ability'
+                          contents:
+                            - g:
+                              contents:
+                                - h5: "_{Instinct Ability}"
+                                - article: "##:instinct/ability"
+                                  lines: 5
+                                  reduce: 2
+                        - zone: '@barbarian/specialisation-ability'
+                          contents:
+                            - level: 7
+                              contents:
+                                - h5: "_{Instinct Specialisation}"
+                                - article: "##:instinct/specialisation-ability"
+                                  lines: 3
+                                  reduce: 1
+                        - zone: '@barbarian/specialisation-ability/greater'
+                          contents:
+                            - level: 15
+                              contents:
+                                - h5: "_{Greater Instinct Specialisation}"
+                                - article: "##:instinct/specialisation-ability/greater"
+                                  lines: 3
+                                  reduce: 1
+
+                - zone: '@barbarian/left'
+
+                - section: "_{Class DC}"
+                  contents:
+                    - paste: class-dc
+                      params:
+                        id: barbarian-class-dc
+                        legend: "_{Barbarian\nClass DC}"
+
+                - section: "_{Furious Footfalls}"
+                  contents:
+                    - level: 3
+                      contents:
+                        - row:
+                          contents:
+                            - field: "##:furious-footfalls/speed"
+                              label: "_{Speed Bonus}"
+                              border: full
+                              prefix: "+"
+                              control: value
+                              value: "5ft"
+                              width: large
+                            - p: "_{+10ft while raging.}"
+
+                - section: "_{Devastator}"
+                  contents:
+                    - level: 19
+                      contents:
+                        - p: "_{Your melee Strikes ignore up to 10 resistance to the physical damage they deal.}"
+
+                - tail:
+                - spacer:
+
+            - g:
+              contents:
+                - section: "[b]_{Rage!}[/b]"
+                  id: barbarian-rage
+                  contents:
+                    - list:
+                      hr: true
+                      contents:
+                        - zone: '@barbarian-rage'
+                          contents:
+                            - action:
+                              contents:
+                                - layout: 2r
+                                  contents:
+                                    - g:
+                                      contents:
+                                        - h5: "_{[b]Rage![/b]}"
+                                        - p: "_{1 minute, until combat ends, or until you fall unconscious.}"
+                                    - field: rage-current
+                                      legend: "_{Duration}"
+                                      control: checkgrid
+                                      depth: 3
+                                      max: 10
+                                - hr:
+                                  light: true
+                                - row:
+                                  pad: true
+                                  contents:
+                                    - calc:
+                                      output:
+                                        field: barbarian-rage-temp-hp
+                                        legend: "_{Temporary\nHit Points}"
+                                        suffix: hp
+                                        width: huge
+                                        temp: true
+                                        eq: "%{CON}+%{level}"
+                                      inputs:
+                                        - field:
+                                          ref: CON
+                                          underlay: "_{CON}"
+                                          label: "_{CON}"
+                                        - span: "+"
+                                        - field:
+                                          ref: level
+                                          label: "_{Level}"
+                                - row:
+                                  pad: true
+                                  contents:
+                                    - field: barbarian-rage-damage-bonus
+                                      border: full
+                                      legend: "_{[b]Rage![/b] Damage Bonus}"
+                                      prefix: "+"
+                                      width: large
+                                    - p: "_{To melee Strikes}"
+                                    - spacer:
+                                - p:
+                                  title: "_{Agile}"
+                                  content: "_{If using an agile weapon or unarmed attack, rage damage bonus is halved.}"
+                                - hr:
+                                  light: true
+                                - p:
+                                  title: "_{While raging}:"
+                                  content: "_{Can't use actions with the <span class='flag'>Concentrate</span> trait unless they also have the <span class='flag'>Rage</span> trait. You can Seek while raging.}"
+                                - p:
+                                  title: "_{After raging}:"
+                                  content: "_{Lose remaining temporary hit points. You can't gain temporary hit points from Rage again for 1 minute.}"
+                                  pad: true
+
+                            - g:
+                              contents:
+                                - h5: "_{Quick-Tempered}"
+                                - p: "_{Trigger: you roll initiative. Requirements: you aren't encumbered or wearing heavy armour. So long as you're able to move freely, you Rage.}"
+
+                            - selectable: barbarian-moment-of-clarity
+                              contents:
+                                - h5: "_{Moment of Clarity}"
+                                - p: "_{Until the end of this turn, you can use actions with the concentrate trait even if they don't have the rage trait.}"
+                            - level: 5
+                              contents:
+                                - g:
+                                  pad: true
+                                  contents:
+                                    - h5: "_{Brutality}"
+                                    - p: "_{Gain critical specialisation for your melee weapons and unarmed attacks while raging.}"
+                                      pad: true
+                            - level: 9
+                              contents:
+                                - g:
+                                  pad: true
+                                  contents:
+                                    - row:
+                                      pad: true
+                                      contents:
+                                        - calc:
+                                          output:
+                                            field: barbarian-raging-resistance
+                                            legend: "_{Raging Resistance}"
+                                            width: large
+                                            eq: "3+%{CON}"
+                                          inputs:
+                                            - span: "3 +"
+                                            - field:
+                                              ref: CON
+                                              underlay: "_{CON}"
+                                              label: "_{CON}"
+                                        - vr:
+                                        - zone: '@barbarian/raging-resistance'
+                                          contents:
+                                            - field: barbarian-raging-resistance-type
+                                              label: "_{Damage type}"
+                                              width: stretch
+                            - level: 11
+                              contents:
+                                - h5: "[b]_{Mighty Rage!}[/b]"
+                                - p: "_{When you use Quick-Tempered, the first Strike you make during your first turn deals additional damage equal to your Rage damage.}"
+                            - level: 17
+                              contents:
+                                - h5: "_{Revitalising Rage}"
+                                - p: "_{Instead of waiting 1 minute, you need only spend one full turn not in a Rage before you can gain temporary hit points from Rage again.}"
+
+                - paste: class-feats
+                  params:
+                    id: barbarian-feats
+                    title: "_{Barbarian Feats}"
+                    slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                    mark: barbarian
+                    lines: 2
+
+                - tail:
+                - spacer:

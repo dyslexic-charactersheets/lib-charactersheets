@@ -1,0 +1,89 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/barbarian/instinct/giant
+in: remaster/barbarian/instinct
+group: "_{Player Core 2}"
+name: "_{Giant}"
+
+inc:
+  - set: barbarian-instinct
+    value: "_{Giant}"
+
+  - set: barbarian-rage-damage-bonus
+    value: 6
+
+  - at: '@barbarian/instinct'
+    replace:
+      - g:
+        contents:
+          - h4: "_{Giant}"
+          - hr:
+            swash: true
+          - p: "_{Your rage gives you the raw power and size of a giant.}"
+
+  - at: '@barbarian/instinct-ability'
+    replace:
+      - g:
+        contents:
+          - h5: "_{Titan Mauler}"
+          - p: "_{You can use a weapon built for a Large creature if you're Small or Medium (or one size larger than you, if you're not Small or Medium). You start with one such weapon for free: a common melee or ranged weapon with a Price of 9gp or less.}"
+          - row:
+            contents:
+              - field: "##:titan-mauler/damage"
+                label: "_{[b]Rage![/b] Damage Bonus}"
+                frame: right
+                control: value
+                width: large
+                value: "6"
+              - field: "##:titan-mauler/clumsy"
+                label: "_{Clumsy}"
+                value: 1
+                control: span
+          - p: "_{This applies only while wielding the larger weapon; you can't remove or ignore the clumsy condition while wielding it.}"
+            optional: true
+
+  - at: '@barbarian/specialisation-ability'
+    replace:
+      - level: 7
+        contents:
+          - h5: "_{Instinct Specialisation}"
+          - field: "##:rage/damage"
+            label: "_{[b]Rage![/b] Damage Bonus}"
+            frame: right
+            control: value
+            width: large
+            value: "10"
+
+  - at: '@barbarian/specialisation-ability/greater'
+    replace:
+      - level: 15
+        contents:
+          - h5: "_{Greater Instinct Specialisation}"
+          - field: "##:rage/greater/damage"
+            label: "_{[b]Rage![/b] Damage Bonus}"
+            frame: right
+            control: value
+            width: large
+            value: "18"
+
+  - at: '@barbarian/raging-resistance'
+    replace:
+      - field: barbarian-raging-resistance-bludgeoning
+        control: checkbox
+        value: true
+        frame: right
+        label: "_{Bludgeoning}"
+      - field: barbarian-raging-resistance-cold
+        control: checkbox
+        frame: right
+        label: "_{Cold}"
+      - field: barbarian-raging-resistance-electricity
+        control: checkbox
+        frame: right
+        label: "_{Electricity}"
+      - field: barbarian-raging-resistance-fire
+        control: checkbox
+        frame: right
+        label: "_{Fire}"

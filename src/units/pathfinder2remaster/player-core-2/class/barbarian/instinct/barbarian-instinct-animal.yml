@@ -1,0 +1,110 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/barbarian/instinct/animal
+in: remaster/barbarian/instinct
+group: "_{Player Core 2}"
+name: "_{Animal}"
+
+inc:
+  - set: barbarian-instinct
+    value: "_{Animal}"
+
+  - at: '@reference/weapon-traits'
+    add:
+      - grapple
+      - unarmed
+      - agile
+      - shove
+      - trip
+
+  - at: '@barbarian/instinct'
+    replace:
+      - g:
+        contents:
+          - h4: "_{Animal}"
+          - hr:
+            swash: true
+          - p: "_{The fury of a wild predator fills you when you Rage. Select an animal that best matches your instinct.}"
+          - field: barbarian-animal-instinct-type
+            label: "_{Animal type}"
+            size: huge
+            width: stretch
+            align: left
+            merge-bottom: true
+
+  - at: '@barbarian/instinct-ability'
+    replace:
+      - nothing:
+
+  - at: '@barbarian/left'
+    add:
+      - section: "[b]_{Bestial Rage!}[/b]"
+        id: bestial-rage
+        contents:
+          - p: "_{While raging, you gain your chosen animal's unarmed attack (or attacks), but you're unable to use weapons.}"
+          - field: barbarian-animal-instinct-attack
+            label: "_{Natural attack}"
+            width: stretch
+          - row:
+            contents:
+              - field: barbarian-animal-instinct-damage
+                border: full
+                label: "_{Damage}"
+                width: huge
+                icon: damage
+                control: compound
+                parts:
+                  - subid: ndice
+                    width: tiny
+                    align: right
+                  - label: "_{d}"
+                  - subid: die
+                    width: tiny
+                    align: left
+                  - label: "+"
+                  - subid: extra
+                    width: tiny
+              - field: barbarian-animal-instinct-traits
+                label: "_{Traits}"
+                width: stretch
+          - p: "_{These attacks are in the brawling group. Your Rage action gains the morph and primal traits.}"
+
+  - at: '@barbarian/specialisation-ability'
+    replace:
+      - level: 7
+        contents:
+          - h5: "_{Instinct Specialisation}"
+          - p: "_{Increase the damage die of your bestial rage attacks by one step.}"
+          - field: barbarian-bestial-rage-damage
+            label: "_{[b]Bestial Rage![/b] Damage Bonus}"
+            frame: right
+            control: value
+            width: large
+            value: "5"
+
+  - at: '@barbarian/specialisation-ability/greater'
+    replace:
+      - level: 15
+        contents:
+          - h5: "_{Greater Instinct Specialisation}"
+          - field: barbarian-bestial-rage-damage-greater
+            label: "_{[b]Bestial Rage![/b] Damage Bonus}"
+            frame: right
+            control: value
+            width: large
+            value: "12"
+
+  - at: '@barbarian/raging-resistance'
+    replace:
+      - field: barbarian-raging-resistance-piercing
+        control: checkbox
+        value: true
+        frame: right
+        label: "_{Piercing}"
+      - field: barbarian-raging-resistance-slashing
+        control: checkbox
+        value: true
+        frame: right
+        label: "_{Slashing}"

@@ -1,0 +1,64 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/barbarian/instinct/fury
+in: remaster/barbarian/instinct
+group: "_{Player Core 2}"
+name: "_{Fury}"
+
+inc:
+  - set: barbarian-instinct
+    value: "_{Fury}"
+
+  - at: '@barbarian/instinct'
+    replace:
+      - g:
+        contents:
+          - h4: "_{Fury}"
+          - hr:
+            swash: true
+          - p: "_{Your rage comes from a deep and purely personal well within you. You use your rage as you choose.}"
+          - h5: "_{Instinct Ability—Unstoppable Frenzy}"
+          - p: "_{Increase your Rage damage bonus from 2 to 3.}"
+          - h5: "_{Bonus Feat}"
+          - level: 1
+            contents:
+              - article:
+                lines: 4
+
+  - at: '@barbarian/instinct-ability'
+    replace:
+      - nothing:
+
+  - at: '@barbarian/specialisation-ability'
+    replace:
+      - level: 7
+        contents:
+          - h5: "_{Instinct Specialisation}"
+          - field: barbarian-fury-damage-bonus
+            label: "_{[b]Rage![/b] Damage Bonus}"
+            frame: right
+            control: value
+            width: large
+            value: "7"
+
+  - at: '@barbarian/specialisation-ability/greater'
+    replace:
+      - level: 15
+        contents:
+          - h5: "_{Greater Instinct Specialisation}"
+          - field: barbarian-fury-damage-bonus-greater
+            label: "_{[b]Rage![/b] Damage Bonus}"
+            frame: right
+            control: value
+            width: large
+            value: "13"
+
+  - at: '@barbarian/raging-resistance'
+    replace:
+      - field: barbarian-raging-resistance-physical-weapon
+        control: checkbox
+        value: true
+        frame: right
+        label: "_{Physical weapon damage (not unarmed attacks or other sources)}"

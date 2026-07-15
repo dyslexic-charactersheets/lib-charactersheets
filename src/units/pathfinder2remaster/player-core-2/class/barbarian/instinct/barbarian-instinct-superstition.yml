@@ -1,0 +1,106 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/barbarian/instinct/superstition
+in: remaster/barbarian/instinct
+group: "_{Player Core 2}"
+name: "_{Superstition}"
+
+inc:
+  - set: barbarian-instinct
+    value: "_{Superstition}"
+
+  - at: '@barbarian/instinct'
+    replace:
+      - g:
+        contents:
+          - h4: "_{Superstition}"
+          - hr:
+            swash: true
+          - p: "_{A deep distrust of magic drives you to forgo and counter the metaphysical nonsense of spellcasters.}"
+          - h5: "_{Anathema}"
+          - ul:
+            contents:
+              - li: "_{Learning or Casting a Spell, or wielding or using an item that can be activated to Cast a Spell.}"
+          - p: "_{If you violate this anathema, you lose the instinct's abilities and any feats that list it as a prerequisite until you spend 1 day of downtime re-centering yourself, though you keep your other barbarian abilities.}"
+            optional: true
+
+  - at: '@barbarian/instinct-ability'
+    replace:
+      - g:
+        contents:
+          - h5: "_{Instinct Ability—Superstitious Resilience}"
+          - field: "##:superstitious-resilience/save-bonus"
+            label: "_{Status bonus to saves vs. magic (while raging)}"
+            border: full
+            control: value
+            width: large
+            value: "+2"
+          - row:
+            contents:
+              - field: barbarian-superstition-damage-bonus
+                label: "_{[b]Rage![/b] Damage Bonus}"
+                frame: right
+                control: value
+                width: large
+                value: "3"
+              - field: barbarian-superstition-damage-bonus-spellcaster
+                label: "_{...vs. a creature you've witnessed Casting a Spell in the last hour}"
+                frame: right
+                control: value
+                width: large
+                value: "4"
+          - p: "_{When you Rage (once every 10 minutes), regain Hit Points equal to the temporary HP you gained from the Rage action.}"
+          - p: "_{While raging, if you willingly accept the effects of a magic spell or effect, you're frightened 1, and can't reduce that frightened condition below 1 while still affected.}"
+
+  - at: '@barbarian/specialisation-ability'
+    replace:
+      - level: 7
+        contents:
+          - h5: "_{Instinct Specialisation}"
+          - row:
+            contents:
+              - field: barbarian-superstition-damage-bonus
+                label: "_{[b]Rage![/b] Damage Bonus}"
+                frame: right
+                control: value
+                width: large
+                value: "7"
+              - field: barbarian-superstition-damage-bonus-spellcaster
+                label: "_{...vs. witnessed spellcasters}"
+                frame: right
+                control: value
+                width: large
+                value: "8"
+
+  - at: '@barbarian/specialisation-ability/greater'
+    replace:
+      - level: 15
+        contents:
+          - h5: "_{Greater Instinct Specialisation}"
+          - row:
+            contents:
+              - field: barbarian-superstition-damage-bonus-greater
+                label: "_{[b]Rage![/b] Damage Bonus}"
+                frame: right
+                control: value
+                width: large
+                value: "13"
+              - field: barbarian-superstition-damage-bonus-greater-spellcaster
+                label: "_{...vs. witnessed spellcasters}"
+                frame: right
+                control: value
+                width: large
+                value: "16"
+
+  - at: '@barbarian/raging-resistance'
+    replace:
+      - p: "_{Choose two: arcane + occult, arcane + primal, divine + occult, or divine + primal.}"
+        optional: true
+      - field: barbarian-superstition-raging-resistance-tradition1
+        label: "_{Tradition}"
+        width: stretch
+      - field: barbarian-superstition-raging-resistance-tradition2
+        label: "_{Tradition}"
+        width: stretch
