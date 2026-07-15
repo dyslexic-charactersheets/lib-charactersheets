@@ -1,0 +1,109 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: monk/stance/remaster/ironblood
+in: monk/stance
+level: 8
+group: "_{Player Core 2}"
+name: "_{Ironblood Stance}"
+
+require:
+  - unit: class/remaster/monk/defs
+
+inc:
+  - copy: monk/stance/ironblood
+    contents:
+      - g:
+        name: "_{Ironblood Stance}"
+        contents:
+          - selectable: monk/stance/ironblood
+            contents:
+              - paste: monk/stance
+                params:
+                  id: ironblood
+                  title: "_{Ironblood Stance}"
+                contents:
+                  - p: "_{Requires unarmoured.}"
+                  - advancement:
+                    zebra: false
+                    shade: false
+                    elide: true
+                    flip: true
+                    rotate: true
+                    fields:
+                      - name: "_{Damage\nResistance}"
+                        key: resistance
+                        format: string
+                    advances:
+                      - level: 8
+                        resistance: 2
+                      - level: 12
+                        resistance: 3
+                      - level: 16
+                        resistance: 4
+                      - level: 20
+                        resistance: 5
+
+          - paste: monk/stance-attack/str
+            params:
+              id: iron-sweep
+              name: "_{Iron Sweep Attack}"
+              dmg: "_{d8}"
+              type: "_{B}"
+            contents:
+              - flags:
+                  - "_{Nonlethal}"
+                  - "_{Parry}"
+                  - "_{Sweep}"
+                  - "_{Unarmed}"
+
+          - selectable: monk/stance/ironblood/surge
+            contents:
+              - article:
+                title: "_{Ironblood Surge}"
+                cat: "_{Feat}"
+                contents:
+                  - action:
+                    contents:
+                      - p: "_{Requires being in Ironblood Stance. Gain the benefits of your iron sweep's parry trait (+1 circumstance bonus to AC until start of your next turn), and your Ironblood Stance resistance increases to your Strength modifier (if higher) for the same duration.}"
+
+  - at: '@monk/stances'
+    add:
+      - paste: monk/stance/ironblood
+
+  - at: '@monk/stance-actions'
+    add:
+      - action:
+        order: 2
+        contents:
+          - p:
+            title: "_{Ironblood Stance}"
+            content: "_{Enter the stance of impenetrable iron. Make iron sweep attacks.}"
+      - action:
+        order: 3
+        contents:
+          - row:
+            contents:
+              - p:
+                title: "_{Iron Sweep Attack}"
+                content: "_{Unarmed attack that deals bludgeoning damage.}"
+              - field: iron-sweep-damage
+                label: "_{Damage}"
+                control: value
+                value: "d8"
+
+  - at: '@reference/actions'
+    add:
+      - action:
+        contents:
+          - p:
+            title: "_{Ironblood Stance}"
+            content: "_{Enter the stance of impenetrable iron. Make iron sweep attacks.}"
+
+  - at: '@reference/weapon-traits'
+    add:
+      - parry
+      - sweep
+      - nonlethal
+      - unarmed

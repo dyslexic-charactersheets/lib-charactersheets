@@ -1,0 +1,138 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: monk/stance/remaster/mountain
+in: monk/stance
+level: 1
+group: "_{Player Core 2}"
+name: "_{Mountain Stance}"
+
+require:
+  - unit: class/remaster/monk/defs
+
+inc:
+  - copy: monk/stance/mountain
+    contents:
+      - g:
+        name: "_{Mountain Stance}"
+        contents:
+          - selectable: monk/stance/mountain
+            contents:
+              - paste: monk/stance
+                params:
+                  id: mountain
+                  title: "_{Mountain Stance}"
+                contents:
+                  - p: "_{Requires unarmoured and touching the ground.}"
+                  - row:
+                    contents:
+                      - field: monk/stance/mountain/ac
+                        label: "_{AC Bonus (item)}"
+                        control: value
+                        value: "+4"
+                      - field: monk/stance/mountain/speed
+                        label: "_{Speed}"
+                        control: value
+                        value: "_{-5ft}"
+                      - field: monk/stance/mountain/dex-cap
+                        label: "_{DEX Cap}"
+                        control: value
+                        value: "0"
+                      - field: monk/stance/mountain/stability
+                        label: "_{Defence vs Shove, Trip, Reposition}"
+                        frame: right
+                        control: value
+                        value: "+2"
+
+          - paste: monk/stance-attack/str
+            params:
+              id: falling-stone
+              name: "_{Falling Stone Attack}"
+              dmg: "_{d8}"
+              type: "_{B}"
+            contents:
+              - flags:
+                  - "_{Forceful}"
+                  - "_{Nonlethal}"
+                  - "_{Unarmed}"
+
+          - selectable: monk/stance/mountain/mountain-stronghold
+            contents:
+              - article:
+                title: "_{Mountain Stronghold}"
+                cat: "_{Feat}"
+                contents:
+                  - action:
+                    contents:
+                      - row:
+                        contents:
+                          - field: monk/stance/mountain/stronghold-ac-bonus
+                            label: "_{AC Bonus}"
+                            control: value
+                            value: "+2"
+                          - p: "_{Until the beginning of your next turn. Special: your Mountain Stance DEX cap increases from +0 to +1.}"
+
+          - selectable: monk/stance/mountain/mountain-quake
+            contents:
+              - article:
+                title: "_{Mountain Quake}"
+                cat: "_{Feat}"
+                contents:
+                  - action:
+                    contents:
+                      - p: "_{Prerequisite: Mountain Stronghold. Requires being in Mountain Stance.}"
+                      - layout: 3e
+                        contents:
+                          - field: monk/stance/mountain/quake/range
+                            label: "_{Range}"
+                            control: value
+                            value: "20ft"
+                          - field: monk/stance/mountain/quake/damage
+                            label: "_{Damage (STR mod, min 0)}"
+                            underlay: "_{STR}"
+                            ref: STR
+                          - field: monk/stance/mountain/quake/dex-cap
+                            label: "_{DEX Cap}"
+                            control: value
+                            value: "+2"
+                      - p: "_{Basic Fortitude save vs your class DC; on a failure, also fall prone. Can't use again for 1d4 rounds. Special: your Mountain Stance DEX cap increases from +1 to +2.}"
+
+  - at: '@monk/stances'
+    add:
+      - paste: monk/stance/mountain
+
+  - at: '@monk/stance-actions'
+    add:
+      - action:
+        order: 2
+        contents:
+          - p:
+            title: "_{Mountain Stance}"
+            content: "_{Enter the stance of an implacable mountain.}"
+      - action:
+        order: 3
+        contents:
+          - row:
+            contents:
+              - p:
+                title: "_{Falling Stone Attack}"
+                content: "_{Unarmed attack that deals bludgeoning damage.}"
+              - field: falling-stone-damage
+                label: "_{Damage}"
+                control: value
+                value: "d8"
+
+  - at: '@reference/actions'
+    add:
+      - action:
+        contents:
+          - p:
+            title: "_{Mountain Stance}"
+            content: "_{Enter the stance of an implacable mountain, and make falling stone attacks.}"
+
+  - at: '@reference/weapon-traits'
+    add:
+      - forceful
+      - nonlethal
+      - unarmed

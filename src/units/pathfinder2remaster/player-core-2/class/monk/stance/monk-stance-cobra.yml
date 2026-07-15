@@ -1,0 +1,100 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: monk/stance/remaster/cobra
+in: monk/stance
+level: 4
+group: "_{Player Core 2}"
+name: "_{Cobra Stance}"
+
+require:
+  - unit: class/remaster/monk/defs
+
+inc:
+  - copy: monk/stance/cobra
+    contents:
+      - g:
+        name: "_{Cobra Stance}"
+        contents:
+          - selectable: monk/stance/cobra
+            contents:
+              - paste: monk/stance
+                params:
+                  id: cobra
+                  title: "_{Cobra Stance}"
+                contents:
+                  - row:
+                    contents:
+                      - field: monk/stance/cobra/fortitude
+                        label: "_{Fortitude saves and Fortitude DC}"
+                        control: value
+                        value: "+1"
+                      - field: monk/stance/cobra/poison-resistance
+                        label: "_{Poison Resistance (half level)}"
+                        width: stretch
+
+          - paste: monk/stance-attack/dex
+            params:
+              id: cobra-fang
+              name: "_{Cobra Fang Attack}"
+              dmg: "_{d4}"
+              type: "_{P}"
+            contents:
+              - flags:
+                  - "_{Agile}"
+                  - "_{Deadly d10}"
+                  - "_{Finesse}"
+                  - "_{Unarmed}"
+                  - "_{Venomous}"
+
+          - selectable: monk/stance/cobra/envenom
+            contents:
+              - article:
+                title: "_{Cobra Envenom}"
+                cat: "_{Feat}"
+                contents:
+                  - action: 1
+                    contents:
+                      - p: "_{Prerequisites: Cobra Stance, expert in unarmed attacks. Frequency: once per minute. Requires being in Cobra Stance. Make a cobra fang Strike with 5ft greater reach than normal. If it hits, the persistent poison damage from venomous increases to 1d4 per weapon damage die.}"
+                      - p: "_{Special: if you have this feat, the Cobra Stance Fortitude bonus increases from +1 to +2.}"
+                        optional: true
+
+  - at: '@monk/stances'
+    add:
+      - paste: monk/stance/cobra
+
+  - at: '@monk/stance-actions'
+    add:
+      - action:
+        order: 2
+        contents:
+          - p:
+            title: "_{Cobra Stance}"
+            content: "_{Coil tightly, hands poised as venomous fangs. Make cobra fang attacks.}"
+      - action:
+        order: 3
+        contents:
+          - row:
+            contents:
+              - p:
+                title: "_{Cobra Fang Attack}"
+                content: "_{Unarmed attack that deals piercing damage.}"
+              - field: cobra-fang-damage
+                label: "_{Damage}"
+                control: value
+                value: "d4"
+
+  - at: '@reference/actions'
+    add:
+      - action:
+        contents:
+          - p:
+            title: "_{Cobra Stance}"
+            content: "_{Coil tightly, hands poised as venomous fangs. Make cobra fang attacks.}"
+
+  - at: '@reference/weapon-traits'
+    add:
+      - agile
+      - finesse
+      - unarmed

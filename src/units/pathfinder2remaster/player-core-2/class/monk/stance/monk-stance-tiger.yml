@@ -1,0 +1,111 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: monk/stance/remaster/tiger
+in: monk/stance
+level: 1
+group: "_{Player Core 2}"
+name: "_{Tiger Stance}"
+
+require:
+  - unit: class/remaster/monk/defs
+
+inc:
+  - copy: monk/stance/tiger
+    contents:
+      - g:
+        name: "_{Tiger Stance}"
+        contents:
+          - selectable: monk/stance/tiger
+            contents:
+              - paste: monk/stance
+                params:
+                  id: tiger
+                  title: "_{Tiger Stance}"
+                contents:
+                  - row:
+                    contents:
+                      - field: monk/stance/tiger/step
+                        label: "_{Step}"
+                        control: value
+                        value: "10ft"
+                      - p: "_{Requires unarmoured. As long as your Speed is at least 20ft, you can Step 10 feet.}"
+
+          - paste: monk/stance-attack/dex
+            params:
+              id: tiger-claw
+              name: "_{Tiger Claw Attack}"
+              dmg: "_{d8}"
+              type: "_{S}"
+            contents:
+              - flags:
+                  - "_{Agile}"
+                  - "_{Finesse}"
+                  - "_{Nonlethal}"
+                  - "_{Unarmed}"
+              - p: "_{On a critical hit that deals damage: 1d4 persistent bleed damage.}"
+
+          - selectable: monk/stance/tiger/slash
+            contents:
+              - article:
+                title: "_{Tiger Slash}"
+                cat: "_{Feat}"
+                contents:
+                  - action: 2
+                    contents:
+                      - p: "_{Requires being in Tiger Stance. Make a tiger claw Strike; push the target 5ft as if Shoved. On a critical hit that deals damage, add your Strength modifier to the persistent bleed damage.}"
+                      - row:
+                        contents:
+                          - field: monk/stance/tiger/slash/damage
+                            border: full
+                            label: "_{Extra Damage Dice}"
+                            width: huge
+                            icon: damage
+                            control: compound
+                            parts:
+                              - label: "_{2d8}"
+                              - subid: extra
+                                width: tiny
+                          - p: "_{3d8 if you're 14th level or higher.}"
+                            optional: true
+
+  - at: '@monk/stances'
+    add:
+      - paste: monk/stance/tiger
+
+  - at: '@monk/stance-actions'
+    add:
+      - action:
+        order: 2
+        contents:
+          - p:
+            title: "_{Tiger Stance}"
+            content: "_{Enter the stance of a tiger, and make tiger claw attacks.}"
+      - action:
+        order: 3
+        contents:
+          - row:
+            contents:
+              - p:
+                title: "_{Tiger Claw Attack}"
+                content: "_{Unarmed attack that deals slashing damage.}"
+              - field: tiger-claw-damage
+                label: "_{Damage}"
+                control: value
+                value: "d8"
+
+  - at: '@reference/actions'
+    add:
+      - action:
+        contents:
+          - p:
+            title: "_{Tiger Stance}"
+            content: "_{Enter the stance of a tiger, and make tiger claw attacks.}"
+
+  - at: '@reference/weapon-traits'
+    add:
+      - agile
+      - finesse
+      - nonlethal
+      - unarmed

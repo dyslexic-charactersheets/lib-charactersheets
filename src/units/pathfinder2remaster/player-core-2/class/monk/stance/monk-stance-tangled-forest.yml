@@ -1,0 +1,90 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: monk/stance/remaster/tangled-forest
+in: monk/stance
+level: 8
+group: "_{Player Core 2}"
+name: "_{Tangled Forest Stance}"
+
+require:
+  - unit: class/remaster/monk/defs
+
+inc:
+  - copy: monk/stance/tangled-forest
+    contents:
+      - g:
+        name: "_{Tangled Forest Stance}"
+        contents:
+          - selectable: monk/stance/tangled-forest
+            contents:
+              - paste: monk/stance
+                params:
+                  id: tangled-forest
+                  title: "_{Tangled Forest Stance}"
+                contents:
+                  - p: "_{Requires unarmoured. While you're in this stance and can act, every enemy in your reach that tries to move away from you must succeed at a Reflex save, Acrobatics check, or Athletics check against your class DC or be immobilised for that action (or you can allow them to move).}"
+
+          - paste: monk/stance-attack/dex
+            params:
+              id: lashing-branch
+              name: "_{Lashing Branch Attack}"
+              dmg: "_{d8}"
+              type: "_{S}"
+            contents:
+              - flags:
+                  - "_{Agile}"
+                  - "_{Finesse}"
+                  - "_{Nonlethal}"
+                  - "_{Unarmed}"
+
+          - selectable: monk/stance/tangled-forest/rake
+            contents:
+              - article:
+                title: "_{Tangled Forest Rake}"
+                cat: "_{Feat}"
+                contents:
+                  - action: 1
+                    contents:
+                      - p: "_{Requires being in Tangled Forest Stance. Make a lashing branch Strike. If you hit and deal damage, Reposition the target up to 10ft (you can move it through your space).}"
+
+  - at: '@monk/stances'
+    add:
+      - paste: monk/stance/tangled-forest
+
+  - at: '@monk/stance-actions'
+    add:
+      - action:
+        order: 2
+        contents:
+          - p:
+            title: "_{Tangled Forest Stance}"
+            content: "_{Extend your arms like gnarled branches. Make lashing branch attacks.}"
+      - action:
+        order: 3
+        contents:
+          - row:
+            contents:
+              - p:
+                title: "_{Lashing Branch Attack}"
+                content: "_{Unarmed attack that deals slashing damage.}"
+              - field: lashing-branch-damage
+                label: "_{Damage}"
+                control: value
+                value: "d8"
+
+  - at: '@reference/actions'
+    add:
+      - action:
+        contents:
+          - p:
+            title: "_{Tangled Forest Stance}"
+            content: "_{Extend your arms like gnarled branches. Make lashing branch attacks.}"
+
+  - at: '@reference/weapon-traits'
+    add:
+      - agile
+      - finesse
+      - nonlethal
+      - unarmed

@@ -1,0 +1,97 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: monk/stance/remaster/stumbling
+in: monk/stance
+level: 1
+group: "_{Player Core 2}"
+name: "_{Stumbling Stance}"
+
+require:
+  - unit: class/remaster/monk/defs
+
+inc:
+  - copy: monk/stance/stumbling
+    contents:
+      - g:
+        name: "_{Stumbling Stance}"
+        contents:
+          - selectable: monk/stance/stumbling
+            contents:
+              - paste: monk/stance
+                params:
+                  id: stumbling
+                  title: "_{Stumbling Stance}"
+                contents:
+                  - p: "_{Prerequisite: trained in Deception.}"
+                  - row:
+                    contents:
+                      - field: monk/stance/stumbling/deception
+                        label: "_{Deception to Feint}"
+                        control: value
+                        value: "+1"
+                      - p: "_{If an enemy hits you with a melee Strike while in this stance, it's off-guard against the next stumbling swing Strike you make against it before the end of your next turn.}"
+
+          - paste: monk/stance-attack/dex
+            params:
+              id: stumbling-swing
+              name: "_{Stumbling Swing Attack}"
+              dmg: "_{d8}"
+              type: "_{B}"
+            contents:
+              - flags:
+                  - "_{Agile}"
+                  - "_{Backstabber}"
+                  - "_{Finesse}"
+                  - "_{Nonlethal}"
+                  - "_{Unarmed}"
+
+          - selectable: monk/stance/stumbling/feint
+            contents:
+              - article:
+                title: "_{Stumbling Feint}"
+                cat: "_{Feat}"
+                contents:
+                  - p: "_{Prerequisites: expert in Deception, Stumbling Stance. Requires being in Stumbling Stance. When you use Flurry of Blows, attempt a check to Feint as a free action just before the first Strike. On a success, both attacks from the Flurry are off-guard against the target, instead of just the next attack.}"
+
+  - at: '@monk/stances'
+    add:
+      - paste: monk/stance/stumbling
+
+  - at: '@monk/stance-actions'
+    add:
+      - action:
+        order: 2
+        contents:
+          - p:
+            title: "_{Stumbling Stance}"
+            content: "_{Bob and weave, leaving false openings. Make stumbling swing attacks.}"
+      - action:
+        order: 3
+        contents:
+          - row:
+            contents:
+              - p:
+                title: "_{Stumbling Swing Attack}"
+                content: "_{Unarmed attack that deals bludgeoning damage.}"
+              - field: stumbling-swing-damage
+                label: "_{Damage}"
+                control: value
+                value: "d8"
+
+  - at: '@reference/actions'
+    add:
+      - action:
+        contents:
+          - p:
+            title: "_{Stumbling Stance}"
+            content: "_{Bob and weave, leaving false openings. Make stumbling swing attacks.}"
+
+  - at: '@reference/weapon-traits'
+    add:
+      - agile
+      - backstabber
+      - finesse
+      - nonlethal
+      - unarmed

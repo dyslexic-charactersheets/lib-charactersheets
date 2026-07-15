@@ -1,0 +1,92 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: monk/stance/remaster/wolf
+in: monk/stance
+level: 1
+group: "_{Player Core 2}"
+name: "_{Wolf Stance}"
+
+require:
+  - unit: class/remaster/monk/defs
+
+inc:
+  - copy: monk/stance/wolf
+    contents:
+      - g:
+        name: "_{Wolf Stance}"
+        contents:
+          - selectable: monk/stance/wolf
+            contents:
+              - paste: monk/stance
+                params:
+                  id: wolf
+                  title: "_{Wolf Stance}"
+                contents:
+                  - p: "_{Requires unarmoured. While flanking, your wolf jaw attack also gains the trip trait.}"
+
+          - paste: monk/stance-attack/dex
+            params:
+              id: wolf-jaw
+              name: "_{Wolf Jaw Attack}"
+              dmg: "_{d8}"
+              type: "_{P}"
+            contents:
+              - flags:
+                  - "_{Agile}"
+                  - "_{Backstabber}"
+                  - "_{Finesse}"
+                  - "_{Nonlethal}"
+                  - "_{Unarmed}"
+
+          - selectable: monk/stance/wolf/drag
+            contents:
+              - article:
+                title: "_{Wolf Drag}"
+                cat: "_{Feat}"
+                contents:
+                  - action: 2
+                    contents:
+                      - p: "_{Requires being in Wolf Stance. Make a wolf jaw Strike; it gains the fatal d12 trait. If it succeeds, knock the target prone.}"
+
+  - at: '@monk/stances'
+    add:
+      - paste: monk/stance/wolf
+
+  - at: '@monk/stance-actions'
+    add:
+      - action:
+        order: 2
+        contents:
+          - p:
+            title: "_{Wolf Stance}"
+            content: "_{Enter the stance of a wolf, and make wolf jaw attacks.}"
+      - action:
+        order: 3
+        contents:
+          - row:
+            contents:
+              - p:
+                title: "_{Wolf Jaw Attack}"
+                content: "_{Unarmed attack that deals piercing damage.}"
+              - field: wolf-jaw-damage
+                label: "_{Damage}"
+                control: value
+                value: "d8"
+
+  - at: '@reference/actions'
+    add:
+      - action:
+        contents:
+          - p:
+            title: "_{Wolf Stance}"
+            content: "_{Enter the stance of a wolf, and make wolf jaw attacks.}"
+
+  - at: '@reference/weapon-traits'
+    add:
+      - agile
+      - backstabber
+      - finesse
+      - nonlethal
+      - unarmed
