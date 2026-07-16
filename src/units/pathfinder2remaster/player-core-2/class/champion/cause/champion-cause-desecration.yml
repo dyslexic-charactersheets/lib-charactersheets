@@ -1,0 +1,95 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/champion/cause/desecration
+in: remaster/champion/cause
+group: "_{Player Core 2}"
+name: "_{Desecration}"
+
+inc:
+  - set: subclass
+    value: "_{Desecration}"
+  - set: champion-cause
+    value: "_{Desecration}"
+
+  - at: '@champion/cause/tenets'
+    replace:
+      - ul:
+        contents:
+          - li: "_{Subvert or corrupt everything in your path that is pure or holy, and sow doubt among those holding ideals of purity or holiness.}"
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        advance: "_{Selfish Shield}"
+
+  - at: '@actions'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{Selfish Shield}"
+            content: "_{When an enemy damages you, gain resistance and deal extra spirit damage to it.}"
+
+  - at: '@reference/actions'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{Selfish Shield}"
+            content: "_{When an enemy damages you, gain resistance and deal extra spirit damage to it.}"
+
+  - at: '@champion/reaction'
+    replace:
+      - section: "_{Selfish Shield}"
+        contents:
+          - list:
+            hr: true
+            contents:
+              - action: reaction
+                contents:
+                  - g:
+                    pad: true
+                    contents:
+                      - p: "_{Trigger: an enemy in your champion's aura damages you; Effect: your self-interest keeps you safe. You gain resistance against the triggering damage, regardless of damage type. Until the end of your next turn, your Strikes against the triggering creature deal 1 extra spirit damage (2 at 9th level, 3 at 16th level).}"
+                      - calc:
+                        output:
+                          field: champion-desecration-selfish-shield-resistance
+                          legend: "_{Resistance}"
+                          width: large
+                          prefix: "+"
+                          eq: "2+floor(%{level}/2)"
+                        inputs:
+                          - span: "2 +"
+                          - field:
+                            ref: level
+                            label: "_{Level}"
+
+              - level: 9
+                contents:
+                  - g:
+                    pad: true
+                    contents:
+                      - h5: "_{Relentless Reaction}"
+                      - p: "_{If your Charisma modifier is +3 or greater, your resistance against the triggering damage instead equals your Charisma modifier plus half your level.}"
+                      - calc:
+                        output:
+                          field: champion-desecration-selfish-shield-resistance-relentless
+                          legend: "_{Resistance}"
+                          width: large
+                          prefix: "+"
+                          eq: "%{CHA}+floor(%{level}/2)"
+                        inputs:
+                          - field:
+                            ref: CHA
+                            label: "_{CHA}"
+                            underlay: "_{CHA}"
+
+              - level: 11
+                contents:
+                  - g:
+                    pad: true
+                    contents:
+                      - h5: "_{Exalt}"
+                      - p: "_{Each enemy in your champion's aura takes a -1 status penalty to attack rolls against you until the start of your next turn.}"

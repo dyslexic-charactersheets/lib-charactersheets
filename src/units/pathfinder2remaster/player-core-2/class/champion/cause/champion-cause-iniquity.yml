@@ -1,0 +1,85 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/champion/cause/iniquity
+in: remaster/champion/cause
+group: "_{Player Core 2}"
+name: "_{Iniquity}"
+
+inc:
+  - set: subclass
+    value: "_{Iniquity}"
+  - set: champion-cause
+    value: "_{Iniquity}"
+
+  - at: '@champion/cause/tenets'
+    replace:
+      - ul:
+        contents:
+          - li: "_{Destroy that which offends you or stands in your way, take advantage of others, cheat, steal.}"
+          - li: "_{Never bind yourself with a law other than what your deity requires.}"
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        advance: "_{Destructive Vengeance}"
+
+  - at: '@actions'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{Destructive Vengeance}"
+            content: "_{When an enemy damages you, drag it toward oblivion, dealing spirit damage in exchange for taking more yourself.}"
+
+  - at: '@reference/actions'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{Destructive Vengeance}"
+            content: "_{When an enemy damages you, drag it toward oblivion, dealing spirit damage in exchange for taking more yourself.}"
+
+  - at: '@champion/reaction'
+    replace:
+      - section: "_{Destructive Vengeance}"
+        contents:
+          - list:
+            hr: true
+            contents:
+              - action: reaction
+                contents:
+                  - g:
+                    pad: true
+                    contents:
+                      - p: "_{Trigger: an enemy in your champion's aura damages you. Bloodshed begets bloodshed as you drag your enemy toward oblivion. You increase the damage you take by 1d6, and you deal 1d6 spirit damage to the triggering enemy. Both dice increase to 2d6 at 5th level, 3d6 at 9th level, 4d6 at 12th level, 5d6 at 16th level, and 6d6 at 19th level.}"
+                      - p: "_{In addition, until the end of your next turn, your Strikes against the triggering creature deal 2 extra spirit damage. This extra damage increases to 4 at 9th level and 6 at 16th level.}"
+
+              - level: 9
+                contents:
+                  - g:
+                    pad: true
+                    contents:
+                      - h5: "_{Divine Smite}"
+                      - p: "_{An enemy damaged by the initial reaction's damage also takes persistent spirit damage (an unholy effect). This applies only to the damage the reaction itself deals, not the damage you deal with subsequent Strikes:}"
+                      - calc:
+                        output:
+                          field: champion-divine-smite-iniquity
+                          legend: "_{Damage}"
+                          suffix: "_{pts}"
+                          width: large
+                          eq: "%{CHA}"
+                        inputs:
+                          - field:
+                            ref: CHA
+                            label: "_{CHA}"
+                            underlay: "_{CHA}"
+
+              - level: 11
+                contents:
+                  - g:
+                    pad: true
+                    contents:
+                      - h5: "_{Exalt}"
+                      - p: "_{Each enemy in your champion's aura other than the triggering creature takes half the damage you deal to the triggering enemy.}"

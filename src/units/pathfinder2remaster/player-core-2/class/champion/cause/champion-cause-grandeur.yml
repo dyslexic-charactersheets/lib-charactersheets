@@ -1,0 +1,98 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/champion/cause/grandeur
+in: remaster/champion/cause
+group: "_{Player Core 2}"
+name: "_{Grandeur}"
+
+inc:
+  - set: subclass
+    value: "_{Grandeur}"
+  - set: champion-cause
+    value: "_{Grandeur}"
+
+  - at: '@champion/cause/tenets'
+    replace:
+      - ul:
+        contents:
+          - li: "_{Uphold the tenets of good: never commit an evil act, such as murder, torture, or casting an evil spell.}"
+          - li: "_{Never knowingly harm an innocent, or allow harm to come to one when you could reasonably prevent it.}"
+          - li: "_{Provide a shining example for others: enjoy and share the beauty around you, and keep yourself tidy and well groomed.}"
+          - li: "_{Never despoil yourself by associating with fiends and unholy forces.}"
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        advance: "_{Flash of Grandeur}"
+
+  - at: '@actions'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{Flash of Grandeur}"
+            content: "_{When an enemy damages your ally, give them resistance and dazzle your foe with revealing light.}"
+
+  - at: '@reference/actions'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{Flash of Grandeur}"
+            content: "_{When an enemy damages your ally, give them resistance and dazzle your foe with revealing light.}"
+
+  - at: '@champion/reaction'
+    replace:
+      - section: "_{Flash of Grandeur}"
+        contents:
+          - list:
+            hr: true
+            contents:
+              - action: reaction
+                contents:
+                  - g:
+                    pad: true
+                    contents:
+                      - p: "_{Trigger: an enemy damages your ally within 15 feet of you. Imperious divine light flashes out from you to surround your foe. Your ally gains resistance to all damage against the triggering damage, and for 1 round the attacker is affected by revealing light.}"
+                      - calc:
+                        output:
+                          field: champion-grandeur-flash-of-grandeur-resistance
+                          legend: "_{Resistance}"
+                          width: large
+                          prefix: "+"
+                          eq: "2+%{level}"
+                        inputs:
+                          - span: "2 +"
+                          - field:
+                            ref: level
+                            label: "_{Level}"
+
+              - level: 9
+                contents:
+                  - g:
+                    pad: true
+                    contents:
+                      - h5: "_{Divine Smite}"
+                      - p: "_{The enemy also takes persistent spirit damage (a holy effect), and can't recover from it while affected by the revealing light from Flash of Grandeur:}"
+                      - calc:
+                        output:
+                          field: champion-divine-smite-grandeur
+                          legend: "_{Damage}"
+                          suffix: "_{pts}"
+                          width: large
+                          eq: "%{CHA}"
+                        inputs:
+                          - field:
+                            ref: CHA
+                            label: "_{CHA}"
+                            underlay: "_{CHA}"
+
+              - level: 11
+                contents:
+                  - g:
+                    pad: true
+                    contents:
+                      - h5: "_{Exalt}"
+                      - p: "_{Each other enemy in your champion's aura is also affected by the revealing light spell for 1 round.}"

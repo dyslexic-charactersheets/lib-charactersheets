@@ -1,0 +1,89 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/champion/cause/obedience
+in: remaster/champion/cause
+group: "_{Player Core 2}"
+name: "_{Obedience}"
+
+inc:
+  - set: subclass
+    value: "_{Obedience}"
+  - set: champion-cause
+    value: "_{Obedience}"
+
+  - at: '@champion/cause/tenets'
+    replace:
+      - ul:
+        contents:
+          - li: "_{Enforce proper hierarchies, topple illegitimate hierarchies, and lead when you're the most suited to the task.}"
+          - li: "_{Never let one who is lesser than you wield power over you or lead you.}"
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        advance: "_{Iron Command}"
+
+  - at: '@actions'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{Iron Command}"
+            content: "_{When an enemy damages you, command it to kneel before you or suffer mental anguish.}"
+
+  - at: '@reference/actions'
+    add:
+      - action: reaction
+        contents:
+          - p:
+            title: "_{Iron Command}"
+            content: "_{When an enemy damages you, command it to kneel before you or suffer mental anguish.}"
+
+  - at: '@champion/reaction'
+    replace:
+      - section: "_{Iron Command}"
+        contents:
+          - list:
+            hr: true
+            contents:
+              - action: reaction
+                contents:
+                  - g:
+                    pad: true
+                    contents:
+                      - p: "_{Trigger: an enemy in your champion's aura damages you. You command your enemy to kneel before you in obedience. The enemy must choose one:}"
+                      - ul:
+                        contents:
+                          - li: "_{Kneel: the enemy drops prone as a free action.}"
+                          - li: "_{Refuse: the enemy takes 1d6 mental damage, increasing to 2d6 at 5th level, 3d6 at 9th level, 4d6 at 12th level, 5d6 at 16th level, and 6d6 at 19th level.}"
+                      - p: "_{Regardless of which option the enemy chose, your Strikes against it deal 1 extra spirit damage until the end of your next turn. This extra damage increases to 2 at 9th level and 3 at 16th level.}"
+
+              - level: 9
+                contents:
+                  - g:
+                    pad: true
+                    contents:
+                      - h5: "_{Divine Smite}"
+                      - p: "_{If the enemy refuses, it also takes persistent spirit damage:}"
+                      - calc:
+                        output:
+                          field: champion-divine-smite-obedience
+                          legend: "_{Damage}"
+                          suffix: "_{pts}"
+                          width: large
+                          eq: "%{CHA}"
+                        inputs:
+                          - field:
+                            ref: CHA
+                            label: "_{CHA}"
+                            underlay: "_{CHA}"
+
+              - level: 11
+                contents:
+                  - g:
+                    pad: true
+                    contents:
+                      - h5: "_{Exalt}"
+                      - p: "_{Each enemy in your champion's aura other than the triggering creature must also either drop prone or take mental damage (each enemy chooses), taking only minimum damage that can't be adjusted by anything that changes your Iron Command.}"
