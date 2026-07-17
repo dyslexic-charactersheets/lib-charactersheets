@@ -94,76 +94,102 @@ inc:
           - list:
             hr: true
             contents:
-              - paste: focus
+              - list:
+                hr: true
+                light: true
                 contents:
-                  - list:
-                    hr: true
-                    light: true
+                  - layout: indent-l
                     contents:
-                      - action:
+                      - g:
+                        align: center
                         contents:
-                          - list:
-                            hr: true
-                            light: true
+                          - icon: action
+                          - paste: focus-marker
+                      - g:
+                        contents:
+                          - selectable: "##:wild-morph/claws"
+                            selected: true
                             contents:
-                              - selectable: "##:wild-morph/claws"
-                                selected: true
+                              - p: "_{Morph your hands into claws.}"
+                              - calc:
+                                output:
+                                  field: druid-wild-morph-attack-bonus
+                                  label: "_{Attack Bonus}"
+                                  width: large
+                                  attack: true
+                                  icon: bonus
+                                  eq: "%{STR}+%{druid-wild-morph/attack-proficiency-bonus}"
+                                inputs:
+                                  - field:
+                                    ref: STR
+                                    label: "_{STR}"
+                                    underlay: "_{STR}"
+                                  - field: druid-wild-morph/attack-proficiency
+                                    control: proficiency
+                                    label: "_{Proficiency}"
+                              - field: druid-wild-morph-attack-damage
+                                border: full
+                                label: "_{Damage}"
+                                width: huge
+                                icon: damage
+                                control: compound
+                                parts:
+                                  - subid: ndice
+                                    width: tiny
+                                    align: right
+                                  - label: "_{d}"
+                                  - subid: die
+                                    width: tiny
+                                    align: left
+                                  - label: "+"
+                                  - subid: bonus
+                                    width: tiny
+                                    align: left
+                  - layout: indent-l
+                    contents:
+                      - g:
+                        align: center
+                        contents:
+                          - icon: action
+                          - paste: focus-marker
+                      - g:
+                        contents:
+                          - selectable: "##:wild-morph/elemental"
+                            contents:
+                              - p: "_{Morph your body to be part elemental.}"
+                              - row:
+                                valign: center
                                 contents:
-                                  - p: "_{Morph your hands into claws.}"
-                                  - calc:
-                                    output:
-                                      field: druid-wild-morph-attack-bonus
-                                      label: "_{Attack Bonus}"
-                                      width: large
-                                      attack: true
-                                      icon: bonus
-                                      eq: "%{STR}+%{druid-wild-morph/attack-proficiency-bonus}"
-                                    inputs:
-                                      - field:
-                                        ref: STR
-                                        label: "_{STR}"
-                                        underlay: "_{STR}"
-                                      - field: druid-wild-morph/attack-proficiency
-                                        control: proficiency
-                                        label: "_{Proficiency}"
-                                  - field: druid-wild-morph-attack-damage
-                                    border: full
-                                    label: "_{Damage}"
-                                    width: huge
-                                    icon: damage
-                                    control: compound
-                                    parts:
-                                      - subid: ndice
-                                        width: tiny
-                                        align: right
-                                      - label: "_{d}"
-                                      - subid: die
-                                        width: tiny
-                                        align: left
-                                      - label: "+"
-                                      - subid: bonus
-                                        width: tiny
-                                        align: left
-                              - selectable: "##:wild-morph/elemental"
-                                contents:
-                                  - p: "_{Morph your body to be part elemental.}"
-                                  - row:
-                                    contents:
-                                      - field: druid-wild-morph-crit-resistance
-                                        frame: none
-                                        control: value
-                                        value: 5
-                                      - p: "_{Resistance to critical hits and precision damage.}"
-                              - selectable: "##:wild-morph/vines"
-                                contents:
-                                  - p: "_{Morph your arms into vines.}"
-                                  - field: druid-wild-morph-reach
-                                    frame: right
-                                    label: "_{Reach}"
+                                  - field: druid-wild-morph-crit-resistance
+                                    frame: none
                                     control: value
-                                    value: "_{10ft}"
-                          
-                      - action: 2
+                                    value: "+5"
+                                  - p: "_{vs. critical hits and precision damage.}"
+                  - layout: indent-l
+                    contents:
+                      - g:
+                        align: center
+                        contents:
+                          - icon: action
+                          - paste: focus-marker
+                      - g:
+                        contents:
+                          - selectable: "##:wild-morph/vines"
+                            contents:
+                              - p: "_{Morph your arms into vines.}"
+                              - field: druid-wild-morph-reach
+                                frame: right
+                                label: "_{Reach}"
+                                control: value
+                                value: "_{10ft}"
+                  - layout: indent-l
+                    contents:
+                      - g:
+                        align: center
+                        contents:
+                          - icon: action2
+                          - paste: focus-marker
+                      - g:
                         contents:
                           - selectable: "##:wild-morph/wings"
                             contents:
@@ -176,24 +202,28 @@ inc:
 
               - level: 11
                 contents:
-                  - field: druid-wild-morph-attack-bonus-damage-2d6
-                    frame: right
-                    width: huge
-                    icon: damage
-                    control: value
-                    value: "+_{2d6}"
-                    label: "_{Persistent bleed or poison damage}"
+                  - row:
+                    valign: center
+                    contents:
+                      - field: druid-wild-morph-attack-bonus-damage-2d6
+                        frame: none
+                        icon: damage
+                        control: value
+                        value: "+_{2d6}"
+                      - p: "_{Persistent bleed or poison damage.}"
                   - p: "_{Apply two morphs at once.}"
 
               - level: 19
                 contents:
-                  - field: druid-wild-morph-attack-bonus-damage-2d6
-                    frame: right
-                    width: huge
-                    icon: damage
-                    control: value
-                    value: "+_{4d6}"
-                    label: "_{Persistent bleed or poison damage}"
+                  - row:
+                    valign: center
+                    contents:
+                      - field: druid-wild-morph-attack-bonus-damage-2d6
+                        frame: none
+                        icon: damage
+                        control: value
+                        value: "+_{4d6}"
+                      - p: "_{Persistent bleed or poison damage.}"
                   - p: "_{Apply three morphs at once.}"
 
   - at: '@anathema'
