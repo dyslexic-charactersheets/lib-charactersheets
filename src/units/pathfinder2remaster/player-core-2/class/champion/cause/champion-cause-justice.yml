@@ -49,7 +49,7 @@ inc:
 
   - at: '@champion/reaction'
     replace:
-      - section: "_{Champion's Reaction}"
+      - section: "_{Retributive Strike}"
         contents:
           - list:
             hr: true
@@ -59,7 +59,6 @@ inc:
                   - g:
                     pad: true
                     contents:
-                      - h5: "_{Retributive Strike}"
                       - p: "_{An enemy damages your ally within 15 feet of you. Your ally gains resistance to that damage, and if the enemy is within reach, you make a melee Strike against it.}"
                       - calc:
                         output:
@@ -79,20 +78,23 @@ inc:
                   - g:
                     pad: true
                     contents:
-                      - h5: "_{Divine Smite}"
-                      - p: "_{If your Strike hits, the target also takes persistent spirit damage (a holy effect):}"
-                      - calc:
-                        output:
-                          field: champion-divine-smite-justice
-                          legend: "_{Damage}"
-                          suffix: "_{pts}"
-                          width: huge
-                          eq: "%{CHA}"
-                        inputs:
-                          - field:
-                            ref: CHA
-                            label: "_{CHA}"
-                            underlay: "_{CHA}"
+                      - layout: 2r
+                        contents:
+                          - p:
+                            title: "_{Divine Smite}"
+                            content: "_{If your Strike hits, the target also takes persistent spirit damage (a holy effect):}"
+                          - calc:
+                            output:
+                              field: champion-divine-smite-justice
+                              legend: "_{Damage}"
+                              suffix: "_{pts}"
+                              width: huge
+                              eq: "%{CHA}"
+                            inputs:
+                              - field:
+                                ref: CHA
+                                label: "_{CHA}"
+                                underlay: "_{CHA}"
 
               - level: 11
                 contents:

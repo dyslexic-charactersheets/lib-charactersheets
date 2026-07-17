@@ -49,14 +49,13 @@ inc:
 
   - at: '@champion/reaction'
     replace:
-      - section: "_{Champion's Reaction}"
+      - section: "_{Liberating Step}"
         contents:
           - list:
             hr: true
             contents:
               - action: reaction
                 contents:
-                  - h5: "_{Liberating Step}"
                   - p: "_{An enemy damages, grabs or grapples your ally within 15 feet of you. Your ally gains resistance, and can either attempt a new save against the triggering effect or Escape as a free action.}"
                   - calc:
                     output:
@@ -73,20 +72,23 @@ inc:
 
               - level: 9
                 contents:
-                  - h5: "_{Divine Smite}"
-                  - p: "_{If the foe had grabbed, restrained, immobilised or paralysed your ally, it takes persistent spirit damage (a holy effect):}"
-                  - calc:
-                    output:
-                      field: champion-divine-smite-liberation
-                      legend: "_{Damage}"
-                      suffix: "_{pts}"
-                      width: large
-                      eq: "%{CHA}"
-                    inputs:
-                      - field:
-                        ref: CHA
-                        label: "_{CHA}"
-                        underlay: "_{CHA}"
+                  - layout: 2r
+                    contents:
+                      - p:
+                        title: "_{Divine Smite}"
+                        content: "_{If the foe had grabbed, restrained, immobilised or paralysed your ally, it takes persistent spirit damage (a holy effect):}"
+                      - calc:
+                        output:
+                          field: champion-divine-smite-liberation
+                          legend: "_{Damage}"
+                          suffix: "_{pts}"
+                          width: large
+                          eq: "%{CHA}"
+                        inputs:
+                          - field:
+                            ref: CHA
+                            label: "_{CHA}"
+                            underlay: "_{CHA}"
 
               - level: 11
                 contents:

@@ -47,7 +47,7 @@ inc:
 
   - at: '@champion/reaction'
     replace:
-      - section: "_{Champion's Reaction}"
+      - section: "_{Destructive Vengeance}"
         contents:
           - list:
             hr: true
@@ -57,29 +57,73 @@ inc:
                   - g:
                     pad: true
                     contents:
-                      - h5: "_{Destructive Vengeance}"
-                      - p: "_{An enemy in your champion's aura damages you. Bloodshed begets bloodshed as you drag your enemy toward oblivion. You increase the damage you take by 1d6, and you deal 1d6 spirit damage to the triggering enemy. Both dice increase to 2d6 at 5th level, 3d6 at 9th level, 4d6 at 12th level, 5d6 at 16th level, and 6d6 at 19th level.}"
-                      - p: "_{In addition, until the end of your next turn, your Strikes against the triggering creature deal 2 extra spirit damage. This extra damage increases to 4 at 9th level and 6 at 16th level.}"
+                      - p: "_{An enemy in your champion's aura damages you. Bloodshed begets bloodshed as you drag your enemy toward oblivion. You increase the damage you take, and deal the same amount of spirit damage to the triggering enemy.}"
+                      - table:
+                        flip: true
+                        rows:
+                          - level: 1
+                            damage: "_{1d6}"
+                          - level: 5
+                            damage: "_{2d6}"
+                          - level: 9
+                            damage: "_{3d6}"
+                          - level: 12
+                            damage: "_{4d6}"
+                          - level: 16
+                            damage: "_{5d6}"
+                          - level: 19
+                            damage: "_{6d6}"
+                        columns:
+                          - label: "_{Level}"
+                            rotate: true
+                          - label: "_{Spirit\nDamage}"
+                            rotate: true
+                        template:
+                          - level-marker: "#{level}"
+                            marker: ""
+                          - value: "#{damage}"
+                      - p: "_{In addition, until the end of your next turn, your Strikes against the triggering creature deal extra spirit damage.}"
+                      - table:
+                        flip: true
+                        rows:
+                          - level: 1
+                            damage: "+2"
+                          - level: 9
+                            damage: "+4"
+                          - level: 16
+                            damage: "+6"
+                        columns:
+                          - label: "_{Level}"
+                            rotate: true
+                          - label: "_{Extra\nDamage}"
+                            rotate: true
+                        template:
+                          - level-marker: "#{level}"
+                            marker: ""
+                          - value: "#{damage}"
 
               - level: 9
                 contents:
                   - g:
                     pad: true
                     contents:
-                      - h5: "_{Divine Smite}"
-                      - p: "_{An enemy damaged by the initial reaction's damage also takes persistent spirit damage (an unholy effect). This applies only to the damage the reaction itself deals, not the damage you deal with subsequent Strikes:}"
-                      - calc:
-                        output:
-                          field: champion-divine-smite-iniquity
-                          legend: "_{Damage}"
-                          suffix: "_{pts}"
-                          width: large
-                          eq: "%{CHA}"
-                        inputs:
-                          - field:
-                            ref: CHA
-                            label: "_{CHA}"
-                            underlay: "_{CHA}"
+                      - layout: 2r
+                        contents:
+                          - p:
+                            title: "_{Divine Smite}"
+                            content: "_{An enemy damaged by the initial reaction's damage also takes persistent spirit damage (an unholy effect). This applies only to the damage the reaction itself deals, not the damage you deal with subsequent Strikes:}"
+                          - calc:
+                            output:
+                              field: champion-divine-smite-iniquity
+                              legend: "_{Damage}"
+                              suffix: "_{pts}"
+                              width: large
+                              eq: "%{CHA}"
+                            inputs:
+                              - field:
+                                ref: CHA
+                                label: "_{CHA}"
+                                underlay: "_{CHA}"
 
               - level: 11
                 contents:
