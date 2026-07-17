@@ -30,28 +30,26 @@ inc:
     replace:
       - g:
         contents:
-          - h5: "_{Instinct Ability—Superstitious Resilience}"
+          - h5: "_{Superstitious Resilience}"
           - field: "##:superstitious-resilience/save-bonus"
-            label: "_{Status bonus to saves vs. magic (while raging)}"
-            border: full
+            label: "_{[b]Rage![/b] Status Bonus to Saves vs. Magic}"
+            frame: right
             control: value
             width: large
             value: "+2"
-          - row:
-            contents:
-              - field: barbarian-superstition-damage-bonus
-                label: "_{[b]Rage![/b] Damage Bonus}"
-                frame: right
-                control: value
-                width: large
-                value: "3"
-              - field: barbarian-superstition-damage-bonus-spellcaster
-                label: "_{...vs. a creature you've witnessed Casting a Spell in the last hour}"
-                frame: right
-                control: value
-                width: large
-                value: "4"
-          - p: "_{When you Rage (once every 10 minutes), regain Hit Points equal to the temporary HP you gained from the Rage action.}"
+          - field: barbarian-superstition-damage-bonus
+            label: "_{[b]Rage![/b] Damage Bonus}"
+            frame: right
+            control: value
+            width: large
+            value: "+3"
+          - field: barbarian-superstition-damage-bonus-spellcaster
+            label: "_{...vs. witnessed spellcasters}"
+            frame: right
+            control: value
+            width: large
+            value: "+4"
+          - p: "_{When you [b]Rage![/b] (once every 10 minutes), regain Hit Points equal to the temporary HP you gained from the [b]Rage![/b] action.}"
           - p: "_{While raging, if you willingly accept the effects of a magic spell or effect, you're frightened 1, and can't reduce that frightened condition below 1 while still affected.}"
 
   - at: '@barbarian/specialisation-ability'
@@ -59,48 +57,66 @@ inc:
       - level: 7
         contents:
           - h5: "_{Instinct Specialisation}"
-          - row:
-            contents:
-              - field: barbarian-superstition-damage-bonus
-                label: "_{[b]Rage![/b] Damage Bonus}"
-                frame: right
-                control: value
-                width: large
-                value: "7"
-              - field: barbarian-superstition-damage-bonus-spellcaster
-                label: "_{...vs. witnessed spellcasters}"
-                frame: right
-                control: value
-                width: large
-                value: "8"
+          - field: barbarian-superstition-damage-bonus
+            label: "_{[b]Rage![/b] Damage Bonus}"
+            frame: right
+            control: value
+            width: large
+            value: "+7"
+          - field: barbarian-superstition-damage-bonus-spellcaster
+            label: "_{...vs. witnessed spellcasters}"
+            frame: right
+            control: value
+            width: large
+            value: "+8"
 
   - at: '@barbarian/specialisation-ability/greater'
     replace:
       - level: 15
         contents:
           - h5: "_{Greater Instinct Specialisation}"
-          - row:
-            contents:
-              - field: barbarian-superstition-damage-bonus-greater
-                label: "_{[b]Rage![/b] Damage Bonus}"
-                frame: right
-                control: value
-                width: large
-                value: "13"
-              - field: barbarian-superstition-damage-bonus-greater-spellcaster
-                label: "_{...vs. witnessed spellcasters}"
-                frame: right
-                control: value
-                width: large
-                value: "16"
+          - field: barbarian-superstition-damage-bonus-greater
+            label: "_{[b]Rage![/b] Damage Bonus}"
+            frame: right
+            control: value
+            width: large
+            value: "+13"
+          - field: barbarian-superstition-damage-bonus-greater-spellcaster
+            label: "_{...vs. witnessed spellcasters}"
+            frame: right
+            control: value
+            width: large
+            value: "+16"
 
   - at: '@barbarian/raging-resistance'
     replace:
-      - p: "_{Choose two: arcane + occult, arcane + primal, divine + occult, or divine + primal.}"
-        optional: true
-      - field: barbarian-superstition-raging-resistance-tradition1
-        label: "_{Tradition}"
-        width: stretch
-      - field: barbarian-superstition-raging-resistance-tradition2
-        label: "_{Tradition}"
-        width: stretch
+      - table:
+        columns:
+          - ""
+          - type: span
+            content: "_{Arcane}"
+            size: large
+          - type: span
+            content: "_{Divine}"
+            size: large
+        rows:
+          - contents:
+            - span: "_{Primal}"
+            - field: barbarian-superstition-raging-resistance
+              frame: none
+              control: radio
+              value: arcane-primal
+            - field: barbarian-superstition-raging-resistance
+              frame: none
+              control: radio
+              value: divine-primal
+          - contents:
+            - span: "_{Occult}"
+            - field: barbarian-superstition-raging-resistance
+              frame: none
+              control: radio
+              value: arcane-occult
+            - field: barbarian-superstition-raging-resistance
+              frame: none
+              control: radio
+              value: divine-occult
