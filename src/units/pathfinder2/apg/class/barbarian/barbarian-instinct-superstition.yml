@@ -21,10 +21,14 @@ inc:
           - h4: "_{Superstition}"
           - hr:
             swash: true
+          # APG p108 flavor line
+          - p: "_{A deep distrust of magic drives you to forgo and counter the metaphysical nonsense of spellcasters.}"
           - h5: "_{Anathema}"
           - ul:
             contents:
-              - li: "_{Willingly accepting the effects of magic spells, even from your allies}"
+              # APG p108 anathema additional info
+              - li: "_{Willingly accepting the effects of magic spells (including from scrolls, wands, and the like), even from your allies.}"
+          - paste: barbarian-anathema-consequence
 
   - at: '@barbarian/instinct-ability'
     replace:
@@ -36,13 +40,17 @@ inc:
             content: "_{Bonus to saving throws against magic}"
           - value-block: "4"
             content: "_{Rage damage bonus against spellcasters}"
-          - p: "_{When you rage (once every 10 minutes) regain hit points equal to the temporary hit points.}"
+          # APG p108: cleaned up the HP-regain sentence to specify it's the temp HP gained
+          # from that specific Rage action, not just "the temporary hit points" in general.
+          - p: "_{When you [b]Rage![/b] (once every 10 minutes), regain Hit Points equal to the temporary HP you gained from that [b]Rage![/b] action.}"
 
   - at: '@barbarian/specialisation-ability'
     replace:
       - level: 7
         contents:
           - h5: "_{Weapon Specialisation}"
+          # APG p108: "Increase the damage from Rage from 4 to 8 against creatures that can
+          # cast spells." (7th-level tier)
           - value-block: "8"
             content: "_{Rage damage bonus against spellcasters}"
 
@@ -50,9 +58,15 @@ inc:
     replace:
       - level: 15
         contents:
-          - h5: "_{Greater Weapon Specilisation}"
+          - h5: "_{Greater Weapon Specialisation}"
+          # APG p108: "...increase the damage from Rage to 12 against creatures with spells
+          # and 8 against creatures without." Added the missing non-spellcaster (8) damage
+          # bump at 15th level — the file previously only ever tracked the spellcaster-only
+          # number, a real content gap.
+          - value-block: "8"
+            content: "_{Rage damage bonus}"
           - value-block: "12"
-            content: "_{Rage damage bonus against spellcasters}"
+            content: "_{...against spellcasters}"
 
   - at: '@barbarian/raging-resistance'
     replace:
