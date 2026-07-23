@@ -34,39 +34,50 @@ inc:
     replace:
       - g:
         contents:
-          - h5: "_{Instinct Ability}"
-          - h6: "_{Superstitious Resilience}"
-          - value-block: "+2"
-            content: "_{Bonus to saving throws against magic}"
-          - value-block: "4"
-            content: "_{Rage damage bonus against spellcasters}"
-          # APG p108: cleaned up the HP-regain sentence to specify it's the temp HP gained
-          # from that specific Rage action, not just "the temporary hit points" in general.
-          - p: "_{When you [b]Rage![/b] (once every 10 minutes), regain Hit Points equal to the temporary HP you gained from that [b]Rage![/b] action.}"
+
+          - h5: "_{Superstitious Resilience}"
+          - field: "##:superstitious-resilience/save-bonus"
+            label: "_{[b]Rage![/b] Status Bonus to Saves vs. Magic}"
+            frame: right
+            control: value
+            width: large
+            value: "+2"
+          - field: barbarian-superstition-damage-bonus-spellcaster
+            label: "_{...vs. witnessed spellcasters}"
+            frame: right
+            control: value
+            width: large
+            value: "+4"
+          - p: "_{When you [b]Rage![/b] (once every 10 minutes), regain Hit Points equal to the temporary HP you gained from the [b]Rage![/b] action.}"
 
   - at: '@barbarian/specialisation-ability'
     replace:
       - level: 7
         contents:
           - h5: "_{Weapon Specialisation}"
-          # APG p108: "Increase the damage from Rage from 4 to 8 against creatures that can
-          # cast spells." (7th-level tier)
-          - value-block: "8"
-            content: "_{Rage damage bonus against spellcasters}"
+          - field: barbarian-superstition-damage-bonus-spellcaster
+            label: "_{...vs. witnessed spellcasters}"
+            frame: right
+            control: value
+            width: large
+            value: "+8"
 
   - at: '@barbarian/specialisation-ability/greater'
     replace:
       - level: 15
         contents:
-          - h5: "_{Greater Weapon Specialisation}"
-          # APG p108: "...increase the damage from Rage to 12 against creatures with spells
-          # and 8 against creatures without." Added the missing non-spellcaster (8) damage
-          # bump at 15th level — the file previously only ever tracked the spellcaster-only
-          # number, a real content gap.
-          - value-block: "8"
-            content: "_{Rage damage bonus}"
-          - value-block: "12"
-            content: "_{...against spellcasters}"
+          - field: barbarian-superstition-damage-bonus-greater
+            label: "_{[b]Rage![/b] Damage Bonus}"
+            frame: right
+            control: value
+            width: large
+            value: "+8"
+          - field: barbarian-superstition-damage-bonus-greater-spellcaster
+            label: "_{...vs. witnessed spellcasters}"
+            frame: right
+            control: value
+            width: large
+            value: "+12"
 
   - at: '@barbarian/raging-resistance'
     replace:
