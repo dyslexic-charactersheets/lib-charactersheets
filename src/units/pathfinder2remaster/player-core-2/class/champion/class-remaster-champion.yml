@@ -175,8 +175,8 @@ inc:
                       - class-name: ""
                         suffix: "_{Champion of}"
                   - field: cleric-deity
+                    label: "_{Deity}"
                     width: stretch
-                    frame: none
                     align: center
 
                   - row:
@@ -217,7 +217,31 @@ inc:
                             contents:
                               - p:
                                 title: "_{Lay on Hands}"
-                                content: "_{Touch to heal a living ally (or harm an undead creature you touch), for 6 plus 2 per additional spell rank you've spent to heighten it.}"
+                                content: "_{Touch to heal a willing living creature, or damage an undead creature.}"
+                              - calc:
+                                output:
+                                  field: champion-lay-on-hands-healing
+                                  legend: "_{Heal\nAlly}"
+                                  width: huge
+                                  eq: "6*%{focus-level}"
+                                inputs:
+                                  - span: "6 &times;"
+                                  - field:
+                                    ref: focus-level
+                                    label: "_{Focus Level}"
+                              - p: "_{Undead creature takes vitality damage instead, with a basic Fortitude save (on a failure, it also takes a -2 status penalty to AC for 1 round):}"
+                              - calc:
+                                output:
+                                  field: champion-lay-on-hands-damage
+                                  legend: "_{Damage\nUndead}"
+                                  suffix: "d6"
+                                  width: huge
+                                  eq: "%{focus-level}"
+                                inputs:
+                                  - span: "_{1d6} &times;"
+                                  - field:
+                                    ref: focus-level
+                                    label: "_{Focus Level}"
                           - zone: '@champion/devotion-spells'
                           - field: champion-devotion-spells-known
                             width: stretch
@@ -291,8 +315,6 @@ inc:
                                       - li: "_{Uphold the tenets of good: never commit an evil act, such as murder, torture, or casting an evil spell.}"
                                       - li: "_{Never knowingly harm an innocent, or allow harm to come to one when you could reasonably prevent it.}"
                               - paste: anathema-open
-                                params:
-                                  lines: 3
                               - p: "_{If you violate your code, you lose your Focus Points and blessing of the devoted until you demonstrate repentance.}"
                                 optional: true
 

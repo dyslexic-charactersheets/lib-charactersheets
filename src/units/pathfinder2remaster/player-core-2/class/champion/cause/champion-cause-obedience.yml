@@ -61,8 +61,12 @@ inc:
                       - p: "_{An enemy in your champion's aura damages you. You command your enemy to kneel before you in obedience. The enemy must choose one:}"
                       - ul:
                         contents:
-                          - li: "_{Kneel: the enemy drops prone as a free action.}"
-                          - li: "_{Refuse: the enemy takes mental damage.}"
+                          - li:
+                            contents:
+                              - p:
+                                icon: free-action
+                                content: "_{[b]Kneel[/b]: the enemy drops prone.}"
+                          - li: "_{[b]Refuse[/b]: the enemy takes mental damage.}"
                       - table:
                         flip: true
                         rows:
@@ -112,23 +116,20 @@ inc:
                   - g:
                     pad: true
                     contents:
-                      - layout: 2r
-                        contents:
-                          - p:
-                            title: "_{Relentless Reaction}"
-                            content: "_{If the enemy refuses, it also takes persistent spirit damage:}"
-                          - calc:
-                            output:
-                              field: champion-divine-smite-obedience
-                              legend: "_{Damage}"
-                              suffix: "_{pts}"
-                              width: large
-                              eq: "%{CHA}"
-                            inputs:
-                              - field:
-                                ref: CHA
-                                label: "_{CHA}"
-                                underlay: "_{CHA}"
+                      - h5: "_{Relentless Reaction}"
+                      - p: "_{If the enemy refuses, it also takes persistent spirit damage:}"
+                      - calc:
+                        output:
+                          field: champion-divine-smite-obedience
+                          legend: "_{Damage}"
+                          suffix: "_{pts}"
+                          width: large
+                          eq: "%{CHA}"
+                        inputs:
+                          - field:
+                            ref: CHA
+                            label: "_{CHA}"
+                            underlay: "_{CHA}"
 
               - level: 11
                 contents:

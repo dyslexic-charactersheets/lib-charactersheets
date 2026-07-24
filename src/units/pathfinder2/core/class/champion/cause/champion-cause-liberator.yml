@@ -17,6 +17,8 @@ inc:
     value: "_{Liberator}"
   - set: 'champion-cause-name'
     value: '_{Liberator}'
+  - set: cause
+    value: "_{Liberator}"
 
   - at: '@champion/class-name'
     replace:
@@ -26,7 +28,7 @@ inc:
 
   - at: '@champion/cause-section'
     replace:
-      - section: "_{Liberator}"
+      - section: "_{Cause}"
         primary: true
         contents:
           - list:
@@ -37,8 +39,8 @@ inc:
                     contents:
                       - field: cause
                         width: stretch
-                        size: large
-                        legend: "Cause"
+                        size: huge
+                        frame: none
                       - field: cause-detail
                         width: stretch
                         frame: none
@@ -89,11 +91,15 @@ inc:
             contents:
               - action: reaction
                 contents:
-                  - p: "_{When an enemy grabs, grapples or damages your ally within 15 feet of you, free the ally.}"
+                  - p: "_{When an enemy grabs, grapples or damages your ally within 15 feet of you, free the ally. Your ally can choose one:}"
                   - ul:
                     contents:
-                      - li: "_{They can attempt a new saving throw}"
-                      - li: "_{OR they can attempt to escape as a free action}"
+                      - li: "_{[b]New Save[/b]: attempt a new saving throw.}"
+                      - li:
+                        contents:
+                          - p:
+                            icon: free-action
+                            content: "_{[b]Escape[/b]: attempt to escape.}"
                   - calc:
                     output:
                       field: paladin-liberating-step-resistance

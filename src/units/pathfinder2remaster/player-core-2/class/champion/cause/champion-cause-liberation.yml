@@ -57,7 +57,15 @@ inc:
             contents:
               - action: reaction
                 contents:
-                  - p: "_{An enemy damages, grabs or grapples your ally within 15 feet of you. Your ally gains resistance, and can either attempt a new save against the triggering effect or Escape as a free action.}"
+                  - p: "_{An enemy damages, grabs or grapples your ally within 15 feet of you. Your ally gains resistance, and can choose one:}"
+                  - ul:
+                    contents:
+                      - li: "_{[b]New Save[/b]: attempt a new save against the triggering effect.}"
+                      - li:
+                        contents:
+                          - p:
+                            icon: free-action
+                            content: "_{[b]Escape[/b]: attempt to Escape.}"
                   - calc:
                     output:
                       field: champion-liberation-liberating-step-resistance
@@ -73,23 +81,20 @@ inc:
 
               - level: 9
                 contents:
-                  - layout: 2r
-                    contents:
-                      - p:
-                        title: "_{Relentless Reaction}"
-                        content: "_{If the foe had grabbed, restrained, immobilised or paralysed your ally, it takes persistent spirit damage (a holy effect):}"
-                      - calc:
-                        output:
-                          field: champion-divine-smite-liberation
-                          legend: "_{Damage}"
-                          suffix: "_{pts}"
-                          width: large
-                          eq: "%{CHA}"
-                        inputs:
-                          - field:
-                            ref: CHA
-                            label: "_{CHA}"
-                            underlay: "_{CHA}"
+                  - h5: "_{Relentless Reaction}"
+                  - p: "_{If the foe had grabbed, restrained, immobilised or paralysed your ally, it takes persistent spirit damage (a holy effect):}"
+                  - calc:
+                    output:
+                      field: champion-divine-smite-liberation
+                      legend: "_{Damage}"
+                      suffix: "_{pts}"
+                      width: large
+                      eq: "%{CHA}"
+                    inputs:
+                      - field:
+                        ref: CHA
+                        label: "_{CHA}"
+                        underlay: "_{CHA}"
 
               - level: 11
                 contents:
