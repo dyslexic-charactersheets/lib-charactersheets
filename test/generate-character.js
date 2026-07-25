@@ -27,6 +27,9 @@
 // --limit <integer>                      | limit the number of files that can generate at once above default
 // --kwargs key=value                     | overwrite any attribute
 // --render                               | create test/out/html/<filename>.html
+// --page                                 | only keep these pages (1 = the character page,
+//                                          then combat/feats/class/etc) + 0, -1, -2... allow to
+//                                          access pages before, may be non-consecutive: --page -1,2,6
 // --open                                 | autoopen rendered file
 // --out <name>                           | when only one file is generated, this replaces the filename
 //                                          when multiple values generate fileS, it's a prefix instead
@@ -37,6 +40,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync, exec } = require('child_process');
+const cheerio = require('cheerio');
 
 const REPO_ROOT = path.join(__dirname, '..');
 const LIB_DIR = path.join(REPO_ROOT, 'lib');
@@ -150,6 +154,7 @@ function parseArgs(argv) {
     heritages: [],
     backgrounds: [],
     languages: [],
+    pages: [],
   };
 
   for (let i = 0; i < argv.length; i++) {
@@ -189,6 +194,8 @@ function parseArgs(argv) {
       case 'out': args.out = value; break;
       case 'list': args.list = value; break;
       case 'limit': args.limit = parseInt(value, 10); break;
+      case 'page':
+      case 'pages': args.pages.push(...splitMultiflag(value).map(v => parseInt(v, 10))); break;
       case 'render': args.render = true; break;
       case 'open': args.open = true; break;
       case 'no-build': args.noBuild = true; break;
@@ -334,10 +341,45 @@ function openFile(filePath) {
   exec(`xdg-open "${filePath}"`);
 }
 
+function filterToPages(html, pageIndexes) {
+  const $ = cheerio.load(html, { decodeEntities: false });
+
+  // pages aren't straight-forward, so this workaround is required
+  const pageIds = $('.page-container').map((i, el) => $(el).children('[data-page]').first().attr('data-page')).get();
+
+  let anchorId = null;
+  $('.index-button').each((i, el) => {
+    const $el = $(el);
+    if ($el.find('.index-button__number').text().trim() === '1') anchorId = $el.attr('data-page');
+  });
+  const anchorPos = pageIds.indexOf(anchorId);
+
+  const targetPageIds = new Set();
+  const missing = [];
+  pageIndexes.forEach(pageIndex => {
+    const targetPageId = pageIds[anchorPos + (pageIndex - 1)];
+    if (anchorPos === -1 || targetPageId === undefined) missing.push(pageIndex);
+    else targetPageIds.add(targetPageId);
+  });
+
+  if (missing.length) console.error(`generate-character: --page ${missing.join(',')} not found`);
+  if (!targetPageIds.size) return html;
+
+  $('.page-container').each((i, el) => {
+    const $el = $(el);
+    if (!targetPageIds.has($el.children('[data-page]').first().attr('data-page'))) {
+      $el.remove();
+    }
+  });
+  $('#index-buttons').remove();
+
+  return $.html();
+}
+
 // same shape as saveResult in test.js
-function saveResult(result, name, openFlag) {
+function saveResult(result, name, openFlag, pages) {
   if (Array.isArray(result)) {
-    result.forEach(r => saveResult(r, name, openFlag));
+    result.forEach(r => saveResult(r, name, openFlag, pages));
     return;
   }
 
@@ -346,9 +388,11 @@ function saveResult(result, name, openFlag) {
     return;
   }
 
+  const data = pages.length ? filterToPages(result.data, pages) : result.data;
+
   fs.mkdirSync(HTML_DIR, { recursive: true });
   const outfile = path.join(HTML_DIR, `${name} - ${result.filename}`);
-  fs.writeFileSync(outfile, result.data);
+  fs.writeFileSync(outfile, data);
   console.log(`Rendered ${path.relative(process.cwd(), outfile)}`);
 
   // open if user requested
@@ -356,7 +400,7 @@ function saveResult(result, name, openFlag) {
     openFile(outfile);
 }
 
-function renderToOut(request, name, openFlag) {
+function renderToOut(request, name, openFlag, pages) {
   const characterSheets = getCharacterSheets();
 
   return characterSheets.translationsPromise.then(() => characterSheets.create(request)).then(result => {
@@ -365,7 +409,7 @@ function renderToOut(request, name, openFlag) {
       return;
     }
 
-    saveResult(result, name, openFlag);
+    saveResult(result, name, openFlag, pages);
   });
 }
 
@@ -572,7 +616,7 @@ function main() {
   }
 
   rebuildLibrary(args.noBuild);
-  return requests.reduce((chain, { name, request }) => chain.then(() => renderToOut(request, name, args.open)), Promise.resolve());
+  return requests.reduce((chain, { name, request }) => chain.then(() => renderToOut(request, name, args.open, args.pages)), Promise.resolve());
 }
 
 main().catch(err => {
