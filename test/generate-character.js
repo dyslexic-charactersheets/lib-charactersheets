@@ -4,13 +4,18 @@
 // --game, --name, --ancestry, --heritage, --background, --subclass, --language, --out
 // --class (alias: --classes) --feat (alias: --feats)
 // --class druid|cleric <or> --class druid,cleric <or> --class druid --class cleric
+// --render | create test/out/<name>.html
+// --open | autoopen rendered file 
+// --no-build | no library rebuild (faster if no changes)
 
 const fs = require('fs');
 const path = require('path');
+const { execSync, exec } = require('child_process');
 
 const REPO_ROOT = path.join(__dirname, '..');
 const LIB_DIR = path.join(REPO_ROOT, 'lib');
 const IN_DIR = path.join(__dirname, 'in');
+const OUT_DIR = path.join(__dirname, 'out');
 const CONFIG_PATH = path.join(__dirname, 'generate-character.config.json');
 
 function loadConfig() {
@@ -54,6 +59,12 @@ function splitMultiflag(value) {
   return value.split(/[|,]/);
 }
 
+const BOOLEAN_FLAGS = new Set([
+  'render',
+  'open',
+  'no-build'
+]);
+
 function parseArgs(argv) {
   const args = { feats: [], classes: [] };
   for (let i = 0; i < argv.length; i++) {
@@ -61,8 +72,13 @@ function parseArgs(argv) {
     if (!arg.startsWith('--')) continue;
 
     const key = arg.slice(2);
-    const value = argv[i + 1];
-    i++;
+    let value;
+    if (BOOLEAN_FLAGS.has(key)) {
+      value = true;
+    } else {
+      value = argv[i + 1];
+      i++;
+    }
 
     switch (key) {
       case 'game': args.game = value; break;
@@ -77,6 +93,9 @@ function parseArgs(argv) {
       case 'feats': args.feats.push(...splitMultiflag(value)); break;
       case 'language': args.language = value; break;
       case 'out': args.out = value; break;
+      case 'render': args.render = true; break;
+      case 'open': args.open = true; break;
+      case 'no-build': args.noBuild = true; break;
       default: console.error(`generate-character: unknown flag --${key}`); process.exit(1);
     }
   }
@@ -146,6 +165,84 @@ function attributesForIdentity(identity, config, game) {
   return attributes;
 }
 
+// send the rebuild to existing build script
+function rebuildLibrary(noBuild) {
+  if (noBuild) return;
+  execSync('npm run build', { cwd: REPO_ROOT, stdio: 'inherit' });
+}
+
+// make the setup in test.js into a function, otherwise it's identical
+let characterSheets = null;
+function getCharacterSheets() {
+  if (!characterSheets) {
+    characterSheets = require(path.join(LIB_DIR, 'lib-charactersheets.js'));
+    characterSheets.addAssetsDir(path.join(IN_DIR, 'assets'));
+    characterSheets.translationsPromise = characterSheets.loadDefaultTranslations();
+  }
+  return characterSheets;
+}
+
+// standard open-file per OS function borrowed from the internet
+function openFile(filePath) {
+  // macOS
+  if (process.platform === 'darwin') {
+    exec(`open "${filePath}"`);
+    return;
+  }
+
+  // Windows
+  if (process.platform === 'win32') {
+    exec(`start "" "${filePath}"`);
+    return;
+  }
+
+  // WSL 
+  const isWsl = fs.existsSync('/proc/version')
+    && fs.readFileSync('/proc/version', 'utf-8').toLowerCase().includes('microsoft');
+  if (isWsl) {
+    const winPath = execSync(`wslpath -w "${filePath}"`).toString().trim();
+    exec(`explorer.exe "${winPath}"`);
+    return;
+  }
+  
+  // Unix
+  exec(`xdg-open "${filePath}"`);
+}
+
+// same shape as saveResult in test.js
+function saveResult(result, openFlag) {
+  if (Array.isArray(result)) {
+    result.forEach(r => saveResult(r, openFlag));
+    return;
+  }
+
+  if (result.err) {
+    console.error('generate-character: render error', result.err);
+    return;
+  }
+
+  const outfile = path.join(OUT_DIR, result.filename);
+  fs.writeFileSync(outfile, result.data);
+  console.log(`Rendered ${path.relative(process.cwd(), outfile)}`);
+  
+  // open if user requested
+  if (openFlag) 
+    openFile(outfile);
+}
+
+function renderToOut(request, openFlag) {
+  const characterSheets = getCharacterSheets();
+  
+  return characterSheets.translationsPromise.then(() => characterSheets.create(request)).then(result => {
+    if (result === null) {
+      console.error('generate-character: render produced nothing (skipped)');
+      return;
+    }
+    
+    saveResult(result, openFlag);
+  });
+}
+
 function main() {
   const args = parseArgs(process.argv.slice(2));
   const config = loadConfig();
@@ -182,9 +279,19 @@ function main() {
   const outFile = path.join(IN_DIR, `${name}.json`);
   fs.writeFileSync(outFile, JSON.stringify(request, null, 2));
   console.log(`Wrote ${path.relative(process.cwd(), outFile)}`);
+
+  if (!args.render) {
+    return Promise.resolve();
+  }
+
+  rebuildLibrary(args.noBuild);
+  return renderToOut(request, args.open);
 }
 
-main();
+main().catch(err => {
+  console.error(err);
+  process.exit(1);
+});
 
 /*
 
