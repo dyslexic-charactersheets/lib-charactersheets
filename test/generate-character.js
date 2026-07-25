@@ -3,7 +3,7 @@
 // node test/generate-character.js --<flags>
 // node generate --flag1 arg1,arg2,arg3,...,argN --flag2 arg
 // via npm: npm run generate -- --flag1 arg1 --flag2 arg2
-//          (the "--" before the flags is required, otherwise npm swallows them)
+//          !!! the "--" before the flags is required, otherwise npm swallows them !!!
 //
 // accepted separators: , ; |
 //
@@ -47,6 +47,9 @@ const HTML_DIR = path.join(OUT_DIR, 'html');
 const CONFIG_PATH = path.join(__dirname, 'generate-character.config.json');
 
 const DEFAULT_LIMIT = 200;
+const DEFAULT_CHARSHEET_PREFIX = 'charsheet';
+const REMASTER_PREFIX = 'remaster-'
+const SEPARATORS = ",;|"
 
 function loadConfig() {
   return JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8'));
@@ -67,7 +70,7 @@ function removeTranslationKey(name) {
 }
 
 function removeRemasterPrefix(code) {
-  return code.startsWith('remaster-') ? code.slice('remaster-'.length) : code;
+  return code.startsWith(REMASTER_PREFIX) ? code.slice(REMASTER_PREFIX.length) : code;
 }
 
 function resolveValue(slot, input) {
@@ -118,7 +121,7 @@ function listSlotValues(slot, label) {
 }
 
 function splitMultiflag(value) {
-  return value.split(/[,;|]/);
+  return value.split(new RegExp(SEPARATORS));
 }
 
 // classic cartesian product
@@ -148,6 +151,7 @@ function parseArgs(argv) {
     backgrounds: [],
     languages: [],
   };
+
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     if (!arg.startsWith('--')) continue;
@@ -162,8 +166,7 @@ function parseArgs(argv) {
     }
 
     switch (key) {
-      case 'game':
-      case 'games': args.games.push(...splitMultiflag(value)); break;
+      case 'game': case 'games': args.games.push(...splitMultiflag(value)); break;
       case 'name': args.name = value; break;
       case 'ancestry':
       case 'ancestries': args.ancestries.push(...splitMultiflag(value)); break;
@@ -419,7 +422,7 @@ function checkSubclassNeedsOneClass(classVariants, identityClasses, subclassSpec
     ? identityClasses.length
     : classVariants.length;
   if (classCount !== 1) {
-    console.error('generate-character: --subclass needs exactly one class, via --class or a single-class config default');
+    console.error('generate-character: --subclass needs exactly one class');
     process.exit(1);
   }
 }
@@ -472,7 +475,7 @@ function buildCombos(games, variants, identity, args) {
 
 function checkComboLimit(combos, limit) {
   if (combos.length > limit) {
-    console.error(`generate-character: this would generate ${combos.length} new charsheets. Increase the limit to proceed.`);
+    console.error(`generate-character: this would generate ${combos.length} new charsheets. Your computer wouldn't like it, so increase the limit to proceed. You can use --limit <integer> for that.`);
     process.exit(1);
   }
 }
@@ -517,7 +520,7 @@ function nameForCombo(combo, args, identity, multi, multiFlags) {
   }
 
   // generate the filenames based on parts that consitute characters
-  const parts = [args.out || 'char'];
+  const parts = [args.out || DEFAULT_CHARSHEET_PREFIX];
   if (multiFlags.game) parts.push(combo.game);
   if (multiFlags.ancestry) parts.push(combo.ancestry);
   if (multiFlags.heritage) parts.push(combo.heritage);
