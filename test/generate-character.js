@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 
-// node test/generate-character.js
+// node test/generate-character.js [flags]
+// --game, --name, --ancestry, --heritage, --background, --subclass, --language, --out
+// --class druid|cleric <or> --class druid --class cleric
+// --feat is be repeatable as well
 
 const fs = require('fs');
 const path = require('path');
@@ -47,6 +50,33 @@ function subclassSlotsOf(classValue) {
   return (classValue.selects || []).filter(name => !name.startsWith('feat/'));
 }
 
+function parseArgs(argv) {
+  const args = { feats: [], classes: [] };
+  for (let i = 0; i < argv.length; i++) {
+    const arg = argv[i];
+    if (!arg.startsWith('--')) continue;
+
+    const key = arg.slice(2);
+    const value = argv[i + 1];
+    i++;
+
+    switch (key) {
+      case 'game': args.game = value; break;
+      case 'name': args.name = value; break;
+      case 'ancestry': args.ancestry = value; break;
+      case 'heritage': args.heritage = value; break;
+      case 'background': args.background = value; break;
+      case 'class': args.classes.push(...value.split('|')); break;
+      case 'subclass': args.subclass = value; break;
+      case 'feat': args.feats.push(value); break;
+      case 'language': args.language = value; break;
+      case 'out': args.out = value; break;
+      default: console.error(`generate-character: unknown flag --${key}`); process.exit(1);
+    }
+  }
+  return args;
+}
+
 /*
   "identity": {
     "name": "",
@@ -87,15 +117,17 @@ function attributesForIdentity(identity, config, game) {
   attributes.background = resolveValue(findSlot(data, 'background'), identity.background).id;
 
   // class
-  const classValue = resolveValue(findSlot(data, 'class'), identity.classes[0]);
-  attributes.classes = [classValue.id];
+  const classValues = identity.classes.map(code => resolveValue(findSlot(data, 'class'), code));
+  attributes.classes = classValues.map(cv => cv.id);
 
-  // subclass
-  const [subclassSlotName] = subclassSlotsOf(classValue);
-  if (subclassSlotName) {
+  // subclass,
+  classValues.forEach(classValue => {
+    const [subclassSlotName] = subclassSlotsOf(classValue);
+    if (!subclassSlotName) return;
     const subclassCode = identity.subclasses[removeRemasterPrefix(classValue.code)];
+    if (!subclassCode) return;
     attributes[subclassSlotName] = resolveValue(findSlot(data, subclassSlotName), subclassCode).id;
-  }
+  });
 
   // feats
   if (identity.feats && identity.feats.length) {
@@ -109,12 +141,25 @@ function attributesForIdentity(identity, config, game) {
 }
 
 function main() {
+  const args = parseArgs(process.argv.slice(2));
   const config = loadConfig();
-  const game = config.game;
-  const identity = config.identity;
+  const game = args.game || config.game;
+
+  const identity = { ...config.identity };
+  if (args.name) identity.name = args.name;
+  if (args.ancestry) identity.ancestry = args.ancestry;
+  if (args.heritage) identity.heritage = args.heritage;
+  if (args.background) identity.background = args.background;
+  if (args.classes.length) identity.classes = args.classes;
+  if (args.subclass) {
+    const classCode = identity.classes[0];
+    identity.subclasses = { ...identity.subclasses, [classCode]: args.subclass };
+  }
+  if (args.language) identity.language = args.language;
+  if (args.feats.length) identity.feats = args.feats;
 
   const attributes = attributesForIdentity(identity, config, game);
-  const name = identity.name || game;
+  const name = args.out || identity.name || game;
 
   const request = {
     version: 0,
