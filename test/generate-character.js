@@ -121,7 +121,7 @@ function listSlotValues(slot, label) {
 }
 
 function splitMultiflag(value) {
-  return value.split(new RegExp(SEPARATORS));
+  return value.split(new RegExp(`[${SEPARATORS}]`));
 }
 
 // classic cartesian product
