@@ -2,8 +2,9 @@
 
 // node test/generate-character.js [flags]
 // --game, --name, --ancestry, --heritage, --background, --subclass, --language, --out
-// --class (alias: --classes) --feat (alias: --feats)
+// --class (alias: --classes) --feat (alias: --feats) --archetype (alias: --archetypes)
 // --class druid|cleric <or> --class druid,cleric <or> --class druid --class cleric
+// --overwrite key=value (aliases: --overwrites, --set, --setarg, --setargs, --kwargs) 
 // --render | create test/out/<name>.html
 // --open | autoopen rendered file 
 // --no-build | no library rebuild (faster if no changes)
@@ -66,7 +67,7 @@ const BOOLEAN_FLAGS = new Set([
 ]);
 
 function parseArgs(argv) {
-  const args = { feats: [], classes: [] };
+  const args = { feats: [], classes: [], archetypes: [], overwrites: [] };
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     if (!arg.startsWith('--')) continue;
@@ -91,6 +92,14 @@ function parseArgs(argv) {
       case 'subclass': args.subclass = value; break;
       case 'feat':
       case 'feats': args.feats.push(...splitMultiflag(value)); break;
+      case 'archetype':
+      case 'archetypes': args.archetypes.push(...splitMultiflag(value)); break;
+      case 'set':
+      case 'setarg':
+      case 'setargs':
+      case 'kwargs':
+      case 'overwrite':
+      case 'overwrites': args.overwrites.push(value); break;
       case 'language': args.language = value; break;
       case 'out': args.out = value; break;
       case 'render': args.render = true; break;
@@ -113,6 +122,7 @@ function parseArgs(argv) {
       "druid": "untamed"
     },
     "feats": ["diehard"],
+    "archetypes": [],
     "language": "en"
   },
 */
@@ -157,6 +167,12 @@ function attributesForIdentity(identity, config, game) {
   // feats
   if (identity.feats && identity.feats.length) {
     attributes.feats = identity.feats;
+  }
+
+  // archetypes
+  if (identity.archetypes && identity.archetypes.length) {
+    const archetypeSlot = findSlot(data, 'archetype');
+    attributes.archetypes = identity.archetypes.map(code => resolveValue(archetypeSlot, code).id);
   }
 
   // language
@@ -260,8 +276,18 @@ function main() {
   }
   if (args.language) identity.language = args.language;
   if (args.feats.length) identity.feats = args.feats;
+  if (args.archetypes.length) identity.archetypes = args.archetypes;
 
   const attributes = attributesForIdentity(identity, config, game);
+
+  // overwrite any field in the attributes via key=value after the flag 
+  args.overwrites.forEach(raw => {
+    const eq = raw.indexOf('=');
+    const key = raw.slice(0, eq);
+    const value = raw.slice(eq + 1);
+    attributes[key] = value;
+  });
+
   const name = args.out || identity.name || game;
 
   const request = {
@@ -343,6 +369,5 @@ main().catch(err => {
     }
   }
 }
-
 
 */
