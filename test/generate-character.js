@@ -39,7 +39,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { execSync, exec } = require('child_process');
+const { execSync, execFileSync, execFile } = require('child_process');
 const cheerio = require('cheerio');
 
 const REPO_ROOT = path.join(__dirname, '..');
@@ -315,30 +315,32 @@ function getCharacterSheets() {
 }
 
 // standard open-file per OS function borrowed from the internet
+// uses execFile (argv array, no shell) throughout so filenames with commas/spaces/etc.
+// can't get mangled by manual shell-string quoting
 function openFile(filePath) {
   // macOS
   if (process.platform === 'darwin') {
-    exec(`open "${filePath}"`);
+    execFile('open', [filePath]);
     return;
   }
 
   // Windows
   if (process.platform === 'win32') {
-    exec(`start "" "${filePath}"`);
+    execFile('cmd.exe', ['/c', 'start', '', filePath]);
     return;
   }
 
-  // WSL 
+  // WSL
   const isWsl = fs.existsSync('/proc/version')
     && fs.readFileSync('/proc/version', 'utf-8').toLowerCase().includes('microsoft');
   if (isWsl) {
-    const winPath = execSync(`wslpath -w "${filePath}"`).toString().trim();
-    exec(`explorer.exe "${winPath}"`);
+    const winPath = execFileSync('wslpath', ['-w', filePath]).toString().trim();
+    execFile('explorer.exe', [winPath]);
     return;
   }
-  
+
   // Unix
-  exec(`xdg-open "${filePath}"`);
+  execFile('xdg-open', [filePath]);
 }
 
 function filterToPages(html, pageIndexes) {
