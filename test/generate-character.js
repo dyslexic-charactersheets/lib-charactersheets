@@ -2,8 +2,8 @@
 
 // node test/generate-character.js [flags]
 // --game, --name, --ancestry, --heritage, --background, --subclass, --language, --out
-// --class druid|cleric <or> --class druid --class cleric
-// --feat is be repeatable as well
+// --class (alias: --classes) --feat (alias: --feats)
+// --class druid|cleric <or> --class druid,cleric <or> --class druid --class cleric
 
 const fs = require('fs');
 const path = require('path');
@@ -50,6 +50,10 @@ function subclassSlotsOf(classValue) {
   return (classValue.selects || []).filter(name => !name.startsWith('feat/'));
 }
 
+function splitMultiflag(value) {
+  return value.split(/[|,]/);
+}
+
 function parseArgs(argv) {
   const args = { feats: [], classes: [] };
   for (let i = 0; i < argv.length; i++) {
@@ -66,9 +70,11 @@ function parseArgs(argv) {
       case 'ancestry': args.ancestry = value; break;
       case 'heritage': args.heritage = value; break;
       case 'background': args.background = value; break;
-      case 'class': args.classes.push(...value.split('|')); break;
+      case 'class':
+      case 'classes': args.classes.push(...splitMultiflag(value)); break;
       case 'subclass': args.subclass = value; break;
-      case 'feat': args.feats.push(value); break;
+      case 'feat':
+      case 'feats': args.feats.push(...splitMultiflag(value)); break;
       case 'language': args.language = value; break;
       case 'out': args.out = value; break;
       default: console.error(`generate-character: unknown flag --${key}`); process.exit(1);
