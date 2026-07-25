@@ -332,9 +332,9 @@ function openFile(filePath) {
 }
 
 // same shape as saveResult in test.js
-function saveResult(result, openFlag) {
+function saveResult(result, name, openFlag) {
   if (Array.isArray(result)) {
-    result.forEach(r => saveResult(r, openFlag));
+    result.forEach(r => saveResult(r, name, openFlag));
     return;
   }
 
@@ -344,25 +344,25 @@ function saveResult(result, openFlag) {
   }
 
   fs.mkdirSync(HTML_DIR, { recursive: true });
-  const outfile = path.join(HTML_DIR, result.filename);
+  const outfile = path.join(HTML_DIR, `${name} - ${result.filename}`);
   fs.writeFileSync(outfile, result.data);
   console.log(`Rendered ${path.relative(process.cwd(), outfile)}`);
-  
+
   // open if user requested
-  if (openFlag) 
+  if (openFlag)
     openFile(outfile);
 }
 
-function renderToOut(request, openFlag) {
+function renderToOut(request, name, openFlag) {
   const characterSheets = getCharacterSheets();
-  
+
   return characterSheets.translationsPromise.then(() => characterSheets.create(request)).then(result => {
     if (result === null) {
       console.error('generate-character: render produced nothing (skipped)');
       return;
     }
-    
-    saveResult(result, openFlag);
+
+    saveResult(result, name, openFlag);
   });
 }
 
@@ -569,7 +569,7 @@ function main() {
   }
 
   rebuildLibrary(args.noBuild);
-  return requests.reduce((chain, { request }) => chain.then(() => renderToOut(request, args.open)), Promise.resolve());
+  return requests.reduce((chain, { name, request }) => chain.then(() => renderToOut(request, name, args.open)), Promise.resolve());
 }
 
 main().catch(err => {
