@@ -4,10 +4,11 @@
 // --game, --name, --ancestry, --heritage, --background, --subclass, --language, --out
 // --class (alias: --classes) --feat (alias: --feats) --archetype (alias: --archetypes)
 // --class druid|cleric <or> --class druid,cleric <or> --class druid --class cleric
-// --overwrite key=value (aliases: --overwrites, --set, --setarg, --setargs, --kwargs) 
+// --kwargs key=value | overwrite any attribute
 // --render | create test/out/<name>.html
 // --open | autoopen rendered file 
 // --no-build | no library rebuild (faster if no changes)
+// --list <subgroup> | list all valid values for ancestry/heritage/background/class/subclass/archetype/language
 
 const fs = require('fs');
 const path = require('path');
@@ -56,6 +57,20 @@ function subclassSlotsOf(classValue) {
   return (classValue.selects || []).filter(name => !name.startsWith('feat/'));
 }
 
+function listSlotValues(slot, label) {
+  console.log(`${label}:`);
+  slot.values
+    .map(v => ({
+      code: removeRemasterPrefix(v.code),
+      name: removeTranslationKey(v.name),
+      group: removeTranslationKey(v.group || ''),
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .forEach(v => {
+      console.log(`  ${v.code.padEnd(30)} ${v.name}${v.group ? ` (${v.group})` : ''}`);
+    });
+}
+
 function splitMultiflag(value) {
   return value.split(/[|,]/);
 }
@@ -67,7 +82,7 @@ const BOOLEAN_FLAGS = new Set([
 ]);
 
 function parseArgs(argv) {
-  const args = { feats: [], classes: [], archetypes: [], overwrites: [] };
+  const args = { feats: [], classes: [], archetypes: [], kwargs: [] };
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     if (!arg.startsWith('--')) continue;
@@ -94,14 +109,10 @@ function parseArgs(argv) {
       case 'feats': args.feats.push(...splitMultiflag(value)); break;
       case 'archetype':
       case 'archetypes': args.archetypes.push(...splitMultiflag(value)); break;
-      case 'set':
-      case 'setarg':
-      case 'setargs':
-      case 'kwargs':
-      case 'overwrite':
-      case 'overwrites': args.overwrites.push(value); break;
+      case 'kwargs': args.kwargs.push(value); break;
       case 'language': args.language = value; break;
       case 'out': args.out = value; break;
+      case 'list': args.list = value; break;
       case 'render': args.render = true; break;
       case 'open': args.open = true; break;
       case 'no-build': args.noBuild = true; break;
@@ -179,6 +190,55 @@ function attributesForIdentity(identity, config, game) {
   attributes.language = resolveLanguage(data, identity.language).code;
 
   return attributes;
+}
+
+// config.identity plus whatever the CLI overwrites
+function buildIdentity(args, config) {
+  const identity = { ...config.identity };
+  if (args.name) identity.name = args.name;
+  if (args.ancestry) identity.ancestry = args.ancestry;
+  if (args.heritage) identity.heritage = args.heritage;
+  if (args.background) identity.background = args.background;
+  if (args.classes.length) identity.classes = args.classes;
+  if (args.subclass) {
+    const classCode = identity.classes[0];
+    identity.subclasses = { ...identity.subclasses, [classCode]: args.subclass };
+  }
+  if (args.language) identity.language = args.language;
+  if (args.feats.length) identity.feats = args.feats;
+  if (args.archetypes.length) identity.archetypes = args.archetypes;
+  return identity;
+}
+
+// apply kwargs into the attributes object
+function applyKwargs(attributes, kwargs) {
+  kwargs.forEach(raw => {
+    const eq = raw.indexOf('=');
+    const key = raw.slice(0, eq);
+    const value = raw.slice(eq + 1);
+    attributes[key] = value;
+  });
+}
+
+// build json object to send
+function buildRequest(attributes) {
+  return {
+    version: 0,
+    data: {
+      type: 'character',
+      id: Math.random().toString(16).slice(2, 9),
+      isLoggedIn: true,
+      attributes,
+    },
+  };
+}
+
+// this creates the .json request file to then render
+// the character sheet, following the same conventions the site does
+function writeRequestFile(name, request) {
+  const outFile = path.join(IN_DIR, `${name}.json`);
+  fs.writeFileSync(outFile, JSON.stringify(request, null, 2));
+  console.log(`Wrote ${path.relative(process.cwd(), outFile)}`);
 }
 
 // send the rebuild to existing build script
@@ -259,52 +319,69 @@ function renderToOut(request, openFlag) {
   });
 }
 
+function runList(args, game) {
+  const data = loadData(game);
+
+  if (args.list === 'language') {
+    console.log('language:');
+    data.languages
+      .slice()
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .forEach(l => console.log(`  ${l.code.padEnd(10)} ${l.name}`));
+    return;
+  }
+
+  if (args.list === 'heritage') {
+    if (!args.ancestry) {
+      console.error('generate-character: --list heritage needs --ancestry');
+      process.exit(1);
+    }
+    const ancestryValue = resolveValue(findSlot(data, 'ancestry'), args.ancestry);
+    const heritageSlotName = ancestryValue.selects.find(n => n.startsWith('heritage/'));
+    listSlotValues(findSlot(data, heritageSlotName), `heritage (${removeTranslationKey(ancestryValue.name)})`);
+    return;
+  }
+
+  if (args.list === 'subclass') {
+    if (args.classes.length !== 1) {
+      console.error('generate-character: --list subclass needs exactly one --class');
+      process.exit(1);
+    }
+    const classValue = resolveValue(findSlot(data, 'class'), args.classes[0]);
+    const slotNames = subclassSlotsOf(classValue);
+    if (slotNames.length === 0) {
+      console.log(`${removeTranslationKey(classValue.name)} has no subclass slot`);
+    }
+    slotNames.forEach(slotName => listSlotValues(findSlot(data, slotName), slotName));
+    return;
+  }
+
+  if (['ancestry', 'background', 'class', 'archetype'].includes(args.list)) {
+    listSlotValues(findSlot(data, args.list), args.list);
+    return;
+  }
+
+  console.error(`generate-character: --list ${args.list} uses ancestry, heritage, background, class, subclass, archetype, or language`);
+  process.exit(1);
+}
+
 function main() {
   const args = parseArgs(process.argv.slice(2));
   const config = loadConfig();
   const game = args.game || config.game;
 
-  const identity = { ...config.identity };
-  if (args.name) identity.name = args.name;
-  if (args.ancestry) identity.ancestry = args.ancestry;
-  if (args.heritage) identity.heritage = args.heritage;
-  if (args.background) identity.background = args.background;
-  if (args.classes.length) identity.classes = args.classes;
-  if (args.subclass) {
-    const classCode = identity.classes[0];
-    identity.subclasses = { ...identity.subclasses, [classCode]: args.subclass };
+  if (args.list) {
+    runList(args, game);
+    return Promise.resolve();
   }
-  if (args.language) identity.language = args.language;
-  if (args.feats.length) identity.feats = args.feats;
-  if (args.archetypes.length) identity.archetypes = args.archetypes;
 
+  const identity = buildIdentity(args, config);
   const attributes = attributesForIdentity(identity, config, game);
-
-  // overwrite any field in the attributes via key=value after the flag 
-  args.overwrites.forEach(raw => {
-    const eq = raw.indexOf('=');
-    const key = raw.slice(0, eq);
-    const value = raw.slice(eq + 1);
-    attributes[key] = value;
-  });
+  applyKwargs(attributes, args.kwargs);
 
   const name = args.out || identity.name || game;
-
-  const request = {
-    version: 0,
-    data: {
-      type: 'character',
-      id: Math.random().toString(16).slice(2, 9),
-      isLoggedIn: true,
-      attributes,
-    },
-  };
-
-  // this creates the .json request file to then render
-  // the character sheet, following the same conventions the site does
-  const outFile = path.join(IN_DIR, `${name}.json`);
-  fs.writeFileSync(outFile, JSON.stringify(request, null, 2));
-  console.log(`Wrote ${path.relative(process.cwd(), outFile)}`);
+  const request = buildRequest(attributes);
+  writeRequestFile(name, request);
 
   if (!args.render) {
     return Promise.resolve();
