@@ -300,7 +300,7 @@ function writeRequestFile(name, request) {
 // send the rebuild to existing build script
 function rebuildLibrary(noBuild) {
   if (noBuild) return;
-  execSync('npm run build', { cwd: REPO_ROOT, stdio: 'inherit' });
+  execSync('npm run build:safe', { cwd: REPO_ROOT, stdio: 'inherit' });
 }
 
 // make the setup in test.js into a function, otherwise it's identical
@@ -597,6 +597,8 @@ function main() {
   const args = parseArgs(process.argv.slice(2));
   const config = loadConfig();
   const games = resolveGames(args, config);
+  
+  rebuildLibrary(args.noBuild);
 
   if (args.list) {
     runList(args, games[0]);
@@ -617,7 +619,6 @@ function main() {
     return Promise.resolve();
   }
 
-  rebuildLibrary(args.noBuild);
   return requests.reduce((chain, { name, request }) => chain.then(() => renderToOut(request, name, args.open, args.pages)), Promise.resolve());
 }
 
