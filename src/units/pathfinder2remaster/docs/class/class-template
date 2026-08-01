@@ -19,7 +19,8 @@ form:
   - select: <class>/<subclass>
     name: "_{<Class's> <Subcless>}"
     max: 1
-  # Allow users to preselect feats they have taken to prefill actions / feat slots.  (Not currently implemented?)
+  # Allow users to preselect feats they have taken to prefill actions / feat slots.  (Not currently implemented?)  
+  # Also sets the advancement page's class feat check boxes.
   - select: feat/<class>
     name: "_{<Class's> Feats}"
     max: 10
@@ -81,3 +82,82 @@ inc:
       fortitude: trained
       reflex: trained
       will: expert
+
+  # Add common skill actions for the class. (See defs/skill-actions for complete list) 
+  - at: '@skill-actions'
+    add:
+      - paste: skill-action/identify-magic
+        params: 
+          skill: "_{Occultism/other}"
+          ability: INT
+      - paste: skill-action/track
+
+  # Build the level up page
+  - at: '@advancement'
+    add:
+      # These do not need to be in level order.  Multiple items can be added to each level.
+
+      # single feature gained at a single level that requires player to make a choice or update something (adds a check box)
+      - level: <Number>
+        gain: "_{<Feature>}"
+
+      # single feature gained at a single level 
+      - level: <Number>
+        advance: "_{<Feature>}"
+
+      # add a scaling feature in it's own column (must have - at: '@advancement-fields' (see below))
+      - levels: [ <comma sepearted list of levels> ]
+        <column-key>: [ <comma seperated list of strings> ]
+
+      # add a scaling feature in it's own column with checkboxes (must have - at: '@advancement-fields' format: checkgrid (see below))
+      - levels: [ <comma sepearted list of levels> ]
+        <column-string-key>: [ <comma seperated list of strings> ]
+        <column-num-key>: [ <comma seperated list of number of check boxes> ]
+        
+      # add a proficiency or proficiency increase.
+      - level: <Number>
+        advance: "_{<Proficiency Desc>}"
+        proficiency: <rank>
+        colour: <ABL> # (Optional)
+      # or
+      - level: <Number>
+        proficiency: <rank>
+        in: "_{<Proficiency Desc>}"
+        colour: <ABL> # (Optional)
+
+  # add a column for a scaling feature with a string at each level
+  - at: '@advancement-fields'
+    add:
+      - name: "_{<Feature>}"
+        key: <column-key>
+        format: string
+
+  # add a column for a scaling feature with a string and checkboxes at each level
+  - at: '@advancement-fields'
+    add:
+      - name: "_{<Feature>}"
+        key: <column-key>
+        format: checkgrid
+        label: "#{<column-string-key>}"
+        max: "#{<column-num-key>}"
+
+  # add the saving throw success upgrades to the savingt throw section of the combat sheet.
+  - at: '@saving-throws'
+    add:
+      # upgrade success to crit success
+      - level: <Number>
+        contents:
+          - paste: improved-save-<ref/fort/will>
+            params:
+              title: "_{<Feature>}"
+          - p: "_{Special note}" # optional
+
+      # upgrade crit fail to fail (optional - half damage on fail)
+      - level: <Number>
+        contents:
+          - paste: improved-save-<ref/fort/will>-2
+            params:
+              title: "_{<Feature>}"
+              half-damage: <true/false> # defaults to true.
+          - p: "_{Special note}" # optional
+
