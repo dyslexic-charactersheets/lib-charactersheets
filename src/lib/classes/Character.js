@@ -278,6 +278,7 @@ function parseCharacter(primary, request) {
           break;
 
         case "double":
+          char.units.push("option/inventory/full");
           char.units.push("option/inventory-extra");
           break;
 

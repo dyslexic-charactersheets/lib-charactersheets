@@ -1,0 +1,60 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: ancestry/remaster/tripkee
+in: ancestry
+group: "_{Player Core 2}"
+name: "_{Tripkee}"
+# enabled: false
+
+form:
+  - select: heritage/lost-omens/mwangi-expanse/grippli
+    name: "_{Tripkee Heritage}"
+    max: 1
+
+# if the ancestry has low light:
+require:
+  - unit: optional-darkvision/trigger
+
+inc:
+  - set: ancestry
+    value: "_{Tripkee}"
+  - set: hp-ancestry
+    value: 6
+# set darkvision / low vision light
+  - set: perception-low-light
+    value: true
+# stat boosts
+  - set: build-boost-DEX-ancestry
+    value: 1
+  - set: build-boost-WIS-ancestry
+    value: 1
+  - set: build-boost-STR-ancestry
+    value: -1
+# set languages
+  - set: languages
+    value: "_{Common}, _{Tripkee}"
+
+# write ancestry short descriptions
+  - at: '@ancestry'
+    replace:
+      - article: ancestry
+        title: "_{Tripkee}"
+        contents:
+          - flags:
+              - "_{Tripkee}"
+              - "_{Humanoid}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: value
+            value: "_{25ft}"
+          # copy in the low light / dark vision description
+          - paste: low-light-vision
+          - hr:
+            light: true
+          - value-block: "+2"
+            width: medium
+            content: "_{to Athletics checks to Climb}"
+          

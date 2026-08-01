@@ -1,0 +1,44 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: heritage/lizardfolk/remaster/sandstrider
+in: heritage/lost-omens/character-guide/lizardfolk
+group: "_{Player Core 2}"
+name: "_{Sandstrider Lizardfolk}"
+# enabled: false
+
+inc:
+  # set the heritage name
+  - set: heritage
+    value: "_{Sandstrider Lizardfolk}"
+
+  # create the heritage text block
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Sandstrider Lizardfolk}"
+        contents:
+          # simple description
+          # damage resist
+          - paste: leveled-damage-resist
+            params:
+              id: lizardfolk/sandstrider/fire-resistance
+              type: "_{Fire}"
+
+          #  temperature adjustment
+          - paste: temperature-tolerance
+            params: 
+              temp: "_{heat}"
+
+          - p: "_{Can go 10 times as long as normal before you are affectwed by starvation or thirst.}"
+          - p: "_{Treat environmental cold as one step more extreme.}"
+
+
+  # add a damage resist
+  - at: '@health'
+    add:
+      - paste: leveled-damage-resist-health
+        params:
+          id: lizardfolk/sandstrider/fire-resistance-health
+          type: "_{Fire}"

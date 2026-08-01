@@ -1,0 +1,85 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: ancestry/remaster/tengu
+in: ancestry
+group: "_{Player Core 2}"
+name: "_{Tengu}"
+# enabled: false
+
+form:
+  - select: heritage/apg/tengu
+    name: "_{Tengu Heritage}"
+    max: 1
+
+# if the ancestry has low light:
+require:
+- unit: optional-darkvision/trigger
+
+inc:
+  - set: ancestry
+    value: "_{Tengu}"
+  - set: hp-ancestry
+    value: 6
+# set darkvision / low vision light
+  - set: perception-low-light
+    value: true
+# stat boosts
+  - set: build-boost-DEX-ancestry
+    value: 1
+
+# write ancestry short descriptions
+  - at: '@ancestry'
+    replace:
+      - article: ancestry
+        title: "_{Tengu}"
+        contents:
+          - flags:
+              - "_{Tengu}"
+              - "_{Humanoid}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: 25
+            value: "_{25 ft}"
+          # copy in the low light / dark vision description
+          - paste: low-light-vision
+          - hr:
+            light: true
+          # add a weapon
+          - paste: natural-weapon
+            params:
+              name: "_{Beak}"
+              damage: "_{1d6}"
+              type: "_{Piercing}"
+          - flags:
+              - "_{Brawling}"
+              - "_{Finesse}"
+              - "_{Unarmed}"
+
+  #suppress ethnicity, Tengu are too long as it is.
+  - at: '@ethnicity'
+    replace:
+      - spacer:
+
+  # add a natural weapon
+  - at: '@actions'
+    add:
+      - action: 1
+        contents:
+          - article:
+            title: "_{Beak attack}"
+            contents:
+              - paste: natural-weapon-action
+                params:
+                  id: ancestry-tengu-beak-action
+                  name: "_{Beak}"
+                  damage: "_{1d4}"
+                  type: "_{P}"
+              - zone: "@ancestry-action-tengu-beak-traits"
+                contents:
+                  - flags:
+                      - "_{Brawling}"
+                      - "_{Finesse}"
+                      - "_{Unarmed}"

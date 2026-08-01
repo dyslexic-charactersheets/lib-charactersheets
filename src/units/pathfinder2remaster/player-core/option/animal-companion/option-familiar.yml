@@ -38,18 +38,18 @@ inc:
                           - section: "_{Familiar}"
                             flex: small
                             contents:
-                              - p: "_{A familiar does not have its own ability modifiers or proficiency.}"
-                              - p: "_{It uses your level, and the key ability modifier determined by your class.}"
+                              - p: "_{A familiar does not have its own attribute modifiers or proficiency.}"
+                              - p: "_{It uses your level, and the key attribute modifier determined by your class.}"
                               - hr:
                               - row:
                                 contents:
-                                  - zone: '@familiar/key-ability'
+                                  - zone: '@familiar/key-attribute'
                                     contents:
-                                      - field: familiar/key-ability
+                                      - field: familiar/key-attribute
                                         ref: CHA
                                         underlay: "_{CHA}"
                                         label: "_{CHA}"
-                                  - h6: "_{Key ability}"
+                                  - h6: "_{Key attribute}"
                                   - spacer:
 
                           - section: "_{Animal}"
@@ -91,9 +91,9 @@ inc:
                                           - repeat: 6
                                             reduce: 2
                                             contents:
-                                              - selectable: "##:familiar-ability-#{i}"
+                                              - selectable: "##:familiar-attribute-#{i}"
                                                 contents:
-                                                  - article: "familiar/familiar-ability-#{i}"
+                                                  - article: "familiar/familiar-attribute-#{i}"
                                                     lines: 1
 
                                   - g:
@@ -107,9 +107,9 @@ inc:
                                           - repeat: 3
                                             reduce: 2
                                             contents:
-                                              - selectable: "##:master-ability-#{i}"
+                                              - selectable: "##:master-attribute-#{i}"
                                                 contents:
-                                                  - article: "familiar/master-ability-#{i}"
+                                                  - article: "familiar/master-attribute-#{i}"
                                                     lines: 1
 
                           - tail:
@@ -150,15 +150,15 @@ inc:
                                           icon: bonus
                                           legend: "_{Skill Bonus}"
                                           width: large
-                                          eq: "%{level}+%{familiar/key-ability-mod}"
+                                          eq: "%{level}+%{familiar/key-attribute-mod}"
                                         inputs:
                                           - field:
                                             ref: level
                                             label: "_{Your Level}"
                                           - span: "+"
-                                          - zone: '@familiar/key-ability'
+                                          - zone: '@familiar/key-attribute'
                                             contents:
-                                              - field: familiar/key-ability-mod
+                                              - field: familiar/key-attribute-mod
                                                 ref: CHA
                                                 underlay: "_{CHA}"
                                                 label: "_{CHA}"
@@ -423,17 +423,17 @@ inc:
                                   - save: fortitude
                                     legend: "_{Fortitude}"
                                     short: "_{FORT}"
-                                    ability: "_{CON}"
-                                    abilityref: CON
+                                    attribute: "_{CON}"
+                                    attributeref: CON
                                   - save: reflex
                                     legend: "_{Reflex}"
                                     short: "_{REF}"
-                                    ability: "_{DEX}"
-                                    abilityref: DEX
+                                    attribute: "_{DEX}"
+                                    attributeref: DEX
                                   - save: will
                                     legend: "_{Will}"
                                     short: "_{WILL}"
-                                    ability: "_{WIS}"
+                                    attribute: "_{WIS}"
                                 template:
                                   - calc:
                                     output:
@@ -503,14 +503,14 @@ inc:
           - code: scent
             title: "_{Scent}"
         template:
-          - selectable: "familiar/familiar-ability/#{code}"
+          - selectable: "familiar/familiar-attribute/#{code}"
             order: "#{title}"
             contents:
               - p:
                 title: "#{title}"
                 content: "#{content}"
 
-      - selectable: familiar/familiar-ability/damage-avoidance
+      - selectable: familiar/familiar-attribute/damage-avoidance
         order: "_{Damage Avoidance}"
         contents:
           - p:
@@ -518,17 +518,17 @@ inc:
             content: "_{Take no damage on a success on one save type}"
           - row:
             contents:
-              - field: familiar/familiar-ability/damage-avoidance
+              - field: familiar/familiar-attribute/damage-avoidance
                 control: radio
                 value: fortitude
                 frame: right
                 label: "_{Fortitude}"
-              - field: familiar/familiar-ability/damage-avoidance
+              - field: familiar/familiar-attribute/damage-avoidance
                 control: radio
                 value: reflex
                 frame: right
                 label: "_{Reflex}"
-              - field: familiar/familiar-ability/damage-avoidance
+              - field: familiar/familiar-attribute/damage-avoidance
                 control: radio
                 value: will
                 frame: right
@@ -537,7 +537,7 @@ inc:
       - list:
         order: "_{Speech}"
         contents:
-          - selectable: familiar/familiar-ability/speech
+          - selectable: familiar/familiar-attribute/speech
             order: "_{Speech}"
             contents:
               - p:
@@ -547,7 +547,7 @@ inc:
             contents:
               - hr:
                 light: true
-              - selectable: familiar/familiar-ability/kinspeech
+              - selectable: familiar/familiar-attribute/kinspeech
                 contents:
                   - level: 6
                     contents:
@@ -558,7 +558,7 @@ inc:
       - list:
         order: "_{Manual Dexterity}"
         contents:
-          - selectable: familiar/familiar-ability/manual-dexterity
+          - selectable: familiar/familiar-attribute/manual-dexterity
             contents:
               - p:
                 title: "_{Manual Dexterity}"
@@ -567,11 +567,11 @@ inc:
             content:
               - hr:
                 light: true
-              - selectable: familiar/familiar-ability/lab-assistant
+              - selectable: familiar/familiar-attribute/lab-assistant
                 contents:
                   - p:
                     title: "_{Lab Assistant}"
-                    content: "_{Can use your Quick Alchemy ability}"
+                    content: "_{Can use your Quick Alchemy attribute}"
 
   - at: '@familiar/master-abilities'
     add:
@@ -587,22 +587,22 @@ inc:
             title: "_{Spell Delivery}"
             content: "_{Cast a touch spell on your familiar, let them deliver it to the enemy}"
         template:
-          - selectable: "familiar/master-ability/#{code}"
+          - selectable: "familiar/master-attribute/#{code}"
             order: "#{title}"
             contents:
               - p:
                 title: "#{title}"
                 content: "#{content}"
-      - selectable: familiar/master-ability/cantrip-connection
+      - selectable: familiar/master-attribute/cantrip-connection
         order: "_{Cantrip Connection}"
         contents:
           - p:
             title: "_{Cantrip Connection}"
             content: "_{Prepare a cantrip}"
-          - field: familiar/familiar-ability/cantrip-connection
+          - field: familiar/familiar-attribute/cantrip-connection
             label: "_{Cantrip}"
             width: stretch
-      - selectable: familiar/master-ability/familiar-focus
+      - selectable: familiar/master-attribute/familiar-focus
         order: "_{Familiar Focus}"
         contents:
           - action: 2
@@ -612,7 +612,7 @@ inc:
                 content: "_{Regain 1pt}"
               - flags:
                   - "_{Concentrate}"
-      - selectable: familiar/master-ability/spell-battery
+      - selectable: familiar/master-attribute/spell-battery
         order: "_{Spell Battery}"
         contents:
           - p:
@@ -620,9 +620,9 @@ inc:
             content: "_{Prepare a spell up to 3 levels below your top spell slot}"
           - row:
             contents:
-              - field: familiar/familiar-ability/spell
+              - field: familiar/familiar-attribute/spell
                 label: "_{Level}"
-              - field: familiar/familiar-ability/spell-battery
+              - field: familiar/familiar-attribute/spell-battery
                 label: "_{Spell}"
                 width: stretch
       

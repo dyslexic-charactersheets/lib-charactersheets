@@ -1,0 +1,118 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/alchemist/research-field/mutagenist
+in: remaster/alchemist/research-field
+group: "_{Player Core 2}"
+name: "_{Mutagenist}"
+
+inc:
+  - set: alchemist-research-field
+    value: "_{Mutagenist}"
+    
+  - at: '@alchemist/research-field'
+    replace:
+      - g:
+        contents:
+          - h4: "_{Mutagenist}"
+          - hr:
+            swash: true
+
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - h5: "_{Field Benefit}"
+                  - calc:
+                    output:
+                      field: "##:temp-hp"
+                      width: large
+                      legend: "_{Temporary Hit Points}"
+                      border: full
+                      suffix: "_{hp}"
+                      eq: "max(%{INT},0)+floor(%{level}/2)"
+                    inputs:
+                      - ruby: "_{Min 0}"
+                        contents:
+                          - field:
+                            ref: INT
+                            label: "_{INT}"
+                      - span: "+ ("
+                      - field:
+                        ref: level
+                        label: "_{Level}"
+                      - span: "&div; 2 )"
+                  - p: "_{Lasts for 1 minute}"
+
+              - g:
+                contents:
+                  - h5: "_{Field Vials}"
+                  - p: "_{Drink a vial to suppress the negative effects of a mutagen.}"
+                  - spacer:
+
+      - level: 5
+        contents:
+          - h5: "_{Field Discovery}"
+          - p: "_{End the effect of a mutagen to reroll a Fortitude save.}"
+
+      - level: 11
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - h5: "_{Advanced Vials}"
+                  - p: "_{When you drink one of your vials, gain resistance to physical damage.}"
+              - g:
+                contents:
+                  - calc:
+                    output:
+                      field: "##:advanced-vials"
+                      legend: "_{Physical Resistance}"
+                      width: large
+                      border: full
+                      eq: "floor(%{level}/2)"
+                    inputs:
+                      - field:
+                        ref: level
+                        label: "_{Level}"
+                      - span: "&div; 2"
+
+      - level: 13
+        contents:
+          - h5: "_{Greater Field Discovery}"
+          - p: "_{Drink a second polymorph mutagen to get the benefits and setbacks of both at once.}"
+          
+  - at: '@alchemist/research-field/formulas'
+    replace:
+      - table: "##:formulas"
+        field_frame: none
+        width: stretch
+        merge-bottom: true
+        columns:
+          - label: "_{Mutagen}"
+            align: left
+          - "_{Level}"
+          - "_{Type}"
+          - "_{Bonus}"
+          - "_{Effect}"
+        rows:
+          - n: 1
+          - n: 2
+        template:
+          - field: alchemist-mutagen-#{i}
+            width: stretch
+            # label: "_&nbsp;"
+            underlay: "#{n}"
+          - field: alchemist-mutagen-#{i}-level
+            width: small
+
+          - field: alchemist-mutagen-#{i}-type
+            width: huge
+            
+          - field: alchemist-mutagen-#{i}-bonus
+            prefix: "+"
+            border: full
+          - field: alchemist-mutagen-#{i}-effect
+            width: stretch

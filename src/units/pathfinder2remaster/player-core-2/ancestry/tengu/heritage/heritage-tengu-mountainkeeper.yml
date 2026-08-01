@@ -1,0 +1,33 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: heritage/tengu/remaster/mountainkeeper
+in: heritage/apg/tengu
+group: "_{Player Core 2}"
+name: "_{Mountainkeeper Tengu}"
+# enabled: false
+
+require:
+  - unit: cantrip/vitality-lash
+
+
+inc:
+  # set the heritage name
+  - set: heritage
+    value: "_{Mountainkeeper Tengu}"
+
+  # create the heritage text block
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Mountainkeeper Tengu}"
+        contents:
+          # simple description
+          - paste: cantrip/vitality-lash
+          - paste: spell-attack
+            params:
+              ability: "CHA"
+          - hr:
+            light: true
+          - p: "_{When casting a spell from Tengu feats, decide whether it's divine or primal.}"

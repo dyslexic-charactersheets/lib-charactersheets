@@ -1,0 +1,37 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: heritage/ratfolk/remaster/snow
+in: heritage/apg/ratfolk
+group: "_{Player Core 2}"
+name: "_{Snow Ratfolk}"
+# enabled: false
+
+inc:
+  # set the heritage name
+  - set: heritage
+    value: "_{Snow Ratfolk}"
+
+  # create the heritage text block
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Snow Ratfolk}"
+        contents:
+          # simple description
+          # Cold Resistance
+          - paste: leveled-damage-resist
+            params:
+              id: goblin/snow/fire-resistance
+              type: "_{Cold}"
+          - paste: temperature-tolerance
+            params: 
+              temp: "_{cold}"
+          
+  - at: '@health'
+    add:
+      - paste: leveled-damage-resist-health
+        params:
+          id: goblin/snow/cold-resistance-more-hp
+          type: "_{Cold}"

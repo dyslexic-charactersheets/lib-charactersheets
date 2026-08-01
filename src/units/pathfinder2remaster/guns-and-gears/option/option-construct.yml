@@ -37,10 +37,10 @@ inc:
                   attack: true
                   icon: bonus
                   format: modifier
-                  eq: "%{construct/attack-#{i}-ability}+%{construct/attack-#{i}-proficiency-bonus}"
+                  eq: "%{construct/attack-#{i}-attribute}+%{construct/attack-#{i}-proficiency-bonus}"
                 inputs:
-                  - field: "construct/attack-#{i}-ability"
-                    label: "_{Ability}"
+                  - field: "construct/attack-#{i}-attribute"
+                    label: "_{Attribute}"
                     misc: true
                     control: ref-switch
                     switch: "construct/STR,construct/DEX"
@@ -150,7 +150,7 @@ inc:
                                               - spacer:
                                               - field: "construct/#{code}"
                                                 label: "#{name}"
-                                                control: ability
+                                                control: attribute
                                                 width: ""
                                                 parts:
                                                   - subid: ""
@@ -430,66 +430,66 @@ inc:
                                 align: right
                               - "_{Skill\nBonus}"
                               - 
-                              - "_{Ability\nModifier}"
+                              - "_{Attribute\nModifier}"
                               - "_{Proficiency}"
                             rows:
                               - skill: acrobatics
                                 label: "_{Acrobatics}"
-                                ability: "_{DEX}"
-                                abilityref: DEX
+                                attribute: "_{DEX}"
+                                attributeref: DEX
                                 proficiency: trained
                               - skill: athletics
                                 label: "_{Athletics}"
-                                ability: "_{STR}"
-                                abilityref: STR
+                                attribute: "_{STR}"
+                                attributeref: STR
                                 proficiency: trained
                               # - skill: deception
                               #   label: "_{Deception}"
-                              #   ability: "_{CHA}"
-                              #   abilityref: CHA
+                              #   attribute: "_{CHA}"
+                              #   attributeref: CHA
                               - skill: intimidation
                                 label: "_{Intimidation}"
-                                ability: "_{CHA}"
-                                abilityref: CHA
+                                attribute: "_{CHA}"
+                                attributeref: CHA
                               # - skill: nature
                               #   label: "_{Nature}"
-                              #   ability: "_{WIS}"
-                              #   abilityref: WIS
+                              #   attribute: "_{WIS}"
+                              #   attributeref: WIS
                               # - skill: performance
                               #   label: "_{Performance}"
-                              #   ability: "_{CHA}"
-                              #   abilityref: CHA
+                              #   attribute: "_{CHA}"
+                              #   attributeref: CHA
                               - skill: stealth
                                 label: "_{Stealth}"
-                                ability: "_{DEX}"
-                                abilityref: DEX
+                                attribute: "_{DEX}"
+                                attributeref: DEX
                               - skill: survival
                                 label: "_{Survival}"
-                                ability: "_{WIS}"
-                                abilityref: WIS
+                                attribute: "_{WIS}"
+                                attributeref: WIS
                               # - skill: thievery
                               #   label: "_{Thievery}"
-                              #   ability: "_{DEX}"
-                              #   abilityref: DEX
+                              #   attribute: "_{DEX}"
+                              #   attributeref: DEX
 
                               - repeat: 6
                                 contents:
                                   - skill: "skill-#{i}"
                                     label: ""
-                                    ability: ""
-                                    abilityref: ""
+                                    attribute: ""
+                                    attributeref: ""
                               # - skill: "skill-2"
                               #   label: ""
-                              #   ability: ""
-                              #   abilityref: ""
+                              #   attribute: ""
+                              #   attributeref: ""
                               # - skill: "skill-3"
                               #   label: ""
-                              #   ability: ""
-                              #   abilityref: ""
+                              #   attribute: ""
+                              #   attributeref: ""
                               # - skill: "4"
                               #   label: ""
-                              #   ability: ""
-                              #   abilityref: ""
+                              #   attribute: ""
+                              #   attributeref: ""
                             template:
                               - if: "#{label}"
                                 then:
@@ -504,13 +504,13 @@ inc:
                               - field: "construct/#{skill}-bonus"
                                 border: full
                                 icon: bonus
-                                eq: "%{construct/#{abilityref}}+%{construct/#{skill}-proficiency-bonus}"
+                                eq: "%{construct/#{attributeref:}}+%{construct/#{skill}-proficiency-bonus}"
                               - span: "="
                               - field:
-                                ref: "construct/#{abilityref}"
-                                underlay: "#{ability}"
+                                ref: "construct/#{attributeref:}"
+                                underlay: "#{attribute}"
                                 frame: h-label
-                                label: "#{ability}"
+                                label: "#{attribute}"
                               - field: "construct/#{skill}-proficiency"
                                 control: proficiency
                           
@@ -757,24 +757,24 @@ inc:
                                 columns:
                                   - 
                                   - 
-                                  - "_{Ability Modifier}"
+                                  - "_{Attribute Modifier}"
                                   - "_{Proficiency}"
                                 rows:
                                   - save: fortitude
                                     legend: "_{Fortitude}"
                                     short: "_{FORT}"
-                                    ability: "_{CON}"
-                                    abilityref: CON
+                                    attribute: "_{CON}"
+                                    attributeref: CON
                                   - save: reflex
                                     legend: "_{Reflex}"
                                     short: "_{REF}"
-                                    ability: "_{DEX}"
-                                    abilityref: DEX
+                                    attribute: "_{DEX}"
+                                    attributeref: DEX
                                   - save: will
                                     legend: "_{Will}"
                                     short: "_{WILL}"
-                                    ability: "_{WIS}"
-                                    abilityref: WIS
+                                    attribute: "_{WIS}"
+                                    attributeref: WIS
                                 template:
                                   - calc:
                                     output:
@@ -784,12 +784,12 @@ inc:
                                       border: full
                                       width: large
                                       underlay: "#{short}"
-                                      eq: "%{construct/#{abilityref}}+%{construct/#{save}-proficiency-bonus}"
+                                      eq: "%{construct/#{attributeref:}}+%{construct/#{save}-proficiency-bonus}"
                                     inputs:
-                                      - field: "construct/#{abilityref}"
-                                        label: "#{ability}"
-                                        underlay: "#{ability}"
-                                        ref: "#{abilityref}"
+                                      - field: "construct/#{attributeref:}"
+                                        label: "#{attribute}"
+                                        underlay: "#{attribute}"
+                                        ref: "#{attributeref:}"
                                       - field: "construct/#{save}-proficiency"
                                         control: proficiency
                                         value: "trained"

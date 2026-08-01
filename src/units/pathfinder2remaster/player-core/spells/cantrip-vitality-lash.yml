@@ -1,0 +1,42 @@
+# Copyright 2026 Marcus Downing
+# This file is compliant with the Open Game License (OGL).
+# See the text of the OGL within this repository.
+
+unit: cantrip/vitality-lash
+name: "_{Vitality Lash}"
+group: "_{Player Core}"
+
+inc:
+  - copy: cantrip/vitality-lash
+    contents:
+      - article: cantrip/vitality-lash
+        title: "_{Vitality Lash}"
+        cat: "_{Cantrip} 1"
+        contents:
+          - dl:
+              range: "_{30ft}"
+              target: "_{1 creature that is undead or otherwise has void healing}"
+
+          - action: 2
+            contents:
+
+              - calc:
+                output:
+                  field: "##:damage"
+                  legend: "_{Vitality Damage}"
+                  width: large
+                  suffix: "_{d6}"
+                  icon: d6
+                  eq: "1+%{focus-rank}"
+                inputs:
+                  - span: "2 +"
+                  - field: "##:heighten"
+                    eq: "%{focus-rank}-1"
+                    label: "_{Heightened +1}"
+              - flags:
+                - "_{Vitality}"
+          - paste: basic-save
+            params:
+              save: "_{FORT}"  
+          - p: "_{On a critical fail, target is enfeebled 1 until the start of your turn.}"
+            icon: save-crit-fail
