@@ -64,7 +64,7 @@ inc:
                                     contents:
                                       - field: "animal-companion/#{code}"
                                         label: "#{name}"
-                                        control: ability
+                                        control: attribute
                                         colour: "#{code}"
                                         width: ""
                                         parts:
@@ -152,56 +152,56 @@ inc:
                                 align: right
                               - "_{Skill\nBonus}"
                               - 
-                              - "_{Ability\nModifier}"
+                              - "_{Attribute\nModifier}"
                               - "_{Proficiency}"
                               - "_{Barding\nCheck\nPenalty}"
                             rows:
                               - skill: "_{Acrobatics}"
                                 skillref: acrobatics
-                                ability: "_{DEX}"
-                                abilityref: DEX
+                                attribute: "_{DEX}"
+                                attributeref: DEX
                                 acp: true
                                 training: trained
                               - skill: "_{Athletics}"
                                 skillref: athletics
-                                ability: "_{STR}"
-                                abilityref: STR
+                                attribute: "_{STR}"
+                                attributeref: STR
                                 acp: true
                                 training: trained
                               - skill: "_{Deception}"
                                 skillref: deception
-                                ability: "_{CHA}"
-                                abilityref: CHA
+                                attribute: "_{CHA}"
+                                attributeref: CHA
                                 acp: false
                               - skill: "_{Intimidation}"
                                 skillref: intimidation
-                                ability: "_{CHA}"
-                                abilityref: CHA
+                                attribute: "_{CHA}"
+                                attributeref: CHA
                                 acp: false
                               - skill: "_{Nature}"
                                 skillref: nature
-                                ability: "_{WIS}"
-                                abilityref: WIS
+                                attribute: "_{WIS}"
+                                attributeref: WIS
                                 acp: false
                               - skill: "_{Performance}"
                                 skillref: performance
-                                ability: "_{CHA}"
-                                abilityref: CHA
+                                attribute: "_{CHA}"
+                                attributeref: CHA
                                 acp: false
                               - skill: "_{Stealth}"
                                 skillref: stealth
-                                ability: "_{DEX}"
-                                abilityref: DEX
+                                attribute: "_{DEX}"
+                                attributeref: DEX
                                 acp: true
                               - skill: "_{Survival}"
                                 skillref: survival
-                                ability: "_{WIS}"
-                                abilityref: WIS
+                                attribute: "_{WIS}"
+                                attributeref: WIS
                                 acp: false
                               - skill: "_{Thievery}"
                                 skillref: thievery
-                                ability: "_{DEX}"
-                                abilityref: DEX
+                                attribute: "_{DEX}"
+                                attributeref: DEX
                                 acp: true
                             template:
                               - h6: "#{skill}"
@@ -210,14 +210,14 @@ inc:
                               - field: "animal-companion/#{skillref}-bonus"
                                 border: full
                                 icon: bonus
-                                eq: "%{animal-companion/#{skillref}-ability}+%{animal-companion/#{skillref}-proficiency-bonus}-%{animal-companion/#{skillref}-acp}"
+                                eq: "%{animal-companion/#{skillref}-attribute}+%{animal-companion/#{skillref}-proficiency-bonus}-%{animal-companion/#{skillref}-acp}"
                               - span: "="
-                              - field: "animal-companion/#{skillref}-ability"
-                                ref: "animal-companion/#{abilityref}"
-                                underlay: "#{ability}"
+                              - field: "animal-companion/#{skillref}-attribute"
+                                ref: "animal-companion/#{attributeref:}"
+                                underlay: "#{attribute}"
                                 frame: h-label
-                                label: "#{ability}"
-                                colour: "#{abilityref}"
+                                label: "#{attribute}"
+                                colour: "#{attributeref:}"
                               - field: "animal-companion/#{skillref}-proficiency"
                                 control: proficiency
                                 value: "#{training}"
@@ -354,11 +354,11 @@ inc:
                                                   # width: large
                                                   attack: true
                                                   icon: bonus
-                                                  eq: "%{animal-companion/attack-#{i}-ability}+%{animal-companion/attack-#{i}-proficiency-bonus}"
+                                                  eq: "%{animal-companion/attack-#{i}-attribute}+%{animal-companion/attack-#{i}-proficiency-bonus}"
                                                 inputs:
-                                                  - field: animal-companion/attack-#{i}-ability
+                                                  - field: animal-companion/attack-#{i}-attribute
                                                     ref: true
-                                                    label: "_{Ability}"
+                                                    label: "_{Attribute}"
                                                     misc: true
                                                   - span: "+"
                                                   - field: animal-companion/attack-#{i}-proficiency
@@ -564,24 +564,24 @@ inc:
                                 columns:
                                   - 
                                   - 
-                                  - "_{Ability Modifier}"
+                                  - "_{Attribute Modifier}"
                                   - "_{Proficiency}"
                                 rows:
                                   - save: fortitude
                                     legend: "_{Fortitude}"
                                     short: "_{FORT}"
-                                    ability: "_{CON}"
-                                    abilityref: CON
+                                    attribute: "_{CON}"
+                                    attributeref: CON
                                   - save: reflex
                                     legend: "_{Reflex}"
                                     short: "_{REF}"
-                                    ability: "_{DEX}"
-                                    abilityref: DEX
+                                    attribute: "_{DEX}"
+                                    attributeref: DEX
                                   - save: will
                                     legend: "_{Will}"
                                     short: "_{WILL}"
-                                    ability: "_{WIS}"
-                                    abilityref: WIS
+                                    attribute: "_{WIS}"
+                                    attributeref: WIS
                                 template:
                                   - calc:
                                     output:
@@ -591,13 +591,13 @@ inc:
                                       border: full
                                       width: large
                                       underlay: "#{short}"
-                                      eq: "%{animal-companion/#{abilityref}}+%{animal-companion/#{save}-proficiency-bonus}"
+                                      eq: "%{animal-companion/#{attributeref:}}+%{animal-companion/#{save}-proficiency-bonus}"
                                     inputs:
                                       - field:
-                                        label: "#{ability}"
-                                        underlay: "#{ability}"
-                                        ref: "animal-companion/#{abilityref}"
-                                        colour: "#{abilityref}"
+                                        label: "#{attribute}"
+                                        underlay: "#{attribute}"
+                                        ref: "animal-companion/#{attributeref:}"
+                                        colour: "#{attributeref:}"
                                       - field: "animal-companion/#{save}-proficiency"
                                         control: proficiency
                                         value: trained

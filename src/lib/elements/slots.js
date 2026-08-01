@@ -29,6 +29,7 @@ export let slots = {
     if (debug) {
       warn("slots", "SLOTS", args.title);
       log("slots", "Args slots:", args.slots);
+      log("slots", "ARGS", args);
     }
 
     let placeholder = args.placeholder;
@@ -41,6 +42,7 @@ export let slots = {
     }
 
     function slotItems(items, slotValues) {
+      items = items.filter((item) => item !== undefined);
       if (debug) log("slots", "Slot items", items, slotValues);
       if (args.min && items.length < args.min) {
         const n = args.min - items.length;
@@ -61,7 +63,7 @@ export let slots = {
     }
 
     if (args.slots === null || args.slots.length == 0) {
-      if (debug) log("slots","Single slot");
+      if (debug) log("slots", "Single slot");
       let contents = slotItems(args.contents, {});
       if (args['merge-bottom']) {
         contents = mergeBottom(contents);

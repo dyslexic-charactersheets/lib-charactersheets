@@ -98,7 +98,7 @@ export let advancement = {
         Object.assign(flags, item);
         if (has(item, "advance")) {
           if (has(item, "proficiency")) {
-            proficiencyAdvances[item.proficiency].push(item.advance);
+            proficiencyAdvances[item.proficiency].push(item);
           } else if (has(item, "icon")) {
             iconItems.push({
               type: "p",
@@ -128,6 +128,7 @@ export let advancement = {
         // }
       });
       delete flags.level;
+      delete flags.colour;
       delete flags.label;
       delete flags.advance;
       delete flags.gain;
@@ -137,12 +138,27 @@ export let advancement = {
       ["trained", "expert", "master", "legendary"].forEach(tier => {
         if (!isEmpty(proficiencyAdvances[tier])) {
           proficiencyItems.push({
-            type: "p",
-            // title: tier.charAt(0).toUpperCase() + tier.slice(1),
+            type: "layout",
+            layout: "indent-l",
             blk: false,
-            content: proficiencyAdvances[tier].join(", "),
-            icon: "proficiency-"+tier
-          });
+            contents: [
+              {
+                type: "icon",
+                icon: "proficiency-"+tier
+              },
+              {
+                type: "g",
+                contents: proficiencyAdvances[tier].map((item) => {
+                  return {
+                    ...item,
+                    type: "p",
+                    blk: false,
+                    content: item.advance
+                  }
+                })
+              }
+            ]
+          })
         }
       });
 

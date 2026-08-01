@@ -1,0 +1,88 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: ancestry/remaster/lizardfolk
+in: ancestry
+group: "_{Player Core 2}"
+name: "_{Lizardfolk}"
+# enabled: false
+
+require:
+  - unit: feat/breath-control
+
+form:
+  - select: heritage/lost-omens/character-guide/lizardfolk
+    name: "_{Lizardfolk Heritage}"
+    max: 1
+  
+inc:
+  - set: ancestry
+    value: "_{Lizardfolk}"
+  - set: hp-ancestry
+    value: 8
+# stat boosts
+  - set: build-boost-STR-ancestry
+    value: 1
+  - set: build-boost-WIS-ancestry
+    value: 1
+  - set: build-boost-INT-ancestry
+    value: -1
+# set languages
+  - set: languages
+    value: "_{Common}, _{Iruxi}"
+
+# write ancestry short descriptions
+  - at: '@ancestry'
+    replace:
+      - article: ancestry
+        title: "_{Lizardfolk}"
+        contents:
+          - flags:
+              - "_{Lizardfolk}"
+              - "_{Humanoid}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: 25
+            value: "_{25 ft}"
+          - paste: natural-weapon
+            params:
+              name: "_{Claws}"
+              damage: "_{1d4}"
+              type: "_{Slashing}"
+          - flags:
+              - "_{Brawling}"
+              - "_{Agile}"
+              - "_{Finesse}"
+              - "_{Unarmed}"
+          - hr:
+            light: true
+          - paste: feat/breath-control
+
+  # add a natural weapon
+  - at: '@actions'
+    add:
+      - action: 1
+        contents:
+          - article:
+            title: "_{Claws attack}"
+            contents:
+              - paste: natural-weapon-action
+                params:
+                  id: ancestry/lizardfolk/claws-attack
+                  name: "_{Claws}"
+                  damage: "_{1d4}"
+                  type: "_{S}"
+              - flags:
+                  - "_{Agile}"
+                  - "_{Brawling}"
+                  - "_{Finesse}"
+                  - "_{Unarmed}"
+
+  #suppress ethnicity, Lizardfolk are too long as it is.
+  - at: '@ethnicity'
+    replace:
+      - spacer:
+
+            

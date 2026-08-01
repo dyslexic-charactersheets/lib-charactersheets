@@ -77,7 +77,7 @@ inc:
                                                 control: ability
                                                 width: ""
                                                 parts:
-                                                  - id: "key-ability"
+                                                  - id: "key-attribute"
                                                     control: radio
                                                     value: "npc/#{code}"
                                                   - subid: ""
@@ -187,7 +187,7 @@ inc:
                                 align: right
                               - "_{Skill\nBonus}"
                               - 
-                              - "_{Ability\nModifier}"
+                              - "_{Attribute\nModifier}"
                               - "_{Proficiency}"
                               - "_{Armour\nCheck\nPenalty}"
                             rows:
@@ -195,93 +195,93 @@ inc:
                                 contents:
                                   - skill: acrobatics
                                     name: "_{Acrobatics}"
-                                    ability: "_{DEX}"
-                                    abilityref: DEX
+                                    attribute: "_{DEX}"
+                                    attributeref: DEX
                                     acp: true
                                   - skill: arcana
                                     name: "_{Arcana}"
-                                    ability: "_{INT}"
-                                    abilityref: INT
+                                    attribute: "_{INT}"
+                                    attributeref: INT
                                     acp: false
                                   - skill: athletics
                                     name: "_{Athletics}"
-                                    ability: "_{STR}"
-                                    abilityref: STR
+                                    attribute: "_{STR}"
+                                    attributeref: STR
                                     acp: true
                                   - skill: crafting
                                     name: "_{Crafting}"
-                                    ability: "_{INT}"
-                                    abilityref: INT
+                                    attribute: "_{INT}"
+                                    attributeref: INT
                                     acp: false
                                   - skill: deception
                                     name: "_{Deception}"
-                                    ability: "_{CHA}"
-                                    abilityref: CHA
+                                    attribute: "_{CHA}"
+                                    attributeref: CHA
                                     acp: false
                                   - skill: diplomacy
                                     name: "_{Diplomacy}"
-                                    ability: "_{CHA}"
-                                    abilityref: CHA
+                                    attribute: "_{CHA}"
+                                    attributeref: CHA
                                     acp: false
                                   - skill: intimidation
                                     name: "_{Intimidation}"
-                                    ability: "_{CHA}"
-                                    abilityref: CHA
+                                    attribute: "_{CHA}"
+                                    attributeref: CHA
                                     acp: false
                                   - skill: medicine
                                     name: "_{Medicine}"
-                                    ability: "_{WIS}"
-                                    abilityref: WIS
+                                    attribute: "_{WIS}"
+                                    attributeref: WIS
                                     acp: false
                                   - skill: nature
                                     name: "_{Nature}"
-                                    ability: "_{WIS}"
-                                    abilityref: WIS
+                                    attribute: "_{WIS}"
+                                    attributeref: WIS
                                     acp: false
                                   - skill: occultism
                                     name: "_{Occultism}"
-                                    ability: "_{INT}"
-                                    abilityref: INT
+                                    attribute: "_{INT}"
+                                    attributeref: INT
                                     acp: false
                                   - skill: performance
                                     name: "_{Performance}"
-                                    ability: "_{CHA}"
-                                    abilityref: CHA
+                                    attribute: "_{CHA}"
+                                    attributeref: CHA
                                     acp: false
                                   - skill: religion
                                     name: "_{Religion}"
-                                    ability: "_{WIS}"
-                                    abilityref: WIS
+                                    attribute: "_{WIS}"
+                                    attributeref: WIS
                                     acp: false
                                   - skill: society
                                     name: "_{Society}"
-                                    ability: "_{INT}"
-                                    abilityref: INT
+                                    attribute: "_{INT}"
+                                    attributeref: INT
                                     acp: false
                                   - skill: stealth
                                     name: "_{Stealth}"
-                                    ability: "_{DEX}"
-                                    abilityref: DEX
+                                    attribute: "_{DEX}"
+                                    attributeref: DEX
                                     acp: true
                                   - skill: survival
                                     name: "_{Survival}"
-                                    ability: "_{WIS}"
-                                    abilityref: WIS
+                                    attribute: "_{WIS}"
+                                    attributeref: WIS
                                     acp: false
                                   - skill: thievery
                                     name: "_{Thievery}"
-                                    ability: "_{DEX}"
-                                    abilityref: DEX
+                                    attribute: "_{DEX}"
+                                    attributeref: DEX
                                     acp: true
                                     fade: false
                                   - skill: ''
                                     name: ''
-                                    ability: ''
+                                    attribute: ''
                                     acp: false
                                     optional: true
                                   - skill: ''
                                     name: ''
-                                    ability: ''
+                                    attribute: ''
                                     acp: false
                                     optional: true
                             template:
@@ -293,10 +293,10 @@ inc:
                                 icon: bonus
                               - span: "="
                               - field:
-                                ref: "#{abilityref}"
-                                underlay: "#{ability}"
+                                ref: "#{attributeref:}"
+                                underlay: "#{attribute}"
                                 frame: h-label
-                                label: "#{ability}"
+                                label: "#{attribute}"
                               - field: "npc/#{skill}-proficiency"
                                 control: proficiency
                                 value: "#{training}"
@@ -394,17 +394,17 @@ inc:
                                   - save: fortitude
                                     legend: "_{Fortitude}"
                                     short: "_{FORT}"
-                                    ability: "_{CON}"
-                                    abilityref: CON
+                                    attribute: "_{CON}"
+                                    attributeref: CON
                                   - save: reflex
                                     legend: "_{Reflex}"
                                     short: "_{REF}"
-                                    ability: "_{DEX}"
-                                    abilityref: DEX
+                                    attribute: "_{DEX}"
+                                    attributeref: DEX
                                   - save: will
                                     legend: "_{Will}"
                                     short: "_{WILL}"
-                                    ability: "_{WIS}"
+                                    attribute: "_{WIS}"
                                 template:
                                   - calc:
                                     output:
@@ -414,12 +414,12 @@ inc:
                                       border: full
                                       width: large
                                       underlay: "#{short}"
-                                      eq: "%{npc/#{save}-ability}+%{npc/#{save}-proficiency-bonus}"
+                                      eq: "%{npc/#{save}-attribute}+%{npc/#{save}-proficiency-bonus}"
                                     inputs:
-                                      - field: npc/#{save}-ability
-                                        label: "#{ability}"
-                                        underlay: "#{ability}"
-                                        ref: "#{abilityref}"
+                                      - field: npc/#{save}-attribute
+                                        label: "#{attribute}"
+                                        underlay: "#{attribute}"
+                                        ref: "#{attributeref:}"
                                       - field: "npc/#{save}-proficiency"
                                         control: proficiency
                                         value: trained

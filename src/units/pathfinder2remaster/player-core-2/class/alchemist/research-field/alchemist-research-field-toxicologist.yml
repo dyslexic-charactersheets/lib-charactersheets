@@ -1,0 +1,95 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/alchemist/research-field/toxicologist
+in: remaster/alchemist/research-field
+group: "_{Player Core 2}"
+name: "_{Toxicologist}"
+
+inc:
+  - set: alchemist-research-field
+    value: "_{Toxicologist}"
+    
+  - at: '@alchemist/research-field'
+    replace:
+      - g:
+        contents:
+          - h4: "_{Toxicologist}"
+          - hr:
+            swash: true
+
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - h5: "_{Field Benefit}"
+                  - action:
+                    contents:
+                      - p: "_{Apply a poison to a weapon.}"
+                  - p: "_{Your infused poisons can affect creatures immune to poison, dealing acid damage instead of poison damage.}"
+
+              - g:
+                contents:
+                  - h5: "_{Field Vials}"
+                  - p: "_{Your versatile vials are poison instead of acid.}"
+                  - p: "_{You can apply a vial to a weapon as an injury poison that deals the vial's initial damage.}"
+
+      - level: 5
+        contents:
+          - h5: "_{Field Discovery}"
+          - calc:
+            output:
+              field: "##:poison-resistance"
+              legend: "_{Poison Resistance}"
+              width: large
+              border: full
+              eq: "floor(%{level}/2)"
+            inputs:
+              - field:
+                ref: level
+                label: "_{Level}"
+              - span: "&div; 2"
+
+      - level: 11
+        contents:
+          - h5: "_{Advanced Vials}"
+          - p: "_{When you damage a creature with a vial used as an injury poison, deal persistent poison damage equal to its splash damage.}"
+
+      - level: 13
+        contents:
+          - h5: "_{Greater Field Discovery}"
+          - p: "_{When a creature fails its save against your infused injury poison, a second creature next to it is exposed to the poison.}"
+          
+  - at: '@alchemist/research-field/formulas'
+    replace:
+      - table: "##:formulas"
+        field_frame: none
+        width: stretch
+        merge-bottom: true
+        columns:
+          - label: "_{Toxin}"
+            align: left
+          - "_{Level}"
+          - "_{Type}"
+          - "_{Bonus}"
+          - "_{Effect}"
+        rows:
+          - n: 1
+          - n: 2
+        template:
+          - field: alchemist-toxin-#{i}
+            width: stretch
+            # label: "_&nbsp;"
+            underlay: "#{n}"
+          - field: alchemist-toxin-#{i}-level
+            width: small
+
+          - field: alchemist-toxin-#{i}-type
+            width: huge
+            
+          - field: alchemist-toxin-#{i}-bonus
+            prefix: "+"
+            border: full
+          - field: alchemist-toxin-#{i}-effect
+            width: stretch

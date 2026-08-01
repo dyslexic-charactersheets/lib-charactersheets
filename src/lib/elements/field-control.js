@@ -332,10 +332,12 @@ export let field_control_radio = {
     border: 'none',
     format: 'radio',
   },
-  render(args) {
+  render(args, reg, doc) {
     const ident = fieldRadioIdent(args.id, args.value);
     const cls = elementClass("field", "control", args, [], ["control"]);
-    return `<div${cls}><input type='radio'${ident.ident}><label${ident.for}></label></div>`;
+    const selected = args.value && doc.hasVar(args.id) && args.value == doc.getVar(args.id);
+    const checked = selected ? ' checked' : '';
+    return `<div${cls}><input type='radio'${checked}${ident.ident}><label${ident.for}></label></div>`;
   }
 }
 

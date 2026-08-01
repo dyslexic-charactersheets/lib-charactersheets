@@ -1,0 +1,104 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/alchemist/research-field/chirurgeon
+in: remaster/alchemist/research-field
+group: "_{Player Core 2}"
+name: "_{Chirurgeon}"
+
+inc:
+  - set: alchemist-research-field
+    value: "_{Chirurgeon}"
+    
+  - at: '@alchemist/research-field'
+    replace:
+      - g:
+        contents:
+          - h4: "_{Chirurgeon}"
+          - hr:
+            swash: true
+
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - h5: "_{Field Benefit}"
+                  - p: "_{Use Crafting proficiency and modifier in place of Medicine.}"
+
+              - g:
+                contents:
+                  - h5: "_{Field Vials}"
+                  - g:
+                    contents:
+                      - p: "_{Versatile vials can heal equal to their damage.}"
+                      - p: "_{Can be drunk or thrown at a willing target within 20ft.}"
+
+      - level: 5
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - h5: "_{Field Discovery}"
+                  - p: "_{A creature that drinks a healing elixir gains temporary hit points.}"
+
+              - g:
+                contents:
+                  - calc:
+                    output:
+                      field: "##:temp-hp"
+                      width: large
+                      legend: "_{Temporary Hit Points}"
+                      border: full
+                      suffix: "_{hp}"
+                      eq: "%{INT}"
+                    inputs:
+                      - ruby: "_{Min 0}"
+                        contents:
+                          - field:
+                            ref: INT
+                            label: "_{INT}"
+
+      - level: 11
+        contents:
+          - h5: "_{Advanced Vials}"
+          - p: "_{When healing a creature at half its maximum hit points or fewer, the coagulant trait doesn't apply.}"
+
+      - level: 13
+        contents:
+          - h5: "_{Greater Field Discovery}"
+          - p: "_{When you use Quick Alchemy to create any type of elixir of life, the creature healed regains the maximum hit points possible instead of rolling.}"
+          
+  - at: '@alchemist/research-field/formulas'
+    replace:
+      - table: "##:formulas"
+        field_frame: none
+        width: stretch
+        merge-bottom: true
+        columns:
+          - label: "_{Elixir}"
+            align: left
+          - "_{Level}"
+          - "_{Type}"
+          - "_{Bonus}"
+          - "_{Effect}"
+        rows:
+          - n: 1
+          - n: 2
+        template:
+          - field: alchemist-elixir-#{i}
+            width: stretch
+            # label: "_&nbsp;"
+            underlay: "#{n}"
+          - field: alchemist-elixir-#{i}-level
+            width: small
+
+          - field: alchemist-elixir-#{i}-type
+            width: huge
+            
+          - field: alchemist-elixir-#{i}-bonus
+            prefix: "+"
+            border: full
+          - field: alchemist-elixir-#{i}-effect
+            width: stretch

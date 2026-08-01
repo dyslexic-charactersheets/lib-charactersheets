@@ -1,0 +1,89 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: ancestry/remaster/ratfolk
+in: ancestry
+group: "_{Player Core 2}"
+name: "_{Ratfolk}"
+# enabled: false
+
+form:
+  - select: heritage/apg/ratfolk
+    name: "_{Ratfolk Heritage}"
+    max: 1
+
+# if the ancestry has low light:
+require:
+- unit: optional-darkvision/trigger
+
+inc:
+  - set: ancestry
+    value: "_{Ratfolk}"
+  - set: hp-ancestry
+    value: 6
+# set darkvision / low vision light
+  - set: perception-low-light
+    value: true
+# stat boosts
+  - set: build-boost-DEX-ancestry
+    value: 1
+  - set: build-boost-INT-ancestry
+    value: 1
+  - set: build-boost-STR-ancestry
+    value: -1
+# set languages
+  - set: languages
+    value: "_{Common}, _{Ysoki}"
+
+# write ancestry short descriptions
+  - at: '@ancestry'
+    replace:
+      - article: ancestry
+        title: "_{Ratfolk}"
+        contents:
+          - flags:
+              - "_{Ratfolk}"
+              - "_{Humanoid}"
+          - field: ancestry-speed
+            frame: right
+            label: "_{Speed}"
+            control: 25
+            value: "_{25 ft}"
+          # copy in the low light / dark vision description
+          - paste: low-light-vision
+          - hr:
+            light: true
+          # add a weapon
+          - paste: natural-weapon
+            params:
+              name: "_{Jaws}"
+              damage: "_{1d4}"
+              type: "_{Piercing}"
+          - flags:
+              - "_{Agile}"
+              - "_{Brawling}"
+              - "_{Finesse}"
+              - "_{Unarmed}"
+
+  # add a natural weapon
+  - at: '@actions'
+    add:
+      - action: 1
+        contents:
+          - article:
+            title: "_{Jaws attack}"
+            contents:
+              - paste: natural-weapon-action
+                params:
+                  id: ancestry-ratfolk-jaws-action
+                  name: "_{Jaws}"
+                  damage: "_{1d4}"
+                  type: "_{P}"
+              - flags:
+                  - "_{Agile}"
+                  - "_{Brawling}"
+                  - "_{Finesse}"
+                  - "_{Unarmed}"
+
+          

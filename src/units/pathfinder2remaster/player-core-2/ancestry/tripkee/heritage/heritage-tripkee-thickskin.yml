@@ -1,0 +1,36 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: heritage/tripkee/remaster/thickskin
+in: heritage/lost-omens/mwangi-expanse/grippli
+group: "_{Player Core 2}"
+name: "_{Thickskin Tripkee}"
+# enabled: false
+
+inc:
+  # set the heritage name
+  - set: heritage
+    value: "_{Thickskin Tripkee}"
+  - set: hp-ancestry
+    value: 8
+    priority: high
+
+
+  # create the heritage text block
+  - at: '@heritage'
+    replace:
+      - article:
+        title: "_{Thickskin Tripkee}"
+        contents:
+          # simple description
+          - value-block: "+1"
+            content: "_{Saves vs diseases and poisons}"
+
+  # add a heritage savign throw numeric bonus
+  - at: '@saving-throws'
+    add:
+      - p:
+        title: "_{Thickskin Tripkee}"
+      - value-block: "_{+1}"
+        content: "_{Saves vs diseases and poisons}"

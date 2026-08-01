@@ -85,31 +85,31 @@ inc:
                             code: CUL
                             ruin: "_{Corruption}"
                             ruincode: corruption
-                            leadership-eq: "%{leader-counselor-ability}+%{leader-magister-ability}"
+                            leadership-eq: "%{leader-counselor-attribute}+%{leader-magister-attribute}"
                             absence-eq: "(%{leader-ruler-absent}?1:0)+(%{counselor-ruler-absent}?1:0)"
                           - name: "_{Economy}"
                             short: "_{ECO}"
                             code: ECO
                             ruin: "_{Crime}"
                             ruincode: crime
-                            leadership-eq: "%{leader-viceroy-ability}+%{leader-treasurer-ability}"
+                            leadership-eq: "%{leader-viceroy-attribute}+%{leader-treasurer-attribute}"
                             absence-eq: "(%{leader-ruler-absent}?1:0)+(%{treasurer-ruler-absent}?1:0)"
                           - name: "_{Loyalty}"
                             short: "_{LOY}"
                             code: LOY
                             ruin: "_{Strife}"
                             ruincode: strife
-                            leadership-eq: "%{leader-ruler-ability}+%{leader-emissary-ability}"
+                            leadership-eq: "%{leader-ruler-attribute}+%{leader-emissary-attribute}"
                             absence-eq: "(%{leader-ruler-absent}?1:0)+(%{emissary-ruler-absent}?1:0)"
-                          - name: "_{Stability}"
+                          - name: "_{Stattribute}"
                             short: "_{STA}"
                             code: STA
                             ruin: "_{Decay}"
                             ruincode: decay
-                            leadership-eq: "%{leader-general-ability}+%{leader-warden-ability}"
+                            leadership-eq: "%{leader-general-attribute}+%{leader-warden-attribute}"
                             absence-eq: "(%{leader-ruler-absent}?1:0)+(%{viceroy-ruler-absent}?1:0)"
                         columns:
-                          # - h5: "_{Ability}"
+                          # - h5: "_{attribute}"
                           #   rotate: true
                           - ""
                           - ""
@@ -126,7 +126,7 @@ inc:
                             contents:
                               - field: "#{code}"
                                 label: "#{name}"
-                                control: ability
+                                control: attribute
                                 width: ""
                                 parts:
                                   - subid: "score"
@@ -317,8 +317,8 @@ inc:
                                         legend: "#{name}"
                                         width: stretch
                                         # size: large
-                                      - field: "leader-#{code}-ability"
-                                        label: "#{ability}"
+                                      - field: "leader-#{code}-attribute"
+                                        label: "#{attribute}"
                                         prefix: "+"
                                         eq: "%{leader-#{code}-absent} ? '' : threshold(%{level},[1,1,8,2,16,3])"
                                         border: full
@@ -329,37 +329,37 @@ inc:
                             contents:
                               - name: "_{Ruler}"
                                 code: ruler
-                                ability: "_{Loyalty}"
+                                attribute: "_{Loyalty}"
                                 penalty: "_{-1 to all checks; 1d4 unrest each turn; +2 control DC}"
                               - sort: name
                                 contents:
                                   - name: "_{Counselor}"
                                     code: counselor
-                                    ability: "_{Culture}"
+                                    attribute: "_{Culture}"
                                     penalty: "_{-1 to Culture checks}"
                                   - name: "_{General}"
                                     code: general
-                                    ability: "_{Stability}"
+                                    attribute: "_{Stattribute}"
                                     penalty: "_{-4 to Warfare activities}"
                                   - name: "_{Emissary}"
                                     code: emissary
-                                    ability: "_{Loyalty}"
+                                    attribute: "_{Loyalty}"
                                     penalty: "_{-1 to Loyalty checks}"
                                   - name: "_{Magister}"
                                     code: magister
-                                    ability: "_{Culture}"
+                                    attribute: "_{Culture}"
                                     penalty: "_{-4 to Warfare activities}"
                                   - name: "_{Treasurer}"
                                     code: treasurer
-                                    ability: "_{Economy}"
+                                    attribute: "_{Economy}"
                                     penalty: "_{-1 to Economy checks}"
                                   - name: "_{Viceroy}"
                                     code: viceroy
-                                    ability: "_{Economy}"
-                                    penalty: "_{-1 to Stability checks}"
+                                    attribute: "_{Economy}"
+                                    penalty: "_{-1 to Stattribute checks}"
                                   - name: "_{Warden}"
                                     code: warden
-                                    ability: "_{Stability}"
+                                    attribute: "_{Stattribute}"
                                     penalty: "_{-4 to Region activities}"
 
                           - g:
@@ -427,7 +427,7 @@ inc:
                           - label: "_{Skill\nBonus}"
                             width: medium
                           -
-                          - label: "_{Ability\nModifier}"
+                          - label: "_{Attribute\nModifier}"
                             width: medium
                           - label: "_{Proficiency}"
                             width: medium
@@ -435,75 +435,75 @@ inc:
                             width: small
                         rows:
                           - sort: name
-                            # group: abilityref
+                            # group: attributeref:
                             # group_hr: true
                             contents:
                               - zone: '@skills'
                                 contents:
                                   - skill: agriculture
                                     name: "_{Agriculture}"
-                                    ability: "_{STA}"
-                                    abilityref: STA
+                                    attribute: "_{STA}"
+                                    attributeref: STA
                                   - skill: arts
                                     name: "_{Arts}"
-                                    ability: "_{CUL}"
-                                    abilityref: CUL
+                                    attribute: "_{CUL}"
+                                    attributeref: CUL
                                   - skill: boating
                                     name: "_{Boating}"
-                                    ability: "_{ECO}"
-                                    abilityref: ECO
+                                    attribute: "_{ECO}"
+                                    attributeref: ECO
                                   - skill: defence
                                     name: "_{Defence}"
-                                    ability: "_{STA}"
-                                    abilityref: STA
+                                    attribute: "_{STA}"
+                                    attributeref: STA
                                   - skill: engineering
                                     name: "_{Engineering}"
-                                    ability: "_{STA}"
-                                    abilityref: STA
+                                    attribute: "_{STA}"
+                                    attributeref: STA
                                   - skill: exploration
                                     name: "_{Exploration}"
-                                    ability: "_{ECO}"
-                                    abilityref: ECO
+                                    attribute: "_{ECO}"
+                                    attributeref: ECO
                                   - skill: folklore
                                     name: "_{Folklore}"
-                                    ability: "_{CUL}"
-                                    abilityref: CUL
+                                    attribute: "_{CUL}"
+                                    attributeref: CUL
                                   - skill: industry
                                     name: "_{Industry}"
-                                    ability: "_{ECO}"
-                                    abilityref: ECO
+                                    attribute: "_{ECO}"
+                                    attributeref: ECO
                                   - skill: intrigue
                                     name: "_{Intrigue}"
-                                    ability: "_{LOY}"
-                                    abilityref: LOY
+                                    attribute: "_{LOY}"
+                                    attributeref: LOY
                                   - skill: magic
                                     name: "_{Magic}"
-                                    ability: "_{CUL}"
-                                    abilityref: CUL
+                                    attribute: "_{CUL}"
+                                    attributeref: CUL
                                   - skill: politics
                                     name: "_{Politics}"
-                                    ability: "_{LOY}"
-                                    abilityref: LOY
+                                    attribute: "_{LOY}"
+                                    attributeref: LOY
                                   - skill: scholarship
                                     name: "_{Scholarship}"
-                                    ability: "_{CUL}"
-                                    abilityref: CUL
+                                    attribute: "_{CUL}"
+                                    attributeref: CUL
                                   - skill: statecraft
                                     name: "_{Statecraft}"
-                                    ability: "_{LOY}"
-                                    abilityref: LOY
+                                    attribute: "_{LOY}"
+                                    attributeref: LOY
                                   - skill: trade
                                     name: "_{Trade}"
-                                    ability: "_{ECO}"
-                                    abilityref: ECO
+                                    attribute: "_{ECO}"
+                                    attributeref: ECO
                                   - skill: warfare
                                     name: "_{Warfare}"
-                                    ability: "_{LOY}"
-                                    abilityref: LOY
+                                    attribute: "_{LOY}"
+                                    attributeref: LOY
                                   - skill: wilderness
                                     name: "_{Wilderness}"
-                                    ability: "_{STA}"
-                                    abilityref: STA
+                                    attribute: "_{STA}"
+                                    attributeref: STA
                         template:
                           - row:
                             blk: false
@@ -525,14 +525,14 @@ inc:
                             border: full
                             icon: bonus
                             width: medium
-                            eq: '%{#{skill}-ability}+%{#{skill}-proficiency-bonus}+%{#{skill}-misc}-%{#{skill}-acp}'
+                            eq: '%{#{skill}-attribute}+%{#{skill}-proficiency-bonus}+%{#{skill}-misc}-%{#{skill}-acp}'
                             format: modifier
                           - span: "="
-                          - field: '#{skill}-ability'
-                            ref: "#{abilityref}"
-                            underlay: "#{ability}"
+                          - field: '#{skill}-attribute'
+                            ref: "#{attributeref:}"
+                            underlay: "#{attribute}"
                             frame: h-label
-                            label: "#{ability}"
+                            label: "#{attribute}"
                             width: medium
                           - field: "#{skill}-proficiency"
                             control: proficiency
@@ -1042,8 +1042,8 @@ inc:
                       - g:
                         pad: true
                         contents:
-                          - h5: "_{Ability boost}"
-                          - p: "_{At levels 5, 10, 15 and 20, boost 4 different ability scores. Increase by 1 if the score is already 18 or above, or 2 if not.}"
+                          - h5: "_{Attribute boost}"
+                          - p: "_{At levels 5, 10, 15 and 20, boost 4 different attribute scores. Increase by 1 if the score is already 18 or above, or 2 if not.}"
                       
                       - g:
                         pad: true   
@@ -1126,7 +1126,7 @@ inc:
                             value: legendary
                             ruby: "_{Level}\n+8"
 
-                      - p: "_{Increase any statistics that changed as a result of ability boosts or other abilities.}"
+                      - p: "_{Increase any statistics that changed as a result of attribute boosts or other abilities.}"
                             
                   - g:
                     pad: true
@@ -1173,7 +1173,7 @@ inc:
                           - level: 15
                             gain: "_{Settle metropolises}"
                           - levels: [ 5, 10, 15, 20 ]
-                            gain: "_{Ability boost} &times; 4"
+                            gain: "_{Attribute boost} &times; 4"
                           - levels: [ 5, 8, 11, 14, 17, 20 ]
                             gain: "_{Ruin Resistance}"
                           - levels: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
