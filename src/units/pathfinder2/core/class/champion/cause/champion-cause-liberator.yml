@@ -17,6 +17,8 @@ inc:
     value: "_{Liberator}"
   - set: 'champion-cause-name'
     value: '_{Liberator}'
+  - set: cause
+    value: "_{Liberator}"
 
   - at: '@champion/class-name'
     replace:
@@ -26,7 +28,7 @@ inc:
 
   - at: '@champion/cause-section'
     replace:
-      - section: "_{Liberator}"
+      - section: "_{Cause}"
         primary: true
         contents:
           - list:
@@ -37,8 +39,8 @@ inc:
                     contents:
                       - field: cause
                         width: stretch
-                        size: large
-                        legend: "Cause"
+                        size: huge
+                        frame: none
                       - field: cause-detail
                         width: stretch
                         frame: none
@@ -56,9 +58,7 @@ inc:
                       - li: "_{Respect the choices others make over their own lives; you can't force someone to act in a particular way.}"
                       - li: "_{Demand and fight for others' freedom to make their own decisions. You may never engage in or countenance slavery or tyranny.}"
                   - h5: "_{Anathema}"
-                  - paste: anathema
-                    params:
-                      merge-bottom: false
+                  - paste: anathema-open
                   - p: "_{If you violate your code of conduct, you lose your focus pool and divine ally until you demonstrate repentance.}"
 
   - at: '@advancement'
@@ -91,14 +91,18 @@ inc:
             contents:
               - action: reaction
                 contents:
-                  - p: "_{When an enemy grabs, grapples or damages your ally within 15 feet of you, free the ally.}"
+                  - p: "_{When an enemy grabs, grapples or damages your ally within 15 feet of you, free the ally. Your ally can choose one:}"
                   - ul:
                     contents:
-                      - li: "_{They can attempt a new saving throw}"
-                      - li: "_{OR they can attempt to escape as a free action}"
+                      - li: "_{[b]New Save[/b]: attempt a new saving throw.}"
+                      - li:
+                        contents:
+                          - p:
+                            icon: free-action
+                            content: "_{[b]Escape[/b]: attempt to escape.}"
                   - calc:
                     output:
-                      field: paladin-liberating step-resistance
+                      field: paladin-liberating-step-resistance
                       legend: "_{Resistance}"
                       width: large
                       prefix: "+"
@@ -114,8 +118,8 @@ inc:
                   - p: "_{If the foe grabbed, restrained, immobilised or paralyzed your ally, they take persistent good damage:}"
                   - calc:
                     output:
-                      field: champion-divine-smite-glimpse-of-redemption
-                      legend: "_{Divine Smite\nDamage}"
+                      field: champion-divine-smite-liberating-step
+                      legend: "_{Damage}"
                       suffix: "_{pts}"
                       width: large
                       eq: "%{CHA}"
@@ -127,4 +131,4 @@ inc:
               - level: 11
                 contents:
                   - h5: "_{Exalt}"
-                  - p: "_{If your ally doesn't attempt to break free, you and all allies withing 15 feet can step.}"
+                  - p: "_{If your ally doesn't attempt to break free, you and all allies within 15 feet can Step, even if the triggering ally can't move.}"
