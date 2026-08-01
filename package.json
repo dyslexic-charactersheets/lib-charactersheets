@@ -42,6 +42,7 @@
     "build:bundle": "rollup src/lib/lib.js --file src/lib-charactersheets.js --format cjs --external fs",
     "build:compile": "babel src/lib-charactersheets.js -d lib",
     "build:unitgen": "node src/make/unitgen/unitGen.js",
+    "build:safe": "npm run build:units && npm run build:bundle && npm run build:compile",
     "docs": "npm run docs:contrib && npm run docs:jsdoc",
     "docs:jsdoc": "npx jsdoc -d docs/api src/lib",
     "docs:contrib": "npx gitbook build src/docs docs",
@@ -49,6 +50,7 @@
     "test:i18n": "node test/i18n.js",
     "test:i18n:clean": "rm -r test/out/i18n",
     "test:preview": "node test/test-preview.js",
+    "generate": "node test/generate-character.js",
     "test": "npm run build && node test/test.js"
   },
   "license": "Artistic-2.0",
