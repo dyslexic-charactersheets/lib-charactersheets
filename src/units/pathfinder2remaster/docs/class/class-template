@@ -158,6 +158,161 @@ inc:
           - paste: improved-save-<ref/fort/will>-2
             params:
               title: "_{<Feature>}"
+
+  # now that the boring stuff is out of the way, we can build the class page...
+  - at: '@pages'
+    add:
+      - page: <page-slug>
+        name: "_{<Page Title}"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+
+              # Left Column Container.  Contains major class features, may contain subclasses if they fit better here (see wizard)
+              - g:
+                contents:
+                  - class-icon: <class-icon-slug>
+                    optional: true
+                  # Class name is a container, it can have stuff after it (see Cleric)
+                  - class-name: "_{<Class Name>}"
+                    # suffix: "_{of}" (optional)
+                    # flex: tiny (optional) 
+                    # contents: (optional)
+
+                  # Each Class Feature that is not notated elsewhere (save upgrades, for example) should have a section
+                  - section: "_{<Feature>}"
+                    flex: small
+                    contents:
+                    
+                  # Non casters should have a class DC
+                  - section: "_{Class DC}"
+                    id: class-dc
+                    contents:
+                      - paste: class-dc
+                        params:
+                          id: <class>-class-dc
+                          legend: "_{<Class>\nClass DC}"
+
+                  # Casters should have spellcasting
+                  - section: "_{Spellcasting}"
+                    id: spellcasting
+                    contents:
+                      - paste: spellcasting-<prepared/spontaneous>
+                        params:
+                          # for prepared casters, how many cantrips and from what selection?
+                          cantrips-text: "_{Prepare <N> cantrips each morning from <selection>. Cast them indefinitely.}"
+                          spells-icon: <icon-slug>
+                          # for prepared casters, spells from what selection?
+                          spells-text: "_{Prepare spells each morning from <selection>.}"
+
+                      # Include a table to keep track of how many spells.
+                      # horizontal table
+                      - spells-table:
+                        spell-level-label: "_{Spell\nRank}"
+                        flip: true
+                        max: 10
+                        merge-bottom: false
+
+                      # vertical table with space to note signature spell
+                      - spells-table:
+                        spell-level-label: "_{Spell\nRank}"
+                        max: 10
+                        spells-today: true
+                        max-spells-per-day: 4
+                        expanded: "_{Signature Spell}"
+                        at:
+                          - level: 10
+                            max-spells-per-day: 2
+
+                      #spell attack and DC
+                      - paste: spell-attack
+                      - paste: spell-dc
+
+                  # decorative column end
+                  - tail:
+
+                  # don't stretch elements to fill page.
+                  - spacer:
+
+              # right column container.  (roughly twice as wide.)
+              - g:
+                contents:
+
+                  # subclass usually goes here.  This is a place holder for if the user does not select a subclass, 
+                  # and should have the general rules elements with space to fill in the details.
+                  - section: "_{<Subclass>}"
+                    primary: true
+                    flex: large
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          # If the user selected a sub class, it will usually replace everything in this zone.
+                          - zone: '@cleric-doctrine'
+                            contents:
+                              - field: cleric-doctrine
+                                frame: none
+                                width: stretch
+                                align: center
+                                merge-bottom: true
+                                size: huge
+                              - list:
+                                hr: true
+                                merge-bottom: true
+                                columns: 2
+                                contents:
+                                  - repeat: 6
+                                    rows:
+                                      - level: 1
+                                      - level: 3
+                                      - level: 7
+                                      - level: 11
+                                      - level: 15
+                                      - level: 19
+                                    contents:
+                                      - level: '#{level}'
+                                        contents:
+                                          - field: cleric-doctrine-#{i}
+                                            width: stretch
+                                            frame: none
+                                            repeat: 2
+                                            merge-bottom: true
+
+                  - section: "_{Cantrips}"
+                    flex: small
+                    contents:
+                      - spells-list:
+                        min: 0
+                        max: 0
+                        spells: 5
+                        style: spontaneous
+
+                  - section: "_{Spells}"
+                    flex: huge
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - spells-list:
+                            flex: huge
+                            min: 1
+                            max: 9
+                            spells: 4
+                          - spells-list:
+                            flex: tiny
+                            min: 10
+                            max: 10
+                            spells: 2
+
+                  - paste: class-feats
+                    params:
+                      id: cleric-feats
+                      title: "_{Cleric Feats}"
+
+                  - tail:
+                  # - spacer:
               half-damage: <true/false> # defaults to true.
           - p: "_{Special note}" # optional
 
