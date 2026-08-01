@@ -21,7 +21,12 @@ function splitAnyCase(str) {
 function toKebabCase(str) {
   // convert-a-string-to-kebab-case
   const words = splitAnyCase(str);
-  return words.join('-');
+  let str2 = words.join('-');
+
+  // strip technical characters to prevent repos cloned to windows from breaking
+  str2 = str2.replace(/[<>:"|?*\\]/g, '');
+
+  return str2;
 }
 
 const includedSources = [

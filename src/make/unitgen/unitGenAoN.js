@@ -35,6 +35,10 @@ function slugify(str) {
   str = str.replace("'", "");
   str = str.replace(/ \(.*\)/, '');
   str = toKebabCase(str);
+
+  // strip technical characters to prevent repos cloned to windows from breaking
+  str = str.replace(/[<>:"|?*\\]/g, '');
+
   return str;
 }
 

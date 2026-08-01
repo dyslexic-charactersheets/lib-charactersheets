@@ -85,9 +85,10 @@ function toTitleCase(str) {
 }
 
 // Character creation
-var systems = ["pathfinder2"];
 // var languages = ["it", "es", "pl", "de", "fr", "pt", "pt-BR", "ru"];
-var languages = ["fr"];
+var systems = process.argv[2] ? process.argv[2].split(',') : ["pathfinder2"];
+var languages = process.argv[3] ? process.argv[3].split(',') : ["fr"];
+var categories = process.argv[4] ? process.argv[4].split(',') : ['ancestry', 'background', 'class', 'archetype'];
 
 systems.forEach(system => {
   languages.forEach(lang => {
@@ -154,7 +155,7 @@ systems.forEach(system => {
       selects[sel.select] = sel;
     });
 
-    ['ancestry', 'background', 'class', 'archetype'].forEach(keySelect => {
+    categories.forEach(keySelect => {
       if (has(selects, keySelect)) {
         var select = selects[keySelect];
         let prefix = toTitleCase(keySelect);
