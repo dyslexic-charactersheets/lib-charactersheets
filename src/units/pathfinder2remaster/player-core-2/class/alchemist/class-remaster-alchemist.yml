@@ -6,14 +6,13 @@ unit: class/remaster/alchemist
 in: class
 group: "_{Player Core 2}"
 name: "_{Alchemist}"
-# enabled: false
 
 require:
   - unit: weapon-spec/slow
   - unit: option/formula-book
   - with: option/reference
     unit: class/alchemist/reference
-  - deny: archetype/alchemist
+  - deny: archetype/remaster/alchemist
 
 form:
   - select: remaster/alchemist/research-field
@@ -26,43 +25,27 @@ form:
 
 inc:
 
-  - set: class
-    value: "_{Alchemist}"
-  - set: hp-class
-    value: 8
-  - set: class-icon
-    value: alchemist
-  - set: subclass-label
-    value: "_{Research Field}"
+  - paste: prototype-class
+    params:
+      class: alchemist
+      class-name: "_{Alchemist}"
+      hp: 8
+      subclass-name: "_{Research Field}"
+      key-attribute: INT
 
-  - set: alchemist-class-dc-proficiency
-    value: trained
-  - set: perception-proficiency
-    value: trained
-    
-  - set: unarmoured-proficiency
-    value: trained
-  - set: light-armour-proficiency
-    value: trained
-  - set: medium-armour-proficiency
-    value: trained
+      unarmoured: trained
+      light-armour: trained      
+      medium-armour: trained
+      unarmed: trained
+      simple-weapons: trained
+      martial-weapons: trained
 
-  - set: fortitude-proficiency
-    value: expert
-  - set: reflex-proficiency
-    value: expert
-  - set: will-proficiency
-    value: trained
-    
-  - set: crafting-proficiency
-    value: trained
+      perception: trained
+      crafting: trained
 
-  - at: '@key-attribute-field'
-    replace:
-      - field: key-attribute
-        label: "_{INT}"
-        underlay: "_{INT}"
-        ref: INT
+      fortitude: expert
+      reflex: expert
+      will: trained
 
   - at: '@familiar/key-attribute'
     replace:
