@@ -18,10 +18,14 @@ form:
 
 require:
   # - unit: option/animal-companion
+  
+  - deny: class/druid
   - deny: archetype/druid
   - deny: archetype/remaster/druid
+
   - unit: option/spellbook
   - unit: weapon-spec/slow
+  
   - with: option/reference
     unit: class/remaster/druid/reference
 
@@ -33,6 +37,8 @@ inc:
       subclass: order
       subclass-name: "_{Order}"
       hp: 8
+
+      spells: trained
       key-attribute: WIS
 
       perception: trained
@@ -45,24 +51,15 @@ inc:
       reflex: trained
       will: expert
 
-      spells: trained
-
       nature: trained
 
   - at: '@skill-actions'
     add:
-      - paste: 10mins
-        contents:
-          - p:
-            title: "_{Identify Magic (Nature/other)}"
-            content: "_{Take 10 minutes to identify a magical item, location or effect.}"
-            colour: WIS
-      - action:
-        contents:
-          - p:
-            title: "_{Command An Animal (Nature)}"
-            content: "_{Attempt a check against the target's Will DC; the GM may adjust the DC based on attitude or circumstances. Fail if the target is hostile or unfriendly.}"
-            colour: WIS
+      - paste: skill-action/identify-magic
+        params: 
+          skill: "_{Nature/other}"
+          ability: WIS
+      - paste: skill-action/command-animal
 
   - at: '@advancement'
     add:

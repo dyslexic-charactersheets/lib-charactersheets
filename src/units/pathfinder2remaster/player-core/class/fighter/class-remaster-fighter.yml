@@ -14,10 +14,14 @@ form:
     levels: [ 1, 2, 4, 6, 8, 10, 14, 16, 18, 20 ]
 
 require:
+  - deny: class/fighter
   - deny: archetype/fighter
+  - deny: archetype/remaster/fighter
+
   - unit: weapon-spec/fast
   - with: option/reference
-    unit: class/fighter/reference
+    unit: class/remaster/fighter/reference
+    
   - unit: feat/reactive-strike
 
 inc:
@@ -53,27 +57,10 @@ inc:
 
   - at: '@skill-actions'
     add:
-      - action:
-        contents:
-          - p:
-            title: "_{Tumble Through (Acrobatics)}"
-            content: "_{Attempt a check against an enemy's Reflex DC. If successful, move through their space at half speed. If you fail, trigger reactions.}"
-            colour: DEX
-      - action:
-        contents:
-          - p:
-            title: "_{Grapple (Athletics)}"
-            content: "_{Attempt an Athletics check against an enemy's Fortitude DC. If successful, enemy is grabbed; or restrained on a critical success.}"
-            colour: STR
-      - indent: left
-        contents:
-          - action:
-            contents:
-              - p:
-                title: "_{Escape (Unarmed Attack)}"
-                content: "_{Attempt an unarmed attack against the Athletics DC of a creature grabbing you (or Thievery DC of one who tied you up). Escape if successful; move 5ft on a critical success.}"
-                colour: STR
-
+      - paste: skill-action/tumble-through
+      - paste: skill-action/grapple
+      - paste: skill-action/escape
+      
   - at: '@advancement'
     add:
       - level: 1

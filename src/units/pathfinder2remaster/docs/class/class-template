@@ -1,0 +1,318 @@
+# Copyright 2026 Dyslexic Character Sheets
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+# This is a template file to document and provide a consistent template for new classes.  
+# Common Features can be found in the class_feature_template file in the same directory.
+# <placeholders> are named place holders.  There should be no <> in the final file.
+# capitalized <Placeholders> represent title cased text strings and the replacements should be capitalized.
+
+# create the class
+unit: class/<edition>/<class>
+in: class
+group: "_{<Book>}"
+name: "_{<Class>}"
+
+# Set up the form for the character sheet builder
+form:
+  # Allow users to select one (or more) subclasses.  Each list of subclasses needs its own "select" entry (wizard thesis + school)
+  - select: <class>/<subclass>
+    name: "_{<Class's> <Subcless>}"
+    max: 1
+  # Allow users to preselect feats they have taken to prefill actions / feat slots.  (Not currently implemented?)  
+  # Also sets the advancement page's class feat check boxes.
+  - select: feat/<class>
+    name: "_{<Class's> Feats}"
+    max: 10
+    levels: [ 1, 2, 4, 6, 8, 10, 14, 16, 18, 20 ]
+
+require:
+  # what levels does the class get weapon specialization (typically martials fast, casters slow)
+  - unit: weapon-spec/fast
+  - unit: weapon-spec/slow
+
+  # Casters need spellbooks
+  - unit: option/spellbook
+  - unit: option/spellbook/custom
+
+  # If the user chose to include a reference card, include the class reference.
+  - with: option/reference
+    unit: class/<class>/reference
+
+  # don't let them take the class a second time as an archtype or their pre remaster as a multiclass
+  - deny: class/<class>
+  - deny: archetype/<class>
+  - deny: archetype/remaster/<class>
+
+  # spontaneous casters need to add spells to the list of things they can retrain on level up.
+  - with: option/level-up
+    unit: option/level-up/spell-retraining
+
+  # include any feats or spells they will need to reference:
+  - unit: <type>/<identifier>
+
+# Now actually Build the class
+inc:
+  # Set the key ability if it only has one.  (Ignore if player can select.)
+  - set: key-ability
+    value: "<ABL>"   
+        
+  # Call protoytpe to set various proficiencies and labels
+  - paste: prototype-class
+    params:
+      class: <class>
+      class-name: "_{<Class>}"
+      hp: 8
+      subclass-name: "_{<Subclass_Name>}"
+
+      # attack / defence DCs.  Options are trained / expert / master / legendary (no "") 
+      # params: spells / unarmoured / light-armour / medium-armour / heavy-armour
+      # unimplemented params: unarmed / simple-weapons / martial-weapons / advanced-weapons
+      spells: trained
+      unarmoured: trained
+      unarmed: trained
+
+      # perception proficiency
+      perception: trained
+
+      # skill proficiency
+      religion: trained
+
+      # save proficiencies
+      fortitude: trained
+      reflex: trained
+      will: expert
+
+  # Add common skill actions for the class. (See defs/skill-actions for complete list) 
+  - at: '@skill-actions'
+    add:
+      - paste: skill-action/identify-magic
+        params: 
+          skill: "_{Occultism/other}"
+          ability: INT
+      - paste: skill-action/track
+
+  # Build the level up page
+  - at: '@advancement'
+    add:
+      # These do not need to be in level order.  Multiple items can be added to each level.
+
+      # single feature gained at a single level that requires player to make a choice or update something (adds a check box)
+      - level: <Number>
+        gain: "_{<Feature>}"
+
+      # single feature gained at a single level 
+      - level: <Number>
+        advance: "_{<Feature>}"
+
+      # add a scaling feature in it's own column (must have - at: '@advancement-fields' (see below))
+      - levels: [ <comma sepearted list of levels> ]
+        <column-key>: [ <comma seperated list of strings> ]
+
+      # add a scaling feature in it's own column with checkboxes (must have - at: '@advancement-fields' format: checkgrid (see below))
+      - levels: [ <comma sepearted list of levels> ]
+        <column-string-key>: [ <comma seperated list of strings> ]
+        <column-num-key>: [ <comma seperated list of number of check boxes> ]
+        
+      # add a proficiency or proficiency increase.
+      - level: <Number>
+        advance: "_{<Proficiency Desc>}"
+        proficiency: <rank>
+        colour: <ABL> # (Optional)
+      # or
+      - level: <Number>
+        proficiency: <rank>
+        in: "_{<Proficiency Desc>}"
+        colour: <ABL> # (Optional)
+
+  # add a column for a scaling feature with a string at each level
+  - at: '@advancement-fields'
+    add:
+      - name: "_{<Feature>}"
+        key: <column-key>
+        format: string
+
+  # add a column for a scaling feature with a string and checkboxes at each level
+  - at: '@advancement-fields'
+    add:
+      - name: "_{<Feature>}"
+        key: <column-key>
+        format: checkgrid
+        label: "#{<column-string-key>}"
+        max: "#{<column-num-key>}"
+
+  # add the saving throw success upgrades to the savingt throw section of the combat sheet.
+  - at: '@saving-throws'
+    add:
+      # upgrade success to crit success
+      - level: <Number>
+        contents:
+          - paste: improved-save-<ref/fort/will>
+            params:
+              title: "_{<Feature>}"
+          - p: "_{Special note}" # optional
+
+      # upgrade crit fail to fail (optional - half damage on fail)
+      - level: <Number>
+        contents:
+          - paste: improved-save-<ref/fort/will>-2
+            params:
+              title: "_{<Feature>}"
+
+  # now that the boring stuff is out of the way, we can build the class page...
+  - at: '@pages'
+    add:
+      - page: <page-slug>
+        name: "_{<Page Title}"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+
+              # Left Column Container.  Contains major class features, may contain subclasses if they fit better here (see wizard)
+              - g:
+                contents:
+                  - class-icon: <class-icon-slug>
+                    optional: true
+                  # Class name is a container, it can have stuff after it (see Cleric)
+                  - class-name: "_{<Class Name>}"
+                    # suffix: "_{of}" (optional)
+                    # flex: tiny (optional) 
+                    # contents: (optional)
+
+                  # Each Class Feature that is not notated elsewhere (save upgrades, for example) should have a section
+                  - section: "_{<Feature>}"
+                    flex: small
+                    contents:
+                    
+                  # Non casters should have a class DC
+                  - section: "_{Class DC}"
+                    id: class-dc
+                    contents:
+                      - paste: class-dc
+                        params:
+                          id: <class>-class-dc
+                          legend: "_{<Class>\nClass DC}"
+
+                  # Casters should have spellcasting
+                  - section: "_{Spellcasting}"
+                    id: spellcasting
+                    contents:
+                      - paste: spellcasting-<prepared/spontaneous>
+                        params:
+                          # for prepared casters, how many cantrips and from what selection?
+                          cantrips-text: "_{Prepare <N> cantrips each morning from <selection>. Cast them indefinitely.}"
+                          spells-icon: <icon-slug>
+                          # for prepared casters, spells from what selection?
+                          spells-text: "_{Prepare spells each morning from <selection>.}"
+
+                      # Include a table to keep track of how many spells.
+                      # horizontal table
+                      - spells-table:
+                        spell-level-label: "_{Spell\nRank}"
+                        flip: true
+                        max: 10
+                        merge-bottom: false
+
+                      # vertical table with space to note signature spell
+                      - spells-table:
+                        spell-level-label: "_{Spell\nRank}"
+                        max: 10
+                        spells-today: true
+                        max-spells-per-day: 4
+                        expanded: "_{Signature Spell}"
+                        at:
+                          - level: 10
+                            max-spells-per-day: 2
+
+                      #spell attack and DC
+                      - paste: spell-attack
+                      - paste: spell-dc
+
+                  # decorative column end
+                  - tail:
+
+                  # don't stretch elements to fill page.
+                  - spacer:
+
+              # right column container.  (roughly twice as wide.)
+              - g:
+                contents:
+
+                  # subclass usually goes here.  This is a place holder for if the user does not select a subclass, 
+                  # and should have the general rules elements with space to fill in the details.
+                  - section: "_{<Subclass>}"
+                    primary: true
+                    flex: large
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          # If the user selected a sub class, it will usually replace everything in this zone.
+                          - zone: '@cleric-doctrine'
+                            contents:
+                              - field: cleric-doctrine
+                                frame: none
+                                width: stretch
+                                align: center
+                                merge-bottom: true
+                                size: huge
+                              - list:
+                                hr: true
+                                merge-bottom: true
+                                columns: 2
+                                contents:
+                                  - repeat: 6
+                                    rows:
+                                      - level: 1
+                                      - level: 3
+                                      - level: 7
+                                      - level: 11
+                                      - level: 15
+                                      - level: 19
+                                    contents:
+                                      - level: '#{level}'
+                                        contents:
+                                          - field: cleric-doctrine-#{i}
+                                            width: stretch
+                                            frame: none
+                                            repeat: 2
+                                            merge-bottom: true
+
+                  - section: "_{Cantrips}"
+                    flex: small
+                    contents:
+                      - spells-list:
+                        min: 0
+                        max: 0
+                        spells: 5
+                        style: spontaneous
+
+                  - section: "_{Spells}"
+                    flex: huge
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - spells-list:
+                            flex: huge
+                            min: 1
+                            max: 9
+                            spells: 4
+                          - spells-list:
+                            flex: tiny
+                            min: 10
+                            max: 10
+                            spells: 2
+
+                  - paste: class-feats
+                    params:
+                      id: cleric-feats
+                      title: "_{Cleric Feats}"
+
+                  - tail:
+                  # - spacer:
+              half-damage: <true/false> # defaults to true.
+          - p: "_{Special note}" # optional
+

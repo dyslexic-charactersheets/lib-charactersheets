@@ -18,11 +18,13 @@ form:
 
 require:
   - deny: class/bard
-
   - deny: archetype/bard
+  - deny: archetype/remaster/bard
+
   - unit: weapon-spec/slow
   - unit: option/spellbook
   - unit: option/spellbook/custom
+
   - with: option/reference
     unit: class/remaster/bard/reference
   - unit: cantrip/bard/inspire-courage
@@ -57,16 +59,14 @@ inc:
 
   - at: '@skill-actions'
     add:
-      - paste: 10mins
-        contents:
-          - p:
-            title: "_{Identify Magic (Occultism/other)}"
-            content: "_{Take 10 minutes to identify a magical item, location or effect.}"
-      - indent: left
-        contents:
-          - p:
-            title: "_{Earn Income (Performance)}"
-            content: "_{GM sets the hidden DC of the check.}"
+      - paste: skill-action/identify-magic
+        params: 
+          skill: "_{Occultism/other}"
+          ability: INT
+      - paste: skill-action/earn-income
+        params: 
+          skill: "_{Performance}"
+          ability: CHA
 
   - at: '@advancement'
     add:
@@ -75,7 +75,7 @@ inc:
       - level: 3
         advance: "_{Signature Spells}"
       - levels: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 ]
-        spell-level: [ "_{1st}", "_{1st}", "_{2nd}", "_{2nd}", "_{3rd}", "_{3rd}", "_{4th}", "_{4th}", "_{5th}", "_{5th}", "_{6th}", "_{6th}", "_{7th}", "_{7th}", "_{8th}", "_{8th}", "_{9th}", "_{9th}", "_{10th}" ]
+        spell-rank: [ "_{1st}", "_{1st}", "_{2nd}", "_{2nd}", "_{3rd}", "_{3rd}", "_{4th}", "_{4th}", "_{5th}", "_{5th}", "_{6th}", "_{6th}", "_{7th}", "_{7th}", "_{8th}", "_{8th}", "_{9th}", "_{9th}", "_{10th}" ]
         spell-num: [ 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1 ]
       - level: 19
         advance: "_{Magnum Opus}"
@@ -96,7 +96,7 @@ inc:
         proficiency: master
         colour: WIS
       - level: 11
-        advance: "_{Simple weapons}, _{Longsword}, _{Rapier}, _{Sap}, _{Shortbow}, _{Shortsword}, _{Whip}"
+        advance: "_{Simple weapons}, _{Martial weapons}, _{Unarmed attacks}"
         proficiency: expert
       - level: 11
         advance: "_{Perception}"
@@ -121,7 +121,7 @@ inc:
       - name: "_{Spells}"
         key: spells
         format: checkgrid
-        label: "#{spell-level}"
+        label: "#{spell-rank}"
         max: "#{spell-num}"
 
   - at: '@saving-throws'
