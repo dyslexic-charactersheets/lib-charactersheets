@@ -13,8 +13,8 @@ form:
     max: 1
   - select: feat/druid
     name: "_{Druid Feats}"
-    max: 9
-    levels: [ 2, 4, 6, 8, 10, 14, 16, 18, 20 ]
+    max: 10
+    levels: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
 
 require:
   # - unit: option/animal-companion
@@ -30,7 +30,7 @@ require:
     unit: class/remaster/druid/reference
 
 inc:
-  - paste: prototype/class
+  - paste: prototype-class
     params:
       class: druid
       class-name: "_{Druid}"
@@ -52,6 +52,11 @@ inc:
       will: expert
 
       nature: trained
+
+  - set: primal-spell-attack-proficiency
+    value: trained
+  - set: primal-spell-save-dc-proficiency
+    value: trained
 
   - at: '@skill-actions'
     add:
@@ -78,12 +83,16 @@ inc:
         advance: "_{Fortitude saves}"
         proficiency: expert
         colour: CON
+      - level: 3
+        advance: "_{Perception}"
+        proficiency: expert
+        colour: WIS
       - level: 5
         advance: "_{Reflex saves}"
         proficiency: expert
         colour: DEX
       - level: 7
-        advance: "_{Spell attacks and DCs}"
+        advance: "_{Primal spell attacks and DCs}"
         proficiency: expert
       - level: 11
         advance: "_{Simple weapons}, _{Unarmed attacks}"
@@ -96,10 +105,10 @@ inc:
         advance: "_{Light armour}, _{Medium armour}, _{Unarmoured defence}"
         proficiency: expert
       - level: 15
-        advance: "_{Spell attacks and DCs}"
+        advance: "_{Primal spell attacks and DCs}"
         proficiency: master
       - level: 19
-        advance: "_{Spell attacks and DCs}"
+        advance: "_{Primal spell attacks and DCs}"
         proficiency: legendary
 
   - at: '@advancement-fields'
@@ -110,7 +119,7 @@ inc:
 
   - at: '@saving-throws'
     add:
-      - level: 9
+      - level: 11
         contents:
           - paste: resolve
             params:
@@ -208,7 +217,14 @@ inc:
                         merge-bottom: false
 
                       - paste: spell-attack
+                        params:
+                          id: primal-spell-attack
+                          legend: "_{Primal Spell\nAttack}"
+
                       - paste: spell-dc
+                        params:
+                          id: primal-spell-save-dc
+                          legend: "_{Primal Spell\nSave DC}"
 
                   - section: "_{Voice of Nature}"
                     contents:
