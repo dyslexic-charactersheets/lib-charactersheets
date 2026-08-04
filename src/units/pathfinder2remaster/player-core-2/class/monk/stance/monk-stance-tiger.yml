@@ -30,7 +30,7 @@ inc:
                         label: "_{Step}"
                         control: value
                         value: "10ft"
-                      - p: "_{Requires unarmoured. As long as your Speed is at least 20ft, you can Step 10 feet.}"
+                      - p: "_{As long as your Speed is at least 20ft, you can Step 10ft.}"
 
           - paste: monk/stance-attack/dex
             params:
@@ -44,7 +44,7 @@ inc:
                   - "_{Finesse}"
                   - "_{Nonlethal}"
                   - "_{Unarmed}"
-              - p: "_{On a critical hit that deals damage: 1d4 persistent bleed damage.}"
+              - p: "_{On critical damage, deal 1d4 persistent bleed damage.}"
 
           - selectable: monk/stance/tiger/slash
             contents:
@@ -54,21 +54,43 @@ inc:
                 contents:
                   - action: 2
                     contents:
-                      - p: "_{Requires being in Tiger Stance. Make a tiger claw Strike; push the target 5ft as if Shoved. On a critical hit that deals damage, add your Strength modifier to the persistent bleed damage.}"
+                      - p: "_{Make a Tiger Claw attack. If it hits, push the target away 5ft.} _{On a critical hit, add your Strength modifier to the bleed damage.}"
                       - row:
                         contents:
                           - field: monk/stance/tiger/slash/damage
                             border: full
-                            label: "_{Extra Damage Dice}"
+                            label: "_{Damage}"
                             width: huge
                             icon: damage
                             control: compound
                             parts:
-                              - label: "_{2d8}"
+                              - label: "_{2d8} +"
                               - subid: extra
                                 width: tiny
-                          - p: "_{3d8 if you're 14th level or higher.}"
-                            optional: true
+                          - field: monk/stance/tiger/slash/damage-type
+                            label: "_{Type}"
+                            width: tiny
+                            control: value
+                            value: "S"
+                      - row:
+                        contents:
+                          - spacer:
+                          - field: monk/stance/tiger/slash/damage/14
+                            border: full
+                            label: "_{Damage}"
+                            width: huge
+                            icon: damage
+                            control: compound
+                            parts:
+                              - label: "_{3d8} +"
+                              - subid: extra
+                                width: tiny
+                          - field: monk/stance/tiger/slash/damage-type/14
+                            label: "_{Type}"
+                            width: tiny
+                            control: value
+                            value: "S"
+
 
   - at: '@monk/stances'
     add:

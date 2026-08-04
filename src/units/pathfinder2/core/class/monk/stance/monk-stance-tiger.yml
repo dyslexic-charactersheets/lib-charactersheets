@@ -29,7 +29,7 @@ inc:
                         # frame: right
                         control: value
                         value: "10ft"
-                      - p: "_{As long as your move is at least 20ft, take a 10ft step}"
+                      - p: "_{As long as your Speed is at least 20ft, you can Step 10ft.}"
                       - spacer:
 
           - paste: monk/stance-attack/dex
@@ -44,7 +44,7 @@ inc:
                   - "_{Finesse}"
                   - "_{Nonlethal}"
                   - "_{Unarmed}"
-              - p: "_{On a critical hit, deal d4 persistent bleed damage.}"
+              - p: "_{On critical damage, deal 1d4 persistent bleed damage.}"
 
           - selectable: monk/stance/tiger/slash
             contents:
@@ -56,22 +56,24 @@ inc:
                     contents:
                       - row:
                         contents:
-                          - p: "_{Make a Tiger Claw attack. If it hits, push the target away 5ft.} _{On a critical hit, add your strength to the bleed damage.}"
-                          - field: monk/stance/tiger/slash/damage
-                            border: full
-                            label: "_{Damage}"
-                            width: huge
-                            icon: damage
-                            control: compound
-                            parts:
-                              - label: "3d8 +"
-                              - subid: extra
+                          - p: "_{Make a Tiger Claw attack. If it hits, push the target away 5ft.} _{On a critical hit, add your Strength modifier to the bleed damage.}"
+                          - row:
+                            contents:
+                              - field: monk/stance/tiger/slash/damage
+                                border: full
+                                label: "_{Damage}"
+                                width: huge
+                                icon: damage
+                                control: compound
+                                parts:
+                                  - label: "_{2d8} +"
+                                  - subid: extra
+                                    width: tiny
+                              - field: monk/stance/tiger/slash/damage-type
+                                label: "_{Type}"
                                 width: tiny
-                          - field: monk/stance/tiger/slash/damage-type
-                            label: "_{Type}"
-                            width: tiny
-                            control: value
-                            value: "S"
+                                control: value
+                                value: "S"
                       - level: 14
                         contents:
                           - row:
@@ -84,7 +86,7 @@ inc:
                                 icon: damage
                                 control: compound
                                 parts:
-                                  - label: "4d8 +"
+                                  - label: "_{3d8} +"
                                   - subid: extra
                                     width: tiny
                               - field: monk/stance/tiger/slash/damage-type/14
