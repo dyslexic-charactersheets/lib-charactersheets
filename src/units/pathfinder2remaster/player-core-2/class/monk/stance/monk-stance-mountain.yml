@@ -24,7 +24,6 @@ inc:
                   id: mountain
                   title: "_{Mountain Stance}"
                 contents:
-                  - p: "_{Requires unarmoured and touching the ground.}"
                   - row:
                     contents:
                       - field: monk/stance/mountain/ac
@@ -44,6 +43,8 @@ inc:
                         frame: right
                         control: value
                         value: "+2"
+                      - spacer:
+
 
           - paste: monk/stance-attack/str
             params:
@@ -69,9 +70,16 @@ inc:
                         contents:
                           - field: monk/stance/mountain/stronghold-ac-bonus
                             label: "_{AC Bonus}"
+                            # frame: right
                             control: value
                             value: "+2"
-                          - p: "_{Until the beginning of your next turn. Special: your Mountain Stance DEX cap increases from +0 to +1.}"
+                          - field: monk/stance/mountain/stronghold-dex-cap
+                            label: "_{DEX Cap}"
+                            # frame: right
+                            control: value
+                            value: "+1"
+                          - p: "_{Until your next turn.}"
+                          - spacer:
 
           - selectable: monk/stance/mountain/mountain-quake
             contents:
@@ -81,22 +89,25 @@ inc:
                 contents:
                   - action:
                     contents:
-                      - p: "_{Prerequisite: Mountain Stronghold. Requires being in Mountain Stance.}"
                       - layout: 3e
                         contents:
                           - field: monk/stance/mountain/quake/range
                             label: "_{Range}"
+                            # frame: right
                             control: value
                             value: "20ft"
                           - field: monk/stance/mountain/quake/damage
-                            label: "_{Damage (STR mod, min 0)}"
+                            label: "_{Damage}"
+                            # frame: right
                             underlay: "_{STR}"
-                            ref: STR
+                            ref: "STR"
                           - field: monk/stance/mountain/quake/dex-cap
                             label: "_{DEX Cap}"
+                            # frame: right
                             control: value
                             value: "+2"
-                      - p: "_{Basic Fortitude save vs your class DC; on a failure, also fall prone. Can't use again for 1d4 rounds. Special: your Mountain Stance DEX cap increases from +1 to +2.}"
+                      - p: "_{Failed fortitude saves also make enemies fall prone. Cooldown: 1d4 rounds.}"
+                      - spacer:
 
   - at: '@monk/stances'
     add:
