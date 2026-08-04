@@ -24,7 +24,6 @@ inc:
                   id: ironblood
                   title: "_{Ironblood Stance}"
                 contents:
-                  - p: "_{Requires unarmoured.}"
                   - advancement:
                     zebra: false
                     shade: false
@@ -64,9 +63,19 @@ inc:
                 title: "_{Ironblood Surge}"
                 cat: "_{Feat}"
                 contents:
-                  - action:
+                  - p: "_{Prepare for an attack this round.}"
+                  - layout: 2e
                     contents:
-                      - p: "_{Requires being in Ironblood Stance. Until the start of your next turn, gain your iron sweep's parry benefit (+1 circumstance bonus to AC), and your Ironblood Stance resistance increases to your Strength modifier, if higher.}"
+                      - field: "##:surge/ac-bonus"
+                        label: "_{AC Bonus (parry)}"
+                        frame: right
+                        control: value
+                        value: "_{+1}"
+                      - field: "##:surge/damage-resistance"
+                        label: "_{Damage resistance}"
+                        frame: right
+                        ref: STR
+                        underlay: "_{STR}"
 
   - at: '@monk/stances'
     add:
@@ -79,7 +88,7 @@ inc:
         contents:
           - p:
             title: "_{Ironblood Stance}"
-            content: "_{Enter an impenetrable stance, make iron sweep strikes.}"
+            content: "_{Enter an impenetrable stance.}"
       - action:
         order: 3
         contents:
@@ -99,7 +108,7 @@ inc:
         contents:
           - p:
             title: "_{Ironblood Stance}"
-            content: "_{Enter an impenetrable stance, make iron sweep strikes.}"
+            content: "_{Enter an impenetrable stance.}"
 
   - at: '@reference/weapon-traits'
     add:
