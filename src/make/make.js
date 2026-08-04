@@ -38,6 +38,11 @@ const systems = [
 ];
 
 systems.forEach(system => {
+  var systemUnitsDir = path.normalize(__dirname+'/../units/'+system.code);
+  if (!fs.existsSync(systemUnitsDir)) {
+    return;
+  }
+
   log("make", "Building system "+system.name);
 
   units.loadSystem(system.code, system.name).then((systemUnits) => {
