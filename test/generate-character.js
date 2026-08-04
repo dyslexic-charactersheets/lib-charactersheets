@@ -2,44 +2,7 @@
 
 // node test/generate-character.js --<flags>
 // node generate --flag1 arg1,arg2,arg3,...,argN --flag2 arg
-// via npm: npm run generate -- --flag1 arg1 --flag2 arg2
-//          !!! the "--" before the flags is required, otherwise npm swallows them !!!
-//
-// accepted separators: , ; |
-//
-// single-arg:
-// --name <arg>                           | --name Alex
-//
-// multi-arg:
-// --ancestry                             | --ancestry elf
-// --heritage                             | --heritage half-elf
-// --background                           | --background noble
-// --class                                | --class oracle,cleric          // two files, one per class
-//                                        | --class oracle --class cleric  // same as above
-// --feat                                 | --feat diehard,toughness     
-// --archetype                            | --archetype wizard,fighter  
-// --language                             | --language en,fr,it
-// --game                                 | --game pathfinder2,pathfinder2remaster
-//
-// --subclass                             | works like --class but is limited to the subclasses of
-//                                          a single class (needs exactly one --class to be picked)
-//
-// --limit <integer>                      | limit the number of files that can generate at once above default
-// --kwargs key=value                     | overwrite any attribute
-// --render                               | create test/out/html/<filename>.html
-// --page                                 | only keep these pages (1 = the character page,
-//                                          then combat/feats/class/etc) + 0, -1, -2... allow to
-//                                          access pages before, may be non-consecutive: --page -1,2,6
-// --open                                 | autoopen rendered file
-// --out <name>                           | when only one file is generated, this replaces the filename
-//                                          when multiple values generate fileS, it's a prefix instead
-// --no-build                             | no library rebuild (faster if no changes)
-// --list <subgroup>                      | list all valid values for
-//                                          ancestry/heritage/background/class/subclass/archetype/language
-// --clean                                | delete everything in test/out (json + html) and exit,
-//                                          without generating anything
-// --purge                                | delete everything in test/out (json + html) before
-//                                          generating this run's files
+// via npm: npm run generate -- --help
 
 const fs = require('fs');
 const path = require('path');
@@ -58,6 +21,53 @@ const DEFAULT_LIMIT = 200;
 const DEFAULT_CHARSHEET_PREFIX = 'charsheet';
 const REMASTER_PREFIX = 'remaster-'
 const SEPARATORS = ",;|"
+
+const HELP_TEXT = `
+node test/generate-character.js --<flags>
+node generate --flag1 arg1,arg2,arg3,...,argN --flag2 arg
+via npm: npm run generate -- --flag1 arg1 --flag2 arg2
+         !!! the "--" before the flags is required, otherwise npm swallows them !!!
+
+accepted separators: , ; |
+
+single-arg:
+--name <arg>                           | --name Alex
+
+multi-arg:
+--ancestry                             | --ancestry elf
+--heritage                             | --heritage half-elf
+--background                           | --background noble
+--class                                | --class oracle,cleric          // two files, one per class
+                                        | --class oracle --class cleric  // same as above
+--feat                                 | --feat diehard,toughness
+--archetype                            | --archetype wizard,fighter
+--language                             | --language en,fr,it
+--game                                 | --game pathfinder2,pathfinder2remaster
+
+--subclass                             | works like --class but is limited to the subclasses of
+                                         a single class (needs exactly one --class to be picked)
+
+--limit <integer>                      | limit the number of files that can generate at once above default
+--kwargs key=value                     | overwrite any attribute
+--render                               | create test/out/html/<filename>.html
+--page                                 | only keep these pages (1 = the character page,
+                                         then combat/feats/class/etc) + 0, -1, -2... allow to
+                                         access pages before, may be non-consecutive: --page -1,2,6
+--open                                 | autoopen rendered file
+--out <name>                           | when only one file is generated, this replaces the filename
+                                         when multiple values generate fileS, it's a prefix instead
+--no-build                             | no library rebuild (faster if no changes)
+--list <subgroup>                      | list all valid values for
+                                         ancestry/heritage/background/class/subclass/archetype/language
+--clean                                | delete everything in test/out (json + html) and exit,
+                                         without generating anything
+--purge                                | delete everything in test/out (json + html) before
+                                         generating this run's files
+`;
+
+function printHelp() {
+  console.log(HELP_TEXT);
+}
 
 function loadConfig() {
   return JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8'));
@@ -627,7 +637,13 @@ function buildRequests(combos, identity, config, args) {
 }
 
 async function main() {
-  const args = parseArgs(process.argv.slice(2));
+  const argv = process.argv.slice(2);
+  if (argv.includes('--help') || argv.includes('-h')) {
+    printHelp();
+    return Promise.resolve();
+  }
+
+  const args = parseArgs(argv);
 
   if (args.clean) {
     cleanOutDir();
