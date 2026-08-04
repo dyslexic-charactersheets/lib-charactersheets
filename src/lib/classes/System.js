@@ -114,7 +114,9 @@ export function loadSystemData(codes) {
     const promise = new Promise((resolve, reject) => {
       readFile(systemFile, 'utf-8', (err, data) => {
         if (err) {
-          error("System", `Error loading system file ${systemFile}:`, err);
+          if (err.code !== 'ENOENT') {
+            error("System", `Error loading system file ${systemFile}:`, err);
+          }
           resolve();
           return;
         }
