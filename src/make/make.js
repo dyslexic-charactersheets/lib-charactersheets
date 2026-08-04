@@ -41,6 +41,9 @@ systems.forEach(system => {
   log("make", "Building system "+system.name);
 
   units.loadSystem(system.code, system.name).then((systemUnits) => {
+    if (systemUnits == null) {
+      return;
+    }
     log("make", `Built system ${system.name} (${systemUnits.length} units)`);
 
     system.units = systemUnits;
