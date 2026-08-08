@@ -65,7 +65,7 @@ function spellField(lvl, style, checks, n, annotation, value) {
   }
 }
 
-function spellLevel(lvl, ord, style, checks, slots, special, special_checks, special_value) {
+function spellLevel(lvl, ord, style, checks, slots, special, special_checks, special_value, special_index) {
   // log("spells", "Spell level:", lvl);
   const level_marker = {
     type: "level-marker",
@@ -91,7 +91,7 @@ function spellLevel(lvl, ord, style, checks, slots, special, special_checks, spe
   // number of spells
   let fields = [];
   if (special) {
-    special = makeSpecialField(special, 0);
+    special = makeSpecialField(special, special_index);
 
     // if (isString(special)) {
     //   // log("spells", "Adding special entry", special);
@@ -259,7 +259,7 @@ export let spells_list = {
       }
       
       // log("spells-list", "Special value", ord, specialValues, "check", special_checks);
-      spell_levels.push(spellLevel(lvl, ord, args.style, args.checks, slots[lvl], args.special, special_checks, specialValues));
+      spell_levels.push(spellLevel(lvl, ord, args.style, args.checks, slots[lvl], args.special, special_checks, specialValues, lvl - min));
     }
 
     return [
