@@ -58,13 +58,23 @@ inc:
               - p: '#{class}'
 
   - at: '@untamed-form/attacks'
-    add:
-      - field: druid-untamed-form-attack
-        label: "_{When using your own attack bonus}"
-        frame: right
-        border: none
-        control: value
-        value: "+2"
+    params:
+      name: "_{Bite}"
+      icon: d6
+      damage: "_{1d6}"
+      type: "_{Piercing}"
+  - flags:
+      - "_{Brawling}"
+      - "_{Unarmed}"
+
+  # - at: '@untamed-form/attacks'
+  #   add:
+  #     - field: druid-untamed-form-attack
+  #       label: "_{When using your own attack bonus}"
+  #       frame: right
+  #       border: none
+  #       control: value
+  #       value: "+2"
 
   - at: '@druid/right'
     replace:
@@ -89,7 +99,7 @@ inc:
 
   - at: '@druid/order-power'
     replace:
-      - section: "_{Wild Morph}"
+      - section: "_{Untamed Shift}"
         contents:
           - list:
             hr: true
@@ -107,44 +117,20 @@ inc:
                           - paste: focus-marker
                       - g:
                         contents:
-                          - selectable: "##:wild-morph/claws"
+                          - selectable: "##:untamed-shift/claws"
                             selected: true
                             contents:
-                              - p: "_{Morph your hands into claws.}"
-                              - calc:
-                                output:
-                                  field: druid-wild-morph-attack-bonus
-                                  label: "_{Attack Bonus}"
-                                  width: large
-                                  attack: true
-                                  icon: bonus
-                                  eq: "%{STR}+%{druid-wild-morph/attack-proficiency-bonus}"
-                                inputs:
-                                  - field:
-                                    ref: STR
-                                    label: "_{STR}"
-                                    underlay: "_{STR}"
-                                  - field: druid-wild-morph/attack-proficiency
-                                    control: proficiency
-                                    label: "_{Proficiency}"
-                              - field: druid-wild-morph-attack-damage
-                                border: full
-                                label: "_{Damage}"
-                                width: huge
-                                icon: damage
-                                control: compound
-                                parts:
-                                  - subid: ndice
-                                    width: tiny
-                                    align: right
-                                  - label: "_{d}"
-                                  - subid: die
-                                    width: tiny
-                                    align: left
-                                  - label: "+"
-                                  - subid: bonus
-                                    width: tiny
-                                    align: left
+                              - p: "_{Transform your hands into claws.}"
+                              - paste: natural-weapon
+                                params:
+                                  name: "_{Claws}"
+                                  icon: d6
+                                  damage: "_{1d6}"
+                                  type: "_{Slashing}"
+                              - flags:
+                                - "_{Unarmed}"
+                                - "_{Agile}"
+                                - "_{Finesse}"
                   - layout: indent-l
                     contents:
                       - g:
@@ -154,13 +140,33 @@ inc:
                           - paste: focus-marker
                       - g:
                         contents:
-                          - selectable: "##:wild-morph/elemental"
+                          - selectable: "##:untamed-shift/jaws"
                             contents:
-                              - p: "_{Morph your body to be part elemental.}"
+                              - p: "_{Your mouth becomes deadly jaws.}"
+                              - paste: natural-weapon
+                                params:
+                                  name: "_{Jaws}"
+                                  icon: d8
+                                  damage: "_{1d8}"
+                                  type: "_{Piercing}"
+                              - flags:
+                                  - "_{Unarmed}"
+                  - layout: indent-l
+                    contents:
+                      - g:
+                        align: center
+                        contents:
+                          - icon: action
+                          - paste: focus-marker
+                      - g:
+                        contents:
+                          - selectable: "##:untamed-shift/elemental"
+                            contents:
+                              - p: "_{Shift your body to be part elemental.}"
                               - row:
                                 valign: center
                                 contents:
-                                  - field: druid-wild-morph-crit-resistance
+                                  - field: druid-untamed-shift-crit-resistance
                                     frame: none
                                     control: value
                                     value: "+5"
@@ -174,9 +180,9 @@ inc:
                           - paste: focus-marker
                       - g:
                         contents:
-                          - selectable: "##:wild-morph/vines"
+                          - selectable: "##:untamed-shift/vines"
                             contents:
-                              - p: "_{Morph your arms into vines.}"
+                              - p: "_{Shift your arms into vines.}"
                               - field: "##:vines/reach"
                                 frame: right
                                 label: "_{Reach}"
@@ -191,7 +197,7 @@ inc:
                           - paste: focus-marker
                       - g:
                         contents:
-                          - selectable: "##:wild-morph/wings"
+                          - selectable: "##:untamed-shift/wings"
                             contents:
                               - p: "_{Grow wings from your back.}"
                               - field: "##:wings/reach"
@@ -205,27 +211,27 @@ inc:
                   - row:
                     valign: center
                     contents:
-                      - field: "##:wild-morph/damage-2d6"
+                      - field: "##:untamed-shift/damage-2d6"
                         frame: none
                         icon: damage
                         control: value
                         value: "+_{2d6}"
                       - p: "_{Persistent bleed or poison damage.}"
-                  - p: "_{Apply two morphs at once.}"
+                  - p: "_{Apply two shifts at once.}"
 
               - level: 19
                 contents:
                   - row:
                     valign: center
                     contents:
-                      - field: "##:wild-morph/damage-4d6"
+                      - field: "##:untamed-shift/damage-4d6"
                         frame: none
                         icon: damage
                         control: value
                         value: "+_{4d6}"
                       - p: "_{Persistent bleed or poison damage.}"
-                  - p: "_{Apply three morphs at once.}"
+                  - p: "_{Apply three shifts at once.}"
 
   - at: '@anathema'
     replace:
-      - li: "_{Becoming fully domesticated by the temptations of civilization}"
+      - li: "_{Becoming fully domesticated by civilization}"
