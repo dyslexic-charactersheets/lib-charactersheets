@@ -1,0 +1,44 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/swashbuckler/style/rascal
+in: remaster/swashbuckler/style
+group: "_{Player Core 2}"
+name: "_{Rascal}"
+
+inc:
+  - set: subclass
+    value: "_{Rascal}"
+
+  - set: swashbuckler-style
+    value: "_{Rascal}"
+  - set: thievery-proficiency
+    value: trained
+
+  - at: '@swashbuckler/gain-panache'
+    replace:
+      - li:
+        contents:
+          - p: "_{You use Dirty Trick}"
+
+  - at: '@swashbuckler/style'
+    replace:
+      - h4: "_{Rascal}"
+      - hr:
+        swash: true
+      - layout: 2e
+        contents:
+          - g:
+            contents:
+              - h5: "_{Dirty Trick}"
+              - p: "_{Use underhanded tactics against a foe, such as throwing sand in its eyes or tangling its weapon.}"
+          - g:
+            contents:
+              - level: 9
+                contents:
+                  - h5: "_{Exemplary Finisher}"
+                  - p: "_{When you successfully strike as part of a finisher...}"
+                  - value-block: "-10"
+                    content: "_{Foe's circumstance penalty to Speed until the start of your next turn.}"
+              - spacer:
