@@ -12,35 +12,28 @@ inc:
       id: ''
       name: ""
     contents:
-      - layout: alignment
+      - g:
         contents:
-          - g:
+          - row:
             contents:
-              - row:
-                contents:
-                  - field: "##:#{id}/name"
-                    width: stretch
-                    label: "#{name}"
-              - row:
-                contents:
-                  - icon: hp
-                  - span: " "
-                  - field: "##:#{id}/attitude"
-                    control: checkgrid
-                    max: 5
-                    depth: 1
-                    frame: none
-                    border: none
-                  - icon: evil
-                  - field: "##:#{id}/info"
-                    width: stretch
-                    frame: none
-                    merge-bottom: true
-          - g:
+              - field: "##:#{id}/name"
+                width: stretch
+                label: "#{name}"
+          - row:
             contents:
-              - field: "##:#{id}/alignment"
+              - icon: hp
+              - span: " "
+              - field: "##:#{id}/attitude"
+                control: checkgrid
+                max: 5
+                depth: 1
                 frame: none
-                control: alignment
+                border: none
+              - icon: evil
+              - field: "##:#{id}/info"
+                width: stretch
+                frame: none
+                merge-bottom: true
 
 
   - at: '@pages'
@@ -155,6 +148,14 @@ inc:
                             label: "_{Gender}"
                             icon: gender
                             width: large
+                          - field: pronouns
+                            label: "_{Pronouns}"
+                            width: huge
+                            control: compound
+                            parts:
+                              - subid: pronoun-active
+                                suffix: "/"
+                              - subid: pronoun-passive
                       - row:
                         contents:
                           - field: character-age

@@ -49,15 +49,14 @@ inc:
 
           - row:
             contents:
-              - field: '#{id}-final'
-                width: stretch
-                label: "_{School}"
+              - spacer:
               - field: '#{id}-ref'
                 control: ref
                 label: "_{Source}"
 
   - copy: spellbook/header
     params:
+      book: 0
       i: 0
     contents:
       - g:
@@ -65,7 +64,7 @@ inc:
           - row:
             contents:
               - spacer:
-              - field: spellbook-col-#{i}-level
+              - field: spellbook-#{book}/col-#{i}/level
                 border: full
                 frame: circle
                 label: "_{Spell Level}"
@@ -109,6 +108,7 @@ inc:
                 contents:
                   - paste: spellbook/header
                     params:
+                      book: 1
                       i: "#{i}"
           - layout: 3e
             contents:
