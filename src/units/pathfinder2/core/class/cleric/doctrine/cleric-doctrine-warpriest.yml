@@ -25,40 +25,70 @@ inc:
   - at: '@cleric-doctrine'
     replace:
       - h4: "_{Warpriest}"
-      - g:
+      - layout: 2e
         contents:
-          # - h5: "_{Deadly Simplicity}"
-          - p: "_{Increase the damage die of your deity's favoured weapon by one step (at least d6).}"
-          - layout: indent-l
+          - list:
+            hr: true
             contents:
-              - g:
-              - row:
+              - level: 1
                 contents:
-                  - field: cleric-deity-weapon
-                    label: "_{Favoured Weapon}"
-                    width: stretch
-                    merge-bottom: true
-                  - field: cleric-deity-weapon-die
-                    label: "_{Weapon Die}"
-                    border: full
-                    prefix: "_{d}"
-                    width: large
-      - level: 7
-        contents:
-          - p: "_{Gain the critical specialisation effect for your deity's favoured weapon. Use your divine spell DC if necessary.}"
-          - row:
+                  - p: "_{Increase the damage die of your deity's favoured weapon by one step (at least d6).}"
+                  - layout: indent-l
+                    contents:
+                      - g:
+                      - row:
+                        contents:
+                          - field: cleric-deity-weapon
+                            label: "_{Favoured Weapon}"
+                            width: stretch
+                            merge-bottom: true
+                          - field: cleric-deity-weapon-die
+                            label: "_{Weapon Die}"
+                            border: full
+                            prefix: "_{d}"
+                            width: large
+
+              - level: 3
+                contents:
+                  - p: "_{Martial weapons}"
+                    icon: proficiency-trained
+
+              - level: 11
+                contents:
+                  - p: "_{Spell attacks and DCs}"
+                    icon: proficiency-expert
+
+          - list:
+            hr: true
             contents:
-              - field: cleric-deity-weapon-critical
-                label: "_{Critical Effect}"
-                width: stretch
-                repeat: 2
-                merge-bottom: true
+              - level: 7
+                contents:
+                  - p: "_{Deity's favoured weapon}, _{Simple weapons}, _{Unarmed attack}"
+                    icon: proficiency-expert
+                  - p: "_{Gain the critical specialisation effect for your deity's favoured weapon. Use your divine spell DC if necessary.}"
+                  - field: cleric-deity-weapon-critical
+                    label: "_{Critical Effect}"
+                    width: stretch
+                    repeat: 2
+                    merge-bottom: true
+
+              - level: 15
+                contents:
+                  - p: "_{Fortitude saves}"
+                    icon: proficiency-master
+
+              - level: 19
+                contents:
+                  - p: "_{Spell attacks and DCs}"
+                    icon: proficiency-master
 
   - at: '@saving-throws'
     add:
       - level: 15
         contents:
-          - paste: juggernaut
+          - paste: improved-save-fort
+            params:
+              title: "_{Fifth Doctrine}"
 
   - at: '@advancement'
     add:
@@ -66,4 +96,31 @@ inc:
         advance: "_{Deadly Simplicity}"
       - level: 1
         advance: "_{Shield Block}"
+
+      - level: 3
+        advance: "_{Martial weapons}"
+        proficiency: trained
+
+      - level: 7
+        advance: "_{Deity's favoured weapon}, _{Simple weapons}, _{Unarmed attack}"
+        proficiency: expert
+      - level: 7
+        advance: "_{Critical specialisation}"
+
+      - level: 11
+        advance: "_{Spell attacks and DCs}"
+        proficiency: expert
+
+      - level: 13
+        advance: "_{Light armour}, _{Medium armour}"
+        proficiency: expert
+
+      - level: 15
+        advance: "_{Fortitude saves}"
+        proficiency: master
+        colour: CON
+
+      - level: 19
+        advance: "_{Spell attacks and DCs}"
+        proficiency: master
 
