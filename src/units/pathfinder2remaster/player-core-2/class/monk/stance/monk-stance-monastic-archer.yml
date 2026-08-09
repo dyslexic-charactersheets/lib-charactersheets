@@ -1,0 +1,76 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: monk/stance/remaster/monastic-archer
+in: monk/stance
+level: 1
+group: "_{Player Core 2}"
+name: "_{Monastic Archer Stance}"
+
+require:
+  - unit: class/remaster/monk/defs
+
+inc:
+  - copy: monk/stance/monastic-archer
+    contents:
+      - g:
+        name: "_{Monastic Archer Stance}"
+        contents:
+          - selectable: monk/stance/monastic-archer
+            contents:
+              - paste: monk/stance
+                params:
+                  id: monastic-archer
+                  title: "_{Monastic Archer Stance}"
+                contents:
+                  - p: "_{You can only Strike with bows you're trained in, though you can still use monk feats/abilities that need unarmed attacks within half the weapon's first range increment, unless they require one specific Strike.}"
+                  - proficiency: trained
+                    content: "_{Longbow, shortbow, and simple or martial bows with the monk trait}"
+                  - row:
+                    contents:
+                      - proficiency: expert
+                        content: "_{With Expert Strikes}"
+                      - proficiency: master
+                        content: "_{With Master Strikes}"
+
+          - selectable: monk/stance/monastic-archer/return-fire
+            contents:
+              - article:
+                title: "_{Return Fire}"
+                cat: "_{Feat}"
+                contents:
+                  - action: reaction
+                    contents:
+                      - p: "_{When you successfully Deflect an arrow, fire it back as part of that reaction with a ranged bow Strike.}"
+
+          - selectable: monk/stance/monastic-archer/focused-shot
+            contents:
+              - article:
+                title: "_{Focused Shot}"
+                cat: "_{Feat}"
+                contents:
+                  - action: 1
+                    contents:
+                      - p: "_{Make a ranged weapon Strike against a target within your weapon's first range increment. Ignores the target's concealed condition and all cover.}"
+
+  - at: '@monk/stances'
+    add:
+      - paste: monk/stance/monastic-archer
+
+  - at: '@monk/stance-actions'
+    add:
+      - action:
+        order: 2
+        contents:
+          - p:
+            title: "_{Monastic Archer Stance}"
+            content: "_{A martial art centred on the bow. Only Strikes with longbows, shortbows, or bows with the monk trait; can Flurry of Blows with them.}"
+
+  - at: '@reference/actions'
+    add:
+      - action:
+        contents:
+          - p:
+            title: "_{Monastic Archer Stance}"
+            content: "_{A martial art centred on the bow. Only Strikes with longbows, shortbows, or bows with the monk trait.}"

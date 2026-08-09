@@ -1,12 +1,15 @@
-# Copyright 2025 Marcus Downing
-# This file is compliant with the Open Game License (OGL).
-# See the text of the OGL within this repository.
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
 
-unit: monk/stance/dragon
+unit: monk/stance/remaster/dragon
 in: monk/stance
 level: 1
-group: "_{Core Rulebook}"
+group: "_{Player Core 2}"
 name: "_{Dragon Stance}"
+
+require:
+  - unit: class/remaster/monk/defs
 
 inc:
   - copy: monk/stance/dragon
@@ -14,28 +17,27 @@ inc:
       - g:
         name: "_{Dragon Stance}"
         contents:
-          - selectable: monk/stance/crane
+          - selectable: monk/stance/dragon
             contents:
               - paste: monk/stance
                 params:
                   id: dragon
                   title: "_{Dragon Stance}"
                 contents:
-                  - p: "_{Ignore the first square of difficult terrain when you Step unarmoured.}"
+                  - p: "_{Ignore the first square of difficult terrain when you Stride unarmoured.}"
 
           - paste: monk/stance-attack/str
             params:
               id: dragon-tail
               name: "_{Dragon Tail Attack}"
               dmg: "_{d10}"
-              dmgicon: d10
               type: "_{B}"
             contents:
               - flags:
                   - "_{Backswing}"
                   - "_{Nonlethal}"
                   - "_{Unarmed}"
-              
+
           - selectable: monk/stance/dragon/dragon-roar
             contents:
               - article:
@@ -64,7 +66,7 @@ inc:
   - at: '@monk/stances'
     add:
       - paste: monk/stance/dragon
-      
+
   - at: '@monk/stance-actions'
     add:
       - action:
@@ -93,7 +95,7 @@ inc:
           - p:
             title: "_{Dragon Stance}"
             content: "_{Enter dragon stance. Make powerful leg strikes.}"
-            
+
   - at: '@reference/weapon-traits'
     add:
       - backswing

@@ -1,15 +1,17 @@
-# Copyright 2025 Marcus Downing
-# This file is compliant with the Open Game License (OGL).
-# See the text of the OGL within this repository.
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
 
-unit: monk/stance/wolf
+unit: monk/stance/remaster/wolf
 in: monk/stance
 level: 1
-group: "_{Core Rulebook}"
+group: "_{Player Core 2}"
 name: "_{Wolf Stance}"
 
-inc:
+require:
+  - unit: class/remaster/monk/defs
 
+inc:
   - copy: monk/stance/wolf
     contents:
       - g:
@@ -26,7 +28,7 @@ inc:
 
           - paste: monk/stance-attack/dex
             params:
-              id: tiger-claw
+              id: wolf-jaw
               name: "_{Wolf Jaw Attack}"
               dmg: "_{d8}"
               type: "_{P}"
@@ -37,9 +39,6 @@ inc:
                   - "_{Finesse}"
                   - "_{Nonlethal}"
                   - "_{Unarmed}"
-              - p: "_{While flanking:}"
-              - flags:
-                  - "_{Trip}"
 
           - selectable: monk/stance/wolf/drag
             contents:
@@ -49,17 +48,13 @@ inc:
                 contents:
                   - action: 2
                     contents:
-                      - row:
-                        contents:
-                          - p: "_{Make a wolf jaw Strike. If it hits, knock your target prone.}"
-                          - flags:
-                              - "_{Fatal} _{d12}"
-
+                      - p: "_{Make a wolf jaw Strike. If it hits, knock your target prone.}"
+                      - flags:
+                          - "_{Fatal} _{d12}"
 
   - at: '@monk/stances'
     add:
       - paste: monk/stance/wolf
-
 
   - at: '@monk/stance-actions'
     add:
@@ -89,7 +84,7 @@ inc:
           - p:
             title: "_{Wolf Stance}"
             content: "_{Enter the stance of a wolf, and make wolf jaw attacks.}"
-            
+
   - at: '@reference/weapon-traits'
     add:
       - agile

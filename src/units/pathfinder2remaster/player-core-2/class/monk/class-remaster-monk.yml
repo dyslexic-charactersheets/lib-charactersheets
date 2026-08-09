@@ -1,11 +1,12 @@
-# Copyright 2025 Marcus Downing
-# This file is compliant with the Open Game License (OGL).
-# See the text of the OGL within this repository.
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
 
-unit: class/monk
+unit: class/remaster/monk
 in: class
-group: "_{Core Rulebook}"
+group: "_{Player Core 2}"
 name: "_{Monk}"
+# enabled: false
 
 form:
   - select: monk/stance
@@ -13,16 +14,15 @@ form:
     max: 3
   - select: feat/monk
     name: "_{Monk Feats}"
-    max: 8
-    levels: [ 2, 4, 6, 8, 10, 14, 16, 18, 20 ]
+    max: 11
+    levels: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
 
 require:
-  - unit: class/monk/defs
+  - unit: class/remaster/monk/defs
   - unit: weapon-spec/fast
   - with: option/reference
-    unit: class/monk/reference
+    unit: class/remaster/monk/reference
   - deny: archetype/monk
-  
 
 inc:
 
@@ -48,7 +48,7 @@ inc:
     value: expert
   - set: will-proficiency
     value: expert
-  
+
   - set: unarmoured-proficiency
     value: expert
 
@@ -64,19 +64,18 @@ inc:
 
       - level: 3
         advance: "_{Mystic Strikes}"
+      - level: 7
+        advance: "_{Path to Perfection}"
       - level: 9
         advance: "_{Metal Strikes}"
+      - level: 11
+        advance: "_{Second Path to Perfection}"
+      - level: 15
+        advance: "_{Third Path to Perfection}"
       - level: 17
         advance: "_{Adamantine Strikes}"
       - level: 19
         advance: "_{Perfected Form}"
-
-      - level: 7
-        gain: "_{Path to Perfection}"
-      - level: 11
-        gain: "_{Second Path to Perfection}"
-      - level: 15
-        gain: "_{Third Path to Perfection}"
 
       - level: 5
         advance: "_{Unarmed attacks}, _{Simple weapons}"
@@ -89,7 +88,7 @@ inc:
         advance: "_{Monk class DC}"
         proficiency: expert
       - level: 9
-        advance: "_{Ki attacks and DCs}"
+        advance: "_{Qi spell attacks and DCs}"
         proficiency: expert
       - level: 13
         advance: "_{Unarmoured defence}"
@@ -104,15 +103,8 @@ inc:
         advance: "_{Monk class DC}"
         proficiency: master
       - level: 17
-        advance: "_{Ki attacks and DCs}"
+        advance: "_{Qi spell attacks and DCs}"
         proficiency: master
-
-  - at: '@key-ability-field'
-    replace:
-      - field: key-ability
-        label: "_{WIS}"
-        underlay: "_{WIS}"
-        ref: WIS
 
   - at: '@skill-actions'
     add:
@@ -120,7 +112,7 @@ inc:
         contents:
           - p:
             title: "_{Grapple (Athletics)}"
-            content: "_{Attempt an Athletics check against an enemy's Fortitude DC. If successful, enemy is grabbed; or restrained on a critical success.}"
+            content: "_{Attempt an Athletics check against an enemy's Fortitude DC. If successful, the enemy is grabbed; or restrained on a critical success.}"
             colour: STR
       - indent: left
         contents:
@@ -142,8 +134,8 @@ inc:
 
   - at: '@focus-points'
     replace:
-      - field: monk:ki-spells/focus
-        label: "_{Ki Spells}"
+      - field: monk:qi-spells/focus
+        label: "_{Qi Spells}"
 
   - at: '@pages'
     add:
@@ -167,7 +159,7 @@ inc:
                           id: monk-class-dc
                           legend: "_{Monk\nClass DC}"
 
-                  - section: "_{Ki Spells}"
+                  - section: "_{Qi Spells}"
                     contents:
 
                       - list:
@@ -176,33 +168,32 @@ inc:
 
                           - row: center
                             contents:
-                              - field: monk:ki-spells/type
+                              - field: monk:qi-spells/type
                                 value: divine
                                 frame: left
                                 control: radio
                                 label: "_{Divine}"
-                              # - span: "&nbsp;"
-                              - field: monk:ki-spells/type
+                              - field: monk:qi-spells/type
                                 value: occult
                                 frame: right
                                 control: radio
                                 label: "_{Occult}"
-                          
+
                           - g:
                             contents:
                               - paste: spell-attack
                                 params:
-                                  id: ki-spell-attack
-                                  ability: WIS
-                                  legend: "_{Ki Spell\nAttack}"
+                                  id: qi-spell-attack
+                                  attribute: WIS
+                                  legend: "_{Qi Spell\nAttack}"
 
                               - paste: spell-dc
                                 params:
-                                  id: ki-spell-save-dc
-                                  ability: WIS
-                                  legend: "_{Ki Spell\nSave DC}"
-                          
-                          - field: monk:ki-spells
+                                  id: qi-spell-save-dc
+                                  attribute: WIS
+                                  legend: "_{Qi Spell\nSave DC}"
+
+                          - field: monk:qi-spells
                             frame: none
                             merge-bottom: true
                             width: stretch
@@ -256,7 +247,7 @@ inc:
                                   - h5: "_{Powerful Fist}"
                                 contents:
                                   - value-block: "_{1d6}"
-                                    content: "_{Unarmed damage with your fists.}"
+                                    content: "_{Unarmed damage with your fist.}"
                                   - p: "_{Non-lethal unarmed attacks don't get a -2 penalty.}"
                               - level: 3
                                 contents:
@@ -380,14 +371,14 @@ inc:
                                     contents:
                                       - action: free
                                         contents:
-                                          - h5: "_{Stance Savant}"
-                                          - p: "_{When you roll initiative, enter a stance as a free action}"
+                                          - h5: "_{Reflexive Stance}"
+                                          - p: "_{When you roll initiative, enter a stance as a free action.}"
                                   - selectable: monk/master-of-many-styles
                                     contents:
                                       - action: free
                                         contents:
                                           - h5: "_{Master of Many Styles}"
-                                          - p: "_{At the start of your turn, enter a stance as a free action}"
+                                          - p: "_{At the start of your turn, enter a stance as a free action.}"
 
                   - section: "_{Flurry of Blows}"
                     flex: small

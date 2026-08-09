@@ -1,12 +1,15 @@
-# Copyright 2025 Marcus Downing
-# This file is compliant with the Open Game License (OGL).
-# See the text of the OGL within this repository.
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
 
-unit: monk/stance/mountain
+unit: monk/stance/remaster/mountain
 in: monk/stance
 level: 1
-group: "_{Core Rulebook}"
+group: "_{Player Core 2}"
 name: "_{Mountain Stance}"
+
+require:
+  - unit: class/remaster/monk/defs
 
 inc:
   - copy: monk/stance/mountain
@@ -24,18 +27,15 @@ inc:
                   - row:
                     contents:
                       - field: monk/stance/mountain/ac
-                        label: "_{AC Bonus}"
-                        # frame: right
+                        label: "_{AC Bonus (item)}"
                         control: value
                         value: "+4"
                       - field: monk/stance/mountain/speed
                         label: "_{Speed}"
-                        # frame: right
                         control: value
                         value: "_{-5ft}"
                       - field: monk/stance/mountain/dex-cap
                         label: "_{DEX Cap}"
-                        # frame: right
                         control: value
                         value: "0"
                       - field: monk/stance/mountain/stability
@@ -45,19 +45,19 @@ inc:
                         value: "+2"
                       - spacer:
 
+
           - paste: monk/stance-attack/str
             params:
               id: falling-stone
               name: "_{Falling Stone Attack}"
               dmg: "_{d8}"
-              dmgicon: d8
               type: "_{B}"
             contents:
               - flags:
                   - "_{Forceful}"
                   - "_{Nonlethal}"
                   - "_{Unarmed}"
-              
+
           - selectable: monk/stance/mountain/mountain-stronghold
             contents:
               - article:
@@ -141,7 +141,7 @@ inc:
           - p:
             title: "_{Mountain Stance}"
             content: "_{Enter the stance of an implacable mountain, and make falling stone attacks.}"
-            
+
   - at: '@reference/weapon-traits'
     add:
       - forceful

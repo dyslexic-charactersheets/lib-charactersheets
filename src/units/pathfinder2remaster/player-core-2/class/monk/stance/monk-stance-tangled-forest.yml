@@ -1,15 +1,17 @@
-# Copyright 2025 Marcus Downing
-# This file is compliant with the Open Game License (OGL).
-# See the text of the OGL within this repository.
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
 
-unit: monk/stance/tangled-forest
+unit: monk/stance/remaster/tangled-forest
 in: monk/stance
 level: 8
-group: "_{Core Rulebook}"
+group: "_{Player Core 2}"
 name: "_{Tangled Forest Stance}"
 
-inc:
+require:
+  - unit: class/remaster/monk/defs
 
+inc:
   - copy: monk/stance/tangled-forest
     contents:
       - g:
@@ -26,8 +28,8 @@ inc:
 
           - paste: monk/stance-attack/dex
             params:
-              id: falling-stone
-              name: "_{Falling Stone Attack}"
+              id: lashing-branch
+              name: "_{Lashing Branch Attack}"
               dmg: "_{d8}"
               type: "_{S}"
             contents:
@@ -43,14 +45,13 @@ inc:
                 title: "_{Tangled Forest Rake}"
                 cat: "_{Feat}"
                 contents:
-                  - action:
+                  - action: 1
                     contents:
-                      - p: "_{Make a lashing branch attack. If it deals damage, force the enemy to move 5ft into a space within your reach.}"
+                      - p: "_{Make a lashing branch Strike. If it deals damage, Reposition the target up to 10ft.}"
 
   - at: '@monk/stances'
     add:
       - paste: monk/stance/tangled-forest
-
 
   - at: '@monk/stance-actions'
     add:
@@ -67,7 +68,7 @@ inc:
             contents:
               - p:
                 title: "_{Lashing Branch Attack}"
-                content: "_{Unarmed attack that deals bludgeoning damage.}"
+                content: "_{Unarmed attack that deals slashing damage.}"
               - field: lashing-branch-damage
                 label: "_{Damage}"
                 control: value
@@ -80,7 +81,7 @@ inc:
           - p:
             title: "_{Tangled Forest Stance}"
             content: "_{Extend your arms like gnarled branches, and make lashing branch attacks.}"
-            
+
   - at: '@reference/weapon-traits'
     add:
       - agile
