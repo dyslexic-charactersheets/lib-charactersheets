@@ -1,0 +1,93 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/sorcerer/bloodline/draconic
+in: remaster/sorcerer/bloodline
+group: "_{Player Core 2}"
+name: "_{Draconic}"
+
+form:
+  - select: remaster/sorcerer/bloodline/draconic/exemplar
+    name: "_{Draconic Exemplar}"
+    max: 1
+
+inc:
+  - set: subclass
+    value: "_{Draconic}"
+  - set: sorcerer-bloodline
+    value: "_{Draconic}"
+
+  - set: intimidation-proficiency
+    value: trained
+
+  - at: '@sorcerer/bloodline/title'
+    replace:
+      - h4: "_{Draconic}"
+
+  - set: sorcerer-bloodline-granted-spells
+    value: "_{Shared: cantrip shield; 1st fear; 3rd haste; 4th fly; 6th dragon form; 7th mask of terror; 9th overwhelming presence. By exemplar (fill in Tradition, Bloodline Skill above, and 2nd/5th/8th here): Arcane—Arcana; 2nd blazing bolt, 5th subconscious suggestion, 8th quandary. Divine—Religion; 2nd augury, 5th divine immolation, 8th divine inspiration. Occult—Occultism; 2nd blood vendetta, 5th slither, 8th unrelenting observation. Primal—Nature; 2nd shatter, 5th howling blizzard, 8th earthquake.}"
+
+  - set: sorcerer-bloodline-spell-initial
+    value: "_{Flurry of Claws}"
+  - set: sorcerer-bloodline-spell-advanced
+    value: "_{Dragon Breath}"
+  - set: sorcerer-bloodline-spell-greater
+    value: "_{Dragon Wings}"
+
+  - at: '@sorcerer/bloodline-spell/initial'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Flurry of Claws}"
+            cat: "_{Focus 1}"
+            contents:
+              - p: "_{Grow draconic claws and rake a foe with them.}"
+
+  - at: '@sorcerer/bloodline-spell/advanced'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Dragon Breath}"
+            cat: "_{Focus 4}"
+            contents:
+              - p: "_{Exhale a cone or line of energy matching your draconic exemplar's tradition.}"
+
+  - at: '@sorcerer/bloodline-spell/greater'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Dragon Wings}"
+            cat: "_{Focus 8}"
+            contents:
+              - p: "_{Sprout draconic wings, gaining a fly Speed for a short time.}"
+
+  - set: sorcerer-blood-magic-initial
+    value: "_{Scaly Hide—Draconic scales grow briefly on you or one target, granting a +1 status bonus to AC for 1 round.}"
+
+  - at: '@sorcerer/spellbook/blood-magic'
+    replace:
+      - article:
+        title: "_{Blood Magic—Scaly Hide}"
+        contents:
+          - p: "_{Draconic scales grow briefly on you or one target, granting a +1 status bonus to AC for 1 round.}"
+
+  - at: '@sorcerer/spellbook/bloodline/preface'
+    replace:
+      - p: "_{Every draconic exemplar shares: cantrip shield; 1st fear; 3rd haste; 4th fly; 6th dragon form; 7th mask of terror; 9th overwhelming presence. Your exemplar sets your tradition, second bloodline skill, and the 2nd/5th/8th spells.}"
+        optional: true
+
+  - at: '@sorcerer/right'
+    add:
+      - section: "_{Draconic Exemplar}"
+        contents:
+          - list:
+            hr: true
+            contents:
+              - field: sorcerer-draconic-exemplar
+                label: "_{Exemplar}"
+                width: stretch
+                merge-bottom: true
