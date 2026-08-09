@@ -10,8 +10,8 @@ name: "_{Fighter}"
 form:
   - select: feat/fighter
     name: "_{Fighter Feats}"
-    max: 8
-    levels: [ 1, 2, 4, 6, 8, 10, 14, 16, 18, 20 ]
+    max: 11
+    levels: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
 
 require:
   - deny: class/fighter
@@ -53,6 +53,15 @@ inc:
   - set: medium-armour-proficiency
     value: trained
   - set: heavy-armour-proficiency
+    value: trained
+
+  - set: simple-weapons-proficiency
+    value: expert
+  - set: martial-weapons-proficiency
+    value: expert
+  - set: unarmed-attack-proficiency
+    value: expert
+  - set: advanced-weapons-proficiency
     value: trained
 
   - at: '@skill-actions'
@@ -106,6 +115,9 @@ inc:
       - level: 17
         advance: "_{Light armour}, _{Medium armour}, _{Heavy armour}, _{Unarmoured defence}"
         proficiency: master
+      - level: 19
+        advance: "_{Fighter class DC}"
+        proficiency: master
 
   - at: '@saving-throws'
     add:
@@ -140,7 +152,10 @@ inc:
         contents:
           - p:
             title: "_{Reactive Strike}"
-            content: "_{Make a melee strike when a creature within your reach acts, attacks or moves.} _{On a critical hit, their action is disrupted.}"
+            content: "_{Make a melee Strike when a creature within your reach uses a manipulate or move action, makes a ranged attack, or leaves a square while moving.}"
+          - dl:
+              critical_failure: "_{Disrupts a manipulate-action trigger.}"
+          - p: "_{This Strike doesn't count toward or incur your multiple attack penalty.}"
 
   - at: '@pages'
     add:

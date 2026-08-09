@@ -27,34 +27,36 @@ inc:
         title: "_{Leshy Familiar}"
         cat: "_{Feat}"
         contents:
-          - p: "_{You gain a leshy familiar, a Tiny plant that embodies one of the many spirits of nature.}"
+          - p: "_{You gain a leshy familiar with your choice of the plant or fungus familiar ability, which doesn't count against your usual limit of familiar abilities.}"
 
   - at: '@focus-spells'
     add:
-      - p:
-        title: "_{Goodberry}"
-        content: "_{Imbue berries with healing. Takes 1 hour.}"
+      - action: 2
+        contents:
+          - p:
+            title: "_{Cornucopia}"
+            content: "_{Conjure a piece of produce that heals when eaten.}"
 
   - at: '@druid/order-power'
     replace:
-      - section: "_{Goodberry}"
+      - section: "_{Cornucopia}"
         contents:
           - paste: focus
             contents:
-              - p: "_{Imbue berries with healing. Takes 1 hour.}"
+              - p: "_{Conjure a piece of produce that heals when eaten.}"
               - row:
                 contents:
                   - calc:
                     output:
-                      field: goodberry-berries
-                      legend: "_{Berries}"
+                      field: cornucopia-produce
+                      legend: "_{Produce}"
                       width: large
                       eq: "%{focus-level}"
                     inputs:
                       - label: "_{Focus Level}"
 
                   - spacer:
-                  - field: goodberry-healing
+                  - field: cornucopia-healing
                     label: "Healing"
                     control: value
                     value: "_{1d6}+4"
@@ -62,10 +64,10 @@ inc:
 
   - at: '@focus-points'
     replace:
-      - field: druid-leaf-goodberry-focus
+      - field: druid-leaf-cornucopia-focus
         label: "_{Leaf Order}"
 
   - at: '@anathema'
     replace:
-      - li: "_{Committing wanton cruelty to plants}"
-      - li: "_{Killing plants unnecessarily}"
+      - li: "_{Committing wanton cruelty to plants or fungi}"
+      - li: "_{Killing plants or fungi unnecessarily}"

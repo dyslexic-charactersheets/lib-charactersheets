@@ -17,43 +17,91 @@ inc:
   - at: '@cleric-doctrine'
     replace:
       - h4: "_{Cloistered Cleric}"
-      - g:
+      - layout: 2e
         contents:
-          - h5: "_{Domain Initiate}"
-          - layout: indent-r
+          - list:
+            hr: true
             contents:
-              - g:
+              - level: 1
                 contents:
-                  - field: domain
-                    width: stretch
-                    label: "_{Domain}"
-                  - field: domain-spell
-                    label: "_{Domain Spell}"
-                    width: stretch
-                    merge-bottom: true
-              - cost: "_{1pt}"
-                unit: "_{Focus}"
+                  - h5: "_{Domain Initiate}"
+                  - layout: indent-r
+                    contents:
+                      - g:
+                        contents:
+                          - field: domain
+                            width: stretch
+                            label: "_{Domain}"
+                          - field: domain-spell
+                            label: "_{Domain Spell}"
+                            width: stretch
+                            merge-bottom: true
+                      - cost: "_{1pt}"
+                        unit: "_{Focus}"
+              - level: 3
+                contents:
+                  - p: "_{Fortitude saves}"
+                    icon: proficiency-expert
+              - level: 7
+                contents:
+                  - p: "_{Spell attacks and DCs}"
+                    icon: proficiency-expert
+              - level: 15
+                contents:
+                  - p: "_{Spell attacks and DCs}"
+                    icon: proficiency-master
 
-      - level: 11
-        contents:
-          - p: "_{Gain the critical specialisation effect for your deity's favoured weapon. Use your divine spell DC if necessary.}"
-          - layout: indent-r
+          - list:
+            hr: true
             contents:
-              - g:
+              - level: 11
                 contents:
-                  - field: cleric-deity-weapon
-                    label: "_{Favoured Weapon}"
-                    width: stretch
-                  - field: cleric-deity-weapon-critical
-                    label: "_{Critical Effect}"
-                    width: stretch
-                    merge-bottom: true
-              - g:
+                  - p: "_{Deity's favoured weapon}, _{Simple weapons}, _{Unarmed attack}"
+                    icon: proficiency-expert
+                  - p: "_{Gain the critical specialisation effect for your deity's favoured weapon. Use your divine spell DC if necessary.}"
+                  - layout: indent-r
+                    contents:
+                      - g:
+                        contents:
+                          - field: cleric-deity-weapon
+                            label: "_{Favoured Weapon}"
+                            width: stretch
+                          - field: cleric-deity-weapon-critical
+                            label: "_{Critical Effect}"
+                            width: stretch
+                            merge-bottom: true
+              - level: 19
+                contents:
+                  - p: "_{Spell attacks and DCs}"
+                    icon: proficiency-legendary
 
   - at: '@advancement'
     add:
       - level: 1
         advance: "_{Domain}"
+
+      - level: 3
+        advance: "_{Fortitude saves}"
+        proficiency: expert
+        colour: CON
+
+      - level: 7
+        advance: "_{Spell attacks and DCs}"
+        proficiency: expert
+
+      - level: 11
+        advance: "_{Deity's favoured weapon}, _{Simple weapons}, _{Unarmed attack}"
+        proficiency: expert
+      - level: 11
+        advance: "_{Critical specialisation}"
+
+      - level: 15
+        advance: "_{Spell attacks and DCs}"
+        proficiency: master
+
+      - level: 19
+        advance: "_{Spell attacks and DCs}"
+        proficiency: legendary
 
   - at: '@focus-points'
     replace:

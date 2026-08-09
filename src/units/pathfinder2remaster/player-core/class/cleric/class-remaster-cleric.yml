@@ -13,8 +13,8 @@ form:
     max: 1
   - select: feat/cleric
     name: "_{Cleric Feats}"
-    max: 8
-    levels:
+    max: 10
+    levels: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
 
 require:
   - deny: class/cleric
@@ -26,7 +26,7 @@ require:
   
   - with: option/reference
     unit: class/remaster/cleric/reference
-  
+
 inc:
 
   - paste: prototype-class
@@ -39,7 +39,8 @@ inc:
 
       spells: trained
       unarmoured: trained
-      unarmed: traomed
+      unarmed: trained
+      simple-weapons: trained
 
       perception: trained
       religion: trained
@@ -79,7 +80,9 @@ inc:
       - level: 13
         advance: "_{Unarmoured defence}"
         proficiency: expert
-        
+      - level: 19
+        advance: "_{Miraculous Spell}"
+
   - at: '@advancement-fields'
     add:
       - name: "_{Spell Rank}"
@@ -309,14 +312,14 @@ inc:
                                 underlay: "8"
                                 border: full
                                 prefix: "_{d}"
-                                eq: "(((%{##:divine-font/heal} || %{##:versatile-font}) && %{##:divine-font/healing-hands}) || ((%{##:divine-font/harm} || %{##:versatile-font}) && %{##:divine-font/harming-hands}))?10:8"
+                                eq: "(((%{##:divine-font/heal} || %{##:divine-font/versatile-font}) && %{##:divine-font/healing-hands}) || ((%{##:divine-font/harm} || %{##:divine-font/versatile-font}) && %{##:divine-font/harming-hands}))?10:8"
                               - spacer:
 
                               - calc:
                                 output:
                                   field: "##:divine-font/bonus"
                                   legend: "_{Bonus}"
-                                  width: lage
+                                  width: large
                                   eq: "%{focus-rank}*8"
                                 inputs:
                                   - field:
@@ -378,11 +381,11 @@ inc:
                                     output:
                                       field: "##:divine-font/communal-healing/hp"
                                       label: "_{Heal Self}"
-                                      eq: "%{focus-level}"
+                                      eq: "%{focus-rank}"
                                     inputs:
                                       - field:
-                                        ref: "focus-level"
-                                        label: "_{Spell Level}"
+                                        ref: "focus-rank"
+                                        label: "_{Spell Rank}"
 
                               - selectable: "##:divine-font/versatile-font"
                                 contents:
