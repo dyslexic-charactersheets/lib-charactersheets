@@ -15,6 +15,9 @@ form:
   - select: remaster/champion/blessing
     name: "_{Blessing of the Devoted}"
     max: 1
+  - select: remaster/champion/devotion-font
+    name: "_{Devotion Spell}"
+    max: 1
   - select: feat/champion
     name: "_{Champion Feats}"
     max: 11
@@ -208,35 +211,17 @@ inc:
                         hr: true
                         light: true
                         contents:
-                          - action:
+                          - zone: '@champion/devotion-font'
                             contents:
-                              - p:
-                                title: "_{Lay on Hands}"
-                                content: "_{Touch to heal a willing living creature, or damage an undead creature.}"
-                              - calc:
-                                output:
-                                  field: champion-lay-on-hands-healing
-                                  legend: "_{Heal\nAlly}"
-                                  width: huge
-                                  eq: "6*%{focus-level}"
-                                inputs:
-                                  - span: "6 &times;"
-                                  - field:
-                                    ref: focus-level
-                                    label: "_{Focus Level}"
-                              - p: "_{Undead creature takes vitality damage instead, with a basic Fortitude save (on a failure, it also takes a -2 status penalty to AC for 1 round):}"
-                              - calc:
-                                output:
-                                  field: champion-lay-on-hands-damage
-                                  legend: "_{Damage\nUndead}"
-                                  suffix: "d6"
-                                  width: huge
-                                  eq: "%{focus-level}"
-                                inputs:
-                                  - span: "_{1d6} &times;"
-                                  - field:
-                                    ref: focus-level
-                                    label: "_{Focus Level}"
+                              - field: champion-devotion-font
+                                label: "_{Devotion Spell}"
+                                width: stretch
+                                frame: none
+                                control: p
+                                lines: 4
+                                with-title: false
+                                merge-bottom: true
+
                           - zone: '@champion/devotion-spells'
                           - field: champion-devotion-spells-known
                             width: stretch

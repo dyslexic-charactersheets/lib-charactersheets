@@ -1,0 +1,45 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/champion/devotion-font/lay-on-hands
+in: remaster/champion/devotion-font
+group: "_{Player Core 2}"
+name: "_{Lay on Hands}"
+
+inc:
+  - set: champion-devotion-font
+    value: "_{Lay on Hands}"
+
+  - at: '@champion/devotion-font'
+    replace:
+      - p:
+        title: "_{Lay on Hands}"
+        content: "_{Touch to heal a willing living creature, or damage an undead creature.}"
+      - row:
+        contents:
+          - calc:
+            output:
+              field: champion-lay-on-hands-healing
+              legend: "_{Heal\nAlly}"
+              width: large
+              eq: "6*%{focus-level}"
+            inputs:
+              - span: "6 &times;"
+              - field:
+                ref: focus-level
+                label: "_{Focus Level}"
+          - calc:
+            output:
+              field: champion-lay-on-hands-damage
+              legend: "_{Damage\nUndead}"
+              suffix: "d6"
+              width: large
+              eq: "%{focus-level}"
+            inputs:
+              - span: "_{1d6} &times;"
+              - field:
+                ref: focus-level
+                label: "_{Focus Level}"
+      - p: "_{Undead target: basic Fortitude save, -2 status to AC for 1 round on a failure.}"
+        size: small

@@ -1,0 +1,30 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/champion/devotion-font/shields-of-the-spirit
+in: remaster/champion/devotion-font
+group: "_{Player Core 2}"
+name: "_{Shields of the Spirit}"
+
+inc:
+  - set: champion-devotion-font
+    value: "_{Shields of the Spirit}"
+
+  - at: '@champion/devotion-font'
+    replace:
+      - p:
+        title: "_{Shields of the Spirit}"
+        content: "_{When you Raise your Shield, Allies in your champion's aura gain a +1 status bonus to AC, and enemies that attack them take spirit damage, even on a miss.}"
+      - calc:
+        output:
+          field: champion-shields-of-the-spirit-damage
+          legend: "_{Spirit\nDamage}"
+          suffix: "d4"
+          width: large
+          eq: "1+floor((%{focus-level}-1)/2)"
+        inputs:
+          - span: "1 +"
+          - field:
+            ref: focus-level
+            label: "_{Focus Level}"

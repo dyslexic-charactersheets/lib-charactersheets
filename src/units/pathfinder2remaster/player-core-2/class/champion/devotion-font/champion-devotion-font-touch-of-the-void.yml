@@ -1,0 +1,45 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/champion/devotion-font/touch-of-the-void
+in: remaster/champion/devotion-font
+group: "_{Player Core 2}"
+name: "_{Touch of the Void}"
+
+inc:
+  - set: champion-devotion-font
+    value: "_{Touch of the Void}"
+
+  - at: '@champion/devotion-font'
+    replace:
+      - p:
+        title: "_{Touch of the Void}"
+        content: "_{Touch to heal a willing undead creature, or damage a living creature.}"
+      - row:
+        contents:
+          - calc:
+            output:
+              field: champion-touch-of-the-void-healing
+              legend: "_{Heal\nUndead}"
+              width: large
+              eq: "6*%{focus-level}"
+            inputs:
+              - span: "6 &times;"
+              - field:
+                ref: focus-level
+                label: "_{Focus Level}"
+          - calc:
+            output:
+              field: champion-touch-of-the-void-damage
+              legend: "_{Damage\nLiving}"
+              suffix: "d6"
+              width: large
+              eq: "%{focus-level}"
+            inputs:
+              - span: "_{1d6} &times;"
+              - field:
+                ref: focus-level
+                label: "_{Focus Level}"
+      - p: "_{Living target: basic Fortitude save, -2 status to AC for 1 round on a failure.}"
+        size: small
