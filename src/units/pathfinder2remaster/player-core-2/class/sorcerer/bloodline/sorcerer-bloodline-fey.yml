@@ -1,0 +1,93 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/sorcerer/bloodline/fey
+in: remaster/sorcerer/bloodline
+group: "_{Player Core 2}"
+name: "_{Fey}"
+
+inc:
+  - set: subclass
+    value: "_{Fey}"
+  - set: sorcerer-bloodline
+    value: "_{Fey}"
+
+  - set: deception-proficiency
+    value: trained
+  - set: nature-proficiency
+    value: trained
+
+  - at: '@sorcerer/bloodline/title'
+    replace:
+      - h4: "_{Fey}"
+
+  - set: sorcerer-bloodline-tradition
+    value: "_{Primal}"
+  - set: sorcerer-bloodline-skills
+    value: "_{Deception, Nature}"
+  - set: sorcerer-bloodline-granted-spells
+    value: "_{Cantrip: figment. 1st: charm. 2nd: laughing fit. 3rd: enthrall. 4th: suggestion. 5th: hallucination. 6th: mislead. 7th: visions of danger. 8th: uncontrollable dance. 9th: metamorphosis.}"
+
+  - set: sorcerer-bloodline-spell-initial
+    value: "_{Faerie Dust}"
+  - set: sorcerer-bloodline-spell-advanced
+    value: "_{Fey Disappearance}"
+  - set: sorcerer-bloodline-spell-greater
+    value: "_{Fey Glamour}"
+
+  - at: '@sorcerer/spells-list/granted-cantrip'
+    replace:
+      - "_{Figment}"
+
+  - at: '@sorcerer/spells-list/granted-spells'
+    replace:
+      - "_{Charm}"
+      - "_{Laughing Fit}"
+      - "_{Enthrall}"
+      - "_{Suggestion}"
+      - "_{Hallucination}"
+      - "_{Mislead}"
+      - "_{Visions of Danger}"
+      - "_{Uncontrollable Dance}"
+      - "_{Metamorphosis}"
+
+  - at: '@sorcerer/bloodline-spell/initial'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Faerie Dust}"
+            cat: "_{Focus 1}"
+            contents:
+              - p: "_{Scatter shimmering dust over an area, dazzling and distracting creatures within it.}"
+
+  - at: '@sorcerer/bloodline-spell/advanced'
+    replace:
+      - action: reaction
+        contents:
+          - article:
+            title: "_{Fey Disappearance}"
+            cat: "_{Focus 4}"
+            contents:
+              - p: "_{Vanish in a puff of glamour when threatened, becoming briefly invisible and moving away.}"
+
+  - at: '@sorcerer/bloodline-spell/greater'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Fey Glamour}"
+            cat: "_{Focus 8}"
+            contents:
+              - p: "_{Weave an illusion of the First World around an area, confusing and enthralling those within.}"
+
+  - set: sorcerer-blood-magic-initial
+    value: "_{Cloak of Ribbons—Colourful fey ribbons dance around you. Either you gain a +2 status bonus to Performance checks for 1 round, or you become concealed for 1 round.}"
+
+  - at: '@sorcerer/spellbook/blood-magic'
+    replace:
+      - article:
+        title: "_{Blood Magic—Cloak of Ribbons}"
+        contents:
+          - p: "_{Colourful fey ribbons dance around you. Either you gain a +2 status bonus to Performance checks for 1 round, or you can become concealed for 1 round. Such obvious concealment can't be used to Hide.}"
