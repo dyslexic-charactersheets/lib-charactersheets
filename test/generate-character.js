@@ -263,18 +263,21 @@ function attributesForIdentity(identity, config, game) {
 
   // subclass,
   classValues.forEach((classValue, i) => {
-    const [subclassSlotName] = subclassSlotsOf(classValue);
-    if (!subclassSlotName) return;
+    const slotNames = subclassSlotsOf(classValue);
+    if (!slotNames.length) return;
     const originalCode = identity.classes[i];
-    const subclassCode = identity.subclasses[originalCode] || identity.subclasses[removeRemasterPrefix(classValue.code)];
-    if (!subclassCode) return;
-    const subclassValue = resolveValue(findSlot(data, subclassSlotName), subclassCode);
-    if (!subclassValue) {
-      throw new UnresolvedSubclassError(
-        `subclass "${subclassCode}" not found for class "${removeTranslationKey(classValue.name)}" in ${game}`
-      );
-    }
-    attributes[subclassSlotName] = subclassValue.id;
+    const rawSubclass = identity.subclasses[originalCode] ?? identity.subclasses[removeRemasterPrefix(classValue.code)];
+    if (!rawSubclass) return;
+    const subclassCodes = Array.isArray(rawSubclass) ? rawSubclass : [rawSubclass];
+    subclassCodes.forEach(subclassCode => {
+      const subclassSlotName = slotNames.find(name => resolveValue(findSlot(data, name), subclassCode));
+      if (!subclassSlotName) {
+        throw new UnresolvedSubclassError(
+          `subclass "${subclassCode}" not found for class "${removeTranslationKey(classValue.name)}" in ${game}`
+        );
+      }
+      attributes[subclassSlotName] = resolveValue(findSlot(data, subclassSlotName), subclassCode).id;
+    });
   });
 
   // feats
