@@ -1,51 +1,77 @@
-# Copyright 2025 Marcus Downing
-# This file is compliant with the Open Game License (OGL).
-# See the text of the OGL within this repository.
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
 
-unit: class/apg/investigator
+unit: class/remaster/investigator
 in: class
-group: "_{Advanced Player's Guide}"
+group: "_{Player Core 2}"
 name: "_{Investigator}"
+# enabled: false
 
 form:
-  - select: investigator/methodology
+  - select: remaster/investigator/methodology
     name: "_{Methodology}"
     max: 1
+  - select: feat/investigator
+    name: "_{Investigator Feats}"
+    max: 11
+    levels: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
 
 require:
-  - unit: prototype/class
   - unit: weapon-spec/fast
   - with: option/reference
-    unit: class/apg/investigator/reference
+    unit: class/remaster/investigator/reference
+  - deny: archetype/investigator
 
 inc:
-  - paste: prototype-class
-    params:
-      class: investigator
-      class-name: "_{Investigator}"
-      subclass: investigator-methodology
-      subclass-name: "_{Methodology}"
-      hp: 8
 
-      perception: expert
-      unarmoured: trained
-      light-armour: trained
-      skill: society
+  - set: class
+    value: "_{Investigator}"
+  - set: hp-class
+    value: 8
+  - set: class-icon
+    value: investigator
+  - set: subclass-label
+    value: "_{Methodology}"
 
-      fortitude: trained
-      reflex: expert
-      will: expert
-      
-  - paste: prototype-key-ability
-    params:
-      key-ability: "INT"
+  - set: investigator-class-dc-proficiency
+    value: trained
+  - set: perception-proficiency
+    value: expert
+
+  - set: unarmoured-proficiency
+    value: trained
+  - set: light-armour-proficiency
+    value: trained
+
+  - set: fortitude-proficiency
+    value: trained
+  - set: reflex-proficiency
+    value: expert
+  - set: will-proficiency
+    value: expert
+
+  - set: society-proficiency
+    value: trained
+
+  - set: key-attribute
+    value: INT
+
+  - at: '@key-attribute-field'
+    replace:
+      - field: key-attribute
+        label: "_{INT}"
+        underlay: "_{INT}"
+        ref: INT
+
+  - at: '@advancement-fields'
+    add:
+      - name: "_{Strategic Strike}"
+        key: "sneak attack"
+        format: string
 
   - at: '@advancement'
     add:
-      - levels: [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
-        skill-feat: true
-      - levels: [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
-        skill-increase: true
       - levels: [ 1, 5, 9, 13, 17 ]
         sneak-attack: [ "_{1d6}", "_{2d6}", "_{3d6}", "_{4d6}", "_{5d6}" ]
 
@@ -54,11 +80,13 @@ inc:
       - level: 1
         gain: "_{Methodology}"
       - level: 1
-        advance: "_{On The Case}"
+        advance: "_{On the Case}"
       - level: 1
         advance: "_{Devise a Stratagem}"
       - level: 3
         advance: "_{Keen Recollection}"
+      - level: 3
+        advance: "_{Skillful Lessons}"
       - level: 11
         advance: "_{Deductive Improvisation}"
 
@@ -105,40 +133,44 @@ inc:
         advance: "_{Investigator class DC}"
         proficiency: master
 
-  - at: '@advancement-fields'
-    add:
-      - name: "_{Strategic Strike}"
-        key: strategic strike
-        format: string
-
   - at: '@saving-throws'
     add:
-      - level: 9
-        contents:
-          - paste: great-fortitude
       - level: 11
         contents:
-          - paste: resolve
+          - paste: improved-save-will
+            params:
+              title: "_{Dogged Will}"
       - level: 15
         contents:
-          - paste: evasion
+          - paste: improved-save-ref
+            params:
+              title: "_{Savvy Reflexes}"
       - level: 17
         contents:
-          - paste: greater-resolve
+          - paste: improved-save-will-2
+            params:
+              title: "_{Greater Dogged Will}"
+          - p: "_{When you fail a Will save against a damaging effect, take half damage.}"
 
   - at: '@actions'
     add:
       - action:
         contents:
-          - p:
-            title: "_{Devise a Stratagem}"
-            content: "_{Roll a strike in advance, and use your Intelligence to attack.}"
+          - row:
+            contents:
+              - p:
+                title: "_{Devise a Stratagem}"
+                content: "_{Roll an attack roll in advance to use on a Strike or skill check.}"
+              - field: "##:devise-a-stratagem/roll"
+                label: "_{Rolled}"
+                border: full
+                width: large
 
       - action: reaction
         contents:
           - p:
             title: "_{Clue In}"
-            content: "_{Share knowledge to grant allies a combat bonus.}"
+            content: "_{Share your investigation bonus with an ally attempting a related check.}"
 
   - at: '@skill-feats-section'
     replace:
@@ -180,7 +212,7 @@ inc:
                       - zone: '@investigator/skillful-lessons-into'
                         contents:
                           - h5: "_{Skillful Lessons}"
-                          - p: "_{Skill feats for Intelligence, Wisdom or Charisma-based skills.}"
+                          - p: "_{Skill feats for Intelligence, Wisdom or Charisma-based skills, or the skill gained from your methodology.}"
                   - each:
                     template:
                       - level: "#{level}"
@@ -219,7 +251,7 @@ inc:
                           id: investigator-class-dc
                           legend: "_{Investigator\nClass DC}"
 
-                  - section: "_{On The Case}"
+                  - section: "_{On the Case}"
                     contents:
                       - list:
                         hr: true
@@ -229,8 +261,8 @@ inc:
                           - g:
                             contents:
                               - h5: "_{Pursue a Lead}"
-                              - p: "_{Spend a minute examining clues. Designate the related subject — typically a person, item or place.}"
-                              - h5: "_{Subject}"
+                              - p: "_{Spend a minute examining clues. Open an investigation by defining the central question of a large mystery.}"
+                              - h5: "_{Investigation}"
                               - row:
                                 contents:
                                   - h5: "1"
@@ -242,12 +274,10 @@ inc:
                                   - field: investigator/pursue-a-lead/subject-2
                                     frame: none
                                     width: stretch
-
-                              - p: "_{You do not need to know the subject's actual identity.}"
                               - indent: l
                                 contents:
                                   - value-block: "+1"
-                                    content: "_{Bonus to Perception and skill checks to investigate subject.}"
+                                    content: "_{Bonus to Perception and skill checks to investigate the question of an active investigation.}"
 
                           - g:
                             contents:
@@ -255,18 +285,18 @@ inc:
                                 contents:
                                   - p:
                                     title: "_{Clue In}"
-                                    content: "_{Share info with an ally pursuing the same lead. They gain your Pursue a Lead bonus to one check.}"
+                                    content: "_{Share info to grant your Pursue a Lead bonus to a creature's check toward one of your investigations.}"
 
                           - level: 9
                             contents:
                               - h5: "_{Investigator Expertise}"
                               - value-block: "+2"
-                                content: "_{Bonus to Perception and skill checks to investigate the subject of your investigation.}"
+                                content: "_{Bonus to Perception and skill checks to investigate the question of an active investigation.}"
 
                           - level: 19
                             contents:
                               - h5: "_{Master Detective}"
-                              - p: "_{On entering a new location with a clue relevant to the subject of your investigation, get the clue and its type.}"
+                              - p: "_{On entering a new location with a clue relevant to one of your active investigations, get the clue and its type.}"
 
                   - section: "_{Devise a Stratagem}"
                     contents:
@@ -275,7 +305,7 @@ inc:
                         contents:
                           - action:
                             contents:
-                              - p: "_{Choose a target and roll a d20 in advance. If you make a Strike this turn, use that as your attack roll.}"
+                              - p: "_{Once per round, choose a creature you can see and roll a d20 in advance for an attack or skill stratagem.}"
                               - row:
                                 contents:
                                   - field: "##:devise-a-stratagem/roll"
@@ -284,21 +314,32 @@ inc:
                                   - field: "##:devise-a-stratagem/target"
                                     width: stretch
                                     label: "_{Target}"
+
+                          - g:
+                            contents:
+                              - h5: "_{Attack Stratagem}"
+                              - p: "_{Before your next turn, Strike the chosen creature using the rolled result as your attack roll.}"
                               - row:
                                 contents:
                                   - field:
                                     ref: INT
                                     label: "_{INT}"
                                     underlay: "_{INT}"
-                                  - p: "_{Add INT instead of STR or DEX for that attack, provided you're wielding an agile or finesse weapon.}"
+                                  - p: "_{Add INT instead of STR or DEX for that attack, provided you're wielding an agile or finesse melee or thrown weapon, a ranged weapon, or a sap.}"
+
+                          - g:
+                            contents:
+                              - h5: "_{Skill Stratagem}"
+                              - p: "_{You can't Strike the target before your next turn. Gain a +1 bonus to your next Intelligence, Wisdom or Charisma-based skill check or Perception check against it (or +1 to Pursue a Lead.}"
 
                           - action: free
                             contents:
-                              - p: "_{Devise a Stratagem as a free action against the subject of your investigation.}"
+                              - p: "_{Devise a Stratagem as a free action against a creature relevant to one of your active investigations.}"
 
                           - g:
                             contents:
                               - h5: "_{Strategic Strike}"
+                              - p: "_{Add bonus precision damage when you devise an Attack Stratagem.}"
                               - advancement:
                                 flip: true
                                 elide: true
@@ -318,6 +359,8 @@ inc:
                                   - level: 17
                                     bonus: "_{5d6}"
 
+                                optional: true
+
                   - section: "_{Keen Recollection}"
                     contents:
                       - level: 3
@@ -330,7 +373,7 @@ inc:
                                   - field:
                                     ref: level
                                     label: "_{Level}"
-                              - p: "_{Proficiency bonus to all untrained checks to Recall Knowledge.}"
+                              - p: "_{Proficiency bonus to untrained checks to Recall Knowledge.}"
 
                   - section: "_{Deductive Improvisation}"
                     contents:
