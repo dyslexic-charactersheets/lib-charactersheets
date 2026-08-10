@@ -26,8 +26,6 @@ inc:
     value: "_{Destruction, Might, Protection, Zeal}"
   - set: oracle-mystery-feat
     value: "_{Oracular Warning}"
-  - set: oracle-mystery-granted-spells
-    value: "_{Cantrip: shield. 1st: sure strike. 2nd: telekinetic maneuver. 4th: weapon storm.}"
 
   - set: oracle-revelation-spell-initial
     value: "_{Weapon Trance}"
@@ -107,33 +105,56 @@ inc:
                         ref: focus-level
                       - span: "- 1"
 
-  - at: '@oracle/mystery/curse'
+  - at: '@oracle/mystery/curse-title'
     replace:
       - h4: "_{Curse of the Mortal Warrior}"
         size: small
+
+  - at: '@oracle/mystery/curse'
+    replace:
       - flags:
         contents:
           - "_{Curse}"
           - "_{Divine}"
           - "_{Oracle}"
-      - p: "_{You thrive in the thick of battle, but your mystery's sheer focus on the physical and material leaves your soul weak against the tricks of spellcraft. You smell faintly of steel and blood no matter how you try to remove or mask the scent, you appear more imposing and muscular than you actually are, and you hear the faint clash and clamor of battle in the distance at all times.}"
       - list:
         hr: true
         light: true
         contents:
-          - p:
-            title: "_{Cursebound 1}"
-            content: "_{Weakness 2 to any damage dealt by a spell. Any immunity or resistance you have to spells is suppressed. This applies only to spells, not other magical abilities.}"
-          - p:
-            title: "_{Cursebound 2}"
-            content: "_{-1 status penalty to saving throws against spells.}"
+          - g:
+            contents:
+              - p:
+                title: "_{Cursebound 1}"
+                content: "_{Any immunity or resistance you have to spells is suppressed. This applies only to spells, not other magical abilities.}"
+              - value-block: "2"
+                content: "_{Weakness to any damage dealt by a spell}"
+          - g:
+            contents:
+              - p:
+                title: "_{Cursebound 2}"
+              - value-block: "-1"
+                content: "_{status penalty to saving throws against spells}"
           - level: 11
             contents:
-              - p:
-                title: "_{Cursebound 3}"
-                content: "_{Your weakness to spells is equal to your level.}"
+              - g:
+                contents:
+                  - p:
+                    title: "_{Cursebound 3}"
+                  - calc:
+                    output:
+                      field: oracle-mystery-battle-weakness
+                      legend: "_{Weakness to spells}"
+                      width: large
+                      eq: "%{level}"
+                    inputs:
+                      - field:
+                        ref: level
+                        label: "_{Level}"
           - level: 17
             contents:
-              - p:
-                title: "_{Cursebound 4}"
-                content: "_{Your status penalty to saving throws against spells increases to -2.}"
+              - g:
+                contents:
+                  - p:
+                    title: "_{Cursebound 4}"
+                  - value-block: "-2"
+                    content: "_{status penalty to saving throws against spells}"

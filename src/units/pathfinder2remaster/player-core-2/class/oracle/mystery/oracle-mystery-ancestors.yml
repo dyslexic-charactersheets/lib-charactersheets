@@ -26,8 +26,6 @@ inc:
     value: "_{Death, Duty*, Family, Soul*}"
   - set: oracle-mystery-feat
     value: "_{Whispers of Weakness}"
-  - set: oracle-mystery-granted-spells
-    value: "_{Cantrip: guidance. 1st: ill omen. 2nd: ghostly carrier. 5th: dreaming potential.}"
 
   - set: oracle-revelation-spell-initial
     value: "_{Ancestral Touch}"
@@ -110,22 +108,28 @@ inc:
               - p: "_{You take the form of your ancestral spirits, becoming invisible and quasi-corporeal. You gain resistance 10 to all damage (except force, spirit, and damage from Strikes with the ghost touch property rune), doubled against non-magical damage or Strikes that include precision damage.}"
               - p: "_{You gain a fly Speed equal to your land Speed; when Flying, moving upward isn't difficult terrain for you. You can't move through solid objects, but you can float through tiny gaps. You can't Cast Spells (but you can Sustain spells), activate items, or use actions that have the attack or manipulate trait.}"
 
-  - at: '@oracle/mystery/curse'
+  - at: '@oracle/mystery/curse-title'
     replace:
       - h4: "_{Curse of Ancestral Meddling}"
         size: small
+
+  - at: '@oracle/mystery/curse'
+    replace:
       - flags:
         contents:
           - "_{Curse}"
           - "_{Divine}"
           - "_{Oracle}"
           - "_{Spirit}"
-      - p: "_{The ancestral spirits you commune with haunt you and meddle with your belongings and actions, either out of a well-intentioned (but ultimately detrimental) attempt to assist you, as punishment for your audacity in circumventing the traditional means of achieving divine power, for their own amusement, or a mixture of the above.}"
-      - p: "_{When you have the cursebound condition, you are clumsy with a value equal to your cursebound value as the spirits of your ancestors temporarily possess you and vie for control in your mind, hindering your movements.}"
       - row:
         contents:
-          - field: oracle-mystery-ancestors-clumsy
-            legend: "_{Clumsy}"
-            border: full
-            width: large
-          - p: "_{Equal to your cursebound value.}"
+          - calc:
+            output:
+              field: oracle-mystery-ancestors-clumsy
+              legend: "_{Clumsy}"
+              width: large
+              eq: "%{oracle-cursebound}"
+            inputs:
+              - field:
+                ref: oracle-cursebound
+                label: "_{Cursebound}"

@@ -155,6 +155,22 @@ inc:
         label: "_{Revelation Spells}"
         underlay: "1"
 
+  - copy: oracle/cursebound-description
+    contents:
+      - p: "_{Using a cursebound ability makes you cursebound 1, or increases it by 1 if you're already cursebound, to a maximum of 2.}"
+      - level: 11
+        contents:
+          - p: "_{Your cursebound maximum increases to 3.}"
+      - level: 17
+        contents:
+          - p: "_{Your cursebound maximum increases to 4.}"
+      - p: "_{Nothing but Refocusing mitigates, reduces, or removes this.}"
+      - paste: 10mins
+        contents:
+          - p:
+            title: "_{Refocus}"
+            content: "_{Reduces your cursebound value by 1 and restores a Focus Point.}"
+
   - at: '@pages'
     add:
       - page: oracle
@@ -184,9 +200,14 @@ inc:
                         hr: true
                         avoid-shade: true
                         contents:
+                          - zone: '@oracle/mystery/curse-title'
+                            contents:
+                              - h4: "_{Curse}"
+                                size: small
+
                           - g:
                             contents:
-                              - p: "_{Using a cursebound ability makes you cursebound 1, or increases it by 1 if you're already cursebound (max 2, 3 at 11th level, 4 at 17th level). Nothing but Refocusing mitigates, reduces, or removes this; Refocusing reduces it by 1 and restores a Focus Point.}"
+                              - paste: oracle/cursebound-description
                               - field: oracle-cursebound
                                 legend: "_{Cursebound}"
                                 control: counter
@@ -257,82 +278,78 @@ inc:
                             merge-bottom: true
                       - hr:
                         swash: true
+                      - list:
+                        hr: true
+                        contents:
+                          - g:
+                            contents:
+                              - zone: '@oracle/mystery/skill'
+                                contents:
+                                  - field: oracle-mystery-skill
+                                    icon: proficiency-trained
+                                    width: stretch
+                                    label: "_{Mystery Skill}"
+                          - g:
+                            contents:
+                              - h5: "_{Related Domains}"
+                              - field: oracle-mystery-domains
+                                width: stretch
+                                frame: none
+                                merge-bottom: true
+                          - g:
+                            contents:
+                              - h5: "_{Oracle Feat}"
+                              - field: oracle-mystery-feat
+                                width: stretch
+                                frame: none
+                                merge-bottom: true
+
+                  - section: "_{Revelation Spells}"
+                    contents:
+                      - g:
+                        contents:
+                          - paste: focus
+                            contents:
+                              - flags:
+                                  - "_{Cursebound}"
+                              - p: "_{Revelation spells are focus spells. Casting one is a cursebound action for you.}"
+                                optional: true
                       - layout: 2e
                         contents:
                           - g:
                             contents:
                               - list:
                                 hr: true
+                                light: true
                                 contents:
-                                  - g:
+                                  - field: oracle-revelation-spell-initial
+                                    label: "_{Initial Revelation}"
+                                    width: stretch
+                                    merge-bottom: true
+                                  - selectable: "##:revelation/advanced"
                                     contents:
-                                      - zone: '@oracle/mystery/skill'
-                                        contents:
-                                          - field: oracle-mystery-skill
-                                            icon: proficiency-trained
-                                            width: stretch
-                                            label: "_{Mystery Skill}"
-                                  - g:
-                                    contents:
-                                      - h5: "_{Related Domains}"
-                                      - field: oracle-mystery-domains
+                                      - field: oracle-revelation-spell-advanced
+                                        label: "_{Advanced Revelation}"
                                         width: stretch
-                                        frame: none
-                                        merge-bottom: true
-                                  - g:
-                                    contents:
-                                      - h5: "_{Oracle Feat}"
-                                      - field: oracle-mystery-feat
-                                        width: stretch
-                                        frame: none
                                         merge-bottom: true
                           - g:
                             contents:
-                              - h5: "_{Granted Spells}"
-                              - field: oracle-mystery-granted-spells
-                                width: stretch
-                                frame: none
-                                control: p
-                                lines: 4
-                                with-title: false
-                                merge-bottom: true
-
-                  - section: "_{Revelation Spells}"
-                    contents:
-                      - list:
-                        hr: true
-                        light: true
-                        contents:
-                          - g:
-                            contents:
-                              - paste: focus
+                              - list:
+                                hr: true
+                                light: true
                                 contents:
-                                  - flags:
-                                      - "_{Cursebound}"
-                                  - p: "_{Revelation spells are focus spells. Casting one is a cursebound action for you.}"
-                                    optional: true
-                          - field: oracle-revelation-spell-initial
-                            label: "_{Initial Revelation}"
-                            width: stretch
-                            merge-bottom: true
-                          - selectable: "##:revelation/advanced"
-                            contents:
-                              - field: oracle-revelation-spell-advanced
-                                label: "_{Advanced Revelation}"
-                                width: stretch
-                                merge-bottom: true
-                          - selectable: "##:revelation/greater"
-                            contents:
-                              - field: oracle-revelation-spell-greater
-                                label: "_{Greater Revelation}"
-                                width: stretch
-                                merge-bottom: true
-                          - selectable: "##:revelation/diverse"
-                            contents:
-                              - field: oracle-revelation-spell-diverse
-                                label: "_{Diverse Mystery}"
-                                width: stretch
-                                merge-bottom: true
+                                  - selectable: "##:revelation/greater"
+                                    contents:
+                                      - field: oracle-revelation-spell-greater
+                                        label: "_{Greater Revelation}"
+                                        width: stretch
+                                        merge-bottom: true
+                                  - selectable: "##:revelation/diverse"
+                                    contents:
+                                      - field: oracle-revelation-spell-diverse
+                                        label: "_{Diverse Mystery}"
+                                        width: stretch
+                                        merge-bottom: true
 
                   - zone: '@oracle/right'
 

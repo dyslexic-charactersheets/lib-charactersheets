@@ -26,8 +26,6 @@ inc:
     value: "_{Darkness, Moon, Nothingness*, Star*}"
   - set: oracle-mystery-feat
     value: "_{Oracular Warning}"
-  - set: oracle-mystery-granted-spells
-    value: "_{Cantrip: light. 1st: dizzying colors. 2nd: darkness. 5th: moon frenzy.}"
 
   - set: oracle-revelation-spell-initial
     value: "_{Spray of Stars}"
@@ -128,26 +126,38 @@ inc:
                   duration: "_{10 minutes}"
               - p: "_{Summon a 10ft-wide bridge of radiant, shimmering moonlight starting on the ground at a point within range, extending as a horizontal plane, in a straight line or at up to a 45&deg; angle up or down, for up to 120ft. The bridge has AC 10, Hardness 30, and 60 Hit Points, and is immune to all damage except force, spirit, and damage from Strikes with the ghost touch property rune. You and your allies can cross it normally; other creatures simply pass through it. It blocks physical, ethereal, and incorporeal attacks from crossing through it, from above or below. You can Dismiss the spell.}"
 
-  - at: '@oracle/mystery/curse'
+  - at: '@oracle/mystery/curse-title'
     replace:
       - h4: "_{Curse of the Sky's Call}"
         size: small
+
+  - at: '@oracle/mystery/curse'
+    replace:
       - flags:
         contents:
           - "_{Curse}"
           - "_{Divine}"
           - "_{Oracle}"
-      - p: "_{Your body is drawn toward the heavens, making you lighter and less substantial than you should be. Your eyes glow with starry light, and your hair and clothing float and drift around you.}"
-      - p: "_{While cursebound, you are enfeebled with a value equal to your cursebound value, and you take a status penalty to saves and DCs against all forms of forced movement equal to your cursebound value.}"
       - row:
         contents:
-          - field: oracle-mystery-cosmos-enfeebled
-            legend: "_{Enfeebled}"
-            border: full
-            width: large
+          - calc:
+            output:
+              field: oracle-mystery-cosmos-enfeebled
+              legend: "_{Enfeebled}"
+              width: large
+              eq: "%{oracle-cursebound}"
+            inputs:
+              - field:
+                ref: oracle-cursebound
+                label: "_{Cursebound}"
           - vr:
-          - field: oracle-mystery-cosmos-forced-movement
-            legend: "_{Forced Movement Penalty}"
-            border: full
-            width: large
-          - p: "_{Both equal to your cursebound value.}"
+          - calc:
+            output:
+              field: oracle-mystery-cosmos-forced-movement
+              legend: "_{Forced Movement\nPenalty}"
+              width: large
+              eq: "%{oracle-cursebound}"
+            inputs:
+              - field:
+                ref: oracle-cursebound
+                label: "_{Cursebound}"

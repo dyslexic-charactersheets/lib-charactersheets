@@ -172,35 +172,21 @@ inc:
                             merge-bottom: true
                       - hr:
                         swash: true
-                      - layout: 2e
+                      - list:
+                        hr: true
                         contents:
                           - g:
                             contents:
-                              - list:
-                                hr: true
-                                contents:
-                                  - g:
-                                    contents:
-                                      - field: sorcerer-bloodline-tradition
-                                        icon: proficiency-trained
-                                        width: stretch
-                                        label: "_{Tradition}"
-                                  - g:
-                                    contents:
-                                      - h5: "_{Bloodline Skills}"
-                                      - field: sorcerer-bloodline-skills
-                                        width: stretch
-                                        frame: none
-                                        merge-bottom: true
+                              - field: sorcerer-bloodline-tradition
+                                icon: proficiency-trained
+                                width: stretch
+                                label: "_{Tradition}"
                           - g:
                             contents:
-                              - h5: "_{Granted Spells}"
-                              - field: sorcerer-bloodline-granted-spells
+                              - h5: "_{Bloodline Skills}"
+                              - field: sorcerer-bloodline-skills
                                 width: stretch
                                 frame: none
-                                control: p
-                                lines: 4
-                                with-title: false
                                 merge-bottom: true
 
                   - section: "_{Blood Magic}"
@@ -210,16 +196,17 @@ inc:
                         avoid-shade: true
                         contents:
                           - p: "_{Whenever you cast a bloodline spell using a Focus Point, or a sorcerous gift spell using a spell slot, choose one blood magic effect you know to benefit from.}"
-                          - field: sorcerer-blood-magic-initial
-                            label: "_{Known Effect}"
-                            width: stretch
-                            merge-bottom: true
+                          - zone: '@sorcerer/spellbook/blood-magic'
                           - field: sorcerer-blood-magic-known
                             width: stretch
                             frame: none
                             repeat: 3
                             merge-bottom: true
                             label: "_{Additional known effects}"
+
+                  - section: "_{Sorcerous Potency}"
+                    contents:
+                      - p: "_{Damage or healing spells cast from a spell slot gain a status bonus equal to the spell's rank (once per target).}"
 
                   - section: "_{Spellcasting}"
                     id: spellcasting
@@ -250,9 +237,6 @@ inc:
                         params:
                           attribute: CHA
 
-                      - p: "_{Sorcerous Potency: damage or healing spells cast from a spell slot gain a status bonus equal to the spell's rank (once per target).}"
-                        size: small
-
                   - tail:
                   - spacer:
 
@@ -271,24 +255,29 @@ inc:
                                 contents:
                                   - p: "_{Bloodline spells are focus spells. Refocus normally to restore your focus pool.}"
                                     optional: true
-                          - field: sorcerer-bloodline-spell-initial
-                            label: "_{Initial Bloodline Spell}"
-                            width: stretch
-                            merge-bottom: true
-                          - selectable: "##:bloodline-spell/advanced"
+                          - layout: 2e
                             contents:
-                              - field: sorcerer-bloodline-spell-advanced
-                                label: "_{Advanced Bloodline Spell}"
-                                width: stretch
-                                merge-bottom: true
-                          - selectable: "##:bloodline-spell/greater"
-                            contents:
-                              - field: sorcerer-bloodline-spell-greater
-                                label: "_{Greater Bloodline Spell}"
-                                width: stretch
-                                merge-bottom: true
-
-                  - zone: '@sorcerer/right'
+                              - g:
+                                contents:
+                                  - field: sorcerer-bloodline-spell-initial
+                                    label: "_{Initial Bloodline Spell}"
+                                    width: stretch
+                                    merge-bottom: true
+                                  - zone: '@sorcerer/bloodline/extra-field'
+                              - g:
+                                contents:
+                                  - selectable: "##:bloodline-spell/advanced"
+                                    contents:
+                                      - field: sorcerer-bloodline-spell-advanced
+                                        label: "_{Advanced Bloodline Spell}"
+                                        width: stretch
+                                        merge-bottom: true
+                                  - selectable: "##:bloodline-spell/greater"
+                                    contents:
+                                      - field: sorcerer-bloodline-spell-greater
+                                        label: "_{Greater Bloodline Spell}"
+                                        width: stretch
+                                        merge-bottom: true
 
                   - section: "_{Cantrips}"
                     flex: tiny

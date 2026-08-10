@@ -26,8 +26,6 @@ inc:
     value: "_{Knowledge, Magic, Secrecy, Truth}"
   - set: oracle-mystery-feat
     value: "_{Whispers of Weakness}"
-  - set: oracle-mystery-granted-spells
-    value: "_{Cantrip: read aura. 1st: mindlink. 3rd: hypercognition. 6th: never mind.}"
 
   - at: '@oracle/mystery/skill'
     replace:
@@ -122,21 +120,28 @@ inc:
                   failure: "_{As success, and the creature becomes frightened 1.}"
                   critical_failure: "_{As failure, but the creature becomes frightened 3.}"
 
-  - at: '@oracle/mystery/curse'
+  - at: '@oracle/mystery/curse-title'
     replace:
       - h4: "_{Curse of Torrential Knowledge}"
         size: small
+
+  - at: '@oracle/mystery/curse'
+    replace:
       - flags:
         contents:
           - "_{Curse}"
           - "_{Divine}"
           - "_{Oracle}"
-      - p: "_{You have a link to true divine knowledge, but your mortal mind struggles to process it. Loose materials around you—dust, grains of rice, droplets of water—slowly shift into strange runes or faint writing, and you sometimes speak unintelligible truths in unknown languages without realising it.}"
-      - p: "_{While cursebound, unasked-for knowledge floods your mind, giving a status penalty to Perception checks and Will saves equal to your cursebound value. At cursebound 4, you also can't speak, use linguistic effects, or otherwise communicate, and are stupefied 1.}"
+      - p: "_{While cursebound, unasked-for knowledge floods your mind, giving a status penalty to Perception checks and Will saves. At cursebound 4, you also can't speak, use linguistic effects, or otherwise communicate, and are stupefied 1.}"
       - row:
         contents:
-          - field: oracle-mystery-lore-penalty
-            legend: "_{Perception / Will Penalty}"
-            border: full
-            width: large
-          - p: "_{Equal to your cursebound value.}"
+          - calc:
+            output:
+              field: oracle-mystery-lore-penalty
+              legend: "_{Perception / Will\nPenalty}"
+              width: large
+              eq: "%{oracle-cursebound}"
+            inputs:
+              - field:
+                ref: oracle-cursebound
+                label: "_{Cursebound}"
