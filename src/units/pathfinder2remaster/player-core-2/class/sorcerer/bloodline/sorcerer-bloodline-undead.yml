@@ -1,0 +1,87 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/sorcerer/bloodline/undead
+in: remaster/sorcerer/bloodline
+group: "_{Player Core 2}"
+name: "_{Undead}"
+
+inc:
+  - set: subclass
+    value: "_{Undead}"
+  - set: sorcerer-bloodline
+    value: "_{Undead}"
+
+  - set: intimidation-proficiency
+    value: trained
+  - set: religion-proficiency
+    value: trained
+
+  - at: '@sorcerer/bloodline/title'
+    replace:
+      - h4: "_{Undead}"
+
+  - set: sorcerer-bloodline-tradition
+    value: "_{Divine}"
+  - set: sorcerer-bloodline-skills
+    value: "_{Intimidation, Religion}"
+  - set: sorcerer-bloodline-spell-initial
+    value: "_{Undeath's Blessing}"
+  - set: sorcerer-bloodline-spell-advanced
+    value: "_{Drain Life}"
+  - set: sorcerer-bloodline-spell-greater
+    value: "_{Grasping Grave}"
+
+  - at: '@sorcerer/spells-list/granted-cantrip'
+    replace:
+      - "_{Void Warp}"
+
+  - at: '@sorcerer/spells-list/granted-spells'
+    replace:
+      - "_{Harm}"
+      - "_{See the Unseen}"
+      - "_{Bind Undead}"
+      - "_{Talking Corpse}"
+      - "_{Invoke Spirits}"
+      - "_{Vampiric Exsanguination}"
+      - "_{Execute}"
+      - "_{Canticle of Everlasting Grief}"
+      - "_{Wails of the Damned}"
+
+  - at: '@sorcerer/bloodline-spell/initial'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Undeath's Blessing}"
+            cat: "_{Focus 1}"
+            contents:
+              - p: "_{Bless a creature (living or undead) with a touch of undeath, granting void healing or harming it with void damage.}"
+
+  - at: '@sorcerer/bloodline-spell/advanced'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Drain Life}"
+            cat: "_{Focus 4}"
+            contents:
+              - p: "_{Drain the life from a creature, dealing void damage and healing yourself for a portion of the damage dealt.}"
+
+  - at: '@sorcerer/bloodline-spell/greater'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Grasping Grave}"
+            cat: "_{Focus 8}"
+            contents:
+              - p: "_{Cause skeletal hands to burst from the ground, grasping and dragging down creatures in an area.}"
+
+  - at: '@sorcerer/spellbook/blood-magic'
+    replace:
+      - article:
+        title: "_{Stolen Life}"
+        contents:
+          - p: "_{Either gain temporary Hit Points equal to the spell's rank, lasting until the start of your next turn, or a target takes 1 void damage per spell rank (combine with the spell's own void damage before applying weaknesses and resistances).}"

@@ -1,0 +1,182 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/oracle/mystery/bones
+in: remaster/oracle/mystery
+group: "_{Player Core 2}"
+name: "_{Bones}"
+
+inc:
+  - set: subclass
+    value: "_{Bones}"
+  - set: oracle-mystery
+    value: "_{Bones}"
+
+  - set: medicine-proficiency
+    value: trained
+
+  - at: '@oracle/mystery/title'
+    replace:
+      - h4: "_{Bones}"
+
+  - set: oracle-mystery-skill
+    value: "_{Medicine}"
+  - set: oracle-mystery-domains
+    value: "_{Death, Decay*, Undeath, Vigil*}"
+  - set: oracle-mystery-feat
+    value: "_{Nudge the Scales}"
+
+  - set: oracle-revelation-spell-initial
+    value: "_{Soul Siphon}"
+  - set: oracle-revelation-spell-advanced
+    value: "_{Armor of Bones}"
+  - set: oracle-revelation-spell-greater
+    value: "_{Claim Undead}"
+
+  - at: '@oracle/spells-list/granted-cantrip'
+    replace:
+      - "_{Void Warp}"
+
+  - at: '@oracle/spells-list/granted-spells'
+    replace:
+      - "_{Grim Tendrils}"
+      - "_{False Vitality}"
+      - "_{Ghostly Weapon}"
+      - ""
+      - ""
+      - ""
+      - ""
+      - ""
+      - ""
+
+  - at: '@oracle/revelation-spell/initial'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Soul Siphon}"
+            cat: "_{Focus 1}"
+            contents:
+              - dl:
+                  range: "_{30ft}"
+                  target: "_{1 living creature}"
+                  save: "_{Fortitude}"
+              - p: "_{You gain temporary Hit Points equal to the total amount of HP the target loses, including the HP lost from becoming drained.}"
+              - calc:
+                output:
+                  field: "##:soul-siphon/damage"
+                  legend: "_{Void\nDamage}"
+                  width: large
+                  suffix: "_{d4}"
+                  icon: d4
+                  eq: "%{focus-level}"
+                inputs:
+                  - field:
+                    ref: focus-level
+                    label: "_{Focus Level}"
+              - paste: save
+                params:
+                  critical_success: "_{Unaffected.}"
+                  success: "_{Half damage.}"
+                  failure: "_{Full damage; drained 1.}"
+                  critical_failure: "_{Double damage; drained 2.}"
+
+  - at: '@oracle/revelation-spell/advanced'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Armor of Bones}"
+            cat: "_{Focus 3}"
+            contents:
+              - dl:
+                  duration: "_{1 minute}"
+              - p: "_{You ossify your physical form, mimicking the durability of bone.}"
+              - calc:
+                output:
+                  field: "##:armor-of-bones/resistance"
+                  legend: "_{Resistance to\ncold, electricity, fire,\npiercing, slashing}"
+                  width: large
+                  eq: "%{focus-level}"
+                inputs:
+                  - field:
+                    ref: focus-level
+                    label: "_{Focus Level}"
+
+  - at: '@oracle/revelation-spell/greater'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Claim Undead}"
+            cat: "_{Focus 6}"
+            contents:
+              - dl:
+                  range: "_{30ft}"
+                  target: "_{1 undead creature}"
+                  save: "_{Will}"
+                  duration: "_{10 minutes}"
+              - p: "_{You attempt to wrest control of a target undead, or force it to recognize you as its master. If the target is controlled by another creature, that controller attempts the save to retain control; otherwise, the target must attempt the save.}"
+              - paste: save
+                params:
+                  critical_success: "_{Unaffected.}"
+                  success: "_{Stunned 1 and confused for 1 round.}"
+                  failure: "_{Controlled by you and follows your orders. It can attempt a new save at the end of each of its turns; on a success, the spell ends and it becomes stunned 1 and confused for 1 round.}"
+                  critical_failure: "_{As failure, but a new save is only allowed if you give an order against its nature.}"
+
+  - at: '@oracle/mystery/curse-title'
+    replace:
+      - h4: "_{Curse of Living Death}"
+        size: small
+
+  - at: '@oracle/mystery/curse'
+    replace:
+      - flags:
+        contents:
+          - "_{Curse}"
+          - "_{Divine}"
+          - "_{Oracle}"
+          - "_{Void}"
+          - "_{Vitality}"
+      - list:
+        hr: true
+        light: true
+        contents:
+          - g:
+            contents:
+              - p:
+                title: "_{Cursebound 1}"
+                content: "_{You can be hurt by both vitality and void damage even if one or the other normally has no effect on you. Any immunity or resistance you have to vitality or void is suppressed.}"
+              - value-block: "2"
+                content: "_{Weakness to vitality and void damage}"
+          - g:
+            contents:
+              - p:
+                title: "_{Cursebound 2}"
+              - value-block: "-1"
+                content: "_{status penalty to Fortitude saves}"
+          - level: 11
+            contents:
+              - g:
+                contents:
+                  - p:
+                    title: "_{Cursebound 3}"
+                  - calc:
+                    output:
+                      field: oracle-mystery-bones-weakness
+                      legend: "_{Weakness to\nvitality and void}"
+                      width: large
+                      eq: "5+%{level}"
+                    inputs:
+                      - field:
+                        ref: level
+                        label: "_{Level}"
+          - level: 17
+            contents:
+              - g:
+                contents:
+                  - p:
+                    title: "_{Cursebound 4}"
+                  - value-block: "-2"
+                    content: "_{status penalty to Fortitude saving throws}"

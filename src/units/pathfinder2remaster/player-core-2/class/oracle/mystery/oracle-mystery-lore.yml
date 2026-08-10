@@ -1,0 +1,147 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/oracle/mystery/lore
+in: remaster/oracle/mystery
+group: "_{Player Core 2}"
+name: "_{Lore}"
+
+inc:
+  - set: subclass
+    value: "_{Lore}"
+  - set: oracle-mystery
+    value: "_{Lore}"
+
+  - set: occultism-proficiency
+    value: trained
+
+  - at: '@oracle/mystery/title'
+    replace:
+      - h4: "_{Lore}"
+
+  - set: oracle-mystery-skill
+    value: "_{Occultism}"
+  - set: oracle-mystery-domains
+    value: "_{Knowledge, Magic, Secrecy, Truth}"
+  - set: oracle-mystery-feat
+    value: "_{Whispers of Weakness}"
+
+  - at: '@oracle/mystery/skill'
+    replace:
+      - field: oracle-mystery-skill
+        icon: proficiency-trained
+        width: stretch
+        label: "_{Mystery Skill}"
+      - field: "##:oracle-mystery-lore-skill"
+        icon: proficiency-trained
+        width: stretch
+        label: "_{Lore Skill (choose one)}"
+
+  - set: oracle-revelation-spell-initial
+    value: "_{Brain Drain}"
+  - set: oracle-revelation-spell-advanced
+    value: "_{Access Lore}"
+  - set: oracle-revelation-spell-greater
+    value: "_{Dread Secret}"
+
+  - at: '@oracle/spells-list/granted-cantrip'
+    replace:
+      - "_{Read Aura}"
+
+  - at: '@oracle/spells-list/granted-spells'
+    replace:
+      - "_{Mindlink}"
+      - ""
+      - "_{Hypercognition}"
+      - ""
+      - ""
+      - "_{Never Mind}"
+      - ""
+      - ""
+      - ""
+
+  - at: '@oracle/revelation-spell/initial'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Brain Drain}"
+            cat: "_{Focus 1}"
+            contents:
+              - dl:
+                  range: "_{30ft}"
+                  target: "_{1 creature}"
+                  save: "_{Basic Will}"
+              - p: "_{You probe the target's mind to glean knowledge. If the target fails the save, you sort through the stolen memories to attempt a single check to Recall Knowledge. Choose a skill that has the Recall Knowledge action, and use the target's skill modifier for the check.}"
+              - calc:
+                output:
+                  field: "##:brain-drain/damage"
+                  legend: "_{Mental\nDamage}"
+                  width: large
+                  suffix: "_{d8}"
+                  icon: d8
+                  eq: "%{focus-level}"
+                inputs:
+                  - field:
+                    ref: focus-level
+                    label: "_{Focus Level}"
+
+  - at: '@oracle/revelation-spell/advanced'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Access Lore}"
+            cat: "_{Focus 3}"
+            contents:
+              - dl:
+                  duration: "_{1 minute}"
+              - p: "_{You sift through the multiverse's divine knowledge, seeking out tidbits related to a particular subject. Choose one Lore skill. You temporarily gain the same proficiency rank in that Lore skill as your proficiency rank for your oracle spellcasting.}"
+
+  - at: '@oracle/revelation-spell/greater'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Dread Secret}"
+            cat: "_{Focus 6}"
+            contents:
+              - dl:
+                  range: "_{60ft}"
+                  target: "_{Up to 6 creatures}"
+                  save: "_{Will}"
+                  duration: "_{Until the start of your next turn}"
+              - p: "_{You utter a powerful secret at odds with the fundamental nature of the target creatures. Choose a specific resistance or weakness with a numerical value that you believe one or more of the targets have due to Recall Knowledge or previous experience with the targets, such as resistance to fire or weakness to silver. If the information is incorrect for a given target, the spell has no effect on that target.}"
+              - paste: save
+                params:
+                  critical_success: "_{Unaffected.}"
+                  success: "_{If you chose a weakness, 1 damage of that type (triggering the weakness); if you chose a resistance, the creature loses that resistance until the end of your next turn.}"
+                  failure: "_{As success, and the creature becomes frightened 1.}"
+                  critical_failure: "_{As failure, but the creature becomes frightened 3.}"
+
+  - at: '@oracle/mystery/curse-title'
+    replace:
+      - h4: "_{Curse of Torrential Knowledge}"
+        size: small
+
+  - at: '@oracle/mystery/curse'
+    replace:
+      - flags:
+        contents:
+          - "_{Curse}"
+          - "_{Divine}"
+          - "_{Oracle}"
+      - p: "_{While cursebound, unasked-for knowledge floods your mind, giving a status penalty to Perception checks and Will saves. At cursebound 4, you also can't speak, use linguistic effects, or otherwise communicate, and are stupefied 1.}"
+      - row:
+        contents:
+          - calc:
+            output:
+              field: oracle-mystery-lore-penalty
+              legend: "_{Perception / Will\nPenalty}"
+              width: large
+              eq: "%{oracle-cursebound}"
+            inputs:
+              - field:
+                ref: oracle-cursebound
+                label: "_{Cursebound}"

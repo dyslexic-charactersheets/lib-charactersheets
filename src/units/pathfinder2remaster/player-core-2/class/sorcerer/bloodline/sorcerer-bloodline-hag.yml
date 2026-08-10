@@ -1,0 +1,87 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/sorcerer/bloodline/hag
+in: remaster/sorcerer/bloodline
+group: "_{Player Core 2}"
+name: "_{Hag}"
+
+inc:
+  - set: subclass
+    value: "_{Hag}"
+  - set: sorcerer-bloodline
+    value: "_{Hag}"
+
+  - set: deception-proficiency
+    value: trained
+  - set: occultism-proficiency
+    value: trained
+
+  - at: '@sorcerer/bloodline/title'
+    replace:
+      - h4: "_{Hag}"
+
+  - set: sorcerer-bloodline-tradition
+    value: "_{Occult}"
+  - set: sorcerer-bloodline-skills
+    value: "_{Deception, Occultism}"
+  - set: sorcerer-bloodline-spell-initial
+    value: "_{Jealous Hex}"
+  - set: sorcerer-bloodline-spell-advanced
+    value: "_{Horrific Visage}"
+  - set: sorcerer-bloodline-spell-greater
+    value: "_{You're Mine}"
+
+  - at: '@sorcerer/spells-list/granted-cantrip'
+    replace:
+      - "_{Daze}"
+
+  - at: '@sorcerer/spells-list/granted-spells'
+    replace:
+      - "_{Illusory Disguise}"
+      - "_{Stupefy}"
+      - "_{Blindness}"
+      - "_{Outcast's Curse}"
+      - "_{Mariner's Curse}"
+      - "_{Cursed Metamorphosis}"
+      - "_{Warp Mind}"
+      - "_{Quandary}"
+      - "_{Phantasmagoria}"
+
+  - at: '@sorcerer/bloodline-spell/initial'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Jealous Hex}"
+            cat: "_{Focus 1}"
+            contents:
+              - p: "_{Curse a creature that outshines you, dealing mental damage that worsens the more successful it's been.}"
+
+  - at: '@sorcerer/bloodline-spell/advanced'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Horrific Visage}"
+            cat: "_{Focus 4}"
+            contents:
+              - p: "_{Reveal your true, horrific visage, frightening creatures who see it.}"
+
+  - at: '@sorcerer/bloodline-spell/greater'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{You're Mine}"
+            cat: "_{Focus 8}"
+            contents:
+              - p: "_{Bewitch a creature, dominating its mind and forcing it to act on your behalf.}"
+
+  - at: '@sorcerer/spellbook/blood-magic'
+    replace:
+      - article:
+        title: "_{Retributive Spite}"
+        contents:
+          - p: "_{You deal 4 mental damage per spell rank (basic Will save) to the first creature that damages you before your next turn ends, or gain temporary Hit Points equal to the spell's rank (lasting until the turn after next) if none do.}"

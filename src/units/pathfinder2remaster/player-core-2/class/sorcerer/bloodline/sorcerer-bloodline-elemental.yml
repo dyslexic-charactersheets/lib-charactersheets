@@ -1,0 +1,106 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/sorcerer/bloodline/elemental
+in: remaster/sorcerer/bloodline
+group: "_{Player Core 2}"
+name: "_{Elemental}"
+
+form:
+  - select: remaster/sorcerer/bloodline/elemental/influence
+    name: "_{Elemental Influence}"
+    max: 1
+
+inc:
+  - set: subclass
+    value: "_{Elemental}"
+  - set: sorcerer-bloodline
+    value: "_{Elemental}"
+
+  - set: intimidation-proficiency
+    value: trained
+  - set: nature-proficiency
+    value: trained
+
+  - at: '@sorcerer/bloodline/title'
+    replace:
+      - h4: "_{Elemental}"
+
+  - set: sorcerer-bloodline-tradition
+    value: "_{Primal}"
+  - set: sorcerer-bloodline-skills
+    value: "_{Intimidation, Nature}"
+
+  - set: sorcerer-bloodline-spell-initial
+    value: "_{Elemental Toss}"
+  - set: sorcerer-bloodline-spell-advanced
+    value: "_{Elemental Motion}"
+  - set: sorcerer-bloodline-spell-greater
+    value: "_{Elemental Blast}"
+
+  - at: '@sorcerer/bloodline-spell/initial'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Elemental Toss}"
+            cat: "_{Focus 1}"
+            contents:
+              - p: "_{Hurl a chunk of your chosen element at a foe, dealing damage matching your elemental influence.}"
+
+  - at: '@sorcerer/bloodline-spell/advanced'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Elemental Motion}"
+            cat: "_{Focus 4}"
+            contents:
+              - p: "_{Move with the fluid grace of your element, gaining a swim, burrow, climb, or fly Speed depending on your influence.}"
+
+  - at: '@sorcerer/bloodline-spell/greater'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Elemental Blast}"
+            cat: "_{Focus 8}"
+            contents:
+              - p: "_{Unleash a devastating blast of your element in an area, dealing damage matching your elemental influence.}"
+
+  - at: '@sorcerer/spellbook/blood-magic'
+    replace:
+      - article:
+        title: "_{Elemental Fury}"
+        contents:
+          - p: "_{Elemental energy wreathes your form. Either gain a +2 status bonus to Intimidation checks for 1 round, or a target takes 1 damage per spell rank of the type listed under your elemental influence (combine with the spell's own damage of that type before applying weaknesses and resistances).}"
+
+  - at: '@sorcerer/bloodline/extra-field'
+    add:
+      - field: sorcerer-elemental-influence
+        label: "_{Influence}"
+        width: stretch
+        merge-bottom: true
+      - field: sorcerer-elemental-damage-type
+        label: "_{Damage Type}"
+        width: stretch
+        merge-bottom: true
+
+  - copy: sorcerer/elemental-influence/spells
+    contents:
+      - at: '@sorcerer/spells-list/granted-cantrip'
+        replace:
+          - "#{cantrip}"
+
+      - at: '@sorcerer/spells-list/granted-spells'
+        replace:
+          - "#{first}"
+          - "_{Resist Energy}"
+          - "#{third}"
+          - "_{Unfettered Movement}"
+          - "_{Elemental Form}"
+          - "#{sixth}"
+          - "_{Energy Aegis}"
+          - "_{Earthquake}"
+          - "_{Wrathful Storm}"

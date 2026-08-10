@@ -1,0 +1,144 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/oracle/mystery/flames
+in: remaster/oracle/mystery
+group: "_{Player Core 2}"
+name: "_{Flames}"
+
+inc:
+  - set: subclass
+    value: "_{Flames}"
+  - set: oracle-mystery
+    value: "_{Flames}"
+
+  - set: acrobatics-proficiency
+    value: trained
+
+  - at: '@oracle/mystery/title'
+    replace:
+      - h4: "_{Flames}"
+
+  - set: oracle-mystery-skill
+    value: "_{Acrobatics}"
+  - set: oracle-mystery-domains
+    value: "_{Dust*, Fire, Star*, Sun}"
+  - set: oracle-mystery-feat
+    value: "_{Foretell Harm}"
+
+  - set: oracle-revelation-spell-initial
+    value: "_{Incendiary Aura}"
+  - set: oracle-revelation-spell-advanced
+    value: "_{Whirling Flames}"
+  - set: oracle-revelation-spell-greater
+    value: "_{Flaming Fusillade}"
+
+  - at: '@oracle/spells-list/granted-cantrip'
+    replace:
+      - "_{Ignition}"
+
+  - at: '@oracle/spells-list/granted-spells'
+    replace:
+      - "_{Breathe Fire}"
+      - "_{Blazing Bolt}"
+      - "_{Fireball}"
+      - ""
+      - ""
+      - ""
+      - ""
+      - ""
+      - ""
+
+  - at: '@oracle/revelation-spell/initial'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Incendiary Aura}"
+            cat: "_{Focus 1}"
+            contents:
+              - dl:
+                  area: "_{10-foot emanation}"
+                  duration: "_{1 minute}"
+              - p: "_{You surround yourself with a combustible aura. Each time a creature within the emanation takes fire damage, it catches on fire.}"
+              - calc:
+                output:
+                  field: "##:incendiary-aura/damage"
+                  legend: "_{Persistent\nFire Damage}"
+                  width: large
+                  suffix: "_{d4}"
+                  icon: d4
+                  eq: "floor((%{focus-level}-1)/2)+2"
+                inputs:
+                  - field:
+                    ref: focus-level
+                    label: "_{Focus Level}"
+              - p: "_{Heightened (+2): the emanation's radius also increases by 5 feet.}"
+
+  - at: '@oracle/revelation-spell/advanced'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Whirling Flames}"
+            cat: "_{Focus 3}"
+            contents:
+              - dl:
+                  range: "_{30ft}"
+                  area: "_{Up to two 5-foot bursts that don't overlap}"
+                  save: "_{Basic Reflex}"
+              - p: "_{You call forth a storm of whirling flames, engulfing all creatures in that area.}"
+              - calc:
+                output:
+                  field: "##:whirling-flames/damage"
+                  legend: "_{Fire\nDamage}"
+                  width: large
+                  suffix: "_{d6}"
+                  icon: d6
+                  eq: "floor((%{focus-level}-3)/2)*3+5"
+                inputs:
+                  - field:
+                    ref: focus-level
+                    label: "_{Focus Level}"
+              - p: "_{Heightened (+2): you can add another nonoverlapping 5-foot burst to the area.}"
+
+  - at: '@oracle/revelation-spell/greater'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Flaming Fusillade}"
+            cat: "_{Focus 6}"
+            contents:
+              - dl:
+                  duration: "_{1 minute}"
+              - p: "_{You call upon an endless barrage of flames, a series of explosions bursting around you like miniature suns. You cast Ignition as part of casting Flaming Fusillade. For the duration, Ignition's casting time is reduced from 2 actions to 1.}"
+              - p: "_{Heightened (9th): For the duration, you also gain a status bonus to damage dealt by Ignition equal to Flaming Fusillade's spell rank.}"
+
+  - at: '@oracle/mystery/curse-title'
+    replace:
+      - h4: "_{Curse of Engulfing Flames}"
+        size: small
+
+  - at: '@oracle/mystery/curse'
+    replace:
+      - flags:
+        contents:
+          - "_{Curse}"
+          - "_{Divine}"
+          - "_{Fire}"
+          - "_{Oracle}"
+      - p: "_{While cursebound, you catch fire, taking persistent fire damage; the flames shed light like a torch, or flameless heat if they can't burn (such as underwater). They subside when you begin Refocusing or fall unconscious, and resume if that Refocus is interrupted or you regain consciousness.}"
+      - row:
+        contents:
+          - calc:
+            output:
+              field: oracle-mystery-flames-persistent-damage
+              legend: "_{Persistent Fire\nDamage}"
+              width: large
+              eq: "%{oracle-cursebound}"
+            inputs:
+              - field:
+                ref: oracle-cursebound
+                label: "_{Cursebound}"

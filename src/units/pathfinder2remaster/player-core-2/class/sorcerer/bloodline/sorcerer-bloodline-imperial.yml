@@ -1,0 +1,87 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/sorcerer/bloodline/imperial
+in: remaster/sorcerer/bloodline
+group: "_{Player Core 2}"
+name: "_{Imperial}"
+
+inc:
+  - set: subclass
+    value: "_{Imperial}"
+  - set: sorcerer-bloodline
+    value: "_{Imperial}"
+
+  - set: arcana-proficiency
+    value: trained
+  - set: society-proficiency
+    value: trained
+
+  - at: '@sorcerer/bloodline/title'
+    replace:
+      - h4: "_{Imperial}"
+
+  - set: sorcerer-bloodline-tradition
+    value: "_{Arcane}"
+  - set: sorcerer-bloodline-skills
+    value: "_{Arcana, Society}"
+  - set: sorcerer-bloodline-spell-initial
+    value: "_{Ancestral Memories}"
+  - set: sorcerer-bloodline-spell-advanced
+    value: "_{Extend Blood Magic}"
+  - set: sorcerer-bloodline-spell-greater
+    value: "_{Arcane Countermeasure}"
+
+  - at: '@sorcerer/spells-list/granted-cantrip'
+    replace:
+      - "_{Detect Magic}"
+
+  - at: '@sorcerer/spells-list/granted-spells'
+    replace:
+      - "_{Force Barrage}"
+      - "_{Dispel Magic}"
+      - "_{Haste}"
+      - "_{Translocate}"
+      - "_{Scouting Eye}"
+      - "_{Disintegrate}"
+      - "_{Retrocognition}"
+      - "_{Quandary}"
+      - "_{Implosion}"
+
+  - at: '@sorcerer/bloodline-spell/initial'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Ancestral Memories}"
+            cat: "_{Focus 1}"
+            contents:
+              - p: "_{Call upon the memories of your ancestor's mastery, gaining a bonus to a skill you're untrained in.}"
+
+  - at: '@sorcerer/bloodline-spell/advanced'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Extend Blood Magic}"
+            cat: "_{Focus 4}"
+            contents:
+              - p: "_{Prolong the duration of your blood magic effect, keeping it active for longer than normal.}"
+
+  - at: '@sorcerer/bloodline-spell/greater'
+    replace:
+      - action: reaction
+        contents:
+          - article:
+            title: "_{Arcane Countermeasure}"
+            cat: "_{Focus 8}"
+            contents:
+              - p: "_{Weave a ward of arcane power to counter an incoming spell.}"
+
+  - at: '@sorcerer/spellbook/blood-magic'
+    replace:
+      - article:
+        title: "_{Imperious Defense}"
+        contents:
+          - p: "_{Raw magic emanates from every cell in your body, protecting you. Until the start of your next turn, gain a +1 status bonus to AC or to saving throws.}"

@@ -1,0 +1,160 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/oracle/mystery/battle
+in: remaster/oracle/mystery
+group: "_{Player Core 2}"
+name: "_{Battle}"
+
+inc:
+  - set: subclass
+    value: "_{Battle}"
+  - set: oracle-mystery
+    value: "_{Battle}"
+
+  - set: athletics-proficiency
+    value: trained
+
+  - at: '@oracle/mystery/title'
+    replace:
+      - h4: "_{Battle}"
+
+  - set: oracle-mystery-skill
+    value: "_{Athletics}"
+  - set: oracle-mystery-domains
+    value: "_{Destruction, Might, Protection, Zeal}"
+  - set: oracle-mystery-feat
+    value: "_{Oracular Warning}"
+
+  - set: oracle-revelation-spell-initial
+    value: "_{Weapon Trance}"
+  - set: oracle-revelation-spell-advanced
+    value: "_{Battlefield Persistence}"
+  - set: oracle-revelation-spell-greater
+    value: "_{Revel in Retribution}"
+
+  - at: '@oracle/spells-list/granted-cantrip'
+    replace:
+      - "_{Shield}"
+
+  - at: '@oracle/spells-list/granted-spells'
+    replace:
+      - "_{Sure Strike}"
+      - "_{Telekinetic Maneuver}"
+      - ""
+      - "_{Weapon Storm}"
+      - ""
+      - ""
+      - ""
+      - ""
+      - ""
+
+  - at: '@oracle/revelation-spell/initial'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Weapon Trance}"
+            cat: "_{Focus 1}"
+            contents:
+              - dl:
+                  duration: "_{Sustained up to 1 minute; see text}"
+              - p: "_{The serenity of violence fills your mind, giving you a heightened sense of knowing exactly where your weapons need to be.}"
+              - p: "_{For the duration, your proficiency with martial weapons is equal to your proficiency with simple weapons. You automatically Sustain this spell as a free action the first time you hit with a weapon Strike each round.}"
+
+  - at: '@oracle/revelation-spell/advanced'
+    replace:
+      - action: reaction
+        contents:
+          - article:
+            title: "_{Battlefield Persistence}"
+            cat: "_{Focus 3}"
+            contents:
+              - dl:
+                  trigger: "_{You are about to attempt a saving throw, but you haven't rolled yet}"
+              - p: "_{You're difficult to deter in battle.}"
+              - value-block: "+2"
+                content: "_{Status bonus to the triggering save}"
+              - p: "_{If the triggering save is against an incapacitation effect, it treats you as if you were 2 levels higher.}"
+
+  - at: '@oracle/revelation-spell/greater'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Revel in Retribution}"
+            cat: "_{Focus 6}"
+            contents:
+              - dl:
+                  duration: "_{1 minute}"
+              - p: "_{Time seems to slow for you, allowing you to strike your opponents mid-move.}"
+              - p: "_{You gain the Reactive Strike ability, and you immediately gain a second reaction that you can use only to use Reactive Strike. At the start of each of your subsequent turns when you regain your actions, you gain an additional reaction that can be used only to attempt a Reactive Strike.}"
+              - p: "_{Lashing out at a defenseless enemy invigorates you with the thrill of combat, granting you temporary Hit Points whenever you successfully hit with a Reactive Strike, lasting for the spell's duration.}"
+              - row:
+                contents:
+                  - calc:
+                    output:
+                      field: oracle-mystery-battle-revel-in-retribution-temp-hp
+                      legend: "_{Temporary HP}"
+                      width: large
+                      eq: "%{focus-level}-1"
+                    inputs:
+                      - field:
+                        label: "_{Focus Level}"
+                        ref: focus-level
+                      - span: "- 1"
+
+  - at: '@oracle/mystery/curse-title'
+    replace:
+      - h4: "_{Curse of the Mortal Warrior}"
+        size: small
+
+  - at: '@oracle/mystery/curse'
+    replace:
+      - flags:
+        contents:
+          - "_{Curse}"
+          - "_{Divine}"
+          - "_{Oracle}"
+      - list:
+        hr: true
+        light: true
+        contents:
+          - g:
+            contents:
+              - p:
+                title: "_{Cursebound 1}"
+                content: "_{Any immunity or resistance you have to spells is suppressed. This applies only to spells, not other magical abilities.}"
+              - value-block: "2"
+                content: "_{Weakness to any damage dealt by a spell}"
+          - g:
+            contents:
+              - p:
+                title: "_{Cursebound 2}"
+              - value-block: "-1"
+                content: "_{status penalty to saving throws against spells}"
+          - level: 11
+            contents:
+              - g:
+                contents:
+                  - p:
+                    title: "_{Cursebound 3}"
+                  - calc:
+                    output:
+                      field: oracle-mystery-battle-weakness
+                      legend: "_{Weakness to spells}"
+                      width: large
+                      eq: "%{level}"
+                    inputs:
+                      - field:
+                        ref: level
+                        label: "_{Level}"
+          - level: 17
+            contents:
+              - g:
+                contents:
+                  - p:
+                    title: "_{Cursebound 4}"
+                  - value-block: "-2"
+                    content: "_{status penalty to saving throws against spells}"

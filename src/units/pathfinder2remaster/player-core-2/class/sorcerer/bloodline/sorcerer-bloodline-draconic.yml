@@ -1,0 +1,95 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/sorcerer/bloodline/draconic
+in: remaster/sorcerer/bloodline
+group: "_{Player Core 2}"
+name: "_{Draconic}"
+
+form:
+  - select: remaster/sorcerer/bloodline/draconic/exemplar
+    name: "_{Draconic Exemplar}"
+    max: 1
+
+inc:
+  - set: subclass
+    value: "_{Draconic}"
+  - set: sorcerer-bloodline
+    value: "_{Draconic}"
+
+  - set: intimidation-proficiency
+    value: trained
+
+  - at: '@sorcerer/bloodline/title'
+    replace:
+      - h4: "_{Draconic}"
+
+  - set: sorcerer-bloodline-spell-initial
+    value: "_{Flurry of Claws}"
+  - set: sorcerer-bloodline-spell-advanced
+    value: "_{Dragon Breath}"
+  - set: sorcerer-bloodline-spell-greater
+    value: "_{Dragon Wings}"
+
+  - at: '@sorcerer/bloodline-spell/initial'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Flurry of Claws}"
+            cat: "_{Focus 1}"
+            contents:
+              - p: "_{Grow draconic claws and rake a foe with them.}"
+
+  - at: '@sorcerer/bloodline-spell/advanced'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Dragon Breath}"
+            cat: "_{Focus 4}"
+            contents:
+              - p: "_{Exhale a cone or line of energy matching your draconic exemplar's tradition.}"
+
+  - at: '@sorcerer/bloodline-spell/greater'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Dragon Wings}"
+            cat: "_{Focus 8}"
+            contents:
+              - p: "_{Sprout draconic wings, gaining a fly Speed for a short time.}"
+
+  - at: '@sorcerer/spellbook/blood-magic'
+    replace:
+      - article:
+        title: "_{Scaly Hide}"
+        contents:
+          - p: "_{Draconic scales grow briefly on you or one target, granting a +1 status bonus to AC for 1 round.}"
+
+  - at: '@sorcerer/bloodline/extra-field'
+    add:
+      - field: sorcerer-draconic-exemplar
+        label: "_{Exemplar}"
+        width: stretch
+        merge-bottom: true
+
+  - copy: sorcerer/draconic-exemplar/spells
+    contents:
+      - at: '@sorcerer/spells-list/granted-cantrip'
+        replace:
+          - "_{Shield}"
+
+      - at: '@sorcerer/spells-list/granted-spells'
+        replace:
+          - "_{Fear}"
+          - "#{second}"
+          - "_{Haste}"
+          - "_{Fly}"
+          - "#{fifth}"
+          - "_{Dragon Form}"
+          - "_{Mask of Terror}"
+          - "#{eighth}"
+          - "_{Overwhelming Presence}"

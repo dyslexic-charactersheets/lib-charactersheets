@@ -1,0 +1,116 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: monk/stance/remaster/cobra
+in: monk/stance
+level: 4
+group: "_{Player Core 2}"
+name: "_{Cobra Stance}"
+
+require:
+  - unit: class/remaster/monk/defs
+
+inc:
+  - copy: monk/stance/cobra
+    contents:
+      - g:
+        name: "_{Cobra Stance}"
+        contents:
+          - selectable: monk/stance/cobra
+            contents:
+              - paste: monk/stance
+                params:
+                  id: cobra
+                  title: "_{Cobra Stance}"
+                contents:
+                  - row:
+                    contents:
+                      - field: monk/stance/cobra/fortitude
+                        label: "_{Fortitude Bonus}"
+                        control: value
+                        value: "+1"
+                      - field: monk/stance/cobra/poison-resistance
+                        label: "_{Poison Resistance (half level)}"
+                        width: stretch
+
+          - paste: monk/stance-attack/dex
+            params:
+              id: cobra-fang
+              name: "_{Cobra Fang Attack}"
+              dmg: "_{d4}"
+              type: "_{P}"
+            contents:
+              - flags:
+                  - "_{Agile}"
+                  - "_{Deadly d10}"
+                  - "_{Finesse}"
+                  - "_{Unarmed}"
+                  - "_{Venomous}"
+
+          - selectable: monk/stance/cobra/envenom
+            contents:
+              - article:
+                title: "_{Cobra Envenom}"
+                cat: "_{Feat}"
+                contents:
+                  - action: 1
+                    contents:
+                      - row:
+                        contents:
+                          - value: "_{+5ft}"
+                            label: "_{Reach Bonus}"
+                            frame: above
+                            width: large
+                          - value: "_{1d4}"
+                            label: "_{Persistent Poison}"
+                            frame: above
+                            width: large
+                          - p: "_{Make a cobra fang Strike. Deal 1d4 persistent poison damage per weapon damage die.}"
+                      - row:
+                        contents:
+                          - value: "_{+2}"
+                            label: "_{Fortitude Bonus}"
+                            frame: above
+                            width: large
+                          - p: "_{Upgrade your Cobra Stance Fortitude bonus.}"
+                            optional: true
+
+  - at: '@monk/stances'
+    add:
+      - paste: monk/stance/cobra
+
+  - at: '@monk/stance-actions'
+    add:
+      - action:
+        order: 2
+        contents:
+          - p:
+            title: "_{Cobra Stance}"
+            content: "_{Coil tightly, hands poised as venomous fangs. Make cobra fang attacks.}"
+      - action:
+        order: 3
+        contents:
+          - row:
+            contents:
+              - p:
+                title: "_{Cobra Fang Attack}"
+                content: "_{Unarmed attack that deals piercing damage.}"
+              - field: cobra-fang-damage
+                label: "_{Damage}"
+                control: value
+                value: "d4"
+
+  - at: '@reference/actions'
+    add:
+      - action:
+        contents:
+          - p:
+            title: "_{Cobra Stance}"
+            content: "_{Coil tightly, hands poised as venomous fangs. Make cobra fang attacks.}"
+
+  - at: '@reference/weapon-traits'
+    add:
+      - agile
+      - finesse
+      - unarmed

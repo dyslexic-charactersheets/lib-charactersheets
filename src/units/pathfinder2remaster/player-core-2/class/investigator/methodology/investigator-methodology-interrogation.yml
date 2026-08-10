@@ -1,0 +1,62 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/investigator/methodology/interrogation
+in: remaster/investigator/methodology
+group: "_{Player Core 2}"
+name: "_{Interrogation}"
+
+inc:
+  - set: subclass
+    value: "_{Interrogation}"
+
+  - set: investigator-methodology
+    value: "_{Interrogation}"
+  - set: diplomacy-proficiency
+    value: trained
+
+  - at: '@investigator/methodology'
+    replace:
+      - h4: "_{Interrogation}"
+      - hr:
+        swash: true
+      - layout: 2e
+        contents:
+          - g:
+            contents:
+              - p: "_{You can Pursue a Lead while Making an Impression, if you ask about the creature or the conversation's topic.}"
+
+              - action:
+                contents:
+                  - article:
+                    title: "_{Pointed Question}"
+                    contents:
+                      - p: "_{Once per hour, make a Diplomacy check against a creature's Will DC to ask a question.}"
+                      - dl:
+                        div: true
+                        defs:
+                          critical_success: "_Target must directly answer your question. +4 to your Perception DC if it later tries to Lie to you. It's off-guard to your Strikes from Devise a Stratagem until the end of your turn.}"
+                          success: "_{As critical success, but +2 to your Perception DC.}"
+                          failure: "_{Target can refuse to answer.}"
+                          critical_failure: "_{Target can refuse to answer, and its attitude becomes one step less friendly.}"
+
+          - g:
+            contents:
+              - p:
+                icon: proficiency-trained
+                title: "_{Diplomacy}"
+
+              - h5: "_{Skill Feat}"
+              - action: 3
+                contents:
+                  - article:
+                    title: "_{No Cause for Alarm}"
+                    contents:
+                      - p: "_{Make a Diplomacy check against the Will DC of frightened creatures within 10 feet.}"
+                      - dl:
+                        div: true
+                        defs:
+                          critical_success: "_{Reduce frightened by 2}"
+                          success: "_{Reduce frightened by 1}"
+              - spacer:

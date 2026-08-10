@@ -2,40 +2,7 @@
 
 // node test/generate-character.js --<flags>
 // node generate --flag1 arg1,arg2,arg3,...,argN --flag2 arg
-// via npm: npm run generate -- --flag1 arg1 --flag2 arg2
-//          !!! the "--" before the flags is required, otherwise npm swallows them !!!
-//
-// accepted separators: , ; |
-//
-// single-arg:
-// --name <arg>                           | --name Alex
-//
-// multi-arg:
-// --ancestry                             | --ancestry elf
-// --heritage                             | --heritage half-elf
-// --background                           | --background noble
-// --class                                | --class oracle,cleric          // two files, one per class
-//                                        | --class oracle --class cleric  // same as above
-// --feat                                 | --feat diehard,toughness     
-// --archetype                            | --archetype wizard,fighter  
-// --language                             | --language en,fr,it
-// --game                                 | --game pathfinder2,pathfinder2remaster
-//
-// --subclass                             | works like --class but is limited to the subclasses of
-//                                          a single class (needs exactly one --class to be picked)
-//
-// --limit <integer>                      | limit the number of files that can generate at once above default
-// --kwargs key=value                     | overwrite any attribute
-// --render                               | create test/out/html/<filename>.html
-// --page                                 | only keep these pages (1 = the character page,
-//                                          then combat/feats/class/etc) + 0, -1, -2... allow to
-//                                          access pages before, may be non-consecutive: --page -1,2,6
-// --open                                 | autoopen rendered file
-// --out <name>                           | when only one file is generated, this replaces the filename
-//                                          when multiple values generate fileS, it's a prefix instead
-// --no-build                             | no library rebuild (faster if no changes)
-// --list <subgroup>                      | list all valid values for 
-//                                          ancestry/heritage/background/class/subclass/archetype/language
+// via npm: npm run generate -- --help
 
 const fs = require('fs');
 const path = require('path');
@@ -54,6 +21,53 @@ const DEFAULT_LIMIT = 200;
 const DEFAULT_CHARSHEET_PREFIX = 'charsheet';
 const REMASTER_PREFIX = 'remaster-'
 const SEPARATORS = ",;|"
+
+const HELP_TEXT = `
+node test/generate-character.js --<flags>
+node generate --flag1 arg1,arg2,arg3,...,argN --flag2 arg
+via npm: npm run generate -- --flag1 arg1 --flag2 arg2
+         !!! the "--" before the flags is required, otherwise npm swallows them !!!
+
+accepted separators: , ; |
+
+single-arg:
+--name <arg>                           | --name Alex
+
+multi-arg:
+--ancestry                             | --ancestry elf
+--heritage                             | --heritage half-elf
+--background                           | --background noble
+--class                                | --class oracle,cleric          // two files, one per class
+                                        | --class oracle --class cleric  // same as above
+--feat                                 | --feat diehard,toughness
+--archetype                            | --archetype wizard,fighter
+--language                             | --language en,fr,it
+--game                                 | --game pathfinder2,pathfinder2remaster
+
+--subclass                             | works like --class but is limited to the subclasses of
+                                         a single class (needs exactly one --class to be picked)
+
+--limit <integer>                      | limit the number of files that can generate at once above default
+--kwargs key=value                     | overwrite any attribute
+--render                               | create test/out/html/<filename>.html
+--page                                 | only keep these pages (1 = the character page,
+                                         then combat/feats/class/etc) + 0, -1, -2... allow to
+                                         access pages before, may be non-consecutive: --page -1,2,6
+--open                                 | autoopen rendered file
+--out <name>                           | when only one file is generated, this replaces the filename
+                                         when multiple values generate fileS, it's a prefix instead
+--no-build                             | no library rebuild (faster if no changes)
+--list <subgroup>                      | list all valid values for
+                                         ancestry/heritage/background/class/subclass/archetype/language
+--clean                                | delete everything in test/out (json + html) and exit,
+                                         without generating anything
+--purge                                | delete everything in test/out (json + html) before
+                                         generating this run's files
+`;
+
+function printHelp() {
+  console.log(HELP_TEXT);
+}
 
 function loadConfig() {
   return JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8'));
@@ -84,11 +98,21 @@ function resolveValue(slot, input) {
     || slot.values.find(v => removeTranslationKey(v.name).toLowerCase() === needle);
 }
 
+class GenerateCharacterError extends Error {}
+class UnknownFlagError extends GenerateCharacterError {}
+class UnknownValueError extends GenerateCharacterError {}
+class UnknownLanguageError extends GenerateCharacterError {}
+class UnresolvedSubclassError extends GenerateCharacterError {}
+class SubclassRequiresSingleClassError extends GenerateCharacterError {}
+class ListRequiresSingleAncestryError extends GenerateCharacterError {}
+class ListRequiresSingleClassError extends GenerateCharacterError {}
+class UnknownListGroupError extends GenerateCharacterError {}
+class ComboLimitExceededError extends GenerateCharacterError {}
+
 function resolveOrExit(slot, input, label) {
   const value = resolveValue(slot, input);
   if (!value) {
-    console.error(`generate-character: unknown ${label} "${input}"`);
-    process.exit(1);
+    throw new UnknownValueError(`unknown ${label} "${input}"`);
   }
   return value;
 }
@@ -100,8 +124,7 @@ function resolveLanguage(data, input) {
 function resolveLanguageOrExit(data, input) {
   const value = resolveLanguage(data, input);
   if (!value) {
-    console.error(`generate-character: unknown language "${input}"`);
-    process.exit(1);
+    throw new UnknownLanguageError(`unknown language "${input}"`);
   }
   return value;
 }
@@ -139,7 +162,9 @@ function cartesian(axesValues) {
 const BOOLEAN_FLAGS = new Set([
   'render',
   'open',
-  'no-build'
+  'no-build',
+  'clean',
+  'purge',
 ]);
 
 function parseArgs(argv) {
@@ -199,7 +224,9 @@ function parseArgs(argv) {
       case 'render': args.render = true; break;
       case 'open': args.open = true; break;
       case 'no-build': args.noBuild = true; break;
-      default: console.error(`generate-character: unknown flag --${key}`); process.exit(1);
+      case 'clean': args.clean = true; break;
+      case 'purge': args.purge = true; break;
+      default: throw new UnknownFlagError(`unknown flag --${key}`);
     }
   }
 
@@ -235,12 +262,22 @@ function attributesForIdentity(identity, config, game) {
   attributes.classes = classValues.map(cv => cv.id);
 
   // subclass,
-  classValues.forEach(classValue => {
-    const [subclassSlotName] = subclassSlotsOf(classValue);
-    if (!subclassSlotName) return;
-    const subclassCode = identity.subclasses[removeRemasterPrefix(classValue.code)];
-    if (!subclassCode) return;
-    attributes[subclassSlotName] = resolveOrExit(findSlot(data, subclassSlotName), subclassCode, 'subclass').id;
+  classValues.forEach((classValue, i) => {
+    const slotNames = subclassSlotsOf(classValue);
+    if (!slotNames.length) return;
+    const originalCode = identity.classes[i];
+    const rawSubclass = identity.subclasses[originalCode] ?? identity.subclasses[removeRemasterPrefix(classValue.code)];
+    if (!rawSubclass) return;
+    const subclassCodes = Array.isArray(rawSubclass) ? rawSubclass : [rawSubclass];
+    subclassCodes.forEach(subclassCode => {
+      const subclassSlotName = slotNames.find(name => resolveValue(findSlot(data, name), subclassCode));
+      if (!subclassSlotName) {
+        throw new UnresolvedSubclassError(
+          `subclass "${subclassCode}" not found for class "${removeTranslationKey(classValue.name)}" in ${game}`
+        );
+      }
+      attributes[subclassSlotName] = resolveValue(findSlot(data, subclassSlotName), subclassCode).id;
+    });
   });
 
   // feats
@@ -296,6 +333,13 @@ function writeRequestFile(name, request) {
 // TBD: filter/group by certain character traits more easily (???)
 // TBD: add support for multiclassing and multiple types of the 
 // same attribute being parsed as a single character at once
+
+function cleanOutDir() {
+  [JSON_DIR, HTML_DIR].forEach(dir => {
+    fs.rmSync(dir, { recursive: true, force: true });
+    console.log(`Cleaned ${path.relative(process.cwd(), dir)}`);
+  });
+}
 
 // send the rebuild to existing build script
 function rebuildLibrary(noBuild) {
@@ -429,8 +473,7 @@ function runList(args, game) {
 
   if (args.list === 'heritage') {
     if (args.ancestries.length !== 1) {
-      console.error('generate-character: --list heritage needs exactly one --ancestry');
-      process.exit(1);
+      throw new ListRequiresSingleAncestryError('--list heritage needs exactly one --ancestry');
     }
     const ancestryValue = resolveOrExit(findSlot(data, 'ancestry'), args.ancestries[0], 'ancestry');
     const heritageSlotName = ancestryValue.selects.find(n => n.startsWith('heritage/'));
@@ -440,8 +483,7 @@ function runList(args, game) {
 
   if (args.list === 'subclass') {
     if (args.classes.length !== 1) {
-      console.error('generate-character: --list subclass needs exactly one --class');
-      process.exit(1);
+      throw new ListRequiresSingleClassError('--list subclass needs exactly one --class');
     }
     const classValue = resolveOrExit(findSlot(data, 'class'), args.classes[0], 'class');
     const slotNames = subclassSlotsOf(classValue);
@@ -457,8 +499,7 @@ function runList(args, game) {
     return;
   }
 
-  console.error(`generate-character: --list ${args.list} uses ancestry, heritage, background, class, subclass, archetype, or language`);
-  process.exit(1);
+  throw new UnknownListGroupError(`--list ${args.list} uses ancestry, heritage, background, class, subclass, archetype, or language`);
 }
 
 function checkSubclassNeedsOneClass(classVariants, identityClasses, subclassSpecs) {
@@ -468,8 +509,7 @@ function checkSubclassNeedsOneClass(classVariants, identityClasses, subclassSpec
     ? identityClasses.length
     : classVariants.length;
   if (classCount !== 1) {
-    console.error('generate-character: --subclass needs exactly one class');
-    process.exit(1);
+    throw new SubclassRequiresSingleClassError('--subclass needs exactly one class');
   }
 }
 
@@ -521,8 +561,7 @@ function buildCombos(games, variants, identity, args) {
 
 function checkComboLimit(combos, limit) {
   if (combos.length > limit) {
-    console.error(`generate-character: this would generate ${combos.length} new charsheets. Your computer wouldn't like it, so increase the limit to proceed. You can use --limit <integer> for that.`);
-    process.exit(1);
+    throw new ComboLimitExceededError(`this would generate ${combos.length} new charsheets. Your computer wouldn't like it, so increase the limit to proceed. You can use --limit <integer> for that.`);
   }
 }
 
@@ -585,24 +624,47 @@ function buildRequests(combos, identity, config, args) {
 
   return combos.map(combo => {
     const comboIdentity = comboIdentityFor(combo, identity);
-    const attributes = attributesForIdentity(comboIdentity, config, combo.game);
+    let attributes;
+    try {
+      attributes = attributesForIdentity(comboIdentity, config, combo.game);
+    } catch (err) {
+      if (!(err instanceof UnresolvedSubclassError)) throw err;
+      console.error(`generate-character: skipping - ${err.message}`);
+      return null;
+    }
     applyKwargs(attributes, args.kwargs);
 
     const name = nameForCombo(combo, args, identity, multi, multiFlags);
     return { name, request: buildRequest(attributes) };
-  });
+  }).filter(Boolean);
 }
 
-function main() {
-  const args = parseArgs(process.argv.slice(2));
+async function main() {
+  const argv = process.argv.slice(2);
+  if (argv.includes('--help') || argv.includes('-h')) {
+    printHelp();
+    return Promise.resolve();
+  }
+
+  const args = parseArgs(argv);
+
+  if (args.clean) {
+    cleanOutDir();
+    return Promise.resolve();
+  }
+
   const config = loadConfig();
   const games = resolveGames(args, config);
-  
+
   rebuildLibrary(args.noBuild);
 
   if (args.list) {
     runList(args, games[0]);
     return Promise.resolve();
+  }
+
+  if (args.purge) {
+    cleanOutDir();
   }
 
   const identity = { ...config.identity };
@@ -613,6 +675,9 @@ function main() {
   checkComboLimit(combos, args.limit || DEFAULT_LIMIT);
 
   const requests = buildRequests(combos, identity, config, args);
+  if (requests.length < combos.length) {
+    console.error(`generate-character: ${requests.length}/${combos.length} combo(s) generated, ${combos.length - requests.length} skipped`);
+  }
   requests.forEach(({ name, request }) => writeRequestFile(name, request));
 
   if (!args.render) {
@@ -623,6 +688,10 @@ function main() {
 }
 
 main().catch(err => {
-  console.error(err);
+  if (err instanceof GenerateCharacterError) {
+    console.error(`generate-character: ${err.message}`);
+  } else {
+    console.error(err);
+  }
   process.exit(1);
 });

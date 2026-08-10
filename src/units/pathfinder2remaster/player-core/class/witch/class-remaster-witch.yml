@@ -38,6 +38,8 @@ inc:
 
       perception: trained
       unarmoured: trained
+      unarmed: trained
+      simple-weapons: trained
 
       fortitude: trained
       reflex: trained
@@ -57,6 +59,8 @@ inc:
         gain: "_{Patron}"
       - level: 1
         gain: "_{Familiar}"
+      - level: 1
+        gain: "_{Hexes}"
       - levels: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 ]
         spell-level: [ "_{1st}", "_{1st}", "_{2nd}", "_{2nd}", "_{3rd}", "_{3rd}", "_{4th}", "_{4th}", "_{5th}", "_{5th}", "_{6th}", "_{6th}", "_{7th}", "_{7th}", "_{8th}", "_{8th}", "_{9th}", "_{9th}", "_{10th}" ]
         spell-num: [ 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1 ]
@@ -87,6 +91,8 @@ inc:
       - level: 13
         advance: "_{Unarmoured defence}"
         proficiency: expert
+      - level: 13
+        advance: "_{Weapon Specialization}"
       - level: 15
         advance: "_{Spell attacks and DCs}"
         proficiency: master
@@ -182,29 +188,66 @@ inc:
                           heighten: "_{Hexes heighten automatically}"
 
                       - hr:
-                      - article:
-                        title: "_{Phase Familiar}"
-                        cat: "_{Focus} 1"
+                      - p: "_{Choose one hex at 1st level:}"
+                      - list:
+                        hr: true
                         contents:
-                          - action: reaction
+                          - layout: indent-l
                             contents:
-                              - dl:
-                                  trigger: "_{Your familiar would take damage}"
-                                  range: "_{60ft}"
-                              - p: "Your familiar becomes an ephemeral version of itself shaped of mist. It is immune to precision damage and gains damage resistance against this attack:"
-                              - calc:
+                              - g:
+                                contents:
+                                  - field: witch/starting-hex
+                                    control: radio
+                                    value: puppet
+                                    frame: none
+                              - g:
                                 pad: true
-                                output:
-                                  field: witch/phase-familiar/damage-reduction
-                                  width: large
-                                  legend: "_{Damage Resistance}"
-                                  eq: "3+(%{focus-level}*2)"
-                                inputs:
-                                  - span: "3 + ("
-                                  - field:
-                                    ref: focus-level
-                                    label: "_{Focus Level}"
-                                  - span: "&times; 2 )"
+                                contents:
+                                  - article:
+                                    title: "_{Patron's Puppet}"
+                                    cat: "_{Focus} 1"
+                                    contents:
+                                      - action: free
+                                        contents:
+                                          - dl:
+                                              trigger: "_{Your turn begins}"
+                                          - p: "_{At your unspoken plea, your patron takes control of your familiar and Commands it to take its normal actions this turn. This Command doesn't have the auditory or concentrate traits.}"
+
+                          - layout: indent-l
+                            contents:
+                              - g:
+                                contents:
+                                  - field: witch/starting-hex
+                                    control: radio
+                                    value: phase-familiar
+                                    frame: none
+                              - g:
+                                pad: true
+                                contents:
+                                  - article:
+                                    title: "_{Phase Familiar}"
+                                    cat: "_{Focus} 1"
+                                    contents:
+                                      - action: reaction
+                                        contents:
+                                          - dl:
+                                              trigger: "_{Your familiar would take damage}"
+                                              range: "_{60ft}"
+                                              target: "_{Your familiar}"
+                                          - p: "Your familiar becomes an ephemeral version of itself shaped of mist. It is immune to precision damage and gains damage resistance against this attack:"
+                                          - calc:
+                                            pad: true
+                                            output:
+                                              field: witch/phase-familiar/damage-reduction
+                                              width: large
+                                              legend: "_{Damage Resistance}"
+                                              eq: "3+(%{focus-level}*2)"
+                                            inputs:
+                                              - span: "3 + ("
+                                              - field:
+                                                ref: focus-level
+                                                label: "_{Focus Level}"
+                                              - span: "&times; 2 )"
 
                   - section: "_{Lessons}"
                     contents:

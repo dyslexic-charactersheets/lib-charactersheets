@@ -1,0 +1,195 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/oracle/mystery/tempest
+in: remaster/oracle/mystery
+group: "_{Player Core 2}"
+name: "_{Tempest}"
+
+inc:
+  - set: subclass
+    value: "_{Tempest}"
+  - set: oracle-mystery
+    value: "_{Tempest}"
+
+  - set: nature-proficiency
+    value: trained
+
+  - at: '@oracle/mystery/title'
+    replace:
+      - h4: "_{Tempest}"
+
+  - set: oracle-mystery-skill
+    value: "_{Nature}"
+  - set: oracle-mystery-domains
+    value: "_{Air, Cold, Lightning*, Water}"
+  - set: oracle-mystery-feat
+    value: "_{Foretell Harm}"
+
+  - set: oracle-revelation-spell-initial
+    value: "_{Tempest Touch}"
+  - set: oracle-revelation-spell-advanced
+    value: "_{Thunderburst}"
+  - set: oracle-revelation-spell-greater
+    value: "_{Tempest Form}"
+
+  - at: '@oracle/spells-list/granted-cantrip'
+    replace:
+      - "_{Electric Arc}"
+
+  - at: '@oracle/spells-list/granted-spells'
+    replace:
+      - "_{Thunderstrike}"
+      - ""
+      - ""
+      - "_{Hydraulic Torrent}"
+      - ""
+      - "_{Chain Lightning}"
+      - ""
+      - ""
+      - ""
+
+  - at: '@oracle/revelation-spell/initial'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Tempest Touch}"
+            cat: "_{Focus 1}"
+            contents:
+              - dl:
+                  range: "_{Touch}"
+                  target: "_{1 creature}"
+                  save: "_{Fortitude}"
+              - p: "_{Your touch calls forth a churning mass of icy water that clings to your target.}"
+              - calc:
+                output:
+                  field: "##:tempest-touch/damage"
+                  legend: "_{Bludgeoning +\nCold Damage}"
+                  width: large
+                  suffix: "_{d4 each}"
+                  icon: d4
+                  eq: "%{focus-level}"
+                inputs:
+                  - field:
+                    ref: focus-level
+                    label: "_{Focus Level}"
+              - paste: save
+                params:
+                  critical_success: "_{Unaffected.}"
+                  success: "_{Half damage; -5ft circumstance penalty to Speeds until the end of your next turn.}"
+                  failure: "_{Full damage; -10ft circumstance penalty to Speeds until the end of your next turn.}"
+                  critical_failure: "_{Double damage; as failure.}"
+
+  - at: '@oracle/revelation-spell/advanced'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Thunderburst}"
+            cat: "_{Focus 3}"
+            contents:
+              - dl:
+                  range: "_{100ft}"
+                  area: "_{20-foot burst}"
+                  save: "_{Fortitude}"
+              - p: "_{You create a powerful blast of air and a loud peal of thunder.}"
+              - calc:
+                output:
+                  field: "##:thunderburst/damage"
+                  legend: "_{Bludgeoning +\nSonic Damage}"
+                  width: large
+                  suffix: "_{d6 each}"
+                  icon: d6
+                  eq: "floor((%{focus-level}-3)/2)*2+2"
+                inputs:
+                  - field:
+                    ref: focus-level
+                    label: "_{Focus Level}"
+              - paste: save
+                params:
+                  critical_success: "_{Unaffected.}"
+                  success: "_{Half damage.}"
+                  failure: "_{Full damage; deafened for 1 minute.}"
+                  critical_failure: "_{Double damage; deafened for 1 hour.}"
+              - p: "_{Heightened (+2): the area also increases by 5 feet.}"
+
+  - at: '@oracle/revelation-spell/greater'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Tempest Form}"
+            cat: "_{Focus 6}"
+            contents:
+              - dl:
+                  duration: "_{Sustained up to 1 minute}"
+              - p: "_{Your body becomes fluid. Choose whether to become air, water, or mist. You become amorphous, as does your armor. You lose any item bonus to AC and use your proficiency bonus for unarmored defense to determine your AC. You gain resistance 10 to physical damage and become immune to precision damage. You can slip through tiny cracks and don't need to breathe. You can't Cast Spells, activate items, or use actions that have the attack or manipulate trait, except those granted by this spell.}"
+              - list:
+                hr: true
+                light: true
+                contents:
+                  - p:
+                    title: "_{Air}"
+                    content: "_{Fly Speed 20ft; invisible while in the air. You can create the effects of gust of wind from your space as a two-action activity (manipulate).}"
+                  - p:
+                    title: "_{Mist}"
+                    content: "_{Fly Speed 20ft; hard to see through you. A creature on one side of your space targeted by a creature on the opposite side is concealed to the targeting creature.}"
+                  - p:
+                    title: "_{Water}"
+                    content: "_{Swim Speed 20ft; invisible while in the water. You can electrically charge yourself as a single action (manipulate); if you do, you're no longer invisible in the water, but any creature that makes a melee attack against you takes 1d6 electricity damage.}"
+
+  - at: '@oracle/mystery/curse-title'
+    replace:
+      - h4: "_{Curse of Inclement Headwinds}"
+        size: small
+
+  - at: '@oracle/mystery/curse'
+    replace:
+      - flags:
+        contents:
+          - "_{Curse}"
+          - "_{Divine}"
+          - "_{Oracle}"
+      - list:
+        hr: true
+        light: true
+        contents:
+          - g:
+            contents:
+              - p:
+                title: "_{Cursebound 1}"
+                content: "_{Electricity spells or effects that have additional effects for a creature wearing or holding metal treat you as though you were wearing metal. Any immunity or resistance you have to such spells and effects is suppressed.}"
+              - value-block: "2"
+                content: "_{Electricity weakness}"
+          - g:
+            contents:
+              - p:
+                title: "_{Cursebound 2}"
+              - value-block: "-2"
+                content: "_{circumstance penalty to ranged attack rolls}"
+          - level: 11
+            contents:
+              - g:
+                contents:
+                  - p:
+                    title: "_{Cursebound 3}"
+                  - calc:
+                    output:
+                      field: oracle-mystery-tempest-weakness
+                      legend: "_{Electricity\nweakness}"
+                      width: large
+                      eq: "5+%{level}"
+                    inputs:
+                      - field:
+                        ref: level
+                        label: "_{Level}"
+          - level: 17
+            contents:
+              - g:
+                contents:
+                  - p:
+                    title: "_{Cursebound 4}"
+                  - value-block: "-10 ft"
+                    content: "_{status penalty to all Speeds}"

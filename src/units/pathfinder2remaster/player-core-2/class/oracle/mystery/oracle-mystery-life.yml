@@ -1,0 +1,228 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/oracle/mystery/life
+in: remaster/oracle/mystery
+group: "_{Player Core 2}"
+name: "_{Life}"
+
+inc:
+  - set: subclass
+    value: "_{Life}"
+  - set: oracle-mystery
+    value: "_{Life}"
+
+  - set: medicine-proficiency
+    value: trained
+
+  - at: '@oracle/mystery/title'
+    replace:
+      - h4: "_{Life}"
+
+  - set: oracle-mystery-skill
+    value: "_{Medicine}"
+  - set: oracle-mystery-domains
+    value: "_{Death, Healing, Pain, Soul*}"
+  - set: oracle-mystery-feat
+    value: "_{Nudge the Scales}"
+
+  - set: oracle-revelation-spell-initial
+    value: "_{Life Link}"
+  - set: oracle-revelation-spell-advanced
+    value: "_{Delay Affliction}"
+  - set: oracle-revelation-spell-greater
+    value: "_{Life-Giving Form}"
+
+  - at: '@oracle/spells-list/granted-cantrip'
+    replace:
+      - "_{Vitality Lash}"
+
+  - at: '@oracle/spells-list/granted-spells'
+    replace:
+      - "_{Soothe}"
+      - "_{False Vitality}"
+      - ""
+      - ""
+      - "_{Grisly Growths}"
+      - ""
+      - ""
+      - ""
+      - ""
+
+  - at: '@oracle/revelation-spell/initial'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Life Link}"
+            cat: "_{Focus 1}"
+            contents:
+              - dl:
+                  range: "_{30 feet}"
+                  target: "_{1 creature other than you}"
+                  duration: "_{1 minute}"
+              - p: "_{You forge a connection of life energy between you and your target, distributing harm between both of you. When you first Cast the Spell, the target recovers 1d4 Hit Points.}"
+              - p: "_{The first time each round the target takes damage, reduce the damage it takes (to a minimum of 0), and you lose that many Hit Points, or the total damage dealt, if less; this damage ignores any immunities or resistances you have and can't otherwise be mitigated in any way. The spell ends immediately if you fall unconscious. You can Dismiss the spell.}"
+              - advancement:
+                index: "_{Focus Level}"
+                elide: true
+                fields:
+                  - key: targets
+                    name: "_{Targets}"
+                    format: string
+                  - key: healing
+                    name: "_{Initial healing}"
+                    format: string
+                  - key: hp
+                    name: "_{Reduction / HP lost}"
+                    format: string
+                advances:
+                  - level: 1
+                    targets: 1
+                    healing: "_{1d4}"
+                    hp: "_{3}"
+                  - level: 3
+                    targets: 2
+                    healing: "_{3d4}"
+                    hp: "_{5}"
+                  - level: 6
+                    targets: 3
+                    healing: "_{6d4}"
+                    hp: "_{10}"
+                  - level: 9
+                    targets: 4
+                    healing: "_{9d4}"
+                    hp: "_{15}"
+
+  - at: '@oracle/revelation-spell/advanced'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Delay Affliction}"
+            cat: "_{Focus 3}"
+            contents:
+              - dl:
+                  range: "_{30 feet}"
+                  target: "_{1 creature}"
+              - p: "_{With a surge of healing energy, you push back against an affliction threatening the target and grant a small amount of healing. You attempt to counteract any one affliction you are aware the target has, suspending its effects for 1 hour on a success rather than removing it. The target is then temporarily immune to delay affliction for 1 day. You don't need to have identified the name of the specific affliction, but you do need to be aware of it.}"
+              - row:
+                contents:
+                  - calc:
+                    output:
+                      field: "##:delay-affliction/healing"
+                      legend: "_{Healing}"
+                      width: large
+                      suffix: "_{d8}"
+                      icon: d8
+                      eq: "%{focus-level}"
+                    inputs:
+                      - field:
+                        label: "_{Focus Level}"
+                        ref: focus-level
+                      - span: "&times; _{1d8}"
+                  - vr:
+                  - calc:
+                    output:
+                      field: "##:delay-affliction/afflictions"
+                      legend: "_{Afflictions suspended}"
+                      width: large
+                      eq: "%{focus-level}-2"
+                    inputs:
+                      - field:
+                        label: "_{Focus Level}"
+                        ref: focus-level
+                      - span: "- 2"
+
+  - at: '@oracle/revelation-spell/greater'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Life-Giving Form}"
+            cat: "_{Focus 6}"
+            contents:
+              - dl:
+                  duration: "_{1 minute}"
+              - p: "_{You transcend your physical form, becoming a beacon of healing energy. Your body exudes bright light like a torch, and your unarmed Strikes deal an extra 1d4 vitality damage. This is a vitality healing effect; you can't heal yourself with life-giving form. You can Dismiss this spell.}"
+              - list:
+                hr: true
+                light: true
+                contents:
+                  - g:
+                    contents:
+                      - p: "_{You gain resistance to precision damage and weakness to void damage.}"
+                      - calc:
+                        output:
+                          field: "##:life-giving-form/resistance"
+                          legend: "_{Resistance/ Weakness}"
+                          width: large
+                          eq: "%{focus-level}-1"
+                        inputs:
+                          - field:
+                            label: "_{Focus Level}"
+                            ref: focus-level
+                          - span: "- 1"
+                  - g:
+                    contents:
+                      - action:
+                        contents:
+                          - p: "_{Touch a living creature to restore Hit Points to it, or allow a creature that touches you to gain the same healing. Either way, the creature becomes temporarily immune to this healing for 1 minute.}"
+                      - calc:
+                        output:
+                          field: "##:life-giving-form/healing"
+                          legend: "_{Healing}"
+                          width: large
+                          suffix: "_{d8}"
+                          icon: d8
+                          eq: "%{focus-level}"
+                        inputs:
+                          - field:
+                            label: "_{Focus Level}"
+                            ref: focus-level
+                          - span: "&times; _{1d8}"
+                  - g:
+                    contents:
+                      - p: "_{A creature harmed by vitality damage (such as an undead) that touches you or damages you with an unarmed attack or non-reach melee weapon instead takes vitality damage, and it doesn't become temporarily immune.}"
+                      - calc:
+                        output:
+                          field: "##:life-giving-form/reactive-damage"
+                          legend: "_{Vitality damage}"
+                          width: large
+                          prefix: "_{3d4} +"
+                          eq: "%{focus-level}-6"
+                        inputs:
+                          - field:
+                            label: "_{Focus Level}"
+                            ref: focus-level
+
+  - at: '@oracle/mystery/curse-title'
+    replace:
+      - h4: "_{Curse of Outpouring Life}"
+        size: small
+
+  - at: '@oracle/mystery/curse'
+    replace:
+      - flags:
+        contents:
+          - "_{Curse}"
+          - "_{Divine}"
+          - "_{Oracle}"
+      - p: "_{Magical healing you receive takes a status penalty to the HP recovered equal to your level (minimum 1) times your cursebound value.}"
+      - row:
+        contents:
+          - calc:
+            output:
+              field: oracle-mystery-life-healing-penalty
+              legend: "_{Healing Penalty}"
+              width: large
+              eq: "%{level}*%{oracle-cursebound}"
+            inputs:
+              - field:
+                ref: level
+                label: "_{Level}"
+              - span: "&times;"
+              - field:
+                ref: oracle-cursebound
+                label: "_{Cursebound}"

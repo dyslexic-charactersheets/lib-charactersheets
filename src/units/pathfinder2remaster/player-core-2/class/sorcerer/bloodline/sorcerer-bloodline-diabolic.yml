@@ -1,0 +1,87 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/sorcerer/bloodline/diabolic
+in: remaster/sorcerer/bloodline
+group: "_{Player Core 2}"
+name: "_{Diabolic}"
+
+inc:
+  - set: subclass
+    value: "_{Diabolic}"
+  - set: sorcerer-bloodline
+    value: "_{Diabolic}"
+
+  - set: deception-proficiency
+    value: trained
+  - set: religion-proficiency
+    value: trained
+
+  - at: '@sorcerer/bloodline/title'
+    replace:
+      - h4: "_{Diabolic}"
+
+  - set: sorcerer-bloodline-tradition
+    value: "_{Divine}"
+  - set: sorcerer-bloodline-skills
+    value: "_{Deception, Religion}"
+  - set: sorcerer-bloodline-spell-initial
+    value: "_{Diabolic Edict}"
+  - set: sorcerer-bloodline-spell-advanced
+    value: "_{Embrace the Pit}"
+  - set: sorcerer-bloodline-spell-greater
+    value: "_{Hellfire Plume}"
+
+  - at: '@sorcerer/spells-list/granted-cantrip'
+    replace:
+      - "_{Ignition}"
+
+  - at: '@sorcerer/spells-list/granted-spells'
+    replace:
+      - "_{Charm}"
+      - "_{Floating Flame}"
+      - "_{Enthrall}"
+      - "_{Suggestion}"
+      - "_{Wave of Despair}"
+      - "_{Truesight}"
+      - "_{Divine Decree}"
+      - "_{Divine Inspiration}"
+      - "_{Falling Stars}"
+
+  - at: '@sorcerer/bloodline-spell/initial'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Diabolic Edict}"
+            cat: "_{Focus 1}"
+            contents:
+              - p: "_{Offer a foe a devilish bargain, dealing damage that increases if it accepts your terms.}"
+
+  - at: '@sorcerer/bloodline-spell/advanced'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Embrace the Pit}"
+            cat: "_{Focus 4}"
+            contents:
+              - p: "_{Take on a fiendish form for a time, gaining resistance to fire and a clawed unarmed attack.}"
+
+  - at: '@sorcerer/bloodline-spell/greater'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Hellfire Plume}"
+            cat: "_{Focus 8}"
+            contents:
+              - p: "_{Call forth a plume of hellfire, dealing fire damage and leaving foes weakened to fire.}"
+
+  - at: '@sorcerer/spellbook/blood-magic'
+    replace:
+      - article:
+        title: "_{Tongue of Flame}"
+        contents:
+          - p: "_{Your tongue becomes laced with hellfire. Either a target takes 1 fire damage per spell rank (combine this with the spell's own fire damage before applying weaknesses and resistances), or you gain a +2 status bonus to Deception checks for 1 round.}"

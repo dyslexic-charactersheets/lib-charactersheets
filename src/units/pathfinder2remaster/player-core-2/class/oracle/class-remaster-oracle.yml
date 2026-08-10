@@ -1,0 +1,473 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: class/remaster/oracle
+in: class
+group: "_{Player Core 2}"
+name: "_{Oracle}"
+# enabled: false
+
+form:
+  - select: remaster/oracle/mystery
+    name: "_{Mystery}"
+    max: 1
+  - select: feat/oracle
+    name: "_{Oracle Feats}"
+    max: 10
+    levels: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+
+require:
+  - unit: weapon-spec/slow
+  - unit: option/spellbook
+  - unit: option/spellbook/custom
+  - with: option/reference
+    unit: class/remaster/oracle/reference
+  - deny: archetype/oracle
+  - deny: class/apg/oracle
+
+inc:
+
+  - set: class
+    value: "_{Oracle}"
+  - set: hp-class
+    value: 8
+  - set: class-icon
+    value: oracle
+  - set: subclass-label
+    value: "_{Mystery}"
+
+  - set: oracle-class-dc-proficiency
+    value: trained
+  - set: perception-proficiency
+    value: trained
+
+  - set: unarmoured-proficiency
+    value: trained
+  - set: light-armour-proficiency
+    value: trained
+
+  - set: fortitude-proficiency
+    value: trained
+  - set: reflex-proficiency
+    value: trained
+  - set: will-proficiency
+    value: expert
+
+  - set: religion-proficiency
+    value: trained
+
+  - set: simple-weapons-proficiency
+    value: trained
+  - set: unarmed-attack-proficiency
+    value: trained
+
+  - set: divine-spell-attack-proficiency
+    value: trained
+  - set: divine-spell-dc-proficiency
+    value: trained
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        gain: "_{Mystery}"
+      - level: 1
+        advance: "_{Oracular Curse}"
+      - levels: [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
+        spell-level: [ "_{1st}", "_{2nd}", "_{3rd}", "_{4th}", "_{5th}", "_{6th}", "_{7th}", "_{8th}", "_{9th}", "_{10th}" ]
+      - level: 3
+        advance: "_{Signature Spells}"
+      - level: 11
+        advance: "_{Divine Access}"
+      - level: 11
+        advance: "_{Major Curse}"
+      - level: 13
+        advance: "_{Weapon Specialisation}"
+      - level: 17
+        advance: "_{Extreme Curse}"
+      - level: 19
+        advance: "_{Oracular Clarity}"
+
+      - level: 7
+        advance: "_{Spell attacks and DCs}"
+        proficiency: expert
+      - level: 7
+        advance: "_{Will saves}"
+        proficiency: master
+        colour: WIS
+      - level: 9
+        advance: "_{Fortitude saves}"
+        proficiency: expert
+        colour: CON
+      - level: 11
+        advance: "_{Perception}"
+        proficiency: expert
+        colour: WIS
+      - level: 11
+        advance: "_{Simple weapons}, _{Unarmed attacks}"
+        proficiency: expert
+      - level: 13
+        advance: "_{Light armour}, _{Unarmoured defence}"
+        proficiency: expert
+      - level: 13
+        advance: "_{Reflex saves}"
+        proficiency: expert
+        colour: DEX
+      - level: 15
+        advance: "_{Spell attacks and DCs}"
+        proficiency: master
+      - level: 17
+        advance: "_{Will saves}"
+        proficiency: legendary
+        colour: WIS
+      - level: 19
+        advance: "_{Spell attacks and DCs}"
+        proficiency: legendary
+
+  - at: '@advancement-fields'
+    add:
+      - name: "_{Spell Rank}"
+        key: spell-level
+        format: string
+
+  - at: '@saving-throws'
+    add:
+      - level: 7
+        contents:
+          - paste: improved-save-will
+            params:
+              title: "_{Mysterious Resolve}"
+      - level: 13
+        contents:
+          - paste: improved-save-ref
+            params:
+              title: "_{Premonition's Reflexes}"
+      - level: 17
+        contents:
+          - paste: improved-save-will-2
+            params:
+              title: "_{Greater Mysterious Resolve}"
+          - p: "_{When you fail a Will save against a damaging effect, take half damage.}"
+
+  - at: '@focus-points'
+    replace:
+      - field: oracle-revelation-spells-focus
+        label: "_{Revelation Spells}"
+        underlay: "1"
+
+  - copy: oracle/cursebound-description
+    contents:
+      - p: "_{Using a cursebound ability makes you cursebound 1, or increases it by 1 if you're already cursebound, to a maximum of 2.}"
+      - level: 11
+        contents:
+          - p: "_{Your cursebound maximum increases to 3.}"
+      - level: 17
+        contents:
+          - p: "_{Your cursebound maximum increases to 4.}"
+      - p: "_{Nothing but Refocusing mitigates, reduces, or removes this.}"
+      - paste: 10mins
+        contents:
+          - p:
+            title: "_{Refocus}"
+            content: "_{Reduces your cursebound value by 1 and restores a Focus Point.}"
+
+  - at: '@pages'
+    add:
+      - page: oracle
+        name: "_{Oracle}"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: oracle
+                    optional: true
+                  - class-name: "_{Oracle}"
+
+                  - section: "_{Class DC}"
+                    contents:
+                      - paste: class-dc
+                        params:
+                          id: oracle-class-dc
+                          legend: "_{Oracle\nClass DC}"
+                          attribute: CHA
+
+                  - section: "_{Oracular Curse}"
+                    contents:
+                      - list:
+                        hr: true
+                        avoid-shade: true
+                        contents:
+                          - zone: '@oracle/mystery/curse-title'
+                            contents:
+                              - h4: "_{Curse}"
+                                size: small
+
+                          - g:
+                            contents:
+                              - paste: oracle/cursebound-description
+                              - field: oracle-cursebound
+                                legend: "_{Cursebound}"
+                                control: counter
+                                max: 4
+                                border: full
+                                width: large
+
+                          - zone: '@oracle/mystery/curse'
+                            contents:
+                              - g:
+                                contents:
+                                  - flags:
+                                    contents:
+                                      - "_{Curse}"
+                                      - "_{Divine}"
+                                      - "_{Oracle}"
+                                  - article: oracle/mystery/curse
+                                    lines: 4
+
+                  - section: "_{Spellcasting}"
+                    id: spellcasting
+                    contents:
+                      - paste: spellcasting-spontaneous
+                        params:
+                          spells-icon: oracle
+                          cantrips-text: "_{Cast cantrips you know from the divine spell list indefinitely.}"
+                          spells-text: "_{Cast spells you know from the divine spell list using spell slots.}"
+
+                      - spells-table:
+                        spell-level-label: "_{Spell\nRank}"
+                        max: 10
+                        spells-today: true
+                        max-spells-per-day: 4
+                        expanded: "_{Signature Spell}"
+                        at:
+                          - level: 10
+                            max-spells-per-day: 1
+
+                      - hr:
+                        light: true
+
+                      - paste: spell-attack
+                        params:
+                          id: divine-spell-attack
+                          legend: "_{Spell\nAttack}"
+                          attribute: CHA
+
+                      - paste: spell-dc
+                        params:
+                          id: divine-spell-dc
+                          legend: "_{Spell\nSave DC}"
+                          attribute: CHA
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+                  - section: "_{Mystery}"
+                    primary: true
+                    contents:
+                      - zone: '@oracle/mystery/title'
+                        contents:
+                          - field: oracle-mystery
+                            size: huge
+                            width: stretch
+                            frame: none
+                            merge-bottom: true
+                      - hr:
+                        swash: true
+                      - list:
+                        hr: true
+                        contents:
+                          - g:
+                            contents:
+                              - zone: '@oracle/mystery/skill'
+                                contents:
+                                  - field: oracle-mystery-skill
+                                    icon: proficiency-trained
+                                    width: stretch
+                                    label: "_{Mystery Skill}"
+                          - g:
+                            contents:
+                              - h5: "_{Related Domains}"
+                              - field: oracle-mystery-domains
+                                width: stretch
+                                frame: none
+                                merge-bottom: true
+                          - g:
+                            contents:
+                              - h5: "_{Oracle Feat}"
+                              - field: oracle-mystery-feat
+                                width: stretch
+                                frame: none
+                                merge-bottom: true
+
+                  - section: "_{Revelation Spells}"
+                    contents:
+                      - g:
+                        contents:
+                          - paste: focus
+                            contents:
+                              - flags:
+                                  - "_{Cursebound}"
+                              - p: "_{Revelation spells are focus spells. Casting one is a cursebound action for you.}"
+                                optional: true
+                      - layout: 2e
+                        contents:
+                          - g:
+                            contents:
+                              - list:
+                                hr: true
+                                light: true
+                                contents:
+                                  - field: oracle-revelation-spell-initial
+                                    label: "_{Initial Revelation}"
+                                    width: stretch
+                                    merge-bottom: true
+                                  - selectable: "##:revelation/advanced"
+                                    contents:
+                                      - field: oracle-revelation-spell-advanced
+                                        label: "_{Advanced Revelation}"
+                                        width: stretch
+                                        merge-bottom: true
+                          - g:
+                            contents:
+                              - list:
+                                hr: true
+                                light: true
+                                contents:
+                                  - selectable: "##:revelation/greater"
+                                    contents:
+                                      - field: oracle-revelation-spell-greater
+                                        label: "_{Greater Revelation}"
+                                        width: stretch
+                                        merge-bottom: true
+                                  - selectable: "##:revelation/diverse"
+                                    contents:
+                                      - field: oracle-revelation-spell-diverse
+                                        label: "_{Diverse Mystery}"
+                                        width: stretch
+                                        merge-bottom: true
+
+                  - zone: '@oracle/right'
+
+                  - section: "_{Cantrips}"
+                    flex: tiny
+                    contents:
+                      - spells-list:
+                        min: 0
+                        max: 0
+                        spells: 5
+                        style: spontaneous
+                        special: "_{Mystery}"
+                        special-value:
+                          - zone: '@oracle/spells-list/granted-cantrip'
+
+                  - section: "_{Spells}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - spells-list:
+                            flex: huge
+                            min: 1
+                            max: 9
+                            spells: 4
+                            style: spontaneous
+                            special: "_{Mystery}"
+                            special-value:
+                              - zone: '@oracle/spells-list/granted-spells'
+                          - spells-list:
+                            flex: tiny
+                            min: 10
+                            max: 10
+                            spells: 2
+                            style: spontaneous
+
+                  - paste: class-feats
+                    params:
+                      id: oracle-feats
+                      title: "_{Oracle Feats}"
+                      slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                      mark: oracle
+                      lines: 2
+
+                  - tail:
+                  - spacer:
+
+  - at: '@spellbook/left/header'
+    replace:
+      - spacer:
+      - h5: "_{Mystery}"
+      - zone: '@oracle/mystery/title'
+        contents:
+          - h4: "_{Mystery}"
+            size: small
+      - hr:
+
+  - at: '@spellbook/left'
+    replace:
+      - list:
+        hr: true
+        zebra: true
+        contents:
+
+          - zone: '@oracle/spellbook/mystery/preface'
+
+          - g:
+            contents:
+              - paste: focus
+                contents:
+                  - flags:
+                      - "_{Cursebound}"
+                  - p: "_{Revelation spells are focus spells. Casting one is a cursebound action for you.}"
+                    optional: true
+
+          - g:
+            contents:
+              - h6: "_{Initial Revelation}"
+                blk: false
+              - zone: '@oracle/revelation-spell/initial'
+                contents:
+                  - action: template
+                    contents:
+                      - article: oracle/revelation-spell/initial
+                        lines: 5
+
+          - g:
+            contents:
+              - h6: "_{Advanced Revelation}"
+                blk: false
+              - zone: '@oracle/revelation-spell/advanced'
+                contents:
+                  - action: template
+                    contents:
+                      - article: oracle/revelation-spell/advanced
+                        lines: 5
+
+          - g:
+            contents:
+              - h6: "_{Greater Revelation}"
+                blk: false
+              - zone: '@oracle/revelation-spell/greater'
+                contents:
+                  - action: template
+                    contents:
+                      - article: oracle/revelation-spell/greater
+                        lines: 5
+
+          - zone: '@oracle/revelation-spell/diverse-mystery'
+            contents:
+              - g:
+                contents:
+                  - h6: "_{Diverse Mystery}"
+                    blk: false
+                  - action: template
+                    contents:
+                      - article: oracle/revelation-spell/diverse
+                        lines: 5
+
+      - tail:
+      - spacer:

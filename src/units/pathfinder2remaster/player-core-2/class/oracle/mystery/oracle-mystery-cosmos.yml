@@ -1,0 +1,163 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/oracle/mystery/cosmos
+in: remaster/oracle/mystery
+group: "_{Player Core 2}"
+name: "_{Cosmos}"
+
+inc:
+  - set: subclass
+    value: "_{Cosmos}"
+  - set: oracle-mystery
+    value: "_{Cosmos}"
+
+  - set: nature-proficiency
+    value: trained
+
+  - at: '@oracle/mystery/title'
+    replace:
+      - h4: "_{Cosmos}"
+
+  - set: oracle-mystery-skill
+    value: "_{Nature}"
+  - set: oracle-mystery-domains
+    value: "_{Darkness, Moon, Nothingness*, Star*}"
+  - set: oracle-mystery-feat
+    value: "_{Oracular Warning}"
+
+  - set: oracle-revelation-spell-initial
+    value: "_{Spray of Stars}"
+  - set: oracle-revelation-spell-advanced
+    value: "_{Interstellar Void}"
+  - set: oracle-revelation-spell-greater
+    value: "_{Moonlight Bridge}"
+
+  - at: '@oracle/spells-list/granted-cantrip'
+    replace:
+      - "_{Light}"
+
+  - at: '@oracle/spells-list/granted-spells'
+    replace:
+      - "_{Dizzying Colors}"
+      - "_{Darkness}"
+      - ""
+      - ""
+      - "_{Moon Frenzy}"
+      - ""
+      - ""
+      - ""
+      - ""
+
+  - at: '@oracle/revelation-spell/initial'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Spray of Stars}"
+            cat: "_{Focus 1}"
+            contents:
+              - dl:
+                  area: "_{15-foot cone}"
+                  save: "_{Reflex}"
+              - p: "_{Fling a spray of tiny shooting stars at your foes.}"
+              - calc:
+                output:
+                  field: oracle-mystery-cosmos-spray-of-stars-damage
+                  legend: "_{Fire\nDamage}"
+                  border: full
+                  width: large
+                  suffix: "_{d4}"
+                  eq: "%{focus-level}+1"
+                inputs:
+                  - field:
+                    ref: focus-level
+                    label: "_{Focus Level}"
+                  - span: "+1"
+              - paste: save
+                params:
+                  critical_success: "_{Unaffected.}"
+                  success: "_{Half damage; dazzled for 1 round.}"
+                  failure: "_{Full damage; dazzled for 3 rounds.}"
+                  critical_failure: "_{Double damage; dazzled for 1 minute.}"
+
+  - at: '@oracle/revelation-spell/advanced'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Interstellar Void}"
+            cat: "_{Focus 3}"
+            contents:
+              - dl:
+                  range: "_{30ft}"
+                  target: "_{1 creature}"
+                  duration: "_{Sustained up to 1 minute}"
+                  save: "_{Fortitude}"
+              - p: "_{Cloak the target in the frigid depths of outer space, chilling it to the bone. The target is fatigued for as long as the effect persists.}"
+              - calc:
+                output:
+                  field: oracle-mystery-cosmos-interstellar-void-damage
+                  legend: "_{Cold\nDamage}"
+                  border: full
+                  width: large
+                  suffix: "_{d6}"
+                  eq: "%{focus-level}"
+                inputs:
+                  - field:
+                    ref: focus-level
+                    label: "_{Focus Level}"
+              - paste: basic-save
+                params:
+                  save: "_{FORT}"
+              - p: "_{Sustain: deal the damage again, with a new save, the first time each round you Sustain the Spell.}"
+
+  - at: '@oracle/revelation-spell/greater'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Moonlight Bridge}"
+            cat: "_{Focus 6}"
+            contents:
+              - dl:
+                  range: "_{30ft}"
+                  duration: "_{10 minutes}"
+              - p: "_{Summon a 10ft-wide bridge of radiant, shimmering moonlight starting on the ground at a point within range, extending as a horizontal plane, in a straight line or at up to a 45&deg; angle up or down, for up to 120ft. The bridge has AC 10, Hardness 30, and 60 Hit Points, and is immune to all damage except force, spirit, and damage from Strikes with the ghost touch property rune. You and your allies can cross it normally; other creatures simply pass through it. It blocks physical, ethereal, and incorporeal attacks from crossing through it, from above or below. You can Dismiss the spell.}"
+
+  - at: '@oracle/mystery/curse-title'
+    replace:
+      - h4: "_{Curse of the Sky's Call}"
+        size: small
+
+  - at: '@oracle/mystery/curse'
+    replace:
+      - flags:
+        contents:
+          - "_{Curse}"
+          - "_{Divine}"
+          - "_{Oracle}"
+      - row:
+        contents:
+          - calc:
+            output:
+              field: oracle-mystery-cosmos-enfeebled
+              legend: "_{Enfeebled}"
+              width: large
+              eq: "%{oracle-cursebound}"
+            inputs:
+              - field:
+                ref: oracle-cursebound
+                label: "_{Cursebound}"
+          - vr:
+          - calc:
+            output:
+              field: oracle-mystery-cosmos-forced-movement
+              legend: "_{Forced Movement\nPenalty}"
+              width: large
+              eq: "%{oracle-cursebound}"
+            inputs:
+              - field:
+                ref: oracle-cursebound
+                label: "_{Cursebound}"

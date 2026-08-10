@@ -68,14 +68,19 @@ inc:
         advance: "_{Metal Strikes}"
       - level: 17
         advance: "_{Adamantine Strikes}"
+      - level: 19
+        advance: "_{Perfected Form}"
 
       - level: 7
         gain: "_{Path to Perfection}"
       - level: 11
         gain: "_{Second Path to Perfection}"
-      - level: 19
+      - level: 15
         gain: "_{Third Path to Perfection}"
-        
+
+      - level: 5
+        advance: "_{Unarmed attacks}, _{Simple weapons}"
+        proficiency: expert
       - level: 5
         advance: "_{Perception}"
         proficiency: expert
@@ -132,7 +137,7 @@ inc:
         contents:
           - p:
             title: "_{Flurry of Blows}"
-            content: "_{Make two unarmed Strikes. If both hit the same creature, combine their damage and enhancements.}"
+            content: "_{Make two unarmed Strikes. If both hit the same creature, combine their damage for resistances and weaknesses. As a Flourish, once per turn.}"
       - zone: '@monk/stance-actions'
 
   - at: '@focus-points'
@@ -201,7 +206,7 @@ inc:
                             frame: none
                             merge-bottom: true
                             width: stretch
-                            repeat: 4
+                            repeat: 3
 
                   - section: "_{Incredible Movement}"
                     contents:
@@ -213,6 +218,7 @@ inc:
                             contents:
                               - g:
                                 contents:
+                                  - p: "_{Status bonus to Speed when unarmoured.}"
                                   - table: "##:incredible-movement"
                                     flip: true
                                     columns:
@@ -235,7 +241,6 @@ inc:
                                       - level-marker: '#{lv}'
                                         marker: ''
                                       - span: '#{speed}'
-                                  - p: "_{Bonus to Speed when not wearing armor.}"
 
                   - section: "_{Unarmed}"
                     contents:
@@ -250,30 +255,37 @@ inc:
                                 header:
                                   - h5: "_{Powerful Fist}"
                                 contents:
-                                  - value-block: "_{d6}"
-                                    content: "_{Unarmed damage with your fists}"
-                                  - p: "_{Don't take the -2 penalty when making a lethal attack with a nonlethal unarmed attack.}"
+                                  - value-block: "_{1d6}"
+                                    content: "_{Unarmed damage with your fists.}"
+                                  - p: "_{Non-lethal unarmed attacks don't get a -2 penalty.}"
                               - level: 3
                                 contents:
                                   - article:
                                     header:
                                       - h5: "_{Mystic Strikes}"
                                     contents:
-                                      - p: "_{Your unarmed attacks become magical, allowing them to bypass resistances.}"
+                                      - p: "_{Your unarmed attacks become magical, bypassing resistance to non-magical attacks. Attack roll bonuses or extra weapon damage dice still need items.}"
+                              - level: 5
+                                contents:
+                                  - article:
+                                    header:
+                                      - h5: "_{Expert Strikes}"
+                                    contents:
+                                      - p: "_{Gain the critical specialisation effect for unarmed attacks in the brawling group.}"
                               - level: 9
                                 contents:
                                   - article:
                                     header:
                                       - h5: "_{Metal Strikes}"
                                     contents:
-                                      - p: "_{Your unarmed attacks are treated as cold iron and silver.}"
+                                      - p: "_{Treat your unarmed attacks as cold iron and silver.}"
                               - level: 17
                                 contents:
                                   - article:
                                     header:
                                       - h5: "_{Adamantine Strikes}"
                                     contents:
-                                      - p: "_{Your unarmed attacks are treated as adamantine.}"
+                                      - p: "_{Treat your unarmed attacks as adamantine.}"
 
                   - section: "_{Path to Perfection}"
                     contents:
@@ -291,7 +303,7 @@ inc:
                                         header:
                                           h5: "_{Path to Perfection}"
                                         contents:
-                                              - p: "_{Become master in one saving throw.}"
+                                              - p: "_{Master a saving throw and upgrade its success to a critical success.}"
                               - level: 11
                                 contents:
                                   - proficiency: master
@@ -300,9 +312,8 @@ inc:
                                         header:
                                           h5: "_{Second Path to Perfection}"
                                         contents:
-                                              - p: "_{Become master in a second saving throw.}"
-                                              - p: "_{If you succeed at this saving throw, you instead critically succeed.}"
-                              - level:  15
+                                              - p: "_{Master a second saving throw and upgrade its success to a critical success.}"
+                              - level: 15
                                 contents:
                                   - proficiency: legendary
                                     contents:
@@ -317,7 +328,7 @@ inc:
                     contents:
                       - level: 19
                         contents:
-                          - p: "_{On the first attack of your turn, any roll below 10 becomes 10.}"
+                          - p: "_{On your first Strike each turn, treat a roll below 10 as a 10. This is a fortune effect.}"
 
                   - tail:
 
@@ -361,20 +372,22 @@ inc:
                                                 cat: "_{Feat}"
                                                 lines: 1
                                                 no-header-line: true
-                          - layout: 2e
+                          - g:
                             contents:
-                              - selectable: monk/stance-savant
+                              - layout: 2e
                                 contents:
-                                  - action: free
+                                  - selectable: monk/stance-savant
                                     contents:
-                                      - h5: "_{Stance Savant}"
-                                      - p: "_{When you roll initiative, enter a stance as a free action}"
-                              - selectable: monk/master-of-many-styles
-                                contents:
-                                  - action: free
+                                      - action: free
+                                        contents:
+                                          - h5: "_{Stance Savant}"
+                                          - p: "_{When you roll initiative, enter a stance as a free action}"
+                                  - selectable: monk/master-of-many-styles
                                     contents:
-                                      - h5: "_{Master of Many Styles}"
-                                      - p: "_{At the start of your turn, enter a stance as a free action}"
+                                      - action: free
+                                        contents:
+                                          - h5: "_{Master of Many Styles}"
+                                          - p: "_{At the start of your turn, enter a stance as a free action}"
 
                   - section: "_{Flurry of Blows}"
                     flex: small
@@ -393,7 +406,7 @@ inc:
                                       - h5: "_{Flurry of Blows}"
                                         optional: true
                                     contents:
-                                      - p: "_{Once per round, make two unarmed Strikes. If both hit the same creature, combine their damage and enhancements for the purpose of resistances and weaknesses.}"
+                                      - p: "_{Make two unarmed Strikes. If both hit the same creature, combine their damage for resistances and weaknesses. As a flourish, once per turn.}"
 
                   - paste: class-feats
                     params:

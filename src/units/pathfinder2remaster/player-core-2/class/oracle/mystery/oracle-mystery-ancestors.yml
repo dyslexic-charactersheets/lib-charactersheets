@@ -1,0 +1,135 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/oracle/mystery/ancestors
+in: remaster/oracle/mystery
+group: "_{Player Core 2}"
+name: "_{Ancestors}"
+
+inc:
+  - set: subclass
+    value: "_{Ancestors}"
+  - set: oracle-mystery
+    value: "_{Ancestors}"
+
+  - set: society-proficiency
+    value: trained
+
+  - at: '@oracle/mystery/title'
+    replace:
+      - h4: "_{Ancestors}"
+
+  - set: oracle-mystery-skill
+    value: "_{Society}"
+  - set: oracle-mystery-domains
+    value: "_{Death, Duty*, Family, Soul*}"
+  - set: oracle-mystery-feat
+    value: "_{Whispers of Weakness}"
+
+  - set: oracle-revelation-spell-initial
+    value: "_{Ancestral Touch}"
+  - set: oracle-revelation-spell-advanced
+    value: "_{Ancestral Defence}"
+  - set: oracle-revelation-spell-greater
+    value: "_{Ancestral Form}"
+
+  - at: '@oracle/spells-list/granted-cantrip'
+    replace:
+      - "_{Guidance}"
+
+  - at: '@oracle/spells-list/granted-spells'
+    replace:
+      - "_{Ill Omen}"
+      - "_{Ghostly Carrier}"
+      - ""
+      - ""
+      - "_{Dreaming Potential}"
+      - ""
+      - ""
+      - ""
+      - ""
+
+  - at: '@oracle/revelation-spell/initial'
+    replace:
+      - action:
+        contents:
+          - article:
+            title: "_{Ancestral Touch}"
+            cat: "_{Focus 1}"
+            contents:
+              - dl:
+                  range: "_{Touch}"
+                  target: "_{1 living creature}"
+                  save: "_{Will}"
+              - p: "_{You touch a creature and force them to see and feel the ancestors surrounding you.}"
+              - calc:
+                output:
+                  field: "##:ancestral-touch/damage"
+                  legend: "_{Mental\nDamage}"
+                  width: large
+                  suffix: "_{d4}"
+                  icon: d4
+                  eq: "%{focus-level}+1"
+                inputs:
+                  - field:
+                    ref: focus-level
+                    label: "_{Focus Level}"
+                  - span: "+1"
+              - paste: save
+                params:
+                  critical_success: "_{Unaffected.}"
+                  success: "_{Half damage.}"
+                  failure: "_{Frightened 1; full damage.}"
+                  critical_failure: "_{Frightened 2; double damage.}"
+
+  - at: '@oracle/revelation-spell/advanced'
+    replace:
+      - action: reaction
+        contents:
+          - article:
+            title: "_{Ancestral Defence}"
+            cat: "_{Focus 3}"
+            contents:
+              - dl:
+                  trigger: "_{You are about to attempt a Will save.}"
+              - p: "_{Your ancestor protects you against those who would bend your will. You roll the triggering save twice and use the better result.}"
+
+  - at: '@oracle/revelation-spell/greater'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Ancestral Form}"
+            cat: "_{Focus 6}"
+            contents:
+              - dl:
+                  duration: "_{Sustained up to 1 minute}"
+              - p: "_{You take the form of your ancestral spirits, becoming invisible and quasi-corporeal. You gain resistance 10 to all damage (except force, spirit, and damage from Strikes with the ghost touch property rune), doubled against non-magical damage or Strikes that include precision damage.}"
+              - p: "_{You gain a fly Speed equal to your land Speed; when Flying, moving upward isn't difficult terrain for you. You can't move through solid objects, but you can float through tiny gaps. You can't Cast Spells (but you can Sustain spells), activate items, or use actions that have the attack or manipulate trait.}"
+
+  - at: '@oracle/mystery/curse-title'
+    replace:
+      - h4: "_{Curse of Ancestral Meddling}"
+        size: small
+
+  - at: '@oracle/mystery/curse'
+    replace:
+      - flags:
+        contents:
+          - "_{Curse}"
+          - "_{Divine}"
+          - "_{Oracle}"
+          - "_{Spirit}"
+      - row:
+        contents:
+          - calc:
+            output:
+              field: oracle-mystery-ancestors-clumsy
+              legend: "_{Clumsy}"
+              width: large
+              eq: "%{oracle-cursebound}"
+            inputs:
+              - field:
+                ref: oracle-cursebound
+                label: "_{Cursebound}"
