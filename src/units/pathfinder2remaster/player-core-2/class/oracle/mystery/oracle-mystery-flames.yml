@@ -26,8 +26,6 @@ inc:
     value: "_{Dust*, Fire, Star*, Sun}"
   - set: oracle-mystery-feat
     value: "_{Foretell Harm}"
-  - set: oracle-mystery-granted-spells
-    value: "_{Cantrip: ignition. 1st: breathe fire. 2nd: blazing bolt. 3rd: fireball.}"
 
   - set: oracle-revelation-spell-initial
     value: "_{Incendiary Aura}"
@@ -118,22 +116,29 @@ inc:
               - p: "_{You call upon an endless barrage of flames, a series of explosions bursting around you like miniature suns. You cast Ignition as part of casting Flaming Fusillade. For the duration, Ignition's casting time is reduced from 2 actions to 1.}"
               - p: "_{Heightened (9th): For the duration, you also gain a status bonus to damage dealt by Ignition equal to Flaming Fusillade's spell rank.}"
 
-  - at: '@oracle/mystery/curse'
+  - at: '@oracle/mystery/curse-title'
     replace:
       - h4: "_{Curse of Engulfing Flames}"
         size: small
+
+  - at: '@oracle/mystery/curse'
+    replace:
       - flags:
         contents:
           - "_{Curse}"
           - "_{Divine}"
           - "_{Fire}"
           - "_{Oracle}"
-      - p: "_{Fires flare noticeably (though not dangerously) in your presence, you occasionally smoke slightly, and your body is almost painfully hot to the touch.}"
-      - p: "_{While cursebound, you catch fire, taking persistent fire damage equal to your cursebound value; the flames shed light like a torch, or flameless heat if they can't burn (such as underwater). They subside when you begin Refocusing or fall unconscious, and resume if that Refocus is interrupted or you regain consciousness.}"
+      - p: "_{While cursebound, you catch fire, taking persistent fire damage; the flames shed light like a torch, or flameless heat if they can't burn (such as underwater). They subside when you begin Refocusing or fall unconscious, and resume if that Refocus is interrupted or you regain consciousness.}"
       - row:
         contents:
-          - field: oracle-mystery-flames-persistent-damage
-            legend: "_{Persistent Fire Damage}"
-            border: full
-            width: large
-          - p: "_{Equal to your cursebound value.}"
+          - calc:
+            output:
+              field: oracle-mystery-flames-persistent-damage
+              legend: "_{Persistent Fire\nDamage}"
+              width: large
+              eq: "%{oracle-cursebound}"
+            inputs:
+              - field:
+                ref: oracle-cursebound
+                label: "_{Cursebound}"

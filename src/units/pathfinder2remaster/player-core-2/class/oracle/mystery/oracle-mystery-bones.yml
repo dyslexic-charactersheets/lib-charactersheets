@@ -26,8 +26,6 @@ inc:
     value: "_{Death, Decay*, Undeath, Vigil*}"
   - set: oracle-mystery-feat
     value: "_{Nudge the Scales}"
-  - set: oracle-mystery-granted-spells
-    value: "_{Cantrip: void warp. 1st: grim tendrils. 2nd: false vitality. 3rd: ghostly weapon.}"
 
   - set: oracle-revelation-spell-initial
     value: "_{Soul Siphon}"
@@ -64,7 +62,7 @@ inc:
                   range: "_{30ft}"
                   target: "_{1 living creature}"
                   save: "_{Fortitude}"
-              - p: "_{You siphon off a portion of the target's soul to bolster your own vitality. You gain temporary Hit Points equal to the total amount of HP the target loses, including the HP lost from becoming drained.}"
+              - p: "_{You gain temporary Hit Points equal to the total amount of HP the target loses, including the HP lost from becoming drained.}"
               - calc:
                 output:
                   field: "##:soul-siphon/damage"
@@ -127,10 +125,13 @@ inc:
                   failure: "_{Controlled by you and follows your orders. It can attempt a new save at the end of each of its turns; on a success, the spell ends and it becomes stunned 1 and confused for 1 round.}"
                   critical_failure: "_{As failure, but a new save is only allowed if you give an order against its nature.}"
 
-  - at: '@oracle/mystery/curse'
+  - at: '@oracle/mystery/curse-title'
     replace:
       - h4: "_{Curse of Living Death}"
         size: small
+
+  - at: '@oracle/mystery/curse'
+    replace:
       - flags:
         contents:
           - "_{Curse}"
@@ -138,24 +139,44 @@ inc:
           - "_{Oracle}"
           - "_{Void}"
           - "_{Vitality}"
-      - p: "_{Your body slowly decays despite being alive, and using your powers furthers this unnatural living death, making you susceptible to both void and vitality damage. You carry a touch of the grave: bloodless pallor, a faint smell of earth, or deathly cold skin.}"
       - list:
         hr: true
         light: true
         contents:
-          - p:
-            title: "_{Cursebound 1}"
-            content: "_{Weakness 2 to vitality and void damage. You can be hurt by both vitality and void damage even if one or the other normally has no effect on you. Any immunity or resistance you have to vitality or void is suppressed.}"
-          - p:
-            title: "_{Cursebound 2}"
-            content: "_{-1 status penalty to Fortitude saves.}"
+          - g:
+            contents:
+              - p:
+                title: "_{Cursebound 1}"
+                content: "_{You can be hurt by both vitality and void damage even if one or the other normally has no effect on you. Any immunity or resistance you have to vitality or void is suppressed.}"
+              - value-block: "2"
+                content: "_{Weakness to vitality and void damage}"
+          - g:
+            contents:
+              - p:
+                title: "_{Cursebound 2}"
+              - value-block: "-1"
+                content: "_{status penalty to Fortitude saves}"
           - level: 11
             contents:
-              - p:
-                title: "_{Cursebound 3}"
-                content: "_{Your weakness to vitality and void damage is equal to 5 plus your level.}"
+              - g:
+                contents:
+                  - p:
+                    title: "_{Cursebound 3}"
+                  - calc:
+                    output:
+                      field: oracle-mystery-bones-weakness
+                      legend: "_{Weakness to\nvitality and void}"
+                      width: large
+                      eq: "5+%{level}"
+                    inputs:
+                      - field:
+                        ref: level
+                        label: "_{Level}"
           - level: 17
             contents:
-              - p:
-                title: "_{Cursebound 4}"
-                content: "_{Your status penalty to Fortitude saving throws increases to -2.}"
+              - g:
+                contents:
+                  - p:
+                    title: "_{Cursebound 4}"
+                  - value-block: "-2"
+                    content: "_{status penalty to Fortitude saving throws}"
