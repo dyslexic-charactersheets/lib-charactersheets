@@ -142,60 +142,77 @@ inc:
 
   - at: '@skill-feats-section'
     replace:
-      - list:
-        hr: true
+      - section: "_{Skill Feats}"
+        flex: large
         contents:
-          - g:
+          - list:
+            hr: true
             contents:
-              - list:
-                zebra: true
-                hr: true
-                columns: 2
+              - g:
                 contents:
-                  - each:
-                    template:
-                      - level: "#{level}"
-                        contents:
-                          - item:
+                  - list:
+                    zebra: true
+                    hr: true
+                    columns: 2
                     contents:
-                      - slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
-                        min: 1
-                        max: 1
-                        placeholder:
-                          article: 'skill-feat-#{level}'
-                          blk: false
-                          lines: 2
+                      - each:
+                        template:
+                          - level: "#{level}"
+                            contents:
+                              - item:
                         contents:
-                          - zone: '@skill-feats'
-          - g:
-            contents:
-              - list:
-                zebra: true
-                zebra-inverse: true
-                hr: true
-                columns: 2
+                          - slots: [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                            min: 1
+                            max: 1
+                            placeholder:
+                              article: 'skill-feat-#{level}'
+                              blk: false
+                              lines: 3
+                            contents:
+                              - zone: '@skill-feats'
+              - g:
                 contents:
-                  - g:
+                  - zone: '@investigator/skillful-lessons-into'
                     contents:
-                      - zone: '@investigator/skillful-lessons-into'
+                      - section: "_{Skillful Lessons}"
                         contents:
-                          - h5: "_{Skillful Lessons}"
                           - p: "_{Skill feats for Intelligence, Wisdom or Charisma-based skills.}"
-                  - each:
-                    template:
-                      - level: "#{level}"
-                        contents:
-                          - item:
+                  - list:
+                    zebra: true
+                    zebra-inverse: true
+                    hr: true
+                    columns: 2
                     contents:
-                      - slots: [ 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
-                        min: 1
-                        max: 1
-                        placeholder:
-                          article: 'skill-feat-#{level}'
-                          blk: false
-                          lines: 2
+                      - each:
+                        template:
+                          - if: "#{level}"
+                            then:
+                              - level: "#{level}"
+                                contents:
+                                  - item:
+                            else:
+                              - layout: indent-l
+                                contents:
+                                  - g:
+                                    contents:
+                                      - label: "_{Level}"
+                                      - field: "skill-feat-#{i}-level"
+                                        width: small
+                                        border: full
+                                  - g:
+                                    contents:
+                                      - item:
                         contents:
-                          - zone: '@skill-feats'
+                          - slots: [ 3, 5, 7, 9, 11, 13, 15, 17, 19 ]
+                            min: 1
+                            max: 1
+                            extra: 1
+                            placeholder:
+                              article: 'skill-feat-#{level}'
+                              blk: false
+                              lines: 5
+                            contents:
+                              - zone: '@skill-feats'
 
   - at: '@pages'
     add:
