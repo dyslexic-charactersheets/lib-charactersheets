@@ -22,9 +22,44 @@ inc:
                 hr: true
                 light: true
                 contents:
-                  - p: "_{In your hands, a shield gains the minor reinforcing rune. As you go up in level, the shield gains the reinforcing rune of your level: lesser at 7th level, moderate at 10th level, greater at 13th level, major at 16th level, and supreme at 19th level. If your shield already has the appropriate reinforcing rune for your level, or if it's a sturdy shield of the same level as the appropriate reinforcing rune, the shield's Hardness instead increases by 1.}"
+                  - p: "_{Your shield gains a reinforcing rune. If your shield supercedes the rune's powers for your level, then the shield's Hardness instead increases by 1.}"
+                  - table:
+                    flip: true
+                    rows:
+                      - level: 3
+                        rune: "_{Minor}"
+                        hardness: "+3"
+                        hp: "+44"
+                      - level: 7
+                        rune: "_{Lesser}"
+                        hardness: "+3"
+                        hp: "+52"
+                      - level: 10
+                        rune: "_{Moderate}"
+                        hardness: "+3"
+                        hp: "+64"
+                      - level: 13
+                        rune: "_{Greater}"
+                        hardness: "+5"
+                        hp: "+80"
+                      - level: 16
+                        rune: "_{Major}"
+                        hardness: "+5"
+                        hp: "+84"
+                      - level: 19
+                        rune: "_{Supreme}"
+                        hardness: "+7"
+                        hp: "+108"
+                    columns:
+                      - label: "_{Rune /\nLevel}"
+                      - label: "_{Hardness}"
+                      - label: "_{HP}"
+                    template:
+                      - level-marker: "#{level}"
+                        marker: "#{rune}"
+                      - value: "#{hardness}"
+                      - value: "#{hp}"
                   - field: champion-blessed-shield-rune
-                    label: "_{Current Reinforcing Rune}"
+                    label: "_{Current Rune}"
                     width: stretch
-                    frame: none
-                    underlay: "_{e.g. Lesser, Moderate...}"
+                    frame: annotation
