@@ -68,28 +68,116 @@ inc:
         width: stretch
         merge-bottom: true
         columns:
-          - label: "_{Toxin}"
+          - label: "_{Poison}"
             align: left
           - "_{Level}"
-          - "_{Type}"
-          - "_{Bonus}"
-          - "_{Effect}"
+          - "_{Action}"
+          - "_{Activate}"
+          - "_{Stages}"
         rows:
           - n: 1
           - n: 2
         template:
-          - field: alchemist-toxin-#{i}
+          - field: alchemist-poison-#{i}
             width: stretch
             # label: "_&nbsp;"
             underlay: "#{n}"
-          - field: alchemist-toxin-#{i}-level
+          - field: alchemist-poison-#{i}-level
             width: small
 
-          - field: alchemist-toxin-#{i}-type
+          - field: alchemist-poison-#{i}-action
+            control: icon
+            icon: action-template
+
+          - field: alchemist-poison-#{i}-activate
             width: huge
-            
-          - field: alchemist-toxin-#{i}-bonus
-            prefix: "+"
-            border: full
-          - field: alchemist-toxin-#{i}-effect
+          - field: alchemist-poison-#{i}-stages
             width: stretch
+
+  - at: '@formula-book/left'
+    replace:
+      - list:
+        zebra: true
+        hr: true
+        flex: true
+        contents:
+          - repeat: 4
+            index: j
+            contents:
+              - article: formula-book-poison-#{j}
+                show-level: true
+                header:
+                  - row:
+                    contents:
+                      - field: 'formula-book-poison-#{j}'
+                        width: stretch
+                        align: left
+                        legend: "_{Poison}"
+                      - field: 'formula-book-poison-#{j}-level'
+                        label: "_{Level}"
+
+                contents:
+                  - action: template
+                    contents:
+                      - row:
+                        contents:
+                          - field: formula-book-poison-#{j}-activate
+                            label: "_{Activate}"
+                            width: stretch
+                          - field: formula-book-poison-#{j}-method
+                            label: "_{Method}"
+                            width: stretch
+
+                  - row:
+                    contents:
+                      - field: "##:formula-book-poison-#{j}-onset"
+                        label: "_{Onset}"
+                        width: stretch
+                      - field: "##:formula-book-poison-#{j}-save"
+                        label: "_{Saving Throw}"
+                        width: stretch
+                        align: right
+                      - field: formula-book-poison-#{j}-save-dc
+                        label: "_{DC}"
+                        icon: dc
+                        border: full
+
+                  - list:
+                    contents:
+                      - row:
+                        contents:
+                          - p:
+                            title: "_{Stage 1}"
+                          - field: formula-book-poison-#{j}-stage-1
+                      - row:
+                        contents:
+                          - p:
+                            title: "_{Stage 2}"
+                          - field: formula-book-poison-#{j}-stage-2
+                      - row:
+                        contents:
+                          - p:
+                            title: "_{Stage 3}"
+                          - field: formula-book-poison-#{j}-stage-3
+
+                  - field: 'formula-book-poison-#{j}-details'
+                    width: stretch
+                    align: left
+                    frame: none
+                    repeat: 2
+                    reduce: 1
+                  - row:
+                    contents:
+                      - field: 'formula-book-poison-#{j}-final'
+                        width: stretch
+                      - field: 'formula-book-poison-#{j}-ref'
+                        icon: book
+                        label: "_{Source}"
+                        align: left
+                        width: huge
+                        control: compound
+                        parts:
+                          - width: large
+                          - span: 'p'
+                          - width: large
+                            align: left
