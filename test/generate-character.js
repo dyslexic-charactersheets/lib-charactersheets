@@ -15,6 +15,7 @@ const IN_DIR = path.join(__dirname, 'in');
 const OUT_DIR = path.join(__dirname, 'out');
 const JSON_DIR = path.join(OUT_DIR, 'json');
 const HTML_DIR = path.join(OUT_DIR, 'html');
+const JSON2_DIR = path.join(OUT_DIR, 'json2');
 const CONFIG_PATH = path.join(__dirname, 'generate-character.config.json');
 
 const DEFAULT_LIMIT = 200;
@@ -48,8 +49,14 @@ multi-arg:
                                          a single class (needs exactly one --class to be picked)
 
 --limit <integer>                      | limit the number of files that can generate at once above default
---kwargs key=value                     | overwrite any attribute
+--kwargs key=value                     | overwrite any request attribute (game/options/theme/...)
+--fields key=value                     | --fields level=5,STR=3,DEX=2
+                                         but allows to overwrite any desirable fields
 --render                               | create test/out/html/<filename>.html
+--dump-fields                          | needs --render; scans the rendered html for every
+                                         fillable <input> and writes test/out/json2/<name>.json
+                                         which is a json dump of all the fields that can be 
+                                         imported into the file later
 --page                                 | only keep these pages (1 = the character page,
                                          then combat/feats/class/etc) + 0, -1, -2... allow to
                                          access pages before, may be non-consecutive: --page -1,2,6
@@ -165,6 +172,7 @@ const BOOLEAN_FLAGS = new Set([
   'no-build',
   'clean',
   'purge',
+  'dump-fields',
 ]);
 
 function parseArgs(argv) {
@@ -180,6 +188,7 @@ function parseArgs(argv) {
     backgrounds: [],
     languages: [],
     pages: [],
+    fields: [],
   };
 
   for (let i = 0; i < argv.length; i++) {
@@ -214,6 +223,8 @@ function parseArgs(argv) {
       case 'archetypes': args.archetypes.push(...splitMultiflag(value)); break;
       case 'kwarg':
       case 'kwargs': args.kwargs.push(value); break;
+      case 'field':
+      case 'fields': args.fields.push(...splitMultiflag(value)); break;
       case 'language':
       case 'languages': args.languages.push(...splitMultiflag(value)); break;
       case 'out': args.out = value; break;
@@ -222,6 +233,7 @@ function parseArgs(argv) {
       case 'page':
       case 'pages': args.pages.push(...splitMultiflag(value).map(v => parseInt(v, 10))); break;
       case 'render': args.render = true; break;
+      case 'dump-fields': args.dumpFields = true; break;
       case 'open': args.open = true; break;
       case 'no-build': args.noBuild = true; break;
       case 'clean': args.clean = true; break;
@@ -294,18 +306,34 @@ function attributesForIdentity(identity, config, game) {
   // language
   attributes.language = resolveLanguageOrExit(data, identity.language).code;
 
+  // fields
+  const fields = { ...(config.fields || {}) };
+  if (Object.keys(fields).length) attributes.fields = fields;
+
   return attributes;
 }
 
-
-// apply kwargs into the attributes object
-function applyKwargs(attributes, kwargs) {
-  kwargs.forEach(raw => {
+// parse key-value into --kwargs and --fields
+function parseKeyValueList(list) {
+  const obj = {};
+  list.forEach(raw => {
     const eq = raw.indexOf('=');
     const key = raw.slice(0, eq);
     const value = raw.slice(eq + 1);
-    attributes[key] = value;
+    obj[key] = value;
   });
+  return obj;
+}
+
+// apply --kwargs onto attributes
+function applyKwargs(attributes, kwargs) {
+  Object.assign(attributes, parseKeyValueList(kwargs));
+}
+
+// apply --fields onto attributes
+function applyFieldArgs(attributes, fieldArgs) {
+  if (!fieldArgs.length) return;
+  attributes.fields = { ...(attributes.fields || {}), ...parseKeyValueList(fieldArgs) };
 }
 
 // build json object to send
@@ -335,7 +363,7 @@ function writeRequestFile(name, request) {
 // same attribute being parsed as a single character at once
 
 function cleanOutDir() {
-  [JSON_DIR, HTML_DIR].forEach(dir => {
+  [JSON_DIR, HTML_DIR, JSON2_DIR].forEach(dir => {
     fs.rmSync(dir, { recursive: true, force: true });
     console.log(`Cleaned ${path.relative(process.cwd(), dir)}`);
   });
@@ -422,10 +450,51 @@ function filterToPages(html, pageIndexes) {
   return $.html();
 }
 
+// scans every <input name=...> actually printed on the sheet
+function extractFillableFields(html) {
+  const $ = cheerio.load(html, { decodeEntities: false });
+  const fields = {};
+
+  $('input[name]').each((i, el) => {
+    const $el = $(el);
+    if ($el.attr('readonly') !== undefined) return;
+
+    const name = $el.attr('name');
+    const type = $el.attr('type') || 'text';
+
+    // radio selector
+    if (type === 'radio') {
+      const entry = fields[name] || { type: 'radio', options: [], value: null };
+      const value = $el.attr('value');
+      if (value && !entry.options.includes(value)) entry.options.push(value);
+      if ($el.attr('checked') !== undefined) entry.value = value;
+      fields[name] = entry;
+      return;
+    }
+
+    // checkbox selector
+    if (type === 'checkbox') {
+      fields[name] = { type: 'checkbox', checked: $el.attr('checked') !== undefined };
+      return;
+    }
+
+    fields[name] = { type, value: $el.attr('value') || '' };
+  });
+
+  return fields;
+}
+
+function writeFieldsFile(name, fields) {
+  fs.mkdirSync(JSON2_DIR, { recursive: true });
+  const outFile = path.join(JSON2_DIR, `${name}.json`);
+  fs.writeFileSync(outFile, JSON.stringify(fields, null, 2));
+  console.log(`Wrote ${path.relative(process.cwd(), outFile)}`);
+}
+
 // same shape as saveResult in test.js
-function saveResult(result, name, openFlag, pages) {
+function saveResult(result, name, openFlag, pages, dumpFields) {
   if (Array.isArray(result)) {
-    result.forEach(r => saveResult(r, name, openFlag, pages));
+    result.forEach(r => saveResult(r, name, openFlag, pages, dumpFields));
     return;
   }
 
@@ -433,6 +502,8 @@ function saveResult(result, name, openFlag, pages) {
     console.error('generate-character: render error', result.err);
     return;
   }
+
+  if (dumpFields) writeFieldsFile(name, extractFillableFields(result.data));
 
   const data = pages.length ? filterToPages(result.data, pages) : result.data;
 
@@ -446,7 +517,7 @@ function saveResult(result, name, openFlag, pages) {
     openFile(outfile);
 }
 
-function renderToOut(request, name, openFlag, pages) {
+function renderToOut(request, name, openFlag, pages, dumpFields) {
   const characterSheets = getCharacterSheets();
 
   return characterSheets.translationsPromise.then(() => characterSheets.create(request)).then(result => {
@@ -455,7 +526,7 @@ function renderToOut(request, name, openFlag, pages) {
       return;
     }
 
-    saveResult(result, name, openFlag, pages);
+    saveResult(result, name, openFlag, pages, dumpFields);
   });
 }
 
@@ -633,6 +704,7 @@ function buildRequests(combos, identity, config, args) {
       return null;
     }
     applyKwargs(attributes, args.kwargs);
+    applyFieldArgs(attributes, args.fields);
 
     const name = nameForCombo(combo, args, identity, multi, multiFlags);
     return { name, request: buildRequest(attributes) };
@@ -684,7 +756,7 @@ async function main() {
     return Promise.resolve();
   }
 
-  return requests.reduce((chain, { name, request }) => chain.then(() => renderToOut(request, name, args.open, args.pages)), Promise.resolve());
+  return requests.reduce((chain, { name, request }) => chain.then(() => renderToOut(request, name, args.open, args.pages, args.dumpFields)), Promise.resolve());
 }
 
 main().catch(err => {
