@@ -98,11 +98,21 @@ function removeRemasterPrefix(code) {
   return code.startsWith(REMASTER_PREFIX) ? code.slice(REMASTER_PREFIX.length) : code;
 }
 
+// try to find the requested character traits without a 1-to-1 match
+// otherwise it's extremely irritating to figure out the particular naming convention
+function matchesTrailingTokens(code, inputTokens) {
+  const codeTokens = code.toLowerCase().split('-');
+  return codeTokens.length >= inputTokens.length
+    && codeTokens.slice(-inputTokens.length).join('-') === inputTokens.join('-');
+}
+
 function resolveValue(slot, input) {
   const needle = input.toLowerCase();
+  const inputTokens = needle.split('-').filter(Boolean);
   return slot.values.find(v => v.code === input)
     || slot.values.find(v => removeRemasterPrefix(v.code) === input)
-    || slot.values.find(v => removeTranslationKey(v.name).toLowerCase() === needle);
+    || slot.values.find(v => removeTranslationKey(v.name).toLowerCase() === needle)
+    || slot.values.find(v => matchesTrailingTokens(v.code, inputTokens));
 }
 
 class GenerateCharacterError extends Error {}
@@ -111,6 +121,8 @@ class UnknownValueError extends GenerateCharacterError {}
 class UnknownLanguageError extends GenerateCharacterError {}
 class UnresolvedSubclassError extends GenerateCharacterError {}
 class SubclassRequiresSingleClassError extends GenerateCharacterError {}
+class UnresolvedHeritageError extends GenerateCharacterError {}
+class HeritageRequiresSingleAncestryError extends GenerateCharacterError {}
 class ListRequiresSingleAncestryError extends GenerateCharacterError {}
 class ListRequiresSingleClassError extends GenerateCharacterError {}
 class UnknownListGroupError extends GenerateCharacterError {}
@@ -262,8 +274,17 @@ function attributesForIdentity(identity, config, game) {
   // heritage
   const heritageSlotName = (ancestryValue.selects || []).find(name => name.startsWith('heritage/'));
   if (heritageSlotName) {
-    const heritageValue = resolveOrExit(findSlot(data, heritageSlotName), identity.heritage, 'heritage');
-    attributes[heritageSlotName] = heritageValue.id;
+    const rawHeritage = (identity.heritages || {})[identity.ancestry]
+      ?? (identity.heritages || {})[removeRemasterPrefix(ancestryValue.code)];
+    if (rawHeritage) {
+      const heritageValue = resolveValue(findSlot(data, heritageSlotName), rawHeritage);
+      if (!heritageValue) {
+        throw new UnresolvedHeritageError(
+          `heritage "${rawHeritage}" not found for ancestry "${removeTranslationKey(ancestryValue.name)}" in ${game}`
+        );
+      }
+      attributes[heritageSlotName] = heritageValue.id;
+    }
   }
 
   // background
@@ -591,7 +612,6 @@ function resolveGames(args, config) {
 function buildVariants(args, identity) {
   return {
     ancestryVariants: args.ancestries.length ? args.ancestries : [identity.ancestry],
-    heritageVariants: args.heritages.length ? args.heritages : [identity.heritage],
     backgroundVariants: args.backgrounds.length ? args.backgrounds : [identity.background],
     languageVariants: args.languages.length ? args.languages : [identity.language],
     classVariants: args.classes.length ? args.classes : [null],
@@ -600,29 +620,41 @@ function buildVariants(args, identity) {
   };
 }
 
+// heritage depends on which ancestry it's paired with
+function checkHeritageNeedsOneAncestry(ancestryVariants, heritageSpecs) {
+  if (!heritageSpecs.length) return;
+  if (ancestryVariants.length !== 1) {
+    throw new HeritageRequiresSingleAncestryError('--heritage needs exactly one --ancestry');
+  }
+}
+
 // subclass depends on which class it's paired with
 function buildCombos(games, variants, identity, args) {
   const {
-    ancestryVariants, heritageVariants, backgroundVariants, languageVariants,
+    ancestryVariants, backgroundVariants, languageVariants,
     classVariants, featVariants, archetypeVariants,
   } = variants;
 
   checkSubclassNeedsOneClass(classVariants, identity.classes, args.subclasses);
+  checkHeritageNeedsOneAncestry(ancestryVariants, args.heritages);
 
   const independentCombos = cartesian([
-    games, ancestryVariants, heritageVariants, backgroundVariants,
-    languageVariants, featVariants, archetypeVariants,
+    games, backgroundVariants, languageVariants, featVariants, archetypeVariants,
   ]);
 
   const combos = [];
-  classVariants.forEach(classValue => {
-    const subclassCodes = args.subclasses.length ? args.subclasses : [null];
-    subclassCodes.forEach(subclassCode => {
-      independentCombos.forEach(([
-        game, ancestry, heritage, background, language, featValue, archetypeValue,
-      ]) => {
-        combos.push({
-          game, ancestry, heritage, background, language, classValue, subclassCode, featValue, archetypeValue,
+  ancestryVariants.forEach(ancestry => {
+    const heritageCodes = args.heritages.length ? args.heritages : [null];
+    heritageCodes.forEach(heritageCode => {
+      classVariants.forEach(classValue => {
+        const subclassCodes = args.subclasses.length ? args.subclasses : [null];
+        subclassCodes.forEach(subclassCode => {
+          independentCombos.forEach(([game, background, language, featValue, archetypeValue]) => {
+            combos.push({
+              game, ancestry, heritage: heritageCode, background, language,
+              classValue, subclassCode, featValue, archetypeValue,
+            });
+          });
         });
       });
     });
@@ -655,7 +687,6 @@ function comboIdentityFor(combo, identity) {
   const comboIdentity = {
     ...identity,
     ancestry: combo.ancestry,
-    heritage: combo.heritage,
     background: combo.background,
     language: combo.language,
   };
@@ -665,6 +696,9 @@ function comboIdentityFor(combo, identity) {
   if (combo.subclassCode) {
     const classCode = combo.classValue || identity.classes[0];
     comboIdentity.subclasses = { ...identity.subclasses, [classCode]: combo.subclassCode };
+  }
+  if (combo.heritage) {
+    comboIdentity.heritages = { ...identity.heritages, [combo.ancestry]: combo.heritage };
   }
   return comboIdentity;
 }
@@ -699,7 +733,7 @@ function buildRequests(combos, identity, config, args) {
     try {
       attributes = attributesForIdentity(comboIdentity, config, combo.game);
     } catch (err) {
-      if (!(err instanceof UnresolvedSubclassError)) throw err;
+      if (!(err instanceof UnresolvedSubclassError) && !(err instanceof UnresolvedHeritageError)) throw err;
       console.error(`generate-character: skipping - ${err.message}`);
       return null;
     }
