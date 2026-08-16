@@ -197,6 +197,17 @@ for (let arrowElem of document.getElementsByClassName('arrow')) {
     for (let tailCurveElem of arrowElem.getElementsByClassName('arrow__tail-curve')) {
       tailCurveElem.classList.add('arrow__curve--'+tailCurveClass);
     }
+
+    // when the head and tail curves have no room to fit side by side,
+    // collapse them into a straight line 
+    if (isVertical || isHorizontal) {
+      let curveElem = arrowElem.getElementsByClassName('arrow__curve')[0];
+      let curvePx = curveElem ? parseFloat(getComputedStyle(curveElem).width) : 0;
+      let gap = isVertical ? box.width : box.height;
+      if (gap < curvePx * 2) {
+        arrowElem.classList.add('arrow--flat');
+      }
+    }
   } else {
     if (from == null) {
       console.log("Arrow has no 'from' element to attach to:", arrowElem.dataset.from);
