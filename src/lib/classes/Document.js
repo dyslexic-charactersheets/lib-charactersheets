@@ -700,7 +700,7 @@ export class Document {
   }
 
   getAnimalCopyright() {
-    return this.getCopyright(this.portraitCopyright);
+    return this.getCopyright(this.animalCopyright);
   }
 
   getCopyright(copyright) {
