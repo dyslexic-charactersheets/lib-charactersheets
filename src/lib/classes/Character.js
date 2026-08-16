@@ -116,6 +116,9 @@ function parseCharacter(primary, request) {
     isNoCalc: attr.browserTarget == "pdf",
     debug: primary.debug,
     instances: {},
+
+    // arbitrary field-id -> value prefills 
+    fields: isObject(attr.fields) ? attr.fields : {},
   };
 
   log("Character", "Is logged in?", char.isLoggedIn);
@@ -543,6 +546,13 @@ export class Character extends Instance {
             }
           });
           // log("Character", "Document vars", document.vars);
+
+          // arbitrary field prefills
+          if (has(data, "fields")) {
+            Object.keys(data.fields).forEach(key => {
+              document.setVar(key, data.fields[key], "high");
+            });
+          }
 
           // load units
           document.isLoggedIn = data.isLoggedIn;
