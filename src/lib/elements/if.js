@@ -112,8 +112,8 @@ export let switchelem = {
   },
   transform(args, ctx) {
     log("switch", "Evaluating switch:", args.on);
-    for (let key in args.values) {
-      let value = args.values[key];
+    for (let key in args.case) {
+      let value = args.case[key];
       if (testCondition(`${args.on}==${key}`, ctx)) {
         return value;
       }
@@ -122,8 +122,8 @@ export let switchelem = {
   },
   render(args, reg, doc) {
     warn("switch", "Late evaluation of switch:", args.on);
-    for (let key in args.values) {
-      let value = args.values[key];
+    for (let key in args.case) {
+      let value = args.case[key];
       if (testCondition(`${args.on}==${key}`, doc)) {
         return reg.render(value, doc);
       }
