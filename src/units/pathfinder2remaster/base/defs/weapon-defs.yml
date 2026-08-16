@@ -45,7 +45,7 @@ inc:
     params:
       id:
     contents:
-      - field: attack-#{i}-damage-type
+      - field: "#{id}"
         label: "_{Type}"
         width: small
         control: enum
@@ -58,6 +58,7 @@ inc:
           - "_{P}/_{S}"
           - "_{P}/_{B}"
           - "_{S}/_{B}"
+          - "_{P}/_{S}/_{B}"
 
   - copy: natural-weapon
     params:
@@ -234,6 +235,180 @@ inc:
                 align: right
                 merge-bottom: true
               - field: attack-#{i}-critical-unlocked
+                frame: none
+                control: checkbox
+
+  # a flexible attack slot: click the weapon-type icon to switch it between melee and ranged
+  - copy: weapon-flexible
+    params:
+      i: 0
+      type: melee
+    contents:
+      - g:
+        contents:
+          - row:
+            contents:
+              - field: attack-#{i}-weapon-type
+                control: weapon-type-icon
+                value: "#{type}"
+                frame: none
+              - field: attack-#{i}
+                width: stretch
+                frame: none
+                align: left
+                size: large
+              - field: attack-#{i}-range
+                'ranged-only': true
+                control: speed
+                width: huge
+                border: full
+                frame: none
+          - row:
+            contents:
+              - calc:
+                output:
+                  field: attack-#{i}-bonus
+                  label: "_{Attack Bonus}"
+                  width: huge
+                  attack: true
+                  icon: bonus
+                  eq: "%{attack-#{i}-attribute}+%{attack-#{i}-proficiency-bonus}+%{attack-#{i}-potency[rank]}+%{attack-#{i}-misc}"
+                  format: modifier
+                inputs:
+                  - field: attack-#{i}-attribute
+                    ref: true
+                    misc: true
+                    label: "_{Attribute}"
+                    control: ref-switch
+                    abilities: "str,dex"
+                  - field: attack-#{i}-proficiency
+                    control: proficiency
+                    category: weapon
+                    label: "_{Proficiency}"
+                  - zone: '@attack-potency'
+                    contents:
+                      - field: attack-#{i}-potency
+                        control: counter
+                        label: "_{Potency}"
+              - large-print:
+                contents:
+                  - field: attack-#{i}-more
+                    label: "_{Weapon Traits}"
+                    width: stretch
+                    align: right
+                else:
+                  - paste: weapon-damage-block
+                    params:
+                      i: "#{i}"
+          - row:
+            flex: huge
+            contents:
+              - field: "ammo-#{i}"
+                'ranged-only': true
+                label: "_{Ammo}"
+                unlined: true
+                width: small
+                size: huge
+                underlay: "#"
+                merge-bottom: true
+                format: int
+              - field: ammo-#{i}-count
+                'ranged-only': true
+                frame: none
+                control: checkgrid
+                max: 30
+                depth: 3
+              - vr:
+                'ranged-only': true
+              - large-print:
+                contents:
+                  - paste: weapon-damage-block
+                    params:
+                      i: "#{i}"
+                else:
+                  - field: attack-#{i}-details
+                    label: "_{Weapon Traits}"
+                    width: stretch
+                    align: left
+                    merge-bottom: true
+              - field: attack-#{i}-critical
+                label: "_{Critical}"
+                width: stretch
+                align: right
+                merge-bottom: true
+              - field: attack-#{i}-critical-unlocked
+                frame: none
+                control: checkbox
+
+  - copy: weapon-unarmed
+    contents:
+      - g:
+        contents:
+          - row:
+            contents:
+              - field: attack-unarmed
+                value: "_{Unarmed}"
+                width: stretch
+                frame: none
+                align: left
+                size: large
+                icon: claw
+          - row:
+            contents:
+              - calc:
+                output:
+                  field: attack-unarmed-bonus
+                  label: "_{Attack Bonus}"
+                  width: huge
+                  attack: true
+                  icon: bonus
+                  eq: "%{attack-unarmed-attribute}+%{attack-unarmed-proficiency-bonus}+%{attack-unarmed-potency[rank]}+%{attack-unarmed-misc}"
+                  format: modifier
+                inputs:
+                  - field: attack-unarmed-attribute
+                    ref: true
+                    misc: true
+                    label: "_{Attribute}"
+                    control: ref-switch
+                    abilities: "str,dex"
+                  - field: attack-unarmed-proficiency
+                    control: proficiency
+                    label: "_{Proficiency}"
+                  - zone: '@attack-potency'
+                    contents:
+                      - field: attack-unarmed-potency
+                        control: counter
+                        label: "_{Potency}"
+              - large-print:
+                contents:
+                  - field: attack-unarmed-more
+                    label: "_{Weapon Traits}"
+                    width: stretch
+                    align: right
+                else:
+                  - paste: weapon-damage-block
+                    params:
+                      i: "unarmed"
+          - row:
+            flex: huge
+            contents:
+              - large-print:
+                contents:
+                  - paste: weapon-damage-block
+                    params:
+                      i: "unarmed"
+                else:
+                  - field: attack-unarmed-details
+                    label: "_{Weapon Traits}"
+                    width: stretch
+                    align: left
+                    merge-bottom: true
+              - field: attack-unarmed-critical
+                label: "_{Critical}"
+                width: stretch
+                align: right
+                merge-bottom: true
+              - field: attack-unarmed-critical-unlocked
                 frame: none
                 control: checkbox
 

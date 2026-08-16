@@ -659,6 +659,24 @@ export let field_control_action_icon = {
   }
 }
 
+export let field_control_weapon_type_icon = {
+  name: 'control:weapon-type-icon',
+  defaults: {
+    value: "melee",
+    border: "none",
+  },
+  render(args) {
+    const cls = elementClass("field", "control", { control: "icon" }, [], { "control": "input" });
+
+    let icon = args.value === 'ranged' ? 'bow' : (args.value === 'unarmed' ? 'claw' : 'sword');
+
+    return `<div${cls}>
+    <input type='hidden'${fieldIdent(args.id).ident} class='field--control_weapon-type-icon__icon' value='${args.value}'> `+
+    `<i class='icon field--control_weapon-type-icon__icon icon_${icon}'></i>
+    </div>`;
+  }
+}
+
 export let field_control_ref_switch = {
   name: 'control:ref-switch',
   defaults: {
