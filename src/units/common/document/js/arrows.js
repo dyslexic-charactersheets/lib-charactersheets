@@ -159,7 +159,7 @@ for (let arrowElem of document.getElementsByClassName('arrow')) {
         headCurveClass = isShiftAbove ? 'top-right' : 'bottom-right';
         tailCurveClass = isShiftAbove ? 'bottom-left' : 'top-left';
         break;
-      case 'left':
+      case 'right':
         // box.top = isShiftAbove ? toPoint.y : fromPoint.y;
         // box.left = toPoint.x;
         headCurveClass = isShiftAbove ? 'top-left' : 'bottom-left';
