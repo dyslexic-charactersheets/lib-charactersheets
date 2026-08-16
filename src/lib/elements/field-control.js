@@ -67,6 +67,13 @@ function renderCompoundControl(args, reg, doc) {
         part.id = args.id + "-" + part.subid;
       }
     }
+
+    // fall back to a per-part prefill
+    if ((isNull(part.value) || part.value === '') && part.id) {
+      const prefilled = doc.getVar(part.id, part.format);
+      if (prefilled !== false) part.value = prefilled;
+    }
+    
     part.type = 'control:' + part.control;
 
     return reg.renderItem(part, doc);
