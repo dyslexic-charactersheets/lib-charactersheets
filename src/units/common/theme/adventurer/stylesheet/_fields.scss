@@ -6,6 +6,7 @@
 @use "constants";
 @use "colours";
 @use "fonts";
+@use "icons";
 
 @use "sass:math";
 
@@ -168,6 +169,15 @@
       label {
         border-width: 0.09rem;
       }
+    }
+
+    &.field__control--control_checkbox.field__control--half-boost {
+      display: block;
+      position: absolute;
+      bottom: -0.6rem;
+      right: -0.6rem;
+      width: 1.2rem;
+      height: 1.2rem;
     }
 
     input {
@@ -362,6 +372,26 @@ article header .field__box {
 
         &:checked + label {
           background-image: url('{{{dataurl "images/checkbox-progress-checked.svg"}}}');
+        }
+      }
+    }
+
+    &.field__control--half-boost {
+      input[type="checkbox"] {
+        + label, body.body--hide-values &:checked + label {
+          border: 0 none;
+          background-color: transparent;
+          background-repeat: no-repeat;
+          background-size: contain;
+          background-position: center;
+          width: 1.2rem;
+          height: 1.2rem;
+          filter: drop-shadow(0 0 0.04rem #fff) drop-shadow(0 0 0.04rem #fff) drop-shadow(0 0 0.04rem #fff);
+          @include icons.icon-colourful-all("boost-up");
+        }
+
+        &:checked + label {
+          @include icons.icon-colourful-all("boost-up-checked");
         }
       }
     }
