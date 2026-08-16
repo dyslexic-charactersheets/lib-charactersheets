@@ -32,6 +32,7 @@ export let field = {
     overprint: false,
     eq: false,
     ref: false,
+    'ranged-only': false,
   },
   expect: ['icon'],
   // transform(args, ctx) {
@@ -70,7 +71,7 @@ export let field = {
     const id = elementID('field', args.id);
     const name = elementName('field', args.id);
     const cls = elementClass('field', null, args,
-      ["icon", "ref", "misc", "temp", "indent", "blk", "overprint", "no-icon-indent"],
+      ["icon", "ref", "misc", "temp", "indent", "blk", "overprint", "no-icon-indent", "ranged-only"],
       { "frame": "normal", "width": "", "align": "centre", "size": "medium", "control": "input", "shift": 0, "rb": 0, "border": "bottom", "flex": false, "colour": false });
 
     const frameArgs = Object.assign({}, args, { type: 'frame:' + args.frame });
