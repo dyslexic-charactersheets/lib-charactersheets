@@ -121,6 +121,8 @@ export let slots = {
 
       let add = cloneDeep(args.placeholder);
       add = interpolate(add, values);
+      add = isArray(add) ? add : [add];
+      add.forEach(item => item[args.key] = values[args.key]);
       contents = contents.concat(add);
     }
 
@@ -132,6 +134,8 @@ export let slots = {
 
       let add = cloneDeep(args.placeholder);
       add = interpolate(add, values);
+      add = isArray(add) ? add : [add];
+      add.forEach(item => item[args.key] = values[args.key]);
       contents = contents.concat(add);
     }
 
