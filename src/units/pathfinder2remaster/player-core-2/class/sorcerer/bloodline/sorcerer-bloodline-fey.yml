@@ -51,33 +51,50 @@ inc:
 
   - at: '@sorcerer/bloodline-spell/initial'
     replace:
-      - action:
+      - action: "13"
         contents:
           - article:
             title: "_{Faerie Dust}"
             cat: "_{Focus 1}"
             contents:
-              - p: "_{Scatter shimmering dust over an area, dazzling and distracting creatures within it.}"
+              - dl:
+                  range: "_{30ft}"
+                  area: "_{5-foot burst or more}"
+                  save: "_{Will}"
+              - p: "_{You sprinkle magical dust in the spell's area, making those within easier to trick. For each additional action you use when Casting the Spell, increase the burst's radius by 5 feet.}"
+              - paste: save
+                params:
+                  critical_success: "_{Unaffected.}"
+                  success: "_{Unaffected.}"
+                  failure: "_{Can't use reactions and takes a -2 status penalty to Perception checks and Will saves.}"
+                  critical_failure: "_{As failure, and also takes a -1 status penalty to Perception checks and Will saves for 1 minute.}"
 
   - at: '@sorcerer/bloodline-spell/advanced'
-    replace:
-      - action: reaction
-        contents:
-          - article:
-            title: "_{Fey Disappearance}"
-            cat: "_{Focus 4}"
-            contents:
-              - p: "_{Vanish in a puff of glamour when threatened, becoming briefly invisible and moving away.}"
-
-  - at: '@sorcerer/bloodline-spell/greater'
     replace:
       - action:
         contents:
           - article:
-            title: "_{Fey Glamour}"
-            cat: "_{Focus 8}"
+            title: "_{Fey Disappearance}"
+            cat: "_{Focus 3}"
             contents:
-              - p: "_{Weave an illusion of the First World around an area, confusing and enthralling those within.}"
+              - dl:
+                  duration: "_{until the end of your next turn}"
+              - p: "_{You become invisible and ignore natural difficult terrain (such as underbrush). Any hostile action you use ends this invisibility, but you still ignore natural difficult terrain.}"
+              - p: "_{Heightened (5th): if you use a hostile action, the invisibility doesn't end.}"
+
+  - at: '@sorcerer/bloodline-spell/greater'
+    replace:
+      - action: 2
+        contents:
+          - article:
+            title: "_{Fey Glamour}"
+            cat: "_{Focus 5}"
+            contents:
+              - dl:
+                  range: "_{30ft}"
+                  area: "_{30-foot burst or up to 10 willing creatures}"
+                  duration: "_{10 minutes}"
+              - p: "_{You call upon fey glamours to cloak an area or the targets in illusion. This has the effect of either illusory scene on the area or illusory disguise on the creatures, as if heightened to a rank 1 lower than fey glamour, and using fey glamour's range and duration.}"
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:

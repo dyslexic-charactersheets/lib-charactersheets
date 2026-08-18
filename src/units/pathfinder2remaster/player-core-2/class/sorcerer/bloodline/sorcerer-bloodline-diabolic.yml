@@ -57,7 +57,11 @@ inc:
             title: "_{Diabolic Edict}"
             cat: "_{Focus 1}"
             contents:
-              - p: "_{Offer a foe a devilish bargain, dealing damage that increases if it accepts your terms.}"
+              - dl:
+                  range: "_{30ft}"
+                  target: "_{1 willing living creature}"
+                  duration: "_{1 round}"
+              - p: "_{You issue a diabolic edict, demanding the target perform a particular task and offering rewards for its fulfillment. It gains a +1 status bonus to attack rolls and skill checks related to performing the task. If it refuses to perform the task you proclaimed, it instead takes a -1 status penalty to all its attack rolls and skill checks.}"
 
   - at: '@sorcerer/bloodline-spell/advanced'
     replace:
@@ -65,9 +69,31 @@ inc:
         contents:
           - article:
             title: "_{Embrace the Pit}"
-            cat: "_{Focus 4}"
+            cat: "_{Focus 3}"
             contents:
-              - p: "_{Take on a fiendish form for a time, gaining resistance to fire and a clawed unarmed attack.}"
+              - dl:
+                  duration: "_{1 minute}"
+              - p: "_{Devil horns grow from your skull, and your skin takes on features of the devil responsible for your diabolic bloodline.}"
+              - calc:
+                output:
+                  field: "##:embrace-the-pit/resistance-fire-poison"
+                  legend: "_{Fire /\nPoison\nResistance}"
+                  width: large
+                  eq: "floor((%{focus-rank}-3)/2)*5+5"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
+              - calc:
+                output:
+                  field: "##:embrace-the-pit/resistance-physical"
+                  legend: "_{Physical\nResistance\n(Except Silver)}"
+                  width: large
+                  eq: "floor((%{focus-rank}-3)/2)*2+1"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
 
   - at: '@sorcerer/bloodline-spell/greater'
     replace:
@@ -75,9 +101,25 @@ inc:
         contents:
           - article:
             title: "_{Hellfire Plume}"
-            cat: "_{Focus 8}"
+            cat: "_{Focus 5}"
             contents:
-              - p: "_{Call forth a plume of hellfire, dealing fire damage and leaving foes weakened to fire.}"
+              - dl:
+                  range: "_{60ft}"
+                  area: "_{10-foot radius, 60-foot-tall cylinder}"
+                  save: "_{basic Reflex}"
+              - p: "_{You call forth a plume of hellfire that erupts from below, dealing fire damage and spirit damage.}"
+              - calc:
+                output:
+                  field: "##:hellfire-plume/damage"
+                  legend: "_{Fire /\nSpirit Damage\n(Each)}"
+                  width: large
+                  suffix: "_{d6 each}"
+                  icon: d6
+                  eq: "%{focus-rank}-1"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:

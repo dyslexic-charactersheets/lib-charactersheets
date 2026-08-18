@@ -57,17 +57,32 @@ inc:
             title: "_{Tentacular Limbs}"
             cat: "_{Focus 1}"
             contents:
-              - p: "_{Grow writhing tentacles that can deliver touch spells or make unarmed strikes.}"
+              - dl:
+                  duration: "_{1 minute}"
+              - p: "_{Your arms turn into long, pliable tentacles, increasing your reach when delivering touch spells and making unarmed Strikes with your arms to 10 feet. During the duration, whenever you Cast a Spell, you can add an action to extend your reach to 20 feet to deliver that spell.}"
+              - p: "_{Heightened (+2): when you add an action to extend your reach, it increases by an additional 10 feet.}"
 
   - at: '@sorcerer/bloodline-spell/advanced'
     replace:
-      - action:
+      - action: "13"
         contents:
           - article:
             title: "_{Aberrant Whispers}"
-            cat: "_{Focus 4}"
+            cat: "_{Focus 3}"
             contents:
-              - p: "_{Utter phrases in an unknown tongue, dealing mental damage to creatures near you.}"
+              - dl:
+                  area: "_{5-foot emanation or more}"
+                  target: "_{each foe in the area}"
+                  save: "_{Will}"
+                  duration: "_{1 round}"
+              - p: "_{You utter phrases in an unknown tongue, assaulting the minds of those nearby. Regardless of the result of its save, each target is then temporarily immune for 1 minute. For each additional action you use when Casting the Spell, increase the emanation's radius by 5 feet.}"
+              - paste: save
+                params:
+                  critical_success: "_{Unaffected.}"
+                  success: "_{Unaffected.}"
+                  failure: "_{Stupefied 2.}"
+                  critical_failure: "_{Confused.}"
+              - p: "_{Heightened (+3): the initial radius increases by 5 feet.}"
 
   - at: '@sorcerer/bloodline-spell/greater'
     replace:
@@ -75,9 +90,38 @@ inc:
         contents:
           - article:
             title: "_{Unusual Anatomy}"
-            cat: "_{Focus 8}"
+            cat: "_{Focus 5}"
             contents:
-              - p: "_{Transform your flesh into bizarre shapes, gaining resistances and other strange benefits.}"
+              - dl:
+                  duration: "_{1 minute}"
+              - p: "_{You transform your flesh and organs into a bizarre amalgam of glistening skin, rough scales, tufts of hair, and tumorous protuberances.}"
+              - ul:
+                contents:
+                  - li: "_{You gain darkvision.}"
+                  - li: "_{Acid oozes from your skin. Any creature that hits you with an unarmed attack or a non-reach melee weapon takes acid damage.}"
+              - calc:
+                output:
+                  field: "##:unusual-anatomy/resistance"
+                  legend: "_{Precision /\nCritical Hit\nResistance}"
+                  width: large
+                  eq: "floor((%{focus-rank}-5)/2)*5+10"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
+              - calc:
+                output:
+                  field: "##:unusual-anatomy/damage"
+                  legend: "_{Acid\nDamage}"
+                  width: large
+                  suffix: "_{d6}"
+                  icon: d6
+                  eq: "floor((%{focus-rank}-5)/2)+2"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
+              - p: "_{If the resistance is greater than the extra damage from a critical hit, it reduces the extra damage to 0 but doesn't reduce the attack's normal damage.}"
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:

@@ -57,7 +57,28 @@ inc:
             title: "_{Undeath's Blessing}"
             cat: "_{Focus 1}"
             contents:
-              - p: "_{Bless a creature (living or undead) with a touch of undeath, granting void healing or harming it with void damage.}"
+              - dl:
+                  range: "_{touch}"
+                  target: "_{1 living creature}"
+                  save: "_{Will}"
+                  duration: "_{1 minute}"
+              - p: "_{You instill within a creature the touch of the grave. For the duration, harm and heal spells treat the creature as undead. In addition, harm spells gain a status bonus to the Hit Points restored to the target. An unwilling target can attempt a Will save to reduce the effects.}"
+              - calc:
+                output:
+                  field: "##:undeaths-blessing/bonus"
+                  legend: "_{Bonus HP\nRestored by Harm}"
+                  width: large
+                  eq: "%{focus-rank}*2"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
+              - paste: save
+                params:
+                  critical_success: "_{Unaffected.}"
+                  success: "_{Heals half as much from heal and takes half as much damage from harm for 1 round.}"
+                  failure: "_{Effects as described above.}"
+                  critical_failure: "_{Effects as described above.}"
 
   - at: '@sorcerer/bloodline-spell/advanced'
     replace:
@@ -65,9 +86,25 @@ inc:
         contents:
           - article:
             title: "_{Drain Life}"
-            cat: "_{Focus 4}"
+            cat: "_{Focus 3}"
             contents:
-              - p: "_{Drain the life from a creature, dealing void damage and healing yourself for a portion of the damage dealt.}"
+              - dl:
+                  range: "_{30ft}"
+                  target: "_{1 living creature}"
+                  save: "_{basic Fortitude}"
+              - p: "_{You close your hand and pull life energy from another creature into yourself. This deals void damage; the target must attempt a basic Fortitude save. You gain temporary Hit Points equal to the damage the target takes, after resolving its save and applying a blood magic effect if applicable. If the target's Hit Points were lower than the damage you dealt, you gain temporary Hit Points equal to their remaining Hit Points instead. The temporary Hit Points last for 1 minute.}"
+              - calc:
+                output:
+                  field: "##:drain-life/damage"
+                  legend: "_{Void\nDamage}"
+                  width: large
+                  suffix: "_{d4}"
+                  icon: d4
+                  eq: "%{focus-rank}"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
 
   - at: '@sorcerer/bloodline-spell/greater'
     replace:
@@ -75,9 +112,31 @@ inc:
         contents:
           - article:
             title: "_{Grasping Grave}"
-            cat: "_{Focus 8}"
+            cat: "_{Focus 5}"
             contents:
-              - p: "_{Cause skeletal hands to burst from the ground, grasping and dragging down creatures in an area.}"
+              - dl:
+                  range: "_{60ft}"
+                  area: "_{20-foot radius on the ground}"
+                  save: "_{Reflex}"
+              - p: "_{Hundreds of skeletal arms erupt from the ground in the area, clawing at creatures within and attempting to hold them in place.}"
+              - calc:
+                output:
+                  field: "##:grasping-grave/damage"
+                  legend: "_{Slashing\nDamage}"
+                  width: large
+                  suffix: "_{d6}"
+                  icon: d6
+                  eq: "(%{focus-rank}*2)-4"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
+              - paste: save
+                params:
+                  critical_success: "_{Unaffected.}"
+                  success: "_{Half damage.}"
+                  failure: "_{Full damage and a -10-foot circumstance penalty to its Speeds for 1 round.}"
+                  critical_failure: "_{Double damage and immobilized for 1 round or until it Escapes.}"
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:

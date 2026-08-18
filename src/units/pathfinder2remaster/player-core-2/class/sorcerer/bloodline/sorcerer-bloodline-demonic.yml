@@ -51,23 +51,68 @@ inc:
 
   - at: '@sorcerer/bloodline-spell/initial'
     replace:
-      - action:
+      - action: 2
         contents:
           - article:
             title: "_{Glutton's Jaws}"
             cat: "_{Focus 1}"
             contents:
-              - p: "_{Sprout a set of ravenous jaws, biting a foe and gaining temporary Hit Points from the feast.}"
+              - dl:
+                  range: "_{30ft}"
+                  target: "_{1 creature}"
+                  save: "_{AC}"
+              - p: "_{A slavering maw opens beneath a target and tries to take a bite out of them. Make a spell attack roll. On a hit, the mouth deals piercing damage, and you gain temporary Hit Points that last until the beginning of your next turn.}"
+              - calc:
+                output:
+                  field: "##:gluttons-jaws/damage"
+                  legend: "_{Piercing\nDamage}"
+                  width: large
+                  suffix: "_{d6}"
+                  icon: d6
+                  eq: "%{focus-rank}*2"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
+              - calc:
+                output:
+                  field: "##:gluttons-jaws/temp-hp"
+                  legend: "_{Temporary\nHit Points}"
+                  width: large
+                  suffix: "_{d4}"
+                  icon: d4
+                  eq: "%{focus-rank}"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
 
   - at: '@sorcerer/bloodline-spell/advanced'
     replace:
-      - action: 2
+      - action: "13"
         contents:
           - article:
             title: "_{Swamp of Sloth}"
-            cat: "_{Focus 4}"
+            cat: "_{Focus 3}"
             contents:
-              - p: "_{Conjure a mire of corruption that slows and sickens creatures within it.}"
+              - dl:
+                  range: "_{120ft}"
+                  area: "_{5-foot burst or more}"
+                  save: "_{basic Fortitude}"
+                  duration: "_{1 minute}"
+              - p: "_{Ground in the area turns swampy and fetid, becoming difficult terrain. The sludge at the bottom of the morass animates into diminutive sludge beasts with a demonic appearance; these swarm over creatures in the swamp and exude a noxious stench. The swamp deals poison damage to creatures that end their turn in the area. For each additional action you use when Casting the Spell, increase the burst's radius by 5 feet.}"
+              - calc:
+                output:
+                  field: "##:swamp-of-sloth/damage"
+                  legend: "_{Poison\nDamage}"
+                  width: large
+                  suffix: "_{d6}"
+                  icon: d6
+                  eq: "floor((%{focus-rank}-3)/2)+1"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
 
   - at: '@sorcerer/bloodline-spell/greater'
     replace:
@@ -75,9 +120,24 @@ inc:
         contents:
           - article:
             title: "_{Chthonian Wrath}"
-            cat: "_{Focus 8}"
+            cat: "_{Focus 5}"
             contents:
-              - p: "_{Call up a burst of demonic wrath from below, dealing damage and dragging foes downward.}"
+              - dl:
+                  area: "_{60-foot cone}"
+                  save: "_{basic Reflex}"
+              - p: "_{You evoke the energy of a part of the Outer Rifts. The damage types of the spell (one energy and one physical) are based on the result of rolling on the accompanying table, dealing damage of each corresponding type to each creature in the cone.}"
+              - calc:
+                output:
+                  field: "##:chthonian-wrath/damage"
+                  legend: "_{Damage\n(of Each Type)}"
+                  width: large
+                  suffix: "_{d6 each}"
+                  icon: d6
+                  eq: "%{focus-rank}-1"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:

@@ -34,13 +34,41 @@ inc:
 
   - at: '@sorcerer/bloodline-spell/initial'
     replace:
-      - action:
+      - action: 2
         contents:
           - article:
             title: "_{Flurry of Claws}"
             cat: "_{Focus 1}"
             contents:
-              - p: "_{Grow draconic claws and rake a foe with them.}"
+              - dl:
+                  range: "_{30ft}"
+                  target: "_{2 creatures no more than 10 feet from each other}"
+                  save: "_{AC}"
+              - p: "_{Vicious dragon claws appear and slash at two nearby foes. Make a spell attack roll against each creature. This counts as two attacks for your multiple attack penalty, but the penalty doesn't increase until you've made both attacks. On a hit, the creature takes slashing damage plus additional damage of a type determined by the magical tradition related to the dragon that influenced your bloodline: arcane force, divine spirit, occult mental, or primal fire.}"
+              - calc:
+                output:
+                  field: "##:flurry-of-claws/damage"
+                  legend: "_{Slashing\nDamage}"
+                  width: large
+                  suffix: "_{d8}"
+                  icon: d8
+                  eq: "%{focus-rank}"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
+              - calc:
+                output:
+                  field: "##:flurry-of-claws/additional-damage"
+                  legend: "_{Additional\nDamage}"
+                  width: large
+                  suffix: "_{d4}"
+                  icon: d4
+                  eq: "%{focus-rank}"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
 
   - at: '@sorcerer/bloodline-spell/advanced'
     replace:
@@ -48,19 +76,37 @@ inc:
         contents:
           - article:
             title: "_{Dragon Breath}"
-            cat: "_{Focus 4}"
+            cat: "_{Focus 3}"
             contents:
-              - p: "_{Exhale a cone or line of energy matching your draconic exemplar's tradition.}"
+              - dl:
+                  area: "_{30-foot cone}"
+                  save: "_{basic Reflex}"
+              - p: "_{You spew energy from your mouth. The damage type depends on the magical tradition related to the dragon that influenced your bloodline: arcane force, divine spirit, occult mental, or primal fire.}"
+              - calc:
+                output:
+                  field: "##:dragon-breath/damage"
+                  legend: "_{Damage}"
+                  width: large
+                  suffix: "_{d6}"
+                  icon: d6
+                  eq: "(%{focus-rank}*2)-1"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
 
   - at: '@sorcerer/bloodline-spell/greater'
     replace:
-      - action:
+      - action: 2
         contents:
           - article:
             title: "_{Dragon Wings}"
-            cat: "_{Focus 8}"
+            cat: "_{Focus 5}"
             contents:
-              - p: "_{Sprout draconic wings, gaining a fly Speed for a short time.}"
+              - dl:
+                  duration: "_{1 minute}"
+              - p: "_{Leathery wings sprout from your back, giving you a fly Speed of 60 feet or your Speed, whichever is faster. If you're still flying when this spell's duration would end, you float to the ground, with the effects of gentle landing.}"
+              - p: "_{Heightened (8th): the duration increases to 10 minutes.}"
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:
