@@ -57,7 +57,10 @@ inc:
             title: "_{Angelic Halo}"
             cat: "_{Focus 1}"
             contents:
-              - p: "_{Surround yourself with a halo of holy light, healing allies who end their turn within it.}"
+              - dl:
+                  area: "_{15-foot emanation}"
+                  duration: "_{1 minute}"
+              - p: "_{Allies in your halo's emanation healed by a heal spell gain bonus HP regained equal to double the heal spell's rank.}"
 
   - at: '@sorcerer/bloodline-spell/advanced'
     replace:
@@ -65,9 +68,12 @@ inc:
         contents:
           - article:
             title: "_{Angelic Wings}"
-            cat: "_{Focus 4}"
+            cat: "_{Focus 3}"
             contents:
-              - p: "_{Sprout wings of light, gaining a fly Speed for a short time.}"
+              - dl:
+                  duration: "_{3 rounds}"
+              - p: "_{Wings of light grant a fly Speed equal to your Speed and bright light in a 30ft radius. On expiry, float down as gentle landing.}"
+              - p: "_{Heightened (5th): the duration increases to 1 minute.}"
 
   - at: '@sorcerer/bloodline-spell/greater'
     replace:
@@ -75,13 +81,27 @@ inc:
         contents:
           - article:
             title: "_{Celestial Brand}"
-            cat: "_{Focus 8}"
+            cat: "_{Focus 5}"
             contents:
-              - p: "_{Brand a foe with holy light, making it easier for you and your allies to strike it true.}"
+              - dl:
+                  range: "_{30ft}"
+                  target: "_{1 unholy creature}"
+                  duration: "_{1 round}"
+              - p: "_{A symbol curses the target: you and allies get +1 status to attack rolls/skill checks against it, and holy creatures dealing damage add 1d4 spirit damage plus the bonus below. Then immune for 1 minute.}"
+              - calc:
+                output:
+                  field: "##:celestial-brand/damage"
+                  legend: "_{Bonus\nSpirit Damage}"
+                  width: large
+                  eq: "floor((%{focus-rank}-5)/2)"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:
       - article:
         title: "_{Divine Aura}"
         contents:
-          - p: "_{You project a warming aura that protects you or one target, granting a +1 status bonus to saving throws for 1 round.}"
+          - p: "_{You or one target gains +1 status to saving throws for 1 round.}"

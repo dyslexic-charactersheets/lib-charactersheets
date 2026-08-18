@@ -47,17 +47,43 @@ inc:
             title: "_{Elemental Toss}"
             cat: "_{Focus 1}"
             contents:
-              - p: "_{Hurl a chunk of your chosen element at a foe, dealing damage matching your elemental influence.}"
+              - dl:
+                  range: "_{30ft}"
+                  target: "_{1 creature}"
+                  save: "_{AC}"
+              - p: "_{Fling elemental matter at your foe. Ranged spell attack roll: damage on a success, double on a critical success. Damage type matches your influence (e.g. slashing for air, fire for fire); has your element's trait.}"
+              - calc:
+                output:
+                  field: "##:elemental-toss/damage"
+                  legend: "_{Damage}"
+                  width: large
+                  suffix: "_{d8}"
+                  icon: d8
+                  eq: "%{focus-rank}"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
 
   - at: '@sorcerer/bloodline-spell/advanced'
     replace:
-      - action:
+      - action: 2
         contents:
           - article:
             title: "_{Elemental Motion}"
-            cat: "_{Focus 4}"
+            cat: "_{Focus 3}"
             contents:
-              - p: "_{Move with the fluid grace of your element, gaining a swim, burrow, climb, or fly Speed depending on your influence.}"
+              - dl:
+                  duration: "_{1 minute}"
+              - p: "_{Your element propels you, improving your Speed by type. Has your element's trait.}"
+              - ul:
+                contents:
+                  - li: "_{Air/Fire: fly Speed equal to your Speed.}"
+                  - li: "_{Earth/Metal: burrow Speed 10ft.}"
+                  - li: "_{Water: swim Speed equal to your Speed; breathe underwater.}"
+                  - li: "_{Wood: climb Speed equal to your Speed.}"
+              - p: "_{Heightened (6th): +10ft status bonus to your Speeds.}"
+              - p: "_{Heightened (9th): the status bonus increases to +20 feet.}"
 
   - at: '@sorcerer/bloodline-spell/greater'
     replace:
@@ -65,16 +91,32 @@ inc:
         contents:
           - article:
             title: "_{Elemental Blast}"
-            cat: "_{Focus 8}"
+            cat: "_{Focus 5}"
             contents:
-              - p: "_{Unleash a devastating blast of your element in an area, dealing damage matching your elemental influence.}"
+              - dl:
+                  range: "_{30ft (burst only)}"
+                  area: "_{10-foot-radius burst, 30-foot cone, or 60-foot line}"
+                  save: "_{basic Reflex}"
+              - p: "_{Blast foes in your choice of the listed shapes. Damage type matches your influence (e.g. slashing for air, fire for fire); has your element's trait.}"
+              - calc:
+                output:
+                  field: "##:elemental-blast/damage"
+                  legend: "_{Damage}"
+                  width: large
+                  suffix: "_{d6}"
+                  icon: d6
+                  eq: "(%{focus-rank}*2)-2"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:
       - article:
         title: "_{Elemental Fury}"
         contents:
-          - p: "_{Elemental energy wreathes your form. Either gain a +2 status bonus to Intimidation checks for 1 round, or a target takes 1 damage per spell rank of the type listed under your elemental influence (combine with the spell's own damage of that type before applying weaknesses and resistances).}"
+          - p: "_{Gain +2 status to Intimidation checks for 1 round, or a target takes 1 damage/rank of your influence's type (combine with the spell's own damage of that type before weaknesses/resistances).}"
 
   - at: '@sorcerer/bloodline/extra-field'
     add:

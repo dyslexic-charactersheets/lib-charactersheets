@@ -51,23 +51,68 @@ inc:
 
   - at: '@sorcerer/bloodline-spell/initial'
     replace:
-      - action:
+      - action: 2
         contents:
           - article:
             title: "_{Glutton's Jaws}"
             cat: "_{Focus 1}"
             contents:
-              - p: "_{Sprout a set of ravenous jaws, biting a foe and gaining temporary Hit Points from the feast.}"
+              - dl:
+                  range: "_{30ft}"
+                  target: "_{1 creature}"
+                  save: "_{AC}"
+              - p: "_{A maw opens beneath the target. Spell attack roll; on a hit, deals piercing damage and grants you temp HP until your next turn begins.}"
+              - calc:
+                output:
+                  field: "##:gluttons-jaws/damage"
+                  legend: "_{Piercing\nDamage}"
+                  width: large
+                  suffix: "_{d6}"
+                  icon: d6
+                  eq: "%{focus-rank}*2"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
+              - calc:
+                output:
+                  field: "##:gluttons-jaws/temp-hp"
+                  legend: "_{Temporary\nHit Points}"
+                  width: large
+                  suffix: "_{d4}"
+                  icon: d4
+                  eq: "%{focus-rank}"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
 
   - at: '@sorcerer/bloodline-spell/advanced'
     replace:
-      - action: 2
+      - action: "13"
         contents:
           - article:
             title: "_{Swamp of Sloth}"
-            cat: "_{Focus 4}"
+            cat: "_{Focus 3}"
             contents:
-              - p: "_{Conjure a mire of corruption that slows and sickens creatures within it.}"
+              - dl:
+                  range: "_{120ft}"
+                  area: "_{5-foot burst or more}"
+                  save: "_{basic Fortitude}"
+                  duration: "_{1 minute}"
+              - p: "_{Ground becomes fetid difficult terrain; demonic sludge beasts swarm and stench creatures inside. Poison damage to creatures ending their turn in the area. Each extra action spent casting adds 5ft to the radius.}"
+              - calc:
+                output:
+                  field: "##:swamp-of-sloth/damage"
+                  legend: "_{Poison\nDamage}"
+                  width: large
+                  suffix: "_{d6}"
+                  icon: d6
+                  eq: "floor((%{focus-rank}-3)/2)+1"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
 
   - at: '@sorcerer/bloodline-spell/greater'
     replace:
@@ -75,13 +120,28 @@ inc:
         contents:
           - article:
             title: "_{Chthonian Wrath}"
-            cat: "_{Focus 8}"
+            cat: "_{Focus 5}"
             contents:
-              - p: "_{Call up a burst of demonic wrath from below, dealing damage and dragging foes downward.}"
+              - dl:
+                  area: "_{60-foot cone}"
+                  save: "_{basic Reflex}"
+              - p: "_{Evoke energy from the Outer Rifts. Roll on the table for one energy and one physical damage type, dealing both to each creature in the cone.}"
+              - calc:
+                output:
+                  field: "##:chthonian-wrath/damage"
+                  legend: "_{Damage\n(of Each Type)}"
+                  width: large
+                  suffix: "_{d6 each}"
+                  icon: d6
+                  eq: "%{focus-rank}-1"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:
       - article:
         title: "_{Corruption of Sin}"
         contents:
-          - p: "_{You mentally broadcast brief glimpses into the darkest desires of the mind. Either a target takes a -1 status penalty to AC for 1 round, or you gain a +2 status bonus to Intimidation checks for 1 round.}"
+          - p: "_{A target takes -1 status to AC for 1 round, or you gain +2 status to Intimidation checks for 1 round.}"

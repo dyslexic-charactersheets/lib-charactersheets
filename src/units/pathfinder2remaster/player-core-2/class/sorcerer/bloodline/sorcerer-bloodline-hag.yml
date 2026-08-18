@@ -57,17 +57,38 @@ inc:
             title: "_{Jealous Hex}"
             cat: "_{Focus 1}"
             contents:
-              - p: "_{Curse a creature that outshines you, dealing mental damage that worsens the more successful it's been.}"
+              - dl:
+                  range: "_{30ft}"
+                  target: "_{1 creature}"
+                  save: "_{Will}"
+                  duration: "_{1 minute}"
+              - p: "_{Curses the target's highest attribute: Str (enfeebled), Dex (clumsy), Con (drained), or Int/Wis/Cha (stupefied); target picks on a tie. Will save; new save each of your turns, ending on a success.}"
+              - paste: save
+                params:
+                  critical_success: "_{Unaffected.}"
+                  success: "_{Unaffected.}"
+                  failure: "_{The condition's value is 1.}"
+                  critical_failure: "_{The condition's value is 2.}"
 
   - at: '@sorcerer/bloodline-spell/advanced'
     replace:
-      - action:
+      - action: 2
         contents:
           - article:
             title: "_{Horrific Visage}"
-            cat: "_{Focus 4}"
+            cat: "_{Focus 3}"
             contents:
-              - p: "_{Reveal your true, horrific visage, frightening creatures who see it.}"
+              - dl:
+                  area: "_{30-foot-radius emanation}"
+                  save: "_{Will}"
+              - p: "_{Your features become a hag's horrific visage. Foes in the area save vs. Will.}"
+              - paste: save
+                params:
+                  critical_success: "_{Unaffected.}"
+                  success: "_{Unaffected.}"
+                  failure: "_{Frightened 1.}"
+                  critical_failure: "_{Frightened 2.}"
+              - p: "_{Heightened (5th): success frightened 1, failure frightened 2, critical failure frightened 3 + fleeing 1 round (critical success still unaffected).}"
 
   - at: '@sorcerer/bloodline-spell/greater'
     replace:
@@ -75,13 +96,25 @@ inc:
         contents:
           - article:
             title: "_{You're Mine}"
-            cat: "_{Focus 8}"
+            cat: "_{Focus 5}"
             contents:
-              - p: "_{Bewitch a creature, dominating its mind and forcing it to act on your behalf.}"
+              - dl:
+                  range: "_{30ft}"
+                  target: "_{1 creature}"
+                  save: "_{Will}"
+                  duration: "_{1 round}"
+              - p: "_{Manipulate the target's emotions to briefly control it. Will save.}"
+              - paste: save
+                params:
+                  critical_success: "_{Unaffected.}"
+                  success: "_{Stunned 1.}"
+                  failure: "_{Stunned 1 next turn; you choose one of its actions, then it acts normally.}"
+                  critical_failure: "_{Controlled for 1 round.}"
+              - p: "_{Heightened (7th): failure controls for 1 round; critical failure controls up to 1 minute (new save each turn ends it).}"
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:
       - article:
         title: "_{Retributive Spite}"
         contents:
-          - p: "_{You deal 4 mental damage per spell rank (basic Will save) to the first creature that damages you before your next turn ends, or gain temporary Hit Points equal to the spell's rank (lasting until the turn after next) if none do.}"
+          - p: "_{First creature to damage you before your next turn ends takes 4 mental damage/rank (basic Will); if none do, gain temp HP equal to rank (until the turn after next).}"

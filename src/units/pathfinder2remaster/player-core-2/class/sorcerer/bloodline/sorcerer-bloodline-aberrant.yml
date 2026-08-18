@@ -57,17 +57,32 @@ inc:
             title: "_{Tentacular Limbs}"
             cat: "_{Focus 1}"
             contents:
-              - p: "_{Grow writhing tentacles that can deliver touch spells or make unarmed strikes.}"
+              - dl:
+                  duration: "_{1 minute}"
+              - p: "_{Your arms become tentacles: reach 10ft for touch spells and unarmed Strikes. When casting, spend an action to extend reach to 20ft for that spell.}"
+              - p: "_{Heightened (+2): the extended reach increases by 10ft.}"
 
   - at: '@sorcerer/bloodline-spell/advanced'
     replace:
-      - action:
+      - action: "13"
         contents:
           - article:
             title: "_{Aberrant Whispers}"
-            cat: "_{Focus 4}"
+            cat: "_{Focus 3}"
             contents:
-              - p: "_{Utter phrases in an unknown tongue, dealing mental damage to creatures near you.}"
+              - dl:
+                  area: "_{5-foot emanation or more}"
+                  target: "_{each foe in the area}"
+                  save: "_{Will}"
+                  duration: "_{1 round}"
+              - p: "_{Assault nearby minds; each target is then immune for 1 minute regardless of its save. Each extra action spent casting adds 5ft to the radius.}"
+              - paste: save
+                params:
+                  critical_success: "_{Unaffected.}"
+                  success: "_{Unaffected.}"
+                  failure: "_{Stupefied 2.}"
+                  critical_failure: "_{Confused.}"
+              - p: "_{Heightened (+3): the initial radius increases by 5 feet.}"
 
   - at: '@sorcerer/bloodline-spell/greater'
     replace:
@@ -75,13 +90,42 @@ inc:
         contents:
           - article:
             title: "_{Unusual Anatomy}"
-            cat: "_{Focus 8}"
+            cat: "_{Focus 5}"
             contents:
-              - p: "_{Transform your flesh into bizarre shapes, gaining resistances and other strange benefits.}"
+              - dl:
+                  duration: "_{1 minute}"
+              - p: "_{Your flesh becomes a bizarre amalgam of skin, scales, hair, and growths.}"
+              - ul:
+                contents:
+                  - li: "_{You gain darkvision.}"
+                  - li: "_{Acid oozes from your skin; unarmed or non-reach melee attackers take acid damage.}"
+              - calc:
+                output:
+                  field: "##:unusual-anatomy/resistance"
+                  legend: "_{Precision /\nCritical Hit\nResistance}"
+                  width: large
+                  eq: "floor((%{focus-rank}-5)/2)*5+10"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
+              - calc:
+                output:
+                  field: "##:unusual-anatomy/damage"
+                  legend: "_{Acid\nDamage}"
+                  width: large
+                  suffix: "_{d6}"
+                  icon: d6
+                  eq: "floor((%{focus-rank}-5)/2)+2"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
+              - p: "_{If resistance exceeds a critical hit's extra damage, that extra is reduced to 0 (normal damage unaffected).}"
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:
       - article:
         title: "_{Eerie Veil}"
         contents:
-          - p: "_{An ominous pall spills from your mind. Either one target takes a -1 status penalty to Will saving throws for 1 round or you gain a +2 status bonus to Will saving throws for 1 round.}"
+          - p: "_{One target takes -1 status to Will saves for 1 round, or you gain +2 status to Will saves for 1 round.}"
