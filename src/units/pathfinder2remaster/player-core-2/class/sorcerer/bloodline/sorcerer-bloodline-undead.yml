@@ -62,7 +62,7 @@ inc:
                   target: "_{1 living creature}"
                   save: "_{Will}"
                   duration: "_{1 minute}"
-              - p: "_{You instill within a creature the touch of the grave. For the duration, harm and heal spells treat the creature as undead. In addition, harm spells gain a status bonus to the Hit Points restored to the target. An unwilling target can attempt a Will save to reduce the effects.}"
+              - p: "_{Harm and heal spells treat the target as undead for the duration; harm also restores bonus HP. Unwilling target: Will save to reduce.}"
               - calc:
                 output:
                   field: "##:undeaths-blessing/bonus"
@@ -92,7 +92,7 @@ inc:
                   range: "_{30ft}"
                   target: "_{1 living creature}"
                   save: "_{basic Fortitude}"
-              - p: "_{You close your hand and pull life energy from another creature into yourself. This deals void damage; the target must attempt a basic Fortitude save. You gain temporary Hit Points equal to the damage the target takes, after resolving its save and applying a blood magic effect if applicable. If the target's Hit Points were lower than the damage you dealt, you gain temporary Hit Points equal to their remaining Hit Points instead. The temporary Hit Points last for 1 minute.}"
+              - p: "_{Void damage (basic Fortitude); gain temp HP equal to damage dealt (or the target's remaining HP if less), lasting 1 minute.}"
               - calc:
                 output:
                   field: "##:drain-life/damage"
@@ -118,7 +118,7 @@ inc:
                   range: "_{60ft}"
                   area: "_{20-foot radius on the ground}"
                   save: "_{Reflex}"
-              - p: "_{Hundreds of skeletal arms erupt from the ground in the area, clawing at creatures within and attempting to hold them in place.}"
+              - p: "_{Skeletal arms erupt from the ground, clawing and grasping creatures in the area.}"
               - calc:
                 output:
                   field: "##:grasping-grave/damage"
@@ -135,7 +135,7 @@ inc:
                 params:
                   critical_success: "_{Unaffected.}"
                   success: "_{Half damage.}"
-                  failure: "_{Full damage and a -10-foot circumstance penalty to its Speeds for 1 round.}"
+                  failure: "_{Full damage; -10ft Speed penalty for 1 round.}"
                   critical_failure: "_{Double damage and immobilized for 1 round or until it Escapes.}"
 
   - at: '@sorcerer/spellbook/blood-magic'
@@ -143,4 +143,4 @@ inc:
       - article:
         title: "_{Stolen Life}"
         contents:
-          - p: "_{Either gain temporary Hit Points equal to the spell's rank, lasting until the start of your next turn, or a target takes 1 void damage per spell rank (combine with the spell's own void damage before applying weaknesses and resistances).}"
+          - p: "_{Gain temp HP equal to rank until your next turn starts, or a target takes 1 void damage/rank (combine with the spell's own void damage before weaknesses/resistances).}"
