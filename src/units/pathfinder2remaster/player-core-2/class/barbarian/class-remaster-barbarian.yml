@@ -1,14 +1,15 @@
-# Copyright 2025 Marcus Downing
-# This file is compliant with the Open Game License (OGL).
-# See the text of the OGL within this repository.
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
 
-unit: class/barbarian
+unit: class/remaster/barbarian
 in: class
-group: "_{Core Rulebook}"
+group: "_{Player Core 2}"
 name: "_{Barbarian}"
+# enabled: false
 
 form:
-  - select: barbarian/instinct
+  - select: remaster/barbarian/instinct
     name: "_{Instinct}"
     max: 1
   - select: feat/barbarian
@@ -19,11 +20,11 @@ form:
 require:
   - unit: weapon-spec/fast
   - with: option/reference
-    unit: class/barbarian/reference
+    unit: class/remaster/barbarian/reference
   - deny: archetype/barbarian
 
 inc:
-  # CRB p86: add anathema consequence block to reuse
+  # move barbarian anathema block to a single place
   - copy: barbarian-anathema-consequence
     contents:
       - p: "_{Violate this anathema to lose the instinct's abilities and its feats. Spend 1 day on downtime to restore them.}"
@@ -67,21 +68,12 @@ inc:
   - set: athletics-proficiency
     value: trained
 
-  # - set: barbarian-rage-damage-bonus
-  #   value: 2
+  - set: key-attribute
+    value: STR
 
-  - at: '@cover-class'
+  - at: '@key-attribute-field'
     replace:
-      - h6: "_{Barbarian}"
-      - field: barbarian-instinct
-        label: "_{Instinct}"
-        width: stretch
-        align: left
-
-  - at: '@key-ability-field'
-    replace:
-      # standardization: explicit field id
-      - field: key-ability
+      - field: key-attribute
         label: "_{STR}"
         underlay: "_{STR}"
         ref: STR
@@ -93,11 +85,12 @@ inc:
       - level: 1
         advance: "[b]_{Rage!}[/b]"
       - level: 1
+        advance: "_{Quick-Tempered}"
+      - level: 1
         gain: "_{Instinct}"
 
-      # CRB p84 Table 3-2: named the features that grant advancements here as well
       - level: 3
-        advance: "_{Deny Advantage}"
+        advance: "_{Furious Footfalls}"
       - level: 5
         advance: "_{Brutality}"
       - level: 7
@@ -109,7 +102,7 @@ inc:
       - level: 15
         advance: "_{Greater Weapon Specialisation}"
       - level: 17
-        advance: "[b]_{Quick Rage!}[/b]"
+        advance: "[b]_{Revitalising Rage!}[/b]"
       - level: 19
         advance: "_{Devastator}"
 
@@ -152,7 +145,6 @@ inc:
         advance: "_{Barbarian class DC}"
         proficiency: master
 
-      
   - at: '@saving-throws'
     add:
       - level: 7
@@ -173,21 +165,17 @@ inc:
             contents:
               - p:
                 title: "[b]_{Rage!}[/b]"
-                content: "_{Fly into a frenzy, gaining temporary hp and a bonus to damage but a penalty to AC.}"
+                content: "_{Fly into a frenzy, gaining temporary hp and a bonus to damage on melee Strikes.}"
               - field: "##:rage/damage"
                 label: "_{Damage Bonus}"
                 border: full
                 prefix: "+"
                 width: large
-
-  - at: '@temp-ac'
-    add:
-      - field: "##:rage/ac-penalty"
-        label: "_{[b]Rage[/b] Penalty}"
-        underlay: "_{-1}"
-        border: full
-        temp: true
-        width: large
+      - action: free
+        contents:
+          - p:
+            title: "_{Quick-Tempered}"
+            content: "_{You roll initiative. If you aren't encumbered or wearing heavy armor, and you're able to move freely, you [b]Rage![/b]}"
 
   - at: '@pages'
     add:
@@ -222,11 +210,6 @@ inc:
                                   merge-bottom: true
                                 - hr:
                                   swash: true
-                                - h5: "_{Anathema}"
-                                - paste: anathema-fixed
-                                  params:
-                                    id: barbarian/anathema
-                                    lines: 3
                         - zone: '@barbarian/instinct-ability'
                           contents:
                             - g:
@@ -261,19 +244,31 @@ inc:
                         id: barbarian-class-dc
                         legend: "_{Barbarian\nClass DC}"
 
-                - section: "_{Deny Advantage}"
+                - section: "_{Furious Footfalls}"
                   contents:
                     - level: 3
                       contents:
-                        - p: "_{Never flat-footed against creatures of a lower level.}"
-                # CRB p84 rename
+                        - row:
+                          contents:
+                            - field: "##:furious-footfalls/speed"
+                              label: "_{Speed Bonus}"
+                              border: full
+                              control: value
+                              value: "+5ft"
+                              width: large
+                            - field: "##:furious-footfalls/speed-raging"
+                              label: "_{While Raging}"
+                              border: full
+                              control: value
+                              value: "+10ft"
+                              width: large
+
                 - section: "_{Devastator}"
                   contents:
                     - level: 19
                       contents:
-                        # CRB p86 this version did not appear present in the book, sync with remastered string,
-                        # it says to just "ignore 10 points of a creature's resistance to their physical damage"
                         - p: "_{Your melee Strikes ignore up to 10 resistance to the physical damage they deal.}"
+
                 - tail:
                 - spacer:
 
@@ -328,24 +323,13 @@ inc:
                                     - g:
                                       pad: true
                                       contents:
-                                        - row:
-                                          contents:
-                                            - field: barbarian-rage-damage-bonus
-                                              border: full
-                                              legend: "_{[b]Rage![/b] Damage Bonus}"
-                                              prefix: "+"
-                                              width: large
-                                            - spacer:
-                                            - field: barbarian-rage-ac-penalty
-                                              legend: "_{AC Penalty}"
-                                              # border: full
-                                              control: value
-                                              width: large
-                                              value: "-1"
-                                              # underlay: "_{AC}"
-                                            - spacer:
-                                        - p: "_{To melee and unarmed strikes}"
-                                # CRB p84-85 Rage text synced
+                                        - field: barbarian-rage-damage-bonus
+                                          border: full
+                                          legend: "_{[b]Rage![/b] Damage Bonus}"
+                                          prefix: "+"
+                                          width: large
+                                        - p: "_{To melee and unarmed Strikes}"
+                                        - spacer:
                                 - p:
                                   title: "_{Agile}"
                                   content: "_{If using an agile weapon or unarmed attack, [b]Rage![/b] damage bonus is halved.}"
@@ -353,16 +337,21 @@ inc:
                                   light: true
                                 - p:
                                   title: "_{While Raging}:"
-                                  content: "_{Can't use <span class='flag'>Concentrate</span> actions and cast spells with a verbal component, except for Seek.}"
+                                  content: "_{Can't use actions with the <span class='flag'>Concentrate</span> trait unless they also have the <span class='flag'>Rage</span> trait. You can Seek while raging.}"
                                 - p:
                                   title: "_{After Raging}:"
                                   content: "_{Lose your temporary hit points. Temporary hit points gained from [b]Rage![/b] are on cooldown for 1 minute.}"
                                   pad: true
-                            
+
+                            - action: free
+                              contents:
+                                - h5: "_{Quick-Tempered}"
+                                - p: "_{You roll initiative. If you aren't encumbered or wearing heavy armor, and you're able to move freely, you [b]Rage![/b]}"
+
                             - selectable: barbarian-moment-of-clarity
                               contents:
                                 - h5: "_{Moment of Clarity}"
-                                - p: "_{Until the end of this turn, can use <span class='flag'>Concentrate</span> actions, including cast spells with a verbal component.}"
+                                - p: "_{Until the end of this turn, you can use actions with the <span class='flag'>Concentrate</span> trait even if they don't have the <span class='flag'>Rage</span> trait.}"
                             - level: 5
                               contents:
                                 - g:
@@ -405,16 +394,13 @@ inc:
                                                   width: stretch
                             - level: 11
                               contents:
-                                - action: free
-                                  contents:
-                                    - h5: "[b]_{Mighty Rage!}[/b]"
-                                    - p: "_{Use an action with the <span class='flag'>Rage</span> trait as a free action. Alternatively, increase the actions of the triggering [b]Rage![/b] to 2 to instead use a 2-action activity with the <span class='flag'>Rage</span> trait.}"
+                                - h5: "[b]_{Mighty Rage!}[/b]"
+                                - p: "_{When you use Quick-Tempered, the first Strike you make during your first turn deals additional damage equal to your [b]Rage![/b] damage.}"
                             - level: 17
                               contents:
-                                - h5: "[b]_{Quick Rage!}[/b]"
-                                - p: "_{Your [b]Rage![/b] cooldown is reduced from 1 minute to 1 full turn.}"
+                                - h5: "_{[b]Revitalising Rage![/b]}"
+                                - p: "_{Gain temporary hit points from [b]Rage![/b] again after 1 full turn, instead of 1 minute.}"
 
-                                
                 - paste: class-feats
                   params:
                     id: barbarian-feats
@@ -422,7 +408,6 @@ inc:
                     slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
                     mark: barbarian
                     lines: 2
-                    
+
                 - tail:
                 - spacer:
-

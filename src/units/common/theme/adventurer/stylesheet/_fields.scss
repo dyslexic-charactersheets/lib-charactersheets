@@ -374,6 +374,51 @@ article header .field__box {
     }
   }
 
+  &--control_switch {
+    .switch__track {
+      position: relative;
+      display: inline-block;
+      box-sizing: content-box;
+      flex-shrink: 0;
+      width: 14 * constants.$pt;
+      height: 7 * constants.$pt;
+      border-radius: 3.5 * constants.$pt;
+      background: white;
+      border: 0.7 * constants.$pt solid colours.$colour_main;
+
+      &::before {
+        content: "";
+        position: absolute;
+        box-sizing: content-box;
+        top: 50%;
+        left: 1 * constants.$pt;
+        width: 5 * constants.$pt;
+        height: 5 * constants.$pt;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: colours.$colour_main;
+        transform: translate(0, -50%);
+        transition: transform 0.15s ease;
+      }
+    }
+
+    input:checked ~ .switch__track::before {
+      transform: translate(7 * constants.$pt, -50%);
+    }
+
+    .switch__label {
+      font-size: 0.9rem;
+
+      &--off {
+        margin-right: 0.6rem;
+      }
+
+      &--on {
+        margin-left: 0.6rem;
+      }
+    }
+  }
+
   &--control_radio {
     align-items: center;
     justify-content: center;

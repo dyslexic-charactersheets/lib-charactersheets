@@ -67,6 +67,13 @@ function renderCompoundControl(args, reg, doc) {
         part.id = args.id + "-" + part.subid;
       }
     }
+
+    // fall back to a per-part prefill
+    if ((isNull(part.value) || part.value === '') && part.id) {
+      const prefilled = doc.getVar(part.id, part.format);
+      if (prefilled !== false) part.value = prefilled;
+    }
+    
     part.type = 'control:' + part.control;
 
     return reg.renderItem(part, doc);
@@ -359,6 +366,32 @@ export let field_control_checkbox = {
     }
     const checked = args.value ? ' checked' : '';
     return `<div${cls}><input type='checkbox'${checked}${ident.ident}><label${ident.for}></label></div>`;
+  }
+}
+
+export let field_control_switch = {
+  name: 'control:switch',
+  defaults: {
+    value: false,
+    border: 'none',
+    labels: ['_{Off}', '_{On}'],
+    format: 'checkbox',
+  },
+  render(args, reg, doc) {
+    const ident = fieldIdent(args.id);
+    const cls = elementClass("field", "control", args, [], {control: ''});
+
+    if (args.value == "false") {
+      args.value = false;
+    }
+    const checked = args.value ? ' checked' : '';
+    const [offLabel, onLabel] = args.labels;
+    return `<div${cls}>
+      <input type='checkbox'${checked}${ident.ident}>
+      <label class='switch__track'${ident.for}></label>
+      <label class='switch__label switch__label--off'${ident.for}>${__(offLabel, doc)}</label>
+      <label class='switch__label switch__label--on'${ident.for}>${__(onLabel, doc)}</label>
+    </div>`;
   }
 }
 
