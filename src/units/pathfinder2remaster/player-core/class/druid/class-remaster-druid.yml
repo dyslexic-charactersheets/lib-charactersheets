@@ -11,6 +11,9 @@ form:
   - select: druid/order
     name: "_{Druidic Order}"
     max: 1
+  - select: druid/voice-of-nature
+    name: "_{Voice of Nature}"
+    max: 1
   - select: feat/druid
     name: "_{Druid Feats}"
     max: 10
@@ -52,6 +55,15 @@ inc:
       will: expert
 
       nature: trained
+
+      unarmed: trained
+      simple-weapons: trained
+
+  - at: '@anathema'
+    add:
+      - li: "_{Despoiling natural places}"
+      - li: "_{Consuming more natural resources than you require to live comfortably}"
+      - li: "_{Teaching Wildsong to nondruids}"
 
   - at: '@skill-actions'
     add:
@@ -169,9 +181,6 @@ inc:
                               - h5: "_{Anathema}"
                               - ul:
                                 contents:
-                                  - li: "_{Despoiling natural places}"
-                                  - li: "_{Consuming more natural resources than you require to live comfortably}"
-                                  - li: "_{Teaching Wildsong to nondruids}"
                                   - zone: '@anathema'
                                     contents:
                                       - field: druid:anathema
@@ -215,33 +224,22 @@ inc:
                         params:
                           id: spell-attack
                           legend: "_{Spell\nAttack}"
+                          attribute: WIS
 
                       - paste: spell-dc
                         params:
-                          id: spell-save-dc
+                          id: spell-dc
                           legend: "_{Spell\nSave DC}"
+                          attribute: WIS
 
                   - section: "_{Voice of Nature}"
                     contents:
                       - list:
                         hr: true
-                        light: true
-                        zebra: true
                         contents:
-                          - selectable: "##:feat/animal-empathy"
+                          - zone: '@druid/voice-of-nature'
                             contents:
-                              - article: feat/druid/animal-empathy
-                                title: "_{Animal Empathy}"
-                                cat: "_{Feat}"
-                                contents:
-                                  - p: "_{Communicate with creatures on a rudimentary level. You can use Diplomacy to Make an Impression on animals and to make very simple Requests of them.}"
-                          - selectable: "##:feat/plant-empathy"
-                            contents:
-                              - article: feat/druid/plant-empathy
-                                title: "_{Plant Empathy}"
-                                cat: "_{Feat}"
-                                contents:
-                                  - p: "_{Communicate with plants and fungus on a rudimentary level. You can ask questions and use Diplomacy on plants and fungus.}"
+                              - article: druid:voice-of-nature
 
                   - tail:
                   - spacer:
