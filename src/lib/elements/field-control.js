@@ -355,11 +355,12 @@ export let field_control_checkbox = {
     border: 'none',
     width: 'tiny',
     style: '',
+    'half-boost': false,
     format: 'checkbox',
   },
   render(args) {
     const ident = fieldIdent(args.id);
-    const cls = elementClass("field", "control", args, [], {control: '', style: ''});
+    const cls = elementClass("field", "control", args, [ "half-boost" ], {control: '', style: ''});
 
     if (args.value == "false") {
       args.value = false;
