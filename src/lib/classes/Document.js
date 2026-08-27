@@ -889,6 +889,12 @@ export class Document {
 </div></div>
 </div></nav>
 
+<nav id='weapon-type-menu' class='control-menu'><div>
+<label for='weapon-type-menu-melee'><input type='radio' name='weapon-type-menu' value='melee' id='weapon-type-menu-melee'> <i class="icon icon_sword"></i> ${__('Melee')}</label>
+<label for='weapon-type-menu-unarmed'><input type='radio' name='weapon-type-menu' value='unarmed' id='weapon-type-menu-unarmed'> <i class="icon icon_claw"></i> ${__('Unarmed')}</label>
+<label for='weapon-type-menu-ranged'><input type='radio' name='weapon-type-menu' value='ranged' id='weapon-type-menu-ranged'> <i class="icon icon_bow"></i> ${__('Ranged')}</label>
+</div></nav>
+
 <nav id='action-menu' class='control-menu'><div>
 <label for='action-menu-template'><input type='radio' name='action-menu' value='template' id='action-menu-template'> <i class="icon icon_action-template"></i> ${__('')}</label>
 <label for='action-menu-1'><input type='radio' name='action-menu' value='1' id='action-menu-1'> <i class="icon icon_action"></i> ${__('One action')}</label>

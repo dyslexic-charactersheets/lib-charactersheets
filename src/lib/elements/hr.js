@@ -40,10 +40,11 @@ export let vr = {
   name: 'vr',
   defaults: {
     dotted: false,
+    'ranged-only': false,
     stretch: false,
   },
   render: (args) => {
-    const cls = elementClass('vr', null, args, ['dotted', 'stretch']);
+    const cls = elementClass('vr', null, args, ['dotted', 'ranged-only', 'stretch']);
     return `<span${cls}></span>`;
   }
 }

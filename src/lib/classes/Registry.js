@@ -92,6 +92,7 @@ import {
   field_control_proficiency_icon,
   field_control_5e_proficiency,
   field_control_action_icon,
+  field_control_weapon_type_icon,
   field_control_icon,
   field_control_ability,
 } from '../elements/field-control';
@@ -188,6 +189,7 @@ export class Registry {
       field_control_proficiency_icon,
       field_control_5e_proficiency,
       field_control_action_icon,
+      field_control_weapon_type_icon,
       field_control_icon,
       value,
       value_block,
