@@ -1,10 +1,10 @@
-# Copyright 2025 Marcus Downing
-# This file is compliant with the Open Game License (OGL).
-# See the text of the OGL within this repository.
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
 
-unit: barbarian/instinct/apg/superstition
-in: barbarian/instinct
-group: "_{Advanced Player's Guide}"
+unit: remaster/barbarian/instinct/superstition
+in: remaster/barbarian/instinct
+group: "_{Player Core 2}"
 name: "_{Superstition}"
 
 inc:
@@ -24,14 +24,14 @@ inc:
           - h5: "_{Anathema}"
           - ul:
             contents:
-              - li: "_{Willingly accepting the effects of magic spells.}"
+              - li: "_{Learning or Casting a Spell, or wielding or using an item that can be activated to Cast a Spell.}"
+          # CRB p86 anathema wording
           - paste: barbarian-anathema-consequence
 
   - at: '@barbarian/instinct-ability'
     replace:
       - g:
         contents:
-
           - h5: "_{Superstitious Resilience}"
           - field: "##:superstitious-resilience/save-bonus"
             label: "_{[b]Rage![/b] Status Bonus to Saves vs. Magic}"
@@ -39,6 +39,12 @@ inc:
             control: value
             width: large
             value: "+2"
+          - field: barbarian-superstition-damage-bonus
+            label: "_{[b]Rage![/b] Damage Bonus}"
+            frame: right
+            control: value
+            width: large
+            value: "+3"
           - field: barbarian-superstition-damage-bonus-spellcaster
             label: "_{...vs. witnessed spellcasters}"
             frame: right
@@ -46,12 +52,19 @@ inc:
             width: large
             value: "+4"
           - p: "_{Once every 10 minutes, when you [b]Rage![/b], regain Hit Points equal to the temporary HP you gained from [b]Rage![/b].}"
+          - p: "_{Willingly accepting the effects of a magic spell or effect makes you frightened 1 for the duration of the effect.}"
 
   - at: '@barbarian/specialisation-ability'
     replace:
       - level: 7
         contents:
           - h5: "_{Instinct Specialisation}"
+          - field: barbarian-superstition-damage-bonus
+            label: "_{[b]Rage![/b] Damage Bonus}"
+            frame: right
+            control: value
+            width: large
+            value: "+7"
           - field: barbarian-superstition-damage-bonus-spellcaster
             label: "_{...vs. witnessed spellcasters}"
             frame: right
@@ -69,31 +82,49 @@ inc:
             frame: right
             control: value
             width: large
-            value: "+8"
+            value: "+13"
           - field: barbarian-superstition-damage-bonus-greater-spellcaster
             label: "_{...vs. witnessed spellcasters}"
             frame: right
             control: value
             width: large
-            value: "+12"
+            value: "+16"
 
   - at: '@barbarian/raging-resistance'
     replace:
       - layout: indent-lrn
         contents:
           - g:
+          # - row:
+          #   contents:
+          #     - field: barbarian-superstition-raging-resistance-tradition1
+          #       frame: none
+          #       control: switch
+          #       width: stretch
+          #       labels: ["_{Arcane}", "_{Divine}"]
+          #     - spacer:
+          #     - field: barbarian-superstition-raging-resistance-tradition2
+          #       frame: none
+          #       control: switch
+          #       width: stretch
+          #       labels: ["_{Primal}", "_{Occult}"]
           - row:
             contents:
-              - field: barbarian/instinct/apg/superstition/raging-resistance/tradition1
-                frame: none
-                control: switch
-                width: stretch
-                labels: ["_{Arcane}", "_{Divine}"]
+              - field: barbarian-superstition-raging-resistance-arcane
+                frame: right
+                control: checkbox
+                label: "_{Arcane}"
+              - field: barbarian-superstition-raging-resistance-divine
+                frame: right
+                control: checkbox
+                label: "_{Divine}"
               - spacer:
-              - field: barbarian/instinct/apg/superstition/raging-resistance/tradition2
-                frame: none
-                control: switch
-                width: stretch
-                labels: ["_{Primal}", "_{Occult}"]
+              - field: barbarian-superstition-raging-resistance-primal
+                frame: right
+                control: checkbox
+                label: "_{Primal}"
+              - field: barbarian-superstition-raging-resistance-occult
+                frame: right
+                control: checkbox
+                label: "_{Occult}"
           - g:
-

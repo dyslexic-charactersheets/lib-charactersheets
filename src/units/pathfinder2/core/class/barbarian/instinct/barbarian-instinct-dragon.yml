@@ -8,6 +8,9 @@ group: "_{Core Rulebook}"
 name: "_{Dragon}"
 
 inc:
+  - set: subclass
+    value: "_{Dragon}"
+
   - set: barbarian-instinct
     value: "_{Dragon}"
 
@@ -19,7 +22,7 @@ inc:
           - hr:
             swash: true
           - field: barbarian-dragon-instinct-type
-            label: "Dragon type"
+            label: "_{Dragon type}"
             size: huge
             width: stretch
             align: left
@@ -49,20 +52,13 @@ inc:
                 control: radio
                 frame: right
                 label: "_{Failing to defeat this dragon type}"
+          - paste: barbarian-anathema-consequence
 
   - at: '@barbarian/instinct-ability'
     replace:
       - nothing:
-      
+
   - at: '@archetype/barbarian/instinct-ability'
-    replace:
-      - nothing:
-
-  - at: '@barbarian/specialisation-ability'
-    replace:
-      - nothing:
-
-  - at: '@barbarian/specialisation-ability/greater'
     replace:
       - nothing:
 
@@ -76,89 +72,71 @@ inc:
             contents:
               - g:
                 contents:
+                  - p: "_{In [b]Rage![/b], choose to increase your [b]Rage![/b] bonus damage from +2 to +4. Your gain dragon's breath weapon damage type and its trait, as well as <span class='flag'>Arcane</span> and <span class='flag'>Evocation</span> traits.}"
+                  - field: barbarian-dragon-instinct-damage-type
+                    label: "_{Damage Type}"
+                    width: stretch
                   - row:
                     contents:
                       - field: "##:breath/shape"
                         control: radio
+                        value: cone
                         frame: right
                         label: "_{Cone}"
                       - field: "##:breath/shape"
                         control: radio
+                        value: line
                         frame: right
                         label: "_{Line}"
-                  - field: barbarian-animal-instinct-attack
-                    label: "Damage Type"
-                    width: stretch
                   - indent: left
                     contents:
-                      - field: barbarian-bestial-rage-damage-bonus
-                        label: "_{[b]Draconic Rage![/b] damage bonus}"
+                      - field: barbarian-draconic-rage-damage-bonus
+                        label: "_{[b]Draconic Rage![/b] Damage Bonus}"
                         # border: full
                         frame: right
                         control: value
                         width: large
-                        value: "4"
-                    
-              - level: 7
-                contents:
-                  - h5: "_{Weapon Specialisation}"
-                  - field: barbarian-bestial-rage-damage-bonus
-                    label: "_{[b]Draconic Rage![/b] Damage Bonus}"
-                    # border: full
-                    frame: right
-                    control: value
-                    width: large
-                    value: "8"
+                        value: "+4"
 
-              - level: 15
-                contents:
-                  - h5: "_{Greater Weapon Specialisation}"
-                  - field: barbarian-bestial-rage-damage-bonus-greater
-                    label: "_{[b]Draconic Rage![/b] Damage Bonus}"
-                    # border: full
-                    frame: right
-                    control: value
-                    width: large
-                    value: "16"
+  - at: '@barbarian/specialisation-ability'
+    replace:
+      - level: 7
+        contents:
+          - h5: "_{Instinct Specialisation}"
+          - field: barbarian-draconic-rage-damage-bonus-spec
+            label: "_{[b]Draconic Rage![/b] Damage Bonus}"
+            # border: full
+            frame: right
+            control: value
+            width: large
+            value: "+8"
+
+  - at: '@barbarian/specialisation-ability/greater'
+    replace:
+      - level: 15
+        contents:
+          - h5: "_{Greater Instinct Specialisation}"
+          - field: barbarian-draconic-rage-damage-bonus-greater
+            label: "_{[b]Draconic Rage![/b] Damage Bonus}"
+            # border: full
+            frame: right
+            control: value
+            width: large
+            value: "+16"
 
   - at: '@archetype/barbarian/rage-power'
     add:
-      - section: "[b]_{Draconic Rage!}[/b]"
-        id: draconic-rage
-        contents:
-          - list:
-            hr: true
-            contents:
-              - g:
-                contents:
-                  - row:
-                    contents:
-                      - field: "##:breath/shape"
-                        control: radio
-                        frame: right
-                        label: "_{Cone}"
-                      - field: "##:breath/shape"
-                        control: radio
-                        frame: right
-                        label: "_{Line}"
-                  - field: barbarian-animal-instinct-attack
-                    label: "Damage Type"
-                    width: stretch
-                  - indent: left
-                    contents:
-                      - field: barbarian-bestial-rage-damage-bonus
-                        label: "_{[b]Draconic Rage![/b] damage bonus}"
-                        # border: full
-                        frame: right
-                        control: value
-                        width: large
-                        value: "4"
+      # sync: reuse the @barbarian/left block via zone
+      - zone: '@barbarian/left'
 
   - at: '@barbarian/raging-resistance'
     replace:
-      - vr:
-      - h6: "_{Piercing}"
-        blk: false
+      # sync: make into a checkbox field like other classes
+      - field: barbarian-raging-resistance-piercing
+        control: checkbox
+        value: true
+        frame: right
+        label: "_{Piercing}"
       - field: barbarian-raging-resistance-breath-weapon
-        label: "_{Breath Weapon Damage Type}"
+        label: "_{Breath weapon damage type}"
         width: stretch

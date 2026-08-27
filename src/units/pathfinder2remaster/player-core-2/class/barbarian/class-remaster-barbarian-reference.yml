@@ -1,10 +1,19 @@
-# Copyright 2025 Marcus Downing
-# This file is compliant with the Open Game License (OGL).
-# See the text of the OGL within this repository.
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
 
-unit: class/barbarian/reference
+# Rage no longer imposes an AC penalty
+# new Quick-Tempered free action lets you Rage the instant you roll initiative
+# Deny Advantage -> Furious Footfalls
+# Mighty Rage integrated into Quick-Tempered
+# Quick Rage -> Revitalising Rage
+# fury got Unstoppable Frenzy
+# Anathema dropped for barbarians mostly 
+# Bestial Rage attacks are structured differently: can choose your animal now
+
+unit: class/remaster/barbarian/reference
 name: "_{Barbarian Reference}"
-group: "_{Core Rulebook}"
+group: "_{Player Core 2}"
 
 inc:
   - at: '@reference/class-details'
@@ -35,29 +44,31 @@ inc:
         title: "_{While exploring...}"
         optional: true
         content: >
-          _{You look out for danger, ready to rush headfirst into battle in an instant. You climb
+          _{You look out for danger, ready to charge headfirst into battle in an instant. You climb
           the challenging rock wall and drop a rope for others to follow, and you wade into the
           risky currents to reach the hidden switch beneath the water’s surface. If something
           needs breaking, you’re up to the task!}
-          
+
       - paste: book-ref
         params:
-          page-ref: "_{CRB p83}"
+          page-ref: "_{PC2 p71}"
 
   - at: '@reference/actions'
     add:
       - action:
         contents:
           - p:
-            # CRB sync rage style
             title: "[b]_{Rage!}[/b]"
-            content: "_{Tap into your inner fury. Gain temporary hit points and do extra damage, but can’t use most <span class='flag'>Concentrate</span> actions.}"
-
+            content: "_{Tap into your inner fury. Gain temporary hit points and do extra damage, but can't use most <span class='flag'>Concentrate</span> actions.}"
+      - action: free
+        contents:
+          - p:
+            title: "_{Quick-Tempered}"
+            content: "_{[b]Rage![/b] as soon as you roll initiative, so long as you can move freely.}"
 
   - at: '@reference/action-traits'
     add:
       - concentrate
-      - open
       - flourish
       - rage
 
@@ -65,5 +76,4 @@ inc:
     add:
       - grapple
       - unarmed
-      # CRB p84: add agile 
       - agile

@@ -15,6 +15,7 @@ const IN_DIR = path.join(__dirname, 'in');
 const OUT_DIR = path.join(__dirname, 'out');
 const JSON_DIR = path.join(OUT_DIR, 'json');
 const HTML_DIR = path.join(OUT_DIR, 'html');
+const JSON2_DIR = path.join(OUT_DIR, 'json2');
 const CONFIG_PATH = path.join(__dirname, 'generate-character.config.json');
 
 const DEFAULT_LIMIT = 200;
@@ -48,8 +49,14 @@ multi-arg:
                                          a single class (needs exactly one --class to be picked)
 
 --limit <integer>                      | limit the number of files that can generate at once above default
---kwargs key=value                     | overwrite any attribute
+--kwargs key=value                     | overwrite any request attribute (game/options/theme/...)
+--fields key=value                     | --fields level=5,STR=3,DEX=2
+                                         but allows to overwrite any desirable fields
 --render                               | create test/out/html/<filename>.html
+--dump-fields                          | needs --render; scans the rendered html for every
+                                         fillable <input> and writes test/out/json2/<name>.json
+                                         which is a json dump of all the fields that can be 
+                                         imported into the file later
 --page                                 | only keep these pages (1 = the character page,
                                          then combat/feats/class/etc) + 0, -1, -2... allow to
                                          access pages before, may be non-consecutive: --page -1,2,6
@@ -91,11 +98,21 @@ function removeRemasterPrefix(code) {
   return code.startsWith(REMASTER_PREFIX) ? code.slice(REMASTER_PREFIX.length) : code;
 }
 
+// try to find the requested character traits without a 1-to-1 match
+// otherwise it's extremely irritating to figure out the particular naming convention
+function matchesTrailingTokens(code, inputTokens) {
+  const codeTokens = code.toLowerCase().split('-');
+  return codeTokens.length >= inputTokens.length
+    && codeTokens.slice(-inputTokens.length).join('-') === inputTokens.join('-');
+}
+
 function resolveValue(slot, input) {
   const needle = input.toLowerCase();
+  const inputTokens = needle.split('-').filter(Boolean);
   return slot.values.find(v => v.code === input)
     || slot.values.find(v => removeRemasterPrefix(v.code) === input)
-    || slot.values.find(v => removeTranslationKey(v.name).toLowerCase() === needle);
+    || slot.values.find(v => removeTranslationKey(v.name).toLowerCase() === needle)
+    || slot.values.find(v => matchesTrailingTokens(v.code, inputTokens));
 }
 
 class GenerateCharacterError extends Error {}
@@ -104,6 +121,8 @@ class UnknownValueError extends GenerateCharacterError {}
 class UnknownLanguageError extends GenerateCharacterError {}
 class UnresolvedSubclassError extends GenerateCharacterError {}
 class SubclassRequiresSingleClassError extends GenerateCharacterError {}
+class UnresolvedHeritageError extends GenerateCharacterError {}
+class HeritageRequiresSingleAncestryError extends GenerateCharacterError {}
 class ListRequiresSingleAncestryError extends GenerateCharacterError {}
 class ListRequiresSingleClassError extends GenerateCharacterError {}
 class UnknownListGroupError extends GenerateCharacterError {}
@@ -165,6 +184,7 @@ const BOOLEAN_FLAGS = new Set([
   'no-build',
   'clean',
   'purge',
+  'dump-fields',
 ]);
 
 function parseArgs(argv) {
@@ -180,6 +200,7 @@ function parseArgs(argv) {
     backgrounds: [],
     languages: [],
     pages: [],
+    fields: [],
   };
 
   for (let i = 0; i < argv.length; i++) {
@@ -214,6 +235,8 @@ function parseArgs(argv) {
       case 'archetypes': args.archetypes.push(...splitMultiflag(value)); break;
       case 'kwarg':
       case 'kwargs': args.kwargs.push(value); break;
+      case 'field':
+      case 'fields': args.fields.push(...splitMultiflag(value)); break;
       case 'language':
       case 'languages': args.languages.push(...splitMultiflag(value)); break;
       case 'out': args.out = value; break;
@@ -222,6 +245,7 @@ function parseArgs(argv) {
       case 'page':
       case 'pages': args.pages.push(...splitMultiflag(value).map(v => parseInt(v, 10))); break;
       case 'render': args.render = true; break;
+      case 'dump-fields': args.dumpFields = true; break;
       case 'open': args.open = true; break;
       case 'no-build': args.noBuild = true; break;
       case 'clean': args.clean = true; break;
@@ -250,8 +274,17 @@ function attributesForIdentity(identity, config, game) {
   // heritage
   const heritageSlotName = (ancestryValue.selects || []).find(name => name.startsWith('heritage/'));
   if (heritageSlotName) {
-    const heritageValue = resolveOrExit(findSlot(data, heritageSlotName), identity.heritage, 'heritage');
-    attributes[heritageSlotName] = heritageValue.id;
+    const rawHeritage = (identity.heritages || {})[identity.ancestry]
+      ?? (identity.heritages || {})[removeRemasterPrefix(ancestryValue.code)];
+    if (rawHeritage) {
+      const heritageValue = resolveValue(findSlot(data, heritageSlotName), rawHeritage);
+      if (!heritageValue) {
+        throw new UnresolvedHeritageError(
+          `heritage "${rawHeritage}" not found for ancestry "${removeTranslationKey(ancestryValue.name)}" in ${game}`
+        );
+      }
+      attributes[heritageSlotName] = heritageValue.id;
+    }
   }
 
   // background
@@ -294,18 +327,34 @@ function attributesForIdentity(identity, config, game) {
   // language
   attributes.language = resolveLanguageOrExit(data, identity.language).code;
 
+  // fields
+  const fields = { ...(config.fields || {}) };
+  if (Object.keys(fields).length) attributes.fields = fields;
+
   return attributes;
 }
 
-
-// apply kwargs into the attributes object
-function applyKwargs(attributes, kwargs) {
-  kwargs.forEach(raw => {
+// parse key-value into --kwargs and --fields
+function parseKeyValueList(list) {
+  const obj = {};
+  list.forEach(raw => {
     const eq = raw.indexOf('=');
     const key = raw.slice(0, eq);
     const value = raw.slice(eq + 1);
-    attributes[key] = value;
+    obj[key] = value;
   });
+  return obj;
+}
+
+// apply --kwargs onto attributes
+function applyKwargs(attributes, kwargs) {
+  Object.assign(attributes, parseKeyValueList(kwargs));
+}
+
+// apply --fields onto attributes
+function applyFieldArgs(attributes, fieldArgs) {
+  if (!fieldArgs.length) return;
+  attributes.fields = { ...(attributes.fields || {}), ...parseKeyValueList(fieldArgs) };
 }
 
 // build json object to send
@@ -335,7 +384,7 @@ function writeRequestFile(name, request) {
 // same attribute being parsed as a single character at once
 
 function cleanOutDir() {
-  [JSON_DIR, HTML_DIR].forEach(dir => {
+  [JSON_DIR, HTML_DIR, JSON2_DIR].forEach(dir => {
     fs.rmSync(dir, { recursive: true, force: true });
     console.log(`Cleaned ${path.relative(process.cwd(), dir)}`);
   });
@@ -422,10 +471,51 @@ function filterToPages(html, pageIndexes) {
   return $.html();
 }
 
+// scans every <input name=...> actually printed on the sheet
+function extractFillableFields(html) {
+  const $ = cheerio.load(html, { decodeEntities: false });
+  const fields = {};
+
+  $('input[name]').each((i, el) => {
+    const $el = $(el);
+    if ($el.attr('readonly') !== undefined) return;
+
+    const name = $el.attr('name');
+    const type = $el.attr('type') || 'text';
+
+    // radio selector
+    if (type === 'radio') {
+      const entry = fields[name] || { type: 'radio', options: [], value: null };
+      const value = $el.attr('value');
+      if (value && !entry.options.includes(value)) entry.options.push(value);
+      if ($el.attr('checked') !== undefined) entry.value = value;
+      fields[name] = entry;
+      return;
+    }
+
+    // checkbox selector
+    if (type === 'checkbox') {
+      fields[name] = { type: 'checkbox', checked: $el.attr('checked') !== undefined };
+      return;
+    }
+
+    fields[name] = { type, value: $el.attr('value') || '' };
+  });
+
+  return fields;
+}
+
+function writeFieldsFile(name, fields) {
+  fs.mkdirSync(JSON2_DIR, { recursive: true });
+  const outFile = path.join(JSON2_DIR, `${name}.json`);
+  fs.writeFileSync(outFile, JSON.stringify(fields, null, 2));
+  console.log(`Wrote ${path.relative(process.cwd(), outFile)}`);
+}
+
 // same shape as saveResult in test.js
-function saveResult(result, name, openFlag, pages) {
+function saveResult(result, name, openFlag, pages, dumpFields) {
   if (Array.isArray(result)) {
-    result.forEach(r => saveResult(r, name, openFlag, pages));
+    result.forEach(r => saveResult(r, name, openFlag, pages, dumpFields));
     return;
   }
 
@@ -433,6 +523,8 @@ function saveResult(result, name, openFlag, pages) {
     console.error('generate-character: render error', result.err);
     return;
   }
+
+  if (dumpFields) writeFieldsFile(name, extractFillableFields(result.data));
 
   const data = pages.length ? filterToPages(result.data, pages) : result.data;
 
@@ -446,7 +538,7 @@ function saveResult(result, name, openFlag, pages) {
     openFile(outfile);
 }
 
-function renderToOut(request, name, openFlag, pages) {
+function renderToOut(request, name, openFlag, pages, dumpFields) {
   const characterSheets = getCharacterSheets();
 
   return characterSheets.translationsPromise.then(() => characterSheets.create(request)).then(result => {
@@ -455,7 +547,7 @@ function renderToOut(request, name, openFlag, pages) {
       return;
     }
 
-    saveResult(result, name, openFlag, pages);
+    saveResult(result, name, openFlag, pages, dumpFields);
   });
 }
 
@@ -520,7 +612,6 @@ function resolveGames(args, config) {
 function buildVariants(args, identity) {
   return {
     ancestryVariants: args.ancestries.length ? args.ancestries : [identity.ancestry],
-    heritageVariants: args.heritages.length ? args.heritages : [identity.heritage],
     backgroundVariants: args.backgrounds.length ? args.backgrounds : [identity.background],
     languageVariants: args.languages.length ? args.languages : [identity.language],
     classVariants: args.classes.length ? args.classes : [null],
@@ -529,29 +620,41 @@ function buildVariants(args, identity) {
   };
 }
 
+// heritage depends on which ancestry it's paired with
+function checkHeritageNeedsOneAncestry(ancestryVariants, heritageSpecs) {
+  if (!heritageSpecs.length) return;
+  if (ancestryVariants.length !== 1) {
+    throw new HeritageRequiresSingleAncestryError('--heritage needs exactly one --ancestry');
+  }
+}
+
 // subclass depends on which class it's paired with
 function buildCombos(games, variants, identity, args) {
   const {
-    ancestryVariants, heritageVariants, backgroundVariants, languageVariants,
+    ancestryVariants, backgroundVariants, languageVariants,
     classVariants, featVariants, archetypeVariants,
   } = variants;
 
   checkSubclassNeedsOneClass(classVariants, identity.classes, args.subclasses);
+  checkHeritageNeedsOneAncestry(ancestryVariants, args.heritages);
 
   const independentCombos = cartesian([
-    games, ancestryVariants, heritageVariants, backgroundVariants,
-    languageVariants, featVariants, archetypeVariants,
+    games, backgroundVariants, languageVariants, featVariants, archetypeVariants,
   ]);
 
   const combos = [];
-  classVariants.forEach(classValue => {
-    const subclassCodes = args.subclasses.length ? args.subclasses : [null];
-    subclassCodes.forEach(subclassCode => {
-      independentCombos.forEach(([
-        game, ancestry, heritage, background, language, featValue, archetypeValue,
-      ]) => {
-        combos.push({
-          game, ancestry, heritage, background, language, classValue, subclassCode, featValue, archetypeValue,
+  ancestryVariants.forEach(ancestry => {
+    const heritageCodes = args.heritages.length ? args.heritages : [null];
+    heritageCodes.forEach(heritageCode => {
+      classVariants.forEach(classValue => {
+        const subclassCodes = args.subclasses.length ? args.subclasses : [null];
+        subclassCodes.forEach(subclassCode => {
+          independentCombos.forEach(([game, background, language, featValue, archetypeValue]) => {
+            combos.push({
+              game, ancestry, heritage: heritageCode, background, language,
+              classValue, subclassCode, featValue, archetypeValue,
+            });
+          });
         });
       });
     });
@@ -584,7 +687,6 @@ function comboIdentityFor(combo, identity) {
   const comboIdentity = {
     ...identity,
     ancestry: combo.ancestry,
-    heritage: combo.heritage,
     background: combo.background,
     language: combo.language,
   };
@@ -594,6 +696,9 @@ function comboIdentityFor(combo, identity) {
   if (combo.subclassCode) {
     const classCode = combo.classValue || identity.classes[0];
     comboIdentity.subclasses = { ...identity.subclasses, [classCode]: combo.subclassCode };
+  }
+  if (combo.heritage) {
+    comboIdentity.heritages = { ...identity.heritages, [combo.ancestry]: combo.heritage };
   }
   return comboIdentity;
 }
@@ -628,11 +733,12 @@ function buildRequests(combos, identity, config, args) {
     try {
       attributes = attributesForIdentity(comboIdentity, config, combo.game);
     } catch (err) {
-      if (!(err instanceof UnresolvedSubclassError)) throw err;
+      if (!(err instanceof UnresolvedSubclassError) && !(err instanceof UnresolvedHeritageError)) throw err;
       console.error(`generate-character: skipping - ${err.message}`);
       return null;
     }
     applyKwargs(attributes, args.kwargs);
+    applyFieldArgs(attributes, args.fields);
 
     const name = nameForCombo(combo, args, identity, multi, multiFlags);
     return { name, request: buildRequest(attributes) };
@@ -684,7 +790,7 @@ async function main() {
     return Promise.resolve();
   }
 
-  return requests.reduce((chain, { name, request }) => chain.then(() => renderToOut(request, name, args.open, args.pages)), Promise.resolve());
+  return requests.reduce((chain, { name, request }) => chain.then(() => renderToOut(request, name, args.open, args.pages, args.dumpFields)), Promise.resolve());
 }
 
 main().catch(err => {
