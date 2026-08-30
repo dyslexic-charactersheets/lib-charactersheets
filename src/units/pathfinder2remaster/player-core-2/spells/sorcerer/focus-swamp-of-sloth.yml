@@ -1,0 +1,35 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/focus/sorcerer/swamp-of-sloth
+name: "_{Swamp of Sloth}"
+group: "_{Player Core 2}"
+
+inc:
+  - copy: remaster/focus/sorcerer/swamp-of-sloth
+    contents:
+      - action: "13"
+        contents:
+          - article: remaster/focus/sorcerer/swamp-of-sloth
+            title: "_{Swamp of Sloth}"
+            cat: "_{Focus 3}"
+            contents:
+              - dl:
+                  range: "_{120ft}"
+                  area: "_{5-foot burst or more}"
+                  save: "_{basic Fortitude}"
+                  duration: "_{1 minute}"
+              - p: "_{Ground becomes fetid difficult terrain; demonic sludge beasts swarm and stench creatures inside. Poison damage to creatures ending their turn in the area. Each extra action spent casting adds 5ft to the radius.}"
+              - calc:
+                output:
+                  field: "##:swamp-of-sloth/damage"
+                  legend: "_{Poison\nDamage}"
+                  width: large
+                  suffix: "_{d6}"
+                  icon: d6
+                  eq: "floor((%{focus-rank}-3)/2)+1"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"

@@ -1,0 +1,40 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/focus/sorcerer/grasping-grave
+name: "_{Grasping Grave}"
+group: "_{Player Core 2}"
+
+inc:
+  - copy: remaster/focus/sorcerer/grasping-grave
+    contents:
+      - action: 2
+        contents:
+          - article: remaster/focus/sorcerer/grasping-grave
+            title: "_{Grasping Grave}"
+            cat: "_{Focus 5}"
+            contents:
+              - dl:
+                  range: "_{60ft}"
+                  area: "_{20-foot radius on the ground}"
+                  save: "_{Reflex}"
+              - p: "_{Skeletal arms erupt from the ground, clawing and grasping creatures in the area.}"
+              - calc:
+                output:
+                  field: "##:grasping-grave/damage"
+                  legend: "_{Slashing\nDamage}"
+                  width: large
+                  suffix: "_{d6}"
+                  icon: d6
+                  eq: "(%{focus-rank}*2)-4"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
+              - paste: save
+                params:
+                  critical_success: "_{Unaffected.}"
+                  success: "_{Half damage.}"
+                  failure: "_{Full damage; -10ft Speed penalty for 1 round.}"
+                  critical_failure: "_{Double damage and immobilized for 1 round or until it Escapes.}"

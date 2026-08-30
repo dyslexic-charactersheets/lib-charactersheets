@@ -1,0 +1,46 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/focus/sorcerer/gluttons-jaws
+name: "_{Glutton's Jaws}"
+group: "_{Player Core 2}"
+
+inc:
+  - copy: remaster/focus/sorcerer/gluttons-jaws
+    contents:
+      - action: 2
+        contents:
+          - article: remaster/focus/sorcerer/gluttons-jaws
+            title: "_{Glutton's Jaws}"
+            cat: "_{Focus 1}"
+            contents:
+              - dl:
+                  range: "_{30ft}"
+                  target: "_{1 creature}"
+                  save: "_{AC}"
+              - p: "_{A maw opens beneath the target. Spell attack roll; on a hit, deals piercing damage and grants you temp HP until your next turn begins.}"
+              - calc:
+                output:
+                  field: "##:gluttons-jaws/damage"
+                  legend: "_{Piercing\nDamage}"
+                  width: large
+                  suffix: "_{d6}"
+                  icon: d6
+                  eq: "%{focus-rank}*2"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
+              - calc:
+                output:
+                  field: "##:gluttons-jaws/temp-hp"
+                  legend: "_{Temporary\nHit Points}"
+                  width: large
+                  suffix: "_{d4}"
+                  icon: d4
+                  eq: "%{focus-rank}"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"

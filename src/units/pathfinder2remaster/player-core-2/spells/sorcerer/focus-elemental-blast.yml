@@ -1,0 +1,34 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/focus/sorcerer/elemental-blast
+name: "_{Elemental Blast}"
+group: "_{Player Core 2}"
+
+inc:
+  - copy: remaster/focus/sorcerer/elemental-blast
+    contents:
+      - action: 2
+        contents:
+          - article: remaster/focus/sorcerer/elemental-blast
+            title: "_{Elemental Blast}"
+            cat: "_{Focus 5}"
+            contents:
+              - dl:
+                  range: "_{30ft (burst only)}"
+                  area: "_{10-foot-radius burst, 30-foot cone, or 60-foot line}"
+                  save: "_{basic Reflex}"
+              - p: "_{Blast foes in your choice of the listed shapes. Damage type matches your influence (e.g. slashing for air, fire for fire); has your element's trait.}"
+              - calc:
+                output:
+                  field: "##:elemental-blast/damage"
+                  legend: "_{Damage}"
+                  width: large
+                  suffix: "_{d6}"
+                  icon: d6
+                  eq: "(%{focus-rank}*2)-2"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"

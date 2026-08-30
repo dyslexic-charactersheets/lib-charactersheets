@@ -12,6 +12,11 @@ form:
     name: "_{Elemental Influence}"
     max: 1
 
+require:
+  - unit: remaster/focus/sorcerer/elemental-toss
+  - unit: remaster/focus/sorcerer/elemental-motion
+  - unit: remaster/focus/sorcerer/elemental-blast
+
 inc:
   - set: subclass
     value: "_{Elemental}"
@@ -41,75 +46,15 @@ inc:
 
   - at: '@sorcerer/bloodline-spell/initial'
     replace:
-      - action:
-        contents:
-          - article:
-            title: "_{Elemental Toss}"
-            cat: "_{Focus 1}"
-            contents:
-              - dl:
-                  range: "_{30ft}"
-                  target: "_{1 creature}"
-                  save: "_{AC}"
-              - p: "_{Fling elemental matter at your foe. Ranged spell attack roll: damage on a success, double on a critical success. Damage type matches your influence (e.g. slashing for air, fire for fire); has your element's trait.}"
-              - calc:
-                output:
-                  field: "##:elemental-toss/damage"
-                  legend: "_{Damage}"
-                  width: large
-                  suffix: "_{d8}"
-                  icon: d8
-                  eq: "%{focus-rank}"
-                inputs:
-                  - field:
-                    ref: focus-rank
-                    label: "_{Focus Level}"
+      - paste: remaster/focus/sorcerer/elemental-toss
 
   - at: '@sorcerer/bloodline-spell/advanced'
     replace:
-      - action: 2
-        contents:
-          - article:
-            title: "_{Elemental Motion}"
-            cat: "_{Focus 3}"
-            contents:
-              - dl:
-                  duration: "_{1 minute}"
-              - p: "_{Your element propels you, improving your Speed by type. Has your element's trait.}"
-              - ul:
-                contents:
-                  - li: "_{Air/Fire: fly Speed equal to your Speed.}"
-                  - li: "_{Earth/Metal: burrow Speed 10ft.}"
-                  - li: "_{Water: swim Speed equal to your Speed; breathe underwater.}"
-                  - li: "_{Wood: climb Speed equal to your Speed.}"
-              - p: "_{Heightened (6th): +10ft status bonus to your Speeds.}"
-              - p: "_{Heightened (9th): the status bonus increases to +20 feet.}"
+      - paste: remaster/focus/sorcerer/elemental-motion
 
   - at: '@sorcerer/bloodline-spell/greater'
     replace:
-      - action: 2
-        contents:
-          - article:
-            title: "_{Elemental Blast}"
-            cat: "_{Focus 5}"
-            contents:
-              - dl:
-                  range: "_{30ft (burst only)}"
-                  area: "_{10-foot-radius burst, 30-foot cone, or 60-foot line}"
-                  save: "_{basic Reflex}"
-              - p: "_{Blast foes in your choice of the listed shapes. Damage type matches your influence (e.g. slashing for air, fire for fire); has your element's trait.}"
-              - calc:
-                output:
-                  field: "##:elemental-blast/damage"
-                  legend: "_{Damage}"
-                  width: large
-                  suffix: "_{d6}"
-                  icon: d6
-                  eq: "(%{focus-rank}*2)-2"
-                inputs:
-                  - field:
-                    ref: focus-rank
-                    label: "_{Focus Level}"
+      - paste: remaster/focus/sorcerer/elemental-blast
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:

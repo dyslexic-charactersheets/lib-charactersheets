@@ -7,6 +7,11 @@ in: remaster/sorcerer/bloodline
 group: "_{Player Core 2}"
 name: "_{Hag}"
 
+require:
+  - unit: remaster/focus/sorcerer/jealous-hex
+  - unit: remaster/focus/sorcerer/horrific-visage
+  - unit: remaster/focus/sorcerer/youre-mine
+
 inc:
   - set: subclass
     value: "_{Hag}"
@@ -51,66 +56,15 @@ inc:
 
   - at: '@sorcerer/bloodline-spell/initial'
     replace:
-      - action:
-        contents:
-          - article:
-            title: "_{Jealous Hex}"
-            cat: "_{Focus 1}"
-            contents:
-              - dl:
-                  range: "_{30ft}"
-                  target: "_{1 creature}"
-                  save: "_{Will}"
-                  duration: "_{1 minute}"
-              - p: "_{Curses the target's highest attribute: Str (enfeebled), Dex (clumsy), Con (drained), or Int/Wis/Cha (stupefied); target picks on a tie. Will save; new save each of your turns, ending on a success.}"
-              - paste: save
-                params:
-                  critical_success: "_{Unaffected.}"
-                  success: "_{Unaffected.}"
-                  failure: "_{The condition's value is 1.}"
-                  critical_failure: "_{The condition's value is 2.}"
+      - paste: remaster/focus/sorcerer/jealous-hex
 
   - at: '@sorcerer/bloodline-spell/advanced'
     replace:
-      - action: 2
-        contents:
-          - article:
-            title: "_{Horrific Visage}"
-            cat: "_{Focus 3}"
-            contents:
-              - dl:
-                  area: "_{30-foot-radius emanation}"
-                  save: "_{Will}"
-              - p: "_{Your features become a hag's horrific visage. Foes in the area save vs. Will.}"
-              - paste: save
-                params:
-                  critical_success: "_{Unaffected.}"
-                  success: "_{Unaffected.}"
-                  failure: "_{Frightened 1.}"
-                  critical_failure: "_{Frightened 2.}"
-              - p: "_{Heightened (5th): success frightened 1, failure frightened 2, critical failure frightened 3 + fleeing 1 round (critical success still unaffected).}"
+      - paste: remaster/focus/sorcerer/horrific-visage
 
   - at: '@sorcerer/bloodline-spell/greater'
     replace:
-      - action: 2
-        contents:
-          - article:
-            title: "_{You're Mine}"
-            cat: "_{Focus 5}"
-            contents:
-              - dl:
-                  range: "_{30ft}"
-                  target: "_{1 creature}"
-                  save: "_{Will}"
-                  duration: "_{1 round}"
-              - p: "_{Manipulate the target's emotions to briefly control it. Will save.}"
-              - paste: save
-                params:
-                  critical_success: "_{Unaffected.}"
-                  success: "_{Stunned 1.}"
-                  failure: "_{Stunned 1 next turn; you choose one of its actions, then it acts normally.}"
-                  critical_failure: "_{Controlled for 1 round.}"
-              - p: "_{Heightened (7th): failure controls for 1 round; critical failure controls up to 1 minute (new save each turn ends it).}"
+      - paste: remaster/focus/sorcerer/youre-mine
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:

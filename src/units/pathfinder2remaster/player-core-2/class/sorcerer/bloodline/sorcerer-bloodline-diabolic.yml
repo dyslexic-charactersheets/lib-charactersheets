@@ -7,6 +7,11 @@ in: remaster/sorcerer/bloodline
 group: "_{Player Core 2}"
 name: "_{Diabolic}"
 
+require:
+  - unit: remaster/focus/sorcerer/diabolic-edict
+  - unit: remaster/focus/sorcerer/embrace-the-pit
+  - unit: remaster/focus/sorcerer/hellfire-plume
+
 inc:
   - set: subclass
     value: "_{Diabolic}"
@@ -51,75 +56,15 @@ inc:
 
   - at: '@sorcerer/bloodline-spell/initial'
     replace:
-      - action:
-        contents:
-          - article:
-            title: "_{Diabolic Edict}"
-            cat: "_{Focus 1}"
-            contents:
-              - dl:
-                  range: "_{30ft}"
-                  target: "_{1 willing living creature}"
-                  duration: "_{1 round}"
-              - p: "_{Demand the target perform a task: +1 status to attack rolls/skill checks related to it, or -1 status to all attack rolls/skill checks if it refuses.}"
+      - paste: remaster/focus/sorcerer/diabolic-edict
 
   - at: '@sorcerer/bloodline-spell/advanced'
     replace:
-      - action:
-        contents:
-          - article:
-            title: "_{Embrace the Pit}"
-            cat: "_{Focus 3}"
-            contents:
-              - dl:
-                  duration: "_{1 minute}"
-              - p: "_{Devil horns grow from your skull; your skin takes on features of your bloodline's devil.}"
-              - calc:
-                output:
-                  field: "##:embrace-the-pit/resistance-fire-poison"
-                  legend: "_{Fire /\nPoison\nResistance}"
-                  width: large
-                  eq: "floor((%{focus-rank}-3)/2)*5+5"
-                inputs:
-                  - field:
-                    ref: focus-rank
-                    label: "_{Focus Level}"
-              - calc:
-                output:
-                  field: "##:embrace-the-pit/resistance-physical"
-                  legend: "_{Physical\nResistance\n(Except Silver)}"
-                  width: large
-                  eq: "floor((%{focus-rank}-3)/2)*2+1"
-                inputs:
-                  - field:
-                    ref: focus-rank
-                    label: "_{Focus Level}"
+      - paste: remaster/focus/sorcerer/embrace-the-pit
 
   - at: '@sorcerer/bloodline-spell/greater'
     replace:
-      - action: 2
-        contents:
-          - article:
-            title: "_{Hellfire Plume}"
-            cat: "_{Focus 5}"
-            contents:
-              - dl:
-                  range: "_{60ft}"
-                  area: "_{10-foot radius, 60-foot-tall cylinder}"
-                  save: "_{basic Reflex}"
-              - p: "_{A plume of hellfire erupts from below, dealing fire and spirit damage.}"
-              - calc:
-                output:
-                  field: "##:hellfire-plume/damage"
-                  legend: "_{Fire /\nSpirit Damage\n(Each)}"
-                  width: large
-                  suffix: "_{d6 each}"
-                  icon: d6
-                  eq: "%{focus-rank}-1"
-                inputs:
-                  - field:
-                    ref: focus-rank
-                    label: "_{Focus Level}"
+      - paste: remaster/focus/sorcerer/hellfire-plume
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:

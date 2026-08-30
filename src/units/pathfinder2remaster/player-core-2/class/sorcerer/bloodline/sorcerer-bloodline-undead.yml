@@ -7,6 +7,11 @@ in: remaster/sorcerer/bloodline
 group: "_{Player Core 2}"
 name: "_{Undead}"
 
+require:
+  - unit: remaster/focus/sorcerer/undeaths-blessing
+  - unit: remaster/focus/sorcerer/drain-life
+  - unit: remaster/focus/sorcerer/grasping-grave
+
 inc:
   - set: subclass
     value: "_{Undead}"
@@ -51,92 +56,15 @@ inc:
 
   - at: '@sorcerer/bloodline-spell/initial'
     replace:
-      - action:
-        contents:
-          - article:
-            title: "_{Undeath's Blessing}"
-            cat: "_{Focus 1}"
-            contents:
-              - dl:
-                  range: "_{touch}"
-                  target: "_{1 living creature}"
-                  save: "_{Will}"
-                  duration: "_{1 minute}"
-              - p: "_{Harm and heal spells treat the target as undead for the duration; harm also restores bonus HP. Unwilling target: Will save to reduce.}"
-              - calc:
-                output:
-                  field: "##:undeaths-blessing/bonus"
-                  legend: "_{Bonus HP\nRestored by Harm}"
-                  width: large
-                  eq: "%{focus-rank}*2"
-                inputs:
-                  - field:
-                    ref: focus-rank
-                    label: "_{Focus Level}"
-              - paste: save
-                params:
-                  critical_success: "_{Unaffected.}"
-                  success: "_{Heals half as much from heal and takes half as much damage from harm for 1 round.}"
-                  failure: "_{Effects as described above.}"
-                  critical_failure: "_{Effects as described above.}"
+      - paste: remaster/focus/sorcerer/undeaths-blessing
 
   - at: '@sorcerer/bloodline-spell/advanced'
     replace:
-      - action:
-        contents:
-          - article:
-            title: "_{Drain Life}"
-            cat: "_{Focus 3}"
-            contents:
-              - dl:
-                  range: "_{30ft}"
-                  target: "_{1 living creature}"
-                  save: "_{basic Fortitude}"
-              - p: "_{Void damage (basic Fortitude); gain temp HP equal to damage dealt (or the target's remaining HP if less), lasting 1 minute.}"
-              - calc:
-                output:
-                  field: "##:drain-life/damage"
-                  legend: "_{Void\nDamage}"
-                  width: large
-                  suffix: "_{d4}"
-                  icon: d4
-                  eq: "%{focus-rank}"
-                inputs:
-                  - field:
-                    ref: focus-rank
-                    label: "_{Focus Level}"
+      - paste: remaster/focus/sorcerer/drain-life
 
   - at: '@sorcerer/bloodline-spell/greater'
     replace:
-      - action: 2
-        contents:
-          - article:
-            title: "_{Grasping Grave}"
-            cat: "_{Focus 5}"
-            contents:
-              - dl:
-                  range: "_{60ft}"
-                  area: "_{20-foot radius on the ground}"
-                  save: "_{Reflex}"
-              - p: "_{Skeletal arms erupt from the ground, clawing and grasping creatures in the area.}"
-              - calc:
-                output:
-                  field: "##:grasping-grave/damage"
-                  legend: "_{Slashing\nDamage}"
-                  width: large
-                  suffix: "_{d6}"
-                  icon: d6
-                  eq: "(%{focus-rank}*2)-4"
-                inputs:
-                  - field:
-                    ref: focus-rank
-                    label: "_{Focus Level}"
-              - paste: save
-                params:
-                  critical_success: "_{Unaffected.}"
-                  success: "_{Half damage.}"
-                  failure: "_{Full damage; -10ft Speed penalty for 1 round.}"
-                  critical_failure: "_{Double damage and immobilized for 1 round or until it Escapes.}"
+      - paste: remaster/focus/sorcerer/grasping-grave
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:

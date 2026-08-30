@@ -7,6 +7,11 @@ in: remaster/sorcerer/bloodline
 group: "_{Player Core 2}"
 name: "_{Aberrant}"
 
+require:
+  - unit: remaster/focus/sorcerer/tentacular-limbs
+  - unit: remaster/focus/sorcerer/aberrant-whispers
+  - unit: remaster/focus/sorcerer/unusual-anatomy
+
 inc:
   - set: subclass
     value: "_{Aberrant}"
@@ -51,77 +56,15 @@ inc:
 
   - at: '@sorcerer/bloodline-spell/initial'
     replace:
-      - action:
-        contents:
-          - article:
-            title: "_{Tentacular Limbs}"
-            cat: "_{Focus 1}"
-            contents:
-              - dl:
-                  duration: "_{1 minute}"
-              - p: "_{Your arms become tentacles: reach 10ft for touch spells and unarmed Strikes. When casting, spend an action to extend reach to 20ft for that spell.}"
-              - p: "_{Heightened (+2): the extended reach increases by 10ft.}"
+      - paste: remaster/focus/sorcerer/tentacular-limbs
 
   - at: '@sorcerer/bloodline-spell/advanced'
     replace:
-      - action: "13"
-        contents:
-          - article:
-            title: "_{Aberrant Whispers}"
-            cat: "_{Focus 3}"
-            contents:
-              - dl:
-                  area: "_{5-foot emanation or more}"
-                  target: "_{each foe in the area}"
-                  save: "_{Will}"
-                  duration: "_{1 round}"
-              - p: "_{Assault nearby minds; each target is then immune for 1 minute regardless of its save. Each extra action spent casting adds 5ft to the radius.}"
-              - paste: save
-                params:
-                  critical_success: "_{Unaffected.}"
-                  success: "_{Unaffected.}"
-                  failure: "_{Stupefied 2.}"
-                  critical_failure: "_{Confused.}"
-              - p: "_{Heightened (+3): the initial radius increases by 5 feet.}"
+      - paste: remaster/focus/sorcerer/aberrant-whispers
 
   - at: '@sorcerer/bloodline-spell/greater'
     replace:
-      - action: 2
-        contents:
-          - article:
-            title: "_{Unusual Anatomy}"
-            cat: "_{Focus 5}"
-            contents:
-              - dl:
-                  duration: "_{1 minute}"
-              - p: "_{Your flesh becomes a bizarre amalgam of skin, scales, hair, and growths.}"
-              - ul:
-                contents:
-                  - li: "_{You gain darkvision.}"
-                  - li: "_{Acid oozes from your skin; unarmed or non-reach melee attackers take acid damage.}"
-              - calc:
-                output:
-                  field: "##:unusual-anatomy/resistance"
-                  legend: "_{Precision /\nCritical Hit\nResistance}"
-                  width: large
-                  eq: "floor((%{focus-rank}-5)/2)*5+10"
-                inputs:
-                  - field:
-                    ref: focus-rank
-                    label: "_{Focus Level}"
-              - calc:
-                output:
-                  field: "##:unusual-anatomy/damage"
-                  legend: "_{Acid\nDamage}"
-                  width: large
-                  suffix: "_{d6}"
-                  icon: d6
-                  eq: "floor((%{focus-rank}-5)/2)+2"
-                inputs:
-                  - field:
-                    ref: focus-rank
-                    label: "_{Focus Level}"
-              - p: "_{If resistance exceeds a critical hit's extra damage, that extra is reduced to 0 (normal damage unaffected).}"
+      - paste: remaster/focus/sorcerer/unusual-anatomy
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:

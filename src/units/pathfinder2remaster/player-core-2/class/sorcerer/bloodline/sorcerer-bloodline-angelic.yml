@@ -7,6 +7,11 @@ in: remaster/sorcerer/bloodline
 group: "_{Player Core 2}"
 name: "_{Angelic}"
 
+require:
+  - unit: remaster/focus/sorcerer/angelic-halo
+  - unit: remaster/focus/sorcerer/angelic-wings
+  - unit: remaster/focus/sorcerer/celestial-brand
+
 inc:
   - set: subclass
     value: "_{Angelic}"
@@ -51,53 +56,15 @@ inc:
 
   - at: '@sorcerer/bloodline-spell/initial'
     replace:
-      - action:
-        contents:
-          - article:
-            title: "_{Angelic Halo}"
-            cat: "_{Focus 1}"
-            contents:
-              - dl:
-                  area: "_{15-foot emanation}"
-                  duration: "_{1 minute}"
-              - p: "_{Allies in your halo's emanation healed by a heal spell gain bonus HP regained equal to double the heal spell's rank.}"
+      - paste: remaster/focus/sorcerer/angelic-halo
 
   - at: '@sorcerer/bloodline-spell/advanced'
     replace:
-      - action:
-        contents:
-          - article:
-            title: "_{Angelic Wings}"
-            cat: "_{Focus 3}"
-            contents:
-              - dl:
-                  duration: "_{3 rounds}"
-              - p: "_{Wings of light grant a fly Speed equal to your Speed and bright light in a 30ft radius. On expiry, float down as gentle landing.}"
-              - p: "_{Heightened (5th): the duration increases to 1 minute.}"
+      - paste: remaster/focus/sorcerer/angelic-wings
 
   - at: '@sorcerer/bloodline-spell/greater'
     replace:
-      - action:
-        contents:
-          - article:
-            title: "_{Celestial Brand}"
-            cat: "_{Focus 5}"
-            contents:
-              - dl:
-                  range: "_{30ft}"
-                  target: "_{1 unholy creature}"
-                  duration: "_{1 round}"
-              - p: "_{A symbol curses the target: you and allies get +1 status to attack rolls/skill checks against it, and holy creatures dealing damage add 1d4 spirit damage plus the bonus below. Then immune for 1 minute.}"
-              - calc:
-                output:
-                  field: "##:celestial-brand/damage"
-                  legend: "_{Bonus\nSpirit Damage}"
-                  width: large
-                  eq: "floor((%{focus-rank}-5)/2)"
-                inputs:
-                  - field:
-                    ref: focus-rank
-                    label: "_{Focus Level}"
+      - paste: remaster/focus/sorcerer/celestial-brand
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:
