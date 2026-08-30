@@ -60,6 +60,7 @@ export class GM_Instance extends Instance {
 
           // language
           document.language = data.language;
+          this.addLanguageScriptUnit(document.language);
           document.setMeasurementUnits(data.measurementUnits);
           
           if (data.printLarge) {

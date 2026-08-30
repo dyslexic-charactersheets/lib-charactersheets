@@ -40,6 +40,7 @@ export class Build {
           const documentUnit = system.getUnit("document");
           const document = new Document(system, documentUnit);
           document.language = this.data.language;
+          this.addLanguageScriptUnit(document.language);
           
           let units = system.getUnits(this.data.units);
           units = system.inferUnits(units);

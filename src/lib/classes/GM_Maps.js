@@ -68,17 +68,7 @@ function parseGM_Maps(primary, request) {
     gm.units.push('high-contrast');
   }
   if (attr.printDyslexic) {
-    switch(attr.printDyslexicFont) {
-      case 'dyslexie':
-        char.units.push('dyslexie');
-        break;
-      case 'lexend':
-        char.units.push('lexend');
-        break;
-      default:
-        char.units.push('dyslexic');
-        break;
-    }
+    addDyslexicFontUnit(attr.printDyslexicFont);
   }
 
   // included assets

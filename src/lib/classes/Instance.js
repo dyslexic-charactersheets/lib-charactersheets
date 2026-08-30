@@ -67,6 +67,48 @@ export class Instance {
     }
   }
 
+  addDyslexicFontUnit(dyslexicFont) {
+    log("Instance", "Dyslexic font", dyslexicFont);
+    switch(dyslexicFont) {
+      case 'dyslexie':
+        char.units.push('dyslexie');
+        break;
+      case 'lexend':
+        char.units.push('lexend');
+        break;
+      default:
+        char.units.push('dyslexic');
+        break;
+    }
+  }
+
+  addLanguageScriptUnit(language) {
+    switch (language) {
+      case 'ru':
+      case 'uk':
+        this.data.units.push('script/cyrillic');
+        break;
+
+      case 'el':
+        this.data.units.push('script/greek');
+        break;
+
+      case 'pl':
+      case 'fr':
+      case 'es':
+      case 'pt':
+      case 'pt-BR':
+      case 'nl':
+      case 'no':
+        this.data.units.push('script/euro');
+        break;
+
+      default:
+        this.data.units.push('script/latin');
+        break;
+    }
+  }
+
   getDataUnits(isLoggedIn, isNoCalc) {
     if (isLoggedIn && !isNoCalc) {
         return [

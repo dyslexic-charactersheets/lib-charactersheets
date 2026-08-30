@@ -126,18 +126,7 @@ function parseKingdom(primary, request) {
     char.units.push('high-contrast');
   }
   if (attr.printDyslexic) {
-    log("Character", "Dyslexic font", attr.printDyslexicFont);
-    switch(attr.printDyslexicFont) {
-      case 'dyslexie':
-        char.units.push('dyslexie');
-        break;
-      case 'lexend':
-        char.units.push('lexend');
-        break;
-      default:
-        char.units.push('dyslexic');
-        break;
-    }
+    addDyslexicFontUnit(attr.printDyslexicFont);
   }
   
   const system = getSystemStack(attr.game);
@@ -207,6 +196,7 @@ export class Kingdom extends Instance {
 
             // language
             document.language = data.language;
+            this.addLanguageScriptUnit(document.language);
               
             if (data.printLarge) {
               document.largePrint = true;

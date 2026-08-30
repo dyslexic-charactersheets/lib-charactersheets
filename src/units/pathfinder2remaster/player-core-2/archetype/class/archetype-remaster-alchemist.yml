@@ -1,0 +1,91 @@
+unit: archetype/remaster/alchemist
+in: archetype
+group: "_{Player Core}"
+name: "_{Alchemist}"
+multiclass: true
+
+require:
+  - unit: defs/archetypes
+  - deny: archetype/alchemist
+
+inc:
+  - set: crafting-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Alchemist}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-alchemist
+        name: "_{Alchemist}"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: alchemist
+                      - class-name: "_{Alchemist}"
+
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Trained in Crafting and Alchemical bombs}"
+                        icon: proficiency-trained
+
+                  - section: "_{Archetype Feats}"
+                    contents:
+                      - article: "##:counter-perform"
+                        title: "_{Counter Perform}"
+                        cat: "_{Feat} 6"
+                        contents:
+                          - selectable: 'alchemist-counter-perform'
+                            contents:
+                              - p: "_{When you or an ally within 60ft rolls a saving throw against an auditory or visual effect,}"
+                              - action: reaction
+                                contents:
+                                  - paste: focus
+                                    contents:
+                                      - p: "_{Roll a Performance check and you or your ally can take the better result.}"
+
+                      - article: "##:anthemic-performance"
+                        title: "_{Anthemic Performance}"
+                        cat: "_{Feat} 8"
+                        contents:
+                          - selectable: 'alchemist-anthemic-performance'
+                            contents:
+                              - action:
+                                contents:
+                                  - value-block: "+1"
+                                    content: "_{Bonus to attack and damage rolls, and saves against fear.}"
+
+                  - section: "_{Muse's Whispers}"
+                    mark: alchemist
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: alchemist
+                          class-level: "_{Alchemist\nLevel}"
+                          basic-title: "_{Basic Whisper}"
+                          advanced-title: "_{Advanced Whispers}"
+                          num: 2
+
+                  - tail:
+
+              - g:
+                contents:
+                  - paste: archetype-spellcasting
+                    params:
+                      style: prepared
+                      attribute: "CHA"
+                      attribute-name: "_{CHA}"
+                      breadth: "_{Occult Breadth}"
+
+                  - tail:

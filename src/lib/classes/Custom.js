@@ -55,17 +55,7 @@ function parseCustom(primary, request) {
     custom.units.push('high-contrast');
   }
   if (attr.printDyslexic) {
-    switch(attr.printDyslexicFont) {
-      case 'dyslexie':
-        custom.units.push('dyslexie');
-        break;
-      case 'lexend':
-        custom.units.push('lexend');
-        break;
-      default:
-        custom.units.push('dyslexic');
-        break;
-    }
+    addDyslexicFontUnit(attr.printDyslexicFont);
   }
 
   // done
@@ -117,6 +107,7 @@ export class Custom extends Instance {
 
             // language
             document.language = data.language;
+            this.addLanguageScriptUnit(document.language);
             document.setVar('character-name', data.name);
             document.setVar('description', data.description);
 
