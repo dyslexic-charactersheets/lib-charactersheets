@@ -116,6 +116,9 @@ function parseCharacter(primary, request) {
     isNoCalc: attr.browserTarget == "pdf",
     debug: primary.debug,
     instances: {},
+
+    // arbitrary field-id -> value prefills 
+    fields: isObject(attr.fields) ? attr.fields : {},
   };
 
   log("Character", "Is logged in?", char.isLoggedIn);
@@ -148,18 +151,7 @@ function parseCharacter(primary, request) {
     char.units.push('high-contrast');
   }
   if (attr.printDyslexic) {
-    log("Character", "Dyslexic font", attr.printDyslexicFont);
-    switch(attr.printDyslexicFont) {
-      case 'dyslexie':
-        char.units.push('dyslexie');
-        break;
-      case 'lexend':
-        char.units.push('lexend');
-        break;
-      default:
-        char.units.push('dyslexic');
-        break;
-    }
+    addDyslexicFontUnit(attr.printDyslexicFont);
   }
 
   // game-specific settings
@@ -443,6 +435,7 @@ export class Character extends Instance {
 
           // language
           document.language = data.language;
+          this.addLanguageScriptUnit(document.language);
           document.setMeasurementUnits(data.measurementUnits);
           // log("Character", "Doc measurement units", document.measurementUnits);
           if (document.measurementUnits == "metric") {
@@ -543,6 +536,13 @@ export class Character extends Instance {
             }
           });
           // log("Character", "Document vars", document.vars);
+
+          // arbitrary field prefills
+          if (has(data, "fields")) {
+            Object.keys(data.fields).forEach(key => {
+              document.setVar(key, data.fields[key], "high");
+            });
+          }
 
           // load units
           document.isLoggedIn = data.isLoggedIn;

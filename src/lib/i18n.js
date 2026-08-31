@@ -179,6 +179,7 @@ export function loadDefaultTranslations() {
   return new Promise((resolve, reject) => {
     readdir(__dirname + "/i18n", (err, files) => {
       if (err) {
+        log("i18n", "Error loading languages", err);
         reject();
         return;
       }
@@ -190,7 +191,10 @@ export function loadDefaultTranslations() {
           promises.push(promise);
         }
       });
-      Promise.all(promises).then(resolve);
+      Promise.all(promises).then(() => {
+        log("i18n", "All languages loaded");
+        resolve();
+      });
     });
   });
 }

@@ -1,0 +1,39 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/focus/sorcerer/undeaths-blessing
+name: "_{Undeath's Blessing}"
+group: "_{Player Core 2}"
+
+inc:
+  - copy: remaster/focus/sorcerer/undeaths-blessing
+    contents:
+      - action:
+        contents:
+          - article: remaster/focus/sorcerer/undeaths-blessing
+            title: "_{Undeath's Blessing}"
+            cat: "_{Focus 1}"
+            contents:
+              - dl:
+                  range: "_{touch}"
+                  target: "_{1 living creature}"
+                  save: "_{Will}"
+                  duration: "_{1 minute}"
+              - p: "_{Harm and heal spells treat the target as undead for the duration; harm also restores bonus HP. Unwilling target: Will save to reduce.}"
+              - calc:
+                output:
+                  field: "##:undeaths-blessing/bonus"
+                  legend: "_{Bonus HP\nRestored by Harm}"
+                  width: large
+                  eq: "%{focus-rank}*2"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
+              - paste: save
+                params:
+                  critical_success: "_{Unaffected.}"
+                  success: "_{Heals half as much from heal and takes half as much damage from harm for 1 round.}"
+                  failure: "_{Effects as described above.}"
+                  critical_failure: "_{Effects as described above.}"

@@ -1,0 +1,46 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/focus/sorcerer/flurry-of-claws
+name: "_{Flurry of Claws}"
+group: "_{Player Core 2}"
+
+inc:
+  - copy: remaster/focus/sorcerer/flurry-of-claws
+    contents:
+      - action: 2
+        contents:
+          - article: remaster/focus/sorcerer/flurry-of-claws
+            title: "_{Flurry of Claws}"
+            cat: "_{Focus 1}"
+            contents:
+              - dl:
+                  range: "_{30ft}"
+                  target: "_{2 creatures no more than 10 feet from each other}"
+                  save: "_{AC}"
+              - p: "_{Dragon claws slash two nearby foes. Spell attack roll against each (counts as two attacks, but MAP doesn't increase until both are made). On a hit: slashing plus tradition-based damage (arcane force, divine spirit, occult mental, or primal fire).}"
+              - calc:
+                output:
+                  field: "##:flurry-of-claws/damage"
+                  legend: "_{Slashing\nDamage}"
+                  width: large
+                  suffix: "_{d8}"
+                  icon: d8
+                  eq: "%{focus-rank}"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
+              - calc:
+                output:
+                  field: "##:flurry-of-claws/additional-damage"
+                  legend: "_{Additional\nDamage}"
+                  width: large
+                  suffix: "_{d4}"
+                  icon: d4
+                  eq: "%{focus-rank}"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"

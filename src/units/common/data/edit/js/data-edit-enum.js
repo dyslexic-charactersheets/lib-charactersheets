@@ -53,6 +53,10 @@ function setEnumValue(field, slug, value) {
   }
 }
 
+document.getElementById("enum-menu").addEventListener('click', function (event) {
+  event.stopPropagation();
+});
+
 // enum menu click actions
 for (var field of document.getElementsByClassName("field--control_enum")) {
   for (var box of field.getElementsByClassName("field__frame")) {

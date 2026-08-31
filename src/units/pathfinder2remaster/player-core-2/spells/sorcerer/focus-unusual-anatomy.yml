@@ -1,0 +1,47 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/focus/sorcerer/unusual-anatomy
+name: "_{Unusual Anatomy}"
+group: "_{Player Core 2}"
+
+inc:
+  - copy: remaster/focus/sorcerer/unusual-anatomy
+    contents:
+      - action: 2
+        contents:
+          - article: remaster/focus/sorcerer/unusual-anatomy
+            title: "_{Unusual Anatomy}"
+            cat: "_{Focus 5}"
+            contents:
+              - dl:
+                  duration: "_{1 minute}"
+              - p: "_{Your flesh becomes a bizarre amalgam of skin, scales, hair, and growths.}"
+              - ul:
+                contents:
+                  - li: "_{You gain darkvision.}"
+                  - li: "_{Acid oozes from your skin; unarmed or non-reach melee attackers take acid damage.}"
+              - calc:
+                output:
+                  field: "##:unusual-anatomy/resistance"
+                  legend: "_{Precision /\nCritical Hit\nResistance}"
+                  width: large
+                  eq: "floor((%{focus-rank}-5)/2)*5+10"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
+              - calc:
+                output:
+                  field: "##:unusual-anatomy/damage"
+                  legend: "_{Acid\nDamage}"
+                  width: large
+                  suffix: "_{d6}"
+                  icon: d6
+                  eq: "floor((%{focus-rank}-5)/2)+2"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
+              - p: "_{If resistance exceeds a critical hit's extra damage, that extra is reduced to 0 (normal damage unaffected).}"

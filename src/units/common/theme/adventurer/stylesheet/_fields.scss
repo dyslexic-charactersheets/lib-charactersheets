@@ -6,6 +6,7 @@
 @use "constants";
 @use "colours";
 @use "fonts";
+@use "icons";
 
 @use "sass:math";
 
@@ -121,6 +122,13 @@
   }
 }
 
+// the Value/Weight fields of two "large" items on the inventory page
+// inherit the bold weight that they should not as they are kept in the header
+[id^="field-inventory-item-large-"][id$="-value"] input,
+[id^="field-inventory-item-large-"][id$="-weight"] input {
+  font-weight: normal;
+}
+
 .field.field--control_ability {
   $width: 2.75rem;
   $border: 0.2rem;
@@ -168,6 +176,15 @@
       label {
         border-width: 0.09rem;
       }
+    }
+
+    &.field__control--control_checkbox.field__control--half-boost {
+      display: block;
+      position: absolute;
+      bottom: -0.6rem;
+      right: -0.6rem;
+      width: 1.2rem;
+      height: 1.2rem;
     }
 
     input {
@@ -363,6 +380,71 @@ article header .field__box {
         &:checked + label {
           background-image: url('{{{dataurl "images/checkbox-progress-checked.svg"}}}');
         }
+      }
+    }
+
+    &.field__control--half-boost {
+      input[type="checkbox"] {
+        + label, body.body--hide-values &:checked + label {
+          border: 0 none;
+          background-color: transparent;
+          background-repeat: no-repeat;
+          background-size: contain;
+          background-position: center;
+          width: 1.2rem;
+          height: 1.2rem;
+          filter: drop-shadow(0 0 0.04rem #fff) drop-shadow(0 0 0.04rem #fff) drop-shadow(0 0 0.04rem #fff);
+          @include icons.icon-colourful-all("boost-up");
+        }
+
+        &:checked + label {
+          @include icons.icon-colourful-all("boost-up-checked");
+        }
+      }
+    }
+  }
+
+  &--control_switch {
+    .switch__track {
+      position: relative;
+      display: inline-block;
+      box-sizing: content-box;
+      flex-shrink: 0;
+      width: 14 * constants.$pt;
+      height: 7 * constants.$pt;
+      border-radius: 3.5 * constants.$pt;
+      background: white;
+      border: 0.7 * constants.$pt solid colours.$colour_main;
+
+      &::before {
+        content: "";
+        position: absolute;
+        box-sizing: content-box;
+        top: 50%;
+        left: 1 * constants.$pt;
+        width: 5 * constants.$pt;
+        height: 5 * constants.$pt;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: colours.$colour_main;
+        transform: translate(0, -50%);
+        transition: transform 0.15s ease;
+      }
+    }
+
+    input:checked ~ .switch__track::before {
+      transform: translate(7 * constants.$pt, -50%);
+    }
+
+    .switch__label {
+      font-size: 0.9rem;
+
+      &--off {
+        margin-right: 0.6rem;
+      }
+
+      &--on {
+        margin-left: 0.6rem;
       }
     }
   }

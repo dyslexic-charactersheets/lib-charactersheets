@@ -24,42 +24,76 @@ inc:
           - h5: "_{Anathema}"
           - ul:
             contents:
-              - li: "_{Willingly accepting the effects of magic spells, even from your allies}"
+              - li: "_{Willingly accepting the effects of magic spells.}"
+          - paste: barbarian-anathema-consequence
 
   - at: '@barbarian/instinct-ability'
     replace:
       - g:
         contents:
-          - h5: "_{Instinct Ability}"
-          - h6: "_{Superstitious Resilience}"
-          - value-block: "+2"
-            content: "_{Bonus to saving throws against magic}"
-          - value-block: "4"
-            content: "_{Rage damage bonus against spellcasters}"
-          - p: "_{When you rage (once every 10 minutes) regain hit points equal to the temporary hit points.}"
+
+          - h5: "_{Superstitious Resilience}"
+          - field: "##:superstitious-resilience/save-bonus"
+            label: "_{[b]Rage![/b] Status Bonus to Saves vs. Magic}"
+            frame: right
+            control: value
+            width: large
+            value: "+2"
+          - field: barbarian-superstition-damage-bonus-spellcaster
+            label: "_{...vs. witnessed spellcasters}"
+            frame: right
+            control: value
+            width: large
+            value: "+4"
+          - p: "_{Once every 10 minutes, when you [b]Rage![/b], regain Hit Points equal to the temporary HP you gained from [b]Rage![/b].}"
 
   - at: '@barbarian/specialisation-ability'
     replace:
       - level: 7
         contents:
-          - h5: "_{Weapon Specialisation}"
-          - value-block: "8"
-            content: "_{Rage damage bonus against spellcasters}"
+          - h5: "_{Instinct Specialisation}"
+          - field: barbarian-superstition-damage-bonus-spellcaster
+            label: "_{...vs. witnessed spellcasters}"
+            frame: right
+            control: value
+            width: large
+            value: "+8"
 
   - at: '@barbarian/specialisation-ability/greater'
     replace:
       - level: 15
         contents:
-          - h5: "_{Greater Weapon Specilisation}"
-          - value-block: "12"
-            content: "_{Rage damage bonus against spellcasters}"
+          - h5: "_{Greater Instinct Specialisation}"
+          - field: barbarian-superstition-damage-bonus-greater
+            label: "_{[b]Rage![/b] Damage Bonus}"
+            frame: right
+            control: value
+            width: large
+            value: "+8"
+          - field: barbarian-superstition-damage-bonus-greater-spellcaster
+            label: "_{...vs. witnessed spellcasters}"
+            frame: right
+            control: value
+            width: large
+            value: "+12"
 
   - at: '@barbarian/raging-resistance'
     replace:
-      - vr:
-      - field: barbarian/instinct/apg/superstition/raging-resistance/tradition1
-        label: "_{Traditions}"
-        width: stretch
-      - field: barbarian/instinct/apg/superstition/raging-resistance/tradition2
-        width: stretch
+      - layout: indent-lrn
+        contents:
+          - g:
+          - row:
+            contents:
+              - field: barbarian/instinct/apg/superstition/raging-resistance/tradition1
+                frame: none
+                control: switch
+                width: stretch
+                labels: ["_{Arcane}", "_{Divine}"]
+              - spacer:
+              - field: barbarian/instinct/apg/superstition/raging-resistance/tradition2
+                frame: none
+                control: switch
+                width: stretch
+                labels: ["_{Primal}", "_{Occult}"]
+          - g:
 

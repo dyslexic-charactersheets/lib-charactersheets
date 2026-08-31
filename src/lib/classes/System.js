@@ -108,9 +108,10 @@ export class System {
 }
 
 export function loadSystemData(codes) {
+  log("System", "Loading systems:", codes);
   codes.forEach(code => {
     const systemFile = __dirname + "/lib-" + code + ".json";
-    // log("System", `Loading: ${systemFile}`);
+    log("System", `Loading: ${code} from ${systemFile}`);
     const promise = new Promise((resolve, reject) => {
       readFile(systemFile, 'utf-8', (err, data) => {
         if (err) {
@@ -127,7 +128,7 @@ export function loadSystemData(codes) {
 
         systems[code] = system;
         if (code == COMMON) {
-          // log("System", "Found common system");
+          log("System", "Found common system");
           commonSystem = system;
         } else if (code == PREMIUM) {
           premiumSystem = system;
@@ -140,8 +141,9 @@ export function loadSystemData(codes) {
 }
 
 export function ready(callback) {
+  log("System", `Waiting for ${promises.length} promises`);
   Promise.all(promises).then(() => {
-    // log("System", "Ready");
+    log("System", "All ready");
     callback();
   });
 }

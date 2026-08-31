@@ -10,7 +10,7 @@ badge: "_{Uncommon}"
 
 form:
   - select: gunslinger/way
-    name: "_{Gunglinger Ways}"
+    name: "_{Gunslinger's Way}"
     max: 1
 
 require:
@@ -36,6 +36,19 @@ inc:
       reflex: expert
       will: trained
 
+  - set: unarmed-attack-proficiency
+    value: trained
+  - set: simple-weapons-proficiency
+    value: trained
+  - set: martial-weapons-proficiency
+    value: trained
+  - set: simple-firearms-proficiency
+    value: expert
+  - set: martial-firearms-proficiency
+    value: expert
+  - set: advanced-firearms-proficiency
+    value: trained
+
   - at: '@advancement'
     add:
       - level: 1
@@ -49,7 +62,10 @@ inc:
         proficiency: expert
         colour: WIS
       - level: 5
-        advance: "_{Simple and martial firearms, crossbows, simple and martial weapons, unarmed attacks}"
+        advance: "_{Simple and martial firearms, crossbows}"
+        proficiency: master
+      - level: 5
+        advance: "_{Advanced firearms and crossbows, simple and martial weapons, unarmed attacks}"
         proficiency: expert
       - level: 7
         advance: "_{Perception}"
@@ -60,7 +76,7 @@ inc:
         proficiency: expert
       - level: 11
         advance: "_{Reflex saves}"
-        proficiency: expert
+        proficiency: master
         colour: DEX
       - level: 13
         advance: "_{Simple and martial firearms, crossbows}"
@@ -71,6 +87,9 @@ inc:
       - level: 13
         advance: "_{Simple and martial weapons, unarmed attacks}"
         proficiency: master
+      - level: 13
+        advance: "_{Light armour}, _{Medium armour}, _{Unarmoured defence}"
+        proficiency: expert
       - level: 17
         advance: "_{Fortitude saves}"
         proficiency: master
@@ -82,10 +101,19 @@ inc:
         advance: "_{Perception}"
         proficiency: legendary
         colour: WIS
-      - level: 3
-        advance: "_{Light and medium armour}"
+      - level: 19
+        advance: "_{Light armour}, _{Medium armour}, _{Unarmoured defence}"
         proficiency: master
 
+
+  - at: '@saving-throws'
+    add:
+      - level: 11
+        contents:
+          - paste: evasion
+      - level: 17
+        contents:
+          - paste: juggernaut
 
   - at: '@pages'
     add:
@@ -102,6 +130,14 @@ inc:
                   - class-icon: gunslinger
                     optional: true
                   - class-name: "_{Gunslinger}"
+
+                  - section: "_{Class DC}"
+                    contents:
+                      - paste: class-dc
+                        params:
+                          id: gunslinger-class-dc
+                          legend: "_{Gunslinger\nClass DC}"
+                          attribute: DEX
 
                   - section: "_{Gunslinger's Way}"
                     primary: true
@@ -159,6 +195,7 @@ inc:
 
                   - section: "_{Singular Expertise}"
                     contents:
+                      - p: "_{+1 circumstance bonus to damage rolls with firearms and crossbows.}"
                       - list:
                         hr: true
                         contents:
@@ -199,11 +236,11 @@ inc:
                         contents:
                           - p: "_{When you fail a Will save against a controlled condition, get a second save at the start of your next turn.}"
 
-                  - section: "_{Shootist's Edge}"
+                  - section: "_{Gunslinging Legend}"
                     contents:
-                      - level: 17
+                      - level: 13
                         contents:
-                          - p: "_{When master with a ranged weapon, ignore range penalty up to third range increment.}"
+                          - p: "_{After mastering a ranged weapon, ignore the attack penalty up to its third range increments.}"
 
                   - tail:
                   - spacer:
@@ -212,6 +249,38 @@ inc:
                 contents:
                   - section: "_{Firearms}"
                     contents:
+                      - row:
+                        contents:
+                          - field: simple-firearms-proficiency
+                            control: proficiency
+                            frame: right
+                            has-bonus: false
+                            border: none
+                            label: "_{Simple}"
+                          - field: martial-firearms-proficiency
+                            control: proficiency
+                            frame: right
+                            has-bonus: false
+                            border: none
+                            label: "_{Martial}"
+                          - field: advanced-firearms-proficiency
+                            control: proficiency
+                            frame: right
+                            has-bonus: false
+                            border: none
+                            label: "_{Advanced}"
+                          - spacer:
+                          - repeat: 2
+                            contents:
+                              - field: "firearm-proficiency-#{i}-value"
+                                control: proficiency
+                                frame: right
+                                has-bonus: false
+                                border: none
+                              - field: "firearm-proficiency-#{i}-name"
+                                frame: none
+                                width: huge
+                                align: left
                       - list:
                         hr: true
                         zebra: true
@@ -250,6 +319,7 @@ inc:
                                             underlay: "_{DEX}"
                                           - field: firearm-#{i}-proficiency
                                             control: proficiency
+                                            category: firearm
                                             label: "_{Proficiency}"
                                           - field: firearm-#{i}-potency
                                             control: icon
@@ -321,7 +391,7 @@ inc:
                               - h5: "_{Misfire}"
                               
                               - value-block: "DC 5"
-                                width: large
+                                width: medium
                                 content: "_{Flat check when you fire a gun that was fired a previous day and not cleaned since.}"
                               - p: "_{If you fail the check, your weapon misfires and jams. The attack is a critical failure.}"
 

@@ -1,0 +1,33 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/focus/sorcerer/chthonian-wrath
+name: "_{Chthonian Wrath}"
+group: "_{Player Core 2}"
+
+inc:
+  - copy: remaster/focus/sorcerer/chthonian-wrath
+    contents:
+      - action: 2
+        contents:
+          - article: remaster/focus/sorcerer/chthonian-wrath
+            title: "_{Chthonian Wrath}"
+            cat: "_{Focus 5}"
+            contents:
+              - dl:
+                  area: "_{60-foot cone}"
+                  save: "_{basic Reflex}"
+              - p: "_{Evoke energy from the Outer Rifts. Roll on the table for one energy and one physical damage type, dealing both to each creature in the cone.}"
+              - calc:
+                output:
+                  field: "##:chthonian-wrath/damage"
+                  legend: "_{Damage\n(of Each Type)}"
+                  width: large
+                  suffix: "_{d6 each}"
+                  icon: d6
+                  eq: "%{focus-rank}-1"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"

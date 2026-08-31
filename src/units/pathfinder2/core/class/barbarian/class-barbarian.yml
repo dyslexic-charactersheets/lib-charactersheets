@@ -11,14 +11,25 @@ form:
   - select: barbarian/instinct
     name: "_{Instinct}"
     max: 1
+  - select: feat/barbarian
+    name: "_{Barbarian Feats}"
+    max: 11
+    levels: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
 
 require:
   - unit: weapon-spec/fast
   - with: option/reference
     unit: class/barbarian/reference
   - deny: archetype/barbarian
+  - unit: font/rage
   
 inc:
+  # CRB p86: add anathema consequence block to reuse
+  - copy: barbarian-anathema-consequence
+    contents:
+      - p: "_{Violate this anathema to lose the instinct's abilities and its feats. Spend 1 day on downtime to restore them.}"
+        optional: true
+
   - set: class
     value: "_{Barbarian}"
   - set: hp-class
@@ -47,6 +58,13 @@ inc:
   - set: will-proficiency
     value: expert
 
+  - set: unarmed-attack-proficiency
+    value: trained
+  - set: simple-weapons-proficiency
+    value: trained
+  - set: martial-weapons-proficiency
+    value: trained
+
   - set: athletics-proficiency
     value: trained
 
@@ -63,7 +81,8 @@ inc:
 
   - at: '@key-ability-field'
     replace:
-      - field:
+      # standardization: explicit field id
+      - field: key-ability
         label: "_{STR}"
         underlay: "_{STR}"
         ref: STR
@@ -76,12 +95,24 @@ inc:
         advance: "[b]_{Rage!}[/b]"
       - level: 1
         gain: "_{Instinct}"
+
+      # CRB p84 Table 3-2: named the features that grant advancements here as well
+      - level: 3
+        advance: "_{Deny Advantage}"
+      - level: 5
+        advance: "_{Brutality}"
       - level: 7
-        advance: "_{Specialisation Ability}"
+        advance: "_{Weapon Specialisation}"
+      - level: 9
+        advance: "_{Raging Resistance}"
       - level: 11
         advance: "[b]_{Mighty Rage!}[/b]"
+      - level: 15
+        advance: "_{Greater Weapon Specialisation}"
       - level: 17
-        advance: "[b]_{Tireless Rage!}[/b]"
+        advance: "[b]_{Quick Rage!}[/b]"
+      - level: 19
+        advance: "_{Devastator}"
 
       - level: 5
         advance: "_{Simple weapons}, _{Martial weapons}, _{Unarmed attacks}"
@@ -106,7 +137,7 @@ inc:
         proficiency: expert
       - level: 13
         advance: "_{Simple weapons}, _{Martial weapons}, _{Unarmed attacks}"
-        proficiency: expert
+        proficiency: master
       - level: 15
         advance: "_{Will saves}"
         proficiency: master
@@ -209,7 +240,7 @@ inc:
                           contents:
                             - level: 7
                               contents:
-                                - h5: "_{Weapon Specialisation}"
+                                - h5: "_{Instinct Specialisation}"
                                 - article: "##:instinct/specialisation-ability"
                                   lines: 3
                                   reduce: 1
@@ -217,7 +248,7 @@ inc:
                           contents:
                             - level: 15
                               contents:
-                                - h5: "_{Greater Weapon Specilisation}"
+                                - h5: "_{Greater Instinct Specialisation}"
                                 - article: "##:instinct/specialisation-ability/greater"
                                   lines: 3
                                   reduce: 1
@@ -236,24 +267,14 @@ inc:
                     - level: 3
                       contents:
                         - p: "_{Never flat-footed against creatures of a lower level.}"
-
-                - section: "_{Devastating Strikes}"
+                # CRB p84 rename
+                - section: "_{Devastator}"
                   contents:
                     - level: 19
                       contents:
-                        - calc:
-                          output:
-                            field: barbarian-devastating-strikes-resistance-reduction
-                            legend: "_{Resistance\nReduction}"
-                            width: large
-                            eq: "%{CON}*2"
-                          inputs:
-                            - field:
-                              ref: CON
-                              underlay: "_{CON}"
-                              label: "_{CON}"
-                            - span: "&times; 2"
-                        - p: "_{If you succeed at a melee Strike against a target with resistance against the physical damage type of the weapon or unarmed attack you’re using, reduce that resistance.}"
+                        # CRB p86 this version did not appear present in the book, sync with remastered string,
+                        # it says to just "ignore 10 points of a creature's resistance to their physical damage"
+                        - p: "_{Your melee Strikes ignore up to 10 resistance to the physical damage they deal.}"
                 - tail:
                 - spacer:
 
@@ -274,6 +295,7 @@ inc:
                                     - g:
                                       contents:
                                         - h5: "_{[b]Rage![/b]}"
+                                          size: large
                                         - p: "_{1 minute, until combat ends, or until you fall unconscious.}"
                                     - field: rage-current
                                       legend: "_{Duration}"
@@ -282,61 +304,66 @@ inc:
                                       max: 10
                                 - hr:
                                   light: true
-                                - row:
-                                  pad: true
+                                - layout: 2e
                                   contents:
-                                    - calc:
-                                      output:
-                                        field: barbarian-rage-temp-hp
-                                        legend: "_{Temporary\nHit Points}"
-                                        suffix: hp
-                                        width: huge
-                                        temp: true
-                                        eq: "%{CON}+%{level}"
-                                      inputs:
-                                        - field:
-                                          ref: CON
-                                          underlay: "_{CON}"
-                                          label: "_{CON}"
-                                        - span: "+"
-                                        - field:
-                                          ref: level
-                                          label: "_{Level}"
-                                - row:
-                                  pad: true
-                                  contents:
-                                    - field: barbarian-rage-damage-bonus
-                                      border: full
-                                      legend: "_{[b]Rage![/b] Damage Bonus}"
-                                      prefix: "+"
-                                      width: large
-                                    - p: "_{To melee and unarmed strikes}"
-                                    - spacer:
-                                    - field: barbarian-rage-ac-penalty
-                                      legend: "_{AC Penalty}"
-                                      # border: full
-                                      control: value
-                                      width: large
-                                      value: "-1"
-                                      # underlay: "_{AC}"
-                                    - spacer:
+                                    - g:
+                                      pad: true
+                                      contents:
+                                        - calc:
+                                          output:
+                                            field: barbarian-rage-temp-hp
+                                            legend: "_{Temporary\nHit Points}"
+                                            suffix: hp
+                                            width: huge
+                                            temp: true
+                                            eq: "%{CON}+%{level}"
+                                          inputs:
+                                            - field:
+                                              ref: CON
+                                              underlay: "_{CON}"
+                                              label: "_{CON}"
+                                            - span: "+"
+                                            - field:
+                                              ref: level
+                                              label: "_{Level}"
+                                    - g:
+                                      pad: true
+                                      contents:
+                                        - row:
+                                          contents:
+                                            - field: barbarian-rage-damage-bonus
+                                              border: full
+                                              legend: "_{[b]Rage![/b] Damage Bonus}"
+                                              prefix: "+"
+                                              width: large
+                                            - spacer:
+                                            - field: barbarian-rage-ac-penalty
+                                              legend: "_{AC Penalty}"
+                                              # border: full
+                                              control: value
+                                              width: large
+                                              value: "-1"
+                                              # underlay: "_{AC}"
+                                            - spacer:
+                                        - p: "_{To melee and unarmed strikes}"
+                                # CRB p84-85 Rage text synced
                                 - p:
                                   title: "_{Agile}"
-                                  content: "_{If using an agile weapon, rage damage bonus is halved.}"
+                                  content: "_{If using an agile weapon or unarmed attack, [b]Rage![/b] damage bonus is halved.}"
                                 - hr:
                                   light: true
                                 - p:
-                                  title: "_{While raging}:"
-                                  content: "_{Cannot use actions with the <span class='flag'>Concentrate</span> trait, including cast spells with a verbal component, except for Seek}"
+                                  title: "_{While Raging}:"
+                                  content: "_{Can't use <span class='flag'>Concentrate</span> actions and cast spells with a verbal component, except for Seek.}"
                                 - p:
-                                  title: "_{After raging}:"
-                                  content: "_{Lose temporary hit points. You cannot rage again for 1 minute.}"
+                                  title: "_{After Raging}:"
+                                  content: "_{Lose your temporary hit points. Temporary hit points gained from [b]Rage![/b] are on cooldown for 1 minute.}"
                                   pad: true
                             
                             - selectable: barbarian-moment-of-clarity
                               contents:
                                 - h5: "_{Moment of Clarity}"
-                                - p: "_{Until the end of this turn, can use <span class='flag'>Concentrate</span> actions, including cast spells with a verbal component}"
+                                - p: "_{Until the end of this turn, can use <span class='flag'>Concentrate</span> actions, including cast spells with a verbal component.}"
                             - level: 5
                               contents:
                                 - g:
@@ -366,21 +393,27 @@ inc:
                                               underlay: "_{CON}"
                                               label: "_{CON}"
                                         - vr:
-                                        - zone: '@barbarian/raging-resistance'
+                                          stretch: true
+                                        - g:
+                                          valign: middle
                                           contents:
-                                            - field: barbarian-raging-resistance-type
-                                              label: "_{Damage type}"
-                                              width: stretch
+                                            - h5: "_{Damage Type Resistance}"
+                                              align: center
+                                            - zone: '@barbarian/raging-resistance'
+                                              contents:
+                                                - field: barbarian-raging-resistance-type
+                                                  label: "_{Damage type}"
+                                                  width: stretch
                             - level: 11
                               contents:
                                 - action: free
                                   contents:
                                     - h5: "[b]_{Mighty Rage!}[/b]"
-                                    - p: "_{Use one of your rage actions as a free action.}"
+                                    - p: "_{Use an action with the <span class='flag'>Rage</span> trait as a free action. Alternatively, increase the actions of the triggering [b]Rage![/b] to 2 to instead use a 2-action activity with the <span class='flag'>Rage</span> trait.}"
                             - level: 17
                               contents:
-                                - h5: "[b]_{Tireless Rage!}[/b]"
-                                - p: "_{Don’t become fatigued after you stop raging. It still takes the normal amount of time before you can use Rage again.}"
+                                - h5: "[b]_{Quick Rage!}[/b]"
+                                - p: "_{Your [b]Rage![/b] cooldown is reduced from 1 minute to 1 full turn.}"
 
                                 
                 - paste: class-feats

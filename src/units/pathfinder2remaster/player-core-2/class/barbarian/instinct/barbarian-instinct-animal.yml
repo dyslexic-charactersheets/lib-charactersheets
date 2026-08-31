@@ -1,0 +1,114 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/barbarian/instinct/animal
+in: remaster/barbarian/instinct
+group: "_{Player Core 2}"
+name: "_{Animal}"
+
+inc:
+  - set: subclass
+    value: "_{Animal}"
+
+  - set: barbarian-instinct
+    value: "_{Animal}"
+
+  - at: '@reference/weapon-traits'
+    add:
+      - grapple
+      - unarmed
+      - agile
+      - shove
+      - trip
+
+  - at: '@barbarian/instinct'
+    replace:
+      - g:
+        contents:
+          - h4: "_{Animal}"
+          - hr:
+            swash: true
+          - field: barbarian-animal-instinct-type
+            label: "_{Animal type}"
+            size: huge
+            width: stretch
+            align: left
+            merge-bottom: true
+
+  - at: '@barbarian/instinct-ability'
+    replace:
+      - nothing:
+
+  - at: '@barbarian/left'
+    add:
+      - section: "[b]_{Bestial Rage!}[/b]"
+        id: bestial-rage
+        contents:
+          - p: "_{When you [b]Rage![/b], gain your animal's attack(s) to use instead of weapons.}"
+          - field: barbarian-animal-instinct-attack
+            label: "_{Natural attack}"
+            width: stretch
+          - row:
+            contents:
+              - field: barbarian-animal-instinct-damage
+                border: full
+                label: "_{Damage}"
+                width: huge
+                icon: damage
+                control: compound
+                parts:
+                  - subid: ndice
+                    width: tiny
+                    align: right
+                  - label: "_{d}"
+                  - subid: die
+                    width: tiny
+                    align: left
+                  - label: "+"
+                  - subid: extra
+                    width: tiny
+              - field: barbarian-animal-instinct-traits
+                label: "_{Traits}"
+                width: stretch
+          - p: "_{[b]Rage![/b] actions gain <span class='flag'>Morph</span> and <span class='flag'>Primal</span>.}"
+
+  - at: '@barbarian/specialisation-ability'
+    replace:
+      - level: 7
+        contents:
+          - h5: "_{Instinct Specialisation}"
+          - p: "_{Increase the damage die of your [b]Bestial Rage![/b] attacks by one step.}"
+          - field: barbarian-bestial-rage-damage
+            label: "_{[b]Bestial Rage![/b] Damage Bonus}"
+            frame: right
+            control: value
+            width: large
+            value: "+5"
+
+  - at: '@barbarian/specialisation-ability/greater'
+    replace:
+      - level: 15
+        contents:
+          - h5: "_{Greater Instinct Specialisation}"
+          - field: barbarian-bestial-rage-damage-greater
+            label: "_{[b]Bestial Rage![/b] Damage Bonus}"
+            frame: right
+            control: value
+            width: large
+            value: "+12"
+
+  - at: '@barbarian/raging-resistance'
+    replace:
+      - layout: 2e
+        contents:
+          - field: barbarian-raging-resistance-piercing
+            control: checkbox
+            value: true
+            frame: right
+            label: "_{Piercing}"
+          - field: barbarian-raging-resistance-slashing
+            control: checkbox
+            value: true
+            frame: right
+            label: "_{Slashing}"

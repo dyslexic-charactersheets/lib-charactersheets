@@ -7,6 +7,11 @@ in: remaster/sorcerer/bloodline
 group: "_{Player Core 2}"
 name: "_{Undead}"
 
+require:
+  - unit: remaster/focus/sorcerer/undeaths-blessing
+  - unit: remaster/focus/sorcerer/drain-life
+  - unit: remaster/focus/sorcerer/grasping-grave
+
 inc:
   - set: subclass
     value: "_{Undead}"
@@ -51,37 +56,19 @@ inc:
 
   - at: '@sorcerer/bloodline-spell/initial'
     replace:
-      - action:
-        contents:
-          - article:
-            title: "_{Undeath's Blessing}"
-            cat: "_{Focus 1}"
-            contents:
-              - p: "_{Bless a creature (living or undead) with a touch of undeath, granting void healing or harming it with void damage.}"
+      - paste: remaster/focus/sorcerer/undeaths-blessing
 
   - at: '@sorcerer/bloodline-spell/advanced'
     replace:
-      - action:
-        contents:
-          - article:
-            title: "_{Drain Life}"
-            cat: "_{Focus 4}"
-            contents:
-              - p: "_{Drain the life from a creature, dealing void damage and healing yourself for a portion of the damage dealt.}"
+      - paste: remaster/focus/sorcerer/drain-life
 
   - at: '@sorcerer/bloodline-spell/greater'
     replace:
-      - action: 2
-        contents:
-          - article:
-            title: "_{Grasping Grave}"
-            cat: "_{Focus 8}"
-            contents:
-              - p: "_{Cause skeletal hands to burst from the ground, grasping and dragging down creatures in an area.}"
+      - paste: remaster/focus/sorcerer/grasping-grave
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:
       - article:
         title: "_{Stolen Life}"
         contents:
-          - p: "_{Either gain temporary Hit Points equal to the spell's rank, lasting until the start of your next turn, or a target takes 1 void damage per spell rank (combine with the spell's own void damage before applying weaknesses and resistances).}"
+          - p: "_{Gain temp HP equal to rank until your next turn starts, or a target takes 1 void damage/rank (combine with the spell's own void damage before weaknesses/resistances).}"

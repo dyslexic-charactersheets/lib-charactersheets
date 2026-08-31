@@ -1,0 +1,30 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/focus/sorcerer/youre-mine
+name: "_{You're Mine}"
+group: "_{Player Core 2}"
+
+inc:
+  - copy: remaster/focus/sorcerer/youre-mine
+    contents:
+      - action: 2
+        contents:
+          - article: remaster/focus/sorcerer/youre-mine
+            title: "_{You're Mine}"
+            cat: "_{Focus 5}"
+            contents:
+              - dl:
+                  range: "_{30ft}"
+                  target: "_{1 creature}"
+                  save: "_{Will}"
+                  duration: "_{1 round}"
+              - p: "_{Manipulate the target's emotions to briefly control it. Will save.}"
+              - paste: save
+                params:
+                  critical_success: "_{Unaffected.}"
+                  success: "_{Stunned 1.}"
+                  failure: "_{Stunned 1 next turn; you choose one of its actions, then it acts normally.}"
+                  critical_failure: "_{Controlled for 1 round.}"
+              - p: "_{Heightened (7th): failure controls for 1 round; critical failure controls up to 1 minute (new save each turn ends it).}"

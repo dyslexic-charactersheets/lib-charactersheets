@@ -42,7 +42,7 @@ export let action = {
       ]
     };
 
-    if (args.action == "template") {
+    if (args.action == "template" && args.id) {
       iconPart = {
         type: "field",
         id: args.id+"-action",

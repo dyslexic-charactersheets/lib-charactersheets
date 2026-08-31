@@ -1,0 +1,415 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: class/remaster/gunslinger
+in: class
+group: "_{Guns and Gears}"
+name: "_{Gunslinger}"
+badge: "_{Uncommon}"
+
+form:
+  - select: remaster/gunslinger/way
+    name: "_{Gunslinger's Way}"
+    max: 1
+
+require:
+  - deny: class/guns-and-gears/gunslinger
+  - deny: archetype/guns-and-gears/gunslinger
+  - unit: weapon-spec/fast
+  - with: option/reference
+    unit: class/remaster/gunslinger/reference
+
+inc:
+  - set: class
+    value: "_{Gunslinger}"
+  - set: hp-class
+    value: 8
+  - set: class-icon
+    value: gunslinger
+  - set: subclass-label
+    value: "_{Way}"
+
+  - set: gunslinger-class-dc-proficiency
+    value: trained
+  - set: perception-proficiency
+    value: expert
+
+  - set: unarmoured-proficiency
+    value: trained
+  - set: light-armour-proficiency
+    value: trained
+  - set: medium-armour-proficiency
+    value: trained
+
+  - set: unarmed-attack-proficiency
+    value: trained
+  - set: simple-weapons-proficiency
+    value: trained
+  - set: martial-weapons-proficiency
+    value: trained
+  - set: simple-firearms-proficiency
+    value: expert
+  - set: martial-firearms-proficiency
+    value: expert
+  - set: advanced-firearms-proficiency
+    value: trained
+
+  - set: fortitude-proficiency
+    value: expert
+  - set: reflex-proficiency
+    value: expert
+  - set: will-proficiency
+    value: trained
+
+  - at: '@advancement'
+    add:
+      - level: 1
+        class-feat: true
+      - level: 1
+        gain: "_{Gunslinger's Way}"
+
+      - level: 3
+        advance: "_{Will saves}"
+        proficiency: expert
+        colour: WIS
+      - level: 5
+        advance: "_{Simple and martial firearms, crossbows}"
+        proficiency: master
+      - level: 5
+        advance: "_{Advanced firearms and crossbows, simple and martial weapons, unarmed attacks}"
+        proficiency: expert
+      - level: 7
+        advance: "_{Perception}"
+        proficiency: master
+        colour: WIS
+      - level: 9
+        advance: "_{Gunslinger class DC}"
+        proficiency: expert
+      - level: 11
+        advance: "_{Reflex saves}"
+        proficiency: master
+        colour: DEX
+      - level: 13
+        advance: "_{Simple and martial firearms, crossbows}"
+        proficiency: legendary
+      - level: 13
+        advance: "_{Advanced firearms and crossbows}"
+        proficiency: master
+      - level: 13
+        advance: "_{Simple and martial weapons, unarmed attacks}"
+        proficiency: master
+      - level: 13
+        advance: "_{Light armour}, _{Medium armour}, _{Unarmoured defence}"        proficiency: expert
+      - level: 17
+        advance: "_{Fortitude saves}"
+        proficiency: master
+        colour: CON
+      - level: 17
+        advance: "_{Gunslinger class DC}"
+        proficiency: master
+      - level: 19
+        advance: "_{Perception}"
+        proficiency: legendary
+        colour: WIS
+      - level: 19
+        advance: "_{Light armour}, _{Medium armour}, _{Unarmoured defence}"        proficiency: master
+
+  - at: '@saving-throws'
+    add:
+      - level: 11
+        contents:
+          - paste: improved-save-ref
+            params:
+              title: "_{Blast Dodger}"
+      - level: 17
+        contents:
+          - paste: improved-save-fort
+            params:
+              title: "_{Lead Constitution}"
+
+  - at: '@pages'
+    add:
+
+      - page: gunslinger
+        name: "_{Gunslinger}"
+        flex: true
+        order: 10
+        contents:
+          - layout: 2l
+            contents:
+              - g:
+                contents:
+                  - class-icon: gunslinger
+                    optional: true
+                  - class-name: "_{Gunslinger}"
+
+                  - section: "_{Class DC}"
+                    contents:
+                      - paste: class-dc
+                        params:
+                          id: gunslinger-class-dc
+                          legend: "_{Gunslinger\nClass DC}"
+                          attribute: DEX
+
+                  - section: "_{Gunslinger's Way}"
+                    primary: true
+                    contents:
+                      - zone: '@guns-and-gears/gunslinger/way'
+                        contents:
+                          - field: gunslinger/way
+                            frame: none
+                            size: huge
+                            width: stretch
+                            merge-bottom: true
+
+                      - hr:
+                        swash: true
+
+                      - list:
+                        hr: true
+                        contents:
+                          - g:
+                            contents:
+                              - h5: "_{Slinger's Reload}"
+                              - zone: '@guns-and-gears/gunslinger/way/slingers-reload'
+                                contents:
+                                  - article: 'guns-and-gears/gunslinger/way/slingers-reload'
+                                    lines: 4
+                                    reduce: 2
+                          - g:
+                            contents:
+                              - h5: "_{Initial Deed}"
+                              - zone: '@guns-and-gears/gunslinger/way/deed/initial'
+                                contents:
+                                  - article: 'guns-and-gears/gunslinger/way/deed/initial'
+                                    lines: 4
+                                    reduce: 2
+                          - g:
+                            contents:
+                              - level: 9
+                                contents:
+                                  - h5: "_{Advanced Deed}"
+                                  - zone: '@guns-and-gears/gunslinger/way/deed/advanced'
+                                    contents:
+                                      - article: 'guns-and-gears/gunslinger/way/deed/advanced'
+                                        lines: 4
+                                        reduce: 2
+                          - g:
+                            contents:
+                              - level: 15
+                                contents:
+                                  - h5: "_{Greater Deed}"
+                                  - zone: '@guns-and-gears/gunslinger/way/deed/greater'
+                                    contents:
+                                      - article: 'guns-and-gears/gunslinger/way/deed/greater'
+                                        lines: 4
+                                        reduce: 2
+
+                  - section: "_{Slinger's Precision}"
+                    contents:
+                      - p: "_{Extra precision damage with Strikes using non-repeating crossbows or firearms.}"
+                      - row:
+                        contents:
+                          - value-block: "+2"
+                            content: "_{Crossbow}"
+                          - vr:
+                          - value-block: "_{1d4}"
+                            content: "_{Firearm}"
+                      - hr:
+                        light: true
+                      - level: 13
+                        contents:
+                          - p: "_{With gunslinging legend:}"
+                          - row:
+                            contents:
+                              - value-block: "+3"
+                                content: "_{Crossbow}"
+                              - vr:
+                              - value-block: "_{1d6}"
+                                content: "_{Firearm}"
+
+                  - section: "_{Stubborn}"
+                    contents:
+                      - level: 3
+                        contents:
+                          - p: "_{When you fail a Will save against a controlled condition, get a second save at the start of your next turn.}"
+
+                  - section: "_{Gunslinging Legend}"
+                    contents:
+                      - level: 13
+                        contents:
+                          - p: "_{After mastering a ranged weapon, ignore the attack penalty up to its third range increments.}"
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+                  - section: "_{Firearms}"
+                    contents:
+                      - row:
+                        contents:
+                          - field: simple-firearms-proficiency
+                            control: proficiency
+                            frame: right
+                            has-bonus: false
+                            border: none
+                            label: "_{Simple}"
+                          - field: martial-firearms-proficiency
+                            control: proficiency
+                            frame: right
+                            has-bonus: false
+                            border: none
+                            label: "_{Martial}"
+                          - field: advanced-firearms-proficiency
+                            control: proficiency
+                            frame: right
+                            has-bonus: false
+                            border: none
+                            label: "_{Advanced}"
+                          - spacer:
+                          - repeat: 2
+                            contents:
+                              - field: "firearm-proficiency-#{i}-value"
+                                control: proficiency
+                                frame: right
+                                has-bonus: false
+                                border: none
+                              - field: "firearm-proficiency-#{i}-name"
+                                frame: none
+                                width: huge
+                                align: left
+                      - list:
+                        hr: true
+                        zebra: true
+                        contents:
+                          - repeat: 3
+                            contents:
+
+                              - g:
+                                contents:
+                                  - row:
+                                    contents:
+                                      - field: firearm-#{i}
+                                        width: stretch
+                                        frame: none
+                                        align: left
+                                        size: large
+                                        icon: gunslinger
+                                      - field: firearm-#{i}-range
+                                        control: speed
+                                        width: huge
+                                        frame: none
+                                  - row:
+                                    contents:
+                                      - calc:
+                                        output:
+                                          field: firearm-#{i}-bonus
+                                          label: "_{Attack Bonus}"
+                                          width: huge
+                                          attack: true
+                                          icon: bonus
+                                          eq: "%{DEX}+%{firearm-#{i}-proficiency-bonus}+%{firearm-#{i}-potency}"
+                                        inputs:
+                                          - field:
+                                            ref: DEX
+                                            label: "_{DEX}"
+                                            underlay: "_{DEX}"
+                                          - field: firearm-#{i}-proficiency
+                                            control: proficiency
+                                            category: firearm
+                                            label: "_{Proficiency}"
+                                          - field: firearm-#{i}-potency
+                                            control: icon
+                                            label: "_{Potency}"
+                                            icon: runes
+                                      - paste: weapon-damage-block
+                                        params:
+                                          i: "firearm-#{i}"
+                                  - row:
+                                    flex: huge
+                                    contents:
+                                      - field: firearm-#{i}-loaded
+                                        label: "_{Capacity}"
+                                        size: huge
+                                        underlay: "#"
+                                        border: full
+                                      - field: firearm-#{i}-loaded-count
+                                        frame: none
+                                        control: checkgrid
+                                        max: 10
+                                        depth: 3
+
+                                      - vr:
+                                      - field: firearm-#{i}-ammo
+                                        label: "_{Ammo}"
+                                        size: huge
+                                        underlay: "#"
+                                      - field: firearm-#{i}-ammo-count
+                                        frame: none
+                                        control: checkgrid
+                                        max: 40
+                                        reduce: 10
+                                        depth: 3
+
+                                      - vr:
+
+                                      - field: firearm-#{i}-reload
+                                        label: "_{Reload}"
+
+                                      - spacer:
+
+                                      - field: firearm-#{i}-used
+                                        control: checkbox
+                                        label: "_{Used}"
+                                      - field: firearm-#{i}-dirty
+                                        control: checkbox
+                                        label: "_{Dirty}"
+                                      - field: firearm-#{i}-broken
+                                        control: checkbox
+                                        label: "_{Jam}"
+
+                                  - row:
+                                    contents:
+                                      - field: firearm-#{i}-details
+                                        label: "_{Weapon Traits}"
+                                        width: stretch
+                                        align: left
+                                        merge-bottom: true
+                                      - g:
+                                        contents:
+                                          - label: "_{Critical}"
+                                            align: right
+                                          - p: "_{Fort save or be stunned 1}"
+                                      - field: firearm-#{i}-critical-unlocked
+                                        frame: none
+                                        control: checkbox
+                          - g:
+                            contents:
+                              - h5: "_{Misfire}"
+
+                              - value-block: "DC 5"
+                                width: medium
+                                content: "_{Flat check when you fire a gun that was fired a previous day and not cleaned since.}"
+                              - p: "_{If you fail the check, your weapon misfires and jams. The attack is a critical failure.}"
+
+                              - hr:
+                                light: true
+
+                              - action:
+                                contents:
+                                  - h6: "_{Clear a jammed weapon}"
+                              - paste: 1hour
+                                contents:
+                                  - h6: "_{Clean weapons}"
+
+                  - paste: class-feats
+                    params:
+                      id: gunslinger-feats
+                      title: "_{Gunslinger Feats}"
+                      slots: [ 1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+                      mark: gunslinger
+                      lines: 2
+
+                  - tail:

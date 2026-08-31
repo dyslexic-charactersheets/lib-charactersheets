@@ -700,7 +700,7 @@ export class Document {
   }
 
   getAnimalCopyright() {
-    return this.getCopyright(this.portraitCopyright);
+    return this.getCopyright(this.animalCopyright);
   }
 
   getCopyright(copyright) {
@@ -887,6 +887,12 @@ export class Document {
 <div id='proficiency-menu__level-hint' class='row valign_center'><div class='row__inner'>
 <span>=</span><span id='proficiency-menu__ref-level'></span><label>Level</label> <span>+</span> <span id='proficiency-menu__plus'></span><span class='spacer'></span>
 </div></div>
+</div></nav>
+
+<nav id='weapon-type-menu' class='control-menu'><div>
+<label for='weapon-type-menu-melee'><input type='radio' name='weapon-type-menu' value='melee' id='weapon-type-menu-melee'> <i class="icon icon_sword"></i> ${__('Melee')}</label>
+<label for='weapon-type-menu-unarmed'><input type='radio' name='weapon-type-menu' value='unarmed' id='weapon-type-menu-unarmed'> <i class="icon icon_claw"></i> ${__('Unarmed')}</label>
+<label for='weapon-type-menu-ranged'><input type='radio' name='weapon-type-menu' value='ranged' id='weapon-type-menu-ranged'> <i class="icon icon_bow"></i> ${__('Ranged')}</label>
 </div></nav>
 
 <nav id='action-menu' class='control-menu'><div>
