@@ -1,40 +1,46 @@
-# Copyright 2025 Marcus Downing
-# This file is compliant with the Open Game License (OGL).
-# See the text of the OGL within this repository.
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
 
-unit: class/guns-and-gears/gunslinger
+unit: class/remaster/gunslinger
 in: class
 group: "_{Guns and Gears}"
 name: "_{Gunslinger}"
 badge: "_{Uncommon}"
 
 form:
-  - select: gunslinger/way
+  - select: remaster/gunslinger/way
     name: "_{Gunslinger's Way}"
     max: 1
 
 require:
+  - deny: class/guns-and-gears/gunslinger
+  - deny: archetype/guns-and-gears/gunslinger
   - unit: weapon-spec/fast
   - with: option/reference
-    unit: class/guns-and-gears/gunslinger/reference
+    unit: class/remaster/gunslinger/reference
 
 inc:
-  - paste: prototype-class
-    params:
-      class: gunslinger
-      class-name: "_{Gunslinger}"
-      subclass: gunslinger-way
-      subclass-name: "_{Gunslinger Way}"
-      hp: 8
+  - set: class
+    value: "_{Gunslinger}"
+  - set: hp-class
+    value: 8
+  - set: class-icon
+    value: gunslinger
+  - set: subclass-label
+    value: "_{Way}"
 
-      perception: expert
-      unarmoured: trained
-      light-armour: trained
-      medium-armour: trained
+  - set: gunslinger-class-dc-proficiency
+    value: trained
+  - set: perception-proficiency
+    value: expert
 
-      fortitude: expert
-      reflex: expert
-      will: trained
+  - set: unarmoured-proficiency
+    value: trained
+  - set: light-armour-proficiency
+    value: trained
+  - set: medium-armour-proficiency
+    value: trained
 
   - set: unarmed-attack-proficiency
     value: trained
@@ -49,14 +55,20 @@ inc:
   - set: advanced-firearms-proficiency
     value: trained
 
+  - set: fortitude-proficiency
+    value: expert
+  - set: reflex-proficiency
+    value: expert
+  - set: will-proficiency
+    value: trained
+
   - at: '@advancement'
     add:
       - level: 1
         class-feat: true
       - level: 1
         gain: "_{Gunslinger's Way}"
-      
-      
+
       - level: 3
         advance: "_{Will saves}"
         proficiency: expert
@@ -88,8 +100,7 @@ inc:
         advance: "_{Simple and martial weapons, unarmed attacks}"
         proficiency: master
       - level: 13
-        advance: "_{Light armour}, _{Medium armour}, _{Unarmoured defence}"
-        proficiency: expert
+        advance: "_{Light armour}, _{Medium armour}, _{Unarmoured defence}"        proficiency: expert
       - level: 17
         advance: "_{Fortitude saves}"
         proficiency: master
@@ -102,18 +113,20 @@ inc:
         proficiency: legendary
         colour: WIS
       - level: 19
-        advance: "_{Light armour}, _{Medium armour}, _{Unarmoured defence}"
-        proficiency: master
-
+        advance: "_{Light armour}, _{Medium armour}, _{Unarmoured defence}"        proficiency: master
 
   - at: '@saving-throws'
     add:
       - level: 11
         contents:
-          - paste: evasion
+          - paste: improved-save-ref
+            params:
+              title: "_{Blast Dodger}"
       - level: 17
         contents:
-          - paste: juggernaut
+          - paste: improved-save-fort
+            params:
+              title: "_{Lead Constitution}"
 
   - at: '@pages'
     add:
@@ -193,43 +206,29 @@ inc:
                                         lines: 4
                                         reduce: 2
 
-                  - section: "_{Singular Expertise}"
+                  - section: "_{Slinger's Precision}"
                     contents:
-                      - p: "_{+1 circumstance bonus to damage rolls with firearms and crossbows.}"
-                      - list:
-                        hr: true
+                      - p: "_{Extra precision damage with Strikes using non-repeating crossbows or firearms.}"
+                      - row:
                         contents:
-                          - p: "_{Proficiency in unarmed attacks and weapons other than firearms and crossbows can't be higher than trained.}"
-                            icon: proficiency-trained
+                          - value-block: "+2"
+                            content: "_{Crossbow}"
+                          - vr:
+                          - value-block: "_{1d4}"
+                            content: "_{Firearm}"
+                      - hr:
+                        light: true
+                      - level: 13
+                        contents:
+                          - p: "_{With gunslinging legend:}"
                           - row:
                             contents:
-                              - level: 5
-                                contents:
-                                  - p: "_{Proficiency limit is expert}"
-                                    icon: proficiency-expert
+                              - value-block: "+3"
+                                content: "_{Crossbow}"
                               - vr:
-                              - level: 13
-                                contents:
-                                  - p: "_{Proficiency limit is master}"
-                                    icon: proficiency-master
+                              - value-block: "_{1d6}"
+                                content: "_{Firearm}"
 
-                  # - section: "_{Misfire}"
-                  #   contents:
-                  #     - value-block: "DC 5"
-                  #       width: large
-                  #       content: "_{Flat check when you fire a gun that was fired a previous day and not cleaned since.}"
-                  #     - p: "_{If you fail the check, your weapon misfires and jams. The attack is a critical failure.}"
-
-                  #     - hr:
-                  #       light: true
-
-                  #     - action:
-                  #       contents:
-                  #         - h6: "_{Clear a jammed weapon}"
-                  #     - paste: 1hour
-                  #       contents:
-                  #         - h6: "_{Clean weapons}"
-                      
                   - section: "_{Stubborn}"
                     contents:
                       - level: 3
@@ -287,7 +286,7 @@ inc:
                         contents:
                           - repeat: 3
                             contents:
-                            
+
                               - g:
                                 contents:
                                   - row:
@@ -326,7 +325,7 @@ inc:
                                             label: "_{Potency}"
                                             icon: runes
                                       - paste: weapon-damage-block
-                                        params: 
+                                        params:
                                           i: "firearm-#{i}"
                                   - row:
                                     flex: huge
@@ -355,7 +354,7 @@ inc:
                                         depth: 3
 
                                       - vr:
-                                        
+
                                       - field: firearm-#{i}-reload
                                         label: "_{Reload}"
 
@@ -389,7 +388,7 @@ inc:
                           - g:
                             contents:
                               - h5: "_{Misfire}"
-                              
+
                               - value-block: "DC 5"
                                 width: medium
                                 content: "_{Flat check when you fire a gun that was fired a previous day and not cleaned since.}"
