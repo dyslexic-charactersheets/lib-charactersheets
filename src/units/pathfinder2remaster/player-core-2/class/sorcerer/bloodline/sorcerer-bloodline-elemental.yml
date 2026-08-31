@@ -12,6 +12,11 @@ form:
     name: "_{Elemental Influence}"
     max: 1
 
+require:
+  - unit: remaster/focus/sorcerer/elemental-toss
+  - unit: remaster/focus/sorcerer/elemental-motion
+  - unit: remaster/focus/sorcerer/elemental-blast
+
 inc:
   - set: subclass
     value: "_{Elemental}"
@@ -41,40 +46,22 @@ inc:
 
   - at: '@sorcerer/bloodline-spell/initial'
     replace:
-      - action:
-        contents:
-          - article:
-            title: "_{Elemental Toss}"
-            cat: "_{Focus 1}"
-            contents:
-              - p: "_{Hurl a chunk of your chosen element at a foe, dealing damage matching your elemental influence.}"
+      - paste: remaster/focus/sorcerer/elemental-toss
 
   - at: '@sorcerer/bloodline-spell/advanced'
     replace:
-      - action:
-        contents:
-          - article:
-            title: "_{Elemental Motion}"
-            cat: "_{Focus 4}"
-            contents:
-              - p: "_{Move with the fluid grace of your element, gaining a swim, burrow, climb, or fly Speed depending on your influence.}"
+      - paste: remaster/focus/sorcerer/elemental-motion
 
   - at: '@sorcerer/bloodline-spell/greater'
     replace:
-      - action: 2
-        contents:
-          - article:
-            title: "_{Elemental Blast}"
-            cat: "_{Focus 8}"
-            contents:
-              - p: "_{Unleash a devastating blast of your element in an area, dealing damage matching your elemental influence.}"
+      - paste: remaster/focus/sorcerer/elemental-blast
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:
       - article:
         title: "_{Elemental Fury}"
         contents:
-          - p: "_{Elemental energy wreathes your form. Either gain a +2 status bonus to Intimidation checks for 1 round, or a target takes 1 damage per spell rank of the type listed under your elemental influence (combine with the spell's own damage of that type before applying weaknesses and resistances).}"
+          - p: "_{Gain +2 status to Intimidation checks for 1 round, or a target takes 1 damage/rank of your influence's type (combine with the spell's own damage of that type before weaknesses/resistances).}"
 
   - at: '@sorcerer/bloodline/extra-field'
     add:

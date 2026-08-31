@@ -7,6 +7,11 @@ in: remaster/sorcerer/bloodline
 group: "_{Player Core 2}"
 name: "_{Hag}"
 
+require:
+  - unit: remaster/focus/sorcerer/jealous-hex
+  - unit: remaster/focus/sorcerer/horrific-visage
+  - unit: remaster/focus/sorcerer/youre-mine
+
 inc:
   - set: subclass
     value: "_{Hag}"
@@ -51,37 +56,19 @@ inc:
 
   - at: '@sorcerer/bloodline-spell/initial'
     replace:
-      - action:
-        contents:
-          - article:
-            title: "_{Jealous Hex}"
-            cat: "_{Focus 1}"
-            contents:
-              - p: "_{Curse a creature that outshines you, dealing mental damage that worsens the more successful it's been.}"
+      - paste: remaster/focus/sorcerer/jealous-hex
 
   - at: '@sorcerer/bloodline-spell/advanced'
     replace:
-      - action:
-        contents:
-          - article:
-            title: "_{Horrific Visage}"
-            cat: "_{Focus 4}"
-            contents:
-              - p: "_{Reveal your true, horrific visage, frightening creatures who see it.}"
+      - paste: remaster/focus/sorcerer/horrific-visage
 
   - at: '@sorcerer/bloodline-spell/greater'
     replace:
-      - action: 2
-        contents:
-          - article:
-            title: "_{You're Mine}"
-            cat: "_{Focus 8}"
-            contents:
-              - p: "_{Bewitch a creature, dominating its mind and forcing it to act on your behalf.}"
+      - paste: remaster/focus/sorcerer/youre-mine
 
   - at: '@sorcerer/spellbook/blood-magic'
     replace:
       - article:
         title: "_{Retributive Spite}"
         contents:
-          - p: "_{You deal 4 mental damage per spell rank (basic Will save) to the first creature that damages you before your next turn ends, or gain temporary Hit Points equal to the spell's rank (lasting until the turn after next) if none do.}"
+          - p: "_{First creature to damage you before your next turn ends takes 4 mental damage/rank (basic Will); if none do, gain temp HP equal to rank (until the turn after next).}"

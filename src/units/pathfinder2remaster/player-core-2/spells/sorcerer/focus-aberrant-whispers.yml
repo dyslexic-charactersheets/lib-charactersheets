@@ -1,0 +1,30 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/focus/sorcerer/aberrant-whispers
+name: "_{Aberrant Whispers}"
+group: "_{Player Core 2}"
+
+inc:
+  - copy: remaster/focus/sorcerer/aberrant-whispers
+    contents:
+      - action: "13"
+        contents:
+          - article: remaster/focus/sorcerer/aberrant-whispers
+            title: "_{Aberrant Whispers}"
+            cat: "_{Focus 3}"
+            contents:
+              - dl:
+                  area: "_{5-foot emanation or more}"
+                  target: "_{each foe in the area}"
+                  save: "_{Will}"
+                  duration: "_{1 round}"
+              - p: "_{Assault nearby minds; each target is then immune for 1 minute regardless of its save. Each extra action spent casting adds 5ft to the radius.}"
+              - paste: save
+                params:
+                  critical_success: "_{Unaffected.}"
+                  success: "_{Unaffected.}"
+                  failure: "_{Stupefied 2.}"
+                  critical_failure: "_{Confused.}"
+              - p: "_{Heightened (+3): the initial radius increases by 5 feet.}"

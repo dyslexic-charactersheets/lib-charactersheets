@@ -1,0 +1,32 @@
+# Copyright 2026 Marcus Downing
+# This file is licensed under the ORC License.
+# See the ORC Notice within this repository.
+
+unit: remaster/focus/sorcerer/celestial-brand
+name: "_{Celestial Brand}"
+group: "_{Player Core 2}"
+
+inc:
+  - copy: remaster/focus/sorcerer/celestial-brand
+    contents:
+      - action:
+        contents:
+          - article: remaster/focus/sorcerer/celestial-brand
+            title: "_{Celestial Brand}"
+            cat: "_{Focus 5}"
+            contents:
+              - dl:
+                  range: "_{30ft}"
+                  target: "_{1 unholy creature}"
+                  duration: "_{1 round}"
+              - p: "_{A symbol curses the target: you and allies get +1 status to attack rolls/skill checks against it, and holy creatures dealing damage add 1d4 spirit damage plus the bonus below. Then immune for 1 minute.}"
+              - calc:
+                output:
+                  field: "##:celestial-brand/damage"
+                  legend: "_{Bonus\nSpirit Damage}"
+                  width: large
+                  eq: "floor((%{focus-rank}-5)/2)"
+                inputs:
+                  - field:
+                    ref: focus-rank
+                    label: "_{Focus Level}"
