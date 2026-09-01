@@ -889,6 +889,22 @@ export class Document {
 </div></div>
 </div></nav>
 
+<nav id='weapon-category-menu' class='control-menu'><div>
+<label for='weapon-category-menu-unarmed'><input type='radio' name='weapon-category-menu' value='Unarmed' id='weapon-category-menu-unarmed'> <i class="icon icon_proficiency-untrained" id='weapon-category-menu-unarmed__icon'></i> <span class='control-menu__label'>${__('Unarmed')}</span></label>
+<label for='weapon-category-menu-simple'><input type='radio' name='weapon-category-menu' value='Simple' id='weapon-category-menu-simple'> <i class="icon icon_proficiency-untrained" id='weapon-category-menu-simple__icon'></i> <span class='control-menu__label'>${__('Simple')}</span></label>
+<label for='weapon-category-menu-martial'><input type='radio' name='weapon-category-menu' value='Martial' id='weapon-category-menu-martial'> <i class="icon icon_proficiency-untrained" id='weapon-category-menu-martial__icon'></i> <span class='control-menu__label'>${__('Martial')}</span></label>
+<label for='weapon-category-menu-advanced'><input type='radio' name='weapon-category-menu' value='Advanced' id='weapon-category-menu-advanced'> <i class="icon icon_proficiency-untrained" id='weapon-category-menu-advanced__icon'></i> <span class='control-menu__label'>${__('Advanced')}</span></label>
+<label for='weapon-category-menu-custom1' id='weapon-category-menu-custom1__row' style='display:none'><input type='radio' name='weapon-category-menu' value='Custom1' id='weapon-category-menu-custom1'> <i class="icon icon_proficiency-untrained" id='weapon-category-menu-custom1__icon'></i> <span class='control-menu__label' id='weapon-category-menu-custom1__label'></span></label>
+<label for='weapon-category-menu-custom2' id='weapon-category-menu-custom2__row' style='display:none'><input type='radio' name='weapon-category-menu' value='Custom2' id='weapon-category-menu-custom2'> <i class="icon icon_proficiency-untrained" id='weapon-category-menu-custom2__icon'></i> <span class='control-menu__label' id='weapon-category-menu-custom2__label'></span></label>
+</div></nav>
+
+<nav id='armour-category-menu' class='control-menu'><div>
+<label for='armour-category-menu-unarmoured'><input type='radio' name='armour-category-menu' value='Unarmoured' id='armour-category-menu-unarmoured'> <i class="icon icon_proficiency-untrained" id='armour-category-menu-unarmoured__icon'></i> <span class='control-menu__label'>${__('Unarmoured')}</span></label>
+<label for='armour-category-menu-light'><input type='radio' name='armour-category-menu' value='Light' id='armour-category-menu-light'> <i class="icon icon_proficiency-untrained" id='armour-category-menu-light__icon'></i> <span class='control-menu__label'>${__('Light')}</span></label>
+<label for='armour-category-menu-medium'><input type='radio' name='armour-category-menu' value='Medium' id='armour-category-menu-medium'> <i class="icon icon_proficiency-untrained" id='armour-category-menu-medium__icon'></i> <span class='control-menu__label'>${__('Medium')}</span></label>
+<label for='armour-category-menu-heavy'><input type='radio' name='armour-category-menu' value='Heavy' id='armour-category-menu-heavy'> <i class="icon icon_proficiency-untrained" id='armour-category-menu-heavy__icon'></i> <span class='control-menu__label'>${__('Heavy')}</span></label>
+</div></nav>
+
 <nav id='weapon-type-menu' class='control-menu'><div>
 <label for='weapon-type-menu-melee'><input type='radio' name='weapon-type-menu' value='melee' id='weapon-type-menu-melee'> <i class="icon icon_sword"></i> ${__('Melee')}</label>
 <label for='weapon-type-menu-unarmed'><input type='radio' name='weapon-type-menu' value='unarmed' id='weapon-type-menu-unarmed'> <i class="icon icon_claw"></i> ${__('Unarmed')}</label>

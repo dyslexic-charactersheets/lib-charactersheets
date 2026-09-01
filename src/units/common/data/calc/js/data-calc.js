@@ -277,9 +277,16 @@ function redoKeyAbility() {
   }
 }
 
+function getRawFieldValue(name) {
+  for (var input of document.getElementsByName(name)) {
+    return input.value;
+  }
+  return '';
+}
+
 function redoProficiency() {
   var bonuses = {
-    untrained: 0,
+    untrained: '',
     trained: '',
     expert: '',
     master: '',
@@ -306,6 +313,12 @@ function redoProficiency() {
     for (var control of field.getElementsByClassName('field__control')) {
       if (!control.classList.contains('field__control--control_icon')) {
         for (var input of control.getElementsByTagName('input')) {
+          if (input.type === 'hidden') {
+            continue;
+          }
+          if (input.getAttribute('data-custom') === 'true') {
+            continue;
+          }
           input.value = bonuses[proficiency];
           input.dispatchEvent(new Event('change'));
         }
