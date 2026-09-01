@@ -848,30 +848,38 @@ inc:
                     contents:
                       - row:
                         contents:
-                          - field: unarmed-attack-proficiency
-                            control: proficiency
-                            frame: right
-                            has-bonus: false
-                            border: none
-                            label: "_{Unarmed}"
-                          - field: simple-weapons-proficiency
-                            control: proficiency
-                            frame: right
-                            has-bonus: false
-                            border: none
-                            label: "_{Simple}"
-                          - field: martial-weapons-proficiency
-                            control: proficiency
-                            frame: right
-                            has-bonus: false
-                            border: none
-                            label: "_{Martial}"
-                          - field: advanced-weapons-proficiency
-                            control: proficiency
-                            frame: right
-                            has-bonus: false
-                            border: none
-                            label: "_{Advanced}"
+                          - zone: '@weapon-proficiency/unarmed'
+                            contents:
+                              - field: unarmed-attack-proficiency
+                                control: proficiency
+                                frame: right
+                                has-bonus: false
+                                border: none
+                                label: "_{Unarmed}"
+                          - zone: '@weapon-proficiency/simple'
+                            contents:
+                              - field: simple-weapons-proficiency
+                                control: proficiency
+                                frame: right
+                                has-bonus: false
+                                border: none
+                                label: "_{Simple}"
+                          - zone: '@weapon-proficiency/martial'
+                            contents:
+                              - field: martial-weapons-proficiency
+                                control: proficiency
+                                frame: right
+                                has-bonus: false
+                                border: none
+                                label: "_{Martial}"
+                          - zone: '@weapon-proficiency/advanced'
+                            contents:
+                              - field: advanced-weapons-proficiency
+                                control: proficiency
+                                frame: right
+                                has-bonus: false
+                                border: none
+                                label: "_{Advanced}"
                           - spacer:
                           - repeat: 2
                             contents:
@@ -1212,30 +1220,38 @@ inc:
                           - zone: '@temp-ac'
                           - spacer:
 
-                          - field: unarmoured-proficiency
-                            control: proficiency
-                            frame: right
-                            has-bonus: false
-                            border: none
-                            label: "_{Unarmoured}"
-                          - field: light-armour-proficiency
-                            control: proficiency
-                            frame: right
-                            has-bonus: false
-                            border: none
-                            label: "_{Light}"
-                          - field: medium-armour-proficiency
-                            control: proficiency
-                            frame: right
-                            has-bonus: false
-                            border: none
-                            label: "_{Medium}"
-                          - field: heavy-armour-proficiency
-                            control: proficiency
-                            frame: right
-                            has-bonus: false
-                            border: none
-                            label: "_{Heavy}"
+                          - zone: '@armour-proficiency/unarmoured'
+                            contents:
+                              - field: unarmoured-proficiency
+                                control: proficiency
+                                frame: right
+                                has-bonus: false
+                                border: none
+                                label: "_{Unarmoured}"
+                          - zone: '@armour-proficiency/light'
+                            contents:
+                              - field: light-armour-proficiency
+                                control: proficiency
+                                frame: right
+                                has-bonus: false
+                                border: none
+                                label: "_{Light}"
+                          - zone: '@armour-proficiency/medium'
+                            contents:
+                              - field: medium-armour-proficiency
+                                control: proficiency
+                                frame: right
+                                has-bonus: false
+                                border: none
+                                label: "_{Medium}"
+                          - zone: '@armour-proficiency/heavy'
+                            contents:
+                              - field: heavy-armour-proficiency
+                                control: proficiency
+                                frame: right
+                                has-bonus: false
+                                border: none
+                                label: "_{Heavy}"
                       - hr:
                       - layout: 2r
                         contents:
@@ -1372,8 +1388,10 @@ inc:
                                 label: "#{ability}"
                                 underlay: "#{ability}"
                                 ref: "#{abilityref}"
-                              - field: "#{save}-proficiency"
-                                control: proficiency
+                              - zone: '@saving-throw-proficiency/#{save}'
+                                contents:
+                                  - field: "#{save}-proficiency"
+                                    control: proficiency
                               - zone: '@saving-throw/item'
                                 params:
                                   save: "#{save}"

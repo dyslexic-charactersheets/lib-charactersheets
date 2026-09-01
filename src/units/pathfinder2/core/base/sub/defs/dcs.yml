@@ -6,6 +6,141 @@ unit: defs/dcs
 group: "_{Core Rulebook}"
 
 inc:
+  - copy: unarmed-proficiency-override
+    params:
+      thresholds: ''
+    contents:
+      - at: '@weapon-proficiency/unarmed'
+        replace:
+          - field: unarmed-attack-proficiency
+            control: proficiency
+            frame: right
+            has-bonus: false
+            border: none
+            label: "_{Unarmed}"
+            eq: "proficiencyThreshold(defaultValue(%{level!},1),#{thresholds})"
+
+  - copy: simple-weapons-proficiency-override
+    params:
+      thresholds: ''
+    contents:
+      - at: '@weapon-proficiency/simple'
+        replace:
+          - field: simple-weapons-proficiency
+            control: proficiency
+            frame: right
+            has-bonus: false
+            border: none
+            label: "_{Simple}"
+            eq: "proficiencyThreshold(defaultValue(%{level!},1),#{thresholds})"
+
+  - copy: martial-weapons-proficiency-override
+    params:
+      thresholds: ''
+    contents:
+      - at: '@weapon-proficiency/martial'
+        replace:
+          - field: martial-weapons-proficiency
+            control: proficiency
+            frame: right
+            has-bonus: false
+            border: none
+            label: "_{Martial}"
+            eq: "proficiencyThreshold(defaultValue(%{level!},1),#{thresholds})"
+
+  - copy: advanced-weapons-proficiency-override
+    params:
+      thresholds: ''
+    contents:
+      - at: '@weapon-proficiency/advanced'
+        replace:
+          - field: advanced-weapons-proficiency
+            control: proficiency
+            frame: right
+            has-bonus: false
+            border: none
+            label: "_{Advanced}"
+            eq: "proficiencyThreshold(defaultValue(%{level!},1),#{thresholds})"
+
+  - copy: unarmoured-proficiency-override
+    params:
+      thresholds: ''
+    contents:
+      - at: '@armour-proficiency/unarmoured'
+        replace:
+          - field: unarmoured-proficiency
+            control: proficiency
+            frame: right
+            has-bonus: false
+            border: none
+            label: "_{Unarmoured}"
+            eq: "proficiencyThreshold(defaultValue(%{level!},1),#{thresholds})"
+
+  - copy: light-armour-proficiency-override
+    params:
+      thresholds: ''
+    contents:
+      - at: '@armour-proficiency/light'
+        replace:
+          - field: light-armour-proficiency
+            control: proficiency
+            frame: right
+            has-bonus: false
+            border: none
+            label: "_{Light}"
+            eq: "proficiencyThreshold(defaultValue(%{level!},1),#{thresholds})"
+
+  - copy: medium-armour-proficiency-override
+    params:
+      thresholds: ''
+    contents:
+      - at: '@armour-proficiency/medium'
+        replace:
+          - field: medium-armour-proficiency
+            control: proficiency
+            frame: right
+            has-bonus: false
+            border: none
+            label: "_{Medium}"
+            eq: "proficiencyThreshold(defaultValue(%{level!},1),#{thresholds})"
+
+  - copy: heavy-armour-proficiency-override
+    params:
+      thresholds: ''
+    contents:
+      - at: '@armour-proficiency/heavy'
+        replace:
+          - field: heavy-armour-proficiency
+            control: proficiency
+            frame: right
+            has-bonus: false
+            border: none
+            label: "_{Heavy}"
+            eq: "proficiencyThreshold(defaultValue(%{level!},1),#{thresholds})"
+
+  - copy: saving-throw-override
+    params:
+      save: ''
+      thresholds: ''
+    contents:
+      - at: "@saving-throw-proficiency/#{save}"
+        replace:
+          - field: "#{save}-proficiency"
+            control: proficiency
+            eq: "proficiencyThreshold(defaultValue(%{level!},1),#{thresholds})"
+
+  - copy: class-dc-proficiency-override
+    params:
+      class: ''
+      thresholds: ''
+    contents:
+      - at: "@class-dc-proficiency/#{class}-class-dc"
+        replace:
+          - field: "#{class}-class-dc-proficiency"
+            label: "_{Proficiency}"
+            control: proficiency
+            eq: "proficiencyThreshold(defaultValue(%{level!},1),#{thresholds})"
+
   - copy: class-dc
     params:
       id: class-dc
@@ -37,9 +172,11 @@ inc:
                 misc: true
           - span: "+"
             optional: true
-          - field: "#{id}-proficiency"
-            label: "_{Proficiency}"
-            control: proficiency
+          - zone: '@class-dc-proficiency/#{id}'
+            contents:
+              - field: "#{id}-proficiency"
+                label: "_{Proficiency}"
+                control: proficiency
           - if: "#{misc}"
             then:
               - span: "+"

@@ -88,6 +88,17 @@ function threshold(num, thresholds) {
   return result;
 }
 
+function proficiencyThreshold(num, milestones) {
+  var ranks = ['trained', 'expert', 'master', 'legendary'];
+  var result = '';
+  for (var i = 0; i < milestones.length; i++) {
+    if (milestones[i] !== null && num >= milestones[i]) {
+      result = ranks[i];
+    }
+  }
+  return result;
+}
+
 function req(fields, result) {
   if (result === null || isNaN(result) || result === "NaN" || result === "+NaN") {
     return '';
