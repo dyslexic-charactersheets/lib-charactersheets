@@ -106,11 +106,20 @@ function recalculateField(name) {
   if (calculations.hasOwnProperty(name)) {
     try {
       var newValue = calculations[name](valueOf);
-      if (newValue === null || newValue === undefined || isNaN(newValue)) {
+      if (newValue === null || newValue === undefined) {
+        return;
+      }
+      if (typeof newValue === 'number' && isNaN(newValue)) {
         return;
       }
       knownValues[name] = newValue;
-      setFieldValue(name, newValue);
+
+      var proficiencyField = document.getElementById('field-'+name);
+      if (proficiencyField !== null && proficiencyField.getElementsByClassName('field--control_proficiency__rank').length > 0) {
+        setProficiencyValue('field-'+name, newValue);
+      } else {
+        setFieldValue(name, newValue);
+      }
     } catch (x) {
       console.log(`Error in field '${name}':`, x);
     }
