@@ -24,6 +24,7 @@ const knownVars = [
   "language",
   "miniSize",
   "skillActions",
+  "levelCap",
 ];
 
 function parseCharacter(primary, request) {
@@ -49,6 +50,8 @@ function parseCharacter(primary, request) {
     printDyslexicFont: 'sans',
 
     miniSize: 'medium',
+
+    levelCap: 0,
 
     printColour: '#707070',
     accentColour: '',
@@ -95,6 +98,8 @@ function parseCharacter(primary, request) {
     archetypeStyle: attr.archetypeStyle,
     skillActions: attr.skillActions,
     miniSize: attr.miniSize,
+
+    levelCap: attr.levelCap,
 
     browserTarget: attr.browserTarget,
     printLarge: attr.printLarge || attr.optionLargePrint,

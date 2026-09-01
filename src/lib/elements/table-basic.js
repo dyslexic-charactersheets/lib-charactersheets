@@ -56,7 +56,7 @@ export function renderTableBasic(args, reg, doc, headings, rows) {
       return `<td${cellCls}${colspan}${rowspan}>${reg.renderItem(cell, doc)}</td>`;
     });
 
-    const rowCls = elementClass('tr', null, row.params, ['hr'], { colour: false });
+    const rowCls = elementClass('tr', null, row.params, ['hr', 'level-capped'], { colour: false });
     // log("table", "Table row class", row, rowCls);
     return `<tr${rowCls}>${cells.join("\n")}</tr>\n`;
   });

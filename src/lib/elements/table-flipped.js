@@ -46,8 +46,12 @@ export function renderTableFlipped(args, reg, doc, headings, cols) {
     });
   }
 
+  let cappedCols = Array(ncols).fill(false);
+
   cols.forEach((col, c) => {
     if (hasHeading) c++;
+    const capped = has(col, "params") && col.params && col.params['level-capped'];
+    if (capped) cappedCols[c] = true;
     // log("table", "Column", c, col);
     col.cells.forEach((cell, r) => {
       // log("table", "Cell at:", r, c, "=", cell);
@@ -67,10 +71,12 @@ export function renderTableFlipped(args, reg, doc, headings, cols) {
       th = `<th scope="row"${colspan}${rowspan}>${isNull(head) ? '' : reg.renderItem(head, doc)}</th>`;
     }
 
-    const tds = row.map(elem => {
+    const tds = row.map((elem, c) => {
+      const i = hasHeading ? c + 1 : c;
       const colspan = (has(elem, "colspan") && elem.colspan > 1) ? ` colspan="${elem.colspan}"` : '';
       const rowspan = (has(elem, "rowspan") && elem.rowspan > 1) ? ` rowspan="${elem.rowspan}"` : '';
-      return `<td>${isNull(elem) ? '' : reg.renderItem(elem, doc)}</td>`;
+      const cls = cappedCols[i] ? ` class="td--level-capped"` : '';
+      return `<td${cls}>${isNull(elem) ? '' : reg.renderItem(elem, doc)}</td>`;
     });
 
     return `<tr>${th}${tds.join("")}</tr>`;

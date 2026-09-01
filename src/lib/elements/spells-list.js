@@ -292,17 +292,22 @@ export let spells_table = {
     at: [],
     'spell-level-label': "_{Spell\nLevel}",
   },
-  transform(args) {
+  transform(args, ctx) {
     // log("-","[spells] Expanding spells table:", args);
 
     let rows = [];
     let columns = [];
     let template = [];
 
+    // level cap: a spell rank first becomes available at character level
+    // (2 * rank - 1) for standard spellcasting progression
+    const levelCap = (ctx && ctx.getVar) ? (parseInt(ctx.getVar('level-cap', 'number')) || 0) : 0;
+
     // Rows
     for (let lvl = args.min; lvl <= args.max; lvl++) {
+      const requiredLevel = (2 * lvl) - 1;
       const ord = (args.ordinal && !args.flip) ? ordinal(lvl) : lvl;
-      rows.push({ level: lvl, ordinal: ord });
+      rows.push({ level: lvl, ordinal: ord, 'level-capped': levelCap > 0 && requiredLevel > levelCap });
     }
 
     // Spell Level
