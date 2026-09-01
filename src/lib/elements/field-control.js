@@ -735,6 +735,7 @@ export let field_control_weapon_type_icon = {
   defaults: {
     value: "melee",
     border: "none",
+    width: 'none',
   },
   render(args) {
     const cls = elementClass("field", "control", { control: "icon" }, [], { "control": "input" });
