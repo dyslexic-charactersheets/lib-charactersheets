@@ -326,7 +326,48 @@ if (showValuesToggle != null) {
 
 
 
+function getRawFieldValue(name) {
+  for (var input of document.getElementsByName(name)) {
+    return input.value;
+  }
+  return '';
+}
+
+
+function levelFadeClass(el) {
+  switch (el.tagName) {
+    case 'TR': return 'tr--level-capped';
+    case 'TD': return 'td--level-capped';
+    default: return el.classList.contains('layout') ? 'layout--fade' : 'g--fade';
+  }
+}
+
+function updateLevelFade() {
+  var currentLevel = parseInt(getRawFieldValue('level'));
+  var haveLevel = !isNaN(currentLevel) && currentLevel > 0;
+  for (var el of document.querySelectorAll('[data-level]')) {
+    var blockLevel = parseInt(el.dataset.level);
+    if (isNaN(blockLevel)) {
+      continue;
+    }
+    el.classList.toggle(levelFadeClass(el), haveLevel && blockLevel > currentLevel);
+  }
+}
+
+function setupLevelFade() {
+  if (!document.documentElement.classList.contains('html--enable-level-fade')) {
+    return;
+  }
+  for (var input of document.getElementsByName('level')) {
+    input.addEventListener('input', updateLevelFade);
+    input.addEventListener('change', updateLevelFade);
+  }
+  updateLevelFade();
+}
+
+
 window.addEventListener('load', (event) => {
   console.log("Initialising calculation");
   initCalculations();
+  setupLevelFade();
 });
