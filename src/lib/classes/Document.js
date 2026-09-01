@@ -551,6 +551,10 @@ export class Document {
         // log("Document", "Transform calculation", eq);
         eq = eq.replace('default(', 'defaultValue(');
         eq = eq.replace(/%\{(.*?)\}/g, (match, field) => {
+          let optional = field.endsWith('!');
+          if (optional) {
+            field = field.slice(0, -1);
+          }
           pushDependency(field, id);
           // var found = field.match(/(.*)\|(.*)/);
           // if (found !== null) {
@@ -562,11 +566,14 @@ export class Document {
           if (found !== null) {
             return found[0];
           }
-          if (!field.match(/-misc$/)) {
+          if (!optional && !field.match(/-misc$/)) {
             requiredFields.add(`'${field}'`);
           }
           return `v('${field}')`;
         });
+        if (requiredFields.size === 0) {
+          return `(v) => ${eq}`;
+        }
         return `(v) => req([${[...requiredFields].join(',')}],${eq})`;
       }
 
