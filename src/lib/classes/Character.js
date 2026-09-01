@@ -26,6 +26,7 @@ const knownVars = [
   "skillActions",
   "hideOptional",
   "levelCap",
+  "enableLevelFade",
 ];
 
 function parseCharacter(primary, request) {
@@ -53,6 +54,7 @@ function parseCharacter(primary, request) {
     miniSize: 'medium',
 
     levelCap: 0,
+    enableLevelFade: false,
 
     printColour: '#707070',
     accentColour: '',
@@ -102,6 +104,7 @@ function parseCharacter(primary, request) {
     hideOptional: attr.hideOptional,
 
     levelCap: attr.levelCap,
+    enableLevelFade: attr.enableLevelFade,
 
     browserTarget: attr.browserTarget,
     printLarge: attr.printLarge || attr.optionLargePrint,

@@ -307,7 +307,7 @@ export let spells_table = {
     for (let lvl = args.min; lvl <= args.max; lvl++) {
       const requiredLevel = (2 * lvl) - 1;
       const ord = (args.ordinal && !args.flip) ? ordinal(lvl) : lvl;
-      rows.push({ level: lvl, ordinal: ord, 'level-capped': levelCap > 0 && requiredLevel > levelCap });
+      rows.push({ level: lvl, ordinal: ord, 'level-capped': levelCap > 0 && requiredLevel > levelCap, 'level-required': requiredLevel });
     }
 
     // Spell Level
