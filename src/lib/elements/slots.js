@@ -105,6 +105,25 @@ export let slots = {
     };
 
     if (debug) log("slots", "Final slots:", JSON.stringify(slots, null, 2));
+
+    if (args.key === 'level' && ctx && ctx.getVar) {
+      const levelCap = parseInt(ctx.getVar('level-cap', 'number')) || 0;
+      Object.values(slots).forEach(s => {
+        const lvl = parseInt(s.key);
+        if (isNaN(lvl)) {
+          return;
+        }
+        const overStaticCap = levelCap > 0 && lvl > levelCap;
+        s.contents = s.contents.map(item => ({
+          ...item,
+          type: 'g',
+          fade: overStaticCap,
+          level: lvl,
+          contents: [item]
+        }));
+      });
+    }
+
     let contents = Object.values(slots).flatMap(s => s.contents);
 
     //let blank = {};

@@ -17,17 +17,22 @@ export let level = {
     contents: [],
     inline: false,
   },
-  transform(args) {
+  transform(args, ctx) {
     let layout = "indent-l";
     if (args.inline) {
       layout = "indent-lw";
     }
+
+    const levelCap = (ctx && ctx.getVar) ? (parseInt(ctx.getVar('level-cap', 'number')) || 0) : 0;
+    const overStaticCap = levelCap > 0 && parseInt(args.level) > levelCap;
 
     return [
       {
         type: "layout",
         layout: layout,
         blk: args.blk,
+        fade: overStaticCap,
+        level: args.level,
         contents: [
           {
             type: "g",

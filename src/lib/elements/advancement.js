@@ -76,6 +76,9 @@ export let advancement = {
 
     // log("advancement", "Items by level", itemsByLevel);
 
+    // level cap: grey out rows for levels beyond the configured cap
+    const levelCap = (ctx && ctx.getVar) ? (parseInt(ctx.getVar('level-cap', 'number')) || 0) : 0;
+
     // build the row data
     let has_icons = false;
     let has_labels = false;
@@ -199,6 +202,7 @@ export let advancement = {
         ...flags,
         level: lv,
         icon: icons.join(","),
+        'level-capped': levelCap > 0 && lv > levelCap,
         item: {
           type: "g",
           contents: [...proficiencyItems, ...iconItems, ...items, ...contents]
