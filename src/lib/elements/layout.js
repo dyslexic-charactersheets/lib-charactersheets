@@ -18,6 +18,8 @@ export let layout = {
     blk: false,
     unblk: true,
     vr: false,
+    fade: false,
+    level: false,
   },
   render(args, reg, doc) {
     // pick a column number
@@ -84,8 +86,9 @@ export let layout = {
       return `<div class='layout__inner'>${reg.render([elem], doc)}</div>`;
     });
     
-    const cls = elementClass('layout', null, args, ['no-flex', 'blk', 'unblk', 'vr'], { 'layout': '', 'gutter': '', 'flex': false });
-    return `<div${cls}>${contents.join('')}</div>`;
+    const cls = elementClass('layout', null, args, ['no-flex', 'blk', 'unblk', 'vr', 'fade'], { 'layout': '', 'gutter': '', 'flex': false });
+    const level = (args.level !== false && args.level !== '') ? ` data-level='${args.level}'` : '';
+    return `<div${cls}${level}>${contents.join('')}</div>`;
   }
 }
 

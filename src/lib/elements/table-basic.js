@@ -56,9 +56,10 @@ export function renderTableBasic(args, reg, doc, headings, rows) {
       return `<td${cellCls}${colspan}${rowspan}>${reg.renderItem(cell, doc)}</td>`;
     });
 
-    const rowCls = elementClass('tr', null, row.params, ['hr'], { colour: false });
+    const rowCls = elementClass('tr', null, row.params, ['hr', 'level-capped'], { colour: false });
+    const level = (has(row.params, 'level-capped')) ? ` data-level='${row.params.level}'` : '';
     // log("table", "Table row class", row, rowCls);
-    return `<tr${rowCls}>${cells.join("\n")}</tr>\n`;
+    return `<tr${rowCls}${level}>${cells.join("\n")}</tr>\n`;
   });
 
   // put it all together
