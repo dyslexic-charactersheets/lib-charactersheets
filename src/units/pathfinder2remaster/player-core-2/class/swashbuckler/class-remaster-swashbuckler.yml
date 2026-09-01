@@ -62,6 +62,53 @@ inc:
   - set: unarmed-attack-proficiency
     value: trained
 
+  - paste: saving-throw-override
+    params:
+      save: fortitude
+      thresholds: "[1,3,null,null]"
+  - paste: saving-throw-override
+    params:
+      save: reflex
+      thresholds: "[null,1,7,13]"
+  - paste: saving-throw-override
+    params:
+      save: will
+      thresholds: "[null,1,17,null]"
+
+  - paste: unarmed-proficiency-override
+    params:
+      thresholds: "[1,5,13,null]"
+  - paste: simple-weapons-proficiency-override
+    params:
+      thresholds: "[1,5,13,null]"
+  - paste: martial-weapons-proficiency-override
+    params:
+      thresholds: "[1,5,13,null]"
+
+  - paste: unarmoured-proficiency-override
+    params:
+      thresholds: "[1,13,19,null]"
+  - paste: light-armour-proficiency-override
+    params:
+      thresholds: "[1,13,19,null]"
+
+  - paste: class-dc-proficiency-override
+    params:
+      class: swashbuckler
+      thresholds: "[1,9,19,null]"
+
+  - at: '@key-attribute-field'
+    replace:
+      - field: key-attribute
+        label: "_{Dexterity}"
+        underlay: "_{DEX}"
+        ref: DEX
+
+  - copy: swashbuckler/exemplary-finisher-header
+    contents:
+      - h5: "_{Exemplary Finisher}"
+      - p: "_{When you successfully [action]strike[/action] as part of a finisher...}"
+
   - at: '@advancement'
     add:
       - level: 1
