@@ -413,14 +413,16 @@ export class Document {
         break;
     }
 
-    for (const item_key of ["contents", "placeholder", "header", "inputs", "parts"]) {
-      // log("compose", "Checking for", item_key);
-      if (has(element, item_key)) {
-        // log("compose", "Preparing item", item_key, element[item_key]);
-        if (isArray(element[item_key]))
-          element[item_key] = element[item_key].flatMap(el => this.composeElement(el, registry));
-        else
-          element[item_key] = this.composeElement(element[item_key], registry);
+    if (element.type !== 'repeat') {
+      for (const item_key of ["contents", "placeholder", "header", "inputs", "parts"]) {
+        // log("compose", "Checking for", item_key);
+        if (has(element, item_key)) {
+          // log("compose", "Preparing item", item_key, element[item_key]);
+          if (isArray(element[item_key]))
+            element[item_key] = element[item_key].flatMap(el => this.composeElement(el, registry));
+          else
+            element[item_key] = this.composeElement(element[item_key], registry);
+        }
       }
     }
 
