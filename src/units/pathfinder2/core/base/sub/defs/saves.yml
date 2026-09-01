@@ -19,12 +19,15 @@ inc:
   - copy: improved-save-fort-2
     params:
       title: ""
+      half-damage: true
     contents:
       - p: "_{Reduced failure at Fortitude saves.}"
         title: "#{title}"
         icon: save-fail
-      # - p: "_{On failing a Fortitude save, take half damage.}"
-      
+      - if: "#{half-damage}"
+        then:
+          - p: "_{On failing a Fortitude save, take half damage.}"
+
   - copy: improved-save-ref
     params:
       title: ""
@@ -36,12 +39,15 @@ inc:
   - copy: improved-save-ref-2
     params:
       title: ""
+      half-damage: true
     contents:
       - p: "_{Reduced failure at Reflex saves.}"
         title: "#{title}"
         icon: save-fail
-      # - p: "_{On failing a Reflex save, take half damage.}"
-      
+      - if: "#{half-damage}"
+        then:
+          - p: "_{On failing a Reflex save, take half damage.}"
+
   - copy: improved-save-will
     params:
       title: ""
@@ -53,11 +59,14 @@ inc:
   - copy: improved-save-will-2
     params:
       title: ""
+      half-damage: true
     contents:
       - p: "_{Reduced failure at Will saves.}"
         title: "#{title}"
         icon: save-fail
-      # - p: "_{On failing a Will save, take half damage.}"
+      - if: "#{half-damage}"
+        then:
+          - p: "_{On failing a Will save, take half damage.}"
 
   - copy: expert-save-fort
     params:
@@ -96,9 +105,6 @@ inc:
       - paste: improved-save-fort-2
         params:
           title: "_{Greater Juggernaut}"
-      # CRB p85, make consistent with remaster
-      - p: "_{When you roll a failure on a Fortitude save against an effect that deals damage, halve the damage you take.}"
-        icon: blank
 
   - copy: evasion
     contents:
