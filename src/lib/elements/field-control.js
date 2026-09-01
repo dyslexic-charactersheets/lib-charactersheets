@@ -592,8 +592,12 @@ export let field_control_proficiency = {
   defaults: {
     value: 0,
     icon: true,
+    'rank-icon': true,
     'has-bonus': true,
     format: 'string',
+    category: false,
+    'category-name': '',
+    'category-name-visible': false,
   },
   render(args, reg, doc) {
     switch (args.value) {
@@ -614,11 +618,13 @@ export let field_control_proficiency = {
           'no-bonus': false,
           value: args.value,
           eq: args.eq,
+          category: args.category,
+          'rank-icon': args['rank-icon'],
         },
         {
           subid: 'bonus',
           control: "input",
-          editable: !doc.isLoggedIn,
+          editable: args.category ? true : !doc.isLoggedIn,
         }
       ];
     } else {
@@ -628,8 +634,19 @@ export let field_control_proficiency = {
           control: "proficiency-icon",
           'no-bonus': true,
           value: args.value,
+          category: args.category,
+          'rank-icon': args['rank-icon'],
         }
       ]
+    }
+
+    if (args.category) {
+      args.parts.push({
+        subid: 'category',
+        control: 'category-name',
+        value: args['category-name'],
+        show: args['category-name-visible'],
+      });
     }
 
     return renderCompoundControl(args, reg, doc);
@@ -641,6 +658,9 @@ export let field_control_proficiency_icon = {
   defaults: {
     'no-bonus': true,
     width: 'small',
+    icon: true,
+    category: false,
+    'rank-icon': true,
   },
   render(args) {
     const cls = elementClass("field", "control", { control: "icon", 'no-bonus': args['no-bonus'] }, [ "no-bonus" ], { "control": "input" });
@@ -655,11 +675,28 @@ export let field_control_proficiency_icon = {
       default: value = "untrained";
     }
     let icon = `icon_proficiency-${value}`;
+    const categoryData = args.category ? ` data-category='${args.category}'` : '';
+    const iconGlyph = args['rank-icon'] !== false ? `<i class='icon field--control_proficiency__icon ${icon}'></i>` : '';
 
-    return `<div${cls}>
+    return `<div${cls}${categoryData}>
       <input type='hidden'${fieldIdent(args.id, "rank").ident} class='field--control_proficiency__rank' value='${value}'> `+
-      `<i class='icon field--control_proficiency__icon ${icon}'></i>
+      `${iconGlyph}
     </div>`;
+  }
+}
+
+export let field_control_category_name = {
+  name: 'control:category-name',
+  defaults: {
+    value: '',
+    show: false,
+  },
+  render(args, reg, doc) {
+    const hidden = `<input type='hidden'${fieldIdent(args.id).ident} value='${_e(args.value, doc)}'>`;
+    if (!args.show) {
+      return hidden;
+    }
+    return `${hidden}<span class='field--control_proficiency__category-name'>${_e(args.value, doc)}</span>`;
   }
 }
 
@@ -698,6 +735,7 @@ export let field_control_weapon_type_icon = {
   defaults: {
     value: "melee",
     border: "none",
+    width: 'none',
   },
   render(args) {
     const cls = elementClass("field", "control", { control: "icon" }, [], { "control": "input" });

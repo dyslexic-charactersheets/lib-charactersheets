@@ -413,14 +413,16 @@ export class Document {
         break;
     }
 
-    for (const item_key of ["contents", "placeholder", "header", "inputs", "parts"]) {
-      // log("compose", "Checking for", item_key);
-      if (has(element, item_key)) {
-        // log("compose", "Preparing item", item_key, element[item_key]);
-        if (isArray(element[item_key]))
-          element[item_key] = element[item_key].flatMap(el => this.composeElement(el, registry));
-        else
-          element[item_key] = this.composeElement(element[item_key], registry);
+    if (element.type !== 'repeat') {
+      for (const item_key of ["contents", "placeholder", "header", "inputs", "parts"]) {
+        // log("compose", "Checking for", item_key);
+        if (has(element, item_key)) {
+          // log("compose", "Preparing item", item_key, element[item_key]);
+          if (isArray(element[item_key]))
+            element[item_key] = element[item_key].flatMap(el => this.composeElement(el, registry));
+          else
+            element[item_key] = this.composeElement(element[item_key], registry);
+        }
       }
     }
 
@@ -549,6 +551,10 @@ export class Document {
         // log("Document", "Transform calculation", eq);
         eq = eq.replace('default(', 'defaultValue(');
         eq = eq.replace(/%\{(.*?)\}/g, (match, field) => {
+          let optional = field.endsWith('!');
+          if (optional) {
+            field = field.slice(0, -1);
+          }
           pushDependency(field, id);
           // var found = field.match(/(.*)\|(.*)/);
           // if (found !== null) {
@@ -560,11 +566,14 @@ export class Document {
           if (found !== null) {
             return found[0];
           }
-          if (!field.match(/-misc$/)) {
+          if (!optional && !field.match(/-misc$/)) {
             requiredFields.add(`'${field}'`);
           }
           return `v('${field}')`;
         });
+        if (requiredFields.size === 0) {
+          return `(v) => ${eq}`;
+        }
         return `(v) => req([${[...requiredFields].join(',')}],${eq})`;
       }
 
@@ -887,6 +896,22 @@ export class Document {
 <div id='proficiency-menu__level-hint' class='row valign_center'><div class='row__inner'>
 <span>=</span><span id='proficiency-menu__ref-level'></span><label>Level</label> <span>+</span> <span id='proficiency-menu__plus'></span><span class='spacer'></span>
 </div></div>
+</div></nav>
+
+<nav id='weapon-category-menu' class='control-menu'><div>
+<label for='weapon-category-menu-unarmed'><input type='radio' name='weapon-category-menu' value='Unarmed' id='weapon-category-menu-unarmed'> <i class="icon icon_proficiency-untrained" id='weapon-category-menu-unarmed__icon'></i> <span class='control-menu__label'>${__('Unarmed')}</span></label>
+<label for='weapon-category-menu-simple'><input type='radio' name='weapon-category-menu' value='Simple' id='weapon-category-menu-simple'> <i class="icon icon_proficiency-untrained" id='weapon-category-menu-simple__icon'></i> <span class='control-menu__label'>${__('Simple')}</span></label>
+<label for='weapon-category-menu-martial'><input type='radio' name='weapon-category-menu' value='Martial' id='weapon-category-menu-martial'> <i class="icon icon_proficiency-untrained" id='weapon-category-menu-martial__icon'></i> <span class='control-menu__label'>${__('Martial')}</span></label>
+<label for='weapon-category-menu-advanced'><input type='radio' name='weapon-category-menu' value='Advanced' id='weapon-category-menu-advanced'> <i class="icon icon_proficiency-untrained" id='weapon-category-menu-advanced__icon'></i> <span class='control-menu__label'>${__('Advanced')}</span></label>
+<label for='weapon-category-menu-custom1' id='weapon-category-menu-custom1__row' style='display:none'><input type='radio' name='weapon-category-menu' value='Custom1' id='weapon-category-menu-custom1'> <i class="icon icon_proficiency-untrained" id='weapon-category-menu-custom1__icon'></i> <span class='control-menu__label' id='weapon-category-menu-custom1__label'></span></label>
+<label for='weapon-category-menu-custom2' id='weapon-category-menu-custom2__row' style='display:none'><input type='radio' name='weapon-category-menu' value='Custom2' id='weapon-category-menu-custom2'> <i class="icon icon_proficiency-untrained" id='weapon-category-menu-custom2__icon'></i> <span class='control-menu__label' id='weapon-category-menu-custom2__label'></span></label>
+</div></nav>
+
+<nav id='armour-category-menu' class='control-menu'><div>
+<label for='armour-category-menu-unarmoured'><input type='radio' name='armour-category-menu' value='Unarmoured' id='armour-category-menu-unarmoured'> <i class="icon icon_proficiency-untrained" id='armour-category-menu-unarmoured__icon'></i> <span class='control-menu__label'>${__('Unarmoured')}</span></label>
+<label for='armour-category-menu-light'><input type='radio' name='armour-category-menu' value='Light' id='armour-category-menu-light'> <i class="icon icon_proficiency-untrained" id='armour-category-menu-light__icon'></i> <span class='control-menu__label'>${__('Light')}</span></label>
+<label for='armour-category-menu-medium'><input type='radio' name='armour-category-menu' value='Medium' id='armour-category-menu-medium'> <i class="icon icon_proficiency-untrained" id='armour-category-menu-medium__icon'></i> <span class='control-menu__label'>${__('Medium')}</span></label>
+<label for='armour-category-menu-heavy'><input type='radio' name='armour-category-menu' value='Heavy' id='armour-category-menu-heavy'> <i class="icon icon_proficiency-untrained" id='armour-category-menu-heavy__icon'></i> <span class='control-menu__label'>${__('Heavy')}</span></label>
 </div></nav>
 
 <nav id='weapon-type-menu' class='control-menu'><div>
