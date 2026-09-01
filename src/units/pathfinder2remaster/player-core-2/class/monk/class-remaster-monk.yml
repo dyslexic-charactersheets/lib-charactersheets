@@ -54,6 +54,42 @@ inc:
   - set: unarmoured-proficiency
     value: expert
 
+  - paste: saving-throw-override
+    params:
+      save: fortitude
+      thresholds: "[null,1,null,null]"
+  - paste: saving-throw-override
+    params:
+      save: reflex
+      thresholds: "[null,1,null,null]"
+  - paste: saving-throw-override
+    params:
+      save: will
+      thresholds: "[null,1,null,null]"
+
+  - paste: unarmed-proficiency-override
+    params:
+      thresholds: "[1,5,13,null]"
+  - paste: simple-weapons-proficiency-override
+    params:
+      thresholds: "[1,5,13,null]"
+
+  - paste: unarmoured-proficiency-override
+    params:
+      thresholds: "[null,1,13,17]"
+
+  - paste: class-dc-proficiency-override
+    params:
+      class: monk
+      thresholds: "[1,9,17,null]"
+
+  - at: '@key-attribute-field'
+    replace:
+      - field: key-attribute
+        label: "_{Wisdom}"
+        underlay: "_{WIS}"
+        ref: WIS
+
   - at: '@advancement'
     add:
       - level: 1
