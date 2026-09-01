@@ -1298,6 +1298,9 @@ inc:
                           - zone: '@saving-throw-header/item'
                             contents:
                               - "_{Item}"
+                          - icon: save-crit-succeed
+                          - icon: save-succeed
+                          - icon: save-fail
                         rows:
                           - save: fortitude
                             legend: "_{Fortitude}"
@@ -1346,6 +1349,11 @@ inc:
                                 down: false
                                 frame: none
                                 width: tiny
+                              - field: "#{save}-auto-success"
+                                control: boost
+                                down: false
+                                frame: none
+                                width: tiny
                               - field: "#{save}-reduce-fail"
                                 control: boost
                                 down: false
@@ -1355,29 +1363,21 @@ inc:
                       - p: "_{Save DC = 10 + Save Bonus}"
                         optional: true
 
-                      - layout: indent-rw
-                        contents:
-                          - p: 
-                            id: save-upgrade-success
-                            icon: save-crit-succeed
-                            title: "_{Upgrade success}"
-                            content: "_{When you roll a success, it becomes critical success}"
-                      - layout: indent-r
-                        contents:
-                          - p:
-                            id: save-reduce-fail
-                            icon: save-fail
-                            title: "_{Reduce failure}"
-                            content: "_{When you roll a critical failure, it becomes failure}"
-
-                      - arrow: right-up
-                        from: p-save-upgrade-success
-                        to: field-will-upgrade-success
-                        anchor: to
-                      - arrow: right-up
-                        from: p-save-reduce-fail
-                        to: field-will-reduce-fail
-                        anchor: to
+                      - p:
+                        id: save-upgrade-success
+                        icon: save-crit-succeed
+                        title: "_{Upgrade success}"
+                        content: "_{Success &rarr; Critical Success}"
+                      - p:
+                        id: save-auto-success
+                        icon: save-succeed
+                        title: "_{Auto success}"
+                        content: "_{Failure &rarr; Success}"
+                      - p:
+                        id: save-reduce-fail
+                        icon: save-fail
+                        title: "_{Reduce failure}"
+                        content: "_{Critical Failure &rarr; Failure}"
 
                       - hr:
                         light: true
