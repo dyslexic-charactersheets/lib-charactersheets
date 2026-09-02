@@ -326,7 +326,165 @@ if (showValuesToggle != null) {
 
 
 
+function getRawFieldValue(name) {
+  for (var input of document.getElementsByName(name)) {
+    return input.value;
+  }
+  return '';
+}
+
+function parseBulkValue(raw) {
+  var str = (raw === null || raw === undefined) ? '' : ('' + raw).trim();
+  if (str === '') {
+    return 0;
+  }
+  var match = /^(\d*\.?\d*)L$/i.exec(str);
+  if (match) {
+    var lightAmount = (match[1] === '') ? 1 : parseFloat(match[1]);
+    return isNaN(lightAmount) ? 0 : lightAmount * 0.1;
+  }
+  match = /^(\d*\.?\d+)B$/i.exec(str);
+  if (match) {
+    var explicitBulk = parseFloat(match[1]);
+    return isNaN(explicitBulk) ? 0 : explicitBulk;
+  }
+  match = /^(\d*\.?\d+)$/.exec(str);
+  if (match) {
+    var plainBulk = parseFloat(match[1]);
+    return isNaN(plainBulk) ? 0 : plainBulk;
+  }
+  return 0;
+}
+
+function parseCurrencyValue(raw) {
+  var str = (raw === null || raw === undefined) ? '' : ('' + raw).trim();
+  if (str === '') {
+    return 0;
+  }
+  var match = /^(\d*\.?\d+)\s*(pp|gp|sp|cp)$/i.exec(str);
+  if (match) {
+    var amount = parseFloat(match[1]);
+    if (isNaN(amount)) {
+      return 0;
+    }
+    switch (match[2].toLowerCase()) {
+      case 'pp': return amount * 10;
+      case 'gp': return amount;
+      case 'sp': return amount * 0.1;
+      case 'cp': return amount * 0.01;
+    }
+  }
+  var plain = parseFloat(str);
+  return isNaN(plain) ? 0 : plain;
+}
+
+function itemFieldBases(prefix, count) {
+  var bases = [];
+  for (var i = 1; i <= count; i++) {
+    bases.push(prefix + '-' + i);
+  }
+  return bases;
+}
+
+function sumBulkFields(baseNames, suffix) {
+  var total = 0;
+  baseNames.forEach(function (base) {
+    total += parseBulkValue(getRawFieldValue(base + suffix));
+  });
+  return total;
+}
+
+function sumNumberFields(baseNames, suffix) {
+  var total = 0;
+  baseNames.forEach(function (base) {
+    total += parseCurrencyValue(getRawFieldValue(base + suffix));
+  });
+  return total;
+}
+
+function readCompoundBulk(id) {
+  var bulkInput = document.getElementById(id + '--bulk');
+  var lightInput = document.getElementById(id + '--light');
+  var bulk = (bulkInput && bulkInput.value !== '') ? (parseFloat(bulkInput.value) || 0) : 0;
+  var light = (lightInput && lightInput.value !== '') ? (parseFloat(lightInput.value) || 0) : 0;
+  return bulk + (light * 0.1);
+}
+
+function writeCompoundBulk(id, totalBulk) {
+  if (totalBulk < 0 || isNaN(totalBulk)) {
+    totalBulk = 0;
+  }
+  var bulk = Math.floor(totalBulk + 1e-9);
+  var light = Math.round((totalBulk - bulk) * 10);
+  if (light >= 10) {
+    bulk += 1;
+    light = 0;
+  }
+  var bulkInput = document.getElementById(id + '--bulk');
+  var lightInput = document.getElementById(id + '--light');
+  if (bulkInput !== null) {
+    bulkInput.value = (bulk === 0) ? '' : bulk;
+  }
+  if (lightInput !== null) {
+    lightInput.value = (light === 0) ? '' : light;
+  }
+}
+
+function writeNumberField(name, total) {
+  var field = document.getElementById(name);
+  if (field !== null) {
+    total = Math.round(total * 100) / 100;
+    field.value = (total === 0) ? '' : total;
+  }
+}
+
+var inventoryItemBases = itemFieldBases('inventory-item', 8).concat(itemFieldBases('inventory-item-large', 2));
+var inventoryBackpackBases = itemFieldBases('inventory-backpack', 16);
+
+function updateInventoryTotals() {
+  var backpackBulk = sumBulkFields(inventoryBackpackBases, '-weight')
+    + parseBulkValue(getRawFieldValue('inventory-kit-weight')) - 2;
+  if (backpackBulk < 0) {
+    backpackBulk = 0;
+  }
+  writeCompoundBulk('weight-backpack-total', backpackBulk);
+
+  var totalBulk = sumBulkFields(inventoryItemBases, '-weight');
+  totalBulk += parseBulkValue(getRawFieldValue('armour-bulk'));
+  totalBulk += parseBulkValue(getRawFieldValue('shield-bulk'));
+  totalBulk += readCompoundBulk('weight-backpack-total');
+  writeCompoundBulk('weight-total', totalBulk);
+
+  var totalGold = sumNumberFields(inventoryItemBases, '-value');
+  totalGold += sumNumberFields(inventoryBackpackBases, '-value');
+  totalGold += parseCurrencyValue(getRawFieldValue('inventory-kit-value'));
+  totalGold += (parseFloat(getRawFieldValue('money-platinum')) || 0) * 10;
+  totalGold += (parseFloat(getRawFieldValue('money-gold')) || 0);
+  totalGold += (parseFloat(getRawFieldValue('money-silver')) || 0) * 0.1;
+  totalGold += (parseFloat(getRawFieldValue('money-copper')) || 0) * 0.01;
+  writeNumberField('gold-total', totalGold);
+}
+
+function setupInventoryTotals() {
+  var sourceNames = inventoryItemBases.map(function (b) { return b + '-weight'; })
+    .concat(inventoryItemBases.map(function (b) { return b + '-value'; }))
+    .concat(inventoryBackpackBases.map(function (b) { return b + '-weight'; }))
+    .concat(inventoryBackpackBases.map(function (b) { return b + '-value'; }))
+    .concat(['inventory-kit-weight', 'inventory-kit-value', 'armour-bulk', 'shield-bulk',
+      'money-platinum', 'money-gold', 'money-silver', 'money-copper']);
+
+  sourceNames.forEach(function (name) {
+    for (var input of document.getElementsByName(name)) {
+      input.addEventListener('input', updateInventoryTotals);
+      input.addEventListener('change', updateInventoryTotals);
+    }
+  });
+  updateInventoryTotals();
+}
+
+
 window.addEventListener('load', (event) => {
   console.log("Initialising calculation");
   initCalculations();
+  setupInventoryTotals();
 });
