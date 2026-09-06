@@ -35,8 +35,8 @@ export let repeat = {
     let end = start + repeat;
     for (let i = start; i < end; i++) {
       let vars = {};
-      if (i <= args.rows.length) {
-        vars = args.rows[i - 1];
+      if (i - start < args.rows.length) {
+        vars = args.rows[i - start];
       }
       vars[args.index] = i;
       const items = interpolate(args.contents, vars);

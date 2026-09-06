@@ -88,6 +88,17 @@ function threshold(num, thresholds) {
   return result;
 }
 
+function proficiencyThreshold(num, milestones) {
+  var ranks = ['trained', 'expert', 'master', 'legendary'];
+  var result = '';
+  for (var i = 0; i < milestones.length; i++) {
+    if (milestones[i] !== null && num >= milestones[i]) {
+      result = ranks[i];
+    }
+  }
+  return result;
+}
+
 function req(fields, result) {
   if (result === null || isNaN(result) || result === "NaN" || result === "+NaN") {
     return '';
@@ -106,11 +117,20 @@ function recalculateField(name) {
   if (calculations.hasOwnProperty(name)) {
     try {
       var newValue = calculations[name](valueOf);
-      if (newValue === null || newValue === undefined || isNaN(newValue)) {
+      if (newValue === null || newValue === undefined) {
+        return;
+      }
+      if (typeof newValue === 'number' && isNaN(newValue)) {
         return;
       }
       knownValues[name] = newValue;
-      setFieldValue(name, newValue);
+
+      var proficiencyField = document.getElementById('field-'+name);
+      if (proficiencyField !== null && proficiencyField.getElementsByClassName('field--control_proficiency__rank').length > 0) {
+        setProficiencyValue('field-'+name, newValue);
+      } else {
+        setFieldValue(name, newValue);
+      }
     } catch (x) {
       console.log(`Error in field '${name}':`, x);
     }
@@ -277,9 +297,16 @@ function redoKeyAbility() {
   }
 }
 
+function getRawFieldValue(name) {
+  for (var input of document.getElementsByName(name)) {
+    return input.value;
+  }
+  return '';
+}
+
 function redoProficiency() {
   var bonuses = {
-    untrained: 0,
+    untrained: '',
     trained: '',
     expert: '',
     master: '',
@@ -306,6 +333,12 @@ function redoProficiency() {
     for (var control of field.getElementsByClassName('field__control')) {
       if (!control.classList.contains('field__control--control_icon')) {
         for (var input of control.getElementsByTagName('input')) {
+          if (input.type === 'hidden') {
+            continue;
+          }
+          if (input.getAttribute('data-custom') === 'true') {
+            continue;
+          }
           input.value = bonuses[proficiency];
           input.dispatchEvent(new Event('change'));
         }

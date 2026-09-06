@@ -111,7 +111,7 @@ export function fieldDefaults(args, reg, doc) {
   if (args.control == "money") {
     args.width = "";
   }
-  if (args.control == "proficiency" && !args['has-bonus']) {
+  if (args.control == "proficiency" && !args['has-bonus'] && !args.category) {
     args.width = "tiny";
     args.border = "none";
     args.icon = false;

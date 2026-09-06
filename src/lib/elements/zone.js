@@ -36,7 +36,7 @@ export let zone = {
     
     // log("zone", "Context", ctx.vars);
     // log("zone", "Params", args.params);
-    contents = interpolate(contents, args.params, ctx);
+    contents = interpolate(contents, args.params);
     // log("zone",`[${args.zone}] Contents`, contents);
 
     // sort the contents

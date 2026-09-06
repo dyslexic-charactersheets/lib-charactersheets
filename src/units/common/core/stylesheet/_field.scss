@@ -135,6 +135,21 @@
   @include field_width("huge", 2 * $field-width, 5);
   @include field_width("gargantuan", 3 * $field-width, 6);
 
+  @mixin field_width_undeducted($name, $width) {
+    &.field--icon.field--control_speed .field__control--width_#{$name},
+    &.field--icon.field--control_compound .field__control--width_#{$name} {
+      width: $width - $frame-width;
+    }
+  }
+
+  @include field_width_undeducted("none", 0);
+  @include field_width_undeducted("tiny", 0.5 * $field-width);
+  @include field_width_undeducted("small", 0.8 * $field-width);
+  @include field_width_undeducted("medium", $field-width);
+  @include field_width_undeducted("large", 1.5 * $field-width);
+  @include field_width_undeducted("huge", 2 * $field-width);
+  @include field_width_undeducted("gargantuan", 3 * $field-width);
+
   &.field--width_stretch {
     width: auto;
     display: flex;
