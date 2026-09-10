@@ -71,9 +71,99 @@ export function esc(content, newlines = false, bbformat = true) {
   return content;
 }
 
+const ACTION_ICONS = {
+  'bon mot': 'action',
+  'cover tracks': 'action',
+  'create a distraction': 'action',
+  'create a diversion': 'action',
+  'demoralise': 'action',
+  'devise a stratagem': 'action',
+  'dirty trick': 'action',
+  'disarm': 'action',
+  'escape': 'action',
+  'feint': 'action',
+  'grapple': 'action',
+  'grapples': 'action',
+  'hide': 'action',
+  'lie': 'action',
+  'lies': 'action',
+  'make an impression': 'action',
+  'making an impression': 'action',
+  'perform': 'action',
+  'point out': 'action',
+  'quick alchemy': 'action',
+  'reactive strike': 'reaction',
+  'recall knowledge': 'action',
+  'reposition': 'action',
+  'requests': 'action',
+  'seek': 'action',
+  'sense motive': 'action',
+  'shove': 'action',
+  'step': 'action',
+  'stride': 'action',
+  'strike': 'action',
+  'strikes': 'action',
+  'sustain': 'action',
+  'track': 'action',
+  'trip': 'action',
+  'tumble through': 'action',
+};
+
+const SKILL_ATTRIBUTES = {
+  acrobatics: 'DEX',
+  arcana: 'INT',
+  athletics: 'STR',
+  crafting: 'INT',
+  deception: 'CHA',
+  diplomacy: 'CHA',
+  intimidation: 'CHA',
+  medicine: 'WIS',
+  nature: 'WIS',
+  occultism: 'INT',
+  perception: 'WIS',
+  performance: 'CHA',
+  religion: 'WIS',
+  society: 'INT',
+  stealth: 'DEX',
+  survival: 'WIS',
+  thievery: 'DEX',
+  lore: 'INT',
+};
+
+function capitalise(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
 export function format_string(content) {
   content = content.replace(/\[b\](.*?)\[\/b\]/g, '<b>$1</b>');
   content = content.replace(/\[i\](.*?)\[\/i\]/g, '<i>$1</i>');
+  content = content.replace(/\[trait\](.*?)\[\/trait\]/g, (m, word) => `<span class='flag'>${capitalise(word)}</span>`);
+  content = content.replace(/\[effect\](.*?)\[\/effect\]/g, (m, word) => `<span class='effect'>${capitalise(word)}</span>`);
+  content = content.replace(/\[action\](.*?)\[\/action\]/g, (m, word) => {
+    const icon = ACTION_ICONS[word.toLowerCase()];
+    const iconHtml = icon ? `<i class="icon icon_${icon} icon--inline"></i>&nbsp;` : '';
+    return `${iconHtml}<span class='action'>${capitalise(word)}</span>`;
+  });
+  content = content.replace(/\[skill\](.*?)\[\/skill\]/g, (m, word) => {
+    const attr = SKILL_ATTRIBUTES[word.toLowerCase()];
+    const cls = attr ? `skill colour_${attr}` : 'skill';
+    return `<span class='${cls}'>${capitalise(word)}</span>`;
+  });
+  content = content.replace(/\[prof\](.*?)\[\/prof\]/g, (m, word) => `<span class='prof'>${capitalise(word)}</span>`);
+  for (const rank of ['untrained', 'trained', 'expert', 'master', 'legendary']) {
+    const re = new RegExp(`\\[${rank}\\]`, 'g');
+    content = content.replace(re, `<i class="icon icon_proficiency-${rank} icon--inline"></i>`);
+  }
+  content = content.replace(/\[dtype\](.*?)\[\/dtype\]/g, (m, word) => `<span class='dtype'>${capitalise(word)}</span>`);
+  content = content.replace(/\[str\]/g, "<span class='colour_STR'>STR</span>");
+  content = content.replace(/\[dex\]/g, "<span class='colour_DEX'>DEX</span>");
+  content = content.replace(/\[con\]/g, "<span class='colour_CON'>CON</span>");
+  content = content.replace(/\[int\]/g, "<span class='colour_INT'>INT</span>");
+  content = content.replace(/\[wis\]/g, "<span class='colour_WIS'>WIS</span>");
+  content = content.replace(/\[cha\]/g, "<span class='colour_CHA'>CHA</span>");
+  content = content.replace(/\[fort\]/g, "<span class='colour_CON'>Fortitude</span>");
+  content = content.replace(/\[reflex\]/g, "<span class='colour_DEX'>Reflex</span>");
+  content = content.replace(/\[will\]/g, "<span class='colour_WIS'>Will</span>");
   return content;
 }
 
