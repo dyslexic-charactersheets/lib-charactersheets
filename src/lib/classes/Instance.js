@@ -71,13 +71,13 @@ export class Instance {
     log("Instance", "Dyslexic font", dyslexicFont);
     switch(dyslexicFont) {
       case 'dyslexie':
-        char.units.push('dyslexie');
+        char.units.push('font/dyslexie');
         break;
       case 'lexend':
-        char.units.push('lexend');
+        char.units.push('font/lexend');
         break;
       default:
-        char.units.push('dyslexic');
+        char.units.push('font/dyslexic');
         break;
     }
   }
