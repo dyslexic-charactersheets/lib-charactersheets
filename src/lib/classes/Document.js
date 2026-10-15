@@ -971,7 +971,7 @@ export class Document {
 <html lang='${this.language}' class='${htmlClasses.join(" ")}'>
 <head>
 <meta charset='utf-8'/>
-<title>${esc(this.doc.title)}</title>
+<title>${esc(this.doc.title, this.doc)}</title>
 ${favicon}
 <style>
 ${stylesheet}

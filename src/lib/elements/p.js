@@ -48,8 +48,8 @@ export let p = {
 
       let title = (args.title != '') ? `<span class='p__title'>${_e(args.title, doc)}</span>` : '';
       let firstpara = paras.shift();
-      firstpara = `<p${cls}><span class='p__inner'>${icon}<span class='p__content'>${title}${esc(firstpara)}</span></span></p>`;
-      paras = paras.map(p => `<p${cls}>${esc(p)}</p>`);
+      firstpara = `<p${cls}><span class='p__inner'>${icon}<span class='p__content'>${title}${esc(firstpara, doc)}</span></span></p>`;
+      paras = paras.map(p => `<p${cls}>${esc(p, doc)}</p>`);
       paras = [firstpara, ...paras];
 
       let prosecls = elementClass('prose', null, args, ['blk'], { 'columns': 1 })

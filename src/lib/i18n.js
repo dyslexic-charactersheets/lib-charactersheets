@@ -49,12 +49,12 @@ export function __(str, doc) {
 }
 
 export function _e(str, doc) {
-  return esc(__(str, doc), true, true);
+  return esc(__(str, doc), doc, true, true);
 }
 
 
 // Escape strings for HTML
-export function esc(content, newlines = false, bbformat = true) {
+export function esc(content, doc, newlines = false, bbformat = true) {
   content = content.replace(/#{.*?}/g, '');
   // content = _.escape(content);
   content = content.replace(/’/g, '&rsquo;').replace(/‘/g, '&lsquo;');
@@ -66,7 +66,7 @@ export function esc(content, newlines = false, bbformat = true) {
   }
 
   if (bbformat) {
-    content = format_string(content);
+    content = format_string(content, doc);
   }
   return content;
 }
@@ -112,7 +112,6 @@ const ACTION_ICONS = {
   */
 };
 
-// TODO get the game code somehow
 // TODO find a way to offload this to system metadata
 const SKILL_ATTRIBUTES = {
   pathfinder2: {
@@ -162,7 +161,7 @@ function capitalise(word) {
   return word.charAt(0).toUpperCase() + word.slice(1);
 }
 
-export function format_string(content) {
+export function format_string(content, doc) {
   content = content.replace(/\[b\](.*?)\[\/b\]/g, '<b>$1</b>');
   content = content.replace(/\[i\](.*?)\[\/i\]/g, '<i>$1</i>');
   content = content.replace(/\[trait\](.*?)\[\/trait\]/g, (m, word) => `<span class='flag'>${capitalise(word)}</span>`);
@@ -170,12 +169,12 @@ export function format_string(content) {
   content = content.replace(/\[action\](.*?)\[\/action\]/g, (m, word) => {
     const icon = ACTION_ICONS[word.toLowerCase()];
     const iconHtml = icon ? `<i class="icon icon_${icon} icon--inline"></i>&nbsp;` : '';
-    return `${iconHtml}<span class='action'>${capitalise(translate(word))}</span>`;
+    return `${iconHtml}<span class='action'>${capitalise(translate(word, doc))}</span>`;
   });
   content = content.replace(/\[skill\](.*?)\[\/skill\]/g, (m, word) => {
-    const attr = SKILL_ATTRIBUTES[gamecode][word.toLowerCase()];
+    const attr = SKILL_ATTRIBUTES[doc.system][word.toLowerCase()];
     const cls = attr ? `skill colour_${attr}` : 'skill';
-    return `<span class='${cls}'>${capitalise(translate(word))}</span>`;
+    return `<span class='${cls}'>${capitalise(translate(word, doc))}</span>`;
   });
   content = content.replace(/\[prof\](.*?)\[\/prof\]/g, (m, word) => `<span class='prof'>${capitalise(word)}</span>`);
   for (const rank of ['untrained', 'trained', 'expert', 'master', 'legendary']) {
@@ -183,15 +182,15 @@ export function format_string(content) {
     content = content.replace(re, `<i class="icon icon_proficiency-${rank} icon--inline"></i>`);
   }
   content = content.replace(/\[dtype\](.*?)\[\/dtype\]/g, (m, word) => `<span class='dtype'>${capitalise(word)}</span>`);
-  content = content.replace(/\[str\]/g, `<span class='colour_STR'>${translate('STR')}</span>`);
-  content = content.replace(/\[dex\]/g, `<span class='colour_DEX'>${translate('DEX')}</span>`);
-  content = content.replace(/\[con\]/g, `<span class='colour_CON'>${translate('CON')}</span>`);
-  content = content.replace(/\[int\]/g, `<span class='colour_INT'>${translate('INT')}</span>`);
-  content = content.replace(/\[wis\]/g, `<span class='colour_WIS'>${translate('WIS')}</span>`);
-  content = content.replace(/\[cha\]/g, `<span class='colour_CHA'>${translate('CHA')}</span>`);
-  content = content.replace(/\[fort\]/g, `<span class='colour_CON'>${translate('Fortitude')}</span>`);
-  content = content.replace(/\[reflex\]/g, `<span class='colour_DEX'>${translate('Reflex')}</span>`);
-  content = content.replace(/\[will\]/g, `<span class='colour_WIS'>${translate('Will')}</span>`);
+  content = content.replace(/\[str\]/g, `<span class='colour_STR'>${translate('STR', doc)}</span>`);
+  content = content.replace(/\[dex\]/g, `<span class='colour_DEX'>${translate('DEX', doc)}</span>`);
+  content = content.replace(/\[con\]/g, `<span class='colour_CON'>${translate('CON', doc)}</span>`);
+  content = content.replace(/\[int\]/g, `<span class='colour_INT'>${translate('INT', doc)}</span>`);
+  content = content.replace(/\[wis\]/g, `<span class='colour_WIS'>${translate('WIS', doc)}</span>`);
+  content = content.replace(/\[cha\]/g, `<span class='colour_CHA'>${translate('CHA', doc)}</span>`);
+  content = content.replace(/\[fort\]/g, `<span class='colour_CON'>${translate('Fortitude', doc)}</span>`);
+  content = content.replace(/\[reflex\]/g, `<span class='colour_DEX'>${translate('Reflex', doc)}</span>`);
+  content = content.replace(/\[will\]/g, `<span class='colour_WIS'>${translate('Will', doc)}</span>`);
   return content;
 }
 
