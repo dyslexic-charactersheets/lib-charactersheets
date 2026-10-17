@@ -1,0 +1,193 @@
+unit: archetype/remaster/investigator
+in: archetype
+group: "_{Player Core 2}"
+name: "_{Investigator}"
+multiclass: true
+
+require:
+  - unit: defs/archetypes
+  - deny: archetype/investigator
+
+inc:
+  - set: crafting-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Investigator}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-investigator
+        name: "_{Investigator}"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: investigator
+                      - class-name: "_{Investigator}"
+
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Trained in Society and one other skill}"
+                        icon: proficiency-trained
+
+                      - hr:
+                      - g:
+                        contents:
+                          - h5: "_{Pursue a Lead}"
+                          - p: "_{Spend a minute examining clues. Open an investigation by defining the central question of a large mystery.}"
+                          - h5: "_{Investigation}"
+                          - row:
+                            contents:
+                              - h5: "1"
+                              - field: investigator/pursue-a-lead/subject-1
+                                width: stretch
+                          - row:
+                            contents:
+                              - h5: "2"
+                              - field: investigator/pursue-a-lead/subject-2
+                                frame: none
+                                width: stretch
+                          - indent: l
+                            contents:
+                              - value-block: "+1"
+                                content: "_{Bonus to Perception and skill checks to investigate the question of an active investigation.}"
+                          
+                      - hr:
+                      - action: reaction
+                        contents:
+                          - p:
+                            title: "_{Clue In}"
+                            content: "_{Share info to grant your Pursue a Lead bonus to a creature's check toward one of your investigations.}"
+                
+                  - section: "_{Deduction}"
+                    mark: investigator
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: investigator-feats
+                          num: 2
+                          class-level: "_{Investigator\nLevel}"
+                          basic-title: "_{Basic Deduction}"
+                          advanced-title: "_{Advanced Deduction}"
+                          lines: 3
+                  - tail:
+
+
+              - g:
+                contents:
+                  - section: "_{Investigator's Stratagem}"
+                    contents:
+                      
+                      - article: "##:investigators-stratagem"
+                        title: "_{Investigator's Stratagem}"
+                        cat: "_{Feat} 4"
+                        contents:
+                          - list:
+                            hr: true
+                            contents:
+                              - selectable: 'investigators-stratagem'
+                                contents:
+                                  - action:
+                                    contents:
+                                      - p: "_{Once per round, choose a creature you can see and roll a d20 in advance.}"
+                                      - row:
+                                        contents:
+                                          - field: "##:devise-a-stratagem/roll"
+                                            border: full
+                                            legend: "_{Roll}"
+                                          - field: "##:devise-a-stratagem/target"
+                                            width: stretch
+                                            label: "_{Target}"
+
+                              - g:
+                                contents:
+                                  - h5: "_{Attack Stratagem}"
+                                  - p: "_{Before your next turn, Strike the chosen creature using the rolled result.}"
+                                  - row:
+                                    contents:
+                                      - field:
+                                        ref: INT
+                                        label: "_{INT}"
+                                        underlay: "_{INT}"
+                                      - p: "_{Add INT instead of STR or DEX for that attack, provided you're wielding an agile or finesse melee or thrown weapon, a ranged weapon, or a sap.}"
+
+                              - g:
+                                contents:
+                                  - h5: "_{Skill Stratagem}"
+                                  - p: "_{You can't Strike the target before your next turn.}"
+
+                                  - value-block: "+1"
+                                    content: "_{Your next INT, WIS or CHA skill, Perception check, or Pursue a Lead.}"
+
+                              - action: free
+                                contents:
+                                  - p: "_{Devise a Stratagem as a free action against a creature relevant to one of your active investigations.}"
+
+                  - section: "_{Archetype Feats}"
+                    contents:
+                            
+                      - article: "##:keen-recollection"
+                        title: "_{Keen Recollection}"
+                        cat: "_{Feat} 6"
+                        merge-bottom: false
+                        contents:
+                          - selectable: 'keen-recollection'
+                            contents:
+                              - row:
+                                contents:
+                                  - field:
+                                    ref: level
+                                    label: "_{Level}"
+                                  - p: "_{Proficiency bonus to untrained checks to Recall Knowledge}"
+                            
+                      - article: "##:skill-mastery"
+                        title: "_{Skill Mastery}"
+                        cat: "_{Feat} 8"
+                        contents:
+                          - selectable: 'skill-mastery'
+                            contents:
+                              - row:
+                                contents:
+                                  - icon: proficiency-expert
+                                  - span: "&rarr;"
+                                  - icon: proficiency-master
+                                  - spacer:
+
+                                  - vr:
+
+                                  - icon: proficiency-trained
+                                  - span: "&rarr;"
+                                  - icon: proficiency-expert
+                                  - spacer:
+
+                              - hr:
+                                light: true
+
+                              - label: "_{Skill feat}"
+                                align: left
+                              
+                              - article: "##:skill-mastery/feat"
+                                merge-bottom: false
+                                lines: 3
+                            
+                      - article: "##:master-spotter"
+                        title: "_{Master Spotter}"
+                        cat: "_{Feat} 12"
+                        merge-bottom: false
+                        contents:
+                          - selectable: 'master-spotter'
+                            contents:
+                              - p: "_{Perception}"
+                                icon: proficiency-master
+
+                  - tail:

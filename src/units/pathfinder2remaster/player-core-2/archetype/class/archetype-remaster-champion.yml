@@ -33,23 +33,22 @@ inc:
                     flex: tiny
                     contents:
                       - class-icon: champion
-                      - class-name: "_{Champion}"
+                      - zone: '@champion/class-name'
+                        contents:
+                          - class-name: ""
+                            suffix: "_{Champion of}"
+                      - field: cleric-deity
+                        label: "_{Deity}"
+                        width: stretch
+                        align: center
 
                   - section: "_{Dedication}"
                     contents:
-                      - 
-                      - p: "_{Trained in Religion and your deity's skill}"
+                      - p: "_{Trained in Religion and your deity's skills}"
+                        icon: proficiency-trained
+                      - p: "_{Trained in light and medium armour}"
                         icon: proficiency-trained
 
-                      
-
-                  - section: "_{Archetype Feats}"
-                    contents:
-
-                  - tail:
-
-              - g:
-                contents:
 
                   - section: "_{Devotion}"
                     mark: champion
@@ -57,9 +56,102 @@ inc:
                       - paste: archetype-feats
                         params:
                           id: champion-feats
+                          num: 3
                           class-level: "_{Champion\nLevel}"
                           basic-title: "_{Basic Devotion}"
                           advanced-title: "_{Advanced Devotion}"
                           lines: 4
+
+                  - tail:
+
+              - g:
+                contents:
+                  - section: "_{Cause}"
+                    primary: true
+                    contents:
+                      - zone: '@champion/cause/title'
+                        contents:
+                          - field: champion-cause
+                            size: huge
+                            width: stretch
+                            frame: none
+                            merge-bottom: true
+                      - hr:
+                        swash: true
+                      - g:
+                        contents:
+                          - paste: anathema
+                            params:
+                              id: edicts
+                              title: "_{Edicts}"
+                              lines: 3
+                              merge-bottom: false
+                          - paste: anathema
+                            params:
+                              lines: 3
+                              merge-bottom: false
+                          - p: "_{If you violate your edicts or anathema, you lose your Focus Points and blessing of the devoted until you demonstrate repentance.}"
+
+                  - section: "_{Archetype Feats}"
+                    contents:
+                      - article: "##:champion-resiliency"
+                        title: "_{Champion Resiliency}"
+                        cat: "_{Feat} 4"
+                        merge-bottom: false
+                        contents:
+                          - selectable: 'champion-resiliency'
+                            contents:
+                              - calc:
+                                output:
+                                  field: "##:champion-resiliency/bonus-hp"
+                                  legend: "_{Bonus Hit Points}"
+                                  width: large
+                                  suffix: "_{hp}"
+                                  eq: "3*%{##:champion-resiliency/n-feats}"
+                                inputs:
+                                  - span: "3 &times;"
+                                  - field: "##:champion-resiliency/n-feats"
+                                    label: "_{Archetype Feats}"
+
+                      - article: "##:devout-magic"
+                        title: "_{Devout Magic}"
+                        cat: "_{Feat} 4"
+                        merge-bottom: false
+                        contents:
+                          - selectable: 'devout-magic'
+                            contents:
+                              - layout: indent-r
+                                contents:
+                                  - field: "##:devout-magic/devotion-spell"
+                                    label: "_{Devotion Spell}"
+                                    width: stretch
+                                    
+                                  - cost: "_{1pt}"
+                                    unit: "_{Focus}"
+
+                      - article: "##:champions-reaction"
+                        title: "_{Champion's Reaction}"
+                        cat: "_{Feat} 6"
+                        contents:
+                          - selectable: 'champions-reaction'
+                            contents:
+                              - article:
+                                merge-bottom: false
+                                action: reaction
+                                lines: 3
+
+                      - article: "##:devout-blessing"
+                        title: "_{Devout Blessing}"
+                        cat: "_{Feat} 4"
+                        contents:
+                          - selectable: 'devout-blessing'
+                            contents:
+                              - field: champion-blessing
+                                width: stretch
+                                frame: none
+                                control: p
+                                lines: 5
+                                with-title: false
+                                merge-bottom: true
 
                   - tail:
