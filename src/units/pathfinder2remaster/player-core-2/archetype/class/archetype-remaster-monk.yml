@@ -1,0 +1,133 @@
+unit: archetype/remaster/monk
+in: archetype
+group: "_{Player Core 2}"
+name: "_{Monk}"
+multiclass: true
+
+require:
+  - unit: defs/archetypes
+  - deny: archetype/monk
+
+inc:
+  - at: '@archetypes'
+    add:
+      - name: "_{Monk}"
+        num-feats: 3
+
+  - at: '@reference/action-traits'
+    add:
+      - flourish
+
+  - at: '@pages'
+    add:
+      - page: archetype-monk
+        name: "_{Monk}"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: monk
+                      - class-name: "_{Monk}"
+
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Trained in Unarmed attacks}"
+                        icon: proficiency-trained
+                        
+                      - p: "_{Trained in Acrobatics or Athletics}"
+                        icon: proficiency-trained
+
+                      - hr:
+
+                      - h5: "_{Powerful Fist}"
+                      - value-block: "_{1d6}"
+                        content: "_{Unarmed damage with your fist.}"
+                      - p: "_{Non-lethal unarmed attacks don't get a -2 penalty.}"
+                      
+
+                  - section: "_{Archetype Feats}"
+                    contents:
+                      - article: "##:monk-resiliency"
+                        title: "_{Monk Resiliency}"
+                        cat: "_{Feat} 4"
+                        merge-bottom: false
+                        contents:
+                          - selectable: 'monk-resiliency'
+                            contents:
+                              - calc:
+                                output:
+                                  field: "##:monk-resiliency/bonus-hp"
+                                  legend: "_{Bonus Hit Points}"
+                                  width: large
+                                  suffix: "_{hp}"
+                                  eq: "3*%{##:monk-resiliency/n-feats}"
+                                inputs:
+                                  - span: "3 &times;"
+                                  - field: "##:monk-resiliency/n-feats"
+                                    label: "_{Archetype Feats}"
+
+                      - article: "##:monk-moves"
+                        title: "_{Monk Moves}"
+                        cat: "_{Feat} 8"
+                        merge-bottom: false
+                        contents:
+                          - selectable: 'monk-moves'
+                            contents:
+                              - row:
+                                contents:
+                                  - span: "+_{10ft}"
+                                  - p: "_{Speed when unarmoured}"
+
+                      - article: "##:monks-flurry"
+                        title: "_{Monk's Flurry}"
+                        cat: "_{Feat} 10"
+                        merge-bottom: false
+                        contents:
+                          - selectable: 'monks-flurry'
+                            contents:
+                              - action: 1
+                                contents:
+                                  - flags:
+                                      - "_{Flourish}"
+                                  - p: "_{Make two unarmed Strikes. If both hit the same creature, combine their damage for resistances and weaknesses.}"
+                                  - p: "_{Cooldown for 1d4 turns.}"
+
+                      - article: "##:perfections-path"
+                        title: "_{Perfection's Path}"
+                        cat: "_{Feat} 12"
+                        merge-bottom: false
+                        contents:
+                          - selectable: 'perfections-path'
+                            contents:
+                              - row:
+                                contents:
+                                  - icon: proficiency-expert
+                                  - span: "&rarr;"
+                                  - icon: proficiency-master
+                                  - p: "_{One saving throw}"
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+
+                  - section: "_{Kata}"
+                    mark: monk
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: monk-feats
+                          class-level: "_{Monk\nLevel}"
+                          basic-title: "_{Basic Kata}"
+                          advanced-title: "_{Advanced Kata}"
+                          lines: 4
+
+                  - tail:

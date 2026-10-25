@@ -1,0 +1,84 @@
+unit: archetype/remaster/sorcerer
+in: archetype
+group: "_{Player Core}"
+name: "_{sorcerer}"
+multiclass: true
+
+require:
+  - unit: defs/archetypes
+  - deny: archetype/sorcerer
+
+inc:
+  - at: '@archetypes'
+    add:
+      - name: "_{sorcerer}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-sorcerer
+        name: "_{sorcerer}"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: sorcerer
+                      - class-name: "_{sorcerer}"
+
+                  - section: "_{Bloodline}"
+                    primary: true
+                    contents:
+                      - field: sorcerer-bloodline-name
+                        frame: none
+                        size: large
+                        width: stretch
+                        merge-bottom: true
+                      - hr:
+                        swash: true
+                      - article: "##:basic-bloodline-spell"
+                        title: "_{Basic Bloodline Spell}"
+                        cat: "_{Feat} 4"
+                        contents:
+                          - selectable: 'basic-bloodline-spell'
+                            contents:
+                              - paste: focus
+                                contents:
+                                  - field: initial-bloodline-spell
+                                    label: "_{Initial Bloodline Spell}"
+                                    width: stretch
+
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Trained in Bloodline skills}"
+                        icon: proficiency-trained
+
+                  - section: "_{Blood Potency}"
+                    mark: sorcerer
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: sorcerer
+                          class-level: "_{sorcerer\nLevel}"
+                          basic-title: "_{Basic Blood Potency}"
+                          advanced-title: "_{Advanced Blood Potency}"
+                          num: 2
+
+                  - tail:
+
+              - g:
+                contents:
+                  - paste: archetype-spellcasting
+                    params:
+                      style: prepared
+                      attribute: "CHA"
+                      attribute-name: "_{CHA}"
+                      breadth: "_{Bloodline Breadth}"
+
+                  - tail:

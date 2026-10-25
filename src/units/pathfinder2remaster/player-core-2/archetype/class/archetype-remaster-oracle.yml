@@ -1,0 +1,125 @@
+unit: archetype/remaster/oracle
+in: archetype
+group: "_{Player Core 2}"
+name: "_{Oracle}"
+multiclass: true
+
+require:
+  - unit: defs/archetypes
+  - deny: archetype/oracle
+
+inc:
+  - set: religion-proficiency
+    value: trained
+
+  - at: '@archetypes'
+    add:
+      - name: "_{Oracle}"
+        num-feats: 3
+
+  - at: '@pages'
+    add:
+      - page: archetype-oracle
+        name: "_{Oracle}"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: oracle
+                      - class-name: "_{Oracle}"
+
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Trained in Religion and your mystery's skills}"
+                        icon: proficiency-trained
+
+                  - section: "_{Mystery}"
+                    primary: true
+                    contents:
+                      - zone: '@oracle/mystery/title'
+                        contents:
+                          - field: oracle-mystery
+                            size: huge
+                            width: stretch
+                            frame: none
+                            merge-bottom: true
+                      - hr:
+                        swash: true
+
+                      - article: "##:first-revelation"
+                        title: "_{First Revelation}"
+                        cat: "_{Feat} 4"
+                        merge-bottom: false
+                        contents:
+                          - selectable: 'first-revalation'
+                            contents:
+                              - paste: focus
+                                contents:
+                                  - field: "oracle-revelation-spell-initial"
+                                    label: "_{Initial Revelation}"
+                                    width: stretch
+
+                  - section: "_{Curse}"
+                    contents:
+                      - zone: '@oracle/mystery/curse-title'
+                        contents:
+                          - field: "oracle/mystery/curse"
+                            width: stretch
+                            size: large
+
+                      - paste: oracle/cursebound-description
+                              
+                      - row:
+                        contents:
+                          - flags:
+                              - "_{Cursebound}"
+                          - field: cursebound-#{i}
+                            control: progression
+                            frame: none
+                            max: 2
+                            width: large
+                          - spacer:
+
+                      - zone: '@oracle/mystery/curse'
+                        contents:
+                          - g:
+                            contents:
+                              - flags:
+                                contents:
+                                  - "_{Curse}"
+                                  - "_{Divine}"
+                                  - "_{Oracle}"
+                              - article: oracle/mystery/curse
+                                lines: 4
+
+                  - section: "_{Mysteries}"
+                    mark: oracle
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: oracle-feats
+                          class-level: "_{Oracle\nLevel}"
+                          basic-title: "_{Basic Mysteries}"
+                          advanced-title: "_{Advanced Mysteries}"
+                          num: 2
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+                  - paste: archetype-spellcasting
+                    params:
+                      style: prepared
+                      attribute: "CHA"
+                      attribute-name: "_{CHA}"
+                      breadth: "_{Mysterious Breadth}"
+
+                  - tail:
