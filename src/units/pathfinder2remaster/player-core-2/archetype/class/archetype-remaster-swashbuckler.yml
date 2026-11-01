@@ -1,0 +1,192 @@
+unit: archetype/remaster/swashbuckler
+in: archetype
+group: "_{Player Core 2}"
+name: "_{Swashbuckler}"
+multiclass: true
+
+form:
+  - select: remaster/swashbuckler/style
+    name: "_{Swashbuckler's Style}"
+    max: 1
+
+require:
+  - unit: defs/archetypes
+  - deny: archetype/swashbuckler
+
+inc:
+  - at: '@archetypes'
+    add:
+      - name: "_{Swashbuckler}"
+        num-feats: 3
+
+  - at: '@reference/action-traits'
+    add:
+      - bravado
+      - finisher
+      - flourish
+
+  - at: '@reference/weapon-traits'
+    add:
+      - deadly
+      - thrown
+
+  - at: '@pages'
+    add:
+      - page: archetype-swashbuckler
+        name: "_{Swashbuckler}"
+        order: 26
+        flex: true
+        half: true
+        contents:
+          - layout: 2e
+            contents:
+              - g:
+                contents:
+                  - g:
+                    flex: tiny
+                    contents:
+                      - class-icon: swashbuckler
+                      - class-name: "_{Swashbuckler}"
+
+                  - section: "_{Dedication}"
+                    contents:
+                      - row:
+                        contents:
+                          - spacer:
+                          - layout: indent-l
+                            contents:
+                              - field: panache
+                                control: checkbox
+                              - h6: "_{Panache}"
+                          - spacer:
+                          
+                      - list:
+                        hr: true
+                        contents:
+                          - g:
+                            contents:
+                              - h6: "_{Gain panache when...}"
+                              - ul:
+                                contents:
+                                  - li: "_{You successfully Tumble Through an enemy's space}"
+                                  - zone: '@swashbuckler/gain-panache'
+                                    contents:
+                                      - li:
+                                        contents:
+                                          - field: gain-panache
+                                            width: stretch
+                                            frame: none
+                                  - li: "_{At the GM's discretion, when you do something spectacular}"
+                          - g:
+                            contents:
+                              - h6: "_{Spend panache to...}"
+                              - ul:
+                                contents:
+                                  - li: "_{Make a [trait]Finisher[/trait]}"
+                        
+
+                  - section: "_{Archetype Feats}"
+                    contents:
+                      - article: "##:finishing-precision"
+                        title: "_{Finishing Precision}"
+                        cat: "_{Feat} 4"
+                        merge-bottom: false
+                        contents:
+                          - selectable: 'finishing-precision'
+                            contents:
+                              - p: "_{When you Strike with an [trait]Agile[/trait] or [trait]Finesse[/trait] melee weapon or unarmed attack, deal additional precision damage.}"
+                              - value-block: 1
+                                width: medium
+                                content: "_{Bonus Damage}"
+                                
+                              - value-block: "_{1d6}"
+                                width: medium
+                                content: "_{If the Strike is part of a [trait]Finisher[/trait]}"
+
+                              - hr:
+                                light: true
+
+                              - action:
+                                contents:
+                                  - p:
+                                    title: "_{Basic Finisher}"
+                                    content: "_{Make a Strike with a qualifying weapon.}"
+                                
+                      - article: "##:swashbucklers-riposte"
+                        title: "_{Swashbuckler's Riposte}"
+                        cat: "_{Feat} 6"
+                        merge-bottom: false
+                        contents:
+                          - selectable: 'swashbucklers-riposte'
+                            contents:
+                              - action: reaction
+                                contents:
+                                  - flags:
+                                      - "_{Bravado}"
+                                  - dl:
+                                    defs:
+                                      trigger: "_{An enemy in your reach critically fails a Strike against you.}"
+                                  - p: "_{Make a melee Strike or Disarm attempt against the triggering enemy.}"
+
+                      - article: "##:swashbucklers-speed"
+                        title: "_{Swashbuckler's Speed}"
+                        cat: "_{Feat} 8"
+                        merge-bottom: false
+                        contents:
+                          - selectable: 'swashbucklers-speed'
+                            contents:
+                              - value-block: "+_{5ft}"
+                                width: medium
+                                content: "_{Speed}"
+                              - value-block: "+_{10ft}"
+                                width: medium
+                                content: "_{While you have Panache}"
+                                
+                      - article: "##:evasiveness"
+                        title: "_{Evasiveness}"
+                        cat: "_{Feat} 12"
+                        merge-bottom: false
+                        contents:
+                          - selectable: 'evasiveness'
+                            contents:
+                              - row:
+                                contents:
+                                  - icon: proficiency-expert
+                                  - span: "&rarr;"
+                                  - icon: proficiency-master
+                                  - p: "_{Reflex saves}"
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+
+                  - section: "_{Swashbuckler's Style}"
+                    primary: true
+                    contents:
+                      - zone: '@swashbuckler/style-min'
+                        contents:
+                          - field: swashbuckler-style
+                            frame: none
+                            size: huge
+                            width: stretch
+                            merge-bottom: true
+                          - hr:
+                            swash: true
+                          - article: "##:swashbuckers-style"
+                            lines: 4
+
+                  - section: "_{Flair}"
+                    mark: swashbuckler
+                    contents:
+                      - paste: archetype-feats
+                        params:
+                          id: swashbuckler-feats
+                          class-level: "_{Swashbuckler\nLevel}"
+                          basic-title: "_{Basic Flair}"
+                          advanced-title: "_{Advanced Flair}"
+                          lines: 4
+                          num: 3
+
+                  - tail:

@@ -60,6 +60,7 @@ export let value_block = {
     switch (args.width) {
       case 'medium':
       case 'large':
+      case 'huge':
         layout = 'indent-lw';
         break;
         
