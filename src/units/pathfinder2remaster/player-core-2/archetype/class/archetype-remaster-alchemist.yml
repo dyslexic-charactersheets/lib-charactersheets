@@ -11,6 +11,10 @@ require:
 inc:
   - set: crafting-proficiency
     value: trained
+  - set: alchemist-class-dc-proficiency
+    value: trained
+  - set: class/alchemist/throw-bomb-proficiency
+    value: trained
 
   - at: '@archetypes'
     add:
@@ -37,55 +41,174 @@ inc:
 
                   - section: "_{Dedication}"
                     contents:
-                      - p: "_{Trained in Crafting and Alchemical bombs}"
+                      - p: "_{Trained in alchemical bombs and Crafting}"
                         icon: proficiency-trained
+                      - p: "_{Add four common alchemical formulas to your formula book.}"
+
+                      - hr:
+
+                      - paste: class-dc
+                        params:
+                          id: alchemist-class-dc
+                          legend: "_{Alchemist\nClass DC}"
+                          misc: false
+
+                      - row:
+                        contents:
+                          - calc:
+                            output:
+                              field: class/alchemist/throw-bomb
+                              legend: "_{Throw Bomb}"
+                              width: large
+                              attack: true
+                              icon: bonus
+                              eq: "%{DEX}+%{class/alchemist/throw-bomb-proficiency-bonus}"
+                            inputs:
+                              - field:
+                                ref: DEX
+                                label: "_{DEX}"
+                                underlay: "_{DEX}"
+                              - span: "+"
+                              - field: class/alchemist/throw-bomb-proficiency
+                                control: proficiency
+                                label: "_{Proficiency}"
+                          - spacer:
+                          - field: alchemist/splash
+                            legend: "_{Splash}"
+                            control: value
+                            value: "_{5ft}"
+                      - p: "_{Splash weapons don't add strength bonus to damage.}"
+                        optional: true
 
                   - section: "_{Archetype Feats}"
                     contents:
-                      - article: "##:counter-perform"
-                        title: "_{Counter Perform}"
+                      - article: "##:advanced-alchemy"
+                        title: "_{Advanced Alchemy}"
+                        cat: "_{Feat} 4"
+                        merge-bottom: false
+                        contents:
+                          - selectable: 'alchemist-advanced-alchemy'
+                            contents:
+                              - p: "_{Create 4 alchemical consumables during your daily preparations.}"
+
+                      - article: "##:voluminous-vials"
+                        title: "_{Voluminous Vials}"
                         cat: "_{Feat} 6"
+                        merge-bottom: false
                         contents:
-                          - selectable: 'alchemist-counter-perform'
+                          - p: "_{Expert in Crafting}"
+                            icon: proficiency-expert
+                          - layout: 3e
                             contents:
-                              - p: "_{When you or an ally within 60ft rolls a saving throw against an auditory or visual effect,}"
-                              - action: reaction
+                              - selectable: 'alchemist-voluminous-vials-1'
                                 contents:
-                                  - paste: focus
+                                  - value-block: "5"
+                                    content: "_{Versatile vials per day}"
+                              - level: 12
+                                contents:
+                                  - selectable: 'alchemist-voluminous-vials-2'
                                     contents:
-                                      - p: "_{Roll a Performance check and you or your ally can take the better result.}"
-
-                      - article: "##:anthemic-performance"
-                        title: "_{Anthemic Performance}"
-                        cat: "_{Feat} 8"
-                        contents:
-                          - selectable: 'alchemist-anthemic-performance'
-                            contents:
-                              - action:
+                                      - value-block: "6"
+                                        content: "_{Versatile vials per day}"
+                              - level: 18
                                 contents:
-                                  - value-block: "+1"
-                                    content: "_{Bonus to attack and damage rolls, and saves against fear.}"
+                                  - selectable: 'alchemist-voluminous-vials-3'
+                                    contents:
+                                      - value-block: "7"
+                                        content: "_{Versatile vials per day}"
 
-                  - section: "_{Muse's Whispers}"
+                      - article: "##:alchemical-power"
+                        title: "_{Alchemical Power}"
+                        cat: "_{Feat} 12"
+                        merge-bottom: false
+                        contents:
+                          - selectable: 'alchemist-alchemical-power'
+                            contents:
+                              - p: "_{Master in Crafting}"
+                                icon: proficiency-master
+                              - p: "_{Expert in alchemist class DC}"
+                                icon: proficiency-expert
+                              - p: "_{Use your class DC for infused alchemical items you create.}"
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
+                  - section: "_{Versatile Vials}"
+                    contents:
+                      - row:
+                        contents:
+                          - field: alchemist/versatile-vials/per-day
+                            legend: "_{Versatile Vials\nPer Day}"
+                            control: value
+                            value: "4"
+                            border: full
+                            width: large
+                          - spacer:
+                          - field: alchemist/versatile-vials/today
+                            label: "_{Today}"
+                            temp: true
+                            border: full
+                            width: huge
+                      - p: "_{Throw versatile vials as bombs or use them for Quick Alchemy.}"
+                        optional: true
+                      - hr:
+                        light: true
+                      - h5: "_{Quick Alchemy}"
+                      - action:
+                        contents:
+                          - row:
+                            contents:
+                              - level-marker:
+                                level: 1
+                                marker: "_{Versatile\nVial}"
+                              - span: "&rarr;"
+                              - level-marker:
+                                level: 1
+                                marker: "_{Alchemical\nItems}"
+                          - p: "_{Swiftly mix up an infusion using a formula in your book, without spending the normal cost.}"
+                          - p: "_{These last only one round.}"
+                            optional: true
+
+                  - section: "_{Advanced Alchemy}"
+                    flex: tiny
+                    contents:
+                      - row:
+                        contents:
+                          - p: "_{Prepare alchemical items each day.}"
+                            optional: true
+                          - spacer:
+                          - h5: "_{Today's Items}"
+                      - hr:
+                        blk: false
+                      - list:
+                        zebra: true
+                        merge-bottom: true
+                        avoid-shade: true
+                        contents:
+                          - repeat: 4
+                            reduce: 2
+                            contents:
+                              - row:
+                                contents:
+                                  - field: alchemist-advanced-alchemy-infusion-#{i}
+                                    width: stretch
+                                    frame: none
+                                  - field: alchemist-advanced-alchemy-infusion-#{i}-used
+                                    frame: none
+                                    control: checkbox
+
+                  - section: "_{Concoctions}"
                     mark: alchemist
                     contents:
                       - paste: archetype-feats
                         params:
-                          id: alchemist
+                          id: alchemist-feats
                           class-level: "_{Alchemist\nLevel}"
-                          basic-title: "_{Basic Whisper}"
-                          advanced-title: "_{Advanced Whispers}"
+                          basic-title: "_{Basic Concoction}"
+                          advanced-title: "_{Advanced Concoction}"
                           num: 2
-
-                  - tail:
-
-              - g:
-                contents:
-                  - paste: archetype-spellcasting
-                    params:
-                      style: prepared
-                      attribute: "CHA"
-                      attribute-name: "_{CHA}"
-                      breadth: "_{Occult Breadth}"
+                          lines: 2
 
                   - tail:

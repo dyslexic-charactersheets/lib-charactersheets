@@ -32,39 +32,57 @@ inc:
                       - class-icon: sorcerer
                       - class-name: "_{Sorcerer}"
 
+                  - section: "_{Dedication}"
+                    contents:
+                      - p: "_{Trained in your bloodline's skills}"
+                        icon: proficiency-trained
+
                   - section: "_{Bloodline}"
                     primary: true
                     contents:
-                      - field: sorcerer-bloodline-name
-                        frame: none
-                        size: large
-                        width: stretch
-                        merge-bottom: true
+                      - zone: '@sorcerer/bloodline/title'
+                        contents:
+                          - field: sorcerer-bloodline
+                            size: huge
+                            width: stretch
+                            frame: none
+                            merge-bottom: true
                       - hr:
                         swash: true
-                      - article: "##:basic-bloodline-spell"
-                        title: "_{Basic Bloodline Spell}"
-                        cat: "_{Feat} 4"
+                      - list:
+                        hr: true
                         contents:
-                          - selectable: 'basic-bloodline-spell'
+                          - g:
                             contents:
-                              - paste: focus
+                              - field: sorcerer-bloodline-tradition
+                                icon: proficiency-trained
+                                width: stretch
+                                label: "_{Tradition}"
+                          - g:
+                            contents:
+                              - h5: "_{Bloodline Skills}"
+                              - field: sorcerer-bloodline-skills
+                                width: stretch
+                                frame: none
+                                merge-bottom: true
+                          - article: "##:basic-bloodline-spell"
+                            title: "_{Basic Bloodline Spell}"
+                            cat: "_{Feat} 4"
+                            contents:
+                              - selectable: 'basic-bloodline-spell'
                                 contents:
-                                  - field: initial-bloodline-spell
-                                    label: "_{Initial Bloodline Spell}"
-                                    width: stretch
-
-                  - section: "_{Dedication}"
-                    contents:
-                      - p: "_{Trained in Bloodline skills}"
-                        icon: proficiency-trained
+                                  - paste: focus
+                                    contents:
+                                      - field: sorcerer-bloodline-spell-initial
+                                        label: "_{Initial Bloodline Spell}"
+                                        width: stretch
 
                   - section: "_{Blood Potency}"
                     mark: sorcerer
                     contents:
                       - paste: archetype-feats
                         params:
-                          id: sorcerer
+                          id: sorcerer-feats
                           class-level: "_{Sorcerer\nLevel}"
                           basic-title: "_{Basic Blood Potency}"
                           advanced-title: "_{Advanced Blood Potency}"
@@ -76,7 +94,7 @@ inc:
                 contents:
                   - paste: archetype-spellcasting
                     params:
-                      style: prepared
+                      style: spontaneous
                       attribute: "CHA"
                       attribute-name: "_{CHA}"
                       breadth: "_{Bloodline Breadth}"

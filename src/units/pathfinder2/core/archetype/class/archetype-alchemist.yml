@@ -8,13 +8,10 @@ group: "_{Core Rulebook}"
 name: "_{Alchemist}"
 multiclass: true
 
-form:
-  - select: alchemist/instinct
-    name: "_{Instinct}"
-    max: 1
-
 inc:
   - set: alchemist-class-dc-proficiency
+    value: trained
+  - set: class/alchemist/throw-bomb-proficiency
     value: trained
 
   - at: '@archetypes'
@@ -99,19 +96,19 @@ inc:
 
                               - calc:
                                 output:
-                                  field: attack-#{i}-bonus
+                                  field: class/alchemist/throw-bomb
                                   legend: "_{Throw Bomb}"
                                   width: large
                                   attack: true
                                   icon: bonus
-                                  eq: "%{STR}+%{attack-#{i}-proficiency-bonus}"
+                                  eq: "%{DEX}+%{class/alchemist/throw-bomb-proficiency-bonus}"
                                 inputs:
                                   - field:
-                                    ref: STR
-                                    label: "_{STR}"
-                                    underlay: "_{STR}"
+                                    ref: DEX
+                                    label: "_{DEX}"
+                                    underlay: "_{DEX}"
                                   - span: "+"
-                                  - field: attack-#{i}-proficiency
+                                  - field: class/alchemist/throw-bomb-proficiency
                                     control: proficiency
                                     label: "_{Proficiency}"
                               - row:

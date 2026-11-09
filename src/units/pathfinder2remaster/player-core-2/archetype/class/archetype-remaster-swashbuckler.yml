@@ -14,6 +14,9 @@ require:
   - deny: archetype/swashbuckler
 
 inc:
+  - set: swashbuckler-class-dc-proficiency
+    value: trained
+
   - at: '@archetypes'
     add:
       - name: "_{Swashbuckler}"
@@ -50,6 +53,19 @@ inc:
 
                   - section: "_{Dedication}"
                     contents:
+                      - p: "_{Trained in Acrobatics or your style's skill}"
+                        icon: proficiency-trained
+
+                      - hr:
+
+                      - paste: class-dc
+                        params:
+                          id: swashbuckler-class-dc
+                          legend: "_{Swashbuckler\nClass DC}"
+                          misc: false
+
+                      - hr:
+
                       - row:
                         contents:
                           - spacer:
@@ -83,7 +99,37 @@ inc:
                               - ul:
                                 contents:
                                   - li: "_{Make a [trait]Finisher[/trait]}"
-                        
+
+                      - hr:
+                        light: true
+
+                      - h6: "_{Stylish Combatant}"
+                      - value-block: "+1"
+                        content: "_{To skill checks with [trait]bravado[/trait] in a combat encounter}"
+                      - value-block: "+_{5ft}"
+                        width: medium
+                        content: "_{Speed while you have panache}"
+
+                  - section: "_{Swashbuckler's Style}"
+                    primary: true
+                    contents:
+                      - zone: '@swashbuckler/style-min'
+                        contents:
+                          - field: swashbuckler-style
+                            frame: none
+                            size: huge
+                            width: stretch
+                            merge-bottom: true
+                          - hr:
+                            swash: true
+                          - article: "##:swashbucklers-style"
+                            lines: 3
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
 
                   - section: "_{Archetype Feats}"
                     contents:
@@ -95,19 +141,22 @@ inc:
                           - selectable: 'finishing-precision'
                             contents:
                               - p: "_{When you Strike with an [trait]Agile[/trait] or [trait]Finesse[/trait] melee weapon or unarmed attack, deal additional precision damage.}"
-                              - value-block: 1
-                                width: medium
-                                content: "_{Bonus Damage}"
-                                
-                              - value-block: "_{1d6}"
-                                width: medium
-                                content: "_{If the Strike is part of a [trait]Finisher[/trait]}"
-
-                              - hr:
-                                light: true
+                              - row:
+                                contents:
+                                  - value-block: "+1"
+                                    content: "_{Precision damage}"
+                                  - spacer:
+                                  - field: "##:finishing-precision/finisher-damage"
+                                    control: value
+                                    value: "_{1d6}"
+                                    icon: d6
+                                    frame: none
+                                  - p: "_{On a [trait]finisher[/trait]}"
 
                               - action:
                                 contents:
+                                  - flags:
+                                      - "_{Finisher}"
                                   - p:
                                     title: "_{Basic Finisher}"
                                     content: "_{Make a Strike with a qualifying weapon.}"
@@ -135,12 +184,14 @@ inc:
                         contents:
                           - selectable: 'swashbucklers-speed'
                             contents:
-                              - value-block: "+_{5ft}"
-                                width: medium
-                                content: "_{Speed}"
-                              - value-block: "+_{10ft}"
-                                width: medium
-                                content: "_{While you have Panache}"
+                              - row:
+                                contents:
+                                  - value-block: "+_{5ft}"
+                                    width: medium
+                                    content: "_{Speed}"
+                                  - value-block: "+_{10ft}"
+                                    width: medium
+                                    content: "_{Speed while you have panache}"
                                 
                       - article: "##:evasiveness"
                         title: "_{Evasiveness}"
@@ -156,27 +207,6 @@ inc:
                                   - icon: proficiency-master
                                   - p: "_{Reflex saves}"
 
-                  - tail:
-                  - spacer:
-
-              - g:
-                contents:
-
-                  - section: "_{Swashbuckler's Style}"
-                    primary: true
-                    contents:
-                      - zone: '@swashbuckler/style-min'
-                        contents:
-                          - field: swashbuckler-style
-                            frame: none
-                            size: huge
-                            width: stretch
-                            merge-bottom: true
-                          - hr:
-                            swash: true
-                          - article: "##:swashbucklers-style"
-                            lines: 4
-
                   - section: "_{Flair}"
                     mark: swashbuckler
                     contents:
@@ -186,7 +216,7 @@ inc:
                           class-level: "_{Swashbuckler\nLevel}"
                           basic-title: "_{Basic Flair}"
                           advanced-title: "_{Advanced Flair}"
-                          lines: 4
-                          num: 3
+                          lines: 3
+                          num: 2
 
                   - tail:

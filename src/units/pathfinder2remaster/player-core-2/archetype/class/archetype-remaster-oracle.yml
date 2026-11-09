@@ -37,7 +37,7 @@ inc:
 
                   - section: "_{Dedication}"
                     contents:
-                      - p: "_{Trained in Religion and your mystery's skills}"
+                      - p: "_{Trained in Religion and your mystery's skill}"
                         icon: proficiency-trained
 
                   - section: "_{Mystery}"
@@ -65,6 +65,7 @@ inc:
                                   - field: "oracle-revelation-spell-initial"
                                     label: "_{Initial Revelation}"
                                     width: stretch
+                              - p: "_{Refocus also reduces your cursebound value by 1.}"
 
                   - section: "_{Curse}"
                     contents:
@@ -73,19 +74,20 @@ inc:
                           - field: "oracle/mystery/curse"
                             width: stretch
                             size: large
+                            merge-bottom: true
 
-                      - paste: oracle/cursebound-description
-                              
                       - row:
                         contents:
+                          - p: "_{Use a cursebound ability}"
+                          - span: "&rarr; +1"
                           - flags:
                               - "_{Cursebound}"
-                          - field: cursebound-#{i}
-                            control: progression
-                            frame: none
-                            max: 2
-                            width: large
                           - spacer:
+                          - field: oracle-cursebound
+                            border: full
+                            temp: true
+                            width: small
+                          - span: "/ 2"
 
                       - zone: '@oracle/mystery/curse'
                         contents:
@@ -97,7 +99,7 @@ inc:
                                   - "_{Divine}"
                                   - "_{Oracle}"
                               - article: oracle/mystery/curse
-                                lines: 4
+                                lines: 3
 
                   - section: "_{Mysteries}"
                     mark: oracle
@@ -117,7 +119,7 @@ inc:
                 contents:
                   - paste: archetype-spellcasting
                     params:
-                      style: prepared
+                      style: spontaneous
                       attribute: "CHA"
                       attribute-name: "_{CHA}"
                       breadth: "_{Mysterious Breadth}"

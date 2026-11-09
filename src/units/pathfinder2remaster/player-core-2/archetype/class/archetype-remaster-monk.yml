@@ -9,6 +9,11 @@ require:
   - deny: archetype/monk
 
 inc:
+  - set: unarmed-attack-proficiency
+    value: trained
+  - set: monk-class-dc-proficiency
+    value: trained
+
   - at: '@archetypes'
     add:
       - name: "_{Monk}"
@@ -38,19 +43,31 @@ inc:
 
                   - section: "_{Dedication}"
                     contents:
-                      - p: "_{Trained in Unarmed attacks}"
+                      - p: "_{Trained in unarmed attacks}"
                         icon: proficiency-trained
-                        
                       - p: "_{Trained in Acrobatics or Athletics}"
                         icon: proficiency-trained
 
                       - hr:
 
+                      - paste: class-dc
+                        params:
+                          id: monk-class-dc
+                          legend: "_{Monk\nClass DC}"
+                          misc: false
+
+                      - hr:
+
                       - h5: "_{Powerful Fist}"
-                      - value-block: "_{1d6}"
-                        content: "_{Unarmed damage with your fist.}"
-                      - p: "_{Non-lethal unarmed attacks don't get a -2 penalty.}"
-                      
+                      - row:
+                        contents:
+                          - field: "##:powerful-fist/damage"
+                            control: value
+                            value: "_{1d6}"
+                            icon: d6
+                            frame: none
+                          - p: "_{Unarmed damage with your fist.}"
+                      - p: "_{Don't take the -2 penalty when making a lethal attack with a nonlethal unarmed attack.}"
 
                   - section: "_{Archetype Feats}"
                     contents:
@@ -97,7 +114,9 @@ inc:
                                   - flags:
                                       - "_{Flourish}"
                                   - p: "_{Make two unarmed Strikes. If both hit the same creature, combine their damage for resistances and weaknesses.}"
-                                  - p: "_{Cooldown for 1d4 turns.}"
+                                  - dl:
+                                    defs:
+                                      cooldown: "_{1d4 rounds}"
 
                       - article: "##:perfections-path"
                         title: "_{Perfection's Path}"
