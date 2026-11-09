@@ -172,7 +172,8 @@ export function format_string(content, doc) {
     return `${iconHtml}<span class='action'>${capitalise(translate(word, doc))}</span>`;
   });
   content = content.replace(/\[skill\](.*?)\[\/skill\]/g, (m, word) => {
-    const attr = SKILL_ATTRIBUTES[doc.system][word.toLowerCase()];
+    const code = (doc && doc.system) ? doc.system.code : null;
+    const attr = (SKILL_ATTRIBUTES[code] || {})[word.toLowerCase()];
     const cls = attr ? `skill colour_${attr}` : 'skill';
     return `<span class='${cls}'>${capitalise(translate(word, doc))}</span>`;
   });
