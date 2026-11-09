@@ -39,6 +39,30 @@ inc:
                     depth: 2
                     width: stretch
 
+  - copy: archetype-resiliency-feat
+    params:
+      class: ""
+      title: ""
+    contents:
+      - article: "archetype/remaster/#{class}:#{class}-resiliency"
+        title: "#{title}"
+        cat: "_{Feat} 4"
+        merge-bottom: false
+        contents:
+          - selectable: "#{class}-resiliency"
+            contents:
+              - calc:
+                output:
+                  field: "archetype/remaster/#{class}:#{class}-resiliency/bonus-hp"
+                  legend: "_{Bonus Hit Points}"
+                  width: large
+                  suffix: "_{hp}"
+                  eq: "3*%{archetype/remaster/#{class}:#{class}-resiliency/n-feats}"
+                inputs:
+                  - span: "3 &times;"
+                  - field: "archetype/remaster/#{class}:#{class}-resiliency/n-feats"
+                    label: "_{Archetype Feats}"
+
   - copy: archetype-feats
     params:
       id: class-feats
