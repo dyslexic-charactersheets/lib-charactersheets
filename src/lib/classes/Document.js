@@ -399,12 +399,12 @@ export class Document {
         break;
       case 'if':
         // log("compose", "if", element.condition)
-        element.then = this.completeElement(element.then, registry);
-        element.else = this.completeElement(element.else, registry);
+        element.then = isNull(element.then) ? [] : this.completeElement(element.then, registry);
+        element.else = isNull(element.else) ? [] : this.completeElement(element.else, registry);
         break;
       case 'large-print':
         element.contents = this.completeElement(element.contents, registry);
-        element.else = this.completeElement(element.else, registry);
+        element.else = isNull(element.else) ? [] : this.completeElement(element.else, registry);
         break;
       case 'spells-list':
         if (has(element, 'special-value')) {
