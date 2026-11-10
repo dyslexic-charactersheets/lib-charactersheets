@@ -98,24 +98,25 @@ inc:
                         contents:
                           - p: "_{Expert in Crafting}"
                             icon: proficiency-expert
-                          - layout: 3e
+                          - selectable: 'alchemist-voluminous-vials-1'
                             contents:
-                              - selectable: 'alchemist-voluminous-vials-1'
-                                contents:
-                                  - value-block: "5"
-                                    content: "_{Versatile vials per day}"
+                              - value-block: "5"
+                                content: "_{Versatile vials per day}"
+                          - row:
+                            contents:
                               - level: 12
                                 contents:
                                   - selectable: 'alchemist-voluminous-vials-2'
                                     contents:
                                       - value-block: "6"
-                                        content: "_{Versatile vials per day}"
+                              - spacer:
                               - level: 18
                                 contents:
                                   - selectable: 'alchemist-voluminous-vials-3'
                                     contents:
                                       - value-block: "7"
-                                        content: "_{Versatile vials per day}"
+                          - p: "_{Take the feat again at 12th and 18th level for 6 and 7 vials.}"
+                            optional: true
 
                       - article: "##:alchemical-power"
                         title: "_{Alchemical Power}"
@@ -129,6 +130,34 @@ inc:
                               - p: "_{Expert in alchemist class DC}"
                                 icon: proficiency-expert
                               - p: "_{Use your class DC for infused alchemical items you create.}"
+
+                  - section: "_{Advanced Alchemy}"
+                    flex: tiny
+                    contents:
+                      - row:
+                        contents:
+                          - p: "_{Prepare alchemical items each day.}"
+                            optional: true
+                          - spacer:
+                          - h5: "_{Today's Items}"
+                      - hr:
+                        blk: false
+                      - list:
+                        zebra: true
+                        merge-bottom: true
+                        avoid-shade: true
+                        contents:
+                          - repeat: 5
+                            reduce: 2
+                            contents:
+                              - row:
+                                contents:
+                                  - field: alchemist-advanced-alchemy-infusion-#{i}
+                                    width: stretch
+                                    frame: none
+                                  - field: alchemist-advanced-alchemy-infusion-#{i}-used
+                                    frame: none
+                                    control: checkbox
 
                   - tail:
                   - spacer:
@@ -170,34 +199,6 @@ inc:
                           - p: "_{Swiftly mix up an infusion using a formula in your book, without spending the normal cost.}"
                           - p: "_{These last only one round.}"
                             optional: true
-
-                  - section: "_{Advanced Alchemy}"
-                    flex: tiny
-                    contents:
-                      - row:
-                        contents:
-                          - p: "_{Prepare alchemical items each day.}"
-                            optional: true
-                          - spacer:
-                          - h5: "_{Today's Items}"
-                      - hr:
-                        blk: false
-                      - list:
-                        zebra: true
-                        merge-bottom: true
-                        avoid-shade: true
-                        contents:
-                          - repeat: 4
-                            reduce: 2
-                            contents:
-                              - row:
-                                contents:
-                                  - field: alchemist-advanced-alchemy-infusion-#{i}
-                                    width: stretch
-                                    frame: none
-                                  - field: alchemist-advanced-alchemy-infusion-#{i}-used
-                                    frame: none
-                                    control: checkbox
 
                   - section: "_{Concoctions}"
                     mark: alchemist
