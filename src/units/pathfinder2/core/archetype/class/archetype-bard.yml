@@ -40,42 +40,46 @@ inc:
                   - section: "_{Muse}"
                     primary: true
                     contents:
-                      - field: bard-muse-name
-                        label: "_{Name}"
-                        width: stretch
-                      - field: bard-muse-type
-                        label: "_{Type}"
-                        width: stretch
-                        merge-bottom: true
+                      - row:
+                        contents:
+                          - field: bard-muse-name
+                            label: "_{Name}"
+                            width: stretch
+                          - field: bard-muse-type
+                            label: "_{Type}"
+                            width: stretch
 
                   - section: "_{Dedication}"
                     contents:
                       - p: "_{Trained in Occultism and Performance}"
                         icon: proficiency-trained
 
-                  - section: "_{Counter Perform}"
+                  - section: "_{Archetype Feats}"
                     contents:
-                      - selectable: 'bard-counter-perform'
+                      - article: "##:counter-perform"
+                        title: "_{Counter Perform}"
+                        cat: "_{Feat} 6"
                         contents:
-                          - p: "_{When you or an ally within 60ft rolls a saving throw against an auditory or visual effect,}"
-                          - action: reaction
+                          - selectable: 'bard-counter-perform'
                             contents:
-                              - p: "_{Roll a Performance check and you or your ally can take the better result.}"
-                          
-                  - section: "_{Inspire Courage}"
-                    contents:
-                      - selectable: 'bard-counter-perform'
-                        contents:
-                          - action:
-                            contents:
-                              - row:
+                              - dl:
+                                  trigger: "_{You or an ally within 60ft rolls a saving throw against an auditory or visual effect.}"
+                              - action: reaction
                                 contents:
-                                  - field: inspire-courage-bonus
-                                    # legend: "_{Courage Bonus}"
-                                    frame: none
-                                    value: "+1"
-                                    control: value
-                                  - p: "_{Bonus to attack and damage rolls, and saves against fear.}"
+                                  - paste: focus
+                                    contents:
+                                      - p: "_{Roll a [skill]Performance[/skill] check. You and allies within 60ft can use the better result between it and the saving throw.}"
+
+                      - article: "##:inspirational-performance"
+                        title: "_{Inspirational Performance}"
+                        cat: "_{Feat} 8"
+                        contents:
+                          - selectable: 'bard-inspirational-performance'
+                            contents:
+                              - action:
+                                contents:
+                                  - value-block: "+1"
+                                    content: "_{To attack and damage rolls, and saves against fear, for you and allies within 60ft.}"
 
                   - section: "_{Muse's Whispers}"
                     mark: bard
@@ -87,6 +91,7 @@ inc:
                           basic-title: "_{Basic Whisper}"
                           advanced-title: "_{Advanced Whispers}"
                           num: 2
+                          lines: 2
 
                   - tail:
 
@@ -94,7 +99,7 @@ inc:
                 contents:
                   - paste: archetype-spellcasting
                     params:
-                      style: prepared
+                      style: spontaneous
                       tradition: occult
                       tradition-spell-attack: "_{Occult Spell\nAttack}"
                       tradition-spell-dc: "_{Occult Spell\nSave DC}"

@@ -36,8 +36,11 @@ inc:
                       - class-name: "_{Rogue}"
                   - section: "_{Dedication}"
                     contents:
-                      - p: "_{Stealth or Thievery, and one other skill}"
+                      - p: "_{Trained in Stealth or Thievery, and one other skill}"
                         icon: proficiency-trained
+                      - p: "_{Trained in light armour}"
+                        icon: proficiency-trained
+                      - p: "_{Gain a skill feat}"
                       - hr:
                       - g:
                         pad: true
@@ -48,7 +51,9 @@ inc:
                               legend: "_{Rogue\nClass DC}"
                               misc: false
                       - hr:
-                      - p: "_{On the first round of combat, if you roll Deception or Stealth for initiative, creatures that haven't acted yet are flat-footed.}"
+                      - p:
+                        title: "_{Surprise Attack}"
+                        content: "_{On the first round of combat, if you roll [skill]Deception[/skill] or [skill]Stealth[/skill] for initiative, creatures that haven't acted are [effect]off-guard[/effect] to you.}"
 
                   - section: "_{Archetype Feats}"
                     contents:
@@ -63,46 +68,58 @@ inc:
                                 contents:
                                   - row:
                                     contents:
-                                      - value-block: "_{d4}"
-                                        content: "_{Bonus precision damage}"
-                                  - p: "_{When you attack a flat-footed opponent with an agile or finesse weapon/unarmed strike, or a ranged weapon.}"
+                                      - field: "##:sneak-attacker/damage"
+                                        control: value
+                                        value: "_{1d4}"
+                                        icon: d4
+                                        frame: none
+                                      - p: "_{Precision damage}"
+                                  - p: "_{When you attack an [effect]off-guard[/effect] opponent with an [trait]agile[/trait] or [trait]finesse[/trait] weapon or unarmed [action]strike[/action], or a ranged weapon.}"
                                   - hr:
                                     light: true
                                   - level: 6
                                     contents:
-                                      - value-block: "_{d6}"
-                                        content: "_{Bonus precision damage}"
+                                      - row:
+                                        contents:
+                                          - field: "##:sneak-attacker/damage-6"
+                                            control: value
+                                            value: "_{1d6}"
+                                            icon: d6
+                                            frame: none
+                                          - p: "_{Precision damage}"
 
                           - article: "##:skill-mastery"
                             title: "_{Skill Mastery}"
                             cat: "_{Feat} 8"
                             contents:
-                              - list:
-                                hr: true
-                                light: true
-                                zebra: true
+                              - row:
                                 contents:
-                                  - repeat: 5
-                                    contents:
-                                      - selectable: "##:skill-mastery/#{i}"
-                                        contents:
-                                          - row:
-                                            contents:
-                                              - icon: proficiency-expert
-                                              - span: "&rarr;"
-                                              - icon: proficiency-master
-                                              - field: "##:skill-mastery/#{i}/master"
-                                                width: stretch
-                                                frame: none
-                                          - row:
-                                            contents:
-                                              - icon: proficiency-trained
-                                              - span: "&rarr;"
-                                              - icon: proficiency-expert
-                                              - field: "##:skill-mastery/#{i}/expert"
-                                                width: stretch
-                                                frame: none
-                                                merge-bottom: true
+                                  - field: "##:skill-mastery/taken"
+                                    control: checkgrid
+                                    max: 5
+                                    depth: 1
+                                    frame: none
+                                  - p: "_{Up to five times}"
+                              - row:
+                                contents:
+                                  - icon: proficiency-expert
+                                  - span: "&rarr;"
+                                  - icon: proficiency-master
+                                  - p: "_{One skill}"
+                                  - spacer:
+                                  - icon: proficiency-trained
+                                  - span: "&rarr;"
+                                  - icon: proficiency-expert
+                                  - p: "_{Another skill}"
+                              - p: "_{Also gain a skill feat for one of them.}"
+
+                          - article: "##:uncanny-dodge"
+                            title: "_{Uncanny Dodge}"
+                            cat: "_{Feat} 10"
+                            contents:
+                              - selectable: "##:uncanny-dodge"
+                                contents:
+                                  - p: "_{Not [effect]off-guard[/effect] to [effect]hidden[/effect], [effect]undetected[/effect] or flanking creatures of your level or lower, or their surprise attacks. They can still help allies flank.}"
 
                           - article: "##:evasiveness"
                             title: "_{Evasiveness}"
@@ -115,7 +132,7 @@ inc:
                                       - icon: proficiency-expert
                                       - span: "&rarr;"
                                       - icon: proficiency-master
-                                      - p: "_{Reflex saves}"
+                                  - p: "_{Become master in Reflex saves}"
 
                   - tail:
                   - spacer:

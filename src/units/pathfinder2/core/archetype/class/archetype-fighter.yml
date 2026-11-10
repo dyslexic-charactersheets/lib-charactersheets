@@ -8,6 +8,9 @@ group: "_{Core Rulebook}"
 name: "_{Fighter}"
 multiclass: true
 
+require:
+  - unit: feat/attack-of-opportunity
+
 inc:
   - set: fighter-class-dc-proficiency
     value: trained
@@ -47,12 +50,36 @@ inc:
                           legend: "_{Fighter\nClass DC}"
                           misc: false
 
-                  - section: "_{Fighter Resiliency}"
+                  - section: "_{Archetype Feats}"
                     contents:
-                      - paste: archetype-resiliency
-                        params:
-                          class-id: fighter
-                          class-feats: "_{Fighter Feats}"
+                      - list:
+                        hr: true
+                        contents:
+                          - article: "##:fighter-resiliency"
+                            title: "_{Fighter Resiliency}"
+                            cat: "_{Feat} 4"
+                            contents:
+                              - paste: archetype-resiliency
+                                params:
+                                  class-id: fighter
+                                  class-feats: "_{Fighter Feats}"
+                          - article: "##:opportunist"
+                            title: "_{Opportunist}"
+                            cat: "_{Feat} 4"
+                            contents:
+                              - selectable: "##:opportunist"
+                                contents:
+                                  - paste: attack-of-opportunity
+                          - article: "##:diverse-weapon-expert"
+                            title: "_{Diverse Weapon Expert}"
+                            cat: "_{Feat} 12"
+                            contents:
+                              - selectable: "##:diverse-weapon-expert"
+                                contents:
+                                  - p: "_{Expert in simple and martial weapons}"
+                                    icon: proficiency-expert
+                                  - p: "_{Trained in advanced weapons}"
+                                    icon: proficiency-trained
 
                   - tail:
                   - spacer:
@@ -66,7 +93,7 @@ inc:
                       - paste: archetype-feats
                         params:
                           id: fighter-feats
-                          class-level: "_{Fighter\nFeats}"
+                          class-level: "_{Fighter\nLevel}"
                           basic-title: "_{Basic Manoeuvre}"
                           advanced-title: "_{Advanced Manoeuvres}"
 

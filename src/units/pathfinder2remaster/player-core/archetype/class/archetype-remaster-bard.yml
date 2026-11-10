@@ -40,13 +40,14 @@ inc:
                   - section: "_{Muse}"
                     primary: true
                     contents:
-                      - field: bard-muse-name
-                        label: "_{Name}"
-                        width: stretch
-                      - field: bard-muse-type
-                        label: "_{Type}"
-                        width: stretch
-                        merge-bottom: true
+                      - row:
+                        contents:
+                          - field: bard-muse-name
+                            label: "_{Name}"
+                            width: stretch
+                          - field: bard-muse-type
+                            label: "_{Type}"
+                            width: stretch
 
                   - section: "_{Dedication}"
                     contents:
@@ -61,12 +62,13 @@ inc:
                         contents:
                           - selectable: 'bard-counter-perform'
                             contents:
-                              - p: "_{When you or an ally within 60ft rolls a saving throw against an auditory or visual effect,}"
+                              - dl:
+                                  trigger: "_{You or an ally within 60ft rolls a saving throw against an auditory or visual effect.}"
                               - action: reaction
                                 contents:
                                   - paste: focus
                                     contents:
-                                      - p: "_{Roll a Performance check and you or your ally can take the better result.}"
+                                      - p: "_{Roll a [skill]Performance[/skill] check. You and allies within 60ft can use the better result between it and the saving throw.}"
 
                       - article: "##:anthemic-performance"
                         title: "_{Anthemic Performance}"
@@ -77,7 +79,7 @@ inc:
                               - action:
                                 contents:
                                   - value-block: "+1"
-                                    content: "_{Bonus to attack and damage rolls, and saves against fear.}"
+                                    content: "_{To attack and damage rolls, and saves against fear, for you and allies within 60ft.}"
 
                   - section: "_{Muse's Whispers}"
                     mark: bard
@@ -89,6 +91,7 @@ inc:
                           basic-title: "_{Basic Whisper}"
                           advanced-title: "_{Advanced Whispers}"
                           num: 2
+                          lines: 2
 
                   - tail:
 

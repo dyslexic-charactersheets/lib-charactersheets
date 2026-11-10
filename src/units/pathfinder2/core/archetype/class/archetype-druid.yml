@@ -16,11 +16,19 @@ form:
 inc:
   - set: nature-proficiency
     value: trained
+  - set: languages-class
+    value: ", _{Druidic}"
 
   - at: '@archetypes'
     add:
       - name: "_{Druid}"
         num-feats: 3
+
+  - at: '@anathema'
+    add:
+      - li: "_{Using metal armour or shields}"
+      - li: "_{Despoiling natural places}"
+      - li: "_{Teaching the Druidic language to nondruids}"
 
   - at: '@pages'
     add:
@@ -44,46 +52,51 @@ inc:
                   - section: "_{Druidic Order}"
                     primary: true
                     contents:
+                      - zone: '@druid/order'
+                        contents:
+                          - field: druid-order
+                            frame: none
+                            size: huge
+                            width: stretch
+                            align: center
+                            merge-bottom: true
+
+                  - section: "_{Dedication}"
+                    contents:
                       - list:
                         hr: true
                         contents:
-                          - zone: '@druid/order'
+                          - g:
                             contents:
-                              - field: druid-order
-                                frame: none
-                                size: huge
-                                width: stretch
-                                align: center
-                                merge-bottom: true
-
+                              - p: "_{Learn the Druidic language}"
+                              - p: "_{Trained in Nature and your order's skill}"
+                                icon: proficiency-trained
                           - g:
                             contents:
                               - h5: "_{Anathema}"
                               - ul:
                                 contents:
-                                  - li: "_{Using metal armor or shields}"
-                                  - li: "_{Despoiling natural places}"
-                                  - li: "_{Teaching the Druidic language to nondruids}"
                                   - zone: '@anathema'
                                     contents:
                                       - field: anathema
                                         width: stretch
-                                        label: "_{Order Anathema}"
-                                        repeat: 3
+                                        control: p
+                                        frame: none
+                                        with-title: false
+                                        lines: 2
                                         merge-bottom: 2
 
+                  - section: "_{Archetype Feats}"
+                    contents:
+                      - article: "##:order-spell"
+                        title: "_{Order Spell}"
+                        cat: "_{Feat} 4"
+                        contents:
                           - selectable: "##:order-spell"
                             contents:
-                              - h5: "_{Order Spell}"
                               - paste: focus
                                 contents:
-                                  - article:
-
-                  - section: "_{Dedication}"
-                    contents:
-                      - p: "_{Learn the Druidic language}"
-                      - p: "_{Trained in Nature and your order's skill}"
-                        icon: proficiency-trained
+                                  - article: "##:order-spell/spell"
 
                   - section: "_{Wilding}"
                     mark: druid
