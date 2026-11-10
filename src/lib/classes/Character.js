@@ -452,7 +452,7 @@ export class Character extends Instance {
           if (data.printHighContrast) {
             document.highContrast = true;
           }
-          if (data.optionDyslexic && (data.printDyslexicFont == 'dyslexie' || data.printDyslexicFont == 'lexend')) {
+          if (data.printDyslexic && (data.printDyslexicFont == 'dyslexie' || data.printDyslexicFont == 'lexend')) {
             document.skipOptional = true;
           }
           if (data.hideOptional) {
