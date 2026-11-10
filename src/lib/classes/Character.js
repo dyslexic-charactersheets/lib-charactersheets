@@ -9,7 +9,7 @@ import { replaceColours, adjustColour, vibrantColour } from '../util/colours';
 import { __ } from '../i18n';
 import { BLACK_FLAG, PATHFINDER_2, PATHFINDER_2_REMASTER, STARFINDER_2, ready as systemsReady } from './System';
 import { getSystemStack } from './SystemStack';
-import { Instance } from './Instance';
+import { Instance, addDyslexicFontUnit } from './Instance';
 import { Document } from './Document';
 import { events } from './Events';
 
@@ -153,7 +153,7 @@ function parseCharacter(primary, request) {
     char.units.push('high-contrast');
   }
   if (attr.printDyslexic) {
-    addDyslexicFontUnit(attr.printDyslexicFont);
+    addDyslexicFontUnit(char.units, attr.printDyslexicFont);
   }
 
   // game-specific settings

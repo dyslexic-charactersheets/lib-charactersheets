@@ -9,6 +9,21 @@ import { isString, isObject, isNull, isArray, isEmpty } from '../util';
 import { has } from '../util/objects';
 import { locateAsset, toDataURL, inferMimeType } from '../data';
 
+export function addDyslexicFontUnit(units, dyslexicFont) {
+  log("Instance", "Dyslexic font", dyslexicFont);
+  switch(dyslexicFont) {
+    case 'dyslexie':
+      units.push('font/dyslexie');
+      break;
+    case 'lexend':
+      units.push('font/lexend');
+      break;
+    default:
+      units.push('font/dyslexic');
+      break;
+  }
+}
+
 /**
  * Interface represents a requested item. This may be for a character, a whole party, GM tools etc.
  */
@@ -64,21 +79,6 @@ export class Instance {
       });
     } else {
       warn("Instance", "Unknown asset", asset);
-    }
-  }
-
-  addDyslexicFontUnit(dyslexicFont) {
-    log("Instance", "Dyslexic font", dyslexicFont);
-    switch(dyslexicFont) {
-      case 'dyslexie':
-        char.units.push('font/dyslexie');
-        break;
-      case 'lexend':
-        char.units.push('font/lexend');
-        break;
-      default:
-        char.units.push('font/dyslexic');
-        break;
     }
   }
 

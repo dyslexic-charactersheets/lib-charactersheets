@@ -3,7 +3,7 @@
  * Licensed under the Artistic License 2.0
  */
 
-import { Instance } from './Instance';
+import { Instance, addDyslexicFontUnit } from './Instance';
 import { log, warn, error } from '../log';
 import { ready as systemsReady } from './System';
 import { getSystemStack } from './SystemStack';
@@ -126,7 +126,7 @@ function parseKingdom(primary, request) {
     char.units.push('high-contrast');
   }
   if (attr.printDyslexic) {
-    addDyslexicFontUnit(attr.printDyslexicFont);
+    addDyslexicFontUnit(char.units, attr.printDyslexicFont);
   }
   
   const system = getSystemStack(attr.game);
