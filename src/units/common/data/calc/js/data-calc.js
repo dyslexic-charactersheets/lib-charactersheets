@@ -277,6 +277,13 @@ function redoKeyAbility() {
   }
 }
 
+function getRawFieldValue(name) {
+  for (var input of document.getElementsByName(name)) {
+    return input.value;
+  }
+  return '';
+}
+
 function redoProficiency() {
   var bonuses = {
     untrained: 0,
@@ -325,13 +332,6 @@ if (showValuesToggle != null) {
 }
 
 
-
-function getRawFieldValue(name) {
-  for (var input of document.getElementsByName(name)) {
-    return input.value;
-  }
-  return '';
-}
 
 function parseBulkValue(raw) {
   var str = (raw === null || raw === undefined) ? '' : ('' + raw).trim();
