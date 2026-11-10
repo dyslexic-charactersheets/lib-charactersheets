@@ -157,6 +157,7 @@ inc:
 
   - copy: archetype-spellcasting-level
     params:
+      id: ""
       level: 0
       num: 2
       max: 2
@@ -170,13 +171,15 @@ inc:
               - repeat: "#{num}"
                 merge-bottom: true
                 contents:
-                  - field: "archetype-spells-#{level}"
+                  - field: "archetype-#{id}-spells-#{level}-#{i}"
                     width: stretch
                     frame: none
                     control: compound
                     parts:
-                      - control: checkbox
-                      - width: stretch
+                      - subid: prepared
+                        control: checkbox
+                      - subid: spell
+                        width: stretch
             else:
               - if: "#{style}==spontaneous"
                 then:
@@ -184,14 +187,14 @@ inc:
                     contents:
                       - g:
                         contents:
-                          - field: "archetype-spells-#{level}"
+                          - field: "archetype-#{id}-spells-#{level}"
                             width: stretch
                             repeat: "#{num}"
                             frame: none
                             merge-bottom: true
                       - g:
                         contents:
-                          - field: "archetype-spells-#{level}-today"
+                          - field: "archetype-#{id}-spells-#{level}-today"
                             control: checkgrid
                             max: "#{max}"
                             depth: 1
@@ -199,7 +202,7 @@ inc:
                 else:
                   - g:
                     contents:
-                      - field: "archetype-spells-#{level}"
+                      - field: "archetype-#{id}-spells-#{level}"
                         width: stretch
                         repeat: "#{num}"
                         frame: none
@@ -378,48 +381,57 @@ inc:
             contents:
               - paste: archetype-spellcasting-level
                 params:
+                  id: "#{id}"
                   level: 0
                   style: "cantrip"
                   num: 3
                   max: 0
               - paste: archetype-spellcasting-level
                 params:
+                  id: "#{id}"
                   level: 1
                   style: "#{style}"
                   num: 2
               - paste: archetype-spellcasting-level
                 params:
+                  id: "#{id}"
                   level: 2
                   style: "#{style}"
                   num: 2
               - paste: archetype-spellcasting-level
                 params:
+                  id: "#{id}"
                   level: 3
                   style: "#{style}"
                   num: 2
               - paste: archetype-spellcasting-level
                 params:
+                  id: "#{id}"
                   level: 4
                   style: "#{style}"
                   num: 2
               - paste: archetype-spellcasting-level
                 params:
+                  id: "#{id}"
                   level: 5
                   style: "#{style}"
                   num: 2
               - paste: archetype-spellcasting-level
                 params:
+                  id: "#{id}"
                   level: 6
                   style: "#{style}"
                   num: 2
               - paste: archetype-spellcasting-level
                 params:
+                  id: "#{id}"
                   level: 7
                   style: "#{style}"
                   num: 1
                   max: 1
               - paste: archetype-spellcasting-level
                 params:
+                  id: "#{id}"
                   level: 8
                   style: "#{style}"
                   num: 1
@@ -591,6 +603,7 @@ inc:
                 contents:
                   - paste: archetype-spellcasting-level
                     params:
+                      id: "#{id}"
                       level: 0
                       style: "cantrip"
                       num: 2
