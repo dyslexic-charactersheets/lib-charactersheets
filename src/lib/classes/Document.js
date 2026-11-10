@@ -13,6 +13,8 @@ import { has, cloneDeep, interpolate } from '../util/objects';
 import { esc, _e, __, translate } from '../i18n';
 import { table } from '../elements/table';
 
+const PROFICIENCY_RANKS = ['untrained', 'trained', 'expert', 'master', 'legendary'];
+
 // Set up the template engine for JS and CSS
 Handlebars.registerHelper('embedJson', function (data, options) {
   return JSON.stringify(data);
@@ -166,6 +168,11 @@ export class Document {
     if (isEmpty(incs)) return false;
 
     // TODO type hints
+
+    // several units setting one proficiency rank (class, archetype, ancestry): the highest wins, whatever their order
+    if (incs.length > 1 && incs.every(v => v === '' || PROFICIENCY_RANKS.includes(v))) {
+      return incs.reduce((best, v) => PROFICIENCY_RANKS.indexOf(v) > PROFICIENCY_RANKS.indexOf(best) ? v : best);
+    }
 
     // TODO combine multiple values somehow
     let is_array = false;
