@@ -277,13 +277,6 @@ function redoKeyAbility() {
   }
 }
 
-function getRawFieldValue(name) {
-  for (var input of document.getElementsByName(name)) {
-    return input.value;
-  }
-  return '';
-}
-
 function redoProficiency() {
   var bonuses = {
     untrained: 0,
@@ -333,154 +326,97 @@ if (showValuesToggle != null) {
 
 
 
-function parseBulkValue(raw) {
-  var str = (raw === null || raw === undefined) ? '' : ('' + raw).trim();
-  if (str === '') {
-    return 0;
-  }
+var inventoryItemPattern = /^inventory-(item|item-large|backpack)-\d+-(weight|value)$/;
+var inventoryFieldNames = ['inventory-kit-weight', 'inventory-kit-value', 'armour-bulk', 'armour-value',
+  'shield-bulk', 'shield-value', 'money-platinum', 'money-gold', 'money-silver', 'money-copper'];
+var coinValuesCp = { 'money-platinum': 1000, 'money-gold': 100, 'money-silver': 10, 'money-copper': 1 };
+var inventoryInputs = {};
+
+function parseBulkTenths(raw) {
+  var str = ('' + raw).trim();
   var match = /^(\d*\.?\d*)L$/i.exec(str);
   if (match) {
-    var lightAmount = (match[1] === '') ? 1 : parseFloat(match[1]);
-    return isNaN(lightAmount) ? 0 : lightAmount * 0.1;
+    return (match[1] === '') ? 1 : Math.round(parseFloat(match[1]) || 0);
   }
-  match = /^(\d*\.?\d+)B$/i.exec(str);
-  if (match) {
-    var explicitBulk = parseFloat(match[1]);
-    return isNaN(explicitBulk) ? 0 : explicitBulk;
-  }
-  match = /^(\d*\.?\d+)$/.exec(str);
-  if (match) {
-    var plainBulk = parseFloat(match[1]);
-    return isNaN(plainBulk) ? 0 : plainBulk;
-  }
-  return 0;
+  match = /^(\d*\.?\d+)B?$/i.exec(str);
+  return match ? Math.round(parseFloat(match[1]) * 10) : 0;
 }
 
-function parseCurrencyValue(raw) {
-  var str = (raw === null || raw === undefined) ? '' : ('' + raw).trim();
-  if (str === '') {
-    return 0;
-  }
+function parseValueCp(raw) {
+  var str = ('' + raw).trim();
   var match = /^(\d*\.?\d+)\s*(pp|gp|sp|cp)$/i.exec(str);
   if (match) {
-    var amount = parseFloat(match[1]);
-    if (isNaN(amount)) {
-      return 0;
-    }
-    switch (match[2].toLowerCase()) {
-      case 'pp': return amount * 10;
-      case 'gp': return amount;
-      case 'sp': return amount * 0.1;
-      case 'cp': return amount * 0.01;
-    }
+    var perCoin = { pp: 1000, gp: 100, sp: 10, cp: 1 }[match[2].toLowerCase()];
+    return Math.round(parseFloat(match[1]) * perCoin);
   }
-  var plain = parseFloat(str);
-  return isNaN(plain) ? 0 : plain;
+  var gp = parseFloat(str);
+  return isNaN(gp) ? 0 : Math.round(gp * 100);
 }
 
-function itemFieldBases(prefix, count) {
-  var bases = [];
-  for (var i = 1; i <= count; i++) {
-    bases.push(prefix + '-' + i);
-  }
-  return bases;
+function inventoryValue(name) {
+  return (name in inventoryInputs) ? inventoryInputs[name].value : '';
 }
 
-function sumBulkFields(baseNames, suffix) {
-  var total = 0;
-  baseNames.forEach(function (base) {
-    total += parseBulkValue(getRawFieldValue(base + suffix));
-  });
-  return total;
-}
-
-function sumNumberFields(baseNames, suffix) {
-  var total = 0;
-  baseNames.forEach(function (base) {
-    total += parseCurrencyValue(getRawFieldValue(base + suffix));
-  });
-  return total;
-}
-
-function readCompoundBulk(id) {
-  var bulkInput = document.getElementById(id + '--bulk');
-  var lightInput = document.getElementById(id + '--light');
-  var bulk = (bulkInput && bulkInput.value !== '') ? (parseFloat(bulkInput.value) || 0) : 0;
-  var light = (lightInput && lightInput.value !== '') ? (parseFloat(lightInput.value) || 0) : 0;
-  return bulk + (light * 0.1);
-}
-
-function writeCompoundBulk(id, totalBulk) {
-  if (totalBulk < 0 || isNaN(totalBulk)) {
-    totalBulk = 0;
-  }
-  var bulk = Math.floor(totalBulk + 1e-9);
-  var light = Math.round((totalBulk - bulk) * 10);
-  if (light >= 10) {
-    bulk += 1;
-    light = 0;
-  }
-  var bulkInput = document.getElementById(id + '--bulk');
-  var lightInput = document.getElementById(id + '--light');
-  if (bulkInput !== null) {
-    bulkInput.value = (bulk === 0) ? '' : bulk;
-  }
-  if (lightInput !== null) {
-    lightInput.value = (light === 0) ? '' : light;
+function writeInventoryField(name, value) {
+  for (var input of document.getElementsByName(name)) {
+    input.value = value;
   }
 }
 
-function writeNumberField(name, total) {
-  var field = document.getElementById(name);
-  if (field !== null) {
-    total = Math.round(total * 100) / 100;
-    field.value = (total === 0) ? '' : total;
-  }
+function writeBulkTotal(id, tenths) {
+  writeInventoryField(id + '--bulk', (tenths >= 10) ? Math.floor(tenths / 10) : '');
+  writeInventoryField(id + '--light', (tenths % 10 !== 0) ? tenths % 10 : '');
 }
-
-var inventoryItemBases = itemFieldBases('inventory-item', 8).concat(itemFieldBases('inventory-item-large', 2));
-var inventoryBackpackBases = itemFieldBases('inventory-backpack', 16);
 
 function updateInventoryTotals() {
-  var backpackBulk = sumBulkFields(inventoryBackpackBases, '-weight')
-    + parseBulkValue(getRawFieldValue('inventory-kit-weight')) - 2;
-  if (backpackBulk < 0) {
-    backpackBulk = 0;
+  var carriedTenths = 0, backpackTenths = 0, valueCp = 0;
+  for (var name in inventoryInputs) {
+    var value = inventoryInputs[name].value;
+    var match = inventoryItemPattern.exec(name);
+    if (match === null) {
+      if (name in coinValuesCp) {
+        valueCp += Math.round((parseFloat(value) || 0) * coinValuesCp[name]);
+      }
+    } else if (match[2] === 'value') {
+      valueCp += parseValueCp(value);
+    } else if (match[1] === 'backpack') {
+      backpackTenths += parseBulkTenths(value);
+    } else {
+      carriedTenths += parseBulkTenths(value);
+    }
   }
-  writeCompoundBulk('weight-backpack-total', backpackBulk);
 
-  var totalBulk = sumBulkFields(inventoryItemBases, '-weight');
-  totalBulk += parseBulkValue(getRawFieldValue('armour-bulk'));
-  totalBulk += parseBulkValue(getRawFieldValue('shield-bulk'));
-  totalBulk += readCompoundBulk('weight-backpack-total');
-  writeCompoundBulk('weight-total', totalBulk);
+  backpackTenths = Math.max(0, backpackTenths + parseBulkTenths(inventoryValue('inventory-kit-weight')) - 20);
+  writeBulkTotal('weight-backpack-total', backpackTenths);
 
-  var totalGold = sumNumberFields(inventoryItemBases, '-value');
-  totalGold += sumNumberFields(inventoryBackpackBases, '-value');
-  totalGold += parseCurrencyValue(getRawFieldValue('inventory-kit-value'));
-  totalGold += parseCurrencyValue(getRawFieldValue('armour-value'));
-  totalGold += parseCurrencyValue(getRawFieldValue('shield-value'));
-  totalGold += (parseFloat(getRawFieldValue('money-platinum')) || 0) * 10;
-  totalGold += (parseFloat(getRawFieldValue('money-gold')) || 0);
-  totalGold += (parseFloat(getRawFieldValue('money-silver')) || 0) * 0.1;
-  totalGold += (parseFloat(getRawFieldValue('money-copper')) || 0) * 0.01;
-  writeNumberField('gold-total', totalGold);
+  carriedTenths += backpackTenths
+    + parseBulkTenths(inventoryValue('armour-bulk'))
+    + parseBulkTenths(inventoryValue('shield-bulk'));
+  writeBulkTotal('weight-total', carriedTenths);
+
+  valueCp += parseValueCp(inventoryValue('inventory-kit-value'))
+    + parseValueCp(inventoryValue('armour-value'))
+    + parseValueCp(inventoryValue('shield-value'));
+  writeInventoryField('gold-total', (valueCp === 0) ? '' : valueCp / 100);
 }
 
 function setupInventoryTotals() {
-  var sourceNames = inventoryItemBases.map(function (b) { return b + '-weight'; })
-    .concat(inventoryItemBases.map(function (b) { return b + '-value'; }))
-    .concat(inventoryBackpackBases.map(function (b) { return b + '-weight'; }))
-    .concat(inventoryBackpackBases.map(function (b) { return b + '-value'; }))
-    .concat(['inventory-kit-weight', 'inventory-kit-value', 'armour-bulk', 'armour-value',
-      'shield-bulk', 'shield-value', 'money-platinum', 'money-gold', 'money-silver', 'money-copper']);
-
-  sourceNames.forEach(function (name) {
-    for (var input of document.getElementsByName(name)) {
-      input.addEventListener('input', updateInventoryTotals);
-      input.addEventListener('change', updateInventoryTotals);
+  var sources = [];
+  for (var input of document.querySelectorAll('input[name]')) {
+    if (inventoryItemPattern.test(input.name) || inventoryFieldNames.indexOf(input.name) >= 0) {
+      sources.push(input);
+      if (!(input.name in inventoryInputs)) {
+        inventoryInputs[input.name] = input;
+      }
     }
-  });
+  }
+  if (sources.length === 0) {
+    return;
+  }
+  for (var source of sources) {
+    source.addEventListener('input', updateInventoryTotals);
+    source.addEventListener('change', updateInventoryTotals);
+  }
   updateInventoryTotals();
 }
 
