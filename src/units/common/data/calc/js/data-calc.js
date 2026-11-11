@@ -369,13 +369,15 @@ function writeBulkTotal(id, tenths) {
 }
 
 function updateInventoryTotals() {
-  var carriedTenths = 0, backpackTenths = 0, valueCp = 0;
+  var carriedTenths = 0, backpackTenths = 0, valueCp = 0, coins = 0;
   for (var name in inventoryInputs) {
     var value = inventoryInputs[name].value;
     var match = inventoryItemPattern.exec(name);
     if (match === null) {
       if (name in coinValuesCp) {
-        valueCp += Math.round((parseFloat(value) || 0) * coinValuesCp[name]);
+        var count = parseFloat(value) || 0;
+        coins += count;
+        valueCp += Math.round(count * coinValuesCp[name]);
       }
     } else if (match[2] === 'value') {
       valueCp += parseValueCp(value);
@@ -391,7 +393,8 @@ function updateInventoryTotals() {
 
   carriedTenths += backpackTenths
     + parseBulkTenths(inventoryValue('armour-bulk'))
-    + parseBulkTenths(inventoryValue('shield-bulk'));
+    + parseBulkTenths(inventoryValue('shield-bulk'))
+    + Math.floor(coins / 1000) * 10;
   writeBulkTotal('weight-total', carriedTenths);
 
   valueCp += parseValueCp(inventoryValue('inventory-kit-value'))
