@@ -326,7 +326,7 @@ if (showValuesToggle != null) {
 
 
 
-var inventoryItemPattern = /^inventory-(item|item-large|backpack|invested)-\d+-(weight|value)$/;
+var inventoryItemPattern = /^inventory-(?:([a-z-]+)-)?\d+(?:-\d+)?-(weight|value)$/;
 var inventoryFieldNames = ['inventory-kit-weight', 'inventory-kit-value', 'armour-bulk', 'armour-value',
   'shield-bulk', 'shield-value', 'money-platinum', 'money-gold', 'money-silver', 'money-copper'];
 var coinValuesCp = { 'money-platinum': 1000, 'money-gold': 100, 'money-silver': 10, 'money-copper': 1 };
