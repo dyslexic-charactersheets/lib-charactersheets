@@ -28,13 +28,100 @@ inc:
                           - list:
                             hr: true
                             contents:
+                              - g:
+                                merge-bottom: true
+                                contents:
+                                  - h5: "_{Items}"
+                                  - list:
+                                    zebra: true
+                                    hr: true
+                                    contents:
+                                      - article: inventory-item-large-1
+                                        no-header-line: true
+                                        header:
+                                          - row:
+                                            contents:
+                                              - field: inventory-item-large-1
+                                                width: stretch
+                                                frame: none
+                                              - field: inventory-item-large-1-value
+                                                format: string
+                                                label: "_{Value}"
+                                              - field: inventory-item-large-1-weight
+                                                format: string
+                                                label: "_{Weight}"
+                                        lines: 1
+                                      - repeat: 1
+                                        start: 2
+                                        reduce: 1
+                                        contents:
+                                          - article: inventory-item-large-#{i}
+                                            no-header-line: true
+                                            header:
+                                              - row:
+                                                contents:
+                                                  - field: inventory-item-large-#{i}
+                                                    width: stretch
+                                                    frame: none
+                                                  - field: inventory-item-large-#{i}-value
+                                                    format: string
+                                                    frame: none
+                                                  - field: inventory-item-large-#{i}-weight
+                                                    format: string
+                                                    frame: none
+                                            lines: 1
+                                  - list:
+                                    zebra: true
+                                    collapse: true
+                                    field_frame: none
+                                    contents:
+                                      - repeat: 5
+                                        reduce: 2
+                                        contents:
+                                          - row:
+                                            contents:
+                                              - field: inventory-item-#{i}
+                                                width: stretch
+                                              - field: inventory-item-#{i}-value
+                                                format: string
+                                              - field: inventory-item-#{i}-weight
+                                                format: string
 
                               - g:
+                                id: inventory-backpack-block
                                 contents:
-                                  - zone: '@inventory/kit'
+                                  - section: "_{Backpack}"
+                                    primary: true
+                                    mark: backpack
                                     contents:
                                       - list:
-                                        hr: true
+                                        zebra: true
+                                        collapse: true
+                                        contents:
+                                          - row:
+                                            contents:
+                                              - field: inventory-backpack-1
+                                                width: stretch
+                                              - field: inventory-backpack-1-value
+                                                format: string
+                                                label: "_{Value}"
+                                              - field: inventory-backpack-1-weight
+                                                format: string
+                                                label: "_{Weight}"
+                                          - repeat: 4
+                                            start: 2
+                                            reduce: 2
+                                            contents:
+                                              - row:
+                                                contents:
+                                                  - field: inventory-backpack-#{i}
+                                                    width: stretch
+                                                  - field: inventory-backpack-#{i}-value
+                                                    format: string
+                                                  - field: inventory-backpack-#{i}-weight
+                                                    format: string
+                                      - hr:
+                                      - zone: '@inventory/kit'
                                         contents:
                                           - list:
                                             flex: small
@@ -46,100 +133,31 @@ inc:
                                                     width: stretch
                                                     legend: "_{Kit}"
                                                   - field: inventory-kit-value
+                                                    format: string
                                                     label: "_{Value}"
-                                                    format: int
                                                   - field: inventory-kit-weight
+                                                    format: string
                                                     label: "_{Weight}"
-                                                    format: int
-                                              - repeat: 2
-                                                reduce: 1
+                                              - repeat: 1
                                                 merge-bottom: true
                                                 contents:
                                                   - field: inventory-kit-contents-#{i}
                                                     frame: none
                                                     width: stretch
-
-                              - g:
-                                contents:
-                                  - list:
-                                    zebra: true
-                                    hr: true
-                                    contents:
-                                      - repeat: 2
-                                        reduce: 1
+                                      - row:
                                         contents:
-                                          - article:
-                                            no-header-line: true
-                                            header:
-                                              - row:
-                                                contents:
-                                                  - field: inventory-item-#{i}
-                                                    width: stretch
-                                                    frame: none
-                                                  - field: inventory-item-#{i}-value
-                                                    frame: none
-                                                    format: int
-                                                  - field: inventory-item-#{i}-bulk
-                                                    frame: none
-                                                    format: int
-                                            lines: 1
-                                      - list:
-                                        zebra: true
-                                        collapse: true
-                                        field_frame: none
-                                        contents:
-                                          - repeat: 6
-                                            reduce: 2
-                                            contents:
-                                              - row:
-                                                contents:
-                                                  - field: inventory-#{i}
-                                                    width: stretch
-                                                  - field: inventory-#{i}-value
-                                                    format: int
-                                                  - field: inventory-#{i}-bulk
-                                                    format: int
-                                  # - row:
-                                  #   contents:
-                                  - field: bulk-total
-                                    frame: left
-                                    label: "_{Total bulk}"
-                                    border: full
-                                    control: weight
-                                  - p: "_{10 light = 1 bulk}"
-
-                              - g:
-                                contents:
-                                  - h5: "_{Backpack}"
-                                  - list:
-                                    zebra: true
-                                    collapse: true
-                                    field_frame: none
-                                    contents:
-                                      - repeat: 6
-                                        reduce: 2
-                                        contents:
-                                          - row:
-                                            contents:
-                                              - field: inventory-backpack-#{i}
-                                                width: stretch
-                                              - field: inventory-backpack-#{i}-value
-                                                format: int
-                                              - field: inventory-backpack-#{i}-bulk
-                                                format: int
-                                  - row:
-                                    contents:
-                                      - field: weight-backpack-ignore
-                                        control: value
-                                        value: "-2"
-                                        frame: none
-                                        width: tiny
-                                      - p: "_{Bulk}"
-                                      - field: weight-backpack-total
-                                        frame: left
-                                        label: ""
-                                        border: full
-                                        control: weight
+                                          - field: weight-backpack-ignore
+                                            control: value
+                                            value: "-2"
+                                            frame: none
+                                            width: tiny
+                                          - p: "_{Bulk}"
+                                          - spacer:
+                                          - field: weight-backpack-total
+                                            frame: left
+                                            label: ""
+                                            border: full
+                                            control: weight
 
                               - g:
                                 contents:
@@ -201,7 +219,29 @@ inc:
                                     digits: 10
                                     decimal: 1
                                     eq: "(%{money-platinum}*1000)+(%{money-gold}*100)+(%{money-silver}*10)+%{money-copper}"
-                                  - p: "_{1000 coins = 1 bulk}"
+
+                              - g:
+                                contents:
+                                  - row:
+                                    pad: true
+                                    contents:
+                                      - field: gold-total
+                                        frame: left
+                                        label: "_{Total wealth}"
+                                        suffix: "_{gp}"
+                                        border: full
+                                        format: decimal
+                                        width: gargantuan
+                                      - spacer:
+                                  - row:
+                                    pad: true
+                                    contents:
+                                      - field: weight-total
+                                        frame: left
+                                        label: "_{Total weight}"
+                                        border: full
+                                        control: weight
+                                      - spacer:
                       - tail:
 
                   - g:
@@ -214,7 +254,25 @@ inc:
                             hr: true
                             avoid-shade: true
                             contents:
-                              - repeat: 10
+                              - level: '1'
+                                marker: ''
+                                contents:
+                                  - article: 'inventory-invested-1'
+                                    lines: 1
+                                    header:
+                                      - row:
+                                        contents:
+                                          - field: 'inventory-invested-1'
+                                            width: stretch
+                                            frame: none
+                                          - field: 'inventory-invested-1-value'
+                                            format: string
+                                            label: "_{Value}"
+                                          - field: 'inventory-invested-1-weight'
+                                            format: string
+                                            label: "_{Weight}"
+                              - repeat: 7
+                                start: 2
                                 reduce: 2
                                 contents:
                                   - level: '#{i}'
@@ -222,6 +280,16 @@ inc:
                                     contents:
                                       - article: 'inventory-invested-#{i}'
                                         lines: 1
+                                        header:
+                                          - row:
+                                            contents:
+                                              - field: 'inventory-invested-#{i}'
+                                                width: stretch
+                                                frame: none
+                                              - field: 'inventory-invested-#{i}-value'
+                                                format: string
+                                              - field: 'inventory-invested-#{i}-weight'
+                                                format: string
 
                       - section: "_{Armour}"
                         contents:
