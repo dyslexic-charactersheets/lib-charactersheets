@@ -332,25 +332,34 @@ var inventoryFieldNames = ['inventory-kit-weight', 'inventory-kit-value', 'armou
 var coinValuesCp = { 'money-platinum': 1000, 'money-gold': 100, 'money-silver': 10, 'money-copper': 1 };
 var inventoryInputs = {};
 
-function parseBulkTenths(raw) {
-  var str = ('' + raw).trim();
-  var match = /^(\d*\.?\d*)L$/i.exec(str);
-  if (match) {
-    return (match[1] === '') ? 1 : Math.round(parseFloat(match[1]) || 0);
+function parseLocaleNumber(text) {
+  var str = ('' + text).replace(/[\s\u00a0\u202f']/g, '');
+  var decimals = '0';
+  var mark = /[.,](\d{1,2})$/.exec(str);
+  if (mark) {
+    decimals = mark[1];
+    str = str.slice(0, mark.index);
   }
-  match = /^(\d*\.?\d+)B?$/i.exec(str);
-  return match ? Math.round(parseFloat(match[1]) * 10) : 0;
+  str = str.replace(/[.,](?=\d{3}(?:[.,]|$))/g, '');
+  return /^\d*$/.test(str) ? parseFloat((str || '0') + '.' + decimals) : NaN;
+}
+
+function parseBulkTenths(raw) {
+  var match = /^(.*?)\s*(L|B)?$/i.exec(('' + raw).trim());
+  var light = (match[2] || '').toUpperCase() === 'L';
+  var amount = (match[1] === '' && light) ? 1 : parseLocaleNumber(match[1]);
+  return isNaN(amount) ? 0 : Math.round(light ? amount : amount * 10);
 }
 
 function parseValueCp(raw) {
-  var str = ('' + raw).trim();
-  var match = /^(\d*\.?\d+)\s*(pp|gp|sp|cp)$/i.exec(str);
-  if (match) {
-    var perCoin = { pp: 1000, gp: 100, sp: 10, cp: 1 }[match[2].toLowerCase()];
-    return Math.round(parseFloat(match[1]) * perCoin);
+  var match = /^(.*?)\s*(pp|gp|sp|cp)?$/i.exec(('' + raw).trim());
+  var amount = parseLocaleNumber(match[1]);
+  if (isNaN(amount)) {
+    amount = parseLocaleNumber((/^[\d.,\s\u00a0\u202f']*/.exec(match[1])[0]).trim());
+    match[2] = '';
   }
-  var gp = parseFloat(str);
-  return isNaN(gp) ? 0 : Math.round(gp * 100);
+  var perCoin = { pp: 1000, gp: 100, sp: 10, cp: 1 }[(match[2] || 'gp').toLowerCase()];
+  return isNaN(amount) ? 0 : Math.round(amount * perCoin);
 }
 
 function inventoryValue(name) {
@@ -375,7 +384,7 @@ function updateInventoryTotals() {
     var match = inventoryItemPattern.exec(name);
     if (match === null) {
       if (name in coinValuesCp) {
-        var count = parseFloat(value) || 0;
+        var count = parseLocaleNumber(value) || 0;
         coins += count;
         valueCp += Math.round(count * coinValuesCp[name]);
       }
