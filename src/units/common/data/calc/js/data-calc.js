@@ -366,9 +366,22 @@ function inventoryValue(name) {
   return (name in inventoryInputs) ? inventoryInputs[name].value : '';
 }
 
+function fitInventoryInput(input) {
+  var control = input.closest('.field__control');
+  if (control === null) {
+    return;
+  }
+  control.style.minWidth = '';
+  var overflow = input.scrollWidth - input.clientWidth;
+  if (overflow > 0) {
+    control.style.minWidth = (control.offsetWidth + overflow + 4) + 'px';
+  }
+}
+
 function writeInventoryField(name, value) {
   for (var input of document.getElementsByName(name)) {
     input.value = value;
+    fitInventoryInput(input);
   }
 }
 
@@ -428,6 +441,9 @@ function setupInventoryTotals() {
   for (var source of sources) {
     source.addEventListener('input', updateInventoryTotals);
     source.addEventListener('change', updateInventoryTotals);
+  }
+  for (var total of document.querySelectorAll('[name="gold-total"], [name^="weight-total--"], [name^="weight-backpack-total--"]')) {
+    total.addEventListener('input', function () { fitInventoryInput(this); });
   }
   updateInventoryTotals();
 }
