@@ -27,39 +27,45 @@ inc:
                         contents:
                           - g:
                             contents:
-                              - row:
-                                contents:
-                                  - h5: "_{Items}"
-                                  - spacer:
-                                  - label: "_{Readied}"
-                              - list:
-                                zebra: true
-                                hr: true
+                              - h5: "_{Items}"
+                              - layout: 2e
+                                gutter: small
                                 contents:
                                   - repeat: 2
                                     reduce: 1
                                     contents:
-                                      - article:
-                                        no-header-line: true
-                                        header:
-                                          - row:
-                                            contents:
-                                              - field: inventory-item-large-#{i}
-                                                width: stretch
-                                                frame: none
-                                          - row:
-                                            contents:
-                                              - field: inventory-item-large-#{i}-checked
-                                                frame: none
-                                                control: checkbox
-                                              - field: inventory-item-large-#{i}-value
-                                                format: int
-                                                label: "_{Value}"
-                                              - field: inventory-item-large-#{i}-weight
-                                                format: int
-                                                label: "_{Weight}"
-                                        lines: 1
-                                        # merge-bottom: false
+                                      - g:
+                                        id: "inventory-large-#{i}-mark"
+                                        mark: hand-left
+                                        mark-size: small
+                                        contents:
+                                          - article: inventory-item-large-#{i}
+                                            no-header-line: true
+                                            merge-bottom: false
+                                            header:
+                                              - row:
+                                                contents:
+                                                  - field: inventory-item-large-#{i}
+                                                    width: stretch
+                                                    frame: none
+                                              - row:
+                                                contents:
+                                                  - field: inventory-item-large-#{i}-checked
+                                                    frame: none
+                                                    control: checkbox
+                                                  - field: inventory-item-large-#{i}-value
+                                                    format: int
+                                                    label: "_{Value}"
+                                                  - field: inventory-item-large-#{i}-weight
+                                                    format: int
+                                                    label: "_{Weight}"
+                                            lines: 3
+                                            min-lines: 3
+                              - hr:
+
+                              - g:
+                                mark: inventory
+                                contents:
                                   - list:
                                     zebra: true
                                     collapse: true
@@ -98,6 +104,7 @@ inc:
                             contents:
                               - section: "_{Backpack}"
                                 primary: true
+                                mark: backpack
                                 contents:
                                   - list:
                                     zebra: true
@@ -164,8 +171,8 @@ inc:
                                         label: ""
                                         border: full
                                         control: weight
-
                           - g:
+                            mark: expendables
                             flex: tiny
                             contents:
                               - h5: "_{Expendables}"
@@ -472,7 +479,7 @@ inc:
                                       - level: '#{i}'
                                         marker: ''
                                         contents:
-                                          - article: inventory-invested-#{i}
+                                          - article: 'inventory-invested-#{i}'
                                             lines: 3
                                             expand-empty: true
                                             show-level: true
