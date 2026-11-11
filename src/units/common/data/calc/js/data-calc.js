@@ -458,6 +458,8 @@ function updateInventoryTotals() {
   var totalGold = sumNumberFields(inventoryItemBases, '-value');
   totalGold += sumNumberFields(inventoryBackpackBases, '-value');
   totalGold += parseCurrencyValue(getRawFieldValue('inventory-kit-value'));
+  totalGold += parseCurrencyValue(getRawFieldValue('armour-value'));
+  totalGold += parseCurrencyValue(getRawFieldValue('shield-value'));
   totalGold += (parseFloat(getRawFieldValue('money-platinum')) || 0) * 10;
   totalGold += (parseFloat(getRawFieldValue('money-gold')) || 0);
   totalGold += (parseFloat(getRawFieldValue('money-silver')) || 0) * 0.1;
@@ -470,8 +472,8 @@ function setupInventoryTotals() {
     .concat(inventoryItemBases.map(function (b) { return b + '-value'; }))
     .concat(inventoryBackpackBases.map(function (b) { return b + '-weight'; }))
     .concat(inventoryBackpackBases.map(function (b) { return b + '-value'; }))
-    .concat(['inventory-kit-weight', 'inventory-kit-value', 'armour-bulk', 'shield-bulk',
-      'money-platinum', 'money-gold', 'money-silver', 'money-copper']);
+    .concat(['inventory-kit-weight', 'inventory-kit-value', 'armour-bulk', 'armour-value',
+      'shield-bulk', 'shield-value', 'money-platinum', 'money-gold', 'money-silver', 'money-copper']);
 
   sourceNames.forEach(function (name) {
     for (var input of document.getElementsByName(name)) {
