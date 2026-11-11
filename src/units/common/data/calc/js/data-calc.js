@@ -425,6 +425,15 @@ function updateInventoryTotals() {
   writeInventoryField('gold-total', (valueCp === 0) ? '' : valueCp / 100);
 }
 
+function syncInventoryInput() {
+  for (var twin of document.getElementsByName(this.name)) {
+    if (twin !== this) {
+      twin.value = this.value;
+    }
+  }
+  updateInventoryTotals();
+}
+
 function setupInventoryTotals() {
   var sources = [];
   for (var input of document.querySelectorAll('input[name]')) {
@@ -439,8 +448,8 @@ function setupInventoryTotals() {
     return;
   }
   for (var source of sources) {
-    source.addEventListener('input', updateInventoryTotals);
-    source.addEventListener('change', updateInventoryTotals);
+    source.addEventListener('input', syncInventoryInput);
+    source.addEventListener('change', syncInventoryInput);
   }
   for (var total of document.querySelectorAll('[name="gold-total"], [name^="weight-total--"], [name^="weight-backpack-total--"]')) {
     total.addEventListener('input', function () { fitInventoryInput(this); });
