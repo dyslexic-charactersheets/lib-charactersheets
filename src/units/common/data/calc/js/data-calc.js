@@ -326,7 +326,144 @@ if (showValuesToggle != null) {
 
 
 
+var inventoryItemPattern = /^inventory-(?:([a-z-]+)-)?\d+(?:-\d+)?-(weight|value)$/;
+var inventoryConsumablePattern = /^inventory-(scrolls|potion)-\d+$/;
+var inventoryFieldNames = ['inventory-kit-weight', 'inventory-kit-value', 'armour-bulk', 'armour-value',
+  'shield-bulk', 'shield-value', 'money-platinum', 'money-gold', 'money-silver', 'money-copper'];
+var coinValuesCp = { 'money-platinum': 1000, 'money-gold': 100, 'money-silver': 10, 'money-copper': 1 };
+var inventoryInputs = {};
+
+function parseLocaleNumber(text) {
+  var str = ('' + text).replace(/[\s\u00a0\u202f']/g, '');
+  var decimals = '0';
+  var mark = /[.,](\d{1,2})$/.exec(str);
+  if (mark) {
+    decimals = mark[1];
+    str = str.slice(0, mark.index);
+  }
+  str = str.replace(/[.,](?=\d{3}(?:[.,]|$))/g, '');
+  return /^\d*$/.test(str) ? parseFloat((str || '0') + '.' + decimals) : NaN;
+}
+
+function parseBulkTenths(raw) {
+  var match = /^(.*?)\s*(L|B)?$/i.exec(('' + raw).trim());
+  var light = (match[2] || '').toUpperCase() === 'L';
+  var amount = (match[1] === '' && light) ? 1 : parseLocaleNumber(match[1]);
+  return isNaN(amount) ? 0 : Math.round(light ? amount : amount * 10);
+}
+
+function parseValueCp(raw) {
+  var match = /^(.*?)\s*(pp|gp|sp|cp)?$/i.exec(('' + raw).trim());
+  var amount = parseLocaleNumber(match[1]);
+  if (isNaN(amount)) {
+    amount = parseLocaleNumber((/^[\d.,\s\u00a0\u202f']*/.exec(match[1])[0]).trim());
+    match[2] = '';
+  }
+  var perCoin = { pp: 1000, gp: 100, sp: 10, cp: 1 }[(match[2] || 'gp').toLowerCase()];
+  return isNaN(amount) ? 0 : Math.round(amount * perCoin);
+}
+
+function inventoryValue(name) {
+  return (name in inventoryInputs) ? inventoryInputs[name].value : '';
+}
+
+function fitInventoryInput(input) {
+  var control = input.closest('.field__control');
+  if (control === null) {
+    return;
+  }
+  control.style.minWidth = '';
+  var overflow = input.scrollWidth - input.clientWidth;
+  if (overflow > 0) {
+    control.style.minWidth = (control.offsetWidth + overflow + 4) + 'px';
+  }
+}
+
+function writeInventoryField(name, value) {
+  for (var input of document.getElementsByName(name)) {
+    input.value = value;
+    fitInventoryInput(input);
+  }
+}
+
+function writeBulkTotal(id, tenths) {
+  writeInventoryField(id + '--bulk', (tenths >= 10) ? Math.floor(tenths / 10) : '');
+  writeInventoryField(id + '--light', (tenths % 10 !== 0) ? tenths % 10 : '');
+}
+
+function updateInventoryTotals() {
+  var carriedTenths = 0, backpackTenths = 0, valueCp = 0, coins = 0;
+  for (var name in inventoryInputs) {
+    var value = inventoryInputs[name].value;
+    var match = inventoryItemPattern.exec(name);
+    if (match === null) {
+      if (name in coinValuesCp) {
+        var count = parseLocaleNumber(value) || 0;
+        coins += count;
+        valueCp += Math.round(count * coinValuesCp[name]);
+      } else if (inventoryConsumablePattern.test(name) && value.trim() !== '') {
+        var quantity = Math.round(parseLocaleNumber(inventoryValue(name + '-count')));
+        carriedTenths += (quantity > 0) ? quantity : 1;
+      }
+    } else if (match[2] === 'value') {
+      valueCp += parseValueCp(value);
+    } else if (match[1] === 'backpack') {
+      backpackTenths += parseBulkTenths(value);
+    } else {
+      carriedTenths += parseBulkTenths(value);
+    }
+  }
+
+  backpackTenths = Math.max(0, backpackTenths + parseBulkTenths(inventoryValue('inventory-kit-weight')) - 20);
+  writeBulkTotal('weight-backpack-total', backpackTenths);
+
+  carriedTenths += backpackTenths
+    + parseBulkTenths(inventoryValue('armour-bulk'))
+    + parseBulkTenths(inventoryValue('shield-bulk'))
+    + Math.floor(coins / 1000) * 10;
+  writeBulkTotal('weight-total', carriedTenths);
+
+  valueCp += parseValueCp(inventoryValue('inventory-kit-value'))
+    + parseValueCp(inventoryValue('armour-value'))
+    + parseValueCp(inventoryValue('shield-value'));
+  writeInventoryField('gold-total', (valueCp === 0) ? '' : valueCp / 100);
+}
+
+function syncInventoryInput() {
+  for (var twin of document.getElementsByName(this.name)) {
+    if (twin !== this) {
+      twin.value = this.value;
+    }
+  }
+  updateInventoryTotals();
+}
+
+function setupInventoryTotals() {
+  var sources = [];
+  for (var input of document.querySelectorAll('input[name]')) {
+    if (inventoryItemPattern.test(input.name) || inventoryConsumablePattern.test(input.name.replace(/-count$/, '')) || inventoryFieldNames.indexOf(input.name) >= 0) {
+      sources.push(input);
+      if (!(input.name in inventoryInputs)) {
+        inventoryInputs[input.name] = input;
+      }
+    }
+  }
+  if (sources.length === 0) {
+    return;
+  }
+  for (var source of sources) {
+    source.addEventListener('input', syncInventoryInput);
+    source.addEventListener('change', syncInventoryInput);
+  }
+  for (var total of document.querySelectorAll('[name="gold-total"], [name^="weight-total--"], [name^="weight-backpack-total--"]')) {
+    total.addEventListener('input', function () { fitInventoryInput(this); });
+  }
+  updateInventoryTotals();
+}
+
+
 window.addEventListener('load', (event) => {
   console.log("Initialising calculation");
   initCalculations();
+  setupInventoryTotals();
 });

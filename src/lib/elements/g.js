@@ -18,10 +18,14 @@ export let g = {
     blk: false,
     pad: false,
     cut: 'none',
+    mark: false,
+    'mark-size': 'medium',
+    'merge-bottom': false,
   },
   render(args, reg, doc) {
     const id = elementID('g', args.id);
-    const cls = elementClass('g', null, args, ['pad', 'blk'], { 'galign': 'justify', 'valign': 'center', 'align': '', 'flex': 'medium', 'cut': 'none' });
-    return `<div${id}${cls}>${reg.render(args.contents, doc)}</div>`;
+    const cls = elementClass('g', null, args, ['pad', 'blk', 'mark', 'merge-bottom'], { 'galign': 'justify', 'valign': 'center', 'align': '', 'flex': 'medium', 'cut': 'none', 'mark-size': 'medium' });
+    const mark = args.mark ? `<i class='mark icon_${args.mark}'></i>` : '';
+    return `<div${id}${cls}>${mark}${reg.render(args.contents, doc)}</div>`;
   }
 }
