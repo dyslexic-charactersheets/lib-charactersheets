@@ -32,60 +32,41 @@ inc:
                                 merge-bottom: true
                                 contents:
                                   - h5: "_{Items}"
-                                  - list:
-                                    zebra: true
-                                    hr: true
+                                  - g:
+                                    mark: inventory
                                     contents:
-                                      - article: inventory-item-large-1
-                                        no-header-line: true
-                                        header:
+                                      - list:
+                                        zebra: true
+                                        collapse: true
+                                        contents:
                                           - row:
                                             contents:
-                                              - field: inventory-item-large-1
-                                                width: stretch
+                                              - field: inventory-item-1-checked
                                                 frame: none
-                                              - field: inventory-item-large-1-value
+                                                control: checkbox
+                                              - field: inventory-item-1
+                                                width: stretch
+                                              - field: inventory-item-1-value
                                                 format: string
                                                 label: "_{Value}"
-                                              - field: inventory-item-large-1-weight
+                                              - field: inventory-item-1-weight
                                                 format: string
                                                 label: "_{Weight}"
-                                        lines: 1
-                                      - repeat: 1
-                                        start: 2
-                                        reduce: 1
-                                        contents:
-                                          - article: inventory-item-large-#{i}
-                                            no-header-line: true
-                                            header:
+                                          - repeat: 7
+                                            start: 2
+                                            reduce: 3
+                                            contents:
                                               - row:
                                                 contents:
-                                                  - field: inventory-item-large-#{i}
+                                                  - field: inventory-item-#{i}-checked
+                                                    frame: none
+                                                    control: checkbox
+                                                  - field: inventory-item-#{i}
                                                     width: stretch
-                                                    frame: none
-                                                  - field: inventory-item-large-#{i}-value
+                                                  - field: inventory-item-#{i}-value
                                                     format: string
-                                                    frame: none
-                                                  - field: inventory-item-large-#{i}-weight
+                                                  - field: inventory-item-#{i}-weight
                                                     format: string
-                                                    frame: none
-                                            lines: 1
-                                  - list:
-                                    zebra: true
-                                    collapse: true
-                                    field_frame: none
-                                    contents:
-                                      - repeat: 5
-                                        reduce: 2
-                                        contents:
-                                          - row:
-                                            contents:
-                                              - field: inventory-item-#{i}
-                                                width: stretch
-                                              - field: inventory-item-#{i}-value
-                                                format: string
-                                              - field: inventory-item-#{i}-weight
-                                                format: string
 
                               - g:
                                 id: inventory-backpack-block
@@ -139,7 +120,8 @@ inc:
                                                   - field: inventory-kit-weight
                                                     format: string
                                                     label: "_{Weight}"
-                                              - repeat: 1
+                                              - repeat: 2
+                                                reduce: 1
                                                 merge-bottom: true
                                                 contents:
                                                   - field: inventory-kit-contents-#{i}
@@ -182,46 +164,6 @@ inc:
                                                 depth: 3
 
                               - g:
-                                contents:
-                                  - h5: "_{Money}"
-                                  - field: money-platinum
-                                    frame: left
-                                    control: money
-                                    label: "_{Platinum}"
-                                    denomination: platinum
-                                    digits: 7
-                                    shift: 3
-                                  - field: money-gold
-                                    frame: left
-                                    control: money
-                                    label: "_{Gold}"
-                                    denomination: gold
-                                    digits: 8
-                                    shift: 2
-                                  - field: money-silver
-                                    frame: left
-                                    control: money
-                                    label: "_{Silver}"
-                                    denomination: silver
-                                    digits: 9
-                                    shift: 1
-                                  - field: money-copper
-                                    frame: left
-                                    control: money
-                                    label: "_{Copper}"
-                                    denomination: copper
-                                    digits: 10
-                                  - field: money-total
-                                    frame: left
-                                    output: 'true'
-                                    control: money
-                                    legend: "_{Total}"
-                                    denomination: copper
-                                    digits: 10
-                                    decimal: 1
-                                    eq: "(%{money-platinum}*1000)+(%{money-gold}*100)+(%{money-silver}*10)+%{money-copper}"
-
-                              - g:
                                 pad: true
                                 flex: none
                                 contents:
@@ -243,6 +185,49 @@ inc:
                                         border: full
                                         control: weight
                                       - spacer:
+
+                      - section: "_{Money}"
+                        flex: none
+                        contents:
+                          - g:
+                            blk: true
+                            contents:
+                              - field: money-platinum
+                                frame: left
+                                control: money
+                                label: "_{Platinum}"
+                                denomination: platinum
+                                digits: 7
+                                shift: 3
+                              - field: money-gold
+                                frame: left
+                                control: money
+                                label: "_{Gold}"
+                                denomination: gold
+                                digits: 8
+                                shift: 2
+                              - field: money-silver
+                                frame: left
+                                control: money
+                                label: "_{Silver}"
+                                denomination: silver
+                                digits: 9
+                                shift: 1
+                              - field: money-copper
+                                frame: left
+                                control: money
+                                label: "_{Copper}"
+                                denomination: copper
+                                digits: 10
+                              - field: money-total
+                                frame: left
+                                output: 'true'
+                                control: money
+                                legend: "_{Total}"
+                                denomination: copper
+                                digits: 10
+                                decimal: 1
+                                eq: "(%{money-platinum}*1000)+(%{money-gold}*100)+(%{money-silver}*10)+%{money-copper}"
                       - tail:
 
                   - g:
@@ -296,6 +281,8 @@ inc:
                                                 format: string
 
                       - section: "_{Armour}"
+                        primary: true
+                        mark: armour
                         contents:
                           - row:
                             layout: split
@@ -367,6 +354,7 @@ inc:
                                 label: "_{Noisy}"
 
                       - section: "_{Shield}"
+                        mark: shield
                         contents:
                           - row:
                             layout: split
