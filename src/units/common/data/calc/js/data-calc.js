@@ -326,27 +326,7 @@ if (showValuesToggle != null) {
 
 
 
-function updateLevelFade() {
-  var currentLevel = parseInt(getFieldValue('level'));
-  for (var el of document.querySelectorAll('[data-fade-level]')) {
-    el.classList.toggle('level-faded', currentLevel > 0 && parseInt(el.dataset.fadeLevel) > currentLevel);
-  }
-}
-
-function setupLevelFade() {
-  if (!document.documentElement.classList.contains('html--enable-level-fade')) {
-    return;
-  }
-  for (var input of document.getElementsByName('level')) {
-    input.addEventListener('input', updateLevelFade);
-    input.addEventListener('change', updateLevelFade);
-  }
-  updateLevelFade();
-}
-
-
 window.addEventListener('load', (event) => {
   console.log("Initialising calculation");
   initCalculations();
-  setupLevelFade();
 });
