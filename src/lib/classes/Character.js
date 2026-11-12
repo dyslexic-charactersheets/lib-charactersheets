@@ -544,9 +544,7 @@ export class Character extends Instance {
 
           // arbitrary field prefills
           if (has(data, "fields")) {
-            Object.keys(data.fields).forEach(key => {
-              document.setVar(key, data.fields[key], "high");
-            });
+            document.prefills = { ...data.fields };
           }
 
           // load units

@@ -70,7 +70,7 @@ function renderCompoundControl(args, reg, doc) {
 
     // fall back to a per-part prefill
     if ((isNull(part.value) || part.value === '') && part.id) {
-      const prefilled = doc.getVar(part.id, part.format);
+      const prefilled = doc.getFieldValue(part.id, part.format);
       if (prefilled !== false) part.value = prefilled;
     }
     
@@ -342,7 +342,7 @@ export let field_control_radio = {
   render(args, reg, doc) {
     const ident = fieldRadioIdent(args.id, args.value);
     const cls = elementClass("field", "control", args, [], ["control"]);
-    const selected = args.value && doc.hasVar(args.id) && args.value == doc.getVar(args.id);
+    const selected = args.value && doc.hasFieldValue(args.id) && args.value == doc.getFieldValue(args.id);
     const checked = selected ? ' checked' : '';
     return `<div${cls}><input type='radio'${checked}${ident.ident}><label${ident.for}></label></div>`;
   }

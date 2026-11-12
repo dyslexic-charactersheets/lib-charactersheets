@@ -54,6 +54,7 @@ export class Document {
     this.backgroundURL = false;
 
     this.vars = {};
+    this.prefills = {};
 
     this.pageNumbers = {};
   }
@@ -125,6 +126,14 @@ export class Document {
 
   hasVar(varname) {
     return has(this.vars, varname);
+  }
+
+  hasFieldValue(id) {
+    return has(this.prefills, id) || this.hasVar(id);
+  }
+
+  getFieldValue(id, format = null) {
+    return has(this.prefills, id) ? this.prefills[id] : this.getVar(id, format);
   }
 
   setVar(varname, value, priority = "medium") {
