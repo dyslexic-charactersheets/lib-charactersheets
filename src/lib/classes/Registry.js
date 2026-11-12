@@ -269,6 +269,9 @@ export class Registry {
         log("Registry", item);
       }
 
+      if (item['merge-bottom'] === 'false') {
+        item['merge-bottom'] = false;
+      }
       if (item['merge-bottom']) {
         item = mergeBottom(item);
       }

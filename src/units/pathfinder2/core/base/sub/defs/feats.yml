@@ -84,7 +84,7 @@ inc:
       class-feats:
       hp: 8
     contents:
-      - selectable: "##:resiliency"
+      - selectable: "#{class-id}/resiliency"
         contents:
           - p:
             title: "_{Prerequisite}"
@@ -130,7 +130,7 @@ inc:
           - selectable: "#{id}:basic-feats"
             flex: small
             contents:
-              - article: "#{id}/#{i}"
+              - article: "#{id}/basic-feat"
                 lines: "#{lines}"
                 reduce: 1
           - level: "#{advanced-level}"
@@ -150,13 +150,14 @@ inc:
             contents:
               - selectable: "#{id}:advanced-feat/#{i}"
                 contents:
-                  - article:
+                  - article: "#{id}/advanced-feat/#{i}"
                     lines: "#{lines}"
                     reduce: 1
 
 
   - copy: archetype-spellcasting-level
     params:
+      id: ""
       level: 0
       num: 2
       max: 2
@@ -170,13 +171,15 @@ inc:
               - repeat: "#{num}"
                 merge-bottom: true
                 contents:
-                  - field: "archetype-spells-#{level}"
+                  - field: "archetype-#{id}-spells-#{level}-#{i}"
                     width: stretch
                     frame: none
                     control: compound
                     parts:
-                      - control: checkbox
-                      - width: stretch
+                      - subid: prepared
+                        control: checkbox
+                      - subid: spell
+                        width: stretch
             else:
               - if: "#{style}==spontaneous"
                 then:
@@ -184,14 +187,14 @@ inc:
                     contents:
                       - g:
                         contents:
-                          - field: "archetype-spells-#{level}"
+                          - field: "archetype-#{id}-spells-#{level}"
                             width: stretch
                             repeat: "#{num}"
                             frame: none
                             merge-bottom: true
                       - g:
                         contents:
-                          - field: "archetype-spells-#{level}-today"
+                          - field: "archetype-#{id}-spells-#{level}-today"
                             control: checkgrid
                             max: "#{max}"
                             depth: 1
@@ -199,7 +202,7 @@ inc:
                 else:
                   - g:
                     contents:
-                      - field: "archetype-spells-#{level}"
+                      - field: "archetype-#{id}-spells-#{level}"
                         width: stretch
                         repeat: "#{num}"
                         frame: none
@@ -216,6 +219,7 @@ inc:
       ability: ""
       ability-name: ""
       breadth: ""
+      breadth-text: ""
       spell-dcs-zone-id: ""
     contents:
       - section: "_{Spellcasting}"
@@ -349,6 +353,10 @@ inc:
                             vr: true
                           - value: "8"
                           - value: ""
+                  - if: "#{style}==spontaneous"
+                    then:
+                      - p: "_{+1 signature spell at 6th, 12th and 18th level.}"
+                    else: []
 
               - if: "#{breadth}"
                 then:
@@ -361,9 +369,9 @@ inc:
                         else:
                           - if: "#{style}==prepared"
                             then:
-                              - p: "_{Gain an extra spell slot, and learn an extra spell, at each spell level except your highest two.}"
+                              - p: "_{Gain an extra spell slot at each spell level except your highest two.}"
                             else:
-                              - p: "_{Learn an extra spell at each spell level except your highest two.}"
+                              - p: "_{Gain an extra spell slot, and learn an extra spell, at each spell level except your highest two.}"
 
       - section: "_{Spells}"
         contents:
@@ -373,48 +381,57 @@ inc:
             contents:
               - paste: archetype-spellcasting-level
                 params:
+                  id: "#{id}"
                   level: 0
                   style: "cantrip"
                   num: 3
                   max: 0
               - paste: archetype-spellcasting-level
                 params:
+                  id: "#{id}"
                   level: 1
                   style: "#{style}"
                   num: 2
               - paste: archetype-spellcasting-level
                 params:
+                  id: "#{id}"
                   level: 2
                   style: "#{style}"
                   num: 2
               - paste: archetype-spellcasting-level
                 params:
+                  id: "#{id}"
                   level: 3
                   style: "#{style}"
                   num: 2
               - paste: archetype-spellcasting-level
                 params:
+                  id: "#{id}"
                   level: 4
                   style: "#{style}"
                   num: 2
               - paste: archetype-spellcasting-level
                 params:
+                  id: "#{id}"
                   level: 5
                   style: "#{style}"
                   num: 2
               - paste: archetype-spellcasting-level
                 params:
+                  id: "#{id}"
                   level: 6
                   style: "#{style}"
                   num: 2
               - paste: archetype-spellcasting-level
                 params:
+                  id: "#{id}"
                   level: 7
                   style: "#{style}"
                   num: 1
                   max: 1
               - paste: archetype-spellcasting-level
                 params:
+                  id: "#{id}"
                   level: 8
                   style: "#{style}"
                   num: 1
@@ -586,6 +603,7 @@ inc:
                 contents:
                   - paste: archetype-spellcasting-level
                     params:
+                      id: "#{id}"
                       level: 0
                       style: "cantrip"
                       num: 2

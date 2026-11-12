@@ -11,6 +11,12 @@ require:
 inc:
   - set: religion-proficiency
     value: trained
+  - set: spell-attack-proficiency
+    value: trained
+  - set: spell-save-dc-proficiency
+    value: trained
+  - set: champion-class-dc-proficiency
+    value: trained
 
   - at: '@archetypes'
     add:
@@ -41,14 +47,34 @@ inc:
                         label: "_{Deity}"
                         width: stretch
                         align: center
+                      - row: center
+                        contents:
+                          - field: champion-holy
+                            frame: left
+                            control: checkbox
+                            label: "_{Holy}"
+                          - icon: good
+                          - span: "&nbsp; &nbsp; &nbsp;"
+                          - icon: evil
+                          - field: champion-unholy
+                            frame: right
+                            control: checkbox
+                            label: "_{Unholy}"
 
                   - section: "_{Dedication}"
                     contents:
-                      - p: "_{Trained in Religion and your deity's skills}"
+                      - p: "_{Trained in Religion and your deity's skill}"
                         icon: proficiency-trained
                       - p: "_{Trained in light and medium armour}"
                         icon: proficiency-trained
 
+                      - hr:
+
+                      - paste: class-dc
+                        params:
+                          id: champion-class-dc
+                          legend: "_{Champion\nClass DC}"
+                          misc: false
 
                   - section: "_{Devotion}"
                     mark: champion
@@ -60,7 +86,7 @@ inc:
                           class-level: "_{Champion\nLevel}"
                           basic-title: "_{Basic Devotion}"
                           advanced-title: "_{Advanced Devotion}"
-                          lines: 4
+                          lines: 3
 
                   - tail:
 
@@ -94,24 +120,10 @@ inc:
 
                   - section: "_{Archetype Feats}"
                     contents:
-                      - article: "##:champion-resiliency"
-                        title: "_{Champion Resiliency}"
-                        cat: "_{Feat} 4"
-                        merge-bottom: false
-                        contents:
-                          - selectable: 'champion-resiliency'
-                            contents:
-                              - calc:
-                                output:
-                                  field: "##:champion-resiliency/bonus-hp"
-                                  legend: "_{Bonus Hit Points}"
-                                  width: large
-                                  suffix: "_{hp}"
-                                  eq: "3*%{##:champion-resiliency/n-feats}"
-                                inputs:
-                                  - span: "3 &times;"
-                                  - field: "##:champion-resiliency/n-feats"
-                                    label: "_{Archetype Feats}"
+                      - paste: archetype-resiliency-feat
+                        params:
+                          class: champion
+                          title: "_{Champion Resiliency}"
 
                       - article: "##:devout-magic"
                         title: "_{Devout Magic}"
@@ -120,14 +132,23 @@ inc:
                         contents:
                           - selectable: 'devout-magic'
                             contents:
-                              - layout: indent-r
+                              - paste: focus
                                 contents:
                                   - field: "##:devout-magic/devotion-spell"
                                     label: "_{Devotion Spell}"
                                     width: stretch
-                                    
-                                  - cost: "_{1pt}"
-                                    unit: "_{Focus}"
+                          - paste: spell-attack
+                            params:
+                              id: spell-attack
+                              legend: "_{Spell\nAttack}"
+                              attribute: CHA
+                              misc: false
+                          - paste: spell-dc
+                            params:
+                              id: spell-save-dc
+                              legend: "_{Spell\nSave DC}"
+                              attribute: CHA
+                              misc: false
 
                       - article: "##:champions-reaction"
                         title: "_{Champion's Reaction}"
@@ -135,14 +156,14 @@ inc:
                         contents:
                           - selectable: 'champions-reaction'
                             contents:
-                              - article:
+                              - article: "##:champions-reaction/reaction"
                                 merge-bottom: false
                                 action: reaction
-                                lines: 3
+                                lines: 2
 
                       - article: "##:devout-blessing"
                         title: "_{Devout Blessing}"
-                        cat: "_{Feat} 4"
+                        cat: "_{Feat} 6"
                         contents:
                           - selectable: 'devout-blessing'
                             contents:
@@ -150,7 +171,7 @@ inc:
                                 width: stretch
                                 frame: none
                                 control: p
-                                lines: 5
+                                lines: 3
                                 with-title: false
                                 merge-bottom: true
 

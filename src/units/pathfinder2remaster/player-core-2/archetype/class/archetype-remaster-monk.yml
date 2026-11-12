@@ -9,6 +9,11 @@ require:
   - deny: archetype/monk
 
 inc:
+  - set: unarmed-attack-proficiency
+    value: trained
+  - set: monk-class-dc-proficiency
+    value: trained
+
   - at: '@archetypes'
     add:
       - name: "_{Monk}"
@@ -38,40 +43,38 @@ inc:
 
                   - section: "_{Dedication}"
                     contents:
-                      - p: "_{Trained in Unarmed attacks}"
+                      - p: "_{Trained in unarmed attacks}"
                         icon: proficiency-trained
-                        
                       - p: "_{Trained in Acrobatics or Athletics}"
                         icon: proficiency-trained
 
                       - hr:
 
+                      - paste: class-dc
+                        params:
+                          id: monk-class-dc
+                          legend: "_{Monk\nClass DC}"
+                          misc: false
+
+                      - hr:
+
                       - h5: "_{Powerful Fist}"
-                      - value-block: "_{1d6}"
-                        content: "_{Unarmed damage with your fist.}"
-                      - p: "_{Non-lethal unarmed attacks don't get a -2 penalty.}"
-                      
+                      - row:
+                        contents:
+                          - field: "##:powerful-fist/damage"
+                            control: value
+                            value: "_{1d6}"
+                            icon: d6
+                            frame: none
+                          - p: "_{Unarmed damage with your fist.}"
+                      - p: "_{Don't take the -2 penalty when making a lethal attack with a [trait]nonlethal[/trait] unarmed attack.}"
 
                   - section: "_{Archetype Feats}"
                     contents:
-                      - article: "##:monk-resiliency"
-                        title: "_{Monk Resiliency}"
-                        cat: "_{Feat} 4"
-                        merge-bottom: false
-                        contents:
-                          - selectable: 'monk-resiliency'
-                            contents:
-                              - calc:
-                                output:
-                                  field: "##:monk-resiliency/bonus-hp"
-                                  legend: "_{Bonus Hit Points}"
-                                  width: large
-                                  suffix: "_{hp}"
-                                  eq: "3*%{##:monk-resiliency/n-feats}"
-                                inputs:
-                                  - span: "3 &times;"
-                                  - field: "##:monk-resiliency/n-feats"
-                                    label: "_{Archetype Feats}"
+                      - paste: archetype-resiliency-feat
+                        params:
+                          class: monk
+                          title: "_{Monk Resiliency}"
 
                       - article: "##:monk-moves"
                         title: "_{Monk Moves}"
@@ -96,8 +99,10 @@ inc:
                                 contents:
                                   - flags:
                                       - "_{Flourish}"
-                                  - p: "_{Make two unarmed Strikes. If both hit the same creature, combine their damage for resistances and weaknesses.}"
-                                  - p: "_{Cooldown for 1d4 turns.}"
+                                  - p: "_{Make two unarmed [action]Strikes[/action]. If both hit the same creature, combine their damage for resistances and weaknesses.}"
+                                  - dl:
+                                    defs:
+                                      cooldown: "_{1d4 rounds}"
 
                       - article: "##:perfections-path"
                         title: "_{Perfection's Path}"
@@ -128,6 +133,6 @@ inc:
                           class-level: "_{Monk\nLevel}"
                           basic-title: "_{Basic Kata}"
                           advanced-title: "_{Advanced Kata}"
-                          lines: 4
+                          num: 7
 
                   - tail:

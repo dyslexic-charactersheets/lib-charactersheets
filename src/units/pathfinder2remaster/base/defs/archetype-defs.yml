@@ -14,7 +14,7 @@ inc:
       class-feats:
       hp: 8
     contents:
-      - selectable: "##:resiliency"
+      - selectable: "#{class-id}/resiliency"
         contents:
           - p:
             title: "_{Prerequisite}"
@@ -38,6 +38,30 @@ inc:
                     max: 10
                     depth: 2
                     width: stretch
+
+  - copy: archetype-resiliency-feat
+    params:
+      class: ""
+      title: ""
+    contents:
+      - article: "archetype/remaster/#{class}:#{class}-resiliency"
+        title: "#{title}"
+        cat: "_{Feat} 4"
+        merge-bottom: false
+        contents:
+          - selectable: "#{class}-resiliency"
+            contents:
+              - calc:
+                output:
+                  field: "archetype/remaster/#{class}:#{class}-resiliency/bonus-hp"
+                  legend: "_{Bonus Hit Points}"
+                  width: large
+                  suffix: "_{hp}"
+                  eq: "3*%{archetype/remaster/#{class}:#{class}-resiliency/n-feats}"
+                inputs:
+                  - span: "3 &times;"
+                  - field: "archetype/remaster/#{class}:#{class}-resiliency/n-feats"
+                    label: "_{Archetype Feats}"
 
   - copy: archetype-feats
     params:
@@ -65,7 +89,7 @@ inc:
               - selectable: "#{id}:basic-feats"
                 flex: small
                 contents:
-                  - article: "#{id}/#{i}"
+                  - article: "#{id}/basic-feat"
                     lines: "#{lines}"
                     reduce: 1
           - if: "#{show-advanced}"
@@ -94,6 +118,7 @@ inc:
 
   - copy: archetype-spellcasting-rank
     params:
+      id: ""
       rank: 0
       num: 2
       max: 2
@@ -107,13 +132,15 @@ inc:
               - repeat: "#{num}"
                 merge-bottom: true
                 contents:
-                  - field: "archetype-spells-#{rank}"
+                  - field: "archetype-#{id}-spells-#{rank}-#{i}"
                     width: stretch
                     frame: none
                     control: compound
                     parts:
-                      - control: checkbox
-                      - width: stretch
+                      - subid: prepared
+                        control: checkbox
+                      - subid: spell
+                        width: stretch
             else:
               - if: "#{style}==spontaneous"
                 then:
@@ -121,14 +148,14 @@ inc:
                     contents:
                       - g:
                         contents:
-                          - field: "archetype-spells-#{rank}"
+                          - field: "archetype-#{id}-spells-#{rank}"
                             width: stretch
                             repeat: "#{num}"
                             frame: none
                             merge-bottom: true
                       - g:
                         contents:
-                          - field: "archetype-spells-#{rank}-today"
+                          - field: "archetype-#{id}-spells-#{rank}-today"
                             control: checkgrid
                             max: "#{max}"
                             depth: 1
@@ -136,7 +163,7 @@ inc:
                 else:
                   - g:
                     contents:
-                      - field: "archetype-spells-#{rank}"
+                      - field: "archetype-#{id}-spells-#{rank}"
                         width: stretch
                         repeat: "#{num}"
                         frame: none
@@ -150,6 +177,7 @@ inc:
       attribute: ""
       attribute-name: ""
       breadth: ""
+      breadth-text: ""
       spell-dcs-zone-id: ""
     contents:
       - section: "_{Spellcasting}"
@@ -164,29 +192,29 @@ inc:
                     contents:
                       - calc:
                         output:
-                          field: "spell-attack"
+                          field: "archetype-#{id}-spell-attack"
                           legend: "_{Spell attack}"
                           icon: bonus
-                          eq: "%{#{attribute}}+%{spell-proficiency-bonus}+%{spell-attack-misc}"
+                          eq: "%{#{attribute}}+%{archetype-#{id}-spell-proficiency-bonus}+%{archetype-#{id}-spell-attack-misc}"
                         inputs:
                           - field:
                             ref: "#{attribute}"
                             label: "#{attribute-name}"
                             underlay: "#{attribute-name}"
                           - span: "+"
-                          - field: "spell-proficiency"
+                          - field: "archetype-#{id}-spell-proficiency"
                             label: "_{Proficiency}"
                             control: proficiency
                             value: trained
-                          # - field: "spell-attack-misc"
+                          # - field: "archetype-#{id}-spell-attack-misc"
                           #   label: "_{Misc}"
                           #   misc: true
                       - calc:
                         output:
-                          field: "spell-dc"
+                          field: "archetype-#{id}-spell-dc"
                           legend: "_{Spell DC}"
                           icon: dc
-                          eq: "10+%{#{attribute}}+%{spell-proficiency-bonus}+%{spell-dc-misc}"
+                          eq: "10+%{#{attribute}}+%{archetype-#{id}-spell-proficiency-bonus}+%{archetype-#{id}-spell-dc-misc}"
                         inputs:
                           - span: "10 +"
                           - field:
@@ -194,11 +222,11 @@ inc:
                             label: "#{attribute-name}"
                             underlay: "#{attribute-name}"
                           - span: "+"
-                          - field: "spell-proficiency"
+                          - field: "archetype-#{id}-spell-proficiency"
                             label: "_{Proficiency}"
                             control: proficiency
                             value: trained
-                          # - field: "spell-dc-misc"
+                          # - field: "archetype-#{id}-spell-dc-misc"
                           #   label: "_{Misc}"
                           #   misc: true
 
@@ -287,6 +315,10 @@ inc:
                             vr: true
                           - value: "8"
                           - value: ""
+                  - if: "#{style}==spontaneous"
+                    then:
+                      - p: "_{+1 signature spell at 6th, 12th and 18th level.}"
+                    else: []
 
               - if: "#{breadth}"
                 then:
@@ -303,9 +335,9 @@ inc:
                             else:
                               - if: "#{style}==prepared"
                                 then:
-                                  - p: "_{Gain an extra spell slot, and learn an extra spell, at each spell rank except your highest two.}"
+                                  - p: "_{Gain an extra spell slot at each spell rank except your highest two.}"
                                 else:
-                                  - p: "_{Learn an extra spell at each spell rank except your highest two.}"
+                                  - p: "_{Gain an extra spell slot, and learn an extra spell, at each spell rank except your highest two.}"
 
       - section: "_{Spells}"
         contents:
@@ -315,48 +347,57 @@ inc:
             contents:
               - paste: archetype-spellcasting-rank
                 params:
+                  id: "#{id}"
                   rank: 0
                   style: "cantrip"
                   num: 3
                   max: 0
               - paste: archetype-spellcasting-rank
                 params:
+                  id: "#{id}"
                   rank: 1
                   style: "#{style}"
                   num: 2
               - paste: archetype-spellcasting-rank
                 params:
+                  id: "#{id}"
                   rank: 2
                   style: "#{style}"
                   num: 2
               - paste: archetype-spellcasting-rank
                 params:
+                  id: "#{id}"
                   rank: 3
                   style: "#{style}"
                   num: 2
               - paste: archetype-spellcasting-rank
                 params:
+                  id: "#{id}"
                   rank: 4
                   style: "#{style}"
                   num: 2
               - paste: archetype-spellcasting-rank
                 params:
+                  id: "#{id}"
                   rank: 5
                   style: "#{style}"
                   num: 2
               - paste: archetype-spellcasting-rank
                 params:
+                  id: "#{id}"
                   rank: 6
                   style: "#{style}"
                   num: 2
               - paste: archetype-spellcasting-rank
                 params:
+                  id: "#{id}"
                   rank: 7
                   style: "#{style}"
                   num: 2
                   reduce: 1
               - paste: archetype-spellcasting-rank
                 params:
+                  id: "#{id}"
                   rank: 8
                   style: "#{style}"
                   num: 2
@@ -385,7 +426,7 @@ inc:
                     contents:
                       - calc:
                         output:
-                          field: "spell-attack"
+                          field: "archetype-#{id}-spell-attack"
                           legend: "_{Spell attack}"
                           icon: bonus
                         inputs:
@@ -398,12 +439,12 @@ inc:
                             label: "_{Proficiency}"
                             control: proficiency
                             value: trained
-                          # - field: "spell-attack-misc"
+                          # - field: "archetype-#{id}-spell-attack-misc"
                           #   label: "_{Misc}"
                           #   misc: true
                       - calc:
                         output:
-                          field: "spell-dc"
+                          field: "archetype-#{id}-spell-dc"
                           legend: "_{Spell DC}"
                           icon: dc
                         inputs:
@@ -417,7 +458,7 @@ inc:
                             label: "_{Proficiency}"
                             control: proficiency
                             value: trained
-                          # - field: "spell-dc-misc"
+                          # - field: "archetype-#{id}-spell-dc-misc"
                           #   label: "_{Misc}"
                           #   misc: true
 
@@ -525,6 +566,7 @@ inc:
                 contents:
                   - paste: archetype-spellcasting-rank
                     params:
+                      id: "#{id}"
                       rank: 0
                       style: "cantrip"
                       num: 2

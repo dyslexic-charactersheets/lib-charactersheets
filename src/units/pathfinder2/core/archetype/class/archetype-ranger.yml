@@ -25,7 +25,7 @@ inc:
         flex: true
         half: true
         contents:
-          - layout: 2l
+          - layout: 2e
             contents:
               - g:
                 contents:
@@ -39,51 +39,61 @@ inc:
                       - p: "_{Trained in Survival}"
                         icon: proficiency-trained
                       - hr:
-                      - row:
-                        contents:
-                          - paste: class-dc
-                            params:
-                              id: ranger-class-dc
-                              legend: "_{Ranger\nClass DC}"
-                              misc: false
+                      - paste: class-dc
+                        params:
+                          id: ranger-class-dc
+                          legend: "_{Ranger\nClass DC}"
+                          misc: false
 
                   - section: "_{Hunt Prey}"
                     contents:
-                      - p: "_{Designate a single creature you can see or hear as your target.}"
-                      - field: ranger-hunt-prey-perception
-                        border: full
-                        legend: "_{Perception Bonus}"
-                        prefix: "+"
-                        width: large
-                      - row:
+                      - action:
                         contents:
-                          - field: ranger-hunt-prey-survival
+                          - p: "_{Designate a single creature you can see or hear as your target.}"
+                          - field: "##:hunt-prey/perception"
                             border: full
-                            legend: "_{Survival\nBonus}"
-                            prefix: "+"
+                            legend: "_{Perception Bonus}"
                             width: large
-                          - p: "_{To Track your prey.}"
-                          - spacer:
-                      - p: "_{Ignore the first ranged increment penalty when within second range}"
-                      
-
-                  - section: "_{Ranger Resiliency}"
-                    contents:
-                      - paste: archetype-resiliency
-                        params:
-                          class-id: ranger
-                          class-feats: "_{Ranger Feats}"
-
-                  - section: "_{Master Spotter}"
-                    contents:
-                      - selectable: "##:master-spotter"
-                        contents:
+                            control: value
+                            value: "+2"
                           - row:
                             contents:
-                              - icon: proficiency-expert
-                              - span: "&rarr;"
-                              - icon: proficiency-master
-                          - p: "_{Become master in Perception}"
+                              - field: "##:hunt-prey/survival"
+                                border: full
+                                legend: "_{Survival\nBonus}"
+                                width: large
+                                control: value
+                                value: "+2"
+                              - p: "_{To [action]Track[/action] your prey.}"
+                              - spacer:
+                          - p: "_{Ignore the first ranged increment penalty when within second range}"
+
+                  - section: "_{Archetype Feats}"
+                    contents:
+                      - list:
+                        hr: true
+                        contents:
+                          - article: "##:ranger-resiliency"
+                            title: "_{Ranger Resiliency}"
+                            cat: "_{Feat} 4"
+                            contents:
+                              - paste: archetype-resiliency
+                                params:
+                                  class-id: ranger
+                                  class-feats: "_{Ranger Feats}"
+
+                          - article: "##:master-spotter"
+                            title: "_{Master Spotter}"
+                            cat: "_{Feat} 12"
+                            contents:
+                              - selectable: "##:master-spotter"
+                                contents:
+                                  - row:
+                                    contents:
+                                      - icon: proficiency-expert
+                                      - span: "&rarr;"
+                                      - icon: proficiency-master
+                                  - p: "_{Become master in Perception}"
 
                   - tail:
                   - spacer:

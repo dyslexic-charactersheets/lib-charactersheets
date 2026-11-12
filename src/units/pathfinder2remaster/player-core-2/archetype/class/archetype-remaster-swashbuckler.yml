@@ -14,6 +14,9 @@ require:
   - deny: archetype/swashbuckler
 
 inc:
+  - set: swashbuckler-class-dc-proficiency
+    value: trained
+
   - at: '@archetypes'
     add:
       - name: "_{Swashbuckler}"
@@ -50,6 +53,19 @@ inc:
 
                   - section: "_{Dedication}"
                     contents:
+                      - p: "_{Trained in Acrobatics or your style's skill}"
+                        icon: proficiency-trained
+
+                      - hr:
+
+                      - paste: class-dc
+                        params:
+                          id: swashbuckler-class-dc
+                          legend: "_{Swashbuckler\nClass DC}"
+                          misc: false
+
+                      - hr:
+
                       - row:
                         contents:
                           - spacer:
@@ -68,7 +84,7 @@ inc:
                               - h6: "_{Gain panache when...}"
                               - ul:
                                 contents:
-                                  - li: "_{You successfully Tumble Through an enemy's space}"
+                                  - li: "_{You successfully [action]Tumble Through[/action] an enemy's space}"
                                   - zone: '@swashbuckler/gain-panache'
                                     contents:
                                       - li:
@@ -76,14 +92,44 @@ inc:
                                           - field: gain-panache
                                             width: stretch
                                             frame: none
-                                  - li: "_{At the GM's discretion, when you do something spectacular}"
+                                  - li: "_{You succeed at a particularly daring check that the GM gives [trait]bravado[/trait]}"
                           - g:
                             contents:
                               - h6: "_{Spend panache to...}"
                               - ul:
                                 contents:
-                                  - li: "_{Make a [trait]Finisher[/trait]}"
-                        
+                                  - li: "_{Make a [trait]finisher[/trait]}"
+
+                      - hr:
+                        light: true
+
+                      - h6: "_{Stylish Combatant}"
+                      - value-block: "+1"
+                        content: "_{To skill checks with [trait]bravado[/trait] in a combat encounter}"
+                      - value-block: "+_{5ft}"
+                        width: medium
+                        content: "_{Speed while you have panache}"
+
+                  - section: "_{Swashbuckler's Style}"
+                    primary: true
+                    contents:
+                      - zone: '@swashbuckler/style-min'
+                        contents:
+                          - field: swashbuckler-style
+                            frame: none
+                            size: huge
+                            width: stretch
+                            merge-bottom: true
+                          - hr:
+                            swash: true
+                          - article: "##:swashbucklers-style"
+                            lines: 9
+
+                  - tail:
+                  - spacer:
+
+              - g:
+                contents:
 
                   - section: "_{Archetype Feats}"
                     contents:
@@ -94,23 +140,26 @@ inc:
                         contents:
                           - selectable: 'finishing-precision'
                             contents:
-                              - p: "_{When you Strike with an [trait]Agile[/trait] or [trait]Finesse[/trait] melee weapon or unarmed attack, deal additional precision damage.}"
-                              - value-block: 1
-                                width: medium
-                                content: "_{Bonus Damage}"
-                                
-                              - value-block: "_{1d6}"
-                                width: medium
-                                content: "_{If the Strike is part of a [trait]Finisher[/trait]}"
-
-                              - hr:
-                                light: true
+                              - p: "_{When you [action]Strike[/action] with an [trait]agile[/trait] or [trait]finesse[/trait] melee weapon or unarmed attack, deal additional precision damage.}"
+                              - row:
+                                contents:
+                                  - value-block: "+1"
+                                    content: "_{Precision damage}"
+                                  - spacer:
+                                  - field: "##:finishing-precision/finisher-damage"
+                                    control: value
+                                    value: "_{1d6}"
+                                    icon: d6
+                                    frame: none
+                                  - p: "_{On a [trait]finisher[/trait]}"
 
                               - action:
                                 contents:
+                                  - flags:
+                                      - "_{Finisher}"
                                   - p:
                                     title: "_{Basic Finisher}"
-                                    content: "_{Make a Strike with a qualifying weapon.}"
+                                    content: "_{Make a [action]Strike[/action] with a qualifying weapon.}"
                                 
                       - article: "##:swashbucklers-riposte"
                         title: "_{Swashbuckler's Riposte}"
@@ -125,8 +174,8 @@ inc:
                                       - "_{Bravado}"
                                   - dl:
                                     defs:
-                                      trigger: "_{An enemy in your reach critically fails a Strike against you.}"
-                                  - p: "_{Make a melee Strike or Disarm attempt against the triggering enemy.}"
+                                      trigger: "_{An enemy in your reach critically fails a [action]Strike[/action] against you.}"
+                                  - p: "_{Make a melee [action]Strike[/action] or [action]Disarm[/action] attempt against the triggering enemy.}"
 
                       - article: "##:swashbucklers-speed"
                         title: "_{Swashbuckler's Speed}"
@@ -156,27 +205,6 @@ inc:
                                   - icon: proficiency-master
                                   - p: "_{Reflex saves}"
 
-                  - tail:
-                  - spacer:
-
-              - g:
-                contents:
-
-                  - section: "_{Swashbuckler's Style}"
-                    primary: true
-                    contents:
-                      - zone: '@swashbuckler/style-min'
-                        contents:
-                          - field: swashbuckler-style
-                            frame: none
-                            size: huge
-                            width: stretch
-                            merge-bottom: true
-                          - hr:
-                            swash: true
-                          - article: "##:swashbuckers-style"
-                            lines: 4
-
                   - section: "_{Flair}"
                     mark: swashbuckler
                     contents:
@@ -186,7 +214,7 @@ inc:
                           class-level: "_{Swashbuckler\nLevel}"
                           basic-title: "_{Basic Flair}"
                           advanced-title: "_{Advanced Flair}"
-                          lines: 4
-                          num: 3
+                          lines: 2
+                          num: 2
 
                   - tail:

@@ -9,7 +9,9 @@ name: "_{Monk}"
 multiclass: true
 
 inc:
-  - set: fighter-class-dc-proficiency
+  - set: unarmed-attack-proficiency
+    value: trained
+  - set: monk-class-dc-proficiency
     value: trained
 
   - at: '@archetypes'
@@ -25,7 +27,7 @@ inc:
         flex: true
         half: true
         contents:
-          - layout: 2l
+          - layout: 2e
             contents:
               - g:
                 contents:
@@ -41,18 +43,22 @@ inc:
                       - p: "_{Trained in either Acrobatics or Athletics}"
                         icon: proficiency-trained
                       - hr:
-                      - row:
-                        contents:
-                          - paste: class-dc
-                            params:
-                              id: monk-class-dc
-                              legend: "_{Monk\nClass DC}"
-                              misc: false
+                      - paste: class-dc
+                        params:
+                          id: monk-class-dc
+                          legend: "_{Monk\nClass DC}"
+                          misc: false
 
                       - hr:
                       - h5: "_{Powerful Fist}"
-                      - value-block: "_{d6}"
-                        content: "_{Unarmed damage with your fists}"
+                      - row:
+                        contents:
+                          - field: "##:powerful-fist/damage"
+                            control: value
+                            value: "_{1d6}"
+                            icon: d6
+                            frame: none
+                          - p: "_{Unarmed damage with your fist.}"
                       - p: "_{Don't take the -2 penalty when making a lethal attack with a nonlethal unarmed attack.}"
 
                   - section: "_{Monk Resiliency}"

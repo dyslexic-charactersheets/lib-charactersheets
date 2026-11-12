@@ -8,13 +8,10 @@ group: "_{Core Rulebook}"
 name: "_{Alchemist}"
 multiclass: true
 
-form:
-  - select: alchemist/instinct
-    name: "_{Instinct}"
-    max: 1
-
 inc:
   - set: alchemist-class-dc-proficiency
+    value: trained
+  - set: class/alchemist/throw-bomb-proficiency
     value: trained
 
   - at: '@archetypes'
@@ -30,7 +27,7 @@ inc:
         flex: true
         half: true
         contents:
-          - layout: 2l
+          - layout: 2e
             contents:
               - g:
                 contents:
@@ -44,13 +41,11 @@ inc:
                       - p: "_{Trained in alchemical bombs and Crafting}"
                         icon: proficiency-trained
                       - hr:
-                      - row:
-                        contents:
-                          - paste: class-dc
-                            params:
-                              id: alchemist-class-dc
-                              legend: "_{Alchemist\nClass DC}"
-                              misc: false
+                      - paste: class-dc
+                        params:
+                          id: alchemist-class-dc
+                          legend: "_{Alchemist\nClass DC}"
+                          misc: false
 
 
                   - section: "_{Concoctions}"
@@ -60,7 +55,7 @@ inc:
                         params:
                           id: alchemist-feats
                           class-level: "_{Alchemist\nLevel}"
-                          basic-title: "_{Basic Conconction}"
+                          basic-title: "_{Basic Concoction}"
                           advanced-title: "_{Advanced Concoctions}"
                           num: 4
 
@@ -89,7 +84,7 @@ inc:
                                         ref: level
                                         label: "_{Level}"
                                   - spacer:
-                                  - field: alchmist-infused-reagents-today
+                                  - field: alchemist-infused-reagents-today
                                     label: "_{Today}"
                                     temp: true
                                     border: full
@@ -97,32 +92,32 @@ inc:
                               - p: "_{Use infused reagents for either Advanced Alchemy or Quick Alchemy.}"
                                 optional: true
 
-                              - calc:
-                                output:
-                                  field: attack-#{i}-bonus
-                                  legend: "_{Throw Bomb}"
-                                  width: large
-                                  attack: true
-                                  icon: bonus
-                                  eq: "%{STR}+%{attack-#{i}-proficiency-bonus}"
-                                inputs:
-                                  - field:
-                                    ref: STR
-                                    label: "_{STR}"
-                                    underlay: "_{STR}"
-                                  - span: "+"
-                                  - field: attack-#{i}-proficiency
-                                    control: proficiency
-                                    label: "_{Proficiency}"
                               - row:
                                 contents:
+                                  - calc:
+                                    output:
+                                      field: class/alchemist/throw-bomb
+                                      legend: "_{Throw Bomb}"
+                                      width: large
+                                      attack: true
+                                      icon: bonus
+                                      eq: "%{DEX}+%{class/alchemist/throw-bomb-proficiency-bonus}"
+                                    inputs:
+                                      - field:
+                                        ref: DEX
+                                        label: "_{DEX}"
+                                        underlay: "_{DEX}"
+                                      - span: "+"
+                                      - field: class/alchemist/throw-bomb-proficiency
+                                        control: proficiency
+                                        label: "_{Proficiency}"
+                                  - spacer:
                                   - field: alchemist-splash
                                     legend: "_{Splash}"
-                                    # border: full
                                     control: value
                                     value: "_{5ft}"
-                                  - p: "_{Splash weapons don't add strength bonus to damage.}"
-                                    optional: true
+                              - p: "_{Splash weapons don't add strength bonus to damage.}"
+                                optional: true
 
                   - section: "_{Advanced Alchemy}"
                     contents:
@@ -135,8 +130,6 @@ inc:
                                 contents:
                                   - p: "_{Prepare alchemical items each day.}"
                                     optional: true
-                                  - spacer:
-                                  - h5: "_{Today's Items}"
                               - spacer:
                               - level-marker:
                                 level: 1
@@ -151,8 +144,8 @@ inc:
                             merge-bottom: true
                             avoid-shade: true
                             contents:
-                              - repeat: 4
-                                reduce: 2
+                              - repeat: 3
+                                reduce: 1
                                 contents:
                                   - row:
                                     contents:
@@ -194,11 +187,11 @@ inc:
                                 icon: proficiency-master
                                 title: "_{Prerequisite}"
                                 content: "_{Master in Crafting}"
-                              - layout: 2e
+                              - level-marker:
+                                level: 7
+                                marker: "_{Alchemical\nItem Level}"
+                              - g:
                                 contents:
-                                  - level-marker:
-                                    level: 7
-                                    marker: "_{Alchemical\nItem Level}"
                                   - level: 12
                                     contents:
                                       - calc:
@@ -227,13 +220,6 @@ inc:
                               - p: "_{Swiftly mix up an infusion using a formula in your book, without spending the normal cost.}"
                               - p: "_{These last only one round.}"
                                 optional: true
-
-                  - section: "_{Alchemist Resiliency}"
-                    contents:
-                      - paste: archetype-resiliency
-                        params:
-                          class-id: alchemist
-                          class-feats: "_{Alchemist Feats}"
 
                   - tail:
 

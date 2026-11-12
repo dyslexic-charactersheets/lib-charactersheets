@@ -34,7 +34,7 @@ inc:
         flex: true
         half: true
         contents:
-          - layout: 2l
+          - layout: 2e
             contents:
               - g:
                 contents:
@@ -50,12 +50,11 @@ inc:
                       - p: "_{Trained in Acrobatics, or the skill for your style}"
                         icon: proficiency-trained
                       - hr:
-                      - row:
-                        contents:
-                          - paste: class-dc
-                            params:
-                              id: swashbuckler-class-dc
-                              legend: "_{Swashbuckler\nClass DC}"
+                      - paste: class-dc
+                        params:
+                          id: swashbuckler-class-dc
+                          legend: "_{Swashbuckler\nClass DC}"
+                          misc: false
 
                   - section: "_{Flair}"
                     mark: swashbuckler
@@ -143,13 +142,14 @@ inc:
                                     width: small
 
                                   - value-block: "+_{5ft}"
+                                    width: medium
                                     content: "_{Speed}"
 
                   - section: "_{Finishing Precision}"
                     contents:
                       - selectable: "##:finishing-precision"
                         contents:
-                          - p: "When you have panache and strike with an agile or finesse melee weapon or unarmed strike, deal extra damage."
+                          - p: "_{When you have panache and strike with an agile or finesse melee weapon or unarmed strike, deal extra damage.}"
                           - value-block: "+1"
                             content: "_{Bonus Damage}"
                           - hr:
@@ -158,8 +158,14 @@ inc:
                             contents:
                               - h5: "_{Basic Finisher}"
                               - p: "_{Spend panache to make the final Strike of your turn.}"
-                              - value-block: "+_{1d6}"
-                                content: "_{Bonus Damage}"
+                              - row:
+                                contents:
+                                  - field: "##:finishing-precision/finisher-damage"
+                                    control: value
+                                    value: "_{1d6}"
+                                    icon: d6
+                                    frame: none
+                                  - p: "_{Bonus Damage}"
                   
                   - section: "_{Swashbuckler's Riposte}"
                     contents:
@@ -167,7 +173,7 @@ inc:
                         contents:
                           - action: reaction
                             contents:
-                              - p: "_{When an enemy in reach misses a Strike against you, make a melee Strike or Disarm attempt.}"
+                              - p: "_{When an enemy in reach critically fails a Strike against you, make a melee Strike or Disarm attempt.}"
                   
                   - section: "_{Swashbuckler's Speed}"
                     contents:

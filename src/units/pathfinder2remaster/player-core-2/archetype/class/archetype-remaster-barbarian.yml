@@ -11,6 +11,8 @@ require:
 inc:
   - set: athletics-proficiency
     value: trained
+  - set: barbarian-class-dc-proficiency
+    value: trained
 
   - at: '@archetypes'
     add:
@@ -41,7 +43,13 @@ inc:
                         icon: proficiency-trained
 
                       - hr:
-                      
+
+                      - paste: class-dc
+                        params:
+                          id: barbarian-class-dc
+                          legend: "_{Barbarian\nClass DC}"
+                          misc: false
+
                       - action:
                         contents:
                           - row:
@@ -50,6 +58,10 @@ inc:
                                 contents:
                                   - h5: "_{[b]Rage![/b]}"
                                     size: large
+                                  - flags:
+                                      - "_{Concentrate}"
+                                      - "_{Emotion}"
+                                      - "_{Mental}"
                                   - p: "_{1 minute, until combat ends, or until you fall unconscious.}"
                               - field: rage-current
                                 legend: "_{Duration}"
@@ -70,13 +82,17 @@ inc:
 
                           - vr:
                           - value-block: "+2"
-                            content: "_{Damage}"
+                            content: "_{Damage to melee [action]Strikes[/action]}"
 
                           - spacer:
 
+                      - p:
+                        title: "_{Agile}"
+                        content: "_{If using an [trait]agile[/trait] weapon or unarmed attack, [b]Rage![/b] damage bonus is halved.}"
+
                       - hr:
                         light: true
-                          
+
                       - calc:
                         output:
                           field: barbarian-rage-temp-hp
@@ -97,10 +113,10 @@ inc:
 
                       - hr:
                         light: true
-                            
+
                       - p:
                         title: "_{While Raging}:"
-                        content: "_{Can't use [trait]Concentrate[/trait] actions unless they also have the [trait]Rage[/trait] trait. You can Seek while raging.}"
+                        content: "_{Can't use [trait]concentrate[/trait] actions unless they also have [trait]rage[/trait]. You can [action]Seek[/action] while raging.}"
                       - p:
                         title: "_{After Raging}:"
                         content: "_{Lose your temporary hit points. Temporary hit points gained from [b]Rage![/b] are on cooldown for 1 minute.}"
@@ -115,6 +131,8 @@ inc:
                         width: stretch
                         align: left
                         merge-bottom: true
+                      - p: "_{If your instinct has anathema, you're bound by them.}"
+                        optional: true
                       - hr:
                         swash: true
                       - article: "##:instinct-ability"
@@ -125,29 +143,20 @@ inc:
                             contents:
                               - field: 'barbarian-instinct-ability/details'
                                 control: p
-                                lines: 4
+                                lines: 3
                                 with-title: false
+
+                  - tail:
+
+              - g:
+                contents:
 
                   - section: "_{Archetype Feats}"
                     contents:
-                      - article: "##:barbarian-resiliency"
-                        title: "_{Barbarian Resiliency}"
-                        cat: "_{Feat} 4"
-                        merge-bottom: false
-                        contents:
-                          - selectable: 'barbarian-resiliency'
-                            contents:
-                              - calc:
-                                output:
-                                  field: "##:barbarian-resiliency/bonus-hp"
-                                  legend: "_{Bonus Hit Points}"
-                                  width: large
-                                  suffix: "_{hp}"
-                                  eq: "3*%{##:barbarian-resiliency/n-feats}"
-                                inputs:
-                                  - span: "3 &times;"
-                                  - field: "##:barbarian-resiliency/n-feats"
-                                    label: "_{Archetype Feats}"
+                      - paste: archetype-resiliency-feat
+                        params:
+                          class: barbarian
+                          title: "_{Barbarian Resiliency}"
                       
                       - article: "##:juggernauts-fortitude"
                         title: "_{Juggernaut's Fortitude}"
@@ -162,11 +171,6 @@ inc:
                                   - icon: proficiency-master
                                   - span: "_{Fortitude saves}"
 
-                  - tail:
-
-              - g:
-                contents:
-
                   - section: "_{Fury}"
                     mark: barbarian
                     contents:
@@ -176,6 +180,7 @@ inc:
                           class-level: "_{Barbarian\nLevel}"
                           basic-title: "_{Basic Fury}"
                           advanced-title: "_{Advanced Fury}"
-                          lines: 4
+                          num: 5
+                          lines: 3
 
                   - tail:

@@ -14,9 +14,6 @@ form:
     max: 1
 
 inc:
-  - set: witch-class-dc-proficiency
-    value: trained
-
   - at: '@archetypes'
     add:
       - name: "_{Witch}"
@@ -41,7 +38,6 @@ inc:
                       - class-name: "_{Witch}"
                       
                   - section: "_{Dedication}"
-                    primary: true
                     contents:
                       - p: "_{Trained in your patron's skill}"
                         icon: proficiency-trained
@@ -68,6 +64,7 @@ inc:
                       - p: "_{Your patron has sent you a familiar. Commune with your familiar to prepare spells each day.}"
                       - p: "_{If your familiar dies, your patron replaces it the next morning. This does not affect your spells.}"
                       - p: "_{Your familiar has one less familiar ability than normal.}"
+                      - p: "_{Basic Witchcraft removes this penalty.}"
 
                   - section: "_{Witchcraft}"
                     mark: witch
@@ -87,8 +84,10 @@ inc:
 
                   - paste: archetype-spellcasting
                     params:
-                      style: spontaneous
-                      tradition: divine
+                      id: witch
+                      style: prepared
+                      cantrips: 1
+                      tradition: witch
                       tradition-spell-attack: "_{Spell\nAttack}"
                       tradition-spell-dc: "_{Spell\nSave DC}"
                       ability: "INT"
