@@ -850,6 +850,9 @@ export class Document {
     if (this.getVar('enable-level-fade')) {
       htmlClasses.push("html--enable-level-fade");
     }
+    if (this.getVar('level-fade-invisible')) {
+      htmlClasses.push("html--level-fade-invisible");
+    }
 
     let isLoggedIn = this.isLoggedIn;
     let showSearch = this.hasUnit('data/search');
