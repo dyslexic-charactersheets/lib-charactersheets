@@ -4,6 +4,7 @@
  */
 
 import { elementID, elementClass } from '../util/elements';
+import { levelFadeData } from '../util/level-fade';
 import { log } from '../log';
 
 export let layout = {
@@ -84,8 +85,8 @@ export let layout = {
       return `<div class='layout__inner'>${reg.render([elem], doc)}</div>`;
     });
     
-    const cls = elementClass('layout', null, args, ['no-flex', 'blk', 'unblk', 'vr'], { 'layout': '', 'gutter': '', 'flex': false });
-    return `<div${cls}>${contents.join('')}</div>`;
+    const cls = elementClass('layout', null, args, ['no-flex', 'blk', 'unblk', 'vr', 'level-capped'], { 'layout': '', 'gutter': '', 'flex': false });
+    return `<div${cls}${levelFadeData(args)}>${contents.join('')}</div>`;
   }
 }
 

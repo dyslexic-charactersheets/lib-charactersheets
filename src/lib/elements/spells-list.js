@@ -6,6 +6,7 @@
 import { isArray, isEmpty, isNumber, isString } from '../util';
 import { has, interpolate } from '../util/objects';
 import { log } from '../log';
+import { levelFade } from '../util/level-fade';
 
 function spellField(lvl, style, checks, n, annotation, value) {
   // log("spells", `Spell field: level = ${lvl}, style = ${style}, n = ${n}`);
@@ -65,7 +66,7 @@ function spellField(lvl, style, checks, n, annotation, value) {
   }
 }
 
-function spellLevel(lvl, ord, style, checks, slots, special, special_checks, special_value, special_index) {
+function spellLevel(lvl, ord, style, checks, slots, special, special_checks, special_value, special_index, fade = {}) {
   // log("spells", "Spell level:", lvl);
   const level_marker = {
     type: "level-marker",
@@ -147,6 +148,7 @@ function spellLevel(lvl, ord, style, checks, slots, special, special_checks, spe
     type: "layout",
     layout: "spells-list",
     narrow: true,
+    ...fade,
     contents: [
       {
         type: "list",
@@ -259,7 +261,7 @@ export let spells_list = {
       }
       
       // log("spells-list", "Special value", ord, specialValues, "check", special_checks);
-      spell_levels.push(spellLevel(lvl, ord, args.style, args.checks, slots[lvl], args.special, special_checks, specialValues, lvl - min));
+      spell_levels.push(spellLevel(lvl, ord, args.style, args.checks, slots[lvl], args.special, special_checks, specialValues, lvl - min, levelFade(2 * lvl - 1, ctx)));
     }
 
     return [
@@ -292,7 +294,7 @@ export let spells_table = {
     at: [],
     'spell-level-label': "_{Spell\nLevel}",
   },
-  transform(args) {
+  transform(args, ctx) {
     // log("-","[spells] Expanding spells table:", args);
 
     let rows = [];
@@ -302,7 +304,7 @@ export let spells_table = {
     // Rows
     for (let lvl = args.min; lvl <= args.max; lvl++) {
       const ord = (args.ordinal && !args.flip) ? ordinal(lvl) : lvl;
-      rows.push({ level: lvl, ordinal: ord });
+      rows.push({ level: lvl, ordinal: ord, ...levelFade(2 * lvl - 1, ctx) });
     }
 
     // Spell Level

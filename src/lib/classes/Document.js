@@ -847,6 +847,13 @@ export class Document {
     if (this.hasUnit("option/colourful")) {
       htmlClasses.push("html--colourful");
     }
+    if (this.getVar('enable-level-fade')) {
+      htmlClasses.push("html--enable-level-fade");
+    }
+    const levelFadeMode = this.getVar('level-fade-mode');
+    if (levelFadeMode && levelFadeMode != 'grey') {
+      htmlClasses.push("html--level-fade-" + levelFadeMode);
+    }
 
     let isLoggedIn = this.isLoggedIn;
     let showSearch = this.hasUnit('data/search');

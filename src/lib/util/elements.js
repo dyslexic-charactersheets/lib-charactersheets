@@ -118,6 +118,7 @@ export function elementClass(block, element = null, args = {}, modKeys = [], att
       case 'blk':
       case 'unblk':
       case 'pad':
+      case 'level-capped':
         cls.push(mod);
         break;
       default:

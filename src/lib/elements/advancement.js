@@ -7,6 +7,9 @@ import { isEmpty, isArray } from '../util';
 import { toKebabCase } from '../util/strings';
 import { cloneDeep, has, interpolate } from '../util/objects';
 import { log, warn } from '../log';
+import { levelFade } from '../util/level-fade';
+
+const LEVEL_INDEX = "_{Level}";
 
 export let advancement = {
   name: 'advancement',
@@ -22,7 +25,7 @@ export let advancement = {
     flip: false,
     rotate: false,
     advances: [],
-    index: "_{Level}",
+    index: LEVEL_INDEX,
     labels: [],
     fields: []
   },
@@ -199,6 +202,7 @@ export let advancement = {
         ...flags,
         level: lv,
         icon: icons.join(","),
+        ...(args.index == LEVEL_INDEX ? levelFade(lv, ctx) : {}),
         item: {
           type: "g",
           contents: [...proficiencyItems, ...iconItems, ...items, ...contents]
