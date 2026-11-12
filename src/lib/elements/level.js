@@ -5,6 +5,9 @@
 
 import { __, _e } from '../i18n';
 import { elementClass } from '../util/elements';
+import { levelFade } from '../util/level-fade';
+
+const LEVEL_MARKER = "_{Level}";
 
 export let level = {
   name: 'level',
@@ -13,7 +16,7 @@ export let level = {
     level: 1,
     narrow: true,
     blk: false,
-    marker: "_{Level}",
+    marker: LEVEL_MARKER,
     contents: [],
     inline: false,
   },
@@ -23,16 +26,12 @@ export let level = {
       layout = "indent-lw";
     }
 
-    const levelCap = (ctx && ctx.getVar) ? (parseInt(ctx.getVar('level-cap', 'number')) || 0) : 0;
-    const overStaticCap = levelCap > 0 && parseInt(args.level) > levelCap;
-
     return [
       {
         type: "layout",
         layout: layout,
         blk: args.blk,
-        fade: overStaticCap,
-        level: args.level,
+        ...(args.marker == LEVEL_MARKER ? levelFade(args.level, ctx) : {}),
         contents: [
           {
             type: "g",

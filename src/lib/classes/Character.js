@@ -102,7 +102,6 @@ function parseCharacter(primary, request) {
     skillActions: attr.skillActions,
     miniSize: attr.miniSize,
     hideOptional: attr.hideOptional,
-
     levelCap: attr.levelCap,
     enableLevelFade: attr.enableLevelFade,
 

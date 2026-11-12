@@ -6,6 +6,7 @@
 import { isArray, isEmpty, isNumber, isString } from '../util';
 import { has, interpolate } from '../util/objects';
 import { log } from '../log';
+import { levelFade } from '../util/level-fade';
 
 function spellField(lvl, style, checks, n, annotation, value) {
   // log("spells", `Spell field: level = ${lvl}, style = ${style}, n = ${n}`);
@@ -299,15 +300,10 @@ export let spells_table = {
     let columns = [];
     let template = [];
 
-    // level cap: a spell rank first becomes available at character level
-    // (2 * rank - 1) for standard spellcasting progression
-    const levelCap = (ctx && ctx.getVar) ? (parseInt(ctx.getVar('level-cap', 'number')) || 0) : 0;
-
     // Rows
     for (let lvl = args.min; lvl <= args.max; lvl++) {
-      const requiredLevel = (2 * lvl) - 1;
       const ord = (args.ordinal && !args.flip) ? ordinal(lvl) : lvl;
-      rows.push({ level: lvl, ordinal: ord, 'level-capped': levelCap > 0 && requiredLevel > levelCap, 'level-required': requiredLevel });
+      rows.push({ level: lvl, ordinal: ord, ...levelFade(2 * lvl - 1, ctx) });
     }
 
     // Spell Level

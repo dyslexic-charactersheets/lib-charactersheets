@@ -6,6 +6,7 @@
 import { isEmpty, isNull } from '../util';
 import { elementClass, mergeBottom } from '../util/elements';
 import { has } from '../util/objects';
+import { levelFadeData } from '../util/level-fade';
 import { warn, error } from '../log';
 // import { mergeBottom } from '../classes/Registry';
 
@@ -57,9 +58,8 @@ export function renderTableBasic(args, reg, doc, headings, rows) {
     });
 
     const rowCls = elementClass('tr', null, row.params, ['hr', 'level-capped'], { colour: false });
-    const level = (has(row.params, 'level-capped')) ? ` data-level='${row.params.level}'` : '';
     // log("table", "Table row class", row, rowCls);
-    return `<tr${rowCls}${level}>${cells.join("\n")}</tr>\n`;
+    return `<tr${rowCls}${levelFadeData(row.params)}>${cells.join("\n")}</tr>\n`;
   });
 
   // put it all together

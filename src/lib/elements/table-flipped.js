@@ -7,6 +7,7 @@ import { isNull, isString, isEmpty, isObject } from '../util';
 import { elementClass } from '../util/elements';
 import { log, warn } from '../log';
 import { has } from '../util/objects';
+import { levelFadeData } from '../util/level-fade';
 
 // Column-oriented table
 export function renderTableFlipped(args, reg, doc, headings, cols) {
@@ -46,15 +47,12 @@ export function renderTableFlipped(args, reg, doc, headings, cols) {
     });
   }
 
-  let cappedCols = Array(ncols).fill(false);
-  let colLevels = Array(ncols).fill(false);
+  const colAttrs = Array(ncols).fill('');
 
   cols.forEach((col, c) => {
     if (hasHeading) c++;
-    if (has(col, "params") && col.params && has(col.params, 'level-capped')) {
-      cappedCols[c] = col.params['level-capped'];
-      colLevels[c] = has(col.params, 'level-required') ? col.params['level-required'] : col.params.level;
-    }
+    const params = col.params || {};
+    colAttrs[c] = elementClass('td', null, params, ['level-capped']) + levelFadeData(params);
     // log("table", "Column", c, col);
     col.cells.forEach((cell, r) => {
       // log("table", "Cell at:", r, c, "=", cell);
@@ -75,12 +73,9 @@ export function renderTableFlipped(args, reg, doc, headings, cols) {
     }
 
     const tds = row.map((elem, c) => {
-      const i = hasHeading ? c + 1 : c;
       const colspan = (has(elem, "colspan") && elem.colspan > 1) ? ` colspan="${elem.colspan}"` : '';
       const rowspan = (has(elem, "rowspan") && elem.rowspan > 1) ? ` rowspan="${elem.rowspan}"` : '';
-      const cls = cappedCols[i] ? ` class="td--level-capped"` : '';
-      const level = (colLevels[i] !== false) ? ` data-level='${colLevels[i]}'` : '';
-      return `<td${cls}${level}>${isNull(elem) ? '' : reg.renderItem(elem, doc)}</td>`;
+      return `<td${colAttrs[hasHeading ? c + 1 : c]}>${isNull(elem) ? '' : reg.renderItem(elem, doc)}</td>`;
     });
 
     return `<tr>${th}${tds.join("")}</tr>`;
