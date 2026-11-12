@@ -9,7 +9,7 @@ import { replaceColours, adjustColour, vibrantColour } from '../util/colours';
 import { __ } from '../i18n';
 import { PREMIUM, ready as systemsReady } from './System';
 import { getSystemStack } from './SystemStack';
-import { Instance } from './Instance';
+import { Instance, addDyslexicFontUnit } from './Instance';
 import { Document } from './Document';
 import { events } from './Events';
 
@@ -55,7 +55,7 @@ function parseCustom(primary, request) {
     custom.units.push('high-contrast');
   }
   if (attr.printDyslexic) {
-    addDyslexicFontUnit(attr.printDyslexicFont);
+    addDyslexicFontUnit(custom.units, attr.printDyslexicFont);
   }
 
   // done

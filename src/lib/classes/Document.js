@@ -54,6 +54,7 @@ export class Document {
     this.backgroundURL = false;
 
     this.vars = {};
+    this.prefills = {};
 
     this.pageNumbers = {};
   }
@@ -125,6 +126,14 @@ export class Document {
 
   hasVar(varname) {
     return has(this.vars, varname);
+  }
+
+  hasFieldValue(id) {
+    return has(this.prefills, id) || this.hasVar(id);
+  }
+
+  getFieldValue(id, format = null) {
+    return has(this.prefills, id) ? this.prefills[id] : this.getVar(id, format);
   }
 
   setVar(varname, value, priority = "medium") {
@@ -399,12 +408,12 @@ export class Document {
         break;
       case 'if':
         // log("compose", "if", element.condition)
-        element.then = this.completeElement(element.then, registry);
-        element.else = this.completeElement(element.else, registry);
+        element.then = isNull(element.then) ? [] : this.completeElement(element.then, registry);
+        element.else = isNull(element.else) ? [] : this.completeElement(element.else, registry);
         break;
       case 'large-print':
         element.contents = this.completeElement(element.contents, registry);
-        element.else = this.completeElement(element.else, registry);
+        element.else = isNull(element.else) ? [] : this.completeElement(element.else, registry);
         break;
       case 'spells-list':
         if (has(element, 'special-value')) {

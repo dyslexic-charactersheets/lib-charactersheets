@@ -4,6 +4,7 @@
  */
 
 import { GM_Instance } from "./GM_Instance";
+import { addDyslexicFontUnit } from './Instance';
 import { isEmpty, isNull, isObject } from '../util';
 import { log, warn } from '../log';
 import { has } from "../util/objects";
@@ -72,7 +73,7 @@ function parseGM_Party(primary, request) {
     gm.units.push('high-contrast');
   }
   if (attr.printDyslexic) {
-    addDyslexicFontUnit(attr.printDyslexicFont);
+    addDyslexicFontUnit(gm.units, attr.printDyslexicFont);
   }
 
   // game-specific settings

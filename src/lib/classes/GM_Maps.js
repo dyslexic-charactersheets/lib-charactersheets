@@ -4,6 +4,7 @@
  */
 
 import { GM_Instance } from "./GM_Instance";
+import { addDyslexicFontUnit } from './Instance';
 import { isEmpty, isNull } from '../util';
 import { adjustColour } from '../util/colours';
 
@@ -68,7 +69,7 @@ function parseGM_Maps(primary, request) {
     gm.units.push('high-contrast');
   }
   if (attr.printDyslexic) {
-    addDyslexicFontUnit(attr.printDyslexicFont);
+    addDyslexicFontUnit(gm.units, attr.printDyslexicFont);
   }
 
   // included assets
