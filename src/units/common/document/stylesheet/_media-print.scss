@@ -9,10 +9,6 @@
   margin: 0;
 }
 
-@page landscape {
-  size: landscape;
-}
-
 * {
   -webkit-print-color-adjust: exact !important;
   color-adjust: exact !important;
@@ -41,10 +37,14 @@ main {
   break-inside: avoid;
 
   &.page--landscape {
-    page: landscape;
+    width: 100vh;
     min-height: 0;
     max-height: none;
     height: 100vw;
+    margin-bottom: calc(100vh - 100vw);
+    contain: size;
+    transform-origin: top left;
+    transform: translateY(100vh) rotate(-90deg);
   }
 }
 
