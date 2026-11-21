@@ -72,10 +72,65 @@ inc:
   - set: religion-proficiency
     value: trained
 
+  - set: unarmed-attack-proficiency
+    value: trained
   - set: simple-weapons-proficiency
     value: trained
   - set: martial-weapons-proficiency
     value: trained
+
+  - paste: saving-throw-override
+    params:
+      save: fortitude
+      thresholds: "[null,1,9,null]"
+  - paste: saving-throw-override
+    params:
+      save: reflex
+      thresholds: "[1,9,null,null]"
+  - paste: saving-throw-override
+    params:
+      save: will
+      thresholds: "[null,1,11,null]"
+
+  - paste: unarmed-proficiency-override
+    params:
+      thresholds: "[1,5,13,null]"
+  - paste: simple-weapons-proficiency-override
+    params:
+      thresholds: "[1,5,13,null]"
+  - paste: martial-weapons-proficiency-override
+    params:
+      thresholds: "[1,5,13,null]"
+
+  - paste: unarmoured-proficiency-override
+    params:
+      thresholds: "[1,7,13,17]"
+  - paste: light-armour-proficiency-override
+    params:
+      thresholds: "[1,7,13,17]"
+  - paste: medium-armour-proficiency-override
+    params:
+      thresholds: "[1,7,13,17]"
+  - paste: heavy-armour-proficiency-override
+    params:
+      thresholds: "[1,7,13,17]"
+
+  - paste: class-dc-proficiency-override
+    params:
+      class: champion
+      thresholds: "[1,9,17,null]"
+
+  - paste: perception-proficiency-override
+    params:
+      thresholds: "[1,11,null,null]"
+  - paste: spell-proficiency-override
+    params:
+      id: spell-attack
+      thresholds: "[1,9,17,null]"
+  - paste: spell-proficiency-override
+    params:
+      id: spell-dc
+      thresholds: "[1,9,17,null]"
 
   - at: '@skill-actions'
     add:
@@ -110,7 +165,7 @@ inc:
         advance: "_{Hero's Defiance}"
 
       - level: 5
-        advance: "_{Simple weapons}, _{Martial weapons}"
+        advance: "_{Simple weapons}, _{Martial weapons}, _{Unarmed attacks}"
         proficiency: expert
       - level: 7
         advance: "_{Light armour}, _{Medium armour}, _{Heavy armour}, _{Unarmoured defence}"
@@ -118,6 +173,10 @@ inc:
       - level: 9
         advance: "_{Champion class DC}"
         proficiency: expert
+      - level: 9
+        advance: "_{Fortitude saves}"
+        proficiency: master
+        colour: CON
       - level: 9
         advance: "_{Reflex saves}"
         proficiency: expert
@@ -132,6 +191,9 @@ inc:
         colour: WIS
       - level: 13
         advance: "_{Light armour}, _{Medium armour}, _{Heavy armour}, _{Unarmoured defence}"
+        proficiency: master
+      - level: 13
+        advance: "_{Simple weapons}, _{Martial weapons}, _{Unarmed attacks}"
         proficiency: master
       - level: 17
         advance: "_{Champion class DC}"
@@ -220,7 +282,7 @@ inc:
                           attribute: CHA
                       - paste: spell-dc
                         params:
-                          id: spell-save-dc
+                          id: spell-dc
                           legend: "_{Spell\nSave DC}"
                           attribute: CHA
 

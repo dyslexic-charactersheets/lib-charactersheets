@@ -47,6 +47,16 @@ inc:
       reflex: trained
       will: expert
 
+  - set: unarmed-attack-proficiency
+    value: trained
+  - set: simple-weapons-proficiency
+    value: trained
+  - set: martial-weapons-proficiency
+    value: trained
+
+  - set: arcane-spell-save-dc-proficiency
+    value: trained
+
   # - at: '@cover-class'
   #   replace:
   #     - h6: "_{Magus}"
@@ -54,6 +64,48 @@ inc:
   #       label: "_{Hybrid Study}"
   #       width: stretch
   #       align: left
+
+  - paste: perception-proficiency-override
+    params:
+      thresholds: "[1,9,null,null]"
+  - paste: saving-throw-override
+    params:
+      save: fortitude
+      thresholds: "[null,1,15,null]"
+  - paste: saving-throw-override
+    params:
+      save: reflex
+      thresholds: "[1,5,null,null]"
+  - paste: saving-throw-override
+    params:
+      save: will
+      thresholds: "[null,1,9,null]"
+  - paste: unarmed-proficiency-override
+    params:
+      thresholds: "[1,5,13,null]"
+  - paste: simple-weapons-proficiency-override
+    params:
+      thresholds: "[1,5,13,null]"
+  - paste: martial-weapons-proficiency-override
+    params:
+      thresholds: "[1,5,13,null]"
+  - paste: unarmoured-proficiency-override
+    params:
+      thresholds: "[1,11,17,null]"
+  - paste: light-armour-proficiency-override
+    params:
+      thresholds: "[1,11,17,null]"
+  - paste: medium-armour-proficiency-override
+    params:
+      thresholds: "[1,11,17,null]"
+  - paste: spell-proficiency-override
+    params:
+      id: arcane-spell-attack
+      thresholds: "[1,9,17,null]"
+  - paste: spell-proficiency-override
+    params:
+      id: arcane-spell-save-dc
+      thresholds: "[1,9,17,null]"
 
   - at: '@advancement'
     add:
@@ -68,7 +120,7 @@ inc:
         advance: "_{Reflex saves}"
         proficiency: expert
         colour: DEX
-      - level: 7
+      - level: 5
         advance: "_{Simple, martial weapons and unarmed attacks}"
         proficiency: expert
       - level: 9
